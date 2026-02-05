@@ -249,7 +249,7 @@ exports[`LoadingCard should render loading bars 1`] = `
           >
             <dl
               aria-label="Some title title"
-              class="pf-v6-c-description-list pf-m-1-col"
+              class="pf-v6-c-description-list pf-m-2-col"
               data-ouia-component-id="Some title title"
             >
               <div

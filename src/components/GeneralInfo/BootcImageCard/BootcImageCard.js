@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import LoadingCard from '../LoadingCard';
+import LoadingCard, { getDefaultColumnModifier } from '../LoadingCard';
 import { bootcSelector } from '../selectors';
 import { extraShape } from '../../../constants';
 
@@ -16,32 +16,32 @@ export const BootcImageCard = ({
     }),
   );
 
+  const items = [
+    ...[{ title: 'Booted Image', value: bootc.bootedImage }],
+    ...[{ title: 'Booted Image Digest', value: bootc.bootedImageDigest }],
+    ...[{ title: 'Staged Image', value: bootc.stagedImage }],
+    ...[{ title: 'Staged Image Digest', value: bootc.stagedImageDigest }],
+    ...[{ title: 'Available Image', value: bootc.availableImage }],
+    ...[
+      {
+        title: 'Available Image Digest',
+        value: bootc.availableImageDigest,
+      },
+    ],
+    ...[{ title: 'Rollback Image', value: bootc.rollbackImage }],
+    ...[{ title: 'Rollback Image Digest', value: bootc.rollbackImageDigest }],
+    ...extra.map(({ onClick, ...item }) => ({
+      ...item,
+      ...(onClick && { onClick: (e) => onClick(e, handleClick) }),
+    })),
+  ];
   return (
     <LoadingCard
       title="BOOTC"
       isLoading={!detailLoaded}
       cardId="bootmc-card"
-      items={[
-        ...[{ title: 'Booted Image', value: bootc.bootedImage }],
-        ...[{ title: 'Booted Image Digest', value: bootc.bootedImageDigest }],
-        ...[{ title: 'Staged Image', value: bootc.stagedImage }],
-        ...[{ title: 'Staged Image Digest', value: bootc.stagedImageDigest }],
-        ...[{ title: 'Available Image', value: bootc.availableImage }],
-        ...[
-          {
-            title: 'Available Image Digest',
-            value: bootc.availableImageDigest,
-          },
-        ],
-        ...[{ title: 'Rollback Image', value: bootc.rollbackImage }],
-        ...[
-          { title: 'Rollback Image Digest', value: bootc.rollbackImageDigest },
-        ],
-        ...extra.map(({ onClick, ...item }) => ({
-          ...item,
-          ...(onClick && { onClick: (e) => onClick(e, handleClick) }),
-        })),
-      ]}
+      columnModifier={getDefaultColumnModifier(items)}
+      items={items}
     />
   );
 };

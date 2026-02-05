@@ -83,9 +83,10 @@ const LoadingCard = ({
   items = [],
   cardId = 'system-properties-card',
   children,
+  columnModifier: columnModifierProp,
 }) => {
   const [isExpanded, setIsExpanded] = useState(true);
-  const columnMod = items.length < 4 ? '1Col' : '2Col';
+  const columnMod = columnModifierProp ?? '2Col';
   return (
     <Card ouiaId={`${cardId}`} isExpanded={isExpanded}>
       <CardHeader onExpand={() => setIsExpanded((prev) => !prev)}>
@@ -164,10 +165,24 @@ const LoadingCard = ({
   );
 };
 
+/* eslint-disable jsdoc/check-line-alignment -- alignment varies by JSDoc parser */
+/**
+ * Default column layout: 1 column when items.length < 4, else 2 columns.
+ * Use when passing columnModifier to LoadingCard.
+ *
+ * @param {Array} items The items array passed to LoadingCard
+ * @returns {'1Col'|'2Col'} Column modifier value
+ */
+/* eslint-enable jsdoc/check-line-alignment */
+export const getDefaultColumnModifier = (items) =>
+  (items?.length ?? 0) < 4 ? '1Col' : '2Col';
+
 LoadingCard.propTypes = {
   title: PropTypes.node.isRequired,
   isLoading: PropTypes.bool,
   cardId: PropTypes.string,
+  /** Column layout: '1Col' or '2Col'. If omitted, defaults to '2Col'. Use getDefaultColumnModifier(items) for default behavior. */
+  columnModifier: PropTypes.oneOf(['1Col', '2Col']),
   items: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.node,

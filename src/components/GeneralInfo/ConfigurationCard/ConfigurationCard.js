@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import LoadingCard from '../LoadingCard';
+import LoadingCard, { getDefaultColumnModifier } from '../LoadingCard';
 import { generalMapper, repositoriesMapper } from '../dataMapper';
 import { configurationSelector } from '../selectors';
 import { extraShape } from '../../../constants';
@@ -30,84 +30,88 @@ const ConfigurationCardCore = ({
   hasProcesses = true,
   hasRepositories = true,
   extra = [],
-}) => (
-  <LoadingCard
-    title="Configuration"
-    isLoading={!detailLoaded}
-    cardId="configuration-card"
-    items={[
-      ...(hasPackages
-        ? [
-            {
-              title: 'Installed packages',
-              value: configuration.packages?.length,
-              singular: 'package',
-              target: 'installed_packages',
-              onClick: () => {
-                handleClick(
-                  'Installed packages',
-                  generalMapper(configuration.packages, 'Package name'),
-                );
-              },
+}) => {
+  const items = [
+    ...(hasPackages
+      ? [
+          {
+            title: 'Installed packages',
+            value: configuration.packages?.length,
+            singular: 'package',
+            target: 'installed_packages',
+            onClick: () => {
+              handleClick(
+                'Installed packages',
+                generalMapper(configuration.packages, 'Package name'),
+              );
             },
-          ]
-        : []),
-      ...(hasServices
-        ? [
-            {
-              title: 'Services',
-              value: configuration.services?.length,
-              singular: 'service',
-              target: 'services',
-              onClick: () => {
-                handleClick(
-                  'Services',
-                  generalMapper(configuration.services, 'Service name'),
-                );
-              },
+          },
+        ]
+      : []),
+    ...(hasServices
+      ? [
+          {
+            title: 'Services',
+            value: configuration.services?.length,
+            singular: 'service',
+            target: 'services',
+            onClick: () => {
+              handleClick(
+                'Services',
+                generalMapper(configuration.services, 'Service name'),
+              );
             },
-          ]
-        : []),
-      ...(hasProcesses
-        ? [
-            {
-              title: 'Running processes',
-              value: configuration.processes?.length,
-              singular: 'process',
-              plural: 'processes',
-              target: 'running_processes',
-              onClick: () => {
-                handleClick(
-                  'Running processes',
-                  generalMapper(configuration.processes, 'Process name'),
-                );
-              },
+          },
+        ]
+      : []),
+    ...(hasProcesses
+      ? [
+          {
+            title: 'Running processes',
+            value: configuration.processes?.length,
+            singular: 'process',
+            plural: 'processes',
+            target: 'running_processes',
+            onClick: () => {
+              handleClick(
+                'Running processes',
+                generalMapper(configuration.processes, 'Process name'),
+              );
             },
-          ]
-        : []),
-      ...(hasRepositories
-        ? [
-            {
-              title: 'Repositories',
-              value: enabledRepos(configuration.repositories),
-              target: 'repositories',
-              onClick: () => {
-                handleClick(
-                  'Repositories',
-                  repositoriesMapper(configuration.repositories),
-                  'medium',
-                );
-              },
+          },
+        ]
+      : []),
+    ...(hasRepositories
+      ? [
+          {
+            title: 'Repositories',
+            value: enabledRepos(configuration.repositories),
+            target: 'repositories',
+            onClick: () => {
+              handleClick(
+                'Repositories',
+                repositoriesMapper(configuration.repositories),
+                'medium',
+              );
             },
-          ]
-        : []),
-      ...extra.map(({ onClick, ...item }) => ({
-        ...item,
-        ...(onClick && { onClick: (e) => onClick(e, handleClick) }),
-      })),
-    ]}
-  />
-);
+          },
+        ]
+      : []),
+    ...extra.map(({ onClick, ...item }) => ({
+      ...item,
+      ...(onClick && { onClick: (e) => onClick(e, handleClick) }),
+    })),
+  ];
+  return (
+    <LoadingCard
+      title="Configuration"
+      isLoading={!detailLoaded}
+      cardId="configuration-card"
+      columnModifier={getDefaultColumnModifier(items)}
+      items={items}
+    />
+  );
+};
 
 ConfigurationCardCore.propTypes = {
   detailLoaded: PropTypes.bool,
