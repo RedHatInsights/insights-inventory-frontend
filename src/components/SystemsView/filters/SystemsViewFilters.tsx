@@ -80,7 +80,7 @@ export const SystemsViewFilters = ({
             { label: 'insights-client not connected', value: '!puptoo' },
           ]}
         />
-        {isHideRHCFilterFlagEnabled && (
+        {!isHideRHCFilterFlagEnabled && (
           <DataViewCheckboxFilter
             filterId="rhcStatus"
             title="RHC status"
