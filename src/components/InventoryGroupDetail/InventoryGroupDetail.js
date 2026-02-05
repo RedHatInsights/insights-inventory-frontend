@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroupDetail } from '../../store/inventory-actions';
 import GroupSystems from '../GroupSystems';
 import GroupDetailHeader from './GroupDetailHeader';
-import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 import {
   REQUIRED_PERMISSIONS_TO_READ_GROUP,
   REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS,
@@ -38,10 +38,10 @@ const InventoryGroupDetail = ({ groupId }) => {
   const groupName = data?.results?.[0]?.name;
   const ungrouped = data?.results?.[0]?.ungrouped;
 
-  const { hasAccess: canViewGroup } = usePermissionsWithContext(
+  const { hasAccess: canViewGroup } = useConditionalRBAC(
     REQUIRED_PERMISSIONS_TO_READ_GROUP(groupId),
   );
-  const { hasAccess: canViewHosts } = usePermissionsWithContext(
+  const { hasAccess: canViewHosts } = useConditionalRBAC(
     REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId),
   );
 

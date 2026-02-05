@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { useConditionalRBAC } from '../../../Utilities/hooks/useConditionalRBAC';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 
 import { PencilAltIcon } from '@patternfly/react-icons';
@@ -29,7 +29,7 @@ InnerButton.propTypes = {
 const EditButtonUnknownPermissions = (props) => {
   const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
 
-  const { hasAccess: canEditHost } = usePermissionsWithContext([
+  const { hasAccess: canEditHost } = useConditionalRBAC([
     REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
       entity?.groups?.[0]?.id ?? null, // null stands for ungroupped hosts
     ),

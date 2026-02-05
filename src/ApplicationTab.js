@@ -1,4 +1,4 @@
-import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { useConditionalRBAC } from './Utilities/hooks/useConditionalRBAC';
 import PropTypes from 'prop-types';
 import React from 'react';
 import AccessDenied from './Utilities/AccessDenied';
@@ -12,7 +12,7 @@ import {
 import { TAB_REQUIRED_PERMISSIONS } from './constants';
 
 const ApplicationTab = ({ appName, title, ...props }) => {
-  const { hasAccess, isOrgAdmin } = usePermissionsWithContext(
+  const { hasAccess, isOrgAdmin } = useConditionalRBAC(
     TAB_REQUIRED_PERMISSIONS[appName],
     true, // all must be fulfilled
     false,

@@ -7,7 +7,7 @@ import './inventory.scss';
 import * as actions from '../store/actions';
 import InventoryDetail from '../components/InventoryDetail/InventoryDetail';
 import { OverviewTab, DetailsTab } from '../components/SystemDetails';
-import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { useConditionalRBAC } from '../Utilities/hooks/useConditionalRBAC';
 import { REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP } from '../constants';
 import ApplicationTab from '../ApplicationTab';
 import { useLightspeedFeatureFlag } from '../Utilities/hooks/useLightspeedFeatureFlag';
@@ -149,7 +149,7 @@ const Inventory = () => {
     setAvailableApps(newApps);
   }, [entity, cloudProvider, hostType]);
 
-  const { hasAccess: canDeleteHost } = usePermissionsWithContext([
+  const { hasAccess: canDeleteHost } = useConditionalRBAC([
     REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
       entity?.groups?.[0]?.id ?? null, // null stands for ungroupped hosts
     ),

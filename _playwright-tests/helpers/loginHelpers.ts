@@ -35,9 +35,9 @@ export const logInWithUsernameAndPassword = async (
 
   await page.goto('/insights/inventory', { timeout: 90000 });
 
-  await expect(async () =>
-    expect(page.getByText('Log in to your Red Hat account')).toBeVisible(),
-  ).toPass({ timeout: 15000 });
+  await expect(page.getByText('Log in to your Red Hat account')).toBeVisible({
+    timeout: 15000,
+  });
 
   const login = page.getByRole('textbox');
   await login.fill(username);
@@ -90,10 +90,11 @@ export const closeCookieBanner = async (page: Page) => {
     'iframe[title="TrustArc Cookie Consent Manager"]',
   );
 
-  const frameVisible = await iframeLocator
-    .isVisible({ timeout: 5000 })
-    .catch(() => false);
-  if (!frameVisible) return;
+  try {
+    await iframeLocator.waitFor({ state: 'visible', timeout: 15000 });
+  } catch {
+    return;
+  }
 
   const frame = page.frameLocator(
     'iframe[title="TrustArc Cookie Consent Manager"]',
