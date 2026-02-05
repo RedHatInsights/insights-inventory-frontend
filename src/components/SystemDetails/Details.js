@@ -90,6 +90,7 @@ const Details = ({
                   <GridItem>
                     <RhelAICardWrapper
                       rhelAI={entity.system_profile.workloads.rhel_ai}
+                      handleClick={handleModalToggle}
                     />
                   </GridItem>
                 )}

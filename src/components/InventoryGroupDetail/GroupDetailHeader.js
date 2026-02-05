@@ -17,7 +17,7 @@ import PropTypes from 'prop-types';
 import DeleteGroupModal from '../InventoryGroups/Modals/DeleteGroupModal';
 import RenameGroupModal from '../InventoryGroups/Modals/RenameGroupModal';
 import { fetchGroupDetail } from '../../store/inventory-actions';
-import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 import {
   REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
   REQUIRED_PERMISSIONS_TO_READ_GROUP,
@@ -31,11 +31,11 @@ const GroupDetailHeader = ({ groupId }) => {
     (state) => state.groupDetail,
   );
 
-  const { hasAccess: canRead } = usePermissionsWithContext(
+  const { hasAccess: canRead } = useConditionalRBAC(
     REQUIRED_PERMISSIONS_TO_READ_GROUP(groupId),
   );
 
-  const { hasAccess: canModify } = usePermissionsWithContext(
+  const { hasAccess: canModify } = useConditionalRBAC(
     REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId),
   );
 

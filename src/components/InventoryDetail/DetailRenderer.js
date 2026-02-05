@@ -1,5 +1,5 @@
 import { Flex, Skeleton } from '@patternfly/react-core';
-import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import AccessDenied from '../../Utilities/AccessDenied';
@@ -10,7 +10,7 @@ import { getHostById } from '../../api/hostInventoryApi';
 const DetailRenderer = ({ isRbacEnabled, ...props }) => {
   const [hostGroupId, setHostGroupId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { hasAccess } = usePermissionsWithContext(
+  const { hasAccess } = useConditionalRBAC(
     REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(hostGroupId),
   );
 
