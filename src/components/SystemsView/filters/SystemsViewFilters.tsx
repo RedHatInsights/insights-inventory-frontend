@@ -27,7 +27,6 @@ export interface InventoryFilters {
 interface SystemsViewFiltersProps {
   filters: InventoryFilters;
   onSetFilters: (_: Partial<InventoryFilters>) => void;
-  showRHCFilter?: boolean;
 }
 
 export const isToolbarLabel = (
@@ -38,7 +37,7 @@ export const SystemsViewFilters = ({
   filters,
   onSetFilters,
 }: SystemsViewFiltersProps) => {
-  const isRhcEnabled = useFeatureFlag('hbi.ui.hide_rhc_filter');
+  const isHideRHCFilterFlagEnabled = useFeatureFlag('hbi.ui.hide_rhc_filter');
 
   return (
     <>
@@ -81,7 +80,7 @@ export const SystemsViewFilters = ({
             { label: 'insights-client not connected', value: '!puptoo' },
           ]}
         />
-        {isRhcEnabled && (
+        {isHideRHCFilterFlagEnabled && (
           <DataViewCheckboxFilter
             filterId="rhcStatus"
             title="RHC status"
