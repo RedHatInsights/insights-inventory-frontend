@@ -25,8 +25,8 @@ export const EmptyStateNoAccessToGroups = ({ isSingle }) => (
     description={
       <div>
         You do not have the necessary workspace permissions to see
-        {isSingle ? 'this workspace' : 'workspaces'}. Contact your organization
-        administrator for access.
+        {isSingle ? ' this workspace' : ' workspaces'}. Contact your
+        organization administrator for access.
       </div>
     }
     variant="large" // overrides the default "full" value
