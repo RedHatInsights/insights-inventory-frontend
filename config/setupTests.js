@@ -63,3 +63,18 @@ global.insights = {
 
 // Make lodash/debounce synchronous in tests to avoid act() timing warnings
 jest.mock('lodash/debounce', () => jest.fn((fn) => fn));
+
+// Mock useFeatureFlag so components using useKesselMigrationFeatureFlag (and thus
+// useFeatureFlag) do not call @unleash/proxy-client-react's useFlagsStatus(), which
+// requires a FlagProvider and causes "flagsReady" errors when missing. Default to
+// false (legacy RBAC) so tests behave as before the Kessel migration.
+jest.mock('../src/Utilities/useFeatureFlag', () => ({
+  __esModule: true,
+  default: jest.fn(() => false),
+  useFeatureVariant: jest.fn(() => ({
+    isEnabled: false,
+    body: undefined,
+    variant: undefined,
+    title: undefined,
+  })),
+}));

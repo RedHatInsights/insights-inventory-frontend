@@ -22,7 +22,7 @@ test.describe('Filtering Systems Tests', () => {
   let workingBootcDir: string;
   const operatingSystemTestCases = [
     { OS: 'RHEL 9.4' },
-    { OS: 'CentOS Linux 7.6' },
+    { OS: 'CentOS Linux 7.9' }, // Must match CENTOS_ARCHIVE (centos79.tar.gz)
   ];
 
   test.beforeAll(async () => {
@@ -153,7 +153,7 @@ test.describe('Filtering Systems Tests', () => {
   });
 
   operatingSystemTestCases.forEach((testData) => {
-    test(`User should be able to filter by OS verion: ${testData.OS}`, async ({
+    test(`User should be able to filter by OS version: ${testData.OS}`, async ({
       page,
     }) => {
       /**

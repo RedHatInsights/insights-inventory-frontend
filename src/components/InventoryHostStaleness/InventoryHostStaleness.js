@@ -1,6 +1,6 @@
 import React from 'react';
 import HostStalenessCard from './HostStalenessCard';
-import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 import {
   GENERAL_HOST_STALENESS_READ_PERMISSION,
   GENERAL_HOST_STALENESS_WRITE_PERMISSION,
@@ -18,7 +18,7 @@ const REQUIRED_PERMISSIONS = [
 ];
 
 const InventoryHostStaleness = () => {
-  const { hasAccess: canModifyHostStaleness } = usePermissionsWithContext(
+  const { hasAccess: canModifyHostStaleness } = useConditionalRBAC(
     REQUIRED_PERMISSIONS,
     true,
   );

@@ -6,7 +6,7 @@ import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupM
 import InventoryTable from '../InventoryTable/InventoryTable';
 import { useSearchParams } from 'react-router-dom';
 import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFromGroupModal';
-import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 import {
   NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE,
   REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
@@ -45,7 +45,7 @@ const GroupSystems = ({ groupName, groupId, ungrouped }) => {
 
   const [addToGroupModalOpen, setAddToGroupModalOpen] = useState(false);
 
-  const { hasAccess: canModify } = usePermissionsWithContext(
+  const { hasAccess: canModify } = useConditionalRBAC(
     REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId),
   );
 

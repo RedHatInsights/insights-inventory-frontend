@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RBACProvider } from '@redhat-cloud-services/frontend-components/RBACProvider';
+import { useKesselMigrationFeatureFlag } from '../Utilities/hooks/useKesselMigrationFeatureFlag';
 
 import * as storeMod from '../store/redux';
 import * as utils from '../Utilities/index';
@@ -13,6 +14,8 @@ const { mergeWithDetail, ...rest } = storeMod;
 const queryClient = new QueryClient();
 
 const AsyncInventory = ({ component, onLoad, store, innerRef, ...props }) => {
+  const isKesselMigrationEnabled = useKesselMigrationFeatureFlag();
+
   useEffect(() => {
     onLoad?.({
       ...rest,
@@ -20,21 +23,31 @@ const AsyncInventory = ({ component, onLoad, store, innerRef, ...props }) => {
       api: apiMod,
       mergeWithDetail,
     });
-  }, []);
+  }, [onLoad]);
 
+  const content = (
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <RenderWrapper
+          {...props}
+          isRbacEnabled
+          inventoryRef={innerRef}
+          store={store}
+          cmp={component}
+        />
+      </QueryClientProvider>
+    </Provider>
+  );
+
+  // When Kessel is enabled, skip RBACProvider wrapper
+  if (isKesselMigrationEnabled) {
+    return content;
+  }
+
+  // When Kessel is disabled, use legacy RBACProvider
   return (
     <RBACProvider appName="inventory" checkResourceDefinitions>
-      <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <RenderWrapper
-            {...props}
-            isRbacEnabled
-            inventoryRef={innerRef}
-            store={store}
-            cmp={component}
-          />
-        </QueryClientProvider>
-      </Provider>
+      {content}
     </RBACProvider>
   );
 };

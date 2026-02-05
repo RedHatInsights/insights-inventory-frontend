@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import debounce from 'lodash/debounce';
-import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
+import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 
 import { HOST_GROUP_CHIP } from '../../Utilities/index';
 import SearchableGroupFilter from './SearchableGroupFilter';
@@ -178,7 +178,7 @@ const useGroupsQueryWithFilter = ({
 const useGroupFilter = (showNoGroupOption = false) => {
   const [selectedGroupNames, setSelectedGroupNames] = useState([]);
 
-  const { hasAccess } = usePermissionsWithContext(
+  const { hasAccess } = useConditionalRBAC(
     [GENERAL_GROUPS_READ_PERMISSION],
     true,
     false,
