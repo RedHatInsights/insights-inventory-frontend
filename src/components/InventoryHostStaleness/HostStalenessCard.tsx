@@ -13,14 +13,13 @@ import {
   Title,
   Tooltip,
 } from '@patternfly/react-core';
-import StalenessSettings from './StalenessSettings';
+import HostStalenessSettings from './HostStalenessSettings';
 import {
-  conventionalApiKeys,
   daysToSecondsConversion,
+  HostStalenessApiKey,
   hostStalenessApiKeys,
   secondsToDaysConversion,
 } from './constants';
-import { InventoryHostStalenessPopover } from './constants';
 import {
   deleteStalenessData,
   fetchDefaultStalenessValues,
@@ -29,21 +28,27 @@ import {
 } from '../../api';
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import { updateStaleness } from '../../api/hostInventoryApi';
+import { StalenessOutput } from '@redhat-cloud-services/host-inventory-client';
+import { HostStalenessPopover } from './HostStalenessPopover';
 
 interface HostStalenessCardProps {
   canModifyHostStaleness: boolean;
 }
 
+export type Staleness = {
+  id?: string;
+} & Partial<Record<HostStalenessApiKey, number>>;
+
 const HostStalenessCard = ({
   canModifyHostStaleness,
 }: HostStalenessCardProps) => {
-  const [filter, setFilter] = useState<Record<string, string | number>>({});
-  const [newFormValues, setNewFormValues] = useState(filter);
+  const [lastSavedStaleness, setLastSavedStaleness] = useState<Staleness>({});
+  const [staleness, setStaleness] = useState<Staleness>({});
   const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFormValid, setIsFormValid] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const [hostStalenessDefaults, setHostStalenessDefaults] = useState({});
+  const [defaultStaleness, setDefaultStaleness] = useState<Staleness>({});
   const [isResetToDefault, setIsResetToDefault] = useState(false);
   const addNotification = useAddNotification();
 
@@ -53,24 +58,19 @@ const HostStalenessCard = ({
 
   //Cancel button when a user opts out of saving changes
   const resetToOriginalValues = () => {
-    setNewFormValues(filter);
+    setStaleness(lastSavedStaleness);
     setIsEditing(!isEditing);
   };
   //On save Button
   const saveHostData = async () => {
-    let apiData: Record<string, string | number> = {};
-    let apiKeys = conventionalApiKeys;
-    apiKeys.forEach(
-      (filterKey) =>
-        filterKey !== 'id' &&
-        newFormValues[filterKey] &&
-        (apiData[filterKey] = daysToSecondsConversion(
-          newFormValues[filterKey],
-          filterKey,
-        )),
+    let apiData: Staleness = {};
+    hostStalenessApiKeys.forEach(
+      (apiKey) =>
+        staleness[apiKey] &&
+        (apiData[apiKey] = daysToSecondsConversion(staleness[apiKey], apiKey)),
     );
     // system_default means the account has no record, therefor, post for new instance of record.
-    if (filter.id === 'system_default') {
+    if (lastSavedStaleness.id === 'system_default') {
       postStalenessData(apiData)
         .then(() => {
           addNotification({
@@ -136,31 +136,34 @@ const HostStalenessCard = ({
   };
 
   const fetchApiStalenessData = useCallback(async () => {
-    let results = await fetchStalenessData();
-    let newFilter: Record<string, string | number> = {};
+    let results: StalenessOutput = await fetchStalenessData();
+    let newStaleness: Staleness = {};
     hostStalenessApiKeys.forEach(
-      (filterKey) =>
-        (newFilter[filterKey] = secondsToDaysConversion(results[filterKey])),
+      (apiKey) =>
+        (newStaleness[apiKey] = secondsToDaysConversion(results[apiKey])),
     );
-    newFilter['id'] = results.id;
-    setFilter(newFilter);
-    setNewFormValues(newFilter);
+    newStaleness['id'] = results.id;
+    setLastSavedStaleness(newStaleness);
+    setStaleness(newStaleness);
   }, []);
 
   //keeps track of what default the backend wants
   const fetchDefaultValues = useCallback(async () => {
-    let results = await fetchDefaultStalenessValues().catch((err) => err);
-    let conventionalFilter: Record<string, string | number> = {};
+    let results: StalenessOutput = await fetchDefaultStalenessValues().catch(
+      (err) => err,
+    );
+    let newDefaultStaleness: Staleness = {};
 
-    Object.keys(results).forEach((key) => {
-      if (key.includes('conventional')) {
-        conventionalFilter[key] = secondsToDaysConversion(results[key]);
+    (Object.keys(results) as (keyof StalenessOutput)[]).forEach((key) => {
+      if ((hostStalenessApiKeys as readonly string[]).includes(key)) {
+        const apiKey = key as HostStalenessApiKey;
+        newDefaultStaleness[apiKey] = secondsToDaysConversion(results[apiKey]);
       }
     });
 
-    setHostStalenessDefaults((hostStalenessDefaults) => ({
+    setDefaultStaleness((hostStalenessDefaults) => ({
       ...hostStalenessDefaults,
-      ...conventionalFilter,
+      ...newDefaultStaleness,
     }));
   }, []);
 
@@ -181,7 +184,7 @@ const HostStalenessCard = ({
           <CardHeader>
             <Title headingLevel="h4" size="xl" id="HostTitle">
               Organization level system staleness and deletion
-              <InventoryHostStalenessPopover />
+              <HostStalenessPopover />
             </Title>
           </CardHeader>
           <CardBody>
@@ -214,16 +217,13 @@ const HostStalenessCard = ({
                 </Tooltip>
               )}
             </Flex>
-            <StalenessSettings
+            <HostStalenessSettings
               isEditing={isEditing}
-              filter={filter}
-              setFilter={setFilter}
-              activeTabKey={0}
-              newFormValues={newFormValues}
-              setNewFormValues={setNewFormValues}
+              staleness={staleness}
+              setStaleness={setStaleness}
               isFormValid={isFormValid}
               setIsFormValid={setIsFormValid}
-              hostStalenessDefaults={hostStalenessDefaults}
+              defaultStaleness={defaultStaleness}
               setIsResetToDefault={setIsResetToDefault}
             />
             {isEditing && (

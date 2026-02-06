@@ -25,7 +25,7 @@ const HostStaleness = () => {
       'Staleness and Deletion - System Configuration',
     );
     chrome.hideGlobalFilter(true);
-  }, []);
+  }, [chrome]);
 
   return (
     <PageSection>
@@ -33,15 +33,13 @@ const HostStaleness = () => {
         <PageHeaderTitle title={'Staleness and Deletion'} />
         <OutageAlert />
       </PageHeader>
-      {canReadHostStaleness ? (
-        <PageSection hasBodyWrapper={false} variant="default">
+      <PageSection hasBodyWrapper={false} variant="default">
+        {canReadHostStaleness ? (
           <InventoryHostStaleness />
-        </PageSection>
-      ) : (
-        <PageSection hasBodyWrapper={false} variant="default">
+        ) : (
           <HostStalenessNoAccess />
-        </PageSection>
-      )}
+        )}
+      </PageSection>
     </PageSection>
   );
 };

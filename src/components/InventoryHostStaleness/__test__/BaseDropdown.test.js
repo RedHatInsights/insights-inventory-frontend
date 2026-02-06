@@ -8,16 +8,16 @@ describe('BaseDropdown', () => {
     render(
       <BaseDropdown
         ouiaId={`TestOuiaIdValue`}
-        dropdownItems={[
+        items={[
           { name: 'test1', value: 'test1' },
           { name: 'test2', value: 'test2' },
         ]}
         currentItem={'test1'}
-        disabled={false}
+        isDisabled={false}
         title={'test1'}
         isEditing={false}
-        newFormValues={[]}
-        setNewFormValues={jest.fn()}
+        staleness={[]}
+        setStaleness={jest.fn()}
         setIsFormValid={jest.fn()}
         modalMessage={'Modal message'}
         isFormValid={true}
