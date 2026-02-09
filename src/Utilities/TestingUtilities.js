@@ -5,6 +5,8 @@ import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AccessCheck } from '@project-kessel/react-kessel-access-check';
+import { KESSEL_API_PATH } from '../constants';
 
 const mockStore = configureStore();
 
@@ -47,13 +49,22 @@ export const TestWrapper = ({
     <QueryClientWrapper client={client}>
       <MemoryRouter {...routerProps}>
         <Provider store={store}>
-          {path ? (
-            <Routes>
-              <Route path={path} element={children} />
-            </Routes>
-          ) : (
-            children
-          )}
+          <AccessCheck.Provider
+            baseUrl={
+              typeof window !== 'undefined'
+                ? window.location.origin
+                : 'http://localhost'
+            }
+            apiPath={KESSEL_API_PATH}
+          >
+            {path ? (
+              <Routes>
+                <Route path={path} element={children} />
+              </Routes>
+            ) : (
+              children
+            )}
+          </AccessCheck.Provider>
         </Provider>
       </MemoryRouter>
     </QueryClientWrapper>
