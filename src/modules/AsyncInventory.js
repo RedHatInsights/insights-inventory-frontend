@@ -23,7 +23,7 @@ const AsyncInventory = ({ component, onLoad, store, innerRef, ...props }) => {
       api: apiMod,
       mergeWithDetail,
     });
-  }, [onLoad]);
+  }, []);
 
   const content = (
     <Provider store={store}>
