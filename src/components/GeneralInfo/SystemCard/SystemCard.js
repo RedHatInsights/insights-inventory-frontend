@@ -9,6 +9,7 @@ import { NameInlineEdit } from './NameInlineEdit';
 import { useSelector } from 'react-redux';
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import { patchHostById } from '../../../api/hostInventoryApi';
+import { Truncate } from '@patternfly/react-core';
 
 const SystemCard = ({
   writePermissions,
@@ -94,7 +95,12 @@ const SystemCard = ({
                     content="Name imported from the system."
                   />
                 ),
-                value: entity?.fqdn,
+                value:
+                  entity?.fqdn != null ? (
+                    <Truncate maxCharsDisplayed={36} content={entity.fqdn} />
+                  ) : (
+                    ''
+                  ),
                 size: 'md',
                 customClass: 'sentry-mask data-hj-suppress',
               },

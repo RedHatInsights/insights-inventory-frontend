@@ -508,7 +508,15 @@ exports[`Overview should render correctly 1`] = `
                             <div
                               class="pf-v6-c-description-list__text"
                             >
-                              test-id
+                              <span
+                                class="pf-v6-c-truncate pf-m-fixed"
+                              >
+                                <span
+                                  class="pf-v6-c-truncate__text"
+                                >
+                                  test-id
+                                </span>
+                              </span>
                               <button
                                 aria-label="Edit"
                                 class="pf-v6-c-button pf-m-link ins-c-inventory__detail--action"

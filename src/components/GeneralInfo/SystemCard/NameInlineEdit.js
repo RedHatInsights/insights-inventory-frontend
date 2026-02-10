@@ -8,20 +8,24 @@ import {
   HelperTextItem,
   Icon,
   TextInput,
+  Truncate,
   ValidatedOptions,
 } from '@patternfly/react-core';
 import { TimesIcon, CheckIcon } from '@patternfly/react-icons';
 import EditButton from '../EditButton';
 
+const ensureString = (v) => (typeof v === 'string' ? v : '');
+
 export const NameInlineEdit = ({ textValue, onSubmit, writePermissions }) => {
-  const [currentValue, setCurrentValue] = useState(textValue);
+  const value = ensureString(textValue);
+  const [currentValue, setCurrentValue] = useState(value);
   const [isEditingOpen, setEditingOpen] = useState(false);
 
   useEffect(() => {
-    setCurrentValue(textValue);
-  }, [textValue]);
+    setCurrentValue(value);
+  }, [value]);
 
-  const isValid = currentValue?.trim().length !== 0;
+  const isValid = ensureString(currentValue).trim().length !== 0;
 
   return isEditingOpen ? (
     <FormGroup>
@@ -53,7 +57,7 @@ export const NameInlineEdit = ({ textValue, onSubmit, writePermissions }) => {
               onClick={() => {
                 onSubmit(currentValue);
                 setEditingOpen(false);
-                setCurrentValue(textValue);
+                setCurrentValue(value);
               }}
               isDisabled={!isValid}
               className="pf-v6-u-display-inline"
@@ -76,7 +80,7 @@ export const NameInlineEdit = ({ textValue, onSubmit, writePermissions }) => {
               aria-label="cancel"
               onClick={() => {
                 setEditingOpen(false);
-                setCurrentValue(textValue);
+                setCurrentValue(value);
               }}
               className="pf-v6-u-display-inline"
             />
@@ -86,7 +90,7 @@ export const NameInlineEdit = ({ textValue, onSubmit, writePermissions }) => {
     </FormGroup>
   ) : (
     <Fragment>
-      {textValue}
+      {value ? <Truncate maxCharsDisplayed={36} content={value} /> : value}
       <EditButton
         writePermissions={writePermissions}
         onClick={() => setEditingOpen(true)}
