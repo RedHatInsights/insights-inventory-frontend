@@ -11,6 +11,7 @@ import { useDataViewSelection } from '@patternfly/react-data-view/dist/dynamic/H
 import { PageSection, Pagination } from '@patternfly/react-core';
 import { DataViewToolbar } from '@patternfly/react-data-view/dist/dynamic/DataViewToolbar';
 import { BulkSelect } from '@patternfly/react-component-groups';
+import { Tbody, Td, Tr } from '@patternfly/react-table';
 import { useSystemsQuery } from './hooks/useSystemsQuery';
 import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorState';
 import SkeletonTable from '@patternfly/react-component-groups/dist/dynamic/SkeletonTable';
@@ -25,10 +26,12 @@ import { SystemActionModalsProvider } from './SystemActionModalsContext';
 import { SystemsViewBulkActions } from './SystemsViewBulkActions';
 import { useBulkSelect } from './hooks/useBulkSelect';
 import { useRows } from './hooks/useRows';
+import AccessDenied from '../../Utilities/AccessDenied';
 import './SystemsView.scss';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import { ISortBy } from '@patternfly/react-table';
 import { ColumnManagementModalProvider } from './ColumnManagementModalContext';
+import { NO_ACCESS_STATE } from '../../constants';
 
 export interface SystemsViewSelection {
   selected: DataViewTrObject[];
@@ -48,7 +51,12 @@ const PER_PAGE = 50;
 const INITIAL_PAGE = 1;
 const NO_HEADER = <></>;
 
-const SystemsView = () => {
+interface SystemsViewProps {
+  /** When false, shows the no-access state and does not fetch systems. Default true when not provided (e.g. when not wrapped by RenderWrapper). */
+  hasAccess?: boolean;
+}
+
+const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const pagination = useDataViewPagination({
@@ -102,6 +110,7 @@ const SystemsView = () => {
     filters,
     sortBy,
     direction,
+    enabled: hasAccess,
   });
 
   const { rows } = useRows({
@@ -113,8 +122,9 @@ const SystemsView = () => {
   const selectedSystems =
     data?.filter(({ id }) => id && selectedIds.includes(id)) || [];
 
-  const activeState =
-    isLoading || isFetching
+  const activeState = !hasAccess
+    ? NO_ACCESS_STATE
+    : isLoading || isFetching
       ? 'loading'
       : isError
         ? 'error'
@@ -134,6 +144,7 @@ const SystemsView = () => {
         <DataView selection={selection} activeState={activeState}>
           <PageSection hasBodyWrapper={false}>
             <DataViewToolbar
+              style={!hasAccess ? { display: 'none' } : undefined}
               ouiaId="systems-view-header"
               clearAllFilters={clearAllFilters}
               bulkSelect={
@@ -174,6 +185,7 @@ const SystemsView = () => {
                 loading: NO_HEADER,
                 empty: NO_HEADER,
                 error: NO_HEADER,
+                [NO_ACCESS_STATE]: NO_HEADER,
               }}
               bodyStates={{
                 loading: (
@@ -192,9 +204,29 @@ const SystemsView = () => {
                     bodyText="There was an error retrieving data. Check your connection and reload the page."
                   />
                 ),
+                [NO_ACCESS_STATE]: (
+                  <Tbody>
+                    <Tr>
+                      <Td colSpan={tableHeaderNodes.length}>
+                        <AccessDenied
+                          title="This application requires Inventory permissions"
+                          description={
+                            <div>
+                              To view the content of this page, you must be
+                              granted a minimum of inventory permissions from
+                              your Organization Administrator.
+                            </div>
+                          }
+                          requiredPermission="inventory:*:read"
+                        />
+                      </Td>
+                    </Tr>
+                  </Tbody>
+                ),
               }}
             />
             <DataViewToolbar
+              style={!hasAccess ? { display: 'none' } : undefined}
               ouiaId="systems-view-footer"
               pagination={<Pagination itemCount={total} {...pagination} />}
             />
