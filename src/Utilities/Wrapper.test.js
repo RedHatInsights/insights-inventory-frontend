@@ -6,6 +6,9 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 import PropTypes from 'prop-types';
 import RenderWrapper from './Wrapper';
+import { useKesselMigrationFeatureFlag } from './hooks/useKesselMigrationFeatureFlag';
+import { useConditionalRBAC } from './hooks/useConditionalRBAC';
+import { useCanFetchHostsWhenKessel } from './hooks/useCanFetchHostsWhenKessel';
 
 const MockChild = ({ hasAccess }) => (
   <div data-testid="mock-inventory-child">
@@ -37,13 +40,6 @@ jest.mock('./hooks/useConditionalRBAC', () => ({
 jest.mock('./hooks/useCanFetchHostsWhenKessel', () => ({
   useCanFetchHostsWhenKessel: jest.fn(() => null),
 }));
-
-const useKesselMigrationFeatureFlag =
-  require('./hooks/useKesselMigrationFeatureFlag').useKesselMigrationFeatureFlag;
-const useConditionalRBAC =
-  require('./hooks/useConditionalRBAC').useConditionalRBAC;
-const useCanFetchHostsWhenKessel =
-  require('./hooks/useCanFetchHostsWhenKessel').useCanFetchHostsWhenKessel;
 
 const renderWrapper = (props = {}) =>
   render(<RenderWrapper cmp={MockChild} {...props} />);
@@ -91,7 +87,7 @@ describe('RenderWrapper access gating', () => {
       useKesselMigrationFeatureFlag.mockReturnValue(true);
     });
 
-    it('shows loading fallback while Kessel probe is in progress', () => {
+    it('passes hasAccess undefined to child while Kessel probe is in progress', () => {
       useCanFetchHostsWhenKessel.mockReturnValue({
         hasAccess: undefined,
         isLoading: true,
@@ -99,10 +95,9 @@ describe('RenderWrapper access gating', () => {
 
       renderWrapper();
 
-      expect(screen.getByRole('progressbar')).toBeInTheDocument();
-      expect(
-        screen.queryByTestId('mock-inventory-child'),
-      ).not.toBeInTheDocument();
+      expect(screen.getByTestId('mock-inventory-child')).toBeInTheDocument();
+      expect(screen.getByTestId('access-undefined')).toBeInTheDocument();
+      expect(screen.getByText(/Access undefined/)).toBeInTheDocument();
     });
 
     it('passes hasAccess true to child when user can fetch hosts (Kessel allows)', () => {

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useConditionalRBAC } from './hooks/useConditionalRBAC';
 import { useCanFetchHostsWhenKessel } from './hooks/useCanFetchHostsWhenKessel';
 import { GENERAL_HOSTS_READ_PERMISSIONS } from '../constants';
-import Fallback from '../components/SpinnerFallback';
 
 const RenderWrapper = ({
   cmp: Component,
@@ -22,17 +21,13 @@ const RenderWrapper = ({
   const loadChromelessInventory =
     props?.tableProps?.envContext?.loadChromeless || false;
 
-  // When Kessel is on, use probe result; show loading until we know
-  const hasAccess =
-    props?.tableProps?.envContext?.loadChromeless ||
-    (kesselAccess
-      ? kesselAccess.isLoading
-        ? undefined
-        : kesselAccess.hasAccess
-      : rbacAccess.hasAccess);
-
-  if (kesselAccess?.isLoading) {
-    return <Fallback />;
+  let hasAccess;
+  if (loadChromelessInventory) {
+    hasAccess = true;
+  } else if (kesselAccess) {
+    hasAccess = kesselAccess.isLoading ? undefined : kesselAccess.hasAccess;
+  } else {
+    hasAccess = rbacAccess.hasAccess;
   }
 
   return (

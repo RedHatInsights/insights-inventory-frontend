@@ -20,12 +20,12 @@ export const useCanFetchHostsWhenKessel = () => {
   const isKesselEnabled = useKesselMigrationFeatureFlag();
   const axios = useAxiosWithPlatformInterceptors();
   const [state, setState] = useState(() =>
-    isKesselEnabled ? { hasAccess: undefined, isLoading: true } : null,
+    isKesselEnabled ? { hasAccess: undefined, isLoading: true } : undefined,
   );
 
   useEffect(() => {
     if (!isKesselEnabled) {
-      setState(null);
+      setState(undefined);
       return;
     }
 
