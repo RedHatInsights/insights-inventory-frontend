@@ -1,4 +1,6 @@
+/// <reference types='@testing-library/jest-dom/jest-globals' />
 import React from 'react';
+import { jest, expect } from '@jest/globals';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import BaseDropdown from '../BaseDropdown';
@@ -7,26 +9,26 @@ describe('BaseDropdown', () => {
   it('renders OUIA ID attributes', () => {
     render(
       <BaseDropdown
+        title={'title'}
         ouiaId={`TestOuiaIdValue`}
-        items={[
-          { name: 'test1', value: 'test1' },
-          { name: 'test2', value: 'test2' },
-        ]}
-        currentItem={'test1'}
-        isDisabled={false}
-        title={'test1'}
-        isEditing={false}
-        staleness={[]}
+        apiKey="conventional_time_to_stale"
+        staleness={{}}
         setStaleness={jest.fn()}
+        currentItem={1}
+        items={[
+          { name: 'name1', value: 1 },
+          { name: 'name2', value: 2 },
+        ]}
+        isDisabled={false}
+        isFormValid={true}
         setIsFormValid={jest.fn()}
         modalMessage={'Modal message'}
-        isFormValid={true}
       />,
     );
 
     expect(
       screen.getByRole('button', {
-        name: /test1/i,
+        name: /name1/i,
       }),
     ).toHaveAttribute('data-ouia-component-id', 'TestOuiaIdValue');
   });
