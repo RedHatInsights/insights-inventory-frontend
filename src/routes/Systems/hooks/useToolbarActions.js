@@ -4,12 +4,7 @@ import { ActionDropdownItem } from '../../../components/InventoryTable/ActionWit
 import {
   GENERAL_GROUPS_WRITE_PERMISSION,
   NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE,
-  REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
 } from '../../../constants';
-import {
-  isBulkAddHostsToGroupsEnabled,
-  isBulkRemoveFromGroupsEnabled,
-} from '../helpers';
 
 const useToolbarActions = (
   selected,
@@ -17,27 +12,7 @@ const useToolbarActions = (
   setRemoveHostsFromGroupModalOpen,
   setIsRowAction,
 ) => {
-  // extract remove‐permissions logic
-  const removePermissions = selected
-    ? selected
-        .flatMap(({ groups }) =>
-          groups?.[0]?.id != null
-            ? REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groups[0].id)
-            : [],
-        )
-        .filter(Boolean)
-    : [];
-
-  // extract the various booleans
-  const addIsDisabled = !isBulkAddHostsToGroupsEnabled(
-    selected.length,
-    selected,
-  );
-  const removeIsDisabled = !isBulkRemoveFromGroupsEnabled(
-    selected.length,
-    selected,
-  );
-  const removeOverride = selected == null;
+  const selectedCount = selected?.length ?? 0;
 
   return [
     {
@@ -45,7 +20,7 @@ const useToolbarActions = (
         <ActionDropdownItem
           key="bulk-add-to-group"
           requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
-          isAriaDisabled={addIsDisabled}
+          isAriaDisabled={selectedCount === 0}
           noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
           onClick={() => {
             setIsRowAction && setIsRowAction(false);
@@ -61,15 +36,14 @@ const useToolbarActions = (
       label: (
         <ActionDropdownItem
           key="bulk-remove-from-group"
-          requiredPermissions={removePermissions}
-          isAriaDisabled={removeIsDisabled}
+          requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
+          isAriaDisabled={selectedCount === 0}
           noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
           onClick={() => {
             setIsRowAction && setIsRowAction(false);
             setRemoveHostsFromGroupModalOpen(true);
           }}
-          {...(removeOverride && { override: true })}
-          checkAll
+          ignoreResourceDefinitions
         >
           Remove from workspace
         </ActionDropdownItem>

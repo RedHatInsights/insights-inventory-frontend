@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import {
   GENERAL_GROUPS_WRITE_PERMISSION,
+  GENERAL_HOSTS_WRITE_PERMISSIONS,
   NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE,
   NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE,
   NO_MODIFY_HOST_TOOLTIP_MESSAGE,
-  REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
   REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP,
 } from '../../../constants';
 import { ActionDropdownItem } from '../../InventoryTable/ActionWithRBAC';
@@ -20,12 +20,81 @@ const useTableActions = (
 ) => {
   const tableActionsCallback = useCallback(
     (row) => {
-      const isAddtoWorkspaceDisabled = (row) => {
-        return !row.groups[0]?.ungrouped;
-      };
-      const isRemoveFromWorkspaceDisabled = (row) => {
-        return row.groups[0]?.ungrouped;
-      };
+      if (isKesselEnabled) {
+        const groupActions = [
+          {
+            title: (
+              <ActionDropdownItem
+                key={`${row.id}-move-system`}
+                onClick={() => {
+                  setCurrentSystem([row]);
+                  setAddHostGroupModalOpen(true);
+                }}
+                requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
+                noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
+                ignoreResourceDefinitions
+                isAriaDisabled={!row.permissions?.hasWorkspaceEdit}
+              >
+                Move system
+              </ActionDropdownItem>
+            ),
+          },
+        ];
+        const hostActions = [
+          {
+            title: (
+              <ActionDropdownItem
+                key={`${row.id}-edit`}
+                onClick={() => {
+                  setCurrentSystem(row);
+                  onEditOpen(true);
+                }}
+                requiredPermissions={[
+                  REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
+                    row.groups?.[0]?.id ?? null,
+                  ),
+                ]}
+                noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
+                override={
+                  isKesselEnabled
+                    ? (row.permissions?.hasUpdate ?? false)
+                    : undefined
+                }
+              >
+                Edit
+              </ActionDropdownItem>
+            ),
+          },
+          { isSeparator: true, itemKey: `${row.id}-divider` },
+          {
+            title: (
+              <ActionDropdownItem
+                key={`${row.id}-delete`}
+                onClick={() => {
+                  setCurrentSystem(row);
+                  handleModalToggle(true);
+                }}
+                requiredPermissions={[
+                  REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
+                    row?.groups?.[0]?.id,
+                  ),
+                ]}
+                noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
+                override={
+                  isKesselEnabled
+                    ? (row.permissions?.hasDelete ?? false)
+                    : undefined
+                }
+              >
+                Delete
+              </ActionDropdownItem>
+            ),
+            className: 'pf-v6-u-danger-color-100',
+          },
+        ];
+        return [...groupActions, ...hostActions];
+      }
+
       const hostActions = [
         {
           title: (
@@ -35,17 +104,9 @@ const useTableActions = (
                 setCurrentSystem(row);
                 onEditOpen(true);
               }}
-              requiredPermissions={[
-                REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
-                  row.groups?.[0]?.id ?? null,
-                ),
-              ]}
+              requiredPermissions={[GENERAL_HOSTS_WRITE_PERMISSIONS]}
               noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
-              override={
-                isKesselEnabled
-                  ? (row.permissions?.hasUpdate ?? false)
-                  : undefined
-              }
+              ignoreResourceDefinitions
             >
               Edit display name
             </ActionDropdownItem>
@@ -59,17 +120,9 @@ const useTableActions = (
                 setCurrentSystem(row);
                 handleModalToggle(true);
               }}
-              requiredPermissions={[
-                REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
-                  row?.groups?.[0]?.id,
-                ),
-              ]}
+              requiredPermissions={[GENERAL_HOSTS_WRITE_PERMISSIONS]}
               noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
-              override={
-                isKesselEnabled
-                  ? (row.permissions?.hasDelete ?? false)
-                  : undefined
-              }
+              ignoreResourceDefinitions
             >
               Delete from inventory
             </ActionDropdownItem>
@@ -88,8 +141,7 @@ const useTableActions = (
               }}
               requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
               noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
-              isAriaDisabled={isAddtoWorkspaceDisabled(row)} // additional condition for enabling the button
-              ignoreResourceDefinitions // to check if there is any groups:write permission (disregarding RD)
+              ignoreResourceDefinitions
             >
               Add to workspace
             </ActionDropdownItem>
@@ -103,14 +155,9 @@ const useTableActions = (
                 setCurrentSystem([row]);
                 setRemoveHostsFromGroupModalOpen(true);
               }}
-              requiredPermissions={
-                row?.groups?.[0]?.id !== undefined
-                  ? REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(row.groups[0].id)
-                  : []
-              }
+              requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
               noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
-              isAriaDisabled={isRemoveFromWorkspaceDisabled(row)}
-              override={row?.groups?.[0]?.id === undefined ? true : undefined} // has access if no group
+              ignoreResourceDefinitions
             >
               Remove from workspace
             </ActionDropdownItem>
@@ -120,7 +167,14 @@ const useTableActions = (
 
       return [...groupActions, ...hostActions];
     },
-    [isKesselEnabled],
+    [
+      isKesselEnabled,
+      setCurrentSystem,
+      onEditOpen,
+      handleModalToggle,
+      setRemoveHostsFromGroupModalOpen,
+      setAddHostGroupModalOpen,
+    ],
   );
 
   return tableActionsCallback;
