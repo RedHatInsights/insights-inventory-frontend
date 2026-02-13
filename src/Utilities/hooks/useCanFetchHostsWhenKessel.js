@@ -29,8 +29,6 @@ export const useCanFetchHostsWhenKessel = () => {
       return;
     }
 
-    let cancelled = false;
-
     const probe = async () => {
       try {
         await getHostList({
@@ -38,24 +36,19 @@ export const useCanFetchHostsWhenKessel = () => {
           per_page: 1,
           options: { axios },
         });
-        if (!cancelled) {
-          setState({ hasAccess: true, isLoading: false });
-        }
+
+        setState({ hasAccess: true, isLoading: false });
       } catch (err) {
         const status = err?.response?.status ?? err?.status;
-        if (!cancelled) {
-          setState({
-            hasAccess: status === 403 ? false : true,
-            isLoading: false,
-          });
-        }
+
+        setState({
+          hasAccess: status === 403 ? false : true,
+          isLoading: false,
+        });
       }
     };
 
     probe();
-    return () => {
-      cancelled = true;
-    };
   }, [isKesselEnabled, axios]);
 
   return state;
