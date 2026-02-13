@@ -1,4 +1,3 @@
-/// <reference types='@testing-library/jest-dom/jest-globals' />
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { jest, expect, beforeAll } from '@jest/globals';

@@ -1,4 +1,3 @@
-/// <reference types='@testing-library/jest-dom/jest-globals' />
 import React from 'react';
 import { jest, expect } from '@jest/globals';
 import '@testing-library/jest-dom';
