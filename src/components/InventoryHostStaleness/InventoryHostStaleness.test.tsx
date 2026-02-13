@@ -1,14 +1,16 @@
+/// <reference types='@testing-library/jest-dom/jest-globals' />
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
+import { jest, expect, beforeAll } from '@jest/globals';
 import '@testing-library/jest-dom';
-import HostStalenessCard from '../HostStalenessCard';
-import { getStore } from '../../../store';
+import HostStalenessCard from './HostStalenessCard';
+import { getStore } from '../../store';
 import MockAdapter from 'axios-mock-adapter';
 import { instance } from '@redhat-cloud-services/frontend-components-utilities/interceptors';
-import { TestWrapper } from '../../../Utilities/TestingUtilities';
+import { TestWrapper } from '../../Utilities/TestingUtilities';
 import userEvent from '@testing-library/user-event';
 
-jest.mock('../../../Utilities/useFeatureFlag');
+jest.mock('../../Utilities/useFeatureFlag');
 
 describe('Table Renders', () => {
   beforeAll(() => {
