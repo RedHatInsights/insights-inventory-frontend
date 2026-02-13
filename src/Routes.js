@@ -79,7 +79,7 @@ export const Routes = () => {
     {
       path: '/',
       element: isInventoryViewsEnabled ? (
-        <InventoryViews />
+        <RenderWrapper cmp={InventoryViews} />
       ) : isSystemsTableEnabled ? (
         <Systems />
       ) : (
