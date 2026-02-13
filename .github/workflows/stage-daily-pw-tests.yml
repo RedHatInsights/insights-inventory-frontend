@@ -92,7 +92,7 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/ | :test_tube: [CI/CD] Daily Stage Inventory Frontend Test>: *failed* :large_red_circle: <!subteam^${{ secrets.SLACK_USER_GROUP }}|@hbi-frontend>"
+                        "text": "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/ | :test_tube: [CI/CD] Daily Stage Inventory Frontend Test>: *failed* :red-stop: <!subteam^${{ secrets.SLACK_USER_GROUP }}|@hbi-frontend>"
                       }
                     }
                   ]
