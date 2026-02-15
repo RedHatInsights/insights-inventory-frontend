@@ -1,1 +1,1 @@
-export { default } from './LoadingCard';
+export { default, getDefaultColumnModifier } from './LoadingCard';

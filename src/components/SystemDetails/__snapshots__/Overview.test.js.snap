@@ -32,7 +32,7 @@ exports[`Overview should render correctly 1`] = `
                 >
                   <button
                     class="pf-v6-c-button pf-m-plain"
-                    data-ouia-component-id="OUIA-Generated-Button-plain-10"
+                    data-ouia-component-id="OUIA-Generated-Button-plain-8"
                     data-ouia-component-type="PF6/Button"
                     data-ouia-safe="true"
                     type="button"
@@ -212,7 +212,7 @@ exports[`Overview should render correctly 1`] = `
                 >
                   <button
                     class="pf-v6-c-button pf-m-plain"
-                    data-ouia-component-id="OUIA-Generated-Button-plain-11"
+                    data-ouia-component-id="OUIA-Generated-Button-plain-9"
                     data-ouia-component-type="PF6/Button"
                     data-ouia-safe="true"
                     type="button"
@@ -288,7 +288,7 @@ exports[`Overview should render correctly 1`] = `
                                   <button
                                     aria-label="Action for Host name"
                                     class="pf-v6-c-button pf-m-plain ins-active-general_information__popover-icon"
-                                    data-ouia-component-id="OUIA-Generated-Button-plain-12"
+                                    data-ouia-component-id="OUIA-Generated-Button-plain-10"
                                     data-ouia-component-type="PF6/Button"
                                     data-ouia-safe="true"
                                     type="button"
@@ -368,7 +368,7 @@ exports[`Overview should render correctly 1`] = `
                                   <button
                                     aria-label="Action for Display name"
                                     class="pf-v6-c-button pf-m-plain ins-active-general_information__popover-icon"
-                                    data-ouia-component-id="OUIA-Generated-Button-plain-13"
+                                    data-ouia-component-id="OUIA-Generated-Button-plain-11"
                                     data-ouia-component-type="PF6/Button"
                                     data-ouia-safe="true"
                                     type="button"
@@ -473,7 +473,7 @@ exports[`Overview should render correctly 1`] = `
                                   <button
                                     aria-label="Action for Ansible hostname"
                                     class="pf-v6-c-button pf-m-plain ins-active-general_information__popover-icon"
-                                    data-ouia-component-id="OUIA-Generated-Button-plain-14"
+                                    data-ouia-component-id="OUIA-Generated-Button-plain-12"
                                     data-ouia-component-type="PF6/Button"
                                     data-ouia-safe="true"
                                     type="button"
@@ -579,7 +579,7 @@ exports[`Overview should render correctly 1`] = `
                 >
                   <button
                     class="pf-v6-c-button pf-m-plain"
-                    data-ouia-component-id="OUIA-Generated-Button-plain-15"
+                    data-ouia-component-id="OUIA-Generated-Button-plain-13"
                     data-ouia-component-type="PF6/Button"
                     data-ouia-safe="true"
                     type="button"
@@ -633,342 +633,244 @@ exports[`Overview should render correctly 1`] = `
                     <div
                       class="pf-v6-l-stack__item pf-m-fill"
                     >
-                      <table
-                        aria-label="Data collectors"
-                        class="pf-v6-c-table pf-m-grid-md pf-m-compact pf-m-no-border-rows"
-                        data-ouia-component-id="OUIA-Generated-Table-2"
-                        data-ouia-component-type="PF6/Table"
-                        data-ouia-safe="true"
-                        role="grid"
+                      <dl
+                        aria-label="Data collectors title"
+                        class="pf-v6-c-description-list pf-m-1-col"
+                        data-ouia-component-id="Data collectors title"
                       >
-                        <thead
-                          class="pf-v6-c-table__thead"
+                        <div
+                          class="pf-v6-c-description-list__group"
                         >
-                          <tr
-                            class="pf-v6-c-table__tr ins-c__no-border"
-                            data-ouia-component-id="OUIA-Generated-TableRow-8"
-                            data-ouia-component-type="PF6/TableRow"
-                            data-ouia-safe="true"
+                          <dt
+                            class="pf-v6-c-description-list__term"
                           >
-                            <th
-                              class="pf-v6-c-table__th"
-                              scope="col"
-                              tabindex="-1"
-                            />
-                            <th
-                              class="pf-v6-c-table__th"
-                              scope="col"
-                              tabindex="-1"
-                            >
-                              Name
-                            </th>
-                            <th
-                              class="pf-v6-c-table__th"
-                              scope="col"
-                              tabindex="-1"
-                            >
-                              Status
-                            </th>
-                            <th
-                              class="pf-v6-c-table__th"
-                              scope="col"
-                              tabindex="-1"
-                            >
-                              Last upload
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody
-                          class="pf-v6-c-table__tbody"
-                          role="rowgroup"
-                        >
-                          <tr
-                            class="pf-v6-c-table__tr"
-                            data-ouia-component-id="OUIA-Generated-TableRow-9"
-                            data-ouia-component-type="PF6/TableRow"
-                            data-ouia-safe="true"
-                          >
-                            <td
-                              class="pf-v6-c-table__td pf-v6-c-table__toggle"
-                              style="padding-left: 0px;"
-                              tabindex="-1"
-                            >
-                              <button
-                                aria-expanded="false"
-                                aria-label="Details"
-                                aria-labelledby="simple-node0 expand-toggle0"
-                                class="pf-v6-c-button pf-m-plain pf-m-small"
-                                data-ouia-component-id="OUIA-Generated-Button-plain-16"
-                                data-ouia-component-type="PF6/Button"
-                                data-ouia-safe="true"
-                                id="expand-toggle0"
-                                type="button"
-                              >
-                                <span
-                                  class="pf-v6-c-button__icon"
-                                >
-                                  <div
-                                    class="pf-v6-c-table__toggle-icon"
-                                  >
-                                    <svg
-                                      aria-hidden="true"
-                                      class="pf-v6-svg"
-                                      fill="currentColor"
-                                      height="1em"
-                                      role="img"
-                                      viewBox="0 0 320 512"
-                                      width="1em"
-                                    >
-                                      <path
-                                        d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z"
-                                      />
-                                    </svg>
-                                  </div>
-                                </span>
-                              </button>
-                            </td>
-                            <td
-                              class="pf-v6-c-table__td"
-                              data-label="Name"
-                              tabindex="-1"
+                            <span
+                              class="pf-v6-c-description-list__text"
                             >
                               insights-client
-                            </td>
-                            <td
-                              class="pf-v6-c-table__td"
-                              data-label="Status"
-                              tabindex="-1"
-                            >
-                              N/A
-                            </td>
-                            <td
-                              class="pf-v6-c-table__td"
-                              data-label="Last upload"
-                              tabindex="-1"
-                            >
-                              N/A
-                            </td>
-                          </tr>
-                          <tr
-                            class="pf-v6-c-table__tr pf-v6-c-table__expandable-row"
-                            data-ouia-component-id="OUIA-Generated-TableRow-10"
-                            data-ouia-component-type="PF6/TableRow"
-                            data-ouia-safe="true"
-                            hidden=""
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="insights-client value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="insights-client value"
                           >
-                            <td
-                              class="pf-v6-c-table__td"
-                              tabindex="-1"
-                            />
-                            <td
-                              class="pf-v6-c-table__td"
-                              colspan="3"
-                              tabindex="-1"
+                            <div
+                              class="pf-v6-c-description-list__text"
                             >
-                              <div
-                                class="pf-v6-c-table__expandable-row-content"
-                              >
-                                <div
-                                  class="pf-v6-l-flex"
-                                >
-                                  <div
-                                    class="ins-c__flex-row-margin"
-                                  >
-                                    Insights Client ID:
-                                  </div>
-                                  <div
-                                    class="pf-m-grow"
-                                  >
-                                    N/A
-                                  </div>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                        <tbody
-                          class="pf-v6-c-table__tbody"
-                          role="rowgroup"
-                        >
-                          <tr
-                            class="pf-v6-c-table__tr"
-                            data-ouia-component-id="OUIA-Generated-TableRow-11"
-                            data-ouia-component-type="PF6/TableRow"
-                            data-ouia-safe="true"
-                          >
-                            <td
-                              class="pf-v6-c-table__td pf-v6-c-table__toggle"
-                              style="padding-left: 0px;"
-                              tabindex="-1"
-                            >
-                              <button
-                                aria-expanded="false"
-                                aria-label="Details"
-                                aria-labelledby="simple-node1 expand-toggle1"
-                                class="pf-v6-c-button pf-m-plain pf-m-small"
-                                data-ouia-component-id="OUIA-Generated-Button-plain-17"
-                                data-ouia-component-type="PF6/Button"
+                              <ul
+                                class="pf-v6-c-content--ul pf-m-plain"
+                                data-ouia-component-id="OUIA-Generated-Content-1"
+                                data-ouia-component-type="PF6/Content"
                                 data-ouia-safe="true"
-                                id="expand-toggle1"
-                                type="button"
+                                data-pf-content="true"
                               >
-                                <span
-                                  class="pf-v6-c-button__icon"
+                                <li
+                                  class="pf-v6-c-content--li"
+                                  data-ouia-component-id="OUIA-Generated-Content-2"
+                                  data-ouia-component-type="PF6/Content"
+                                  data-ouia-safe="true"
+                                  data-pf-content="true"
                                 >
-                                  <div
-                                    class="pf-v6-c-table__toggle-icon"
-                                  >
-                                    <svg
-                                      aria-hidden="true"
-                                      class="pf-v6-svg"
-                                      fill="currentColor"
-                                      height="1em"
-                                      role="img"
-                                      viewBox="0 0 320 512"
-                                      width="1em"
-                                    >
-                                      <path
-                                        d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z"
-                                      />
-                                    </svg>
-                                  </div>
-                                </span>
-                              </button>
-                            </td>
-                            <td
-                              class="pf-v6-c-table__td"
-                              data-label="Name"
-                              tabindex="-1"
+                                  Status: N/A
+                                </li>
+                                <li
+                                  class="pf-v6-c-content--li"
+                                  data-ouia-component-id="OUIA-Generated-Content-3"
+                                  data-ouia-component-type="PF6/Content"
+                                  data-ouia-safe="true"
+                                  data-pf-content="true"
+                                >
+                                  Insights Client ID: N/A
+                                </li>
+                                <li
+                                  class="pf-v6-c-content--li"
+                                  data-ouia-component-id="OUIA-Generated-Content-4"
+                                  data-ouia-component-type="PF6/Content"
+                                  data-ouia-safe="true"
+                                  data-pf-content="true"
+                                >
+                                  Last upload: N/A
+                                </li>
+                              </ul>
+                            </div>
+                          </dd>
+                        </div>
+                        <div
+                          class="pf-v6-c-description-list__group"
+                        >
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
                             >
                               subscription-manager
-                            </td>
-                            <td
-                              class="pf-v6-c-table__td"
-                              data-label="Status"
-                              tabindex="-1"
-                            >
-                              N/A
-                            </td>
-                            <td
-                              class="pf-v6-c-table__td"
-                              data-label="Last upload"
-                              tabindex="-1"
-                            >
-                              N/A
-                            </td>
-                          </tr>
-                          <tr
-                            class="pf-v6-c-table__tr pf-v6-c-table__expandable-row"
-                            data-ouia-component-id="OUIA-Generated-TableRow-12"
-                            data-ouia-component-type="PF6/TableRow"
-                            data-ouia-safe="true"
-                            hidden=""
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="subscription-manager value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="subscription-manager value"
                           >
-                            <td
-                              class="pf-v6-c-table__td"
-                              tabindex="-1"
-                            />
-                            <td
-                              class="pf-v6-c-table__td"
-                              colspan="3"
-                              tabindex="-1"
+                            <div
+                              class="pf-v6-c-description-list__text"
                             >
-                              <div
-                                class="pf-v6-c-table__expandable-row-content"
+                              <ul
+                                class="pf-v6-c-content--ul pf-m-plain"
+                                data-ouia-component-id="OUIA-Generated-Content-5"
+                                data-ouia-component-type="PF6/Content"
+                                data-ouia-safe="true"
+                                data-pf-content="true"
                               >
-                                <div
-                                  class="pf-v6-l-flex"
+                                <li
+                                  class="pf-v6-c-content--li"
+                                  data-ouia-component-id="OUIA-Generated-Content-6"
+                                  data-ouia-component-type="PF6/Content"
+                                  data-ouia-safe="true"
+                                  data-pf-content="true"
                                 >
-                                  <div
-                                    class="ins-c__flex-row-margin"
-                                  >
-                                    Subscription Manager ID:
-                                  </div>
-                                  <div
-                                    class="pf-m-grow"
-                                  >
-                                    N/A
-                                  </div>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                        <tbody
-                          class="pf-v6-c-table__tbody"
-                          role="rowgroup"
+                                  Status: N/A
+                                </li>
+                                <li
+                                  class="pf-v6-c-content--li"
+                                  data-ouia-component-id="OUIA-Generated-Content-7"
+                                  data-ouia-component-type="PF6/Content"
+                                  data-ouia-safe="true"
+                                  data-pf-content="true"
+                                >
+                                  Subscription Manager ID: N/A
+                                </li>
+                                <li
+                                  class="pf-v6-c-content--li"
+                                  data-ouia-component-id="OUIA-Generated-Content-8"
+                                  data-ouia-component-type="PF6/Content"
+                                  data-ouia-safe="true"
+                                  data-pf-content="true"
+                                >
+                                  Last upload: N/A
+                                </li>
+                              </ul>
+                            </div>
+                          </dd>
+                        </div>
+                        <div
+                          class="pf-v6-c-description-list__group"
                         >
-                          <tr
-                            class="pf-v6-c-table__tr"
-                            data-ouia-component-id="OUIA-Generated-TableRow-13"
-                            data-ouia-component-type="PF6/TableRow"
-                            data-ouia-safe="true"
+                          <dt
+                            class="pf-v6-c-description-list__term"
                           >
-                            <td
-                              class="pf-v6-c-table__td"
-                              tabindex="-1"
-                            />
-                            <td
-                              class="pf-v6-c-table__td"
-                              data-label="Name"
-                              tabindex="-1"
+                            <span
+                              class="pf-v6-c-description-list__text"
                             >
                               Satellite
-                            </td>
-                            <td
-                              class="pf-v6-c-table__td"
-                              data-label="Status"
-                              tabindex="-1"
-                            >
-                              N/A
-                            </td>
-                            <td
-                              class="pf-v6-c-table__td"
-                              data-label="Last upload"
-                              tabindex="-1"
-                            >
-                              N/A
-                            </td>
-                          </tr>
-                        </tbody>
-                        <tbody
-                          class="pf-v6-c-table__tbody"
-                          role="rowgroup"
-                        >
-                          <tr
-                            class="pf-v6-c-table__tr"
-                            data-ouia-component-id="OUIA-Generated-TableRow-14"
-                            data-ouia-component-type="PF6/TableRow"
-                            data-ouia-safe="true"
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="Satellite value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="Satellite value"
                           >
-                            <td
-                              class="pf-v6-c-table__td"
-                              tabindex="-1"
-                            />
-                            <td
-                              class="pf-v6-c-table__td"
-                              data-label="Name"
-                              tabindex="-1"
+                            <div
+                              class="pf-v6-c-description-list__text"
+                            >
+                              <ul
+                                class="pf-v6-c-content--ul pf-m-plain"
+                                data-ouia-component-id="OUIA-Generated-Content-9"
+                                data-ouia-component-type="PF6/Content"
+                                data-ouia-safe="true"
+                                data-pf-content="true"
+                              >
+                                <li
+                                  class="pf-v6-c-content--li"
+                                  data-ouia-component-id="OUIA-Generated-Content-10"
+                                  data-ouia-component-type="PF6/Content"
+                                  data-ouia-safe="true"
+                                  data-pf-content="true"
+                                >
+                                  Status: N/A
+                                </li>
+                                <li
+                                  class="pf-v6-c-content--li"
+                                  data-ouia-component-id="OUIA-Generated-Content-11"
+                                  data-ouia-component-type="PF6/Content"
+                                  data-ouia-safe="true"
+                                  data-pf-content="true"
+                                >
+                                  Satellite ID: N/A
+                                </li>
+                                <li
+                                  class="pf-v6-c-content--li"
+                                  data-ouia-component-id="OUIA-Generated-Content-12"
+                                  data-ouia-component-type="PF6/Content"
+                                  data-ouia-safe="true"
+                                  data-pf-content="true"
+                                >
+                                  Last upload: N/A
+                                </li>
+                              </ul>
+                            </div>
+                          </dd>
+                        </div>
+                        <div
+                          class="pf-v6-c-description-list__group"
+                        >
+                          <dt
+                            class="pf-v6-c-description-list__term"
+                          >
+                            <span
+                              class="pf-v6-c-description-list__text"
                             >
                               Discovery
-                            </td>
-                            <td
-                              class="pf-v6-c-table__td"
-                              data-label="Status"
-                              tabindex="-1"
+                            </span>
+                          </dt>
+                          <dd
+                            aria-label="Discovery value"
+                            class="pf-v6-c-description-list__description"
+                            data-ouia-component-id="Discovery value"
+                          >
+                            <div
+                              class="pf-v6-c-description-list__text"
                             >
-                              N/A
-                            </td>
-                            <td
-                              class="pf-v6-c-table__td"
-                              data-label="Last upload"
-                              tabindex="-1"
-                            >
-                              N/A
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                              <ul
+                                class="pf-v6-c-content--ul pf-m-plain"
+                                data-ouia-component-id="OUIA-Generated-Content-13"
+                                data-ouia-component-type="PF6/Content"
+                                data-ouia-safe="true"
+                                data-pf-content="true"
+                              >
+                                <li
+                                  class="pf-v6-c-content--li"
+                                  data-ouia-component-id="OUIA-Generated-Content-14"
+                                  data-ouia-component-type="PF6/Content"
+                                  data-ouia-safe="true"
+                                  data-pf-content="true"
+                                >
+                                  Status: N/A
+                                </li>
+                                <li
+                                  class="pf-v6-c-content--li"
+                                  data-ouia-component-id="OUIA-Generated-Content-15"
+                                  data-ouia-component-type="PF6/Content"
+                                  data-ouia-safe="true"
+                                  data-pf-content="true"
+                                >
+                                  Discovery ID: N/A
+                                </li>
+                                <li
+                                  class="pf-v6-c-content--li"
+                                  data-ouia-component-id="OUIA-Generated-Content-16"
+                                  data-ouia-component-type="PF6/Content"
+                                  data-ouia-safe="true"
+                                  data-pf-content="true"
+                                >
+                                  Last upload: N/A
+                                </li>
+                              </ul>
+                            </div>
+                          </dd>
+                        </div>
+                      </dl>
                     </div>
                   </div>
                 </div>
@@ -993,7 +895,7 @@ exports[`Overview should render correctly 1`] = `
                 >
                   <button
                     class="pf-v6-c-button pf-m-plain"
-                    data-ouia-component-id="OUIA-Generated-Button-plain-18"
+                    data-ouia-component-id="OUIA-Generated-Button-plain-14"
                     data-ouia-component-type="PF6/Button"
                     data-ouia-safe="true"
                     type="button"

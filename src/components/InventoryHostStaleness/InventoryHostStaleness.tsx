@@ -27,7 +27,6 @@ const InventoryHostStaleness = () => {
     <section>
       <HostStalenessCard canModifyHostStaleness={canModifyHostStaleness} />
     </section>
-    //TBD : Table will go here
   );
 };
 

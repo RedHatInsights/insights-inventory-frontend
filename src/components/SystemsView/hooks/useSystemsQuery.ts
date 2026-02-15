@@ -104,6 +104,8 @@ interface UseSystemsQueryParams {
   filters: InventoryFilters;
   sortBy: ApiOrderByEnum | undefined;
   direction: SortDirection | undefined;
+  /** When false, the query is not run (e.g. when user has no access). Default true. */
+  enabled?: boolean;
 }
 export const useSystemsQuery = ({
   page,
@@ -111,6 +113,7 @@ export const useSystemsQuery = ({
   filters,
   sortBy,
   direction,
+  enabled = true,
 }: UseSystemsQueryParams) => {
   const { data, isLoading, isFetching, isError, error } = useQuery({
     queryKey: ['systems', page, perPage, filters, sortBy, direction],
@@ -118,6 +121,7 @@ export const useSystemsQuery = ({
       return await fetchSystems({ page, perPage, filters, sortBy, direction });
     },
     refetchOnWindowFocus: false,
+    enabled,
   });
 
   return {

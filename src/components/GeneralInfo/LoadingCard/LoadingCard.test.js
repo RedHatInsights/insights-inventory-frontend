@@ -3,7 +3,10 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { TestWrapper } from '../../../Utilities/TestingUtilities';
-import LoadingCard, { Clickable } from './LoadingCard';
+import LoadingCard, {
+  Clickable,
+  getDefaultColumnModifier,
+} from './LoadingCard';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -313,14 +316,16 @@ describe('LoadingCard', () => {
         value: `Value ${i + 1}`,
       }));
 
-    it('should use 3 columns when there are 3 or fewer items', () => {
+    it('should use 1 column when there are 3 or fewer items', () => {
       [1, 2, 3].forEach((itemCount) => {
+        const items = createItems(itemCount);
         const { container } = render(
           <TestWrapper>
             <LoadingCard
               isLoading={false}
               title="Test Card"
-              items={createItems(itemCount)}
+              columnModifier={getDefaultColumnModifier(items)}
+              items={items}
             />
           </TestWrapper>,
         );
@@ -358,12 +363,14 @@ describe('LoadingCard', () => {
     });
 
     it('should render items in separate DescriptionListGroups for proper column flow', () => {
+      const items = createItems(4);
       const { container } = render(
         <TestWrapper>
           <LoadingCard
             isLoading={false}
             title="Test Card"
-            items={createItems(4)}
+            columnModifier={getDefaultColumnModifier(items)}
+            items={items}
           />
         </TestWrapper>,
       );
