@@ -10,6 +10,7 @@ import {
 } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import { DataViewCustomFilter } from './DataViewCustomFilter';
 import WorkspaceFilter from './WorkspaceFilter';
+import TextFilter from './TextFilter';
 import LastSeenFilter, { LastSeenFilterItem } from './LastSeenFilter';
 import { ToolbarLabel } from '@patternfly/react-core';
 import LastSeenFilterExtension from './LastSeenFilterExtension';
@@ -47,10 +48,19 @@ export const SystemsViewFilters = ({
         }}
         values={filters}
       >
-        <DataViewTextFilter
+        <DataViewCustomFilter
           filterId="name"
           title="Name"
+          chipTitle="Display name"
           placeholder="Filter by name"
+          ouiaId="SystemsViewNameFilter"
+          filterComponent={TextFilter}
+          value={filters.name}
+          onChange={(_event, val) => {
+            onSetFilters({ ...filters, name: val?.trim() });
+          }}
+          createLabels={(value) => (value ? [value] : [])}
+          deleteLabel={(_label, _value, onChange) => onChange?.(undefined, '')}
         />
         <DataViewCheckboxFilter
           filterId="status"

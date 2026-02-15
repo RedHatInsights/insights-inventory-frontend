@@ -33,6 +33,8 @@ export interface DataViewCustomFilterProps<TValue> {
     value: TValue | undefined,
     onChange?: (event: unknown, value: TValue | undefined) => void,
   ) => void;
+  /** Custom category title*/
+  chipTitle?: string;
 }
 
 export const DataViewCustomFilter = <TValue,>({
@@ -46,6 +48,7 @@ export const DataViewCustomFilter = <TValue,>({
   filterComponent: FilterComponent,
   createLabels,
   deleteLabel,
+  chipTitle = title,
 }: DataViewCustomFilterProps<TValue>) => {
   return (
     <ToolbarFilter
@@ -53,7 +56,7 @@ export const DataViewCustomFilter = <TValue,>({
       data-ouia-component-id={ouiaId}
       labels={createLabels?.(value, title)}
       deleteLabel={(_, label) => deleteLabel?.(label, value, onChange)}
-      categoryName={title}
+      categoryName={chipTitle || title}
       showToolbarItem={showToolbarItem}
     >
       <FilterComponent
