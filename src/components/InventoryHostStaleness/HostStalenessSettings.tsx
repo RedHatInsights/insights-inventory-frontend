@@ -25,7 +25,7 @@ const HostStalenessSettings = ({
   defaultStaleness: defaultStaleness,
   setIsResetToDefault,
 }: StalenessSettingsProps) => {
-  const resetToStandard = () => {
+  const resetToDefault = () => {
     const defaultsForSelectedTab = defaultStaleness;
 
     setStaleness({ ...staleness, ...defaultsForSelectedTab });
@@ -58,7 +58,7 @@ const HostStalenessSettings = ({
               <Button
                 variant="link"
                 role="button"
-                onClick={() => resetToStandard()}
+                onClick={() => resetToDefault()}
                 style={{ padding: '0' }}
                 ouiaId="reset-to-default"
               >
