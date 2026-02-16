@@ -30,6 +30,7 @@ import { useAddNotification } from '@redhat-cloud-services/frontend-components-n
 import { updateStaleness } from '../../api/hostInventoryApi';
 import { StalenessOutput } from '@redhat-cloud-services/host-inventory-client';
 import { HostStalenessPopover } from './HostStalenessPopover';
+import { isEqual } from 'lodash';
 
 interface HostStalenessCardProps {
   canModifyHostStaleness: boolean;
@@ -46,11 +47,13 @@ const HostStalenessCard = ({
   const [staleness, setStaleness] = useState<Staleness>({});
   const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isFormValid, setIsFormValid] = useState(true);
+  const [isStalenessValid, setIsStalenessValid] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [defaultStaleness, setDefaultStaleness] = useState<Staleness>({});
   const [isResetToDefault, setIsResetToDefault] = useState(false);
   const addNotification = useAddNotification();
+
+  const isStalenessModified = !isEqual(lastSavedStaleness, staleness);
 
   const onModalToggle = () => {
     setIsModalOpen(!isModalOpen);
@@ -223,8 +226,8 @@ const HostStalenessCard = ({
               isEditing={isEditing}
               staleness={staleness}
               setStaleness={setStaleness}
-              isFormValid={isFormValid}
-              setIsFormValid={setIsFormValid}
+              isStalenessValid={isStalenessValid}
+              setIsStalenessValid={setIsStalenessValid}
               defaultStaleness={defaultStaleness}
               setIsResetToDefault={setIsResetToDefault}
             />
@@ -234,7 +237,7 @@ const HostStalenessCard = ({
                   className="pf-v6-u-mt-md"
                   size={'sm'}
                   onClick={onModalToggle}
-                  isDisabled={!isFormValid}
+                  isDisabled={!isStalenessModified || !isStalenessValid}
                 >
                   Save
                 </Button>

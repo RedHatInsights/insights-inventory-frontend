@@ -18,8 +18,8 @@ const defaultProps = {
     { name: 'test-name1', value: 1 },
     { name: 'test-name2', value: 2 },
   ],
-  isFormValid: true,
-  setIsFormValid: jest.fn(),
+  isStalenessValid: true,
+  setIsStalenessValid: jest.fn(),
   modalMessage: 'This is testing modal message',
 };
 
@@ -87,11 +87,11 @@ describe('BaseDropdown', () => {
   it('calls validation on staleness change', async () => {
     const { rerender } = render(<BaseDropdown {...defaultProps} />);
 
-    expect(defaultProps.setIsFormValid).toHaveBeenCalled();
-    defaultProps.setIsFormValid.mockClear();
+    expect(defaultProps.setIsStalenessValid).toHaveBeenCalled();
+    defaultProps.setIsStalenessValid.mockClear();
 
     rerender(<BaseDropdown {...defaultProps} />);
-    expect(defaultProps.setIsFormValid).not.toHaveBeenCalled();
+    expect(defaultProps.setIsStalenessValid).not.toHaveBeenCalled();
 
     rerender(
       <BaseDropdown
@@ -101,6 +101,6 @@ describe('BaseDropdown', () => {
         }}
       />,
     );
-    expect(defaultProps.setIsFormValid).toHaveBeenCalled();
+    expect(defaultProps.setIsStalenessValid).toHaveBeenCalled();
   });
 });

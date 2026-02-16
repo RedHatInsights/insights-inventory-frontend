@@ -10,8 +10,8 @@ interface StalenessSettingsProps {
   staleness: Staleness;
   setStaleness: React.Dispatch<React.SetStateAction<Staleness>>;
   isEditing: boolean;
-  isFormValid: boolean;
-  setIsFormValid: React.Dispatch<React.SetStateAction<boolean>>;
+  isStalenessValid: boolean;
+  setIsStalenessValid: React.Dispatch<React.SetStateAction<boolean>>;
   defaultStaleness: Staleness;
   setIsResetToDefault: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -20,8 +20,8 @@ const HostStalenessSettings = ({
   isEditing,
   staleness,
   setStaleness,
-  isFormValid,
-  setIsFormValid,
+  isStalenessValid,
+  setIsStalenessValid,
   defaultStaleness: defaultStaleness,
   setIsResetToDefault,
 }: StalenessSettingsProps) => {
@@ -47,8 +47,8 @@ const HostStalenessSettings = ({
               staleness={staleness}
               setStaleness={setStaleness}
               modalMessage={field.modalMessage}
-              isFormValid={isFormValid}
-              setIsFormValid={setIsFormValid}
+              isStalenessValid={isStalenessValid}
+              setIsStalenessValid={setIsStalenessValid}
             />
           </FlexItem>
         ))}
