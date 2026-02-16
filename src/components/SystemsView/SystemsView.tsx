@@ -25,6 +25,7 @@ import { SystemActionModalsProvider } from './SystemActionModalsContext';
 import { SystemsViewBulkActions } from './SystemsViewBulkActions';
 import { useBulkSelect } from './hooks/useBulkSelect';
 import { useRows } from './hooks/useRows';
+import AccessDenied from '../../Utilities/AccessDenied';
 import './SystemsView.scss';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import { ISortBy } from '@patternfly/react-table';
@@ -48,7 +49,12 @@ const PER_PAGE = 50;
 const INITIAL_PAGE = 1;
 const NO_HEADER = <></>;
 
-const SystemsView = () => {
+interface SystemsViewProps {
+  /** When false, shows the no-access state and does not fetch systems. Default true when not provided (e.g. when not wrapped by RenderWrapper). */
+  hasAccess?: boolean;
+}
+
+const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const pagination = useDataViewPagination({
@@ -102,6 +108,7 @@ const SystemsView = () => {
     filters,
     sortBy,
     direction,
+    enabled: hasAccess,
   });
 
   const { rows } = useRows({
@@ -127,6 +134,21 @@ const SystemsView = () => {
     rows,
     total,
   });
+
+  if (!hasAccess) {
+    return (
+      <AccessDenied
+        title="This application requires Inventory permissions"
+        description={
+          <div>
+            To view the content of this page, you must be granted a minimum of
+            inventory permissions from your Organization Administrator.
+          </div>
+        }
+        requiredPermission="inventory:*:read"
+      />
+    );
+  }
 
   return (
     <SystemActionModalsProvider onSelectionClear={() => setSelected([])}>

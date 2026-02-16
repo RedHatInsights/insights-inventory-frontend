@@ -22,7 +22,7 @@ test.describe('Filtering Systems Tests', () => {
   let workingBootcDir: string;
   const operatingSystemTestCases = [
     { OS: 'RHEL 9.4' },
-    { OS: 'CentOS Linux 7.9' }, // Must match CENTOS_ARCHIVE (centos79.tar.gz)
+    { OS: 'CentOS Linux 7.6' },
   ];
 
   test.beforeAll(async () => {
@@ -75,6 +75,7 @@ test.describe('Filtering Systems Tests', () => {
       const packageCount = await packageIcons.count();
       expect(packageCount).toBeGreaterThanOrEqual(0);
     });
+
     await test.step('Image-based system option', async () => {
       // Reset previews filter
       const resetFiltersButton = page.getByRole('button', {
@@ -211,6 +212,7 @@ test.describe('Filtering Systems Tests', () => {
       const count = await tagsRows.count();
       await expect(tagsRows).toHaveText(Array(count).fill(expectedTagsCount));
     });
+
     await test.step('Verify Tags Modal has expected tag', async () => {
       // TODO: Remove when RHINENG-22581 is fixed
       const inputLocator = page.getByPlaceholder('Filter by tags').nth(1);

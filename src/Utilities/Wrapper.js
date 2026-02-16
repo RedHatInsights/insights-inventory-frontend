@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useConditionalRBAC } from './hooks/useConditionalRBAC';
+import { useCanFetchHostsWhenKessel } from './hooks/useCanFetchHostsWhenKessel';
 import { GENERAL_HOSTS_READ_PERMISSIONS } from '../constants';
 
 const RenderWrapper = ({
@@ -10,13 +11,25 @@ const RenderWrapper = ({
   store,
   ...props
 }) => {
-  const { hasAccess } = useConditionalRBAC(
+  const kesselAccess = useCanFetchHostsWhenKessel();
+  const rbacAccess = useConditionalRBAC(
     [GENERAL_HOSTS_READ_PERMISSIONS],
     true,
     false, // omit RD check to find out if there are any inventory:hosts:read available
   );
+
   const loadChromelessInventory =
     props?.tableProps?.envContext?.loadChromeless || false;
+
+  let hasAccess;
+  if (loadChromelessInventory) {
+    hasAccess = true;
+  } else if (kesselAccess) {
+    hasAccess = kesselAccess.isLoading ? undefined : kesselAccess.hasAccess;
+  } else {
+    hasAccess = rbacAccess.hasAccess;
+  }
+
   return (
     <Component
       {...props}
@@ -24,7 +37,7 @@ const RenderWrapper = ({
         ref: inventoryRef,
       })}
       isRbacEnabled={isRbacEnabled}
-      hasAccess={props?.tableProps?.envContext?.loadChromeless || hasAccess}
+      hasAccess={hasAccess}
       store={store}
       loadChromelessInventory={loadChromelessInventory}
     />

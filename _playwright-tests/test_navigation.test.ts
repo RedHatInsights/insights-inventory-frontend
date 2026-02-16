@@ -7,9 +7,11 @@ import {
 } from './helpers/uploadArchive';
 
 test.describe('Navigate to Inventory pages via side Navigation bar', () => {
+  const setupBootcResult = prepareSingleSystem(BOOTC_ARCHIVE);
+
   test.beforeEach(async ({ page }) => {
-    await page.goto('/insights/dashboard/');
-    await page.locator('[data-quickstart-id="Inventory"]').click();
+    await page.goto('/insights/inventory/');
+    await page.locator('[data-quickstart-id="Inventory"]').isVisible();
   });
 
   test('Use can navigate to Staleness and Deletion page', async ({ page }) => {
@@ -24,23 +26,20 @@ test.describe('Navigate to Inventory pages via side Navigation bar', () => {
 
   test('Use can navigate to Inventory Systems page', async ({ page }) => {
     const expectedURL = '/insights/inventory';
-    await page.locator('[data-quickstart-id="insights_inventory"]').click();
-    await expect(page).toHaveURL(new RegExp(expectedURL));
-  });
-
-  test('Use can navigate to Workspaces page', async ({ page }) => {
-    const expectedURL = '/insights/inventory/workspaces';
-    await page
-      .locator('[data-quickstart-id="insights_inventory_workspaces"]')
-      .click();
+    const systemsPageNav = page
+      .locator('li[data-ouia-component-id="Systems"]')
+      .locator('a[data-quickstart-id="insights_inventory"]');
+    await systemsPageNav.click();
     await expect(page).toHaveURL(new RegExp(expectedURL));
   });
 
   test('User can switch to the Images view in Inventory page', async ({
     page,
   }) => {
-    const setupBootcResult = prepareSingleSystem(BOOTC_ARCHIVE);
-    await page.locator('[data-quickstart-id="insights_inventory"]').click();
+    const systemsPageNav = page
+      .locator('li[data-ouia-component-id="Systems"]')
+      .locator('a[data-quickstart-id="insights_inventory"]');
+    await systemsPageNav.click();
 
     await test.step('Switch to Images view', async () => {
       const imagesViewButton = page.getByRole('button', {
@@ -59,5 +58,13 @@ test.describe('Navigate to Inventory pages via side Navigation bar', () => {
       setupBootcResult.archiveName,
       setupBootcResult.workingDir,
     );
+  });
+
+  test('Use can navigate to Workspaces page', async ({ page }) => {
+    const expectedURL = '/insights/inventory/workspaces';
+    await page
+      .locator('[data-quickstart-id="insights_inventory_workspaces"]')
+      .click();
+    await expect(page).toHaveURL(new RegExp(expectedURL));
   });
 });
