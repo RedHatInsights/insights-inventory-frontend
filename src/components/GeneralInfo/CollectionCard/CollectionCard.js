@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { Tooltip } from '@patternfly/react-core';
 
-import LoadingCard from '../LoadingCard';
+import LoadingCard, { getDefaultColumnModifier } from '../LoadingCard';
 import { collectionInformationSelector } from '../selectors';
 import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
 import { extraShape } from '../../../constants';
@@ -38,66 +38,70 @@ const CollectionCard = ({
   hasInsightsId = true,
   hasReporter = true,
   extra = [],
-}) => (
-  <LoadingCard
-    title="Collection information"
-    isLoading={!detailLoaded}
-    cardId="collection-card"
-    items={[
-      ...(hasClient
-        ? [
-            {
-              title: 'Insights client',
-              value: (
-                <VersionTooltip
-                  egg={collectionInformation.egg}
-                  client={collectionInformation.client}
-                />
-              ),
-            },
-          ]
-        : []),
-      ...(hasLastCheckIn
-        ? [
-            {
-              title: 'Last check-in',
-              value:
-                entity &&
-                (DateFormat ? (
-                  <DateFormat date={entity.updated} type="onlyDate" />
-                ) : (
-                  new Date(entity.updated).toLocaleString()
-                )),
-            },
-          ]
-        : []),
-      ...(hasRegistered
-        ? [
-            {
-              title: 'Registered',
-              value:
-                entity &&
-                (DateFormat ? (
-                  <DateFormat date={entity.created} type="onlyDate" />
-                ) : (
-                  new Date(entity.created).toLocaleString()
-                )),
-            },
-          ]
-        : []),
-      ...(hasInsightsId
-        ? [{ title: 'Insights id', value: entity && entity.insights_id }]
-        : []),
-      ...(hasReporter
-        ? [{ title: 'Reporter', value: entity && entity.reporter }]
-        : []),
-      ...extra.map(({ onClick, ...item }) => ({
-        ...item,
-        ...(onClick && { onClick: (e) => onClick(e, handleClick) }),
-      })),
-    ]}
-  />
-);
+}) => {
+  const items = [
+    ...(hasClient
+      ? [
+          {
+            title: 'Insights client',
+            value: (
+              <VersionTooltip
+                egg={collectionInformation.egg}
+                client={collectionInformation.client}
+              />
+            ),
+          },
+        ]
+      : []),
+    ...(hasLastCheckIn
+      ? [
+          {
+            title: 'Last check-in',
+            value:
+              entity &&
+              (DateFormat ? (
+                <DateFormat date={entity.updated} type="onlyDate" />
+              ) : (
+                new Date(entity.updated).toLocaleString()
+              )),
+          },
+        ]
+      : []),
+    ...(hasRegistered
+      ? [
+          {
+            title: 'Registered',
+            value:
+              entity &&
+              (DateFormat ? (
+                <DateFormat date={entity.created} type="onlyDate" />
+              ) : (
+                new Date(entity.created).toLocaleString()
+              )),
+          },
+        ]
+      : []),
+    ...(hasInsightsId
+      ? [{ title: 'Insights id', value: entity && entity.insights_id }]
+      : []),
+    ...(hasReporter
+      ? [{ title: 'Reporter', value: entity && entity.reporter }]
+      : []),
+    ...extra.map(({ onClick, ...item }) => ({
+      ...item,
+      ...(onClick && { onClick: (e) => onClick(e, handleClick) }),
+    })),
+  ];
+  return (
+    <LoadingCard
+      title="Collection information"
+      isLoading={!detailLoaded}
+      cardId="collection-card"
+      columnModifier={getDefaultColumnModifier(items)}
+      items={items}
+    />
+  );
+};
 
 CollectionCard.propTypes = {
   detailLoaded: PropTypes.bool,

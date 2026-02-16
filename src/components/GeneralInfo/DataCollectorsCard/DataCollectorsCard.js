@@ -1,114 +1,83 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingCard from '../LoadingCard';
 import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
+import { Content, ContentVariants, Icon } from '@patternfly/react-core';
 import {
-  ExpandableRowContent,
-  Table /* data-codemods */,
-  TableVariant,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-} from '@patternfly/react-table';
-import { Flex, FlexItem } from '@patternfly/react-core';
+  CheckCircleIcon,
+  ExclamationTriangleIcon,
+} from '@patternfly/react-icons';
 import { getDefaultCollectors } from '../selectors/selectors';
+
+const StatusIcon = ({ status }) => {
+  const iconStyle = { marginLeft: 4, marginRight: 4 };
+  if (status === 'Active') {
+    return (
+      <Icon status="success" style={iconStyle}>
+        <CheckCircleIcon />
+      </Icon>
+    );
+  }
+  if (status === 'Stale') {
+    return (
+      <Icon status="warning" style={iconStyle}>
+        <ExclamationTriangleIcon />
+      </Icon>
+    );
+  }
+  return null;
+};
+
+StatusIcon.propTypes = {
+  status: PropTypes.string,
+};
 
 const DataCollectorsCardCore = ({
   detailLoaded = false,
   collectors,
   entity,
-  dataMapper,
 }) => {
-  const [expandedNames, setExpandedNames] = useState([]);
-  const setExpanded = useCallback(
-    (collector, isExpanding = true) =>
-      setExpandedNames((prevExpanded) => {
-        const otherExpandedNames = prevExpanded.filter(
-          (r) => r !== collector.name,
-        );
-        return isExpanding
-          ? [...otherExpandedNames, collector.name]
-          : otherExpandedNames;
-      }),
-    [],
-  );
-  const isExpanded = (collector) => expandedNames.includes(collector.name);
   const data = collectors ?? getDefaultCollectors(entity);
+
   return (
     <LoadingCard
       cardId="dataCollector-card"
       title="Data collectors"
       isLoading={!detailLoaded}
-    >
-      <Table
-        aria-label="Data collectors"
-        variant={TableVariant.compact}
-        borders={false}
-      >
-        <Thead>
-          <Tr className="ins-c__no-border">
-            <Th />
-            <Th>Name</Th>
-            <Th>Status</Th>
-            <Th>Last upload</Th>
-          </Tr>
-        </Thead>
-        {dataMapper
-          ? dataMapper(data, isExpanded, setExpanded)
-          : data.map((collector, rowIndex) => (
-              <Tbody key={collector.name} isExpanded={isExpanded(collector)}>
-                <Tr>
-                  {collector.details.name ? (
-                    <Td
-                      expand={
-                        collector.details
-                          ? {
-                              rowIndex,
-                              isExpanded: isExpanded(collector),
-                              onToggle: () =>
-                                setExpanded(collector, !isExpanded(collector)),
-                            }
-                          : undefined
-                      }
-                      style={{ paddingLeft: 0 }}
-                    />
-                  ) : (
-                    <Td />
-                  )}
-                  <Td dataLabel="Name">{collector.name}</Td>
-                  <Td dataLabel="Status">{collector.status}</Td>
-                  <Td dataLabel="Last upload">
-                    {collector.updated ? (
-                      <DateFormat date={collector.updated} type="exact" />
-                    ) : (
-                      'N/A'
-                    )}
-                  </Td>
-                </Tr>
-                {collector.details && collector.details.name && (
-                  <Tr isExpanded={isExpanded(collector)}>
-                    <Td />
-                    <Td colSpan={3}>
-                      <ExpandableRowContent>
-                        <Flex>
-                          <FlexItem className="ins-c__flex-row-margin">
-                            {`${collector.details.name}:`}
-                          </FlexItem>
-                          <FlexItem grow={{ default: 'grow' }}>
-                            {collector.details.id ?? 'N/A'}
-                          </FlexItem>
-                        </Flex>
-                      </ExpandableRowContent>
-                    </Td>
-                  </Tr>
-                )}
-              </Tbody>
-            ))}
-      </Table>
-    </LoadingCard>
+      columnModifier="1Col"
+      items={data.map((collector) => ({
+        title: collector.name,
+        value: (
+          <Content component={ContentVariants.ul} isPlainList>
+            <Content component={ContentVariants.li}>
+              {collector.status === 'N/A' ? (
+                <>Status: N/A</>
+              ) : (
+                <>
+                  Status:
+                  <StatusIcon status={collector.status} />
+                  {collector.status}
+                </>
+              )}
+            </Content>
+            {collector.details?.name != null && (
+              <Content component={ContentVariants.li}>
+                {collector.details.name}: {collector.details.id ?? 'N/A'}
+              </Content>
+            )}
+            <Content component={ContentVariants.li}>
+              Last upload:{' '}
+              {collector.updated ? (
+                <DateFormat date={collector.updated} type="exact" />
+              ) : (
+                'N/A'
+              )}
+            </Content>
+          </Content>
+        ),
+      }))}
+    />
   );
 };
 

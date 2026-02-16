@@ -73,7 +73,7 @@ exports[`NetworkInterfacesCard should not render hasFqdn 1`] = `
           >
             <dl
               aria-label="Network interfaces title"
-              class="pf-v6-c-description-list pf-m-1-col"
+              class="pf-v6-c-description-list pf-m-2-col"
               data-ouia-component-id="Network interfaces title"
             >
               <div
@@ -248,7 +248,7 @@ exports[`NetworkInterfacesCard should not render hasIPv4 1`] = `
           >
             <dl
               aria-label="Network interfaces title"
-              class="pf-v6-c-description-list pf-m-1-col"
+              class="pf-v6-c-description-list pf-m-2-col"
               data-ouia-component-id="Network interfaces title"
             >
               <div
@@ -417,7 +417,7 @@ exports[`NetworkInterfacesCard should not render hasIPv6 1`] = `
           >
             <dl
               aria-label="Network interfaces title"
-              class="pf-v6-c-description-list pf-m-1-col"
+              class="pf-v6-c-description-list pf-m-2-col"
               data-ouia-component-id="Network interfaces title"
             >
               <div
@@ -586,7 +586,7 @@ exports[`NetworkInterfacesCard should not render hasInterfaces 1`] = `
           >
             <dl
               aria-label="Network interfaces title"
-              class="pf-v6-c-description-list pf-m-1-col"
+              class="pf-v6-c-description-list pf-m-2-col"
               data-ouia-component-id="Network interfaces title"
             >
               <div
