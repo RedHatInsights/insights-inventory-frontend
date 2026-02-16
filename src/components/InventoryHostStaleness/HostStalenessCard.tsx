@@ -52,23 +52,27 @@ const HostStalenessCard = ({
   const [isResetToDefault, setIsResetToDefault] = useState(false);
   const addNotification = useAddNotification();
 
-  const handleModalToggle = () => {
+  const onModalToggle = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  //Cancel button when a user opts out of saving changes
-  const resetToOriginalValues = () => {
+  const onCancel = () => {
     setStaleness(lastSavedStaleness);
     setIsEditing(!isEditing);
   };
-  //On save Button
-  const saveHostData = async () => {
+
+  const onEdit = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const onSave = async () => {
     let apiData: Staleness = {};
     hostStalenessApiKeys.forEach(
       (apiKey) =>
         staleness[apiKey] &&
         (apiData[apiKey] = daysToSecondsConversion(staleness[apiKey], apiKey)),
     );
+
     // system_default means the account has no record, therefor, post for new instance of record.
     if (lastSavedStaleness.id === 'system_default') {
       postStalenessData(apiData)
@@ -199,9 +203,7 @@ const HostStalenessCard = ({
                 <Button
                   variant="link"
                   role="button"
-                  onClick={() => {
-                    setIsEditing(!isEditing);
-                  }}
+                  onClick={onEdit}
                   ouiaId="edit-staleness-setting"
                   isDisabled={isEditing}
                 >
@@ -231,7 +233,7 @@ const HostStalenessCard = ({
                 <Button
                   className="pf-v6-u-mt-md"
                   size={'sm'}
-                  onClick={() => handleModalToggle()}
+                  onClick={onModalToggle}
                   isDisabled={!isFormValid}
                 >
                   Save
@@ -240,15 +242,14 @@ const HostStalenessCard = ({
                   className="pf-v6-u-mt-md"
                   size={'sm'}
                   variant="link"
-                  //CancelButton when a user opts out of saving changes
-                  onClick={() => resetToOriginalValues()}
+                  onClick={onCancel}
                 >
                   Cancel
                 </Button>
                 <Modal
                   variant="small"
                   isOpen={isModalOpen}
-                  onClose={handleModalToggle}
+                  onClose={onModalToggle}
                   ouiaId="BasicModal"
                 >
                   <ModalHeader
@@ -261,18 +262,10 @@ const HostStalenessCard = ({
                     deleted as a result.
                   </ModalBody>
                   <ModalFooter>
-                    <Button
-                      key="confirm"
-                      variant="primary"
-                      onClick={saveHostData}
-                    >
+                    <Button key="confirm" variant="primary" onClick={onSave}>
                       Update
                     </Button>
-                    <Button
-                      key="cancel"
-                      variant="link"
-                      onClick={handleModalToggle}
-                    >
+                    <Button key="cancel" variant="link" onClick={onModalToggle}>
                       Cancel
                     </Button>
                   </ModalFooter>
