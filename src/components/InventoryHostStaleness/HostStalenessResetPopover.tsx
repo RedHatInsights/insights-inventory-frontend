@@ -27,9 +27,10 @@ export const HostStalenessResetPopover = () => {
       }
     >
       <Button
-        icon={<OutlinedQuestionCircleIcon className="pf-v6-u-ml-md" />}
+        icon={<OutlinedQuestionCircleIcon />}
+        className="pf-v6-u-ml-sm"
         variant="plain"
-        aria-label="Organization level popover"
+        aria-label="Reset to system default"
         style={{ padding: 0 }}
       />
     </Popover>
