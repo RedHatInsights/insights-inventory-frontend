@@ -56,7 +56,7 @@ const HostStalenessSettings = ({
                 variant="link"
                 role="button"
                 onClick={() => resetToDefault()}
-                style={{ padding: '0' }}
+                isInline
                 ouiaId="reset-to-default"
                 isDisabled={isStalenessDefault}
               >
