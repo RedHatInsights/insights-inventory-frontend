@@ -6,7 +6,6 @@ import {
 
 export interface DataViewTextFilterWitChipTitleProps
   extends DataViewTextFilterProps {
-  /** Custom chip title */
   chipTitle?: string;
 }
 
