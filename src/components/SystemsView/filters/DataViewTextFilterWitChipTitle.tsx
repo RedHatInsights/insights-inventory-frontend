@@ -4,15 +4,15 @@ import {
   DataViewTextFilterProps,
 } from '@patternfly/react-data-view';
 
-export interface DataViewTextFilterWitChipTitleProps
+export interface DataViewTextFilterWithChipTitleProps
   extends DataViewTextFilterProps {
   chipTitle?: string;
 }
 
-export const DataViewTextFilterWitChipTitle: FC<
-  DataViewTextFilterWitChipTitleProps
+export const DataViewTextFilterWithChipTitle: FC<
+  DataViewTextFilterWithChipTitleProps
 > = ({ chipTitle, title, ...props }) => {
   return <DataViewTextFilter title={chipTitle || title} {...props} />;
 };
 
-export default DataViewTextFilterWitChipTitle;
+export default DataViewTextFilterWithChipTitle;

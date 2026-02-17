@@ -7,7 +7,7 @@ import {
 } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import { DataViewCustomFilter } from './DataViewCustomFilter';
 import WorkspaceFilter from './WorkspaceFilter';
-import DataViewTextFilterWitChipTitle from './DataViewTextFilterWitChipTitle';
+import DataViewTextFilterWithChipTitle from './DataViewTextFilterWithChipTitle';
 import LastSeenFilter, { LastSeenFilterItem } from './LastSeenFilter';
 import { ToolbarLabel } from '@patternfly/react-core';
 import LastSeenFilterExtension from './LastSeenFilterExtension';
@@ -45,7 +45,7 @@ export const SystemsViewFilters = ({
         }}
         values={filters}
       >
-        <DataViewTextFilterWitChipTitle
+        <DataViewTextFilterWithChipTitle
           filterId="name"
           title="Name"
           chipTitle="Display name"
