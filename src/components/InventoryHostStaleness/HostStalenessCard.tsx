@@ -18,6 +18,7 @@ import {
   daysToSecondsConversion,
   HostStalenessApiKey,
   hostStalenessApiKeys,
+  omitId,
   secondsToDaysConversion,
 } from './constants';
 import {
@@ -30,7 +31,7 @@ import { useAddNotification } from '@redhat-cloud-services/frontend-components-n
 import { updateStaleness } from '../../api/hostInventoryApi';
 import { StalenessOutput } from '@redhat-cloud-services/host-inventory-client';
 import { HostStalenessPopover } from './HostStalenessPopover';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 
 interface HostStalenessCardProps {
   canModifyHostStaleness: boolean;
@@ -50,10 +51,16 @@ const HostStalenessCard = ({
   const [isStalenessValid, setIsStalenessValid] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [defaultStaleness, setDefaultStaleness] = useState<Staleness>({});
-  const [isResetToDefault, setIsResetToDefault] = useState(false);
   const addNotification = useAddNotification();
 
-  const isStalenessModified = !isEqual(lastSavedStaleness, staleness);
+  const isStalenessModified = !isEqual(
+    omitId(lastSavedStaleness),
+    omitId(staleness),
+  );
+  const isStalenessDefault = isEqual(
+    omitId(defaultStaleness),
+    omitId(staleness),
+  );
 
   const onModalToggle = () => {
     setIsModalOpen(!isModalOpen);
@@ -76,8 +83,8 @@ const HostStalenessCard = ({
         (apiData[apiKey] = daysToSecondsConversion(staleness[apiKey], apiKey)),
     );
 
-    // system_default means the account has no record, therefor, post for new instance of record.
-    if (lastSavedStaleness.id === 'system_default') {
+    const isSystemDefaultUsed = lastSavedStaleness.id === 'system_default';
+    if (isSystemDefaultUsed) {
       postStalenessData(apiData)
         .then(() => {
           addNotification({
@@ -98,7 +105,7 @@ const HostStalenessCard = ({
             dismissable: true,
           });
         });
-    } else if (isResetToDefault) {
+    } else if (isStalenessDefault) {
       deleteStalenessData()
         .then(() => {
           addNotification({
@@ -108,7 +115,6 @@ const HostStalenessCard = ({
             dismissable: true,
           });
           void fetchApiStalenessData();
-          setIsResetToDefault(false);
           setIsEditing(!isEditing);
           setIsModalOpen(false);
         })
@@ -229,7 +235,7 @@ const HostStalenessCard = ({
               isStalenessValid={isStalenessValid}
               setIsStalenessValid={setIsStalenessValid}
               defaultStaleness={defaultStaleness}
-              setIsResetToDefault={setIsResetToDefault}
+              isStalenessDefault={isStalenessDefault}
             />
             {isEditing && (
               <Flex justifyContent={{ default: 'justifyContentFlexStart' }}>

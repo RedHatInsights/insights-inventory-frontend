@@ -210,3 +210,5 @@ export const formValidation = (
     }
   }
 };
+
+export const omitId = ({ id: _id, ...rest }: Staleness) => rest;

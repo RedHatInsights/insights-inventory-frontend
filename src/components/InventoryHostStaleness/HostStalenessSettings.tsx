@@ -13,7 +13,7 @@ interface StalenessSettingsProps {
   isStalenessValid: boolean;
   setIsStalenessValid: React.Dispatch<React.SetStateAction<boolean>>;
   defaultStaleness: Staleness;
-  setIsResetToDefault: React.Dispatch<React.SetStateAction<boolean>>;
+  isStalenessDefault: boolean;
 }
 
 const HostStalenessSettings = ({
@@ -22,14 +22,11 @@ const HostStalenessSettings = ({
   setStaleness,
   isStalenessValid,
   setIsStalenessValid,
-  defaultStaleness: defaultStaleness,
-  setIsResetToDefault,
+  isStalenessDefault,
+  defaultStaleness,
 }: StalenessSettingsProps) => {
   const resetToDefault = () => {
-    const defaultsForSelectedTab = defaultStaleness;
-
-    setStaleness({ ...staleness, ...defaultsForSelectedTab });
-    setIsResetToDefault(true);
+    setStaleness({ ...staleness, ...defaultStaleness });
   };
 
   return (
@@ -61,6 +58,7 @@ const HostStalenessSettings = ({
                 onClick={() => resetToDefault()}
                 style={{ padding: '0' }}
                 ouiaId="reset-to-default"
+                isDisabled={isStalenessDefault}
               >
                 Reset to default setting
               </Button>

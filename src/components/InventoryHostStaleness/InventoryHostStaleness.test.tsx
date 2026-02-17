@@ -62,7 +62,7 @@ describe('Table Renders', () => {
     menuToggleButtons.forEach((button) => expect(button).toBeEnabled());
 
     await waitFor(() =>
-      expect(screen.getByRole('button', { name: 'Save' })).toBeEnabled(),
+      expect(screen.getByRole('button', { name: 'Save' })).toBeDisabled(),
     );
     await waitFor(() =>
       expect(screen.getByRole('button', { name: 'Cancel' })).toBeEnabled(),
