@@ -116,6 +116,7 @@ const BaseDropdown = ({
                 bodyContent={<div>{modalMessage}</div>}
               >
                 <Button
+                  aria-label={`${title} help`}
                   icon={<OutlinedQuestionCircleIcon />}
                   className="pf-v6-u-ml-xs"
                   variant="plain"
