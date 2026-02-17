@@ -53,7 +53,7 @@ export const conditionalDropdownError = (
     if (formValue >= staleness['conventional_time_to_stale_warning']) {
       return (
         <p
-          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-text-color-status-danger"
           style={{ width: '200px' }}
         >
           Staleness must be before stale warning
@@ -63,7 +63,7 @@ export const conditionalDropdownError = (
     } else if (formValue > staleness['conventional_time_to_delete']) {
       return (
         <p
-          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-text-color-status-danger"
           style={{ width: '200px' }}
         >
           Staleness must be before deletion
@@ -78,7 +78,7 @@ export const conditionalDropdownError = (
     if (formValue >= staleness['conventional_time_to_delete']) {
       return (
         <p
-          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-text-color-status-danger"
           style={{ width: '200px' }}
         >
           Stale warning must be before deletion
@@ -88,7 +88,7 @@ export const conditionalDropdownError = (
     } else if (formValue < staleness['conventional_time_to_stale']) {
       return (
         <p
-          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-text-color-status-danger"
           style={{ width: '200px' }}
         >
           Stale warning must be after staleness
@@ -107,7 +107,7 @@ export const conditionalDropdownError = (
     if (formValue < staleness['conventional_time_to_stale_warning']) {
       return (
         <p
-          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-text-color-status-danger"
           style={{ width: '200px' }}
         >
           Deletion must be after staleness
@@ -117,7 +117,7 @@ export const conditionalDropdownError = (
     } else if (formValue < staleness['conventional_time_to_stale']) {
       return (
         <p
-          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-text-color-status-danger"
           style={{ width: '200px' }}
         >
           Deletion must be after stale warning
