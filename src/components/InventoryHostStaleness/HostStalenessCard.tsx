@@ -63,16 +63,16 @@ const HostStalenessCard = ({
   );
 
   const onModalToggle = () => {
-    setIsModalOpen(!isModalOpen);
+    setIsModalOpen((prev) => !prev);
   };
 
   const onCancel = () => {
     setStaleness(lastSavedStaleness);
-    setIsEditing(!isEditing);
+    setIsEditing((prev) => !prev);
   };
 
   const onEdit = () => {
-    setIsEditing(!isEditing);
+    setIsEditing((prev) => !prev);
   };
 
   const onSave = async () => {
@@ -94,7 +94,7 @@ const HostStalenessCard = ({
             dismissable: true,
           });
           void fetchApiStalenessData();
-          setIsEditing(!isEditing);
+          setIsEditing((prev) => !prev);
           setIsModalOpen(false);
         })
         .catch(() => {
@@ -115,7 +115,7 @@ const HostStalenessCard = ({
             dismissable: true,
           });
           void fetchApiStalenessData();
-          setIsEditing(!isEditing);
+          setIsEditing((prev) => !prev);
           setIsModalOpen(false);
         })
         .catch(() => {
