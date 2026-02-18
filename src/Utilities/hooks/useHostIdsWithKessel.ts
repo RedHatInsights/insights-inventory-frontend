@@ -1,13 +1,12 @@
 import { useMemo } from 'react';
 import {
   useSelfAccessCheck,
-  type NotEmptyArray,
   type SelfAccessCheckResourceWithRelation,
 } from '@project-kessel/react-kessel-access-check';
+import { type BulkSelfAccessCheckNestedRelationsParams } from '@project-kessel/react-kessel-access-check/types';
 import { useKesselMigrationFeatureFlag } from './useKesselMigrationFeatureFlag';
 import {
   HOST_RESOURCE_TYPE,
-  PLACEHOLDER_ID,
   HOST_RESOURCE_TYPE_UPDATE,
   HOST_RESOURCE_TYPE_DELETE,
 } from '../../constants';
@@ -49,27 +48,23 @@ export const useHostIdsWithKessel = (hosts: System[] | undefined) => {
       .filter((id): id is string => typeof id === 'string' && id.length > 0);
   }, [isKesselEnabled, hosts]);
 
-  // Single bulk check with edit + delete per host (nested relations); placeholder when no hosts.
-  const resources =
-    useMemo((): NotEmptyArray<SelfAccessCheckResourceWithRelation> => {
-      const ids = hostIds.length > 0 ? hostIds : [PLACEHOLDER_ID];
-      const items = ids.flatMap((id) => [
-        {
-          id,
-          type: HOST_RESOURCE_TYPE,
-          relation: HOST_RESOURCE_TYPE_UPDATE,
-          reporter: REPORTER,
-        },
-        {
-          id,
-          type: HOST_RESOURCE_TYPE,
-          relation: HOST_RESOURCE_TYPE_DELETE,
-          reporter: REPORTER,
-        },
-      ]);
-      // flatMap returns T[]; NotEmptyArray is [T, ...T[]]. We always pass at least one id (PLACEHOLDER_ID), so items is non-empty.
-      return items as unknown as NotEmptyArray<SelfAccessCheckResourceWithRelation>;
-    }, [hostIds]);
+  // Single bulk check with edit + delete per host (nested relations). Empty when no hosts.
+  const resources = useMemo(() => {
+    return hostIds.flatMap((id: string) => [
+      {
+        id,
+        type: HOST_RESOURCE_TYPE,
+        relation: HOST_RESOURCE_TYPE_UPDATE,
+        reporter: REPORTER,
+      },
+      {
+        id,
+        type: HOST_RESOURCE_TYPE,
+        relation: HOST_RESOURCE_TYPE_DELETE,
+        reporter: REPORTER,
+      },
+    ]);
+  }, [hostIds]);
 
   const {
     data: checks,
@@ -77,7 +72,7 @@ export const useHostIdsWithKessel = (hosts: System[] | undefined) => {
     error: permissionsError,
   } = useSelfAccessCheck({
     resources,
-  });
+  } as BulkSelfAccessCheckNestedRelationsParams);
 
   const permissionsByHostId = useMemo(() => {
     const map = new Map<string, HostPermissions>();
@@ -89,7 +84,7 @@ export const useHostIdsWithKessel = (hosts: System[] | undefined) => {
     for (const check of checks) {
       const id = check.resource?.id;
 
-      if (!id || id === PLACEHOLDER_ID) {
+      if (!id) {
         continue;
       }
 

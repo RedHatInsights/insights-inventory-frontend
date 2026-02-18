@@ -320,6 +320,5 @@ export const TAB_REQUIRED_PERMISSIONS = {
 
 export const KESSEL_API_PATH = '/api/kessel/v1beta2';
 export const HOST_RESOURCE_TYPE = 'host';
-export const PLACEHOLDER_ID = '__no_hosts__';
 export const HOST_RESOURCE_TYPE_UPDATE = 'update';
 export const HOST_RESOURCE_TYPE_DELETE = 'delete';
