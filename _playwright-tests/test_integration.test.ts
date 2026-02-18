@@ -53,6 +53,14 @@ test.describe('Inventory federated modules check @integration', () => {
         logs,
         `Found ${logs.length} critical console errors on ${service.name}`,
       ).toHaveLength(0);
+
+      // eslint-disable-next-line playwright/no-conditional-in-test
+      if (service.name === 'Remediation Plan') {
+        await page.getByLabel('SystemsTab').click();
+      }
+      await expect(
+        page.locator('[data-ouia-component-id="systems-table"]'),
+      ).toBeVisible({ timeout: 10000 });
     });
   }
 });

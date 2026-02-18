@@ -1,4 +1,4 @@
-name: 'Test: E2E Full Suite'
+name: 'E2E: Full Test Suite'
 
 on:
   pull_request:
