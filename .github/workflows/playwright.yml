@@ -1,4 +1,4 @@
-name: build-playwright-test
+name: 'Test: E2E Full Suite'
 
 on:
   pull_request:
@@ -11,6 +11,7 @@ concurrency:
 
 jobs:
   playwright-tests:
+    name: 'E2E User Journeys'
     runs-on:
       - codebuild-host-inventory-frontend-${{ github.run_id }}-${{ github.run_attempt }}
       - instance-size:large
@@ -82,7 +83,7 @@ jobs:
           npx wait-on http://localhost:8003/apps/inventory/
 
       - name: Run front-end Playwright tests
-        run: USE_CTRF=1 CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test
+        run: USE_CTRF=1 CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test --grep-invert @integration
 
       - name: Publish front-end Test Report
         uses: ctrf-io/github-test-reporter@v1
