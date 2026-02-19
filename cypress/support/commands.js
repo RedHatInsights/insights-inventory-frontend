@@ -33,6 +33,8 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { mount } from 'cypress/react';
 import { RBACProvider } from '@redhat-cloud-services/frontend-components/RBACProvider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AccessCheck } from '@project-kessel/react-kessel-access-check';
+import { KESSEL_API_PATH } from '../../src/constants';
 
 Cypress.Commands.add('mountWithContext', (Component, options = {}, props) => {
   const { path, routerProps = { initialEntries: ['/'] } } = options;
@@ -49,17 +51,22 @@ Cypress.Commands.add('mountWithContext', (Component, options = {}, props) => {
     >
       <QueryClientProvider client={queryClient}>
         <Provider store={getStore()}>
-          <MemoryRouter {...routerProps}>
-            <RBACProvider appName="inventory" checkResourceDefinitions>
-              {path ? (
-                <Routes>
-                  <Route path={options.path} element={<Component {...props} />} />
-                </Routes>
-              ) : (
-                <Component {...props} />
-              )}
-            </RBACProvider>
-          </MemoryRouter>
+          <AccessCheck.Provider
+            baseUrl={typeof window !== 'undefined' ? window.location.origin : ''}
+            apiPath={KESSEL_API_PATH}
+          >
+            <MemoryRouter {...routerProps}>
+              <RBACProvider appName="inventory" checkResourceDefinitions>
+                {path ? (
+                  <Routes>
+                    <Route path={options.path} element={<Component {...props} />} />
+                  </Routes>
+                ) : (
+                  <Component {...props} />
+                )}
+              </RBACProvider>
+            </MemoryRouter>
+          </AccessCheck.Provider>
         </Provider>
       </QueryClientProvider>
     </FlagProvider>,

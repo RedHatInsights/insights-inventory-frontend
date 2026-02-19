@@ -26,6 +26,7 @@ import { SystemsViewBulkActions } from './SystemsViewBulkActions';
 import { useBulkSelect } from './hooks/useBulkSelect';
 import { useRows } from './hooks/useRows';
 import AccessDenied from '../../Utilities/AccessDenied';
+import { useHostIdsWithKessel } from '../../Utilities/hooks/useHostIdsWithKessel';
 import './SystemsView.scss';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import { ISortBy } from '@patternfly/react-table';
@@ -111,14 +112,18 @@ const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
     enabled: hasAccess,
   });
 
+  const { hostsWithPermissions } = useHostIdsWithKessel(data);
+  const dataWithPermissions = hostsWithPermissions;
+
   const { rows } = useRows({
-    data,
+    data: dataWithPermissions,
     renderableColumns,
   });
 
   const selectedIds = selected.map(({ id }) => id);
   const selectedSystems =
-    data?.filter(({ id }) => id && selectedIds.includes(id)) || [];
+    dataWithPermissions?.filter(({ id }) => id && selectedIds.includes(id)) ||
+    [];
 
   const activeState =
     isLoading || isFetching
