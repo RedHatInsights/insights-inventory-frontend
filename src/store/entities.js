@@ -184,13 +184,17 @@ function entitiesLoaded(
     meta,
   },
 ) {
-  // Older requests should not rewrite the state
-  if (meta.lastDateRequest < state.lastDateRequest) {
+  // Older requests should not rewrite the state (meta is absent for UPDATE_ENTITIES)
+  if (meta != null && meta.lastDateRequest < state.lastDateRequest) {
     return state;
   }
 
-  // Data are loaded and APi returned malicious data
-  if (loaded === undefined && (page === undefined || perPage === undefined)) {
+  // Data are loaded and API returned malicious data (skip for UPDATE_ENTITIES, which has no meta)
+  if (
+    meta != null &&
+    loaded === undefined &&
+    (page === undefined || perPage === undefined)
+  ) {
     return state;
   }
 

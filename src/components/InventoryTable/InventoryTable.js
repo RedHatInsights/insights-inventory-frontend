@@ -16,8 +16,13 @@ import Pagination from './Pagination';
 import AccessDenied from '../../Utilities/AccessDenied';
 import { loadSystems } from '../../Utilities/sharedFunctions';
 import isEqual from 'lodash/isEqual';
-import { clearErrors, entitiesLoading } from '../../store/actions';
+import {
+  clearErrors,
+  entitiesLoading,
+  updateEntities,
+} from '../../store/actions';
 import cloneDeep from 'lodash/cloneDeep';
+import { useHostIdsWithKessel } from '../../Utilities/hooks/useHostIdsWithKessel';
 import { ACTION_TYPES } from '../../store/action-types';
 // import { AccountStatContext } from '../../Contexts';
 
@@ -92,6 +97,18 @@ const InventoryTable = forwardRef(
     ref,
   ) => {
     const hasItems = Boolean(items);
+    const rows = useSelector(
+      ({ entities: { rows: invRows } }) => invRows ?? [],
+      shallowEqual,
+    );
+    const currentHosts = hasItems ? (items ?? []) : rows;
+    const {
+      hostsWithPermissions,
+      hostIds,
+      isKesselEnabled,
+      permissionsLoading,
+    } = useHostIdsWithKessel(currentHosts);
+    // Host data the table uses (rows from Redux include permissions after Kessel dispatch)
     const error = useSelector(({ entities }) => entities?.error);
     const page = useSelector(
       ({ entities: { page: invPage } }) =>
@@ -161,6 +178,17 @@ const InventoryTable = forwardRef(
     const dispatch = useDispatch();
     const store = useStore();
 
+    // Only run when the set of host ids or permission loading state changes, not when
+    // hostsWithPermissions gets a new reference (e.g. after we dispatch and rows update).
+    const hostIdsKey = hostIds.length > 0 ? hostIds.join(',') : '';
+    useEffect(() => {
+      if (!isKesselEnabled || hasItems || !hostsWithPermissions?.length) {
+        return;
+      }
+      dispatch(updateEntities(hostsWithPermissions));
+      // Intentionally omit hostsWithPermissions to avoid dispatch loop (see comment above).
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch, isKesselEnabled, hasItems, hostIdsKey, permissionsLoading]);
     useEffect(() => {
       return () => {
         if (abortOnUnmount) controller.current.abort();

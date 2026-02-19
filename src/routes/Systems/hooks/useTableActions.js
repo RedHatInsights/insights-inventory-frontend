@@ -17,6 +17,7 @@ const useTableActions = (
   setRemoveHostsFromGroupModalOpen,
   setAddHostGroupModalOpen,
   setIsRowAction,
+  isKesselEnabled = false,
 ) => {
   return useCallback(
     ({ item }) => {
@@ -83,6 +84,11 @@ const useTableActions = (
                 ),
               ]}
               noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
+              override={
+                isKesselEnabled
+                  ? (item.permissions?.hasUpdate ?? false)
+                  : undefined
+              }
             >
               Edit display name
             </ActionDropdownItem>
@@ -103,6 +109,11 @@ const useTableActions = (
                 ),
               ]}
               noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
+              override={
+                isKesselEnabled
+                  ? (item.permissions?.hasDelete ?? false)
+                  : undefined
+              }
             >
               Delete from inventory
             </ActionDropdownItem>
@@ -117,6 +128,7 @@ const useTableActions = (
       setCurrentSystem,
       setIsRowAction,
       setRemoveHostsFromGroupModalOpen,
+      isKesselEnabled,
     ],
   );
 };

@@ -16,6 +16,7 @@ import useInventoryExport from '../../components/InventoryTable/hooks/useInvento
 
 import useTableActions from './hooks/useTableActions';
 import useDeleteSystems from './hooks/useDeleteSystems';
+import { useKesselMigrationFeatureFlag } from '../../Utilities/hooks/useKesselMigrationFeatureFlag';
 import useToolbarActions from './hooks/useToolbarActions';
 import useEditDisplayName from './hooks/useEditDisplayName';
 import LastSeenFilterExtension from './components/SystemsTable/components/filters/LastSeenFilterExtension';
@@ -78,6 +79,7 @@ const Systems = () => {
     resetSelection,
   );
 
+  const isKesselEnabled = useKesselMigrationFeatureFlag();
   const tableActions = useTableActions(
     setCurrentSystem,
     onEditModalOpen,
@@ -85,6 +87,7 @@ const Systems = () => {
     setRemoveHostsFromGroupModalOpen,
     setAddHostGroupModalOpen,
     setIsRowAction,
+    isKesselEnabled,
   );
 
   return (

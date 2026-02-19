@@ -1,11 +1,11 @@
 import { DataViewTrObject } from '@patternfly/react-data-view';
-import { System } from './useSystemsQuery';
 import React from 'react';
 import SystemsViewRowActions from '../SystemsViewRowActions';
 import { RenderableColumn } from './useColumns';
+import { SystemWithPermissions } from '../../../Utilities/hooks/useHostIdsWithKessel';
 
 interface UseRowsParams {
-  data?: System[];
+  data?: SystemWithPermissions[];
   renderableColumns: RenderableColumn[];
 }
 
@@ -17,7 +17,7 @@ export const useRows = ({
   data,
   renderableColumns,
 }: UseRowsParams): UseRowsReturnValue => {
-  const mapSystemToRow = (system: System): DataViewTrObject => {
+  const mapSystemToRow = (system: SystemWithPermissions): DataViewTrObject => {
     const selectableColumnCells = renderableColumns
       .filter((col) => col.isShown)
       .map((col) => col.renderCell(system));

@@ -32,6 +32,7 @@ import useTableActions from './useTableActions';
 import useGlobalFilter from '../../filters/useGlobalFilter';
 import useOnRefresh from '../../filters/useOnRefresh';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
+import { useKesselMigrationFeatureFlag } from '../../../Utilities/hooks/useKesselMigrationFeatureFlag';
 import { AccountStatContext } from '../../../Contexts';
 import { INVENTORY_COLUMNS } from '../../../store/constants';
 import { DEFAULT_COLUMNS } from '../../../store/entities';
@@ -116,6 +117,7 @@ const ConventionalSystemsTab = ({
     loaded,
   );
   const isExportEnabled = useFeatureFlag('hbi.export-data');
+  const isKesselEnabled = useKesselMigrationFeatureFlag();
 
   const onRefresh = useOnRefresh((options) => {
     onSetfilters(options?.filters);
@@ -155,6 +157,7 @@ const ConventionalSystemsTab = ({
     handleModalToggle,
     setRemoveHostsFromGroupModalOpen,
     setAddHostGroupModalOpen,
+    isKesselEnabled,
   );
 
   const isBootcEnabled = useFeatureFlag('hbi.ui.bifrost');
