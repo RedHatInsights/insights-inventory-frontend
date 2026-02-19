@@ -56,7 +56,8 @@ export const HostStalenessPopover = () => {
       }
     >
       <Button
-        icon={<OutlinedQuestionCircleIcon className="pf-v6-u-ml-sm" />}
+        icon={<OutlinedQuestionCircleIcon />}
+        className="pf-v6-u-ml-sm"
         variant="plain"
         aria-label="Organization level popover"
         style={{ padding: 0 }}

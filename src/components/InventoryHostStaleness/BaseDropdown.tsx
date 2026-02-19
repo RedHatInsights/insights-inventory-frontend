@@ -33,8 +33,8 @@ interface BaseDropdownProps {
   staleness: Staleness;
   setStaleness: React.Dispatch<React.SetStateAction<Staleness>>;
   modalMessage?: string;
-  isFormValid: boolean;
-  setIsFormValid: React.Dispatch<React.SetStateAction<boolean>>;
+  isStalenessValid: boolean;
+  setIsStalenessValid: React.Dispatch<React.SetStateAction<boolean>>;
   ouiaId?: string;
 }
 
@@ -47,8 +47,8 @@ const BaseDropdown = ({
   staleness,
   setStaleness,
   modalMessage,
-  isFormValid,
-  setIsFormValid,
+  isStalenessValid,
+  setIsStalenessValid,
   ouiaId,
 }: BaseDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -68,8 +68,8 @@ const BaseDropdown = ({
 
   useEffect(() => {
     setSelected(currentItem);
-    formValidation(staleness, setIsFormValid);
-  }, [currentItem, staleness, setIsFormValid]);
+    formValidation(staleness, setIsStalenessValid);
+  }, [currentItem, staleness, setIsStalenessValid]);
 
   const onToggleClick = () => {
     setIsOpen(!isOpen);
@@ -91,7 +91,7 @@ const BaseDropdown = ({
         style={{
           width: '200px',
         }}
-        status={isFormValid ? undefined : 'danger'}
+        status={isStalenessValid ? undefined : 'danger'}
         ouiaId={ouiaId}
       >
         {getNameByValue(selected)}

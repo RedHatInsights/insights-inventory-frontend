@@ -10,26 +10,23 @@ interface StalenessSettingsProps {
   staleness: Staleness;
   setStaleness: React.Dispatch<React.SetStateAction<Staleness>>;
   isEditing: boolean;
-  isFormValid: boolean;
-  setIsFormValid: React.Dispatch<React.SetStateAction<boolean>>;
+  isStalenessValid: boolean;
+  setIsStalenessValid: React.Dispatch<React.SetStateAction<boolean>>;
   defaultStaleness: Staleness;
-  setIsResetToDefault: React.Dispatch<React.SetStateAction<boolean>>;
+  isStalenessDefault: boolean;
 }
 
 const HostStalenessSettings = ({
   isEditing,
   staleness,
   setStaleness,
-  isFormValid,
-  setIsFormValid,
-  defaultStaleness: defaultStaleness,
-  setIsResetToDefault,
+  isStalenessValid,
+  setIsStalenessValid,
+  isStalenessDefault,
+  defaultStaleness,
 }: StalenessSettingsProps) => {
-  const resetToStandard = () => {
-    const defaultsForSelectedTab = defaultStaleness;
-
-    setStaleness({ ...staleness, ...defaultsForSelectedTab });
-    setIsResetToDefault(true);
+  const resetToDefault = () => {
+    setStaleness({ ...staleness, ...defaultStaleness });
   };
 
   return (
@@ -47,8 +44,8 @@ const HostStalenessSettings = ({
               staleness={staleness}
               setStaleness={setStaleness}
               modalMessage={field.modalMessage}
-              isFormValid={isFormValid}
-              setIsFormValid={setIsFormValid}
+              isStalenessValid={isStalenessValid}
+              setIsStalenessValid={setIsStalenessValid}
             />
           </FlexItem>
         ))}
@@ -58,9 +55,10 @@ const HostStalenessSettings = ({
               <Button
                 variant="link"
                 role="button"
-                onClick={() => resetToStandard()}
-                style={{ padding: '0' }}
+                onClick={() => resetToDefault()}
+                isInline
                 ouiaId="reset-to-default"
+                isDisabled={isStalenessDefault}
               >
                 Reset to default setting
               </Button>

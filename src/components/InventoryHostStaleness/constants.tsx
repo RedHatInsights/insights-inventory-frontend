@@ -53,20 +53,20 @@ export const conditionalDropdownError = (
     if (formValue >= staleness['conventional_time_to_stale_warning']) {
       return (
         <p
-          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-text-color-status-danger"
           style={{ width: '200px' }}
         >
-          Staleness must be before stale warning
+          Error: Staleness must be before stale warning
         </p>
       );
       //@ts-expect-error FIXME factor out undefined values
     } else if (formValue > staleness['conventional_time_to_delete']) {
       return (
         <p
-          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-text-color-status-danger"
           style={{ width: '200px' }}
         >
-          Staleness must be before deletion
+          Error: Staleness must be before deletion
         </p>
       );
     } else {
@@ -78,20 +78,20 @@ export const conditionalDropdownError = (
     if (formValue >= staleness['conventional_time_to_delete']) {
       return (
         <p
-          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-text-color-status-danger"
           style={{ width: '200px' }}
         >
-          Stale warning must be before deletion
+          Error: Stale warning must be before deletion
         </p>
       );
       //@ts-expect-error FIXME factor out undefined values
     } else if (formValue < staleness['conventional_time_to_stale']) {
       return (
         <p
-          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-text-color-status-danger"
           style={{ width: '200px' }}
         >
-          Stale warning must be after staleness
+          Error: Stale warning must be after staleness
         </p>
       );
     } else {
@@ -107,20 +107,20 @@ export const conditionalDropdownError = (
     if (formValue < staleness['conventional_time_to_stale_warning']) {
       return (
         <p
-          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-text-color-status-danger"
           style={{ width: '200px' }}
         >
-          Deletion must be after staleness
+          Error: Deletion must be after staleness
         </p>
       );
       //@ts-expect-error FIXME factor out undefined values
     } else if (formValue < staleness['conventional_time_to_stale']) {
       return (
         <p
-          className="pf-v6-u-font-size-sm pf-v6-u-danger-color-100"
+          className="pf-v6-u-font-size-sm pf-v6-u-text-color-status-danger"
           style={{ width: '200px' }}
         >
-          Deletion must be after stale warning
+          Error: Deletion must be after stale warning
         </p>
       );
     } else {
@@ -210,3 +210,5 @@ export const formValidation = (
     }
   }
 };
+
+export const omitId = ({ id: _id, ...rest }: Staleness) => rest;
