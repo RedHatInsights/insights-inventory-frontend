@@ -30,8 +30,7 @@ test('User can apply custom Staleness setting', async ({ page }) => {
 
   await test.step('Apply custom staleness setting', async () => {
     await editButton.click();
-    // while editing setting 'Edit' button should be disbaled
-    await expect(editButton).toBeDisabled();
+    await expect(editButton).toBeHidden();
 
     await freshMenu.click();
     await page.getByRole('option', { name: customDateSettings.fresh }).click();
@@ -70,7 +69,7 @@ test('User can apply custom Staleness setting', async ({ page }) => {
   });
 
   await test.step('Verify default setting is applied', async () => {
-    await expect(editButton).toBeEnabled();
+    await expect(editButton).toBeVisible();
     await expect(freshMenu).toHaveText(defaultDateSettings.fresh);
     await expect(staleMenu).toHaveText(defaultDateSettings.stale);
     await expect(deletionMenu).toHaveText(defaultDateSettings.deletion);

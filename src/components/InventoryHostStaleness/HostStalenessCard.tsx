@@ -214,7 +214,7 @@ const HostStalenessCard = ({
                   role="button"
                   onClick={onEdit}
                   ouiaId="edit-staleness-setting"
-                  isDisabled={isEditing}
+                  style={isEditing ? { visibility: 'hidden' } : {}}
                 >
                   Edit
                 </Button>
