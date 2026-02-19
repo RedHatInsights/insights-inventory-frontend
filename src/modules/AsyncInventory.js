@@ -8,8 +8,9 @@ import * as storeMod from '../store/redux';
 import * as utils from '../Utilities/index';
 import * as apiMod from '../api/index';
 import RenderWrapper from '../Utilities/Wrapper';
+import { AccessCheck } from '@project-kessel/react-kessel-access-check';
+import { KESSEL_API_PATH } from '../constants';
 const { mergeWithDetail, ...rest } = storeMod;
-
 const queryClient = new QueryClient();
 
 const AsyncInventory = ({ component, onLoad, store, innerRef, ...props }) => {
@@ -38,9 +39,14 @@ const AsyncInventory = ({ component, onLoad, store, innerRef, ...props }) => {
 
   // Skipping RBACProvider caused InventoryTable not to load in other apps
   return (
-    <RBACProvider appName="inventory" checkResourceDefinitions>
-      {content}
-    </RBACProvider>
+    <AccessCheck.Provider
+      baseUrl={typeof window !== 'undefined' ? window.location.origin : ''}
+      apiPath={KESSEL_API_PATH}
+    >
+      <RBACProvider appName="inventory" checkResourceDefinitions>
+        {content}
+      </RBACProvider>
+    </AccessCheck.Provider>
   );
 };
 
