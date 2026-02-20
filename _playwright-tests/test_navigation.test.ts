@@ -7,8 +7,6 @@ import {
 } from './helpers/uploadArchive';
 
 test.describe('Navigate to Inventory pages via side Navigation bar', () => {
-  const setupBootcResult = prepareSingleSystem(BOOTC_ARCHIVE);
-
   test.beforeEach(async ({ page }) => {
     await page.goto('/insights/inventory/');
     await page.locator('[data-quickstart-id="Inventory"]').isVisible();
@@ -36,6 +34,7 @@ test.describe('Navigate to Inventory pages via side Navigation bar', () => {
   test('User can switch to the Images view in Inventory page', async ({
     page,
   }) => {
+    const setupBootcResult = prepareSingleSystem(BOOTC_ARCHIVE);
     const systemsPageNav = page
       .locator('li[data-ouia-component-id="Systems"]')
       .locator('a[data-quickstart-id="insights_inventory"]');
