@@ -1,5 +1,19 @@
 import { expect } from '@playwright/test';
 import { test, navigateToStalenessPageFunc } from './helpers/navHelpers';
+import { deleteStaleness } from './helpers/apiHelpers';
+import axios from 'axios';
+
+test.beforeEach(async () => {
+  try {
+    await deleteStaleness();
+  } catch (err) {
+    if (axios.isAxiosError(err) && err.response?.status === 404) {
+      // staleness already deleted
+    } else {
+      throw err;
+    }
+  }
+});
 
 test('User can apply custom Staleness setting', async ({ page }) => {
   await test.step('Navigate to Staleness and Deletion page', async () => {
