@@ -5,8 +5,11 @@ import * as hostInventoryApi from '../../src/api/hostInventoryApi';
 function getPlaywrightApiClient(): AxiosInstance {
   const baseURL = process.env.BASE_URL;
   const token = process.env.TOKEN;
-  if (!baseURL || !token) {
-    throw new Error('BASE_URL and TOKEN must be set (run setup first).');
+  if (!baseURL) {
+    throw new Error('BASE_URL must be set (run setup first).');
+  }
+  if (!token) {
+    throw new Error('TOKEN must be set (run setup first).');
   }
   return axios.create({
     baseURL,
@@ -20,8 +23,10 @@ function getPlaywrightApiClient(): AxiosInstance {
   });
 }
 
+const axiosPlaywright = getPlaywrightApiClient();
+
 export const deleteStaleness = async () => {
   return hostInventoryApi.deleteStaleness({
-    options: { axios: getPlaywrightApiClient() },
+    options: { axios: axiosPlaywright },
   });
 };
