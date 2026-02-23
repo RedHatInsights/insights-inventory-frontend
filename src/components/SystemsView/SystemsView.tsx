@@ -32,6 +32,7 @@ import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-s
 import { ISortBy } from '@patternfly/react-table';
 import { ColumnManagementModalProvider } from './ColumnManagementModalContext';
 import { useDebouncedValue } from '../../Utilities/hooks/useDebouncedValue';
+import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
 
 export interface SystemsViewSelection {
   selected: DataViewTrObject[];
@@ -48,8 +49,6 @@ export type onSort = (
 ) => void;
 
 const PER_PAGE = 50;
-const INITIAL_PAGE = 1;
-const NO_HEADER = <></>;
 const DEBOUNCE_TIMEOUT_MS = 300;
 
 interface SystemsViewProps {

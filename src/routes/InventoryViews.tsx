@@ -9,6 +9,7 @@ import { InventoryPopover } from './InventoryComponents/InventoryPopover';
 import { OutageAlert } from '../components/OutageAlert';
 import SystemsViewToggle from '../components/SystemsView/SystemsViewToggle';
 import { AccountStatContext } from '../Contexts';
+import { ImagesView } from '../components/InventoryViews/ImagesView/ImagesView';
 
 interface InventoryViewsProps {
   hasAccess?: boolean;
@@ -44,7 +45,11 @@ const InventoryViews = ({ hasAccess }: InventoryViewsProps) => {
         <OutageAlert />
       </PageHeader>
       <PageSection hasBodyWrapper={false}>
-        {view === 'systems' ? <SystemsView hasAccess={hasAccess} /> : null}
+        {view === 'systems' ? (
+          <SystemsView hasAccess={hasAccess} />
+        ) : (
+          <ImagesView />
+        )}
       </PageSection>
     </>
   );
