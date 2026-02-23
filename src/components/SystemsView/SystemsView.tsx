@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   DataView,
   DataViewTrObject,
@@ -31,6 +31,7 @@ import './SystemsView.scss';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import { ISortBy } from '@patternfly/react-table';
 import { ColumnManagementModalProvider } from './ColumnManagementModalContext';
+import { useDebouncedValue } from '../../Utilities/hooks/useDebouncedValue';
 
 export interface SystemsViewSelection {
   selected: DataViewTrObject[];
@@ -49,6 +50,7 @@ export type onSort = (
 const PER_PAGE = 50;
 const INITIAL_PAGE = 1;
 const NO_HEADER = <></>;
+const DEBOUNCE_TIMEOUT_MS = 300;
 
 interface SystemsViewProps {
   /** When false, shows the no-access state and does not fetch systems. Default true when not provided (e.g. when not wrapped by RenderWrapper). */
@@ -85,6 +87,14 @@ const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
       setSearchParams,
     });
 
+  const debouncedName = useDebouncedValue(filters.name, DEBOUNCE_TIMEOUT_MS);
+  const queryFilters: InventoryFilters = useMemo(() => {
+    return {
+      ...filters,
+      name: debouncedName,
+    };
+  }, [filters, debouncedName]);
+
   const sort = useDataViewSort({
     initialSort: {
       direction: 'desc',
@@ -106,7 +116,7 @@ const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
   const { data, total, isLoading, isFetching, isError } = useSystemsQuery({
     page: pagination.page,
     perPage: pagination.perPage,
-    filters,
+    filters: queryFilters,
     sortBy,
     direction,
     enabled: hasAccess,
