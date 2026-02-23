@@ -371,9 +371,11 @@ test('User can add and remove system from an empty workspace', async ({
 
     await page.locator('[aria-label="Kebab toggle"]').click();
 
-    const removeButton = page.getByRole('menuitem', {
-      name: 'Remove from workspace',
-    });
+    const removeButton = page
+      .getByRole('menuitem', {
+        name: 'Remove from workspace',
+      })
+      .first();
     await expect(removeButton).toBeVisible({ timeout: 5000 });
     await removeButton.click();
 
