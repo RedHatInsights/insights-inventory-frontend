@@ -375,7 +375,7 @@ test('User can add and remove system from an empty workspace', async ({
       .getByRole('menuitem', {
         name: 'Remove from workspace',
       })
-      .first();
+      .nth(1);
     await expect(removeButton).toBeVisible({ timeout: 5000 });
     await removeButton.click();
 
