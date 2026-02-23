@@ -1,19 +1,51 @@
-import React from 'react';
-import { Title } from '@patternfly/react-core';
+import React, { useContext, useState } from 'react';
+import { Flex, FlexItem, PageSection } from '@patternfly/react-core';
 import SystemsView from '../components/SystemsView';
-import { PageHeader } from '@redhat-cloud-services/frontend-components';
+import {
+  PageHeader,
+  PageHeaderTitle,
+} from '@redhat-cloud-services/frontend-components';
+import { InventoryPopover } from './InventoryComponents/InventoryPopover';
+import { OutageAlert } from '../components/OutageAlert';
+import SystemsViewToggle from '../components/SystemsView/SystemsViewToggle';
+import { AccountStatContext } from '../Contexts';
 
 interface InventoryViewsProps {
   hasAccess?: boolean;
 }
 
-const InventoryViews = (props: InventoryViewsProps) => {
+export type View = 'systems' | 'images';
+
+const InventoryViews = ({ hasAccess }: InventoryViewsProps) => {
+  const [view, setView] = useState<View>('systems');
+  const { hasBootcImages } = useContext(AccountStatContext);
+
   return (
     <>
       <PageHeader>
-        <Title headingLevel="h1">Inventory Views (Data View PoC)</Title>
+        <PageHeaderTitle
+          title={
+            <Flex
+              style={{ alignItems: 'center' }}
+              spaceItems={{ default: 'spaceItemsSm' }}
+            >
+              <FlexItem>Systems View</FlexItem>
+              <FlexItem>
+                <InventoryPopover />
+              </FlexItem>
+            </Flex>
+          }
+          actionsContent={
+            hasBootcImages && (
+              <SystemsViewToggle view={view} setView={setView} />
+            )
+          }
+        />
+        <OutageAlert />
       </PageHeader>
-      <SystemsView hasAccess={props.hasAccess} />
+      <PageSection hasBodyWrapper={false}>
+        {view === 'systems' ? <SystemsView hasAccess={hasAccess} /> : null}
+      </PageSection>
     </>
   );
 };
