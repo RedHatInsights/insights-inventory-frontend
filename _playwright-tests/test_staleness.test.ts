@@ -38,7 +38,9 @@ test('User can apply custom Staleness setting', async ({ page }) => {
     await navigateToStalenessPageFunc(page);
   });
 
-  const editButton = page.getByRole('button', { name: 'Edit' });
+  const editButton = page.locator(
+    '[data-ouia-component-id="edit-staleness-setting"]',
+  );
   const saveButton = page.getByRole('button', { name: 'Save' });
   const resetButton = page.getByRole('button', {
     name: 'Reset to default setting',
@@ -79,7 +81,7 @@ test('User can apply custom Staleness setting', async ({ page }) => {
   });
 
   await test.step('Verify new custom setting is applied', async () => {
-    await expect(editButton).toBeEnabled();
+    await expect(editButton).toBeVisible();
     await expect(freshMenu).toHaveText(customDateSettings.fresh);
     await expect(staleMenu).toHaveText(customDateSettings.stale);
     await expect(deletionMenu).toHaveText(customDateSettings.deletion);

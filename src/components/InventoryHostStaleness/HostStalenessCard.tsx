@@ -71,10 +71,6 @@ const HostStalenessCard = ({
     setIsEditing((prev) => !prev);
   };
 
-  const onEdit = () => {
-    setIsEditing((prev) => !prev);
-  };
-
   const onSave = async () => {
     let apiData: Staleness = {};
     hostStalenessApiKeys.forEach(
@@ -212,7 +208,7 @@ const HostStalenessCard = ({
                 <Button
                   variant="link"
                   role="button"
-                  onClick={onEdit}
+                  onClick={() => setIsEditing(true)}
                   ouiaId="edit-staleness-setting"
                   style={isEditing ? { visibility: 'hidden' } : {}}
                 >
