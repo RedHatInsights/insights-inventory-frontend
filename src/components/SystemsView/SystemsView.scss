@@ -2,5 +2,10 @@
   .pf-v6-c-table__tr, .pf-v6-c-table__check {
     vertical-align: middle;
   }
+
+  th:first-child,
+  td:first-child {
+    min-width: var(--pf-t--global--spacer--2xl);
+  }
 }
 
