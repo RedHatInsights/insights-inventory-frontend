@@ -39,6 +39,11 @@ test('User can apply custom Staleness setting', async ({ page }) => {
   });
 
   const editButton = page.getByRole('button', { name: 'Edit' });
+  const saveButton = page.getByRole('button', { name: 'Save' });
+  const resetButton = page.getByRole('button', {
+    name: 'Reset to default setting',
+  });
+
   const freshMenu = page.locator(
     '[data-ouia-component-id="SystemStalenessDropdown"]',
   );
@@ -53,6 +58,8 @@ test('User can apply custom Staleness setting', async ({ page }) => {
   await test.step('Apply custom staleness setting', async () => {
     await editButton.click();
     await expect(editButton).toBeHidden();
+    await expect(saveButton).toBeDisabled();
+    await expect(resetButton).toBeDisabled();
 
     await freshMenu.click();
     await page.getByRole('option', { name: customDateSettings.fresh }).click();
@@ -63,7 +70,7 @@ test('User can apply custom Staleness setting', async ({ page }) => {
       .getByRole('option', { name: customDateSettings.deletion })
       .click();
 
-    await page.getByRole('button', { name: 'Save' }).click();
+    await saveButton.click();
     await expect(dialog).toBeVisible();
     await Promise.all([
       dialog.getByRole('button', { name: 'Update' }).click(),
@@ -80,15 +87,13 @@ test('User can apply custom Staleness setting', async ({ page }) => {
 
   await test.step('Set staleness setting to deafult values', async () => {
     await editButton.click();
-    await page
-      .getByRole('button', { name: 'Reset to default setting' })
-      .click();
+    await resetButton.click();
 
     await expect(freshMenu).toHaveText(defaultDateSettings.fresh);
     await expect(staleMenu).toHaveText(defaultDateSettings.stale);
     await expect(deletionMenu).toHaveText(defaultDateSettings.deletion);
 
-    await page.getByRole('button', { name: 'Save' }).click();
+    await saveButton.click();
     await expect(dialog).toBeVisible();
     await Promise.all([
       dialog.getByRole('button', { name: 'Update' }).click(),
