@@ -1,21 +1,43 @@
 import { expect } from '@playwright/test';
 import { test, navigateToStalenessPageFunc } from './helpers/navHelpers';
+import { deleteStaleness } from './helpers/apiHelpers';
+import axios from 'axios';
+import { Response } from '@playwright/test';
+
+const customDateSettings = {
+  fresh: '5 days',
+  stale: '14 days',
+  deletion: '21 days',
+};
+const defaultDateSettings = {
+  fresh: '1 day',
+  stale: '7 days',
+  deletion: '30 days',
+};
+
+const isStalenessResponse = async (res: Response) => {
+  return (
+    res.url().includes('/account/staleness') && res.request().method() === 'GET'
+  );
+};
+
+test.afterAll(async () => {
+  try {
+    await deleteStaleness();
+  } catch (err) {
+    if (axios.isAxiosError(err) && err.response?.status === 404) {
+      // staleness already deleted
+    } else {
+      console.error(err);
+    }
+  }
+});
 
 test('User can apply custom Staleness setting', async ({ page }) => {
   await test.step('Navigate to Staleness and Deletion page', async () => {
     await navigateToStalenessPageFunc(page);
   });
 
-  const customDateSettings = {
-    fresh: '5 days',
-    stale: '14 days',
-    deletion: '21 days',
-  };
-  const defaultDateSettings = {
-    fresh: '1 day',
-    stale: '7 days',
-    deletion: '30 days',
-  };
   const editButton = page.getByRole('button', { name: 'Edit' });
   const freshMenu = page.locator(
     '[data-ouia-component-id="SystemStalenessDropdown"]',
@@ -43,7 +65,10 @@ test('User can apply custom Staleness setting', async ({ page }) => {
 
     await page.getByRole('button', { name: 'Save' }).click();
     await expect(dialog).toBeVisible();
-    await dialog.getByRole('button', { name: 'Update' }).click();
+    await Promise.all([
+      dialog.getByRole('button', { name: 'Update' }).click(),
+      page.waitForResponse(isStalenessResponse),
+    ]);
   });
 
   await test.step('Verify new custom setting is applied', async () => {
@@ -65,7 +90,10 @@ test('User can apply custom Staleness setting', async ({ page }) => {
 
     await page.getByRole('button', { name: 'Save' }).click();
     await expect(dialog).toBeVisible();
-    await dialog.getByRole('button', { name: 'Update' }).click();
+    await Promise.all([
+      dialog.getByRole('button', { name: 'Update' }).click(),
+      page.waitForResponse(isStalenessResponse),
+    ]);
   });
 
   await test.step('Verify default setting is applied', async () => {
