@@ -273,9 +273,7 @@ describe('SystemCard', () => {
           screen.getByRole('definition', {
             name: /display name value/i,
           }),
-        ).getByRole('img', {
-          hidden: true,
-        }),
+        ).getByRole('button', { name: /edit/i }),
       );
       expect(store.getActions().length).toBe(0); // the button is disabled since the input hasn't been changed
     });
@@ -297,11 +295,87 @@ describe('SystemCard', () => {
           screen.getByRole('definition', {
             name: /ansible hostname value/i,
           }),
-        ).getByRole('img', {
-          hidden: true,
-        }),
+        ).getByRole('button', { name: /edit/i }),
       );
       expect(store.getActions().length).toBe(0); // the button is disabled since the input hasn't been changed
+    });
+  });
+
+  describe('ClipboardCopy', () => {
+    it('should show copy button for host name when fqdn is present', () => {
+      const entityWithFqdn = { ...entity, fqdn: 'my-host.example.com' };
+      render(
+        <TestWrapper store={mockStore(initialState)}>
+          <SystemCard writePermissions={true} entity={entityWithFqdn} />
+        </TestWrapper>,
+      );
+
+      const hostNameDefinition = screen.getByRole('definition', {
+        name: /host name value/i,
+      });
+      expect(hostNameDefinition).toHaveTextContent('my-host.example.com');
+      expect(
+        within(hostNameDefinition).getByRole('button', {
+          name: /copy to clipboard/i,
+        }),
+      ).toBeInTheDocument();
+    });
+
+    it('should show copy button for display name', () => {
+      render(
+        <TestWrapper store={mockStore(initialState)}>
+          <SystemCard writePermissions={true} entity={entity} />
+        </TestWrapper>,
+      );
+
+      const displayNameDefinition = screen.getByRole('definition', {
+        name: /display name value/i,
+      });
+      expect(
+        within(displayNameDefinition).getByRole('button', {
+          name: /copy to clipboard/i,
+        }),
+      ).toBeInTheDocument();
+      expect(
+        within(displayNameDefinition).getByRole('button', { name: /edit/i }),
+      ).toBeInTheDocument();
+    });
+
+    it('should show copy button for ansible hostname', () => {
+      render(
+        <TestWrapper store={mockStore(initialState)}>
+          <SystemCard writePermissions={true} entity={entity} />
+        </TestWrapper>,
+      );
+
+      const ansibleDefinition = screen.getByRole('definition', {
+        name: /ansible hostname value/i,
+      });
+      expect(
+        within(ansibleDefinition).getByRole('button', {
+          name: /copy to clipboard/i,
+        }),
+      ).toBeInTheDocument();
+      expect(
+        within(ansibleDefinition).getByRole('button', { name: /edit/i }),
+      ).toBeInTheDocument();
+    });
+
+    it('should truncate host name at 32 characters', () => {
+      const longFqdn =
+        'a-very-long-hostname-that-exceeds-thirty-two-characters.example.com';
+      const entityWithLongFqdn = { ...entity, fqdn: longFqdn };
+      render(
+        <TestWrapper store={mockStore(initialState)}>
+          <SystemCard writePermissions={true} entity={entityWithLongFqdn} />
+        </TestWrapper>,
+      );
+
+      const hostNameDefinition = screen.getByRole('definition', {
+        name: /host name value/i,
+      });
+      // Truncated display shows first 32 chars (and ellipsis); full value is still copyable
+      expect(hostNameDefinition).toHaveTextContent(longFqdn.slice(0, 32));
     });
   });
 

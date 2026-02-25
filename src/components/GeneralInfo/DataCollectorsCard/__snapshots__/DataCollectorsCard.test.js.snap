@@ -347,7 +347,54 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
                         data-ouia-safe="true"
                         data-pf-content="true"
                       >
-                        Insights Client ID: 1234
+                        Insights Client ID: 
+                        <div
+                          class="pf-v6-c-clipboard-copy pf-m-inline"
+                          data-ouia-component-type="PF6/ClipboardCopy"
+                          data-ouia-safe="true"
+                        >
+                          <span
+                            class="pf-v6-c-clipboard-copy__text"
+                            id="text-input-2"
+                          >
+                            1234
+                          </span>
+                          <span
+                            class="pf-v6-c-clipboard-copy__actions"
+                          >
+                            <span
+                              class="pf-v6-c-clipboard-copy__actions-item"
+                            >
+                              <button
+                                aria-label="Copy to clipboard"
+                                class="pf-v6-c-button pf-m-plain pf-m-no-padding"
+                                data-ouia-component-id="OUIA-Generated-Button-plain-3"
+                                data-ouia-component-type="PF6/Button"
+                                data-ouia-safe="true"
+                                id="copy-button-2"
+                                type="button"
+                              >
+                                <span
+                                  class="pf-v6-c-button__icon"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    class="pf-v6-svg"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    viewBox="0 0 448 512"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"
+                                    />
+                                  </svg>
+                                </span>
+                              </button>
+                            </span>
+                          </span>
+                        </div>
                       </li>
                       <li
                         class="pf-v6-c-content--li"
@@ -405,15 +452,6 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
                         data-ouia-safe="true"
                         data-pf-content="true"
                       >
-                        Subscription Manager ID: N/A
-                      </li>
-                      <li
-                        class="pf-v6-c-content--li"
-                        data-ouia-component-id="OUIA-Generated-Content-8"
-                        data-ouia-component-type="PF6/Content"
-                        data-ouia-safe="true"
-                        data-pf-content="true"
-                      >
                         Last upload: N/A
                       </li>
                     </ul>
@@ -442,14 +480,14 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
                   >
                     <ul
                       class="pf-v6-c-content--ul pf-m-plain"
-                      data-ouia-component-id="OUIA-Generated-Content-9"
+                      data-ouia-component-id="OUIA-Generated-Content-8"
                       data-ouia-component-type="PF6/Content"
                       data-ouia-safe="true"
                       data-pf-content="true"
                     >
                       <li
                         class="pf-v6-c-content--li"
-                        data-ouia-component-id="OUIA-Generated-Content-10"
+                        data-ouia-component-id="OUIA-Generated-Content-9"
                         data-ouia-component-type="PF6/Content"
                         data-ouia-safe="true"
                         data-pf-content="true"
@@ -458,16 +496,7 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
                       </li>
                       <li
                         class="pf-v6-c-content--li"
-                        data-ouia-component-id="OUIA-Generated-Content-11"
-                        data-ouia-component-type="PF6/Content"
-                        data-ouia-safe="true"
-                        data-pf-content="true"
-                      >
-                        Satellite ID: N/A
-                      </li>
-                      <li
-                        class="pf-v6-c-content--li"
-                        data-ouia-component-id="OUIA-Generated-Content-12"
+                        data-ouia-component-id="OUIA-Generated-Content-10"
                         data-ouia-component-type="PF6/Content"
                         data-ouia-safe="true"
                         data-pf-content="true"
@@ -500,14 +529,14 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
                   >
                     <ul
                       class="pf-v6-c-content--ul pf-m-plain"
-                      data-ouia-component-id="OUIA-Generated-Content-13"
+                      data-ouia-component-id="OUIA-Generated-Content-11"
                       data-ouia-component-type="PF6/Content"
                       data-ouia-safe="true"
                       data-pf-content="true"
                     >
                       <li
                         class="pf-v6-c-content--li"
-                        data-ouia-component-id="OUIA-Generated-Content-14"
+                        data-ouia-component-id="OUIA-Generated-Content-12"
                         data-ouia-component-type="PF6/Content"
                         data-ouia-safe="true"
                         data-pf-content="true"
@@ -516,16 +545,7 @@ exports[`DataCollectorsCard should render correctly with data 1`] = `
                       </li>
                       <li
                         class="pf-v6-c-content--li"
-                        data-ouia-component-id="OUIA-Generated-Content-15"
-                        data-ouia-component-type="PF6/Content"
-                        data-ouia-safe="true"
-                        data-pf-content="true"
-                      >
-                        Discovery ID: N/A
-                      </li>
-                      <li
-                        class="pf-v6-c-content--li"
-                        data-ouia-component-id="OUIA-Generated-Content-16"
+                        data-ouia-component-id="OUIA-Generated-Content-13"
                         data-ouia-component-type="PF6/Content"
                         data-ouia-safe="true"
                         data-pf-content="true"
@@ -562,7 +582,7 @@ exports[`DataCollectorsCard should render custom collectors 1`] = `
       >
         <button
           class="pf-v6-c-button pf-m-plain"
-          data-ouia-component-id="OUIA-Generated-Button-plain-3"
+          data-ouia-component-id="OUIA-Generated-Button-plain-10"
           data-ouia-component-type="PF6/Button"
           data-ouia-safe="true"
           type="button"
@@ -643,14 +663,14 @@ exports[`DataCollectorsCard should render custom collectors 1`] = `
                   >
                     <ul
                       class="pf-v6-c-content--ul pf-m-plain"
-                      data-ouia-component-id="OUIA-Generated-Content-17"
+                      data-ouia-component-id="OUIA-Generated-Content-53"
                       data-ouia-component-type="PF6/Content"
                       data-ouia-safe="true"
                       data-pf-content="true"
                     >
                       <li
                         class="pf-v6-c-content--li"
-                        data-ouia-component-id="OUIA-Generated-Content-18"
+                        data-ouia-component-id="OUIA-Generated-Content-54"
                         data-ouia-component-type="PF6/Content"
                         data-ouia-safe="true"
                         data-pf-content="true"
@@ -659,16 +679,63 @@ exports[`DataCollectorsCard should render custom collectors 1`] = `
                       </li>
                       <li
                         class="pf-v6-c-content--li"
-                        data-ouia-component-id="OUIA-Generated-Content-19"
+                        data-ouia-component-id="OUIA-Generated-Content-55"
                         data-ouia-component-type="PF6/Content"
                         data-ouia-safe="true"
                         data-pf-content="true"
                       >
-                        reporter id: 1234567
+                        reporter id: 
+                        <div
+                          class="pf-v6-c-clipboard-copy pf-m-inline"
+                          data-ouia-component-type="PF6/ClipboardCopy"
+                          data-ouia-safe="true"
+                        >
+                          <span
+                            class="pf-v6-c-clipboard-copy__text"
+                            id="text-input-10"
+                          >
+                            1234567
+                          </span>
+                          <span
+                            class="pf-v6-c-clipboard-copy__actions"
+                          >
+                            <span
+                              class="pf-v6-c-clipboard-copy__actions-item"
+                            >
+                              <button
+                                aria-label="Copy to clipboard"
+                                class="pf-v6-c-button pf-m-plain pf-m-no-padding"
+                                data-ouia-component-id="OUIA-Generated-Button-plain-11"
+                                data-ouia-component-type="PF6/Button"
+                                data-ouia-safe="true"
+                                id="copy-button-10"
+                                type="button"
+                              >
+                                <span
+                                  class="pf-v6-c-button__icon"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    class="pf-v6-svg"
+                                    fill="currentColor"
+                                    height="1em"
+                                    role="img"
+                                    viewBox="0 0 448 512"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"
+                                    />
+                                  </svg>
+                                </span>
+                              </button>
+                            </span>
+                          </span>
+                        </div>
                       </li>
                       <li
                         class="pf-v6-c-content--li"
-                        data-ouia-component-id="OUIA-Generated-Content-20"
+                        data-ouia-component-id="OUIA-Generated-Content-56"
                         data-ouia-component-type="PF6/Content"
                         data-ouia-safe="true"
                         data-pf-content="true"
