@@ -12,6 +12,12 @@ import { ErrorState } from '@patternfly/react-component-groups';
 import { Bullseye, Spinner } from '@patternfly/react-core';
 import { useImageQueries } from './hooks/useImageQueries';
 
+/**
+ * Images view: tree table of bootc (image-based) systems
+ *
+ * @remarks Previously implemented as BifrostPage
+ *  @returns The Images view DataView (loading, error, empty, or table).
+ */
 export const ImagesView = () => {
   const queryResults = useImageQueries();
   const [bootcResults, packageBasedResults, edgeResults] = queryResults;
