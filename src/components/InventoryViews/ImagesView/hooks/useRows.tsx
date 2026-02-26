@@ -62,3 +62,5 @@ export const useRows = ({
     return [];
   }
 };
+
+export default useRows;

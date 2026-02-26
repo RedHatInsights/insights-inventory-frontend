@@ -10,14 +10,21 @@ import { NO_HEADER } from '../constants';
 import NoEntitiesFound from '../../InventoryTable/NoEntitiesFound';
 import { ErrorState } from '@patternfly/react-component-groups';
 import { Bullseye, Spinner } from '@patternfly/react-core';
-import useImageQueries from './hooks/useImageQueries';
+import { useImageQueries } from './hooks/useImageQueries';
 
 export const ImagesView = () => {
   const queryResults = useImageQueries();
   const [bootcResults, packageBasedResults, edgeResults] = queryResults;
   const isLoading = queryResults.some((r) => r.isLoading);
   const isError = queryResults.some((r) => r.isError);
-  const activeState = isLoading ? 'loading' : isError ? 'error' : 'active';
+
+  const activeState = isLoading
+    ? 'loading'
+    : isError
+      ? 'error'
+      : bootcResults?.data?.length === 0
+        ? 'empty'
+        : 'active';
 
   const columns: DataViewTh[] = ['Image name', 'Hash commits', 'Systems'];
   const rows: DataViewTrTree[] = useRows({
@@ -44,7 +51,7 @@ export const ImagesView = () => {
               <Spinner />
             </Bullseye>
           ),
-          empty: <NoEntitiesFound />,
+          empty: <NoEntitiesFound entities="images" />,
           error: (
             <ErrorState
               ouiaId="error-state"
