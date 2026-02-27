@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingCard from '../LoadingCard';
 import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
-import { Content, ContentVariants, Icon } from '@patternfly/react-core';
+import {
+  Content,
+  ContentVariants,
+  Icon,
+  ClipboardCopy,
+} from '@patternfly/react-core';
 import {
   CheckCircleIcon,
   ExclamationTriangleIcon,
@@ -61,11 +66,16 @@ const DataCollectorsCardCore = ({
                 </>
               )}
             </Content>
-            {collector.details?.name != null && (
-              <Content component={ContentVariants.li}>
-                {collector.details.name}: {collector.details.id ?? 'N/A'}
-              </Content>
-            )}
+            {collector.details?.name != null &&
+              collector.details?.id != null &&
+              collector.details?.id !== '' && (
+                <Content component={ContentVariants.li}>
+                  {collector.details.name}:{' '}
+                  <ClipboardCopy isReadOnly variant="inline-compact">
+                    {collector.details.id}
+                  </ClipboardCopy>
+                </Content>
+              )}
             <Content component={ContentVariants.li}>
               Last upload:{' '}
               {collector.updated ? (

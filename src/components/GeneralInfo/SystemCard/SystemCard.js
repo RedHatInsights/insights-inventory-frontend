@@ -9,7 +9,7 @@ import { NameInlineEdit } from './NameInlineEdit';
 import { useSelector } from 'react-redux';
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import { patchHostById } from '../../../api/hostInventoryApi';
-import { Truncate } from '@patternfly/react-core';
+import { ClipboardCopy } from '@patternfly/react-core';
 
 const SystemCard = ({
   writePermissions,
@@ -92,7 +92,13 @@ const SystemCard = ({
             ),
             value:
               entity?.fqdn != null ? (
-                <Truncate maxCharsDisplayed={36} content={entity.fqdn} />
+                <ClipboardCopy
+                  isReadOnly
+                  variant="inline-compact"
+                  truncation={{ maxCharsDisplayed: 32 }}
+                >
+                  {entity.fqdn}
+                </ClipboardCopy>
               ) : (
                 ''
               ),
@@ -136,6 +142,7 @@ const SystemCard = ({
                 textValue={entity?.display_name || ''}
                 onSubmit={(value) => onSubmit(value)}
                 writePermissions={writePermissions}
+                showCopyButton
               />
             ),
             size: 'md',
@@ -169,6 +176,7 @@ const SystemCard = ({
                 textValue={getAnsibleHost(entity) || ''}
                 writePermissions={writePermissions}
                 onSubmit={(value) => onSubmit(value, true)}
+                showCopyButton
               />
             ),
             size: 'md',
