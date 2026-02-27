@@ -1,9 +1,7 @@
 import { expect } from '@playwright/test';
-import {
-  prepareSingleSystem,
-  cleanupTestArchive,
-} from './helpers/uploadArchive';
-import { test, navigateToInventorySystemsFunc } from './helpers/navHelpers';
+import { createSystem } from './helpers/uploadArchive';
+import { navigateToInventorySystemsFunc } from './helpers/navHelpers';
+import { test } from './helpers/fixtures';
 import { searchByName } from './helpers/filterHelpers';
 
 test('User should be able to edit and delete a system from Systems page', async ({
@@ -19,19 +17,20 @@ test('User should be able to edit and delete a system from Systems page', async 
      - inv-hosts-delete-by-id
      - importance: critical
    */
-  const setupResult = prepareSingleSystem();
-  const { hostname: systemName, archiveName, workingDir } = setupResult;
-  const renamedSystemName = `${systemName}_Renamed`;
+  const system = await createSystem();
+  const newDisplayName = `${system.hostname}_Renamed`;
   const dialog = page.locator('[role="dialog"]');
+  const nameCell = page.locator('td[data-label="Name"]');
 
   await test.step('Navigate to Inventory → Systems', async () => {
     await navigateToInventorySystemsFunc(page);
   });
 
-  await test.step(`Edit the system "${systemName}" display name and save`, async () => {
-    await searchByName(page, systemName);
+  await test.step(`Edit the system "${system.hostname}" display name and save`, async () => {
+    await searchByName(page, system.hostname);
+    await expect(nameCell).toHaveCount(1);
     await page
-      .getByRole('row', { name: new RegExp(systemName, 'i') })
+      .getByRole('row', { name: new RegExp(system.hostname, 'i') })
       .getByLabel('Kebab toggle')
       .click();
 
@@ -41,16 +40,17 @@ test('User should be able to edit and delete a system from Systems page', async 
       .click();
 
     await expect(dialog).toBeVisible();
-    await expect(page.getByRole('textbox')).toHaveValue(systemName);
-    await dialog.locator('input').first().fill(renamedSystemName);
+    await expect(page.getByRole('textbox')).toHaveValue(system.hostname);
+    await dialog.locator('input').first().fill(newDisplayName);
     await dialog.getByRole('button', { name: 'Save' }).click();
   });
 
-  await test.step(`Delete the renamed system "${renamedSystemName}" and verify it is removed`, async () => {
-    await searchByName(page, renamedSystemName);
+  await test.step(`Delete the renamed system "${newDisplayName}" and verify it is removed`, async () => {
+    await searchByName(page, newDisplayName);
+    await expect(nameCell).toHaveCount(1);
 
     await page
-      .getByRole('row', { name: new RegExp(renamedSystemName, 'i') })
+      .getByRole('row', { name: new RegExp(newDisplayName, 'i') })
       .getByLabel('Kebab toggle')
       .click();
 
@@ -61,12 +61,8 @@ test('User should be able to edit and delete a system from Systems page', async 
     await expect(dialog).toBeVisible();
     await dialog.getByRole('button', { name: 'Delete' }).click();
 
-    await searchByName(page, renamedSystemName);
+    await searchByName(page, newDisplayName);
     await expect(page.getByText('No matching systems found')).toBeVisible();
-  });
-
-  await test.step('Cleanup the created archive and temp directory', async () => {
-    cleanupTestArchive(archiveName, workingDir);
   });
 });
 
@@ -83,28 +79,25 @@ test('User should be able to edit and delete a system from System Details page',
      - inv-hosts-delete-by-id
      - importance: critical
    */
-  const setupResult = prepareSingleSystem();
-  const { hostname: systemName, archiveName, workingDir } = setupResult;
-
+  const system = await createSystem();
   const editButtons = page.getByRole('button', { name: 'Edit' });
-  const dialogModal = page.locator('[role="dialog"]');
-  const nameColumnLocator = page.locator('td[data-label="Name"]');
+  const dialog = page.locator('[role="dialog"]');
+  const nameCell = page.locator('td[data-label="Name"]');
   const newDisplayName = `host_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
   const newAnsibleName = `host_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
 
-  await test.step('Setup: navigate to prepared system details page', async () => {
+  await test.step("Navigate to system's details page", async () => {
     await navigateToInventorySystemsFunc(page);
-    await searchByName(page, systemName);
-    await expect(nameColumnLocator).toHaveCount(1);
+    await searchByName(page, system.hostname);
+    await expect(nameCell).toHaveCount(1);
 
-    const systemLink = page.getByRole('link', { name: systemName });
-    await expect(systemLink).toBeVisible({ timeout: 100000 });
+    const systemLink = page.getByRole('link', { name: system.hostname });
     await systemLink.click();
 
     // Detail page heading shows display_name (full or truncated); accept either
     const heading = page.getByRole('heading', { level: 1 }).first();
     await expect(heading).toBeVisible({ timeout: 100000 });
-    await expect(heading).toContainText(systemName.substring(0, 36));
+    await expect(heading).toContainText(system.hostname.substring(0, 36));
   });
 
   await test.step('Edit the system display name and verify', async () => {
@@ -134,16 +127,12 @@ test('User should be able to edit and delete a system from System Details page',
 
   await test.step(`Delete the system and verify it is removed`, async () => {
     await page.getByRole('button', { name: 'Delete' }).click();
-    await expect(dialogModal).toBeVisible();
-    await dialogModal.getByRole('button', { name: 'Delete' }).click();
+    await expect(dialog).toBeVisible();
+    await dialog.getByRole('button', { name: 'Delete' }).click();
     await page.waitForTimeout(2000);
     await expect(page.getByText('Delete operation finished')).toBeVisible({
       timeout: 5000,
     });
-  });
-
-  await test.step('Cleanup the created archive and temp directory', async () => {
-    cleanupTestArchive(archiveName, workingDir);
   });
 });
 
@@ -238,6 +227,7 @@ test('User should be able to export systems to CSV', async ({ page }) => {
 
 test('User should be able to delete multiple systems from Systems page', async ({
   page,
+  systems,
 }) => {
   /**
    * Jira References:
@@ -247,39 +237,36 @@ test('User should be able to delete multiple systems from Systems page', async (
      - inv-hosts-delete-by-id
      - importance: critical
    */
-  const systems = Array.from({ length: 3 }, () => prepareSingleSystem());
-
-  const archives = systems.map((s) => s.archiveName);
-  const dirs = systems.map((s) => s.workingDir);
   const dialog = page.locator('[role="dialog"]');
-  const systemName = 'insights-pw-vm';
+  const nameCell = page.locator('td[data-label="Name"]');
 
   await test.step('Navigate to Inventory → Systems', async () => {
     await navigateToInventorySystemsFunc(page);
-    await searchByName(page, systemName);
-    await page.waitForTimeout(3000); // Keep this to be on safe side as bulk deletion is happening.
-    await page.waitForSelector('#options-menu-bottom-toggle', {
-      state: 'visible',
-    });
+
+    await searchByName(page, systems.deleteSystemsPrefix);
+    await expect(nameCell).toHaveCount(systems.deleteSystems.length);
   });
 
   await test.step('Select all systems using Bulk Select', async () => {
     await page.locator('[data-ouia-component-id="BulkSelect"]').click();
     await page.getByRole('menuitem', { name: 'Select page' }).click();
+    const bulkSelect = page.locator(
+      '[id="bulk-select-systems-toggle-checkbox"]',
+    );
+    await expect(bulkSelect).toContainText(
+      `${systems.deleteSystems.length} selected`,
+    );
   });
 
   await test.step('Delete selected systems via bulk action', async () => {
-    await page.getByRole('button', { name: 'Delete' }).click();
+    await page.locator('[data-ouia-component-id="bulk-delete-button"]').click();
 
     await expect(dialog).toBeVisible();
     await expect(dialog).toContainText('Delete systems from inventory?');
     await dialog.getByRole('button', { name: 'Delete' }).click();
-  });
 
-  await test.step('Cleanup the created archives and temp directories', async () => {
-    for (let i = 0; i < systems.length; i++) {
-      cleanupTestArchive(archives[i], dirs[i]);
-    }
+    await searchByName(page, systems.deleteSystemsPrefix);
+    await expect(page.getByText('No matching systems found')).toBeVisible();
   });
 });
 
@@ -296,16 +283,8 @@ test('User should be able to delete multiple systems from Systems page', async (
      *
      */
 
-    await test.step('Navigate to Systems page and wait for systems to load', async () => {
+    await test.step('Navigate to Inventory → Systems', async () => {
       await navigateToInventorySystemsFunc(page);
-      const nameColumnCells = page.locator('td[data-label="Name"] a');
-      await expect(nameColumnCells.first()).toBeVisible({ timeout: 30000 });
-
-      // Ensure we have at least 2 systems to verify sorting
-      await expect(async () => {
-        const count = await nameColumnCells.count();
-        expect(count).toBeGreaterThanOrEqual(2);
-      }).toPass({ timeout: 15000 });
     });
 
     await test.step(`Sort by Name column in ${order} order`, async () => {
@@ -354,10 +333,10 @@ test('User should be able to delete multiple systems from Systems page', async (
     });
 
     await test.step('Verify systems are sorted alphabetically', async () => {
-      const nameColumnCells = page.locator('td[data-label="Name"] a');
-      await expect(nameColumnCells.first()).toBeVisible();
+      const nameCell = page.locator('td[data-label="Name"] a');
+      await expect(nameCell.first()).toBeVisible();
 
-      const displayedNames = await nameColumnCells.allTextContents();
+      const displayedNames = await nameCell.allTextContents();
       const lowerCaseNames = displayedNames.map((name) =>
         name.toLowerCase().trim(),
       );

@@ -27,6 +27,8 @@ export default defineConfig({
     : 'list',
   globalTimeout: 35 * 60 * 1000, // 35 min
   timeout: 90_000,
+  globalSetup: './_playwright-tests/helpers/globalSetup',
+  globalTeardown: './_playwright-tests/helpers/globalTeardown',
   use: {
     actionTimeout: 90_000,
     navigationTimeout: 90_000,

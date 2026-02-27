@@ -1,7 +1,6 @@
 import { expect } from '@playwright/test';
 import { type Page } from '@playwright/test';
 import {
-  test,
   navigateToInventorySystemsFunc,
   navigateToWorkspacesFunc,
 } from './helpers/navHelpers';
@@ -10,6 +9,8 @@ import {
   expectAllRowsHaveText,
   searchByName,
 } from './helpers/filterHelpers';
+import { test } from './helpers/fixtures';
+import { WORKSPACE_UNGROUPED_HOSTS } from './helpers/constants';
 
 test('User can filter, search and see details of "Ungrouped Hosts" workspace', async ({
   page,
@@ -27,35 +28,35 @@ test('User can filter, search and see details of "Ungrouped Hosts" workspace', a
      - inv-kessel-ungrouped
      - importance: critical
    */
-  const ungroupedWorkspaceName: string = 'Ungrouped Hosts';
-  await test.step('Filter systems by "Ungrouped Hosts" workspace in Systems page', async () => {
+
+  await test.step(`Filter systems by ${WORKSPACE_UNGROUPED_HOSTS} workspace in Systems page`, async () => {
     await navigateToInventorySystemsFunc(page);
     await filterSystemsWithConditionalFilter(
       page,
       'Workspace',
       'Ungrouped hosts',
     );
-    const workspaceColumnLocator = page.locator('td[data-label="Workspace"]');
+    const workspaceCell = page.locator('td[data-label="Workspace"]');
     await page.waitForTimeout(3000);
-    await expectAllRowsHaveText(workspaceColumnLocator, ungroupedWorkspaceName);
+    await expectAllRowsHaveText(workspaceCell, WORKSPACE_UNGROUPED_HOSTS);
   });
 
-  await test.step('Search for "Ungrouped Hosts" workspace in Workspaces page', async () => {
+  await test.step(`Search for ${WORKSPACE_UNGROUPED_HOSTS} workspace in Workspaces page`, async () => {
     await navigateToWorkspacesFunc(page);
-    await searchByName(page, ungroupedWorkspaceName);
-    const nameColumnLocator = page.locator('td[data-label="Name"]');
-    await expect(nameColumnLocator).toHaveCount(1);
-    await expect(nameColumnLocator).toHaveText(ungroupedWorkspaceName);
+    await searchByName(page, WORKSPACE_UNGROUPED_HOSTS);
+    const nameCell = page.locator('td[data-label="Name"]');
+    await expect(nameCell).toHaveCount(1);
+    await expect(nameCell).toHaveText(WORKSPACE_UNGROUPED_HOSTS);
   });
 
-  await test.step('Navigate to "Ungrouped Hosts" workspace from Workspaces page', async () => {
+  await test.step(`Navigate to ${WORKSPACE_UNGROUPED_HOSTS} workspace from Workspaces page`, async () => {
     const workspaceLink = page.getByRole('link', {
-      name: ungroupedWorkspaceName,
+      name: WORKSPACE_UNGROUPED_HOSTS,
     });
     await expect(workspaceLink).toBeVisible({ timeout: 100000 });
     await workspaceLink.click();
     await expect(
-      page.getByRole('heading', { name: ungroupedWorkspaceName }),
+      page.getByRole('heading', { name: WORKSPACE_UNGROUPED_HOSTS }),
     ).toBeVisible({ timeout: 100000 });
   });
 });

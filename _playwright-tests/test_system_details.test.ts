@@ -1,45 +1,19 @@
 import { expect } from '@playwright/test';
-import {
-  prepareSingleSystem,
-  cleanupTestArchive,
-} from './helpers/uploadArchive';
-import { test, navigateToInventorySystemsFunc } from './helpers/navHelpers';
+import { navigateToInventorySystemsFunc } from './helpers/navHelpers';
+import { test } from './helpers/fixtures';
 import { searchByName } from './helpers/filterHelpers';
-import { BOOTC_ARCHIVE } from './helpers/uploadArchive';
 import { closePopupsIfExist } from './helpers/loginHelpers';
+import { WORKSPACE_UNGROUPED_HOSTS } from './helpers/constants';
 
 test.describe('System Details tests', () => {
-  let packageSystemName: string;
-  let archiveName: string;
-  let workingDir: string;
-  let systemBootcName: string;
-  let archiveBootcName: string;
-  let workingBootcDir: string;
-
-  test.beforeAll(async () => {
-    const setupResult = prepareSingleSystem();
-    const setupBootcResult = prepareSingleSystem(BOOTC_ARCHIVE);
-
-    ({ hostname: packageSystemName, archiveName, workingDir } = setupResult);
-    ({
-      hostname: systemBootcName,
-      archiveName: archiveBootcName,
-      workingDir: workingBootcDir,
-    } = setupBootcResult);
-  });
-
   test.beforeEach(async ({ page }) => {
     await closePopupsIfExist(page);
     await navigateToInventorySystemsFunc(page);
   });
 
-  test.afterAll(async () => {
-    cleanupTestArchive(archiveName, workingDir);
-    cleanupTestArchive(archiveBootcName, workingBootcDir);
-  });
-
   test('User should be able to see package system information', async ({
     page,
+    systems,
   }) => {
     /**
      * Metadata:
@@ -47,18 +21,20 @@ test.describe('System Details tests', () => {
        - inv-hosts-get-by-id
        - importance: critical
      */
+    const packageSystem = systems.packageSystems[0];
 
-    await test.step('Setup: navigate to prepared system details page', async () => {
-      const nameColumnLocator = page.locator('td[data-label="Name"]');
-      await searchByName(page, packageSystemName);
-      await expect(nameColumnLocator).toHaveCount(1);
+    await test.step("Navigate to system's details page", async () => {
+      const nameCell = page.locator('td[data-label="Name"]');
+      await searchByName(page, packageSystem.hostname);
+      await expect(nameCell).toHaveCount(1);
 
-      const systemLink = page.getByRole('link', { name: packageSystemName });
-      await expect(systemLink).toBeVisible({ timeout: 100000 });
+      const systemLink = page.getByRole('link', {
+        name: packageSystem.hostname,
+      });
       await systemLink.click();
 
       await expect(
-        page.getByRole('heading', { name: packageSystemName }),
+        page.getByRole('heading', { name: packageSystem.hostname }),
       ).toBeVisible({
         timeout: 100000,
       });
@@ -138,17 +114,18 @@ test.describe('System Details tests', () => {
       await page.locator('button[name="overview"]').click();
       const workspaceLink = page
         .locator('a')
-        .filter({ hasText: 'Ungrouped Hosts' });
+        .filter({ hasText: WORKSPACE_UNGROUPED_HOSTS });
       await workspaceLink.click();
 
       await expect(
-        page.getByRole('heading', { name: 'Ungrouped Hosts' }),
+        page.getByRole('heading', { name: WORKSPACE_UNGROUPED_HOSTS }),
       ).toBeVisible();
     });
   });
 
   test('User should be able to see image-based system information', async ({
     page,
+    systems,
   }) => {
     /**
      * Metadata:
@@ -156,18 +133,18 @@ test.describe('System Details tests', () => {
        - inv-hosts-get-by-id
        - importance: critical
      */
+    const bootcSystem = systems.bootcSystems[0];
 
-    await test.step('Setup: navigate to prepared system details page', async () => {
-      const nameColumnLocator = page.locator('td[data-label="Name"]');
-      await searchByName(page, systemBootcName);
-      await expect(nameColumnLocator).toHaveCount(1);
+    await test.step("Navigate to system's details page", async () => {
+      const nameCell = page.locator('td[data-label="Name"]');
+      await searchByName(page, bootcSystem.hostname);
+      await expect(nameCell).toHaveCount(1);
 
-      const systemLink = page.getByRole('link', { name: systemBootcName });
-      await expect(systemLink).toBeVisible({ timeout: 100000 });
+      const systemLink = page.getByRole('link', { name: bootcSystem.hostname });
       await systemLink.click();
 
       await expect(
-        page.getByRole('heading', { name: systemBootcName }),
+        page.getByRole('heading', { name: bootcSystem.hostname }),
       ).toBeVisible({
         timeout: 100000,
       });
