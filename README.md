@@ -15,6 +15,7 @@ It is based on the [insights-frontend-starter-app](git@github.com:RedHatInsights
   - [E2E testing: Playwright](#e2e-testing-playwright)
     - [First time setup](#first-time-setup)
     - [Running Playwright tests](#running-playwright-tests)
+  - [Integration Testing: Federated Modules](#integration-testing-federated-modules)
 - [Commit conventions](#commit-conventions)
 - [Testing federated modules with another application](#testing-federated-modules-with-another-application)
 - [Mocking Inventory API](#mocking-inventory-api)
@@ -90,8 +91,14 @@ npx playwright install  --with-deps
 * `npx playwright test --headed` -  run the complete suite in a vnc-like browser so you can watch its interactions
 * `npx playwright test test_navigation.test.ts` - run a specific test file
 * `npx playwright test test_navigation.test.ts -g "Test name"` - run a specific test by its name
+* `npx playwright test --grep-invert @integration` - run tests except integration tests
 
 For more examples on how to run and debug tests, visit the [official Playwright documentation](https://playwright.dev/docs/running-tests).
+
+### Integration Testing: Federated Modules
+
+Integration tests ensure our federated modules work correctly within Lightspeed applications at runtime. Run these whenever you modify components shared across services to prevent breaking downstream consumers:
+`npx playwright test --grep @integration`
 
 ## Commit conventions
 

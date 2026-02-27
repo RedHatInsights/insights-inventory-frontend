@@ -18,6 +18,7 @@ import {
   daysToSecondsConversion,
   HostStalenessApiKey,
   hostStalenessApiKeys,
+  omitId,
   secondsToDaysConversion,
 } from './constants';
 import {
@@ -30,6 +31,7 @@ import { useAddNotification } from '@redhat-cloud-services/frontend-components-n
 import { updateStaleness } from '../../api/hostInventoryApi';
 import { StalenessOutput } from '@redhat-cloud-services/host-inventory-client';
 import { HostStalenessPopover } from './HostStalenessPopover';
+import isEqual from 'lodash/isEqual';
 
 interface HostStalenessCardProps {
   canModifyHostStaleness: boolean;
@@ -46,31 +48,39 @@ const HostStalenessCard = ({
   const [staleness, setStaleness] = useState<Staleness>({});
   const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isFormValid, setIsFormValid] = useState(true);
+  const [isStalenessValid, setIsStalenessValid] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [defaultStaleness, setDefaultStaleness] = useState<Staleness>({});
-  const [isResetToDefault, setIsResetToDefault] = useState(false);
   const addNotification = useAddNotification();
 
-  const handleModalToggle = () => {
-    setIsModalOpen(!isModalOpen);
+  const isStalenessModified = !isEqual(
+    omitId(lastSavedStaleness),
+    omitId(staleness),
+  );
+  const isStalenessDefault = isEqual(
+    omitId(defaultStaleness),
+    omitId(staleness),
+  );
+
+  const onModalToggle = () => {
+    setIsModalOpen((prev) => !prev);
   };
 
-  //Cancel button when a user opts out of saving changes
-  const resetToOriginalValues = () => {
+  const onCancel = () => {
     setStaleness(lastSavedStaleness);
-    setIsEditing(!isEditing);
+    setIsEditing((prev) => !prev);
   };
-  //On save Button
-  const saveHostData = async () => {
+
+  const onSave = async () => {
     let apiData: Staleness = {};
     hostStalenessApiKeys.forEach(
       (apiKey) =>
         staleness[apiKey] &&
         (apiData[apiKey] = daysToSecondsConversion(staleness[apiKey], apiKey)),
     );
-    // system_default means the account has no record, therefor, post for new instance of record.
-    if (lastSavedStaleness.id === 'system_default') {
+
+    const isSystemDefaultUsed = lastSavedStaleness.id === 'system_default';
+    if (isSystemDefaultUsed) {
       postStalenessData(apiData)
         .then(() => {
           addNotification({
@@ -80,7 +90,7 @@ const HostStalenessCard = ({
             dismissable: true,
           });
           void fetchApiStalenessData();
-          setIsEditing(!isEditing);
+          setIsEditing((prev) => !prev);
           setIsModalOpen(false);
         })
         .catch(() => {
@@ -91,7 +101,7 @@ const HostStalenessCard = ({
             dismissable: true,
           });
         });
-    } else if (isResetToDefault) {
+    } else if (isStalenessDefault) {
       deleteStalenessData()
         .then(() => {
           addNotification({
@@ -101,8 +111,7 @@ const HostStalenessCard = ({
             dismissable: true,
           });
           void fetchApiStalenessData();
-          setIsResetToDefault(false);
-          setIsEditing(!isEditing);
+          setIsEditing((prev) => !prev);
           setIsModalOpen(false);
         })
         .catch(() => {
@@ -199,11 +208,9 @@ const HostStalenessCard = ({
                 <Button
                   variant="link"
                   role="button"
-                  onClick={() => {
-                    setIsEditing(!isEditing);
-                  }}
+                  onClick={() => setIsEditing(true)}
                   ouiaId="edit-staleness-setting"
-                  isDisabled={isEditing}
+                  style={isEditing ? { visibility: 'hidden' } : {}}
                 >
                   Edit
                 </Button>
@@ -221,18 +228,18 @@ const HostStalenessCard = ({
               isEditing={isEditing}
               staleness={staleness}
               setStaleness={setStaleness}
-              isFormValid={isFormValid}
-              setIsFormValid={setIsFormValid}
+              isStalenessValid={isStalenessValid}
+              setIsStalenessValid={setIsStalenessValid}
               defaultStaleness={defaultStaleness}
-              setIsResetToDefault={setIsResetToDefault}
+              isStalenessDefault={isStalenessDefault}
             />
             {isEditing && (
               <Flex justifyContent={{ default: 'justifyContentFlexStart' }}>
                 <Button
                   className="pf-v6-u-mt-md"
                   size={'sm'}
-                  onClick={() => handleModalToggle()}
-                  isDisabled={!isFormValid}
+                  onClick={onModalToggle}
+                  isDisabled={!isStalenessModified || !isStalenessValid}
                 >
                   Save
                 </Button>
@@ -240,15 +247,14 @@ const HostStalenessCard = ({
                   className="pf-v6-u-mt-md"
                   size={'sm'}
                   variant="link"
-                  //CancelButton when a user opts out of saving changes
-                  onClick={() => resetToOriginalValues()}
+                  onClick={onCancel}
                 >
                   Cancel
                 </Button>
                 <Modal
                   variant="small"
                   isOpen={isModalOpen}
-                  onClose={handleModalToggle}
+                  onClose={onModalToggle}
                   ouiaId="BasicModal"
                 >
                   <ModalHeader
@@ -261,18 +267,10 @@ const HostStalenessCard = ({
                     deleted as a result.
                   </ModalBody>
                   <ModalFooter>
-                    <Button
-                      key="confirm"
-                      variant="primary"
-                      onClick={saveHostData}
-                    >
+                    <Button key="confirm" variant="primary" onClick={onSave}>
                       Update
                     </Button>
-                    <Button
-                      key="cancel"
-                      variant="link"
-                      onClick={handleModalToggle}
-                    >
+                    <Button key="cancel" variant="link" onClick={onModalToggle}>
                       Cancel
                     </Button>
                   </ModalFooter>

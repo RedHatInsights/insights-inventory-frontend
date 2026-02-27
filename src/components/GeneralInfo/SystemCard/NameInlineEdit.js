@@ -2,11 +2,14 @@ import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Button,
+  ClipboardCopy,
   FormGroup,
   FormHelperText,
   HelperText,
   HelperTextItem,
   Icon,
+  Flex,
+  FlexItem,
   TextInput,
   Truncate,
   ValidatedOptions,
@@ -16,7 +19,12 @@ import EditButton from '../EditButton';
 
 const ensureString = (v) => (typeof v === 'string' ? v : '');
 
-export const NameInlineEdit = ({ textValue, onSubmit, writePermissions }) => {
+export const NameInlineEdit = ({
+  textValue,
+  onSubmit,
+  writePermissions,
+  showCopyButton = false,
+}) => {
   const value = ensureString(textValue);
   const [currentValue, setCurrentValue] = useState(value);
   const [isEditingOpen, setEditingOpen] = useState(false);
@@ -90,11 +98,36 @@ export const NameInlineEdit = ({ textValue, onSubmit, writePermissions }) => {
     </FormGroup>
   ) : (
     <Fragment>
-      {value ? <Truncate maxCharsDisplayed={36} content={value} /> : value}
-      <EditButton
-        writePermissions={writePermissions}
-        onClick={() => setEditingOpen(true)}
-      />
+      {showCopyButton ? (
+        <Flex
+          spaceItems={{ default: 'spaceItemsSm' }}
+          alignItems={{ default: 'alignItemsCenter' }}
+        >
+          <FlexItem style={{ minWidth: 0, maxWidth: '40ch' }}>
+            <ClipboardCopy
+              isReadOnly
+              variant="inline-compact"
+              truncation={{ maxCharsDisplayed: 32 }}
+            >
+              {value || ''}
+            </ClipboardCopy>
+          </FlexItem>
+          <FlexItem>
+            <EditButton
+              writePermissions={writePermissions}
+              onClick={() => setEditingOpen(true)}
+            />
+          </FlexItem>
+        </Flex>
+      ) : (
+        <>
+          {value ? <Truncate maxCharsDisplayed={32} content={value} /> : value}
+          <EditButton
+            writePermissions={writePermissions}
+            onClick={() => setEditingOpen(true)}
+          />
+        </>
+      )}
     </Fragment>
   );
 };
@@ -103,4 +136,5 @@ NameInlineEdit.propTypes = {
   textValue: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
   writePermissions: PropTypes.bool.isRequired,
+  showCopyButton: PropTypes.bool,
 };

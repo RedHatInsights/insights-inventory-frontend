@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  DataViewCheckboxFilter,
-  DataViewTextFilter,
-} from '@patternfly/react-data-view';
+import { DataViewCheckboxFilter } from '@patternfly/react-data-view';
 import DataViewFilters from '@patternfly/react-data-view/dist/cjs/DataViewFilters';
 import {
   ApiHostGetHostListRegisteredWithEnum,
@@ -10,6 +7,7 @@ import {
 } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import { DataViewCustomFilter } from './DataViewCustomFilter';
 import WorkspaceFilter from './WorkspaceFilter';
+import DataViewTextFilterWithChipTitle from './DataViewTextFilterWithChipTitle';
 import LastSeenFilter, { LastSeenFilterItem } from './LastSeenFilter';
 import { ToolbarLabel } from '@patternfly/react-core';
 import LastSeenFilterExtension from './LastSeenFilterExtension';
@@ -47,9 +45,10 @@ export const SystemsViewFilters = ({
         }}
         values={filters}
       >
-        <DataViewTextFilter
+        <DataViewTextFilterWithChipTitle
           filterId="name"
           title="Name"
+          chipTitle="Display name"
           placeholder="Filter by name"
         />
         <DataViewCheckboxFilter
