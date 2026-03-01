@@ -531,6 +531,10 @@ sortingColumns.forEach((column) => {
     test(`User can sort workspaces by ${column.name} column in ${order} order`, async ({
       page,
     }) => {
+      test.fixme(
+        true,
+        'RHINENG-24401: Search does not support partial term matching (full name required)',
+      );
       /**
        * Jira References:
        * - https://issues.redhat.com/browse/${column.jiraRef} – Sort workspaces
