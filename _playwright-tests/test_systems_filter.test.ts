@@ -194,10 +194,7 @@ test.describe('Filtering Systems Tests', () => {
        - inv-hosts-filter-by-tags
        - importance: critical
      */
-    test.fixme(
-      true,
-      'RHINENG-23546: Page breaks when trying to Tags filtering',
-    );
+    test.fixme(true, 'https://issues.redhat.com/browse/RHINENG-23546');
 
     const expectedTagsCount = '7';
     const name = 'Location';
