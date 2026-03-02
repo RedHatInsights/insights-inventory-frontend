@@ -2,41 +2,29 @@ import { spawnSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { randomUUID } from 'crypto';
+import { PACKAGE_BASED_ARCHIVE, DEFAULT_PREFIX } from './constants';
+import { recordToManifest } from './cleanup';
 
-export const CENTOS_ARCHIVE = 'centos79.tar.gz';
-export const BOOTC_ARCHIVE = 'image-mode-rhel94.tar.gz';
-export const EDGE_ARCHIVE = 'edge-hbi-ui-stage.tar.gz';
-export const PACKAGE_BASED_ARCHIVE = 'rhel94_core_collect.tar.gz';
+export interface System {
+  hostname: string;
+}
+
+export interface ModifiedArchive {
+  hostname: string;
+  archiveName: string;
+}
 
 /**
- * Uploads an archive file to the Red Hat ingress API using `curl`.
- *
- *
- * This function constructs and executes a `curl` command via `spawnSync`
- * to upload a specified `.tar.gz` archive to the platform.
- * It requires the following environment variables:
- * - `PROXY` — proxy address used for the upload
- * - `PLAYWRIGHT_USER` — username for authentication
- * - `PLAYWRIGHT_PASSWORD` — password for authentication
- *
- * The function checks for missing credentials, validates response codes,
- * and throws descriptive errors if the upload fails or the command encounters issues.
+ * Uploads a .tar.gz archive to the Red Hat Ingress API via curl.
+ * Requires: PROXY, PLAYWRIGHT_USER, and PLAYWRIGHT_PASSWORD env vars.
  *
  * Jira References: https://issues.redhat.com/browse/RHINENG-21146
  *
- *  @param   {string}               archivePath - The relative path to the archive file inside `host_archives/`.
- *  @returns {{ httpCode: number }}             - The HTTP status code returned from the upload request.
- *
- * @throws {Error} If required environment variables are missing.
- * @throws {Error} If the `curl` command fails to execute.
- * @throws {Error} If the upload fails (non-201 HTTP response).
- *
- * @example
- * // Upload a sample archive file for testing
- * const result = uploadArchive('rhel94_core_collect.tar.gz');
- * console.log('Upload successful, HTTP code:', result.httpCode);
+ *  @param   {string}                        archivePath - Relative path to the archive in host_archives/.
+ *  @returns {Promise<{ httpCode: number }>}             Object containing the HTTP response code.
+ * @throws {Error} Missing credentials, curl failure, or non-201 response.
  */
-export function uploadArchive(archivePath: string) {
+export async function uploadArchive(archivePath: string) {
   const fullPath = `host_archives/${archivePath}`;
   const proxy = process.env.PROXY;
   const user = process.env.PLAYWRIGHT_USER;
@@ -44,13 +32,24 @@ export function uploadArchive(archivePath: string) {
     process.env.PROD === 'true'
       ? process.env.PROD_PLAYWRIGHT_PASSWORD
       : process.env.PLAYWRIGHT_PASSWORD;
+
   const uploadUrl =
     process.env.PROD === 'true'
       ? 'https://console.redhat.com/api/ingress/v1/upload'
       : 'https://console.stage.redhat.com/api/ingress/v1/upload';
+
+  if (!user || !password) {
+    throw new Error(
+      'Missing PLAYWRIGHT_USER or PLAYWRIGHT_PASSWORD environment variables.',
+    );
+  }
+
   const args = [
-    '-x',
-    `${proxy}`,
+    '--retry',
+    '3',
+    '--retry-delay',
+    '5',
+    '--retry-all-errors',
     '-s',
     '-o',
     '/tmp/upload_output.txt',
@@ -62,17 +61,15 @@ export function uploadArchive(archivePath: string) {
     '-u',
     `${user}:${password}`,
   ];
+
+  if (proxy && proxy !== 'undefined') args.unshift('-x', proxy);
+
   const result = spawnSync('curl', args, { encoding: 'utf-8' });
+
+  if (result.error) throw new Error(`Curl failed: ${result.error.message}`);
   const stdout = result.stdout.trim();
   const httpCode = Number(stdout.slice(-3));
-  if (!user || !password) {
-    throw new Error(
-      'Missing PLAYWRIGHT_USER or PLAYWRIGHT_PASSWORD environment variables.',
-    );
-  }
-  if (result.error) {
-    throw new Error(`Failed to execute curl: ${result.error.message}`);
-  }
+
   if (httpCode !== 201) {
     const stderrMsg = result.stderr?.toString().trim() || 'Unknown error';
     throw new Error(
@@ -84,25 +81,23 @@ export function uploadArchive(archivePath: string) {
 
 /**
  * Prepares a test-specific copy of the base archive, modifies its files, and compresses it for upload.
- *
- *
- * Workflow:
- * 1. Extracts the base archive (rhel94_core_collect.tar.gz) into a unique folder.
- * 2. Updates machine-id, subscription-manager_identity, and hostname_-f.
- * 3. Compresses the folder into a uniquely named tar.gz.
- *
- *  @param   {string}                                                        [hostArchive] The name of the base archive file located in the 'host_archives' directory.
- *  @returns {{ hostname: string, archiveName: string, workingDir: string }}               - The new hostname, archive name, and working directory path.
+ * Updates: machine-id, subscription-manager identity, and hostname.
+ *  @param   {string}          baseArchiveName - Base filename to clone .
+ *  @param   {string}          prefix          - String to prepend to the new hostname/filename.
+ *  @returns {ModifiedArchive}                 - The new hostname, archive name
  * @throws {Error} If extraction or compression fails, or required files are missing.
  */
-export function prepareTestArchive(hostArchive: string) {
-  const baseArchive = path.join('host_archives', hostArchive);
+export function prepareTestArchive(
+  baseArchiveName: string,
+  prefix: string = DEFAULT_PREFIX,
+): ModifiedArchive {
+  const baseArchive = path.join('host_archives', baseArchiveName);
   if (!fs.existsSync(baseArchive))
     throw new Error(`Base archive not found: ${baseArchive}`);
 
   // Create unique working folder
   const testId = randomUUID();
-  const workingDir = path.join('host_archives', `insights-pw-vm-${testId}`);
+  const workingDir = path.join('host_archives', `${prefix}-${testId}`);
   fs.mkdirSync(workingDir);
 
   // Extract base archive into the unique folder
@@ -153,11 +148,12 @@ export function prepareTestArchive(hostArchive: string) {
   const hostnamePath = path.join(baseDir, 'data/insights_commands/hostname_-f');
   if (!fs.existsSync(hostnamePath))
     throw new Error(`File not found: ${hostnamePath}`);
-  const newHostname = `insights-pw-vm-${randomUUID()}`;
+
+  const newHostname = `${prefix}-${randomUUID()}`;
   fs.writeFileSync(hostnamePath, `${newHostname}\n`);
 
   // ---- Compress the modified directory ----
-  const archiveName = `insights-pw-vm-${testId}.tar.gz`;
+  const archiveName = `${prefix}-${testId}.tar.gz`;
   const tarFilePath = path.join('host_archives', archiveName);
   const tarResult = spawnSync(
     'tar',
@@ -167,37 +163,38 @@ export function prepareTestArchive(hostArchive: string) {
   if (tarResult.error)
     throw new Error(`Failed to create tar.gz: ${tarResult.error.message}`);
 
-  return { hostname: newHostname, archiveName, workingDir };
+  recordToManifest({ archiveName, workingDir });
+
+  return { hostname: newHostname, archiveName };
 }
 
 /**
- * Deletes a specific test archive and its working folder.
- *
- *
- *  @param {string} archiveName - The archive file to delete inside host_archives.
- *  @param {string} workingDir  - The working folder to remove.
+ * Initializes and uploads a single host archive.
  */
-export function cleanupTestArchive(archiveName: string, workingDir: string) {
-  const archivePath = path.join('host_archives', archiveName);
-  if (fs.existsSync(archivePath)) fs.unlinkSync(archivePath);
+export async function createSystem(
+  baseArchiveName: string = PACKAGE_BASED_ARCHIVE,
+  prefix: string = DEFAULT_PREFIX,
+): Promise<System> {
+  const system = prepareTestArchive(baseArchiveName, prefix);
+  await uploadArchive(system.archiveName);
 
-  if (fs.existsSync(workingDir))
-    fs.rmSync(workingDir, { recursive: true, force: true });
+  return {
+    hostname: system.hostname,
+  };
 }
 
 /**
- *  @param             hostArchive The name of the base archive file located in the 'host_archives' directory.
- * @function prepareSingleSystem
- * @description Prepares a single test archive, uploads it, and returns the preparation result.
- *  @returns  {object}             An object containing essential setup details.
- *  @property {string} hostname    The name of the target execution system.
- *  @property {string} archiveName The name of the uploaded archive file.
- *  @property {string} workingDir  The remote directory where the archive was
+ * Sequential uploads of multiple test systems.
  */
-export function prepareSingleSystem(
-  hostArchive: string = PACKAGE_BASED_ARCHIVE,
-) {
-  const result = prepareTestArchive(hostArchive);
-  uploadArchive(result.archiveName);
-  return result;
+export async function setupMultipleSystems(
+  baseArchiveName: string[],
+  prefix: string = DEFAULT_PREFIX,
+): Promise<System[]> {
+  const fleet = [];
+
+  for (const archive of baseArchiveName) {
+    const system = await createSystem(archive, prefix);
+    fleet.push(system);
+  }
+  return fleet;
 }
