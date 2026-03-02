@@ -12,18 +12,20 @@ import {
 import { useSelector } from 'react-redux';
 import { Button, Tooltip } from '@patternfly/react-core';
 
-const InnerButton = ({ onClick }) => (
+const InnerButton = ({ onClick, variant = 'plain' }) => (
   <Button
     icon={<PencilAltIcon />}
     onClick={onClick}
     className="ins-c-inventory__detail--action"
     aria-label="Edit"
-    variant="link"
+    variant={variant}
   ></Button>
 );
 
 InnerButton.propTypes = {
   onClick: PropTypes.func.isRequired,
+  /** 'plain' for field-specific inline edit (pencil toggle), 'link' for full-page edit */
+  variant: PropTypes.oneOf(['plain', 'link']),
 };
 
 const EditButtonUnknownPermissions = (props) => {
@@ -55,17 +57,18 @@ const EditButtonUnknownPermissions = (props) => {
 EditButtonUnknownPermissions.propTypes = {
   link: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+  variant: PropTypes.oneOf(['plain', 'link']),
 };
 
-const EditButtonWrapper = ({ writePermissions, ...props }) => {
+const EditButtonWrapper = ({ writePermissions, variant, ...props }) => {
   const { isProd } = useChrome();
 
   if (isProd?.() || writePermissions) {
-    return <InnerButton {...props} />;
+    return <InnerButton variant={variant} {...props} />;
   }
 
   if (typeof writePermissions !== 'boolean') {
-    return <EditButtonUnknownPermissions {...props} />;
+    return <EditButtonUnknownPermissions variant={variant} {...props} />;
   }
 
   return (
@@ -83,6 +86,8 @@ const EditButtonWrapper = ({ writePermissions, ...props }) => {
 
 EditButtonWrapper.propTypes = {
   writePermissions: PropTypes.bool,
+  /** 'plain' for field-specific inline edit (default), 'link' for full-page edit */
+  variant: PropTypes.oneOf(['plain', 'link']),
 };
 
 export default EditButtonWrapper;

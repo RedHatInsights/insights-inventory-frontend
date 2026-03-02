@@ -124,4 +124,55 @@ describe('NameInlineEdit', () => {
 
     expect(await screen.findByRole('textbox')).toHaveValue('some-text');
   });
+
+  describe('with showCopyButton', () => {
+    it('should render copy button and edit button when showCopyButton is true', () => {
+      render(
+        <NameInlineEdit
+          textValue="my-display-name"
+          writePermissions={true}
+          onSubmit={onSubmit}
+          showCopyButton
+        />,
+      );
+
+      expect(
+        screen.getByRole('button', { name: /copy to clipboard/i }),
+      ).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /edit/i })).toBeInTheDocument();
+      expect(screen.getByText('my-display-name')).toBeInTheDocument();
+    });
+
+    it('should open inline edit when edit is clicked and showCopyButton is true', async () => {
+      render(
+        <NameInlineEdit
+          textValue="editable-name"
+          writePermissions={true}
+          onSubmit={onSubmit}
+          showCopyButton
+        />,
+      );
+
+      await userEvent.click(screen.getByRole('button', { name: /edit/i }));
+
+      const textbox = await screen.findByRole('textbox');
+      expect(textbox).toBeVisible();
+      expect(textbox).toHaveValue('editable-name');
+    });
+
+    it('should truncate long value at 32 characters when showCopyButton is true', () => {
+      const longName = 'a'.repeat(40);
+      render(
+        <NameInlineEdit
+          textValue={longName}
+          writePermissions={true}
+          onSubmit={onSubmit}
+          showCopyButton
+        />,
+      );
+
+      // Truncated display: first 32 chars visible
+      expect(screen.getByText(longName.slice(0, 32))).toBeInTheDocument();
+    });
+  });
 });
