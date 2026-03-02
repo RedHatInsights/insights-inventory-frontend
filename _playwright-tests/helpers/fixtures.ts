@@ -12,6 +12,22 @@ type SystemsTestData = {
   deleteSystemsPrefix: string;
 };
 
+/**
+ * Safely loads and validates the global test data file.
+ */
+function loadGlobalSystemsData(path: string): SystemsTestData {
+  if (!fs.existsSync(path)) {
+    throw new Error(`Global data file missing at "${path}".`);
+  }
+
+  try {
+    const rawData = fs.readFileSync(path, 'utf-8');
+    return JSON.parse(rawData) as SystemsTestData;
+  } catch (err) {
+    throw new Error(`Failed to parse JSON at "${path}".`);
+  }
+}
+
 export const test = base.extend<{
   systems: SystemsTestData;
 }>({
@@ -21,10 +37,7 @@ export const test = base.extend<{
   },
 
   systems: async ({}, use) => {
-    const data: SystemsTestData = JSON.parse(
-      fs.readFileSync(GLOBAL_DATA_PATH, 'utf-8'),
-    );
-
+    const data = loadGlobalSystemsData(GLOBAL_DATA_PATH);
     await use(data);
   },
 });
