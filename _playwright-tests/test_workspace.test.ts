@@ -624,7 +624,7 @@ test('User can add a system to workspace from Systems page', async ({
    * - importance: high
    */
 
-  const system = systems.packageSystems[1];
+  const system = systems.workspaceSystems[2];
   const nameCell = page.locator('td[data-label="Name"]');
 
   await test.step('Navigate to Inventory → Systems', async () => {
