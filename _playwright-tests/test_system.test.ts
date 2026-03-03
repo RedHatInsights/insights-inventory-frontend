@@ -36,7 +36,7 @@ test('User should be able to edit and delete a system from Systems page', async 
 
     await page
       .getByRole('menuitem', { name: 'Edit display name' })
-      .first()
+      .nth(1)
       .click();
 
     await expect(dialog).toBeVisible();
@@ -56,7 +56,7 @@ test('User should be able to edit and delete a system from Systems page', async 
 
     await page
       .getByRole('menuitem', { name: 'Delete from inventory' })
-      .first()
+      .nth(1)
       .click();
     await expect(dialog).toBeVisible();
     await dialog.getByRole('button', { name: 'Delete' }).click();
