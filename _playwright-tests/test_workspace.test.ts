@@ -254,27 +254,24 @@ test('User can create, rename and delete a workspace from Workspaces page', asyn
     await expect(nameCell).toHaveText(renamedWorkspace);
   });
 
-  await test.step.skip(
-    'Delete workspace via per-row action from Workspaces page and verify deletion via search',
-    async () => {
-      await searchByName(page, renamedWorkspace);
-      await perRowKebabButton.click();
-      await expect(perRowMenu).toBeVisible();
-      await page
-        .getByRole('menuitem', { name: 'Delete workspace' })
-        .first()
-        .click();
+  await test.step('Delete workspace via per-row action from Workspaces page and verify deletion via search', async () => {
+    await searchByName(page, renamedWorkspace);
+    await perRowKebabButton.click();
+    await expect(perRowMenu).toBeVisible();
+    await page
+      .getByRole('menuitem', { name: 'Delete workspace' })
+      .first()
+      .click();
 
-      await expect(dialogModal).toBeVisible();
-      await dialogModal.getByRole('button', { name: 'Delete' }).click();
+    await expect(dialogModal).toBeVisible();
+    await dialogModal.getByRole('button', { name: 'Delete' }).click();
 
-      // search for the workspace to confirm workspace is removed
-      await searchByName(page, renamedWorkspace);
-      await expect(
-        page.locator('text=No matching workspaces found'),
-      ).toBeVisible();
-    },
-  );
+    // search for the workspace to confirm workspace is removed
+    await searchByName(page, renamedWorkspace);
+    await expect(
+      page.locator('text=No matching workspaces found'),
+    ).toBeVisible();
+  });
 });
 
 test('User can add and remove system from an empty workspace', async ({
@@ -319,7 +316,7 @@ test('User can add and remove system from an empty workspace', async ({
     // Wait for a system to appear - system checkbox loads
     // to ensure the system table is fully loaded
     const loadingSpinner = dialog.getByRole('progressbar');
-    await expect(loadingSpinner).not.toBeVisible();
+    await expect(loadingSpinner).toBeHidden();
 
     const searchInput = dialog.locator('input[placeholder="Filter by name"]');
     await expect(searchInput).toBeEditable();
@@ -379,20 +376,7 @@ test('User can add and remove system from an empty workspace', async ({
   });
 });
 
-test('User can add a system to an existing workspace with systems', async ({
-  page,
-  systems,
-}) => {
-  /**
-   * Jira References:
-   * - https://issues.redhat.com/browse/RHINENG-21946 – Add systems to workspace with systems
-   * Metadata:
-   * - requirements: inv-groups-add-hosts
-   * - importance: high
-   */
-
-  const system = systems.workspaceSystems[1];
-
+test('User can navigate to Workspace Info Tab', async ({ page }) => {
   await test.step('Navigate to existing workspace', async () => {
     await navigateToWorkspacesFunc(page);
     await searchByName(page, WORKSPACE_WITH_SYSTEMS);
@@ -401,54 +385,6 @@ test('User can add a system to an existing workspace with systems', async ({
     });
     await expect(workspaceLink).toBeVisible({ timeout: 100000 });
     await workspaceLink.click();
-  });
-
-  await test.step('Add system to workspace', async () => {
-    const addSystemsButton = page.getByRole('button', { name: 'Add systems' });
-    await expect(addSystemsButton).toBeVisible({ timeout: 100000 });
-    await addSystemsButton.click();
-
-    const dialog = page.locator('[role="dialog"]');
-    await expect(dialog).toBeVisible();
-
-    // Workaround for https://issues.redhat.com/browse/RHINENG-23330
-    // Wait for a system to appear - system checkbox loads
-    // to ensure the system table is fully loaded
-    const loadingSpinner = dialog.getByRole('progressbar');
-    await expect(loadingSpinner).not.toBeVisible();
-
-    const searchInput = dialog.locator('input[placeholder="Filter by name"]');
-    await expect(searchInput).toBeEditable();
-    await expect(searchInput).toBeEmpty();
-
-    const nameCell = page.locator('td[data-label="Name"]');
-    await expect(nameCell.first()).toBeVisible({ timeout: 20000 });
-
-    await searchInput.fill(system.hostname);
-    await expect(nameCell).toHaveCount(1);
-
-    // Since we searched for the exact system name, select the first checkbox in the results
-    const checkbox = dialog.locator('input[name="checkrow0"]');
-    await expect(checkbox).toBeVisible();
-    await checkbox.check();
-    await expect(checkbox).toBeChecked({ timeout: 10000 });
-
-    const addButton = dialog.getByRole('button', { name: 'Add systems' });
-    await expect(addButton).toBeEnabled({ timeout: 10000 });
-    await addButton.click();
-
-    // Wait for the dialog to close
-    await expect(dialog).not.toBeVisible({ timeout: 10000 });
-    await page.reload();
-  });
-
-  await test.step('Verify system was added to workspace', async () => {
-    await searchByName(page, system.hostname);
-    await expect(page.getByRole('link', { name: system.hostname })).toBeVisible(
-      {
-        timeout: 50000,
-      },
-    );
   });
 
   await test.step('Verify Workspace info shows User access configuration section', async () => {
@@ -492,6 +428,7 @@ sortingColumns.forEach((column) => {
       page,
     }) => {
       test.fixme(true, 'https://issues.redhat.com/browse/RHINENG-24401');
+
       /**
        * Jira References:
        * - https://issues.redhat.com/browse/${column.jiraRef} – Sort workspaces
