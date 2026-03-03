@@ -50,12 +50,14 @@ export const usePatchSystemsMutation = ({
         dismissable: true,
       });
     },
-    onSuccess: async () => {
+    onSuccess: async (_data, variables) => {
       onSuccess?.();
+      const newDisplayName = variables.fields.display_name;
+
       addNotification({
         variant: 'success',
         title: 'Edit display name operation finished',
-        description: `Display name has been changed to ${displayName}`,
+        description: `Display name has been changed to ${newDisplayName}`,
         dismissable: true,
       });
 
