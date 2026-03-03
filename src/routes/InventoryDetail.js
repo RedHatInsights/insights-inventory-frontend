@@ -69,10 +69,10 @@ const appList = {
       nonImage: true,
     },
     {
-      title: 'Patch',
+      title: 'Content',
       name: 'patch',
       component: (props) => (
-        <ApplicationTab appName="patch" title="Patch" {...props} />
+        <ApplicationTab appName="patch" title="Content" {...props} />
       ),
       nonEdge: true,
     },
