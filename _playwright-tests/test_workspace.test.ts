@@ -274,7 +274,7 @@ test('User can create, rename and delete a workspace from Workspaces page', asyn
   });
 });
 
-test('User can add and remove system from an empty workspace', async ({
+test('User can add and remove system from workspace', async ({
   page,
   systems,
 }) => {
@@ -290,16 +290,14 @@ test('User can add and remove system from an empty workspace', async ({
    * - importance: high
    */
 
-  const workspaceName = await generateUniqueWorkspaceName();
   const system = systems.workspaceSystems[0];
 
-  await test.step('Create and open a new empty workspace', async () => {
+  await test.step('Navigate to existing workspace', async () => {
     await navigateToWorkspacesFunc(page);
-    await createNewWorkspace(page, workspaceName);
-
-    await searchByName(page, workspaceName);
-
-    const workspaceLink = page.getByRole('link', { name: workspaceName });
+    await searchByName(page, WORKSPACE_WITH_SYSTEMS);
+    const workspaceLink = page.getByRole('link', {
+      name: WORKSPACE_WITH_SYSTEMS,
+    });
     await expect(workspaceLink).toBeVisible({ timeout: 100000 });
     await workspaceLink.click();
   });
