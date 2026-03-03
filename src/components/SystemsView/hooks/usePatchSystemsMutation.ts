@@ -52,7 +52,7 @@ export const usePatchSystemsMutation = ({
     },
     onSuccess: async (_data, variables) => {
       onSuccess?.();
-      const newDisplayName = variables.fields.display_name;
+      const newDisplayName = variables?.fields?.display_name;
 
       addNotification({
         variant: 'success',
