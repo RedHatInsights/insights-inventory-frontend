@@ -1,10 +1,5 @@
 import { expect } from '@playwright/test';
-import { test } from './helpers/navHelpers';
-import {
-  BOOTC_ARCHIVE,
-  prepareSingleSystem,
-  cleanupTestArchive,
-} from './helpers/uploadArchive';
+import { test } from './helpers/fixtures';
 
 test.describe('Navigate to Inventory pages via side Navigation bar', () => {
   test.beforeEach(async ({ page }) => {
@@ -34,7 +29,6 @@ test.describe('Navigate to Inventory pages via side Navigation bar', () => {
   test('User can switch to the Images view in Inventory page', async ({
     page,
   }) => {
-    const setupBootcResult = prepareSingleSystem(BOOTC_ARCHIVE);
     const systemsPageNav = page
       .locator('li[data-ouia-component-id="Systems"]')
       .locator('a[data-quickstart-id="insights_inventory"]');
@@ -52,11 +46,6 @@ test.describe('Navigate to Inventory pages via side Navigation bar', () => {
         page.getByRole('columnheader', { name: 'Image name' }),
       ).toBeVisible({ timeout: 10000 });
     });
-
-    cleanupTestArchive(
-      setupBootcResult.archiveName,
-      setupBootcResult.workingDir,
-    );
   });
 
   test('Use can navigate to Workspaces page', async ({ page }) => {

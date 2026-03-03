@@ -1,41 +1,22 @@
 import { test, expect } from '@playwright/test';
 import { navigateToInventorySystemsFunc } from './helpers/navHelpers';
 import {
-  prepareSingleSystem,
-  cleanupTestArchive,
-  BOOTC_ARCHIVE,
-  CENTOS_ARCHIVE,
-} from './helpers/uploadArchive';
-import {
   filterSystemsWithConditionalFilter,
   assertAllContain,
   parseLastSeenToDays,
 } from './helpers/filterHelpers';
 import { closePopupsIfExist } from './helpers/loginHelpers';
+import {
+  WORKSPACE_WITH_SYSTEMS,
+  BASE_ARCHIVE_TAG_COUNT,
+  TAG,
+} from './helpers/constants';
 
 test.describe('Filtering Systems Tests', () => {
-  let systemName: string;
-  let archiveName: string;
-  let workingDir: string;
-  let systemBootcName: string;
-  let archiveBootcName: string;
-  let workingBootcDir: string;
   const operatingSystemTestCases = [
     { OS: 'RHEL 9.4' },
     { OS: 'CentOS Linux 7.6' },
   ];
-
-  test.beforeAll(async () => {
-    const setupResult = prepareSingleSystem();
-    const setupBootcResult = prepareSingleSystem(BOOTC_ARCHIVE);
-
-    ({ hostname: systemName, archiveName, workingDir } = setupResult);
-    ({
-      hostname: systemBootcName,
-      archiveName: archiveBootcName,
-      workingDir: workingBootcDir,
-    } = setupBootcResult);
-  });
 
   test.beforeEach(async ({ page }) => {
     await closePopupsIfExist(page);
@@ -46,11 +27,6 @@ test.describe('Filtering Systems Tests', () => {
     if (await resetFiltersButton.isVisible({ timeout: 100 })) {
       await resetFiltersButton.click();
     }
-  });
-
-  test.afterAll(async () => {
-    cleanupTestArchive(archiveName, workingDir);
-    cleanupTestArchive(archiveBootcName, workingBootcDir);
   });
 
   test('User can filter systems by System type', async ({ page }) => {
@@ -111,18 +87,18 @@ test.describe('Filtering Systems Tests', () => {
     await filterSystemsWithConditionalFilter(
       page,
       'Workspace',
-      'Workspace_with_systems',
+      WORKSPACE_WITH_SYSTEMS,
     );
     const workspaceCellWithValue = page.locator(
       'table tbody td[data-label="Workspace"]',
       {
-        hasText: 'Workspace_with_systems',
+        hasText: WORKSPACE_WITH_SYSTEMS,
       },
     );
     await expect(workspaceCellWithValue.first()).toBeVisible();
     const count = await workspaceCellWithValue.count();
     await expect(workspaceCellWithValue).toHaveText(
-      Array(count).fill('Workspace_with_systems'),
+      Array(count).fill(WORKSPACE_WITH_SYSTEMS),
     );
   });
 
@@ -196,23 +172,21 @@ test.describe('Filtering Systems Tests', () => {
      */
     test.fixme(true, 'https://issues.redhat.com/browse/RHINENG-23546');
 
-    const expectedTagsCount = '7';
-    const name = 'Location';
-    const value = 'basement';
-    const tagSource = 'insights-client';
-    const tagOption = `${name}=${value}`;
+    const tagOption = `${TAG.name}=${TAG.value}`;
 
     await test.step('Filter systems by tag', async () => {
       await filterSystemsWithConditionalFilter(page, 'Tags', tagOption);
       const tagsRows = page.locator(
         '[data-ouia-component-id="TagCount-text"]',
         {
-          hasText: expectedTagsCount,
+          hasText: `${BASE_ARCHIVE_TAG_COUNT}`,
         },
       );
       await expect(tagsRows.first()).toBeVisible();
       const count = await tagsRows.count();
-      await expect(tagsRows).toHaveText(Array(count).fill(expectedTagsCount));
+      await expect(tagsRows).toHaveText(
+        Array(count).fill(BASE_ARCHIVE_TAG_COUNT),
+      );
     });
 
     await test.step('Verify Tags Modal has expected tag', async () => {
@@ -221,9 +195,9 @@ test.describe('Filtering Systems Tests', () => {
       await inputLocator.fill('');
 
       // get name of system we check the tags to verify tags modal title
-      const nameLocator = page.locator('td[data-label="Name"]').first();
-      await nameLocator.waitFor({ state: 'visible' });
-      const expectedSystemName = await nameLocator.innerText();
+      const nameCell = page.locator('td[data-label="Name"]').first();
+      await nameCell.waitFor({ state: 'visible' });
+      const expectedSystemName = await nameCell.innerText();
 
       // open Tags modal
       const tagButton = page.locator(
@@ -232,7 +206,7 @@ test.describe('Filtering Systems Tests', () => {
       await tagButton.first().click();
       const dialog = page.locator('[role="dialog"]');
       // Title of the modal should be the name + tags count of clicked system
-      const tagModalTitle = `${expectedSystemName} (${expectedTagsCount})`;
+      const tagModalTitle = `${expectedSystemName} (${BASE_ARCHIVE_TAG_COUNT})`;
       await expect(
         dialog.getByRole('heading', { name: tagModalTitle }),
       ).toBeVisible({
@@ -240,11 +214,15 @@ test.describe('Filtering Systems Tests', () => {
       });
       // search for expected tag
       const inputLocatorDialog = page.getByPlaceholder('Filter tags');
-      await inputLocatorDialog.fill(value);
-      await expect(dialog.locator('td[data-label="Name"]')).toHaveText(name);
-      await expect(dialog.locator('td[data-label="Value"]')).toHaveText(value);
+      await inputLocatorDialog.fill(TAG.value);
+      await expect(dialog.locator('td[data-label="Name"]')).toHaveText(
+        TAG.name,
+      );
+      await expect(dialog.locator('td[data-label="Value"]')).toHaveText(
+        TAG.value,
+      );
       await expect(dialog.locator('td[data-label="Tag source"]')).toHaveText(
-        tagSource,
+        TAG.tagSource,
       );
     });
   });

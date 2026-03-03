@@ -1,6 +1,5 @@
 import { type Page } from '@playwright/test';
 import { test as base, expect } from '@playwright/test';
-import { closePopupsIfExist } from './loginHelpers';
 
 /**
  * Navigates the browser to the Systems inventory page and waits for the
@@ -62,13 +61,6 @@ export const navigateToStalenessPageFunc = async (page: Page) => {
     page.getByText('Organization level system staleness and deletion'),
   ).toBeVisible({ timeout: 30000 });
 };
-
-export const test = base.extend({
-  page: async ({ page }, use) => {
-    await closePopupsIfExist(page); // Run before each test
-    await use(page); // Pass control to the test
-  },
-});
 
 /**
  * Navigates the browser to the System's details page and waits for the

@@ -1,6 +1,5 @@
 import { expect } from '@playwright/test';
 import {
-  test,
   navigateToWorkspacesFunc,
   navigateToInventorySystemsFunc,
 } from './helpers/navHelpers';
@@ -9,10 +8,12 @@ import {
   generateUniqueWorkspaceName,
   createNewWorkspace,
 } from './helpers/workspaceHelpers';
+import { test } from './helpers/fixtures';
 import {
-  cleanupTestArchive,
-  prepareSingleSystem,
-} from './helpers/uploadArchive';
+  WORKSPACE_WITH_SYSTEMS,
+  WORKSPACE_NAME_MODIFIED_PREFIX,
+  WORKSPACE_NAME_SORT_PREFIX,
+} from './helpers/constants';
 
 test('User can create, rename, and delete a workspace from Workspace Details page', async ({
   page,
@@ -112,9 +113,6 @@ test('User cannot delete a workspace with systems from Workspace Details page', 
      - importance: critical
      - negative: true
    */
-
-  const workspaceName = 'Workspace_with_systems';
-
   await test.step('Navigate to Workspaces', async () => {
     await navigateToWorkspacesFunc(page);
   });
@@ -123,9 +121,11 @@ test('User cannot delete a workspace with systems from Workspace Details page', 
     const searchInput = page.locator('input[placeholder="Filter by name"]');
     await expect(searchInput).toBeVisible();
     await page.reload({ waitUntil: 'networkidle' });
-    await searchInput.fill(workspaceName);
+    await searchInput.fill(WORKSPACE_WITH_SYSTEMS);
 
-    const workspaceLink = page.getByRole('link', { name: workspaceName });
+    const workspaceLink = page.getByRole('link', {
+      name: WORKSPACE_WITH_SYSTEMS,
+    });
     await expect(workspaceLink).toBeVisible({ timeout: 100000 });
     await workspaceLink.click();
   });
@@ -225,15 +225,15 @@ test('User can create, rename and delete a workspace from Workspaces page', asyn
   const dialogModal = page.locator('[data-ouia-component-id="group-modal"]');
   const perRowKebabButton = page.getByRole('button', { name: 'Kebab toggle' });
   const perRowMenu = page.locator('[class="pf-v6-c-menu"]');
-  const nameColumnLocator = page.locator('td[data-label="Name"]');
+  const nameCell = page.locator('td[data-label="Name"]');
 
   await test.step('Test setup: navigate to Workspaces page, create workspace to work with', async () => {
     await navigateToWorkspacesFunc(page);
     await createNewWorkspace(page, workspaceName);
     // search for workspace and via 'Name' column make sure only 1 workspace is found
     await searchByName(page, workspaceName);
-    await expect(nameColumnLocator).toHaveCount(1);
-    await expect(nameColumnLocator).toHaveText(workspaceName);
+    await expect(nameCell).toHaveCount(1);
+    await expect(nameCell).toHaveText(workspaceName);
   });
 
   await test.step('Rename workspace via per-row action from Workspaces page and verify renaming via search', async () => {
@@ -250,8 +250,8 @@ test('User can create, rename and delete a workspace from Workspaces page', asyn
 
     // search for the new name to confirm rename worked
     await searchByName(page, renamedWorkspace);
-    await expect(nameColumnLocator).toHaveCount(1);
-    await expect(nameColumnLocator).toHaveText(renamedWorkspace);
+    await expect(nameCell).toHaveCount(1);
+    await expect(nameCell).toHaveText(renamedWorkspace);
   });
 
   await test.step.skip(
@@ -279,6 +279,7 @@ test('User can create, rename and delete a workspace from Workspaces page', asyn
 
 test('User can add and remove system from an empty workspace', async ({
   page,
+  systems,
 }) => {
   /**
    * Jira References:
@@ -293,20 +294,7 @@ test('User can add and remove system from an empty workspace', async ({
    */
 
   const workspaceName = await generateUniqueWorkspaceName();
-  const setupResult = prepareSingleSystem();
-  const { hostname: systemName, archiveName, workingDir } = setupResult;
-  const nameColumnLocator = page.locator('td[data-label="Name"]');
-
-  await test.step('Confirm system exists in Inventory Systems', async () => {
-    await navigateToInventorySystemsFunc(page);
-
-    const searchInput = page.locator('input[placeholder="Filter by name"]');
-    await page.reload({ waitUntil: 'networkidle' });
-
-    // Wait for the system to appear in inventory (may take time after upload)
-    await searchInput.fill(systemName);
-    await expect(nameColumnLocator).toHaveCount(1, { timeout: 60000 });
-  });
+  const system = systems.workspaceSystems[0];
 
   await test.step('Create and open a new empty workspace', async () => {
     await navigateToWorkspacesFunc(page);
@@ -325,20 +313,23 @@ test('User can add and remove system from an empty workspace', async ({
     await addSystemsButton.click();
 
     const dialog = page.locator('[role="dialog"]');
-    await expect(dialog).toBeVisible({ timeout: 100000 });
+    await expect(dialog).toBeVisible();
 
     // Workaround for https://issues.redhat.com/browse/RHINENG-23330
     // Wait for a system to appear - system checkbox loads
     // to ensure the system table is fully loaded
-    const checkboxToWaitFor = dialog.locator('input[name="checkrow0"]');
-    await expect(checkboxToWaitFor).toBeVisible({ timeout: 10000 });
+    const loadingSpinner = dialog.getByRole('progressbar');
+    await expect(loadingSpinner).not.toBeVisible();
 
     const searchInput = dialog.locator('input[placeholder="Filter by name"]');
-    await searchInput.fill(systemName);
+    await expect(searchInput).toBeEditable();
+    await expect(searchInput).toBeEmpty();
 
-    // Wait for the system link to appear
-    const systemLink = dialog.getByRole('link', { name: systemName });
-    await expect(systemLink).toBeVisible({ timeout: 30000 });
+    const nameCell = page.locator('td[data-label="Name"]');
+    await expect(nameCell.first()).toBeVisible({ timeout: 20000 });
+
+    await searchInput.fill(system.hostname);
+    await expect(nameCell).toHaveCount(1);
 
     // Since we searched for the exact system name, select the first checkbox in the results
     const checkbox = dialog.locator('input[name="checkrow0"]');
@@ -357,17 +348,10 @@ test('User can add and remove system from an empty workspace', async ({
 
   await test.step('Remove system from workspace', async () => {
     const filterInput = page.getByPlaceholder('Filter by name');
-    await filterInput.fill(systemName);
+    await filterInput.fill(system.hostname);
 
-    const systemRowLink = page.getByRole('link', { name: systemName });
-    await expect(systemRowLink).toBeVisible({ timeout: 30000 });
-
-    const row = page.locator('tr', { hasText: systemName });
-    await expect(row).toBeVisible({ timeout: 100000 });
-
-    const checkbox = page.locator('[name="checkrow0"]');
-    await checkbox.click();
-    await checkbox.check();
+    const nameCell = page.locator('td[data-label="Name"]');
+    await expect(nameCell).toHaveCount(1);
 
     await page.locator('[aria-label="Kebab toggle"]').click();
 
@@ -393,14 +377,11 @@ test('User can add and remove system from an empty workspace', async ({
       ),
     ).toBeVisible({ timeout: 100000 });
   });
-
-  await test.step('Cleanup test files', async () => {
-    cleanupTestArchive(archiveName, workingDir);
-  });
 });
 
 test('User can add a system to an existing workspace with systems', async ({
   page,
+  systems,
 }) => {
   /**
    * Jira References:
@@ -410,69 +391,64 @@ test('User can add a system to an existing workspace with systems', async ({
    * - importance: high
    */
 
-  const workspaceName = 'Workspace_with_systems';
-  const setupResult = prepareSingleSystem();
-  const { hostname: systemName, archiveName, workingDir } = setupResult;
-  const nameColumnLocator = page.locator('td[data-label="Name"]');
-
-  await test.step('Navigate to Inventory Systems and confirm system is available', async () => {
-    await navigateToInventorySystemsFunc(page);
-    const searchInput = page.locator('input[placeholder="Filter by name"]');
-    await page.reload({ waitUntil: 'networkidle' });
-    await searchInput.fill(systemName);
-    await expect(nameColumnLocator).toHaveCount(1);
-  });
+  const system = systems.workspaceSystems[1];
 
   await test.step('Navigate to existing workspace', async () => {
     await navigateToWorkspacesFunc(page);
-    const searchInput = page.locator('input[placeholder="Filter by name"]');
-    await searchInput.fill(workspaceName);
-    const workspaceLink = page.getByRole('link', { name: workspaceName });
+    await searchByName(page, WORKSPACE_WITH_SYSTEMS);
+    const workspaceLink = page.getByRole('link', {
+      name: WORKSPACE_WITH_SYSTEMS,
+    });
     await expect(workspaceLink).toBeVisible({ timeout: 100000 });
     await workspaceLink.click();
   });
 
-  await test.step('Open Add systems dialog', async () => {
+  await test.step('Add system to workspace', async () => {
     const addSystemsButton = page.getByRole('button', { name: 'Add systems' });
     await expect(addSystemsButton).toBeVisible({ timeout: 100000 });
     await addSystemsButton.click();
-  });
 
-  await test.step('Search for new system and select it', async () => {
     const dialog = page.locator('[role="dialog"]');
-    await expect(dialog).toBeVisible({ timeout: 100000 });
+    await expect(dialog).toBeVisible();
 
-    // Use the search input inside the dialog specifically
-    const dialogSearchInput = dialog.locator(
-      'input[placeholder="Filter by name"]',
-    );
-    await dialogSearchInput.fill(systemName);
+    // Workaround for https://issues.redhat.com/browse/RHINENG-23330
+    // Wait for a system to appear - system checkbox loads
+    // to ensure the system table is fully loaded
+    const loadingSpinner = dialog.getByRole('progressbar');
+    await expect(loadingSpinner).not.toBeVisible();
 
-    const systemLink = dialog.getByRole('link', { name: systemName });
-    await expect(systemLink).toHaveCount(1);
+    const searchInput = dialog.locator('input[placeholder="Filter by name"]');
+    await expect(searchInput).toBeEditable();
+    await expect(searchInput).toBeEmpty();
 
+    const nameCell = page.locator('td[data-label="Name"]');
+    await expect(nameCell.first()).toBeVisible({ timeout: 20000 });
+
+    await searchInput.fill(system.hostname);
+    await expect(nameCell).toHaveCount(1);
+
+    // Since we searched for the exact system name, select the first checkbox in the results
     const checkbox = dialog.locator('input[name="checkrow0"]');
     await expect(checkbox).toBeVisible();
     await checkbox.check();
     await expect(checkbox).toBeChecked({ timeout: 10000 });
 
     const addButton = dialog.getByRole('button', { name: 'Add systems' });
-    await expect(addButton).toBeVisible();
+    await expect(addButton).toBeEnabled({ timeout: 10000 });
     await addButton.click();
 
     // Wait for the dialog to close
     await expect(dialog).not.toBeVisible({ timeout: 10000 });
-    await page.reload({ waitUntil: 'networkidle' });
+    await page.reload();
   });
 
   await test.step('Verify system was added to workspace', async () => {
-    // Search for the system in the workspace's systems list
-    const filterInput = page.getByPlaceholder('Filter by name');
-    await filterInput.fill(systemName);
-
-    await expect(page.getByRole('link', { name: systemName })).toBeVisible({
-      timeout: 50000,
-    });
+    await searchByName(page, system.hostname);
+    await expect(page.getByRole('link', { name: system.hostname })).toBeVisible(
+      {
+        timeout: 50000,
+      },
+    );
   });
 
   await test.step('Verify Workspace info shows User access configuration section', async () => {
@@ -486,29 +462,13 @@ test('User can add a system to an existing workspace with systems', async ({
       }),
     ).toBeVisible({ timeout: 100000 });
   });
-
-  await test.step('Cleanup test artifacts', async () => {
-    cleanupTestArchive(archiveName, workingDir);
-  });
 });
-
-/**
- * Pre-requisite: Manually create these 6 workspaces in stage environment:
- * - sort_name_Alpha
- * - sort_name_Bravo
- * - sort_name_Charlie
- * - sort_modified_First
- * - sort_modified_Second
- * - sort_modified_Third
- *
- * These workspaces will be reused across test runs and should NOT be deleted.
- */
 
 // Define sorting column configurations
 const sortingColumns = [
   {
     name: 'Name',
-    searchTerm: 'sort_name',
+    searchTerm: WORKSPACE_NAME_SORT_PREFIX,
     dataLabel: 'Name',
     columnText: 'Name',
     orderByParam: 'name',
@@ -517,7 +477,7 @@ const sortingColumns = [
   },
   {
     name: 'Last modified',
-    searchTerm: 'sort_modified',
+    searchTerm: WORKSPACE_NAME_MODIFIED_PREFIX,
     dataLabel: 'Last modified',
     columnText: 'Last modified',
     orderByParam: 'updated',
@@ -539,7 +499,6 @@ sortingColumns.forEach((column) => {
        * - requirements: inv-groups-get-by-id
        * - importance: high
        */
-
       await test.step('Navigate to Workspaces page', async () => {
         await navigateToWorkspacesFunc(page);
       });
@@ -549,8 +508,8 @@ sortingColumns.forEach((column) => {
 
         // Wait for the filter to be applied
         await expect(async () => {
-          const nameColumnCells = page.locator('td[data-label="Name"] a');
-          const count = await nameColumnCells.count();
+          const nameCell = page.locator('td[data-label="Name"] a');
+          const count = await nameCell.count();
           expect(count).toBe(3);
         }).toPass({ timeout: 15000 });
       });
@@ -603,9 +562,9 @@ sortingColumns.forEach((column) => {
 
         // For Name column, also verify the actual sort order
         if (column.hasNameVerification) {
-          const nameColumnCells = page.locator('td[data-label="Name"] a');
+          const nameCell = page.locator('td[data-label="Name"] a');
           await expect(async () => {
-            const allNames = await nameColumnCells.allTextContents();
+            const allNames = await nameCell.allTextContents();
             expect(allNames.length).toBe(3);
 
             // Verify the sort is actually applied by checking first element
@@ -622,10 +581,10 @@ sortingColumns.forEach((column) => {
       // For Name column, verify full sorting correctness
       if (column.hasNameVerification) {
         await test.step('Verify sorting is correct', async () => {
-          const nameColumnCells = page.locator('td[data-label="Name"] a');
-          await expect(nameColumnCells.first()).toBeVisible();
+          const nameCell = page.locator('td[data-label="Name"] a');
+          await expect(nameCell.first()).toBeVisible();
 
-          const displayedNames = await nameColumnCells.allTextContents();
+          const displayedNames = await nameCell.allTextContents();
           const lowerCaseNames = displayedNames.map((name) =>
             name.toLowerCase().trim(),
           );
@@ -655,6 +614,7 @@ sortingColumns.forEach((column) => {
 
 test('User can add a system to workspace from Systems page', async ({
   page,
+  systems,
 }) => {
   /**
    * Jira References:
@@ -664,19 +624,18 @@ test('User can add a system to workspace from Systems page', async ({
    * - importance: high
    */
 
-  const workspaceName = 'Workspace_with_systems';
-  const setupResult = prepareSingleSystem();
-  const { hostname: systemName, archiveName, workingDir } = setupResult;
-  const nameColumnLocator = page.locator('td[data-label="Name"]');
+  const system = systems.workspaceSystems[2];
+  const nameCell = page.locator('td[data-label="Name"]');
 
   await test.step('Navigate to Inventory → Systems', async () => {
     await navigateToInventorySystemsFunc(page);
   });
 
-  await test.step(`Add system "${systemName}" to "${workspaceName}"`, async () => {
-    await searchByName(page, systemName);
+  await test.step(`Add system "${system.hostname}" to "${WORKSPACE_WITH_SYSTEMS}"`, async () => {
+    await searchByName(page, system.hostname);
+    await expect(nameCell).toHaveCount(1);
     await page
-      .getByRole('row', { name: new RegExp(systemName, 'i') })
+      .getByRole('row', { name: new RegExp(system.hostname, 'i') })
       .getByLabel('Kebab toggle')
       .click();
 
@@ -695,13 +654,15 @@ test('User can add a system to workspace from Systems page', async ({
     await expect(inputLocator).toBeEnabled();
 
     await inputLocator.click();
-    await inputLocator.fill(workspaceName);
-    await expect(page.locator(`input[value="${workspaceName}"]`)).toBeVisible();
+    await inputLocator.fill(WORKSPACE_WITH_SYSTEMS);
+    await expect(
+      page.locator(`input[value="${WORKSPACE_WITH_SYSTEMS}"]`),
+    ).toBeVisible();
 
     await expect(
-      page.getByRole('option', { name: workspaceName }),
+      page.getByRole('option', { name: WORKSPACE_WITH_SYSTEMS }),
     ).toBeVisible();
-    await page.getByRole('option', { name: workspaceName }).click();
+    await page.getByRole('option', { name: WORKSPACE_WITH_SYSTEMS }).click();
 
     await dialog.getByRole('button', { name: 'Add' }).click();
   });
@@ -710,7 +671,7 @@ test('User can add a system to workspace from Systems page', async ({
     const workspaceCellWithValue = page.locator(
       'table tbody td[data-label="Workspace"]',
       {
-        hasText: workspaceName,
+        hasText: WORKSPACE_WITH_SYSTEMS,
       },
     );
     await expect(workspaceCellWithValue.first()).toBeVisible();
@@ -718,16 +679,16 @@ test('User can add a system to workspace from Systems page', async ({
     const nameCellWithValue = page.locator(
       'table tbody td[data-label="Name"]',
       {
-        hasText: systemName,
+        hasText: system.hostname,
       },
     );
     await expect(nameCellWithValue.first()).toBeVisible();
   });
 
-  await test.step(`Remove system "${systemName}" from "${workspaceName}"`, async () => {
+  await test.step(`Remove system "${system.hostname}" from "${WORKSPACE_WITH_SYSTEMS}"`, async () => {
     // await searchByName(page, systemName);
     await page
-      .getByRole('row', { name: new RegExp(systemName, 'i') })
+      .getByRole('row', { name: new RegExp(system.hostname, 'i') })
       .getByLabel('Kebab toggle')
       .click();
 
@@ -753,13 +714,9 @@ test('User can add a system to workspace from Systems page', async ({
     const nameCellWithValue = page.locator(
       'table tbody td[data-label="Name"]',
       {
-        hasText: systemName,
+        hasText: system.hostname,
       },
     );
     await expect(nameCellWithValue.first()).toBeVisible();
-  });
-
-  await test.step('Cleanup test artifacts', async () => {
-    cleanupTestArchive(archiveName, workingDir);
   });
 });

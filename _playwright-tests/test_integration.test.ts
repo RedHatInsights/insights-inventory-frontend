@@ -1,5 +1,5 @@
 import { ConsoleMessage, expect } from '@playwright/test';
-import { test } from './helpers/navHelpers';
+import { test } from './helpers/fixtures';
 
 // URL constants
 const systemsPageUrls = [
@@ -56,7 +56,8 @@ test.describe('Inventory federated modules check @integration', () => {
 
       // eslint-disable-next-line playwright/no-conditional-in-test
       if (service.name === 'Remediation Plan') {
-        await page.getByLabel('SystemsTab').click();
+        const systemsTab = page.getByLabel('SystemsTab');
+        await systemsTab.click({ timeout: 1000 });
       }
       await expect(
         page.locator('[data-ouia-component-id="systems-table"]'),

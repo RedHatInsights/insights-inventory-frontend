@@ -1,5 +1,6 @@
 import { expect } from '@playwright/test';
-import { test, navigateToStalenessPageFunc } from './helpers/navHelpers';
+import { navigateToStalenessPageFunc } from './helpers/navHelpers';
+import { test } from './helpers/fixtures';
 import { deleteStaleness } from './helpers/apiHelpers';
 import axios from 'axios';
 import { Response } from '@playwright/test';
