@@ -12,14 +12,13 @@ import type {
 import { useQueries } from '@tanstack/react-query';
 import { INITIAL_PAGE } from '../../constants';
 import { System } from '../../../SystemsView/hooks/useSystemsQuery';
+import { PER_PAGE_MAX } from '../../../../constants';
 
 export type BootcSystem = System & {
   system_profile: {
     bootc_status: { booted: SystemProfileBootcStatusBooted };
   };
 };
-
-const PER_PAGE = 100;
 
 /**
  * Runs the inventory queries needed for the Images view in parallel: bootc systems (paginated),
@@ -65,11 +64,11 @@ export const useImageQueries = () => {
 
           while (hasMore) {
             const { results } = await fetchBootc({
-              per_page: PER_PAGE,
+              per_page: PER_PAGE_MAX,
               page,
             });
             allResults.push(results);
-            hasMore = results.length === PER_PAGE;
+            hasMore = results.length === PER_PAGE_MAX;
             page++;
           }
 

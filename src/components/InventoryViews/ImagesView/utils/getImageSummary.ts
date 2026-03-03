@@ -9,7 +9,7 @@ type ImageHash = { image_digest: string; hashSystemCount: number };
  * Aggregated view of a single image across all systems: image name, total system count,
  * and per-digest (hash) breakdown with system counts.
  */
-type ImageEntry = {
+export type Image = {
   image: string;
   systemCount: number;
   hashes: Record<string, ImageHash>;
@@ -32,7 +32,7 @@ export const getImageSummary = (data: BootcSystem[]) => {
     (system) => system.system_profile.bootc_status.booted,
   );
 
-  const images: Record<string, ImageEntry> = {};
+  const images: Record<string, Image> = {};
   systemsBooted.forEach((bootedImage) => {
     const { image, image_digest } = bootedImage;
     if (!image || !image_digest) return;

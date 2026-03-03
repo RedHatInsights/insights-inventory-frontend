@@ -10,6 +10,7 @@ import { OutageAlert } from '../components/OutageAlert';
 import SystemsViewToggle from '../components/SystemsView/SystemsViewToggle';
 import { AccountStatContext } from '../Contexts';
 import { ImagesView } from '../components/InventoryViews/ImagesView/ImagesView';
+import './inventory.scss';
 
 interface InventoryViewsProps {
   hasAccess?: boolean;
