@@ -343,6 +343,11 @@ test('User can add and remove system from workspace', async ({
 
   await test.step('Remove system from workspace', async () => {
     const filterInput = page.getByPlaceholder('Filter by name');
+    const loadingSpinner = page.getByRole('progressbar');
+    await expect(loadingSpinner).toBeHidden();
+
+    await expect(filterInput).toBeEditable();
+    await expect(filterInput).toBeEmpty();
     await filterInput.fill(system.hostname);
 
     const nameCell = page.locator('td[data-label="Name"]');
