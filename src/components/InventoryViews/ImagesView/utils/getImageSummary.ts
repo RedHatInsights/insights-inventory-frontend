@@ -3,7 +3,7 @@ import type { BootcSystem } from '../hooks/useImageQueries';
 /**
  * Aggregation of systems for a single image digest (hash).
  */
-type ImageHash = { image_digest: string; hashSystemCount: number };
+export type ImageHash = { image_digest: string; hashSystemCount: number };
 
 /**
  * Aggregated view of a single image across all systems: image name, total system count,
