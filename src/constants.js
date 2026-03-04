@@ -322,3 +322,5 @@ export const KESSEL_API_PATH = '/api/kessel/v1beta2';
 export const HOST_RESOURCE_TYPE = 'host';
 export const HOST_RESOURCE_TYPE_UPDATE = 'update';
 export const HOST_RESOURCE_TYPE_DELETE = 'delete';
+export const PER_PAGE_MAX = 100;
+export const EMPTY_CELL = '';

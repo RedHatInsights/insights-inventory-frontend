@@ -1,10 +1,13 @@
 import React from 'react';
-import propTypes from 'prop-types';
 import { Table, Thead, Tr, Th, Tbody } from '@patternfly/react-table';
 import { hashTableColumns } from './BifrostTableColumns';
 import BifrostTableRows from './BifrostTableRows';
+import { ImageHash } from '../../components/InventoryViews/ImagesView/utils/getImageSummary';
 
-const NestedHashTable = ({ hashes }) => {
+interface NestedHashTableProps {
+  hashes: ImageHash[];
+}
+export const NestedHashTable = ({ hashes }: NestedHashTableProps) => {
   return (
     <Table aria-label="Hash commit table" variant="compact">
       <Thead>
@@ -33,10 +36,6 @@ const NestedHashTable = ({ hashes }) => {
       </Tbody>
     </Table>
   );
-};
-
-NestedHashTable.propTypes = {
-  hashes: propTypes.array,
 };
 
 export default NestedHashTable;
