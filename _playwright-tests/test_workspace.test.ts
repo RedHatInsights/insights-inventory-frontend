@@ -291,13 +291,17 @@ test('User can add and remove system from workspace', async ({
    */
 
   const system = systems.workspaceSystems[0];
+  const workspaceName = await generateUniqueWorkspaceName();
 
-  await test.step('Navigate to existing workspace', async () => {
+  await test.step('Create and open a new empty workspace', async () => {
     await navigateToWorkspacesFunc(page);
-    await searchByName(page, WORKSPACE_WITH_SYSTEMS);
-    const workspaceLink = page.getByRole('link', {
-      name: WORKSPACE_WITH_SYSTEMS,
-    });
+    await createNewWorkspace(page, workspaceName);
+
+    await searchByName(page, workspaceName);
+    const nameCell = page.locator('td[data-label="Name"]');
+    await expect(nameCell).toHaveCount(1);
+
+    const workspaceLink = page.getByRole('link', { name: workspaceName });
     await expect(workspaceLink).toBeVisible({ timeout: 100000 });
     await workspaceLink.click();
   });
@@ -342,15 +346,8 @@ test('User can add and remove system from workspace', async ({
   });
 
   await test.step('Remove system from workspace', async () => {
-    const filterInput = page.getByPlaceholder('Filter by name');
-    const loadingSpinner = page.getByRole('progressbar');
-    await expect(loadingSpinner).toBeHidden();
-
-    await expect(filterInput).toBeEditable();
-    await expect(filterInput).toBeEmpty();
-    await filterInput.fill(system.hostname);
-
     const nameCell = page.locator('td[data-label="Name"]');
+    await expect(nameCell.first()).toBeVisible({ timeout: 20000 });
     await expect(nameCell).toHaveCount(1);
 
     await page.locator('[aria-label="Kebab toggle"]').click();
