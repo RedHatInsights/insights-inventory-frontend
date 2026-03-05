@@ -20,7 +20,7 @@ export interface InventoryFilters {
   rhcStatus: string[];
   systemType: string[];
   workspace: string[];
-  lastSeen?: LastSeenFilterItem;
+  last_seen?: LastSeenFilterItem;
 }
 interface SystemsViewFiltersProps {
   filters: InventoryFilters;
@@ -46,7 +46,7 @@ export const SystemsViewFilters = ({
         values={filters}
       >
         <DataViewTextFilterWithChipTitle
-          filterId="name"
+          filterId="hostname_or_id"
           title="Name"
           chipTitle="Display name"
           placeholder="Filter by name"
@@ -62,7 +62,7 @@ export const SystemsViewFilters = ({
           ]}
         />
         <DataViewCheckboxFilter
-          filterId="dataCollector"
+          filterId="source"
           title="Data Collector"
           placeholder="Filter by data collector"
           options={[
@@ -91,7 +91,7 @@ export const SystemsViewFilters = ({
           />
         )}
         <DataViewCheckboxFilter
-          filterId="systemType"
+          filterId="system_type"
           title="System type"
           placeholder="Filter by system type"
           options={[
@@ -123,7 +123,7 @@ export const SystemsViewFilters = ({
           }
         />
         <DataViewCustomFilter
-          filterId="lastSeen"
+          filterId="last_seen"
           title="Last seen"
           placeholder="Filter by last seen"
           ouiaId="SystemsViewLastSeenFilter"
@@ -144,9 +144,9 @@ export const SystemsViewFilters = ({
         />
       </DataViewFilters>
       <LastSeenFilterExtension
-        value={filters?.lastSeen}
+        value={filters?.last_seen}
         onChange={(event, value) => {
-          onSetFilters({ ...filters, lastSeen: value });
+          onSetFilters({ ...filters, last_seen: value });
         }}
       />
     </>
