@@ -1,8 +1,7 @@
 import axios, { type AxiosInstance } from 'axios';
 import https from 'https';
 import * as hostInventoryApi from '../../src/api/hostInventoryApi';
-
-export const INVENTORY_API_BASE = '/api/inventory/v1';
+export { INVENTORY_API_BASE } from '../../src/api/hostInventoryApi';
 
 function getPlaywrightApiClient(): AxiosInstance {
   const baseURL = process.env.BASE_URL;
