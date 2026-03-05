@@ -7,6 +7,7 @@ import { searchByName } from './helpers/filterHelpers';
 import {
   generateUniqueWorkspaceName,
   createNewWorkspace,
+  isWorkspaceResponse,
 } from './helpers/workspaceHelpers';
 import { test } from './helpers/fixtures';
 import {
@@ -338,10 +339,13 @@ test('User can add and remove system from workspace', async ({
 
     const addButton = dialog.getByRole('button', { name: 'Add systems' });
     await expect(addButton).toBeEnabled({ timeout: 10000 });
-    await addButton.click();
 
-    // Wait for the dialog to close
-    await expect(dialog).not.toBeVisible({ timeout: 10000 });
+    await Promise.all([
+      addButton.click(),
+      page.waitForResponse(isWorkspaceResponse('POST')),
+    ]);
+
+    await expect(dialog).toBeHidden({ timeout: 10000 });
     await page.reload();
   });
 
@@ -364,7 +368,12 @@ test('User can add and remove system from workspace', async ({
     await expect(dialog).toBeVisible({ timeout: 5000 });
 
     await expect(dialog.getByText('Remove from workspace')).toBeVisible();
-    await dialog.getByRole('button', { name: 'Remove' }).click();
+    const removeConfirmButton = dialog.getByRole('button', { name: 'Remove' });
+
+    await Promise.all([
+      removeConfirmButton.click(),
+      page.waitForResponse(isWorkspaceResponse('DELETE')),
+    ]);
 
     await page.reload();
 
