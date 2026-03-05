@@ -50,9 +50,9 @@ const fetchSystems = async ({
       systemType: serializeSystemType(filters.systemType),
     }),
     ...(filters?.workspace && { groupName: filters.workspace }),
-    ...(filters?.lastSeen && {
-      lastCheckInStart: filters.lastSeen?.start,
-      lastCheckInEnd: filters.lastSeen?.end,
+    ...(filters?.last_seen && {
+      lastCheckInStart: filters.last_seen?.start,
+      lastCheckInEnd: filters.last_seen?.end,
     }),
     /* Override default dot notation from API client: backend requires bracket notation for nested params (fields, filter) */
     options: {

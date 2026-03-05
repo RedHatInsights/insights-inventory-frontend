@@ -20,7 +20,7 @@ export interface InventoryFilters {
   rhcStatus: string[];
   systemType: string[];
   workspace: string[];
-  lastSeen?: LastSeenFilterItem;
+  last_seen?: LastSeenFilterItem;
 }
 interface SystemsViewFiltersProps {
   filters: InventoryFilters;
@@ -144,9 +144,9 @@ export const SystemsViewFilters = ({
         />
       </DataViewFilters>
       <LastSeenFilterExtension
-        value={filters?.lastSeen}
+        value={filters?.last_seen}
         onChange={(event, value) => {
-          onSetFilters({ ...filters, lastSeen: value });
+          onSetFilters({ ...filters, last_seen: value });
         }}
       />
     </>
