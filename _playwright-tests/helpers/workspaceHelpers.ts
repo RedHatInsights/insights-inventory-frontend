@@ -2,7 +2,7 @@ import { Response, expect, type Page } from '@playwright/test';
 import { INVENTORY_API_BASE } from './apiHelpers';
 
 /**
- * Help function to generate unique workspace name
+ *  @returns randomized workspace name
  */
 export const generateUniqueWorkspaceName = async () => {
   return `Workspace_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
