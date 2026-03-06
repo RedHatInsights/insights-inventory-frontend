@@ -15,6 +15,9 @@ import {
   SelectOption,
   Spinner,
   Divider,
+  Badge,
+  Flex,
+  FlexItem,
 } from '@patternfly/react-core';
 import xor from 'lodash/xor';
 import PropTypes from 'prop-types';
@@ -25,7 +28,7 @@ const WorkspaceFilter = ({
   value: selectedWorkspaces = [],
   onChange: setSelectedWorkspaces,
 }) => {
-  const PAGE_SIZE = 50;
+  const PAGE_SIZE = 10;
   const INITIAL_VISIBLE_SIZE = PAGE_SIZE;
   const DEBOUNCE_TIMEOUT = 300;
   const VIEW_MORE_SIZE = PAGE_SIZE;
@@ -70,9 +73,18 @@ const WorkspaceFilter = ({
     const items = data.pages
       .map((page) => page.results)
       .flat()
-      .map(({ name }) => ({
+      .map(({ name, host_count: hostCount }) => ({
         itemId: name,
-        children: name,
+        children: (
+          <Flex alignItems={{ default: 'alignItemsCenter' }}>
+            <FlexItem>{name}</FlexItem>
+            <FlexItem>
+              <Badge isRead>
+                {typeof hostCount === 'number' ? hostCount : '—'}
+              </Badge>
+            </FlexItem>
+          </Flex>
+        ),
       }));
 
     return [

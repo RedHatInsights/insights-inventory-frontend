@@ -25,7 +25,7 @@ describe('WorkspaceFilter', () => {
     ],
     total: 3,
     page: 1,
-    per_page: 50,
+    per_page: 10,
   };
 
   beforeEach(() => {
@@ -109,7 +109,7 @@ describe('WorkspaceFilter', () => {
       results: [{ name: 'Workspace 1', id: '1' }],
       total: 1,
       page: 1,
-      per_page: 50,
+      per_page: 10,
     });
 
     renderWithWrapper();
@@ -124,7 +124,7 @@ describe('WorkspaceFilter', () => {
       () => {
         expect(getGroups).toHaveBeenCalledWith(
           { type: 'standard', name: '1' },
-          { page: 1, per_page: 50 },
+          { page: 1, per_page: 10 },
         );
       },
       { timeout: 500 },
@@ -143,7 +143,7 @@ describe('WorkspaceFilter', () => {
       results: [],
       total: 0,
       page: 1,
-      per_page: 50,
+      per_page: 10,
     });
 
     renderWithWrapper();
