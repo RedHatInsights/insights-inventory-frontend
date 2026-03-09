@@ -28,7 +28,7 @@ import { getGroupList } from '../../../api/hostInventoryApiTyped';
 interface WorkspaceFilterProps {
   placeholder?: string;
   value?: string[];
-  onChange?: (event: unknown, value: string[]) => void;
+  onChange?: (event?: React.MouseEvent, values?: string[]) => void;
 }
 
 export const WorkspaceFilter = ({

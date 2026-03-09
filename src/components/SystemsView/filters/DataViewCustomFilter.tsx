@@ -1,6 +1,13 @@
-import { ToolbarFilter } from '@patternfly/react-core';
+import { ToolbarFilter, ToolbarLabelGroup } from '@patternfly/react-core';
 import React from 'react';
 import { ToolbarLabel } from '@patternfly/react-core';
+import MultiGroupToolbarFilter from './MultiGroupToolbarFilter';
+
+type SingleGroupLabels = (string | ToolbarLabel)[];
+type MultiGroupLabels = {
+  category: string | ToolbarLabelGroup;
+  labels: (string | ToolbarLabel)[];
+}[];
 
 export interface DataViewCustomFilterProps<TValue> {
   /** Unique key for the filter attribute */
@@ -12,27 +19,29 @@ export interface DataViewCustomFilterProps<TValue> {
   /** Placeholder text of the menu */
   placeholder?: string;
   /** Callback for updating when item selection changes. */
-  onChange?: (event: unknown, value: TValue | undefined) => void;
+  onChange?: (event?: React.MouseEvent, values?: TValue) => void;
   /** Controls visibility of the filter in the toolbar */
   showToolbarItem?: boolean;
   /** Controls visibility of the filter icon */
   ouiaId?: string;
   /** Custom Filter component */
   filterComponent: React.ComponentType<{
-    value?: TValue | undefined;
-    onChange?: (event: unknown, value: TValue | undefined) => void;
+    value?: TValue;
+    onChange?: (event?: React.MouseEvent, values?: TValue) => void;
     placeholder?: string;
     filterId?: string;
   }>;
-  createLabels?: (
+  createLabel: (
     value: TValue | undefined,
     title: string,
-  ) => (string | ToolbarLabel)[];
+  ) => SingleGroupLabels | MultiGroupLabels;
+
   deleteLabel?: (
     label: string | ToolbarLabel,
     value: TValue | undefined,
-    onChange?: (event: unknown, value: TValue | undefined) => void,
+    onChange?: (event?: React.MouseEvent, values?: TValue) => void,
   ) => void;
+  isMultiGroup?: boolean;
 }
 
 export const DataViewCustomFilter = <TValue,>({
@@ -44,24 +53,40 @@ export const DataViewCustomFilter = <TValue,>({
   showToolbarItem,
   ouiaId = 'DataViewCustomFilter',
   filterComponent: FilterComponent,
-  createLabels,
+  createLabel,
   deleteLabel,
+  isMultiGroup = false,
 }: DataViewCustomFilterProps<TValue>) => {
-  return (
+  const filter = (
+    <FilterComponent
+      filterId={filterId}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+    />
+  );
+
+  return isMultiGroup ? (
+    <MultiGroupToolbarFilter
+      key={ouiaId}
+      data-ouia-component-id={ouiaId}
+      groupLabels={createLabel?.(value, title) as MultiGroupLabels}
+      deleteLabel={(_, label) => deleteLabel?.(label, value, onChange)}
+      showToolbarItem={showToolbarItem}
+      categoryName={title}
+    >
+      {filter}
+    </MultiGroupToolbarFilter>
+  ) : (
     <ToolbarFilter
       key={ouiaId}
       data-ouia-component-id={ouiaId}
-      labels={createLabels?.(value, title)}
+      labels={createLabel?.(value, title) as SingleGroupLabels}
       deleteLabel={(_, label) => deleteLabel?.(label, value, onChange)}
       categoryName={title}
       showToolbarItem={showToolbarItem}
     >
-      <FilterComponent
-        filterId={filterId}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-      />
+      {filter}
     </ToolbarFilter>
   );
 };

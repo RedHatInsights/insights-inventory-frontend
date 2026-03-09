@@ -12,6 +12,7 @@ import { DataViewCustomFilter } from './DataViewCustomFilter';
 import WorkspaceFilter from './WorkspaceFilter';
 import DataViewTextFilterWithChipTitle from './DataViewTextFilterWithChipTitle';
 import LastSeenFilter, { LastSeenFilterItem } from './LastSeenFilter';
+import TagsFilter from './TagsFilter';
 import { ToolbarLabel } from '@patternfly/react-core';
 import LastSeenFilterExtension from './LastSeenFilterExtension';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
@@ -26,6 +27,7 @@ export interface InventoryFilters {
   rhcStatus: string[];
   system_type: string[];
   workspace: string[];
+  tags: string[];
   last_seen?: LastSeenFilterItem;
 }
 export const isToolbarLabel = (
@@ -42,6 +44,7 @@ export const SystemsViewFilters = ({ pagination }: SystemsViewFiltersProps) => {
 
   return (
     <>
+      {/* DataViewFilters is passing filter values to children implicitly */}
       <DataViewFilters
         onChange={(_, values) => {
           onSetFilters(values);
@@ -109,7 +112,7 @@ export const SystemsViewFilters = ({ pagination }: SystemsViewFiltersProps) => {
           placeholder="Filter by workspace"
           ouiaId="SystemsViewWorkspaceFilter"
           filterComponent={WorkspaceFilter}
-          createLabels={(value, title) =>
+          createLabel={(value, title) =>
             value?.map((item: string) => {
               return {
                 key: title,
@@ -132,7 +135,7 @@ export const SystemsViewFilters = ({ pagination }: SystemsViewFiltersProps) => {
           placeholder="Filter by last seen"
           ouiaId="SystemsViewLastSeenFilter"
           filterComponent={LastSeenFilter}
-          createLabels={(value, title) => {
+          createLabel={(value, title) => {
             return value
               ? [
                   {
@@ -145,6 +148,47 @@ export const SystemsViewFilters = ({ pagination }: SystemsViewFiltersProps) => {
           deleteLabel={(_label, _value, onChange) => {
             onChange?.(undefined, undefined);
           }}
+        />
+        <DataViewCustomFilter
+          filterId="tags"
+          title="Tags"
+          placeholder="Filter by tags"
+          ouiaId="SystemsViewTagsFilter"
+          filterComponent={TagsFilter}
+          onChange={(_, values) => {
+            onSetFilters({ ...filters, tags: values });
+          }}
+          createLabel={(tags) => {
+            if (tags === undefined) return [];
+            const categoryMap: Record<string, string[]> = {};
+
+            for (let tag of tags) {
+              const [category, label] = tag.split('/');
+              if (category) {
+                if (categoryMap[category]) {
+                  categoryMap[category].push(label);
+                } else {
+                  categoryMap[category] = [label];
+                }
+              }
+            }
+
+            const result = Object.entries(categoryMap).map(
+              ([category, labels]) => ({
+                category,
+                labels,
+              }),
+            );
+
+            return result;
+          }}
+          deleteLabel={(label, value, onChange) => {
+            onChange?.(
+              undefined,
+              value?.filter((item) => !item.includes(label as string)),
+            );
+          }}
+          isMultiGroup={true}
         />
       </DataViewFilters>
       <LastSeenFilterExtension
