@@ -14,6 +14,7 @@ import { useDeleteSystemsMutation } from './hooks/useDeleteSystemsMutation';
 import { usePatchSystemsMutation } from './hooks/usePatchSystemsMutation';
 import type { System } from './hooks/useSystemsQuery';
 import React from 'react';
+import { TagsModal } from './TagsModal/TagsModal';
 
 type OpenModalFn = (systems: System[]) => void;
 
@@ -22,6 +23,7 @@ interface SystemActionModalsContextValue {
   openAddToWorkspaceModal: OpenModalFn;
   openRemoveFromWorkspaceModal: OpenModalFn;
   openEditModal: OpenModalFn;
+  openTagsModal: OpenModalFn;
 }
 
 const SystemActionModalsContext =
@@ -53,6 +55,7 @@ export const SystemActionModalsProvider = ({
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
     useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const [tagsModalOpen, setTagsModalOpen] = useState(false);
 
   const { onDeleteConfirm } = useDeleteSystemsMutation({
     systems: systemsForAction,
@@ -99,18 +102,25 @@ export const SystemActionModalsProvider = ({
     setEditModalOpen(true);
   }, []);
 
+  const openTagsModal = useCallback((systems: System[]) => {
+    setSystemsForAction(systems);
+    setTagsModalOpen(true);
+  }, []);
+
   const contextValue: SystemActionModalsContextValue = useMemo(
     () => ({
       openDeleteModal,
       openAddToWorkspaceModal,
       openRemoveFromWorkspaceModal,
       openEditModal,
+      openTagsModal,
     }),
     [
       openDeleteModal,
       openAddToWorkspaceModal,
       openRemoveFromWorkspaceModal,
       openEditModal,
+      openTagsModal,
     ],
   );
 
@@ -148,6 +158,13 @@ export const SystemActionModalsProvider = ({
           value={systemsForAction[0]?.display_name}
           onCancel={() => setEditModalOpen(false)}
           onSubmit={onPatchConfirm}
+        />
+      )}
+      {tagsModalOpen && (
+        <TagsModal
+          isOpen={tagsModalOpen}
+          system={systemsForAction[0]}
+          onClose={() => setTagsModalOpen(false)}
         />
       )}
     </SystemActionModalsContext.Provider>
