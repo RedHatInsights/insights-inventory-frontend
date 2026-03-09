@@ -9,6 +9,7 @@ import { DataViewCustomFilter } from './DataViewCustomFilter';
 import WorkspaceFilter from './WorkspaceFilter';
 import DataViewTextFilterWithChipTitle from './DataViewTextFilterWithChipTitle';
 import LastSeenFilter, { LastSeenFilterItem } from './LastSeenFilter';
+import TagsFilter from './TagsFilter';
 import { ToolbarLabel } from '@patternfly/react-core';
 import LastSeenFilterExtension from './LastSeenFilterExtension';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
@@ -20,6 +21,7 @@ export interface InventoryFilters {
   rhcStatus: string[];
   systemType: string[];
   workspace: string[];
+  tags: Record<string, string[]>[];
   last_seen?: LastSeenFilterItem;
 }
 interface SystemsViewFiltersProps {
@@ -141,6 +143,40 @@ export const SystemsViewFilters = ({
           deleteLabel={(_label, _value, onChange) => {
             onChange?.(undefined, undefined);
           }}
+        />
+        <DataViewCustomFilter
+          filterId="tags"
+          title="Tags"
+          placeholder="Filter by tags"
+          ouiaId="SystemsViewTagsFilter"
+          filterComponent={TagsFilter}
+          // TODOs
+          // find out what filterQuery should look like
+          // find out what filterLabel should look like
+          // from these two infer what filterState should be
+          // from filterState infer what filterValue on SelectItem should be
+          // from filterState and filterValue infer what isSelected logic should be
+          onChange={(_, values) => {
+            onSetFilters({ ...filters, tags: values });
+          }}
+          createLabels={(value, title) => {
+            return (
+              value?.map((item: string) => {
+                return {
+                  key: title,
+                  node: item,
+                };
+              }) ?? []
+            );
+          }}
+          deleteLabel={(label, value, onChange) =>
+            onChange?.(
+              undefined,
+              value?.filter(
+                (item) => item !== (isToolbarLabel(label) ? label.node : label),
+              ),
+            )
+          }
         />
       </DataViewFilters>
       <LastSeenFilterExtension
