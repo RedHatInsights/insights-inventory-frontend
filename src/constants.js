@@ -323,4 +323,6 @@ export const HOST_RESOURCE_TYPE = 'host';
 export const HOST_RESOURCE_TYPE_UPDATE = 'update';
 export const HOST_RESOURCE_TYPE_DELETE = 'delete';
 export const PER_PAGE_MAX = 100;
+export const PER_PAGE = 50;
+export const INITIAL_PAGE = 1;
 export const EMPTY_CELL = '';

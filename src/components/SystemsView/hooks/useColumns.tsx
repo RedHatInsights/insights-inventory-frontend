@@ -7,9 +7,9 @@ import React from 'react';
 import Workspace from '../../../routes/Systems/components/SystemsTable/components/columns/Workspace';
 import LastSeen from '../../../routes/Systems/components/SystemsTable/components/columns/LastSeen';
 import OperatingSystem from '../../../routes/Systems/components/SystemsTable/components/columns/OperatingSystem';
-import Tags from '../../../routes/Systems/components/SystemsTable/components/columns/Tags';
 import { System } from './useSystemsQuery';
 import type { onSort, SortBy, SortDirection } from '../SystemsView';
+import Tags from '../Tags';
 
 export interface Column extends ColumnManagementModalColumn {}
 export interface RenderableColumn extends Column {
@@ -70,7 +70,7 @@ const COLUMN_RENDER_CELLS: Record<string, (system: System) => React.ReactNode> =
       <Workspace key={`workspace-${system.id}`} groups={system.groups} />
     ),
     tags: (system: System) => (
-      <Tags key={`tags-${system.id}`} tags={system.tags} systemId={system.id} />
+      <Tags key={`tags-${system.id}`} system={system} />
     ),
     os: (system: System) => (
       <OperatingSystem
