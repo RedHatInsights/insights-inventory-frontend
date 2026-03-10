@@ -8,6 +8,8 @@ import * as actions from '../store/actions';
 import InventoryDetail from '../components/InventoryDetail/InventoryDetail';
 import { OverviewTab, DetailsTab } from '../components/SystemDetails';
 import { useConditionalRBAC } from '../Utilities/hooks/useConditionalRBAC';
+import { useCanDeleteHostDetails } from '../Utilities/hooks/useCanDeleteHostDetails';
+import { useKesselMigrationFeatureFlag } from '../Utilities/hooks/useKesselMigrationFeatureFlag';
 import { REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP } from '../constants';
 import ApplicationTab from '../ApplicationTab';
 import { useLightspeedFeatureFlag } from '../Utilities/hooks/useLightspeedFeatureFlag';
@@ -155,6 +157,15 @@ const Inventory = () => {
     ),
   ]);
 
+  const isKesselEnabled = useKesselMigrationFeatureFlag();
+  const { canDelete: kesselCanDelete, isLoading: kesselDeleteLoading } =
+    useCanDeleteHostDetails(entity?.id);
+
+  // When Kessel flag is off: use RBAC (canDeleteHost). When Kessel flag is on: use single-resource Kessel check (kesselCanDelete); disable while loading.
+  const showDelete = isKesselEnabled
+    ? !kesselDeleteLoading && kesselCanDelete === true
+    : canDeleteHost;
+
   useEffect(() => {
     chrome?.hideGlobalFilter?.(true);
     chrome.appAction('system-detail');
@@ -192,7 +203,7 @@ const Inventory = () => {
     <InventoryDetail
       additionalClasses={additionalClasses}
       hideInvDrawer
-      showDelete={canDeleteHost}
+      showDelete={showDelete}
       hideInvLink
       hideBack
       inventoryId={inventoryId}
