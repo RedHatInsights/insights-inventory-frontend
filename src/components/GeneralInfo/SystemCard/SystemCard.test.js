@@ -301,7 +301,7 @@ describe('SystemCard', () => {
     });
   });
 
-  describe('Image Builder Blueprint', () => {
+  describe('Image builder blueprint', () => {
     const blueprintId = 'b5f4dcb0-09a5-4e42-a670-4a83a2e6b687';
 
     it('should render a link when blueprint_id is present', () => {
@@ -327,7 +327,7 @@ describe('SystemCard', () => {
         'href',
         `/insights/image-builder?blueprint_id=${blueprintId}`,
       );
-      expect(screen.getByText('Image Builder Blueprint')).toBeInTheDocument();
+      expect(screen.getByText('Image builder blueprint')).toBeInTheDocument();
     });
 
     it('should not render when blueprint_id is absent', () => {
@@ -338,7 +338,7 @@ describe('SystemCard', () => {
       );
 
       expect(
-        screen.queryByText('Image Builder Blueprint'),
+        screen.queryByText('Image builder blueprint'),
       ).not.toBeInTheDocument();
     });
 
@@ -360,7 +360,7 @@ describe('SystemCard', () => {
       );
 
       expect(
-        screen.queryByText('Image Builder Blueprint'),
+        screen.queryByText('Image builder blueprint'),
       ).not.toBeInTheDocument();
     });
   });
