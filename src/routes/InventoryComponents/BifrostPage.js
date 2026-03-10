@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAxiosWithPlatformInterceptors } from '@redhat-cloud-services/frontend-components-utilities/interceptors';
+import { PER_PAGE_MAX, INITIAL_PAGE } from '../../constants';
 
 import {
   INVENTORY_FETCH_BOOTC,
@@ -15,21 +16,46 @@ const BifrostPage = () => {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    const fetchBootcImages = async () => {
+    const fetchAll = async () => {
       setLoaded(false);
-      const result = await axios.get(
-        `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_FETCH_BOOTC}&fields[system_profile]=bootc_status`,
-      );
 
-      const packageBasedSystems = await axios.get(
-        `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_PACKAGE_BASED_SYSTEMS}&per_page=1`,
-      );
+      const getBootcBased = async () => {
+        let page = INITIAL_PAGE;
+        let hasMore = true;
+        let allResults = [];
+        while (hasMore) {
+          const { results } = await axios.get(
+            `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_FETCH_BOOTC}&fields[system_profile]=bootc_status&per_page=${PER_PAGE_MAX}&page=${page}`,
+          );
+          allResults.push(...results);
+          hasMore = results.length === PER_PAGE_MAX;
+          page++;
+        }
 
-      const immutableImageBasedSystems = await axios.get(
-        `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_FETCH_EDGE}&per_page=1`,
-      );
+        return allResults;
+      };
 
-      const booted = result.results.map(
+      const getPackageBased = async () =>
+        axios.get(
+          `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_PACKAGE_BASED_SYSTEMS}&per_page=1`,
+        );
+
+      const getImmutableBased = async () =>
+        axios.get(
+          `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_FETCH_EDGE}&per_page=1`,
+        );
+
+      const [
+        bootcBasedSystems,
+        packageBasedSystems,
+        immutableImageBasedSystems,
+      ] = await Promise.all([
+        getBootcBased(),
+        getPackageBased(),
+        getImmutableBased(),
+      ]);
+
+      const booted = bootcBasedSystems.map(
         (system) => system.system_profile.bootc_status.booted,
       );
 
@@ -80,7 +106,7 @@ const BifrostPage = () => {
       setBootcImages(updated);
     };
 
-    fetchBootcImages();
+    fetchAll();
   }, [axios]);
 
   return <BifrostTable bootcImages={bootcImages} loaded={loaded} />;

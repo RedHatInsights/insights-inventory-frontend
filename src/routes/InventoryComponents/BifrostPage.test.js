@@ -24,7 +24,7 @@ describe('BifrostPage', () => {
     render(<BifrostPage />);
     await waitFor(() =>
       expect(axiosMock).toHaveBeenCalledWith(
-        `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_FETCH_BOOTC}&fields[system_profile]=bootc_status`,
+        `${INVENTORY_TOTAL_FETCH_URL_SERVER}${INVENTORY_FETCH_BOOTC}&fields[system_profile]=bootc_status&per_page=100&page=1`,
       ),
     );
 
