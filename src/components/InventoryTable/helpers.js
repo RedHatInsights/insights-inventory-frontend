@@ -98,10 +98,11 @@ export const onDeleteFilter = (deleted, currFilter = []) => {
 
 const buildNewCategoryTags = (deleted, category, categoryTags) =>
   Object.entries(categoryTags).reduce((newCategoryTags, [tagName, tag]) => {
+    if (tag == null) return newCategoryTags;
     const isDeleted =
       deleted.category === category &&
-      deleted.chips[0].value === tag.item?.meta?.tag.value &&
-      deleted.chips[0].tagKey === tag.item?.meta?.tag.key;
+      deleted.chips?.[0]?.value === tag.item?.meta?.tag?.value &&
+      deleted.chips?.[0]?.tagKey === tag.item?.meta?.tag?.key;
     return [...newCategoryTags, ...(isDeleted ? [] : [[tagName, tag]])];
   }, []);
 
