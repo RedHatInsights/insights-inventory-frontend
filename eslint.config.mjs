@@ -79,6 +79,7 @@ export default defineConfig([
   },
   {
     rules: {
+      'no-debugger': 'error',
       'rulesdir/disallow-fec-relative-imports': 'off',
       'rulesdir/forbid-pf-relative-imports': 'off',
       'jsdoc/tag-lines': 0,
