@@ -595,34 +595,42 @@ const EntityTableToolbar = ({
     [],
   );
 
-  // When kesselToolbarOrder is set, render Export then custom actions (e.g. Move, Delete) in one group
-  const resolvedActionsConfig =
+  // When kesselToolbarOrder is set, render Export then custom actions (e.g. Move, Delete) in one group.
+  // Keep actionsConfig as an object (FEC API expects ActionsProps); put the custom group in actions[0].
+  const useKesselActionsGroup =
     loaded &&
     actionsConfig?.kesselToolbarOrder &&
     Array.isArray(actionsConfig?.actions) &&
     enableExport &&
     exportConfig &&
-    (exportConfig.onSelect || exportConfig.extraItems)
-      ? React.createElement(
-          ToolbarGroup,
-          {
-            className:
-              'ins-c-primary-toolbar__group-actions pf-m-spacer-md pf-m-space-items-sm',
-            variant: 'button-group',
-          },
+    (exportConfig.onSelect || exportConfig.extraItems);
+
+  const kesselActionsGroupElement = useKesselActionsGroup
+    ? React.createElement(
+        ToolbarGroup,
+        {
+          className:
+            'ins-c-primary-toolbar__group-actions pf-m-spacer-md pf-m-space-items-sm',
+          variant: 'button-group',
+        },
+        React.createElement(
+          ToolbarItem,
+          { className: 'pf-m-spacer-sm' },
+          React.createElement(DownloadButton, exportConfig),
+        ),
+        ...actionsConfig.actions.map((action, idx) =>
           React.createElement(
             ToolbarItem,
-            { className: 'pf-m-spacer-sm' },
-            React.createElement(DownloadButton, exportConfig),
+            { key: action?.key ?? idx, className: 'pf-m-spacer-sm' },
+            action,
           ),
-          ...actionsConfig.actions.map((action, idx) =>
-            React.createElement(
-              ToolbarItem,
-              { key: action?.key ?? idx, className: 'pf-m-spacer-sm' },
-              action,
-            ),
-          ),
-        )
+        ),
+      )
+    : null;
+
+  const resolvedActionsConfig =
+    useKesselActionsGroup && kesselActionsGroupElement
+      ? { ...actionsConfig, actions: [kesselActionsGroupElement] }
       : actionsConfig;
 
   return (
@@ -678,7 +686,11 @@ const EntityTableToolbar = ({
           )
         }
         exportConfig={
-          props.exportConfig ? props.exportConfig : enableExport && exportConfig
+          useKesselActionsGroup
+            ? undefined
+            : props.exportConfig
+              ? props.exportConfig
+              : enableExport && exportConfig
         }
       >
         {lastSeenFilterValue?.mark === 'custom' && (

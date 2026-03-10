@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import {
   GENERAL_GROUPS_WRITE_PERMISSION,
-  GENERAL_HOSTS_WRITE_PERMISSIONS,
   NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE,
   NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE,
   NO_MODIFY_HOST_TOOLTIP_MESSAGE,
@@ -9,7 +8,129 @@ import {
 } from '../../../constants';
 import { ActionDropdownItem } from '../../InventoryTable/ActionWithRBAC';
 
-// some actions are hidden under feature flag
+// Build host row actions (edit, delete). Pure builder, no hook deps.
+const buildHostActions = (row, { isKesselEnabled, onEdit, onDelete }) => {
+  const groupId = row.groups?.[0]?.id ?? null;
+
+  const baseEditProps = isKesselEnabled
+    ? {
+        requiredPermissions: [
+          REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(groupId),
+        ],
+        noAccessTooltip: NO_MODIFY_HOST_TOOLTIP_MESSAGE,
+        override: row.permissions?.hasUpdate ?? false,
+      }
+    : {
+        requiredPermissions: [
+          REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(groupId),
+        ],
+        noAccessTooltip: NO_MODIFY_HOST_TOOLTIP_MESSAGE,
+      };
+
+  const baseDeleteProps = isKesselEnabled
+    ? {
+        requiredPermissions: [
+          REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(row.groups?.[0]?.id),
+        ],
+        noAccessTooltip: NO_MODIFY_HOST_TOOLTIP_MESSAGE,
+        override: row.permissions?.hasDelete ?? false,
+      }
+    : {
+        requiredPermissions: [
+          REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(groupId),
+        ],
+        noAccessTooltip: NO_MODIFY_HOST_TOOLTIP_MESSAGE,
+      };
+
+  const editAction = {
+    title: (
+      <ActionDropdownItem
+        key={`${row.id}-edit`}
+        onClick={onEdit}
+        {...baseEditProps}
+      >
+        {isKesselEnabled ? 'Edit' : 'Edit display name'}
+      </ActionDropdownItem>
+    ),
+  };
+
+  const deleteAction = {
+    title: (
+      <ActionDropdownItem
+        key={`${row.id}-delete`}
+        onClick={onDelete}
+        {...baseDeleteProps}
+      >
+        {isKesselEnabled ? 'Delete' : 'Delete from inventory'}
+      </ActionDropdownItem>
+    ),
+    ...(isKesselEnabled && { className: 'pf-v6-u-danger-color-100' }),
+  };
+
+  return isKesselEnabled
+    ? [
+        editAction,
+        { isSeparator: true, itemKey: `${row.id}-divider` },
+        deleteAction,
+      ]
+    : [editAction, deleteAction];
+};
+
+// Build group/workspace row actions. Pure builder, no hook deps.
+const buildGroupActions = (row, { isKesselEnabled, onMove, onRemove }) => {
+  const inGroup = row.groups?.[0] && !row.groups[0].ungrouped;
+  const isUngrouped = row.groups?.[0]?.ungrouped === true;
+
+  if (isKesselEnabled) {
+    return [
+      {
+        title: (
+          <ActionDropdownItem
+            key={`${row.id}-move-system`}
+            onClick={onMove}
+            requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
+            noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
+            isAriaDisabled={!row.permissions?.hasWorkspaceEdit}
+          >
+            Move system
+          </ActionDropdownItem>
+        ),
+      },
+    ];
+  }
+
+  return [
+    {
+      title: (
+        <ActionDropdownItem
+          key={`${row.id}-add-to-group`}
+          onClick={onMove}
+          requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
+          noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
+          ignoreResourceDefinitions
+          isAriaDisabled={inGroup}
+        >
+          Add to workspace
+        </ActionDropdownItem>
+      ),
+    },
+    {
+      title: (
+        <ActionDropdownItem
+          key={`${row.id}-remove-from-group`}
+          onClick={onRemove}
+          requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
+          noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
+          ignoreResourceDefinitions
+          isAriaDisabled={isUngrouped}
+        >
+          Remove from workspace
+        </ActionDropdownItem>
+      ),
+    },
+  ];
+};
+
 const useTableActions = (
   setCurrentSystem,
   onEditOpen,
@@ -20,150 +141,29 @@ const useTableActions = (
 ) => {
   const tableActionsCallback = useCallback(
     (row) => {
-      if (isKesselEnabled) {
-        const groupActions = [
-          {
-            title: (
-              <ActionDropdownItem
-                key={`${row.id}-move-system`}
-                onClick={() => {
-                  setCurrentSystem([row]);
-                  setAddHostGroupModalOpen(true);
-                }}
-                requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
-                noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
-                ignoreResourceDefinitions
-                isAriaDisabled={!row.permissions?.hasWorkspaceEdit}
-              >
-                Move system
-              </ActionDropdownItem>
-            ),
-          },
-        ];
-        const hostActions = [
-          {
-            title: (
-              <ActionDropdownItem
-                key={`${row.id}-edit`}
-                onClick={() => {
-                  setCurrentSystem(row);
-                  onEditOpen(true);
-                }}
-                requiredPermissions={[
-                  REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
-                    row.groups?.[0]?.id ?? null,
-                  ),
-                ]}
-                noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
-                override={
-                  isKesselEnabled
-                    ? (row.permissions?.hasUpdate ?? false)
-                    : undefined
-                }
-              >
-                Edit
-              </ActionDropdownItem>
-            ),
-          },
-          { isSeparator: true, itemKey: `${row.id}-divider` },
-          {
-            title: (
-              <ActionDropdownItem
-                key={`${row.id}-delete`}
-                onClick={() => {
-                  setCurrentSystem(row);
-                  handleModalToggle(true);
-                }}
-                requiredPermissions={[
-                  REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
-                    row?.groups?.[0]?.id,
-                  ),
-                ]}
-                noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
-                override={
-                  isKesselEnabled
-                    ? (row.permissions?.hasDelete ?? false)
-                    : undefined
-                }
-              >
-                Delete
-              </ActionDropdownItem>
-            ),
-            className: 'pf-v6-u-danger-color-100',
-          },
-        ];
-        return [...groupActions, ...hostActions];
-      }
+      const groupActions = buildGroupActions(row, {
+        isKesselEnabled,
+        onMove: () => {
+          setCurrentSystem([row]);
+          setAddHostGroupModalOpen(true);
+        },
+        onRemove: () => {
+          setCurrentSystem([row]);
+          setRemoveHostsFromGroupModalOpen(true);
+        },
+      });
 
-      const hostActions = [
-        {
-          title: (
-            <ActionDropdownItem
-              key={`${row.id}-edit`}
-              onClick={() => {
-                setCurrentSystem(row);
-                onEditOpen(true);
-              }}
-              requiredPermissions={[GENERAL_HOSTS_WRITE_PERMISSIONS]}
-              noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
-              ignoreResourceDefinitions
-            >
-              Edit display name
-            </ActionDropdownItem>
-          ),
+      const hostActions = buildHostActions(row, {
+        isKesselEnabled,
+        onEdit: () => {
+          setCurrentSystem(row);
+          onEditOpen(true);
         },
-        {
-          title: (
-            <ActionDropdownItem
-              key={`${row.id}-delete`}
-              onClick={() => {
-                setCurrentSystem(row);
-                handleModalToggle(true);
-              }}
-              requiredPermissions={[GENERAL_HOSTS_WRITE_PERMISSIONS]}
-              noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
-              ignoreResourceDefinitions
-            >
-              Delete from inventory
-            </ActionDropdownItem>
-          ),
+        onDelete: () => {
+          setCurrentSystem(row);
+          handleModalToggle(true);
         },
-      ];
-
-      const groupActions = [
-        {
-          title: (
-            <ActionDropdownItem
-              key={`${row.id}-add-to-group`}
-              onClick={() => {
-                setCurrentSystem([row]);
-                setAddHostGroupModalOpen(true);
-              }}
-              requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
-              noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
-              ignoreResourceDefinitions
-            >
-              Add to workspace
-            </ActionDropdownItem>
-          ),
-        },
-        {
-          title: (
-            <ActionDropdownItem
-              key={`${row.id}-remove-from-group`}
-              onClick={() => {
-                setCurrentSystem([row]);
-                setRemoveHostsFromGroupModalOpen(true);
-              }}
-              requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
-              noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
-              ignoreResourceDefinitions
-            >
-              Remove from workspace
-            </ActionDropdownItem>
-          ),
-        },
-      ];
+      });
 
       return [...groupActions, ...hostActions];
     },

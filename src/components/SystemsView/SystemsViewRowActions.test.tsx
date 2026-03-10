@@ -11,12 +11,14 @@ const mockOpenDeleteModal = jest.fn();
 const mockOpenAddToWorkspaceModal = jest.fn();
 const mockOpenRemoveFromWorkspaceModal = jest.fn();
 const mockOpenEditModal = jest.fn();
+const mockOpenTagsModal = jest.fn();
 
 const mockContextValue = {
   openDeleteModal: mockOpenDeleteModal,
   openAddToWorkspaceModal: mockOpenAddToWorkspaceModal,
   openRemoveFromWorkspaceModal: mockOpenRemoveFromWorkspaceModal,
   openEditModal: mockOpenEditModal,
+  openTagsModal: mockOpenTagsModal,
 };
 
 function renderWithProvider(ui: React.ReactElement) {
