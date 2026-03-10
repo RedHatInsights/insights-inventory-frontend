@@ -46,7 +46,7 @@ export const TagsModalTable = ({ tags = [] }: TagsModalTableProps) => {
 
   const columns = ['Name', 'Value', 'Tag source'];
   const ouiaId = 'tags-modal-table';
-  debugger;
+
   return (
     <DataView activeState={activeState}>
       <DataViewToolbar
