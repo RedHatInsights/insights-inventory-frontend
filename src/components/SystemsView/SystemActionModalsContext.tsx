@@ -59,6 +59,8 @@ export const SystemActionModalsProvider = ({
   const [systemsForAction, setSystemsForAction] = useState<System[]>([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
+  const [moveSystemsToWorkspaceModalOpen, setMoveSystemsToWorkspaceModalOpen] =
+    useState(false);
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
     useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -94,10 +96,17 @@ export const SystemActionModalsProvider = ({
     setIsDeleteModalOpen(true);
   }, []);
 
-  const openAddToWorkspaceModal = useCallback((systems: System[]) => {
-    setSystemsForAction(systems);
-    setAddHostGroupModalOpen(true);
-  }, []);
+  const openAddToWorkspaceModal = useCallback(
+    (systems: System[]) => {
+      setSystemsForAction(systems);
+      if (isKesselEnabled) {
+        setMoveSystemsToWorkspaceModalOpen(true);
+      } else {
+        setAddHostGroupModalOpen(true);
+      }
+    },
+    [isKesselEnabled],
+  );
 
   const openRemoveFromWorkspaceModal = useCallback((systems: System[]) => {
     setSystemsForAction(systems);
@@ -150,17 +159,18 @@ export const SystemActionModalsProvider = ({
           onConfirm={onDeleteConfirm}
         />
       )}
-      {addHostGroupModalOpen && !isKesselEnabled ? (
+      {addHostGroupModalOpen && (
         <AddSelectedHostsToGroupModal
           isModalOpen={addHostGroupModalOpen}
           setIsModalOpen={setAddHostGroupModalOpen}
           modalState={systemsForAction}
           reloadData={reloadData}
         />
-      ) : (
+      )}
+      {moveSystemsToWorkspaceModalOpen && (
         <MoveSystemsToWorkspaceModal
-          isModalOpen={addHostGroupModalOpen}
-          setIsModalOpen={setAddHostGroupModalOpen}
+          isModalOpen={moveSystemsToWorkspaceModalOpen}
+          setIsModalOpen={setMoveSystemsToWorkspaceModalOpen}
           modalState={systemsForMoveModal}
           reloadData={reloadData}
         />

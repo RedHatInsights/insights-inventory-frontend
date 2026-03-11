@@ -4,7 +4,6 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import SystemsViewRowActions from './SystemsViewRowActions';
 import { expect, jest } from '@jest/globals';
-import '@testing-library/jest-dom';
 import { SystemActionModalsContext } from './SystemActionModalsContext';
 
 const mockOpenDeleteModal = jest.fn();
