@@ -318,6 +318,7 @@ export const TAB_REQUIRED_PERMISSIONS = {
   ros: ['ros:*:read'],
 };
 
+// Kessel access-check API (see PR 2919 / useHostIdsWithKessel)
 export const KESSEL_API_PATH = '/api/kessel/v1beta2';
 export const HOST_RESOURCE_TYPE = 'host';
 export const HOST_RESOURCE_TYPE_UPDATE = 'update';
@@ -326,3 +327,9 @@ export const PER_PAGE_MAX = 100;
 export const PER_PAGE = 50;
 export const INITIAL_PAGE = 1;
 export const EMPTY_CELL = '';
+export const WORKSPACE_RESOURCE_TYPE = 'workspace';
+export const WORKSPACE_RELATION_EDIT = 'edit';
+/** Reporter for host access checks (HBI). */
+export const KESSEL_REPORTER = { type: 'hbi' };
+/** Reporter for workspace access checks; README recommends { type: 'rbac' } for RBAC-based authorization. */
+export const KESSEL_WORKSPACE_REPORTER = { type: 'rbac' };

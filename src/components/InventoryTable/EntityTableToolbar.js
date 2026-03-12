@@ -63,8 +63,15 @@ import {
   systemTypeFilterState,
 } from '../filters';
 import useGroupFilter from '../filters/useGroupFilter';
-import { DatePicker, Split, SplitItem } from '@patternfly/react-core';
+import {
+  DatePicker,
+  Split,
+  SplitItem,
+  ToolbarGroup,
+  ToolbarItem,
+} from '@patternfly/react-core';
 import { fromValidator, UNIX_EPOCH, toValidator } from '../filters/helpers';
+import { DownloadButton } from '@redhat-cloud-services/frontend-components/DownloadButton';
 import useInventoryExport from './hooks/useInventoryExport/useInventoryExport';
 import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
@@ -588,6 +595,44 @@ const EntityTableToolbar = ({
     [],
   );
 
+  // When kesselToolbarOrder is set, render Export then custom actions (e.g. Move, Delete) in one group.
+  // Keep actionsConfig as an object (FEC API expects ActionsProps); put the custom group in actions[0].
+  const useKesselActionsGroup =
+    loaded &&
+    actionsConfig?.kesselToolbarOrder &&
+    Array.isArray(actionsConfig?.actions) &&
+    enableExport &&
+    exportConfig &&
+    (exportConfig.onSelect || exportConfig.extraItems);
+
+  const kesselActionsGroupElement = useKesselActionsGroup
+    ? React.createElement(
+        ToolbarGroup,
+        {
+          className:
+            'ins-c-primary-toolbar__group-actions pf-m-spacer-md pf-m-space-items-sm',
+          variant: 'button-group',
+        },
+        React.createElement(
+          ToolbarItem,
+          { className: 'pf-m-spacer-sm' },
+          React.createElement(DownloadButton, exportConfig),
+        ),
+        ...actionsConfig.actions.map((action, idx) =>
+          React.createElement(
+            ToolbarItem,
+            { key: action?.key ?? idx, className: 'pf-m-spacer-sm' },
+            action,
+          ),
+        ),
+      )
+    : null;
+
+  const resolvedActionsConfig =
+    useKesselActionsGroup && kesselActionsGroupElement
+      ? { ...actionsConfig, actions: [kesselActionsGroupElement] }
+      : actionsConfig;
+
   return (
     <Fragment>
       <PrimaryToolbar
@@ -620,7 +665,7 @@ const EntityTableToolbar = ({
           },
         })}
         {...(hasAccess && { activeFiltersConfig: constructFilters() })}
-        actionsConfig={loaded ? actionsConfig : null}
+        actionsConfig={loaded ? resolvedActionsConfig : null}
         pagination={
           loaded ? (
             {
@@ -641,7 +686,11 @@ const EntityTableToolbar = ({
           )
         }
         exportConfig={
-          props.exportConfig ? props.exportConfig : enableExport && exportConfig
+          useKesselActionsGroup
+            ? undefined
+            : props.exportConfig
+              ? props.exportConfig
+              : enableExport && exportConfig
         }
       >
         {lastSeenFilterValue?.mark === 'custom' && (

@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import {
   GENERAL_GROUPS_WRITE_PERMISSION,
+  GENERAL_HOSTS_WRITE_PERMISSIONS,
   NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE,
   NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE,
   NO_MODIFY_HOST_TOOLTIP_MESSAGE,
-  REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
   REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP,
 } from '../../../constants';
 import { ActionDropdownItem } from '../../../components/InventoryTable/ActionWithRBAC';
@@ -21,14 +21,6 @@ const useTableActions = (
 ) => {
   return useCallback(
     ({ item }) => {
-      const isAddtoWorkspaceDisabled = () => {
-        return !item.groups[0]?.ungrouped;
-      };
-
-      const isRemoveFromWorkspaceDisabled = () => {
-        return item.groups[0]?.ungrouped;
-      };
-
       return [
         {
           title: (
@@ -41,8 +33,7 @@ const useTableActions = (
               }}
               requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
               noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
-              isAriaDisabled={isAddtoWorkspaceDisabled(item)} // additional condition for enabling the button
-              ignoreResourceDefinitions // to check if there is any groups:write permission (disregarding RD)
+              ignoreResourceDefinitions
             >
               Add to workspace
             </ActionDropdownItem>
@@ -57,14 +48,9 @@ const useTableActions = (
                 setIsRowAction && setIsRowAction(true);
                 setRemoveHostsFromGroupModalOpen(true);
               }}
-              requiredPermissions={
-                item?.groups?.[0]?.id !== undefined
-                  ? REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(item.groups[0].id)
-                  : []
-              }
+              requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
               noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
-              isAriaDisabled={isRemoveFromWorkspaceDisabled(item)}
-              override={item?.groups?.[0]?.id === undefined ? true : undefined} // has access if no group
+              ignoreResourceDefinitions
             >
               Remove from workspace
             </ActionDropdownItem>
@@ -78,17 +64,22 @@ const useTableActions = (
                 setCurrentSystem(item);
                 onEditOpen(true);
               }}
-              requiredPermissions={[
-                REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
-                  item.groups?.[0]?.id ?? null,
-                ),
-              ]}
+              requiredPermissions={
+                isKesselEnabled
+                  ? [
+                      REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
+                        item.groups?.[0]?.id ?? null,
+                      ),
+                    ]
+                  : [GENERAL_HOSTS_WRITE_PERMISSIONS]
+              }
               noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
               override={
                 isKesselEnabled
                   ? (item.permissions?.hasUpdate ?? false)
                   : undefined
               }
+              ignoreResourceDefinitions={!isKesselEnabled}
             >
               Edit display name
             </ActionDropdownItem>
@@ -103,17 +94,22 @@ const useTableActions = (
                 setIsRowAction && setIsRowAction(true);
                 handleModalToggle(true);
               }}
-              requiredPermissions={[
-                REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
-                  item?.groups?.[0]?.id,
-                ),
-              ]}
+              requiredPermissions={
+                isKesselEnabled
+                  ? [
+                      REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
+                        item?.groups?.[0]?.id,
+                      ),
+                    ]
+                  : [GENERAL_HOSTS_WRITE_PERMISSIONS]
+              }
               noAccessTooltip={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
               override={
                 isKesselEnabled
                   ? (item.permissions?.hasDelete ?? false)
                   : undefined
               }
+              ignoreResourceDefinitions={!isKesselEnabled}
             >
               Delete from inventory
             </ActionDropdownItem>

@@ -1,7 +1,6 @@
 // TODO remove dependency on fec helpers and components
 import { generateFilter } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import { getHostList, getHostTags } from '../../api/hostInventoryApi';
-import uniq from 'lodash/uniq';
 
 const fetchHostTags = async (hosts) => {
   if (hosts.length) {
@@ -66,29 +65,10 @@ export const fetchSystems = async (
   return [systems, total];
 };
 
-export const isBulkAddHostsToGroupsEnabled = (selectedSize, selected) => {
-  if (selectedSize > 0) {
-    const selectedHosts = Array.from(selected.values());
-
-    return selectedHosts.every(({ groups }) => groups[0]?.ungrouped === true);
-  }
-
-  return false;
+export const isBulkAddHostsToGroupsEnabled = (selectedSize) => {
+  return selectedSize > 0;
 };
 
-export const isBulkRemoveFromGroupsEnabled = (selectedSize, selected) => {
-  return (
-    // can't remove from ungrouped group
-    selectedSize > 0 &&
-    Array.from(selected?.values()).every(
-      ({ groups }) => groups[0].ungrouped !== true,
-    ) &&
-    Array.from(selected.values()).some(({ groups }) => groups.length > 0) &&
-    uniq(
-      // can remove from at maximum one group at a time
-      Array.from(selected.values())
-        .filter(({ groups }) => groups.length > 0)
-        .map(({ groups }) => groups[0].name),
-    ).length === 1
-  );
+export const isBulkRemoveFromGroupsEnabled = (selectedSize) => {
+  return selectedSize > 0;
 };

@@ -21,8 +21,7 @@ import {
   GENERAL_GROUPS_WRITE_PERMISSION,
   NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE,
   NO_MODIFY_HOSTS_TOOLTIP_MESSAGE,
-  REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
-  REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP,
+  GENERAL_HOSTS_WRITE_PERMISSIONS,
 } from '../../../constants';
 import {
   ActionButton,
@@ -36,32 +35,126 @@ import { useKesselMigrationFeatureFlag } from '../../../Utilities/hooks/useKesse
 import { AccountStatContext } from '../../../Contexts';
 import { INVENTORY_COLUMNS } from '../../../store/constants';
 import { DEFAULT_COLUMNS } from '../../../store/entities';
-import {
-  isBulkAddHostsToGroupsEnabled,
-  isBulkRemoveFromGroupsEnabled,
-} from '../../../routes/Systems/helpers';
+import MoveSystemsToWorkspaceModal from '../../InventoryTable/MoveSystemsToWorkspaceModal';
 
-const BulkDeleteButton = ({ selectedSystems, ...props }) => {
-  const requiredPermissions = selectedSystems.map(({ groups }) =>
-    REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(groups?.[0]?.id ?? null),
-  );
-
-  return (
-    <ActionButton
-      requiredPermissions={requiredPermissions}
-      noAccessTooltip={NO_MODIFY_HOSTS_TOOLTIP_MESSAGE}
-      checkAll
-      ouiaId="bulk-delete-button"
-      {...props}
-    >
-      Delete
-    </ActionButton>
-  );
-};
+const BulkDeleteButton = ({ selectedSystems, ...props }) => (
+  <ActionButton
+    requiredPermissions={[GENERAL_HOSTS_WRITE_PERMISSIONS]}
+    noAccessTooltip={NO_MODIFY_HOSTS_TOOLTIP_MESSAGE}
+    ignoreResourceDefinitions
+    ouiaId="bulk-delete-button"
+    {...props}
+  >
+    Delete
+  </ActionButton>
+);
 
 BulkDeleteButton.propTypes = {
   selectedSystems: PropTypes.array,
 };
+
+// True when all selected hosts are ungrouped (can add to workspace).
+const canBulkAddToWorkspace = (selectedSystems) =>
+  selectedSystems?.length > 0 &&
+  selectedSystems.every((s) => s.groups?.[0]?.ungrouped === true);
+
+// True when all selected hosts are in the same non-ungrouped group (can remove from workspace).
+const canBulkRemoveFromWorkspace = (selectedSystems) => {
+  if (!selectedSystems?.length) return false;
+  const firstGroupId = selectedSystems[0].groups?.[0]?.id;
+  const firstUngrouped = selectedSystems[0].groups?.[0]?.ungrouped === true;
+  if (firstUngrouped) return false; // all must be in a real group
+  return selectedSystems.every(
+    (s) => s.groups?.[0]?.id === firstGroupId && !s.groups[0].ungrouped,
+  );
+};
+
+const buildKesselActions = ({
+  selectedSystems,
+  hasSelection,
+  setCurrentSystem,
+  setAddHostGroupModalOpen,
+  handleModalToggle,
+}) => [
+  <ActionButton
+    key="bulk-move"
+    requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
+    noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
+    onClick={() => {
+      setCurrentSystem(selectedSystems);
+      setAddHostGroupModalOpen(true);
+    }}
+    variant="primary"
+    isAriaDisabled={!hasSelection}
+    ouiaId="bulk-move-button"
+  >
+    Move
+  </ActionButton>,
+  <BulkDeleteButton
+    key="bulk-systems-delete"
+    selectedSystems={selectedSystems}
+    onClick={() => {
+      setCurrentSystem(selectedSystems);
+      handleModalToggle(true);
+    }}
+    variant="secondary"
+    isAriaDisabled={!hasSelection}
+  />,
+];
+
+const buildLegacyActions = ({
+  selectedSystems,
+  hasSelection,
+  setCurrentSystem,
+  setAddHostGroupModalOpen,
+  setRemoveHostsFromGroupModalOpen,
+  handleModalToggle,
+}) => [
+  <BulkDeleteButton
+    key="bulk-systems-delete"
+    selectedSystems={selectedSystems}
+    onClick={() => {
+      setCurrentSystem(selectedSystems);
+      handleModalToggle(true);
+    }}
+    variant="secondary"
+    isAriaDisabled={!hasSelection}
+  />,
+  {
+    label: (
+      <ActionDropdownItem
+        key="bulk-add-to-group"
+        requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
+        isAriaDisabled={!canBulkAddToWorkspace(selectedSystems)}
+        noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
+        onClick={() => {
+          setCurrentSystem(selectedSystems);
+          setAddHostGroupModalOpen(true);
+        }}
+        ignoreResourceDefinitions
+      >
+        Add to workspace
+      </ActionDropdownItem>
+    ),
+  },
+  {
+    label: (
+      <ActionDropdownItem
+        key="bulk-remove-from-group"
+        requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
+        isAriaDisabled={!canBulkRemoveFromWorkspace(selectedSystems)}
+        noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
+        onClick={() => {
+          setCurrentSystem(selectedSystems);
+          setRemoveHostsFromGroupModalOpen(true);
+        }}
+        ignoreResourceDefinitions
+      >
+        Remove from workspace
+      </ActionDropdownItem>
+    ),
+  },
+];
 
 const ConventionalSystemsTab = ({
   status,
@@ -198,6 +291,25 @@ const ConventionalSystemsTab = ({
     onEditOpen(false);
   };
 
+  const selectedSystems = Array.from(selected?.values?.() || []);
+  const hasSelection = selectedSystems.length > 0;
+  const toolbarActions = isKesselEnabled
+    ? buildKesselActions({
+        selectedSystems,
+        hasSelection,
+        setCurrentSystem,
+        setAddHostGroupModalOpen,
+        handleModalToggle,
+      })
+    : buildLegacyActions({
+        selectedSystems,
+        hasSelection,
+        setCurrentSystem,
+        setAddHostGroupModalOpen,
+        setRemoveHostsFromGroupModalOpen,
+        handleModalToggle,
+      });
+
   return (
     <Fragment>
       <InventoryTableCmp
@@ -223,78 +335,8 @@ const ConventionalSystemsTab = ({
         columns={isLastCheckInEnabled ? INVENTORY_COLUMNS : DEFAULT_COLUMNS}
         lastSeenOverride={isLastCheckInEnabled ? 'last_check_in' : null}
         actionsConfig={{
-          actions: [
-            <BulkDeleteButton
-              key="bulk-systems-delete"
-              selectedSystems={Array.from(selected?.values?.() || [])}
-              onClick={() => {
-                setCurrentSystem(Array.from(selected.values()));
-                handleModalToggle(true);
-              }}
-              variant="secondary"
-              isAriaDisabled={calculateSelected() === 0}
-            />,
-
-            {
-              label: (
-                <ActionDropdownItem
-                  key="bulk-add-to-group"
-                  requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
-                  isAriaDisabled={
-                    !isBulkAddHostsToGroupsEnabled(
-                      calculateSelected(),
-                      selected,
-                    )
-                  }
-                  noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
-                  onClick={() => {
-                    setCurrentSystem(Array.from(selected.values()));
-                    setAddHostGroupModalOpen(true);
-                  }}
-                  ignoreResourceDefinitions
-                >
-                  Add to workspace
-                </ActionDropdownItem>
-              ),
-            },
-            {
-              label: (
-                <ActionDropdownItem
-                  key="bulk-remove-from-group"
-                  requiredPermissions={
-                    selected !== undefined
-                      ? Array.from(selected.values())
-                          .flatMap(({ groups }) =>
-                            groups?.[0]?.id !== undefined
-                              ? REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                                  groups[0].id,
-                                )
-                              : null,
-                          )
-                          .filter(Boolean) // don't check ungroupped hosts
-                      : []
-                  }
-                  isAriaDisabled={
-                    !isBulkRemoveFromGroupsEnabled(
-                      calculateSelected(),
-                      selected,
-                    )
-                  }
-                  noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
-                  onClick={() => {
-                    setCurrentSystem(Array.from(selected.values()));
-                    setRemoveHostsFromGroupModalOpen(true);
-                  }}
-                  {...(selected === undefined // when nothing is selected, no access must be checked
-                    ? { override: true }
-                    : {})}
-                  checkAll
-                >
-                  Remove from workspace
-                </ActionDropdownItem>
-              ),
-            },
-          ],
+          ...(isKesselEnabled ? { kesselToolbarOrder: true } : {}),
+          actions: toolbarActions,
         }}
         bulkSelect={bulkSelectConfig}
         showCentosVersions
@@ -342,8 +384,24 @@ const ConventionalSystemsTab = ({
           onSubmit={(value) => handleEditDisplayName(value)}
         />
       )}
-      {addHostGroupModalOpen && (
+      {addHostGroupModalOpen && !isKesselEnabled ? (
         <AddSelectedHostsToGroupModal
+          isModalOpen={addHostGroupModalOpen}
+          setIsModalOpen={setAddHostGroupModalOpen}
+          modalState={currentSystem}
+          reloadData={() => {
+            if (calculateSelected() > 0) {
+              dispatch(actions.selectEntity(-1, false));
+            }
+
+            setTimeout(
+              () => inventory.current.onRefreshData(filters, false, true),
+              500,
+            );
+          }}
+        />
+      ) : (
+        <MoveSystemsToWorkspaceModal
           isModalOpen={addHostGroupModalOpen}
           setIsModalOpen={setAddHostGroupModalOpen}
           modalState={currentSystem}

@@ -6,14 +6,17 @@ import {
   useState,
 } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import React from 'react';
 import DeleteModal from '../../Utilities/DeleteModal';
 import AddSelectedHostsToGroupModal from '../InventoryGroups/Modals/AddSelectedHostsToGroupModal';
 import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFromGroupModal';
+import MoveSystemsToWorkspaceModal from '../InventoryTable/MoveSystemsToWorkspaceModal';
+import type { SystemForWorkspace } from '../InventoryTable/MoveSystemsToWorkspaceModal';
 import TextInputModal from '../GeneralInfo/TextInputModal/TextInputModal';
+import { useKesselMigrationFeatureFlag } from '../../Utilities/hooks/useKesselMigrationFeatureFlag';
 import { useDeleteSystemsMutation } from './hooks/useDeleteSystemsMutation';
 import { usePatchSystemsMutation } from './hooks/usePatchSystemsMutation';
 import type { System } from './hooks/useSystemsQuery';
-import React from 'react';
 import { TagsModal } from './TagsModal/TagsModal';
 
 type OpenModalFn = (systems: System[]) => void;
@@ -28,6 +31,9 @@ interface SystemActionModalsContextValue {
 
 const SystemActionModalsContext =
   createContext<SystemActionModalsContextValue | null>(null);
+
+/** Exported for tests that need to wrap with a provider */
+export { SystemActionModalsContext };
 
 export const useSystemActionModalsContext = () => {
   const context = useContext(SystemActionModalsContext);
@@ -49,9 +55,12 @@ export const SystemActionModalsProvider = ({
   onSelectionClear,
 }: SystemActionModalsProviderProps) => {
   const queryClient = useQueryClient();
+  const isKesselEnabled = useKesselMigrationFeatureFlag();
   const [systemsForAction, setSystemsForAction] = useState<System[]>([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
+  const [moveSystemsToWorkspaceModalOpen, setMoveSystemsToWorkspaceModalOpen] =
+    useState(false);
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
     useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -87,10 +96,17 @@ export const SystemActionModalsProvider = ({
     setIsDeleteModalOpen(true);
   }, []);
 
-  const openAddToWorkspaceModal = useCallback((systems: System[]) => {
-    setSystemsForAction(systems);
-    setAddHostGroupModalOpen(true);
-  }, []);
+  const openAddToWorkspaceModal = useCallback(
+    (systems: System[]) => {
+      setSystemsForAction(systems);
+      if (isKesselEnabled) {
+        setMoveSystemsToWorkspaceModalOpen(true);
+      } else {
+        setAddHostGroupModalOpen(true);
+      }
+    },
+    [isKesselEnabled],
+  );
 
   const openRemoveFromWorkspaceModal = useCallback((systems: System[]) => {
     setSystemsForAction(systems);
@@ -106,6 +122,14 @@ export const SystemActionModalsProvider = ({
     setSystemsForAction(systems);
     setTagsModalOpen(true);
   }, []);
+
+  const systemsForMoveModal = useMemo(
+    () =>
+      systemsForAction.filter(
+        (s): s is System & { id: string } => typeof s.id === 'string',
+      ) as SystemForWorkspace[],
+    [systemsForAction],
+  );
 
   const contextValue: SystemActionModalsContextValue = useMemo(
     () => ({
@@ -140,6 +164,14 @@ export const SystemActionModalsProvider = ({
           isModalOpen={addHostGroupModalOpen}
           setIsModalOpen={setAddHostGroupModalOpen}
           modalState={systemsForAction}
+          reloadData={reloadData}
+        />
+      )}
+      {moveSystemsToWorkspaceModalOpen && (
+        <MoveSystemsToWorkspaceModal
+          isModalOpen={moveSystemsToWorkspaceModalOpen}
+          setIsModalOpen={setMoveSystemsToWorkspaceModalOpen}
+          modalState={systemsForMoveModal}
           reloadData={reloadData}
         />
       )}
