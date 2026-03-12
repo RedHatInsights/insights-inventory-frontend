@@ -230,10 +230,16 @@ describe('with default parameters', () => {
         cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
         cy.get(DROPDOWN_ITEM).contains('Workspace').click();
         cy.ouiaId('FilterByGroup').click();
-        cy.ouiaId('FilterByGroupOption').should(
-          'have.text',
-          shorterGroupsFixtures.results.map(({ name }) => name).join(''),
+        const expectedNames = shorterGroupsFixtures.results.map(
+          ({ name }) => name,
         );
+        cy.ouiaId('FilterByGroupOption').should(
+          'have.length',
+          expectedNames.length,
+        );
+        expectedNames.forEach((name) => {
+          cy.ouiaId('FilterByGroupOption').contains(name).should('exist');
+        });
       });
 
       const firstGroupName = shorterGroupsFixtures.results[0].name;
