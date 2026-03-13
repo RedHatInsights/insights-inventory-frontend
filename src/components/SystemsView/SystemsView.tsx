@@ -75,18 +75,21 @@ const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
   const { filters, onSetFilters, clearAllFilters } =
     useDataViewFilters<InventoryFilters>({
       initialFilters: {
-        name: '',
+        hostname_or_id: '',
         status: [],
-        dataCollector: [],
+        source: [],
         rhcStatus: [],
-        systemType: [],
+        system_type: [],
         workspace: [],
       },
       searchParams,
       setSearchParams,
     });
 
-  const debouncedName = useDebouncedValue(filters.name, DEBOUNCE_TIMEOUT_MS);
+  const debouncedName = useDebouncedValue(
+    filters.hostname_or_id,
+    DEBOUNCE_TIMEOUT_MS,
+  );
   const queryFilters: InventoryFilters = useMemo(() => {
     return {
       ...filters,
