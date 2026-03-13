@@ -211,6 +211,7 @@ export async function getEntities(
         /* needed by inventory groups */ 'system_update_method',
         /* needed for image based systems */ 'bootc_status',
         /* needed for RHEL AI */ 'workloads',
+        /* needed for Image Builder blueprint link */ 'image_builder',
       ],
     },
     filterImmutableByDefault = true,

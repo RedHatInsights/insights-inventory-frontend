@@ -184,6 +184,21 @@ const SystemCard = ({
           },
         ]
       : []),
+    ...(systemProfile?.image_builder?.blueprint_id
+      ? [
+          {
+            title: 'Image builder blueprint',
+            value: (
+              <a
+                href={`/insights/image-builder?blueprint_id=${systemProfile.image_builder.blueprint_id}`}
+              >
+                {systemProfile.image_builder.blueprint_id}
+              </a>
+            ),
+            size: 'md',
+          },
+        ]
+      : []),
     ...extra.map(({ onClick, ...item }) => ({
       ...item,
       ...(onClick && {
