@@ -47,7 +47,7 @@ const fetchSystems = async ({
     ...(filters?.status && { staleness: filters.status }),
     ...(filters?.source && { registeredWith: filters.source }),
     ...(filters?.system_type && {
-      system_type: serializeSystemType(filters.system_type),
+      systemType: serializeSystemType(filters.system_type),
     }),
     ...(filters?.workspace && { groupName: filters.workspace }),
     ...(filters?.last_seen && {
