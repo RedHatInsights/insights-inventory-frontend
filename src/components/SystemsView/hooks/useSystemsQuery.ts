@@ -43,11 +43,11 @@ const fetchSystems = async ({
     perPage,
     ...(sortBy && { orderBy: sortBy }),
     ...(direction && { orderHow: direction.toUpperCase() }),
-    ...(filters?.name && { hostnameOrId: filters.name }),
+    ...(filters?.hostname_or_id && { hostnameOrId: filters.hostname_or_id }),
     ...(filters?.status && { staleness: filters.status }),
-    ...(filters?.dataCollector && { registeredWith: filters.dataCollector }),
-    ...(filters?.systemType && {
-      systemType: serializeSystemType(filters.systemType),
+    ...(filters?.source && { registeredWith: filters.source }),
+    ...(filters?.system_type && {
+      systemType: serializeSystemType(filters.system_type),
     }),
     ...(filters?.workspace && { groupName: filters.workspace }),
     ...(filters?.last_seen && {
