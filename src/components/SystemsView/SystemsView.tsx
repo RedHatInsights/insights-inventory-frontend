@@ -93,7 +93,7 @@ const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
   const queryFilters: InventoryFilters = useMemo(() => {
     return {
       ...filters,
-      name: debouncedName,
+      hostname_or_id: debouncedName,
     };
   }, [filters, debouncedName]);
 
