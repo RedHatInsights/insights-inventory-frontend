@@ -81,6 +81,7 @@ const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
         rhcStatus: [],
         systemType: [],
         workspace: [],
+        tags: [],
       },
       searchParams,
       setSearchParams,
