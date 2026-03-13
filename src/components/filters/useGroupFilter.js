@@ -8,7 +8,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { getGroups } from '../InventoryGroups/utils/api';
 import { GENERAL_GROUPS_READ_PERMISSION } from '../../constants';
 
-const PAGE_SIZE = 50;
+const PAGE_SIZE = 10;
 const INPUT_DEBOUNCE_MS = 300;
 
 export const groupFilterState = { hostGroupFilter: null };

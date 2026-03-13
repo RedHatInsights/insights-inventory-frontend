@@ -1,6 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
+  Badge,
   Divider,
+  Flex,
+  FlexItem,
   MenuToggle,
   TextInputGroup,
   TextInputGroupMain,
@@ -53,7 +56,19 @@ const SearchableGroupFilter = ({
 
   const groupOptions = useMemo(() => {
     const g = groups.slice(0, visibleCount);
-    return g.map(({ name }) => ({ itemId: name, children: name }));
+    return g.map(({ name, host_count: hostCount }) => ({
+      itemId: name,
+      children: (
+        <Flex alignItems={{ default: 'alignItemsCenter' }}>
+          <FlexItem>{name}</FlexItem>
+          <FlexItem>
+            <Badge isRead>
+              {typeof hostCount === 'number' ? hostCount : '—'}
+            </Badge>
+          </FlexItem>
+        </Flex>
+      ),
+    }));
   }, [groups, visibleCount]);
 
   useEffect(() => {
@@ -248,6 +263,7 @@ SearchableGroupFilter.propTypes = {
   groups: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
+      host_count: PropTypes.number,
     }),
   ).isRequired,
   selectedGroupNames: PropTypes.arrayOf(PropTypes.string).isRequired,

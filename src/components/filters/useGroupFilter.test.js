@@ -60,7 +60,7 @@ function WrappedHarness({ showNoGroupOption = false }) {
 
 const waitForGroupsToBeLoaded = async (
   searchParams = { type: 'standard' },
-  pageParams = { page: 1, per_page: 50 },
+  pageParams = { page: 1, per_page: 10 },
 ) =>
   await flushPromises().then(() =>
     waitFor(() =>
@@ -231,18 +231,18 @@ describe('filtering', () => {
 
   describe('local filtering (under 2 pages of data)', () => {
     beforeEach(() => {
-      const total = 70; // under 2 pages of data - page = 50
+      const total = 15; // under 2 pages of data - page size = 10
       getGroups
         .mockResolvedValueOnce({
           total,
-          results: Array.from({ length: 50 }, (_, i) => ({
+          results: Array.from({ length: 10 }, (_, i) => ({
             name: `group-${i + 1}`,
           })),
         })
         .mockResolvedValueOnce({
           total,
-          results: Array.from({ length: 20 }, (_, i) => ({
-            name: `group-${i + 51}`,
+          results: Array.from({ length: 5 }, (_, i) => ({
+            name: `group-${i + 11}`,
           })),
         });
     });
@@ -253,10 +253,10 @@ describe('filtering', () => {
       await waitForGroupsToBeLoaded();
 
       const input = screen.getByPlaceholderText('Filter by workspace');
-      await userEvent.type(input, 'group-51');
+      await userEvent.type(input, 'group-12');
       await waitForGroupsToBeLoaded(
         { type: 'standard' },
-        { page: 2, per_page: 50 },
+        { page: 2, per_page: 10 },
       ); // Wait for the next page to load
 
       // There should be only one option visible (the filtered one)
@@ -264,14 +264,14 @@ describe('filtering', () => {
         expect(screen.getAllByRole('menuitem')).toHaveLength(1),
       );
       expect(
-        screen.getByRole('menuitem', { name: 'group-51' }),
+        screen.getByRole('menuitem', { name: /group-12/ }),
       ).toBeInTheDocument();
     });
   });
 
   describe('remote filtering (over 2 pages of data)', () => {
     beforeEach(() => {
-      const total = 170; // over 2 pages of data - page = 50
+      const total = 170; // over 2 pages of data - page size = 10
       getGroups.mockImplementation((...args) => {
         if (args[0] && args[0].name === 'group-51') {
           return Promise.resolve({
@@ -279,10 +279,12 @@ describe('filtering', () => {
             results: [{ name: 'group-51' }],
           });
         }
-        const offset = args[0]?.offset || 0;
-        const limit = args[0]?.limit || 50;
+        const pagination = args[1] || {};
+        const page = pagination.page || 1;
+        const perPage = pagination.per_page || 10;
+        const offset = (page - 1) * perPage;
         const results = Array.from(
-          { length: Math.min(limit, total - offset) },
+          { length: Math.min(perPage, total - offset) },
           (_, i) => ({ name: `group-${offset + i + 1}` }),
         );
         return Promise.resolve({ total, results });
@@ -304,7 +306,7 @@ describe('filtering', () => {
       );
 
       expect(
-        screen.getByRole('menuitem', { name: 'group-51' }),
+        screen.getByRole('menuitem', { name: /group-51/ }),
       ).toBeInTheDocument();
     });
   });

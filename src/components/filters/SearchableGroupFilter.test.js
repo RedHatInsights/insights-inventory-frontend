@@ -98,7 +98,7 @@ it('selected groups are checked', async () => {
   );
   expect(
     screen.getByRole('checkbox', {
-      name: 'group-1',
+      name: /group-1/,
     }),
   ).toBeChecked();
 });
