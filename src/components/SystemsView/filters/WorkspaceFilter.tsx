@@ -17,6 +17,9 @@ import {
   Spinner,
   Divider,
   MenuToggleElement,
+  Badge,
+  Flex,
+  FlexItem,
 } from '@patternfly/react-core';
 import xor from 'lodash/xor';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -73,9 +76,18 @@ export const WorkspaceFilter = ({
     const items = data.pages
       .map((page) => page.results)
       .flat()
-      .map(({ name }) => ({
+      .map(({ name, host_count: hostCount }) => ({
         itemId: name,
-        children: name,
+        children: (
+          <Flex alignItems={{ default: 'alignItemsCenter' }}>
+            <FlexItem>{name}</FlexItem>
+            <FlexItem>
+              <Badge isRead>
+                {typeof hostCount === 'number' ? hostCount : '—'}
+              </Badge>
+            </FlexItem>
+          </Flex>
+        ),
       }));
 
     return [
