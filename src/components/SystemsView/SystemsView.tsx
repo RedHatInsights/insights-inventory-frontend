@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import {
   DataView,
-  DataViewTrObject,
   useDataViewPagination,
   useDataViewSort,
 } from '@patternfly/react-data-view';
@@ -23,7 +22,10 @@ import { useColumns } from './hooks/useColumns';
 import { SetURLSearchParams, useSearchParams } from 'react-router-dom';
 import { SystemActionModalsProvider } from './SystemActionModalsContext';
 import { SystemsViewBulkActions } from './SystemsViewBulkActions';
-import { useBulkSelect } from './hooks/useBulkSelect';
+import {
+  useBulkSelect,
+  type DataViewBulkSelection,
+} from './hooks/useBulkSelect';
 import { useRows } from './hooks/useRows';
 import AccessDenied from '../../Utilities/AccessDenied';
 import './SystemsView.scss';
@@ -37,13 +39,8 @@ import {
 import { useDebouncedValue } from '../../Utilities/hooks/useDebouncedValue';
 import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
 import { PER_PAGE } from '../../constants';
+import { DEBOUNCE_TIMEOUT_MS } from '../../constants';
 
-export interface SystemsViewSelection {
-  selected: DataViewTrObject[];
-  setSelected: (items: DataViewTrObject[]) => void;
-  onSelect: (isSelecting: boolean, items?: DataViewTrObject[]) => void;
-  isSelected: (item: DataViewTrObject) => boolean;
-}
 export type SortDirection = ISortBy['direction'];
 export type SortBy = ApiOrderByEnum | undefined;
 export type onSort = (
@@ -52,9 +49,6 @@ export type onSort = (
   newSortDirection: SortDirection,
 ) => void;
 export type Pagination = ReturnType<typeof useDataViewPagination>;
-
-const DEBOUNCE_TIMEOUT_MS = 300;
-
 interface SystemsViewInnerProps {
   searchParams: URLSearchParams;
   setSearchParams: SetURLSearchParams;
@@ -88,7 +82,7 @@ const SystemsViewInner = ({
   const selection = useDataViewSelection({
     matchOption: (a, b) => a.id === b.id,
     initialSelected: [],
-  }) as SystemsViewSelection;
+  }) as DataViewBulkSelection;
   const { selected, setSelected } = selection;
 
   const sort = useDataViewSort({

@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useRef, Ref } from 'react';
+import React, { useMemo, useState, Ref } from 'react';
 import {
   MenuToggle,
   TextInputGroup,
@@ -16,18 +16,13 @@ import {
   Truncate,
 } from '@patternfly/react-core';
 import xor from 'lodash/xor';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { getTagList } from '../../../api/hostInventoryApiTyped';
-import { PER_PAGE } from '../../../constants';
 import { useDebouncedValue } from '../../../Utilities/hooks/useDebouncedValue';
+import { useSystemActionModalsContext } from '../SystemActionModalsContext';
+import { useTagsQuery } from '../hooks/useTagsQuery';
+import { DEBOUNCE_TIMEOUT_MS, PER_PAGE } from '../../../constants';
 
-// TODO refactor these to constants
-const STALENESS = ['fresh', 'stale', 'stale_warning'] as const;
-const PAGE_SIZE = 50;
-const INITIAL_VISIBLE_SIZE = PAGE_SIZE;
 const LOADER_ID = 'loader';
 const FILTER_DROPDOWN_WIDTH = '300px';
-const DEBOUNCE_TIMEOUT_MS = 300;
 
 interface TagsFilterProps {
   placeholder?: string;
@@ -42,67 +37,51 @@ export const TagsFilter = ({
 }: TagsFilterProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
-  const [focusedOption, setFocusedOption] = useState(0);
   const debouncedSearch = useDebouncedValue(search, DEBOUNCE_TIMEOUT_MS);
+  const { openTagsModal } = useSystemActionModalsContext();
 
-  const { data, fetchNextPage, hasNextPage, isFetching, isPending } =
-    useInfiniteQuery({
-      queryKey: ['tags', debouncedSearch],
-      queryFn: async ({ pageParam }) =>
-        getTagList({
-          page: pageParam,
-          perPage: PAGE_SIZE,
-          orderBy: 'tag',
-          orderHow: 'ASC',
-          staleness: [...STALENESS],
-          ...(debouncedSearch && { search: debouncedSearch }),
-        }),
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      initialPageParam: 1,
-      getNextPageParam: (lastPage) => {
-        return lastPage.per_page * lastPage.page < lastPage.total
-          ? lastPage.page + 1
-          : null;
-      },
-    });
+  const { data, total, isLoading, isFetching } = useTagsQuery({
+    search: debouncedSearch,
+  });
 
-  const total = data?.pages?.[0].total;
+  const hasMoreTags = typeof total === 'number' && total > PER_PAGE;
 
   const tagsByNamespace = useMemo(() => {
-    if (!data?.pages) {
+    if (!data?.length) {
       return {};
     } else {
       const result: Record<string, { name: string; count: number }[]> = {};
-      data.pages
-        .map((page) => page.results)
-        .flat()
-        .slice(0, INITIAL_VISIBLE_SIZE)
-        .forEach(({ tag, count }) => {
-          const { namespace, key, value } = tag;
-          const tagDetails = { name: `${key}=${value}`, count: count ?? 0 };
-          if (namespace) {
-            if (result[namespace]) {
-              result[namespace].push(tagDetails);
-            } else {
-              result[namespace] = [tagDetails];
-            }
+      data.slice(0, PER_PAGE).forEach(({ tag, count }) => {
+        const { namespace, key, value } = tag;
+        const tagDetails = { name: `${key}=${value}`, count: count ?? 0 };
+        if (namespace) {
+          if (result[namespace]) {
+            result[namespace].push(tagDetails);
+          } else {
+            result[namespace] = [tagDetails];
           }
-        });
+        }
+      });
       return result;
     }
   }, [data]);
 
   const tagOptions = Object.entries(tagsByNamespace);
-  const focusedOptionRef = useRef<HTMLOptionElement>();
-
-  // TODO change this to footer action
-  const onMoreTagsAvailable = async () => {
-    // setFocusedOption(visibleSize);
-  };
 
   const onToggleClick = () => {
     setIsOpen(!isOpen);
+  };
+
+  const onOpenChange = () => {
+    setIsOpen(false);
+    setSearch('');
+  };
+
+  const onMoreTagsAvailable = () => {
+    openTagsModal([], {
+      initialTagSearch: debouncedSearch,
+    });
+    onOpenChange();
   };
 
   const toggle = (toggleRef: Ref<MenuToggleElement>) => (
@@ -137,10 +116,7 @@ export const TagsFilter = ({
           if (selected === LOADER_ID) return;
           onChange?.(event, xor(value, [selected]));
         }}
-        onOpenChange={() => {
-          setIsOpen(false);
-          setSearch('');
-        }}
+        onOpenChange={onOpenChange}
         toggle={toggle}
         isScrollable
         popperProps={{
@@ -148,12 +124,12 @@ export const TagsFilter = ({
         }}
       >
         <SelectList isAriaMultiselectable>
-          {isPending && (
+          {isLoading && (
             <SelectOption isLoading={true}>
               <Spinner size="lg" />
             </SelectOption>
           )}
-          {tagOptions.length === 0 && !isPending ? (
+          {tagOptions.length === 0 && !isLoading ? (
             <SelectOption isDisabled={true}>No tags available</SelectOption>
           ) : (
             <>
@@ -169,9 +145,6 @@ export const TagsFilter = ({
                             (item) => item === `${namespace}/${tag.name}`,
                           )}
                           data-ouia-component-id="FilterByTagsOption"
-                          ref={
-                            index === focusedOption ? focusedOptionRef : null
-                          }
                           hasCheckbox={true}
                         >
                           <Flex
@@ -198,20 +171,20 @@ export const TagsFilter = ({
                   </SelectGroup>
                 );
               })}
-              {hasNextPage && (
+              {hasMoreTags && (
                 <SelectOption
                   isLoading={isFetching}
                   isLoadButton={!isFetching}
                   style={{ overflow: 'visible' }}
-                  isDisabled={isFetching}
-                  onClick={onMoreTagsAvailable}
+                  isDisabled={isFetching || total == null}
+                  onClick={() => onMoreTagsAvailable()}
                   itemId={LOADER_ID}
                 >
-                  {isFetching || !total ? (
+                  {isFetching || total == null ? (
                     <Spinner size="lg" />
-                  ) : hasNextPage ? (
+                  ) : (
                     `${total - PER_PAGE} more tags available`
-                  ) : null}
+                  )}
                 </SelectOption>
               )}
             </>

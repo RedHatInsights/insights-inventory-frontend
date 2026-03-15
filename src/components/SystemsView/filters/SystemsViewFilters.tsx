@@ -30,6 +30,7 @@ export interface InventoryFilters {
   tags: string[];
   last_seen?: LastSeenFilterItem;
 }
+
 export const isToolbarLabel = (
   label: string | ToolbarLabel,
 ): label is ToolbarLabel => typeof label === 'object' && 'key' in label;
@@ -120,7 +121,7 @@ export const SystemsViewFilters = ({ pagination }: SystemsViewFiltersProps) => {
               };
             }) ?? []
           }
-          deleteLabel={(label, value, onChange) =>
+          deleteLabel={(_category, label, value, onChange) =>
             onChange?.(
               undefined,
               value?.filter(
@@ -145,7 +146,7 @@ export const SystemsViewFilters = ({ pagination }: SystemsViewFiltersProps) => {
                 ]
               : [];
           }}
-          deleteLabel={(_label, _value, onChange) => {
+          deleteLabel={(_category, _label, _value, onChange) => {
             onChange?.(undefined, undefined);
           }}
         />
@@ -182,10 +183,11 @@ export const SystemsViewFilters = ({ pagination }: SystemsViewFiltersProps) => {
 
             return result;
           }}
-          deleteLabel={(label, value, onChange) => {
+          deleteLabel={(category, label, value, onChange) => {
+            const labelStr = isToolbarLabel(label) ? String(label.node) : label;
             onChange?.(
               undefined,
-              value?.filter((item) => !item.includes(label as string)),
+              value?.filter((item) => item !== `${category}/${label}`),
             );
           }}
           isMultiGroup={true}

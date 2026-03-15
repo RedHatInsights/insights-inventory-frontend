@@ -5,71 +5,175 @@ import {
   DataViewToolbar,
   useDataViewPagination,
 } from '@patternfly/react-data-view';
-import { Pagination, SearchInput } from '@patternfly/react-core';
+import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorState';
+import {
+  Bullseye,
+  Pagination,
+  SearchInput,
+  Spinner,
+} from '@patternfly/react-core';
+import { BulkSelect } from '@patternfly/react-component-groups';
 import { System } from '../hooks/useSystemsQuery';
 import { INITIAL_PAGE, PER_PAGE } from '../../../constants';
 import { NO_HEADER } from '../../InventoryViews/constants';
 import NoEntitiesFound from '../../InventoryTable/NoEntitiesFound';
 import { Tbody, Td, Tr } from '@patternfly/react-table';
+import {
+  useBulkSelect,
+  type DataViewBulkSelection,
+} from '../hooks/useBulkSelect';
+import {
+  noopSelection,
+  tagToTagTuple,
+  TagTuple,
+} from './tagsModalTableHelpers';
 
-type TagValues = [string, string, string];
-interface TagsModalTableProps {
-  tags: System['tags'];
+export interface TagsModalServerPagination {
+  total: number;
+  page: number;
+  perPage: number;
+  onSetPage: (
+    _event: React.MouseEvent | React.KeyboardEvent | MouseEvent | undefined,
+    newPage: number,
+  ) => void;
+  onPerPageSelect: (
+    _event: React.MouseEvent | React.KeyboardEvent | MouseEvent | undefined,
+    newPerPage: number,
+  ) => void;
 }
 
-export const TagsModalTable = ({ tags = [] }: TagsModalTableProps) => {
-  const [searchValue, setSearchValue] = useState('');
+export interface TagsModalServerSearch {
+  value: string;
+  onChange: (value: string) => void;
+}
 
-  const rows: TagValues[] = tags.map((tag) => [
-    tag.key ?? '',
-    tag.value ?? '',
-    tag.namespace ?? '',
-  ]);
+interface TagsModalTableProps {
+  tags: System['tags'];
+  isLoading?: boolean;
+  isError?: boolean;
+  serverPagination?: TagsModalServerPagination;
+  serverSearch?: TagsModalServerSearch;
+  selection?: DataViewBulkSelection<TagTuple>;
+}
 
-  const filteredRows = searchValue
-    ? rows.filter((row) =>
-        row.some((value) =>
-          value.toLowerCase().includes(searchValue.toLowerCase()),
-        ),
-      )
-    : rows;
+export const TagsModalTable = ({
+  tags = [],
+  isLoading = false,
+  isError = false,
+  serverPagination,
+  serverSearch,
+  selection: selectionFromParent,
+}: TagsModalTableProps) => {
+  const [clientSearchValue, setClientSearchValue] = useState('');
 
-  const activeState = filteredRows.length === 0 ? 'empty' : 'active';
-  const pagination = useDataViewPagination({
+  const hasSelectionEnabled = Boolean(selectionFromParent);
+  const tagTuples: TagTuple[] = tags.map(tagToTagTuple);
+
+  const searchInputValue = serverSearch?.value ?? clientSearchValue;
+
+  const tagTuplesFiltered = serverSearch
+    ? tagTuples
+    : clientSearchValue
+      ? tagTuples.filter((row) =>
+          row.some((value) =>
+            value.toLowerCase().includes(clientSearchValue.toLowerCase()),
+          ),
+        )
+      : tagTuples;
+
+  const clientPagination = useDataViewPagination({
     perPage: PER_PAGE,
     page: INITIAL_PAGE,
   });
-  const paginatedRows = filteredRows.slice(
-    (pagination.page - 1) * pagination.perPage,
-    pagination.page * pagination.perPage,
-  );
+
+  const paginationForUi = serverPagination ?? clientPagination;
+  const itemCount = serverPagination
+    ? serverPagination.total
+    : tagTuplesFiltered.length;
+
+  const paginatedRows = serverPagination
+    ? tagTuplesFiltered
+    : tagTuplesFiltered.slice(
+        (clientPagination.page - 1) * clientPagination.perPage,
+        clientPagination.page * clientPagination.perPage,
+      );
+
+  const rows = paginatedRows;
+
+  const { isPageSelected, isPartiallySelected, onBulkSelect, selectedCount } =
+    useBulkSelect<TagTuple>(
+      selectionFromParent
+        ? {
+            selection: selectionFromParent,
+            rows: rows,
+            total: itemCount,
+          }
+        : {
+            selection: noopSelection,
+            rows: [],
+            total: 0,
+          },
+    );
+
+  const resetPage = () => {
+    paginationForUi.onSetPage(undefined, INITIAL_PAGE);
+  };
+
+  const onSearchChange = (value: string) => {
+    if (serverSearch) {
+      serverSearch.onChange(value);
+    } else {
+      setClientSearchValue(value);
+      resetPage();
+    }
+  };
+
+  const activeState = isError
+    ? 'error'
+    : isLoading
+      ? 'loading'
+      : tagTuplesFiltered.length === 0
+        ? 'empty'
+        : 'active';
 
   const columns = ['Name', 'Value', 'Tag source'];
-  const ouiaId = 'tags-modal-table';
 
+  const ouiaId = 'tags-modal-table';
   return (
-    <DataView activeState={activeState}>
+    <DataView
+      activeState={activeState}
+      selection={hasSelectionEnabled ? selectionFromParent : undefined}
+    >
       <DataViewToolbar
         ouiaId="tags-table-header"
+        bulkSelect={
+          selectionFromParent ? (
+            <BulkSelect
+              pageCount={rows.length}
+              totalCount={itemCount}
+              selectedCount={selectedCount}
+              pagePartiallySelected={isPartiallySelected}
+              pageSelected={isPageSelected}
+              onSelect={onBulkSelect}
+            />
+          ) : undefined
+        }
         pagination={
           <Pagination
             isCompact={true}
-            itemCount={filteredRows.length}
-            {...pagination}
+            itemCount={itemCount}
+            {...paginationForUi}
           />
         }
         filters={
-          // Simple input here, rather than DataViewFilter so we don't get chips
           <SearchInput
             aria-label="Tags search input"
-            value={searchValue}
+            value={searchInputValue}
             onChange={(_event, value) => {
-              setSearchValue(value);
-              pagination.onSetPage(undefined, INITIAL_PAGE);
+              onSearchChange(value);
             }}
             onClear={() => {
-              setSearchValue('');
-              pagination.onSetPage(undefined, INITIAL_PAGE);
+              onSearchChange('');
             }}
             placeholder="Filter tags"
           />
@@ -79,7 +183,7 @@ export const TagsModalTable = ({ tags = [] }: TagsModalTableProps) => {
         aria-label="Tags table"
         ouiaId={ouiaId}
         columns={columns}
-        rows={paginatedRows}
+        rows={rows}
         variant="compact"
         headStates={{
           empty: NO_HEADER,
@@ -96,14 +200,24 @@ export const TagsModalTable = ({ tags = [] }: TagsModalTableProps) => {
               </Tr>
             </Tbody>
           ),
+          loading: (
+            <Bullseye>
+              <Spinner />
+            </Bullseye>
+          ),
+          error: (
+            <ErrorState
+              ouiaId={`${ouiaId}-error`}
+              titleText="Unable to load tags"
+              bodyText="There was an error retrieving tags. Check your connection and try again."
+            />
+          ),
         }}
       />
       <DataViewToolbar
         ouiaId="tags-table-footer"
         className="pf-v6-u-mt-lg"
-        pagination={
-          <Pagination itemCount={filteredRows.length} {...pagination} />
-        }
+        pagination={<Pagination itemCount={itemCount} {...paginationForUi} />}
       />
     </DataView>
   );

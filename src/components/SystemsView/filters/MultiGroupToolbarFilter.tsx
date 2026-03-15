@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import {
   Label,
   LabelGroup,
@@ -50,7 +50,7 @@ export const MultiGroupToolbarFilter = ({
     setIsMounted(true);
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const categoryKey = getCategory(categoryName);
     updateNumberFilters(categoryKey, groupLabels.length);
   }, [groupLabels, categoryName, updateNumberFilters]);

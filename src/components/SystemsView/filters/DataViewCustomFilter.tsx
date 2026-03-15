@@ -1,6 +1,9 @@
-import { ToolbarFilter, ToolbarLabelGroup } from '@patternfly/react-core';
+import {
+  ToolbarFilter,
+  ToolbarLabel,
+  ToolbarLabelGroup,
+} from '@patternfly/react-core';
 import React from 'react';
-import { ToolbarLabel } from '@patternfly/react-core';
 import MultiGroupToolbarFilter from './MultiGroupToolbarFilter';
 
 type SingleGroupLabels = (string | ToolbarLabel)[];
@@ -37,6 +40,7 @@ export interface DataViewCustomFilterProps<TValue> {
   ) => SingleGroupLabels | MultiGroupLabels;
 
   deleteLabel?: (
+    category: string | ToolbarLabelGroup,
     label: string | ToolbarLabel,
     value: TValue | undefined,
     onChange?: (event?: React.MouseEvent, values?: TValue) => void,
@@ -71,7 +75,9 @@ export const DataViewCustomFilter = <TValue,>({
       key={ouiaId}
       data-ouia-component-id={ouiaId}
       groupLabels={createLabel?.(value, title) as MultiGroupLabels}
-      deleteLabel={(_, label) => deleteLabel?.(label, value, onChange)}
+      deleteLabel={(category, label) =>
+        deleteLabel?.(category, label, value, onChange)
+      }
       showToolbarItem={showToolbarItem}
       categoryName={title}
     >
@@ -82,7 +88,9 @@ export const DataViewCustomFilter = <TValue,>({
       key={ouiaId}
       data-ouia-component-id={ouiaId}
       labels={createLabel?.(value, title) as SingleGroupLabels}
-      deleteLabel={(_, label) => deleteLabel?.(label, value, onChange)}
+      deleteLabel={(category, label) =>
+        deleteLabel?.(category, label, value, onChange)
+      }
       categoryName={title}
       showToolbarItem={showToolbarItem}
     >

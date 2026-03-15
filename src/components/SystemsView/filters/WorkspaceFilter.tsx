@@ -24,6 +24,7 @@ import {
 import xor from 'lodash/xor';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { getGroupList } from '../../../api/hostInventoryApiTyped';
+import { DEBOUNCE_TIMEOUT_MS } from '../../../constants';
 
 interface WorkspaceFilterProps {
   placeholder?: string;
@@ -38,7 +39,6 @@ export const WorkspaceFilter = ({
 }: WorkspaceFilterProps) => {
   const PAGE_SIZE = 50;
   const INITIAL_VISIBLE_SIZE = PAGE_SIZE;
-  const DEBOUNCE_TIMEOUT = 300;
   const VIEW_MORE_SIZE = PAGE_SIZE;
   const LOADER_ID = 'loader';
   // TODO plug in access control solution
@@ -121,7 +121,7 @@ export const WorkspaceFilter = ({
       if (value) {
         setIsOpen(true);
       }
-    }, DEBOUNCE_TIMEOUT);
+    }, DEBOUNCE_TIMEOUT_MS);
   }, []);
 
   useEffect(() => {
