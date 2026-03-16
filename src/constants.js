@@ -333,3 +333,5 @@ export const WORKSPACE_RELATION_EDIT = 'edit';
 export const KESSEL_REPORTER = { type: 'hbi' };
 /** Reporter for workspace access checks; README recommends { type: 'rbac' } for RBAC-based authorization. */
 export const KESSEL_WORKSPACE_REPORTER = { type: 'rbac' };
+export const DEFAULT_DELETE_ERROR_MESSAGE =
+  'There was an error processing the request. Please try again.';

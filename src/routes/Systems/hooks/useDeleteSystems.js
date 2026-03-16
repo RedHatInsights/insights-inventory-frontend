@@ -2,6 +2,7 @@ import { useAddNotification } from '@redhat-cloud-services/frontend-components-n
 import React, { useState, useMemo } from 'react';
 import DedicatedAction from '../components/SystemsTable/components/actions/DedicatedAction';
 import { deleteSystemsById } from '../../../components/InventoryTable/utils/api';
+import { getDeleteErrorDescription } from '../../../components/InventoryTable/utils/errorUtils';
 
 const useDeleteSystems = (
   itemsData,
@@ -50,8 +51,7 @@ const useDeleteSystems = (
       addNotification({
         variant: 'danger',
         title: 'System failed to be removed from Inventory',
-        description:
-          'There was an error processing the request. Please try again.',
+        description: getDeleteErrorDescription(error),
         dismissable: true,
       });
     }
