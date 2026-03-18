@@ -1,30 +1,23 @@
-import React, { useContext } from 'react';
-import { Icon, Tooltip } from '@patternfly/react-core';
+import React from 'react';
+import { Flex, FlexItem, Icon, Tooltip } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
-import { AccountStatContext } from '../Contexts';
-import { useLightspeedFeatureFlag } from './hooks/useLightspeedFeatureFlag';
 
 export const LastSeenColumnHeader = () => {
-  const isLastCheckInEnabled = useContext(AccountStatContext);
-  const platformName = useLightspeedFeatureFlag();
   return (
-    <span>
-      Last seen
-      {isLastCheckInEnabled && (
+    <Flex display={{ default: 'inlineFlex' }}>
+      <FlexItem spacer={{ default: 'spacerXs' }}>Last seen</FlexItem>
+      <FlexItem>
         <Tooltip
           content={`Last seen represents the most recent time a system
-          checked in and uploaded sufficient data for ${platformName === 'Lightspeed' ? 'Red Hat Lightspeed' : 'Insights'} analysis.
+          checked in and uploaded sufficient data for Red Hat Lightspeed analysis.
           The timestamps may vary between applications as they rely on
           different data collectors.`}
         >
-          <Icon>
-            <OutlinedQuestionCircleIcon
-              className="pf-v6-u-ml-sm"
-              color="var(--pf-t--global--icon--color--subtle)"
-            />
+          <Icon status="custom">
+            <OutlinedQuestionCircleIcon color="var(--pf-t--global--icon--color--subtle)" />
           </Icon>
         </Tooltip>
-      )}
-    </span>
+      </FlexItem>
+    </Flex>
   );
 };
