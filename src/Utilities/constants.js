@@ -147,6 +147,28 @@ export const systemTypeOptions = [
   },
 ];
 
+export const workloadOptions = [
+  { label: 'Ansible Automation Platform', value: 'ansible' },
+  { label: 'CrowdStrike', value: 'crowdstrike' },
+  { label: 'IBM DB2', value: 'ibm_db2' },
+  { label: 'InterSystems', value: 'intersystems' },
+  { label: 'Microsoft SQL', value: 'mssql' },
+  { label: 'Oracle DB', value: 'oracle_db' },
+  { label: 'RHEL AI', value: 'rhel_ai' },
+  { label: 'SAP', value: 'sap' },
+];
+
+export const WORKLOAD_API_MAP = {
+  sap: { sap_system: true },
+  ansible: { controller_version: 'not_nil' },
+  mssql: { version: 'not_nil' },
+  crowdstrike: { falcon_version: 'not_nil' },
+  ibm_db2: { is_running: true },
+  oracle_db: { is_running: true },
+  intersystems: { is_intersystems: true },
+  rhel_ai: { variant: 'not_nil' },
+};
+
 export function filterToGroup(filter = [], valuesKey = 'values') {
   return filter.reduce(
     (accGroup, group) => ({
@@ -223,6 +245,7 @@ export function reduceFilters(filters = []) {
         'hostGroupFilter',
         '',
         'systemTypeFilter',
+        'workloadFilter',
       ].find((item) => Object.keys(oneFilter).includes(item));
 
       return {
@@ -260,6 +283,7 @@ export const generateFilter = (
   hostGroupFilter,
   lastSeenFilter,
   systemTypeFilter,
+  workloadFilter,
 ) =>
   [
     !isEmpty(status) && {
@@ -309,6 +333,11 @@ export const generateFilter = (
       systemTypeFilter: Array.isArray(systemTypeFilter)
         ? systemTypeFilter
         : [systemTypeFilter],
+    },
+    !isEmpty(workloadFilter) && {
+      workloadFilter: Array.isArray(workloadFilter)
+        ? workloadFilter
+        : [workloadFilter],
     },
   ].filter(Boolean);
 

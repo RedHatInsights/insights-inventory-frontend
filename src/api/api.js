@@ -144,12 +144,40 @@ const buildOperatingSystemFilter = (osFilterState = {}) => {
     }, {});
 };
 
+const WORKLOAD_API_MAP = {
+  sap: { sap_system: true },
+  ansible: { controller_version: 'not_nil' },
+  mssql: { version: 'not_nil' },
+  crowdstrike: { falcon_version: 'not_nil' },
+  ibm_db2: { is_running: true },
+  oracle_db: { is_running: true },
+  intersystems: { is_intersystems: true },
+  rhel_ai: { variant: 'not_nil' },
+};
+
+const mapWorkloadFilter = (workloadFilter = []) => {
+  return workloadFilter.reduce((acc, key) => {
+    if (WORKLOAD_API_MAP[key]) {
+      acc[key] = WORKLOAD_API_MAP[key];
+    }
+    return acc;
+  }, {});
+};
+
 export const calculateSystemProfile = (
-  { osFilter, rhcdFilter, updateMethodFilter, hostTypeFilter, system_profile },
+  {
+    osFilter,
+    rhcdFilter,
+    updateMethodFilter,
+    hostTypeFilter,
+    workloadFilter,
+    system_profile,
+  },
   filterImmutable = true,
 ) => {
   const operating_system = buildOperatingSystemFilter(osFilter);
   const defaultHostTypeFilter = filterImmutable ? { host_type: 'nil' } : {};
+  const workloads = mapWorkloadFilter(workloadFilter);
   const newSystemProfile = {
     ...system_profile,
     ...(hostTypeFilter ? { host_type: hostTypeFilter } : defaultHostTypeFilter),
@@ -162,6 +190,7 @@ export const calculateSystemProfile = (
       : {}),
     ...(rhcdFilter ? { [RHCD_FILTER_KEY]: rhcdFilter } : {}),
     ...(Object.keys(operating_system).length ? { operating_system } : {}),
+    ...(Object.keys(workloads).length ? { workloads } : {}),
   };
 
   return Object.keys(newSystemProfile).length
@@ -191,6 +220,9 @@ export const filtersReducer = (acc, filter = {}) => ({
   }),
   ...('systemTypeFilter' in filter && {
     systemTypeFilter: filter.systemTypeFilter,
+  }),
+  ...('workloadFilter' in filter && {
+    workloadFilter: filter.workloadFilter,
   }),
 });
 

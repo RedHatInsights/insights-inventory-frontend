@@ -4,6 +4,7 @@ import {
   HOST_GROUP_CHIP,
   RHCD_FILTER_KEY,
   UPDATE_METHOD_KEY,
+  WORKLOAD_FILTER_KEY,
 } from './Utilities/constants';
 import InsightsLink from '@redhat-cloud-services/frontend-components/InsightsLink';
 
@@ -171,6 +172,7 @@ export const getSearchParams = (searchParams) => {
   const perPage = searchParams.get('per_page');
   const lastSeenFilter = searchParams.getAll('last_seen');
   const systemTypeFilter = searchParams.getAll('system_type');
+  const workloadFilter = searchParams.getAll(WORKLOAD_FILTER_KEY);
   const sortBy = {
     key: searchParams.get('sort')?.replace('-', ''),
     direction: searchParams.get('sort')?.includes('-') ? 'desc' : 'asc',
@@ -190,6 +192,7 @@ export const getSearchParams = (searchParams) => {
     hostGroupFilter,
     systemTypeFilter,
     sortBy,
+    workloadFilter,
   };
 };
 

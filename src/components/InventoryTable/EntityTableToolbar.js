@@ -61,6 +61,9 @@ import {
   useSystemTypeFilter,
   systemTypeFilterReducer,
   systemTypeFilterState,
+  useWorkloadFilter,
+  workloadFilterReducer,
+  workloadFilterState,
 } from '../filters';
 import useGroupFilter from '../filters/useGroupFilter';
 import {
@@ -148,6 +151,7 @@ const EntityTableToolbar = ({
       lastSeenFilterReducer,
       groupFilterReducer,
       systemTypeFilterReducer,
+      workloadFilterReducer,
     ]),
     {
       ...textFilterState,
@@ -159,6 +163,7 @@ const EntityTableToolbar = ({
       ...lastSeenFilterState,
       ...groupFilterState,
       ...systemTypeFilterState,
+      ...workloadFilterState,
     },
   );
 
@@ -190,6 +195,12 @@ const EntityTableToolbar = ({
     rhcdFilterValue,
     setRhcdFilterValue,
   ] = useRhcdFilter(reducer);
+  const [
+    workloadFilterConfig,
+    workloadFilterChips,
+    workloadFilterValue,
+    setWorkloadFilterValue,
+  ] = useWorkloadFilter(reducer);
   const [
     lastSeenFilter,
     lastSeenChip,
@@ -272,6 +283,9 @@ const EntityTableToolbar = ({
     systemTypeFilter:
       !(hideFilters.all && hideFilters.systemTypeFilter !== false) &&
       !hideFilters.systemTypeFilter,
+    workloadFilter:
+      !(hideFilters.all && hideFilters.workloadFilter !== false) &&
+      !hideFilters.workloadFilter,
   };
   const exportConfig = useInventoryExport({
     filters: {
@@ -327,6 +341,7 @@ const EntityTableToolbar = ({
       lastSeenFilter,
       hostGroupFilter,
       systemTypeFilter,
+      workloadFilter,
     } = reduceFilters([
       ...(activeFilters || []),
       ...(customFilters?.filters || []),
@@ -344,6 +359,7 @@ const EntityTableToolbar = ({
     enabledFilters.lastSeenFilter && setLastSeenFilterValue(lastSeenFilter);
     enabledFilters.hostGroupFilter && setHostGroupValue(hostGroupFilter);
     enabledFilters.systemTypeFilter && setSystemTypeValue(systemTypeFilter);
+    enabledFilters.workloadFilter && setWorkloadFilterValue(workloadFilter);
   }, []);
   /*eslint-enable react-hooks/exhaustive-deps*/
 
@@ -456,6 +472,12 @@ const EntityTableToolbar = ({
     }
   }, [systemTypeValue, enabledFilters.systemTypeFilter]);
 
+  useEffect(() => {
+    if (shouldReload && enabledFilters.workloadFilter) {
+      onSetFilter(workloadFilterValue, 'workloadFilter', debouncedRefresh);
+    }
+  }, [workloadFilterValue, enabledFilters.workloadFilter]);
+
   /**
    * Mapper to simplify removing of any filter.
    */
@@ -528,6 +550,9 @@ const EntityTableToolbar = ({
         ...(showSystemTypeFilter && !hasItems && enabledFilters.systemTypeFilter
           ? systemTypeChips
           : []),
+        ...(!hasItems && enabledFilters.workloadFilter
+          ? workloadFilterChips
+          : []),
         ...(activeFiltersConfig?.filters || []),
       ],
       onDelete: (e, [deleted, ...restDeleted], isAll) => {
@@ -560,6 +585,7 @@ const EntityTableToolbar = ({
             ? [systemTypeConfig]
             : []),
           ...(showTags && enabledFilters.tags ? [tagsFilter] : []),
+          ...(enabledFilters.workloadFilter ? [workloadFilterConfig] : []),
         ]
       : []),
     ...(filterConfig?.items || []),
@@ -775,6 +801,7 @@ EntityTableToolbar.propTypes = {
     updateMethodFilter: PropTypes.bool,
     hostGroupFilter: PropTypes.bool,
     systemTypeFilter: PropTypes.bool,
+    workloadFilter: PropTypes.bool,
     all: PropTypes.bool,
   }),
   paginationProps: PropTypes.object,
