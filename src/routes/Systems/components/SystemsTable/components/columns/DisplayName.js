@@ -30,7 +30,8 @@ const DisplayName = ({ id, props, ...item }) => (
         item.display_name
       ) : (
         <span>
-          {item?.system_profile?.bootc_status?.booted?.image_digest ? (
+          {item?.system_profile?.bootc_status?.booted?.image_digest ||
+          item?.system_profile?.host_type === 'edge' ? (
             <Popover
               triggerAction="hover"
               headerContent="Image-based system"
