@@ -18,6 +18,7 @@ const InfoTable = ({
   expandable = false,
   filters,
   onSort = undefined,
+  showPagination = true,
 }) => {
   // States
   const [sortBy, setSortBy] = useState({
@@ -41,7 +42,7 @@ const InfoTable = ({
     () =>
       expandable
         ? flatMap(
-            prepareRows(activeRows, pagination),
+            showPagination ? prepareRows(activeRows, pagination) : activeRows,
             ({ child, ...row }, key) => [
               {
                 ...row,
@@ -53,8 +54,10 @@ const InfoTable = ({
               },
             ],
           )
-        : prepareRows(activeRows, pagination),
-    [activeRows, pagination, expandable, opened],
+        : showPagination
+          ? prepareRows(activeRows, pagination)
+          : activeRows,
+    [activeRows, pagination, expandable, opened, showPagination],
   );
 
   // Handlers
@@ -112,34 +115,39 @@ const InfoTable = ({
 
   return (
     <Fragment>
-      <PrimaryToolbar
-        pagination={{
-          ...pagination,
-          itemCount: activeRows.length || 0,
-          onSetPage: (_e, page) => onUpdatePagination({ ...pagination, page }),
-          onPerPageSelect: (_e, perPage) =>
-            onUpdatePagination({ ...pagination, page: 1, perPage }),
-          titles: {
-            optionsToggleAriaLabel: 'Items per page',
-          },
-        }}
-        {...(filters && {
-          filterConfig: {
-            items: generateFilters(cells, filters, activeFilters, setFilter),
-          },
-        })}
-        activeFiltersConfig={{
-          filters: Object.values(activeFilters).map((filter) => ({
-            ...filter,
-            category: filter.label,
-            chips: Array.isArray(filter.value)
-              ? filter.value.map((item) => ({ name: item }))
-              : [{ name: filter.value || '' }],
-          })),
-          onDelete: onDeleteFilter,
-          deleteTitle: 'Reset filters',
-        }}
-      />
+      {(showPagination || filters) && (
+        <PrimaryToolbar
+          {...(showPagination && {
+            pagination: {
+              ...pagination,
+              itemCount: activeRows.length || 0,
+              onSetPage: (_e, page) =>
+                onUpdatePagination({ ...pagination, page }),
+              onPerPageSelect: (_e, perPage) =>
+                onUpdatePagination({ ...pagination, page: 1, perPage }),
+              titles: {
+                optionsToggleAriaLabel: 'Items per page',
+              },
+            },
+          })}
+          {...(filters && {
+            filterConfig: {
+              items: generateFilters(cells, filters, activeFilters, setFilter),
+            },
+          })}
+          activeFiltersConfig={{
+            filters: Object.values(activeFilters).map((filter) => ({
+              ...filter,
+              category: filter.label,
+              chips: Array.isArray(filter.value)
+                ? filter.value.map((item) => ({ name: item }))
+                : [{ name: filter.value || '' }],
+            })),
+            onDelete: onDeleteFilter,
+            deleteTitle: 'Reset filters',
+          }}
+        />
+      )}
       <Table
         aria-label="General information dialog table"
         variant={TableVariant.compact}
@@ -155,20 +163,24 @@ const InfoTable = ({
         <TableHeader />
         <TableBody />
       </Table>
-      <TableToolbar isFooter className="ins-c-inventory__table--toolbar">
-        <Pagination
-          {...pagination}
-          itemCount={activeRows.length || 0}
-          variant="bottom"
-          onSetPage={(_e, page) => onUpdatePagination({ ...pagination, page })}
-          onPerPageSelect={(_e, perPage) =>
-            onUpdatePagination({ ...pagination, page: 1, perPage })
-          }
-          titles={{
-            optionsToggleAriaLabel: 'Items per page',
-          }}
-        />
-      </TableToolbar>
+      {showPagination && (
+        <TableToolbar isFooter className="ins-c-inventory__table--toolbar">
+          <Pagination
+            {...pagination}
+            itemCount={activeRows.length || 0}
+            variant="bottom"
+            onSetPage={(_e, page) =>
+              onUpdatePagination({ ...pagination, page })
+            }
+            onPerPageSelect={(_e, perPage) =>
+              onUpdatePagination({ ...pagination, page: 1, perPage })
+            }
+            titles={{
+              optionsToggleAriaLabel: 'Items per page',
+            }}
+          />
+        </TableToolbar>
+      )}
     </Fragment>
   );
 };
@@ -178,6 +190,7 @@ InfoTable.propTypes = {
   cells: PropTypes.array,
   onSort: PropTypes.func,
   expandable: PropTypes.bool,
+  showPagination: PropTypes.bool,
   filters: PropTypes.arrayOf(
     PropTypes.shape({
       index: PropTypes.number,

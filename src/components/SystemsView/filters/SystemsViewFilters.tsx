@@ -14,11 +14,11 @@ import LastSeenFilterExtension from './LastSeenFilterExtension';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 
 export interface InventoryFilters {
-  name: string;
+  hostname_or_id: string;
   status: ApiHostGetHostListStalenessEnum[];
-  dataCollector: ApiHostGetHostListRegisteredWithEnum[];
+  source: ApiHostGetHostListRegisteredWithEnum[];
   rhcStatus: string[];
-  systemType: string[];
+  system_type: string[];
   workspace: string[];
   last_seen?: LastSeenFilterItem;
 }

@@ -9,15 +9,17 @@ import {
   HOST_RESOURCE_TYPE,
   HOST_RESOURCE_TYPE_UPDATE,
   HOST_RESOURCE_TYPE_DELETE,
+  WORKSPACE_RESOURCE_TYPE,
+  WORKSPACE_RELATION_EDIT,
+  KESSEL_REPORTER,
+  KESSEL_WORKSPACE_REPORTER,
 } from '../../constants';
 import { System } from '../../components/SystemsView/hooks/useSystemsQuery';
-
-/** Reporter for access checks; README recommends { type: 'rbac' } for RBAC-based authorization. */
-const REPORTER = { type: 'hbi' as const };
 
 interface HostPermissions {
   hasUpdate: boolean;
   hasDelete: boolean;
+  hasWorkspaceEdit: boolean;
 }
 
 export interface SystemWithPermissions extends System {
@@ -48,23 +50,43 @@ export const useHostIdsWithKessel = (hosts: System[] | undefined) => {
       .filter((id): id is string => typeof id === 'string' && id.length > 0);
   }, [isKesselEnabled, hosts]);
 
-  // Single bulk check with edit + delete per host (nested relations). Empty when no hosts.
+  // Unique workspace (group) IDs for hosts that are in a workspace (not ungrouped).
+  const workspaceIds = useMemo(() => {
+    if (!isKesselEnabled || !hosts?.length) return [];
+    const ids = new Set<string>();
+    for (const host of hosts) {
+      const group = host?.groups?.[0];
+      if (group?.id) {
+        ids.add(group?.id);
+      }
+    }
+    return Array.from(ids);
+  }, [isKesselEnabled, hosts]);
+
+  // Single bulk check: host update/delete + workspace edit for each unique workspace.
   const resources = useMemo(() => {
-    return hostIds.flatMap((id: string) => [
+    const hostResources = hostIds.flatMap((id: string) => [
       {
         id,
         type: HOST_RESOURCE_TYPE,
         relation: HOST_RESOURCE_TYPE_UPDATE,
-        reporter: REPORTER,
+        reporter: KESSEL_REPORTER,
       },
       {
         id,
         type: HOST_RESOURCE_TYPE,
         relation: HOST_RESOURCE_TYPE_DELETE,
-        reporter: REPORTER,
+        reporter: KESSEL_REPORTER,
       },
     ]);
-  }, [hostIds]);
+    const workspaceResources = workspaceIds.map((id) => ({
+      id,
+      type: WORKSPACE_RESOURCE_TYPE,
+      relation: WORKSPACE_RELATION_EDIT,
+      reporter: KESSEL_WORKSPACE_REPORTER,
+    }));
+    return [...hostResources, ...workspaceResources];
+  }, [hostIds, workspaceIds]);
 
   const {
     data: checks,
@@ -75,7 +97,7 @@ export const useHostIdsWithKessel = (hosts: System[] | undefined) => {
   } as BulkSelfAccessCheckNestedRelationsParams);
 
   const permissionsByHostId = useMemo(() => {
-    const map = new Map<string, HostPermissions>();
+    const map = new Map<string, Omit<HostPermissions, 'hasWorkspaceEdit'>>();
 
     if (!checks?.length) {
       return map;
@@ -88,7 +110,10 @@ export const useHostIdsWithKessel = (hosts: System[] | undefined) => {
         continue;
       }
 
-      const current = map.get(id) ?? { hasUpdate: false, hasDelete: false };
+      const current = map.get(id) ?? {
+        hasUpdate: false,
+        hasDelete: false,
+      };
 
       if (check.relation === HOST_RESOURCE_TYPE_UPDATE) {
         map.set(id, { ...current, hasUpdate: check.allowed });
@@ -100,6 +125,17 @@ export const useHostIdsWithKessel = (hosts: System[] | undefined) => {
     return map;
   }, [checks]);
 
+  const workspaceEditByWorkspaceId = useMemo(() => {
+    const map = new Map<string, boolean>();
+    if (!checks?.length) return map;
+    for (const check of checks) {
+      if (check.relation === WORKSPACE_RELATION_EDIT && check.resource?.id) {
+        map.set(check.resource.id, check.allowed);
+      }
+    }
+    return map;
+  }, [checks]);
+
   const hostsWithPermissions = useMemo(():
     | SystemWithPermissions[]
     | undefined => {
@@ -107,14 +143,26 @@ export const useHostIdsWithKessel = (hosts: System[] | undefined) => {
     const defaultPermissions: HostPermissions = {
       hasUpdate: false,
       hasDelete: false,
+      hasWorkspaceEdit: false,
     };
-    return hosts.map((host) => ({
-      ...host,
-      permissions: isKesselEnabled
-        ? (permissionsByHostId.get(host?.id as string) ?? defaultPermissions)
-        : defaultPermissions,
-    })) as SystemWithPermissions[];
-  }, [hosts, isKesselEnabled, permissionsByHostId]);
+    return hosts.map((host) => {
+      const hostPerms = permissionsByHostId.get(host?.id as string) ?? {
+        hasUpdate: false,
+        hasDelete: false,
+      };
+      const group = host?.groups?.[0];
+      const hasWorkspaceEdit =
+        !group?.id || group?.ungrouped
+          ? true
+          : (workspaceEditByWorkspaceId.get(group.id) ?? false);
+      return {
+        ...host,
+        permissions: isKesselEnabled
+          ? { ...hostPerms, hasWorkspaceEdit }
+          : { ...defaultPermissions, hasWorkspaceEdit: true },
+      };
+    }) as SystemWithPermissions[];
+  }, [hosts, isKesselEnabled, permissionsByHostId, workspaceEditByWorkspaceId]);
 
   return {
     hostIds,

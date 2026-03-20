@@ -64,6 +64,40 @@ global.insights = {
 // Make lodash/debounce synchronous in tests to avoid act() timing warnings
 jest.mock('lodash/debounce', () => jest.fn((fn) => fn));
 
+// Mock Scalprum so AsyncComponent (and other federated modules) do not throw in tests
+jest.mock('@scalprum/react-core', () => ({
+  ScalprumComponent: function MockScalprumComponent(props) {
+    // eslint-disable-next-line react/prop-types -- test mock; no runtime validation needed
+    return props.children ?? null;
+  },
+}));
+
+// Mock AsyncComponent so components that load federated modules render a test-friendly selector
+jest.mock('@redhat-cloud-services/frontend-components/AsyncComponent', () => {
+  const React = require('react');
+  return {
+    __esModule: true,
+    default: function MockAsyncComponent(props) {
+      return React.createElement(
+        'div',
+        { 'data-testid': 'workspace-selector' },
+        React.createElement(
+          'button',
+          {
+            type: 'button',
+            onClick: () =>
+              props.onSelect &&
+              props.onSelect({
+                workspace: { id: 'ws-123', name: 'Test Workspace' },
+              }),
+          },
+          'Select workspace',
+        ),
+      );
+    },
+  };
+});
+
 // Mock useFeatureFlag so components using useKesselMigrationFeatureFlag (and thus
 // useFeatureFlag) do not call @unleash/proxy-client-react's useFlagsStatus(), which
 // requires a FlagProvider and causes "flagsReady" errors when missing. Default to

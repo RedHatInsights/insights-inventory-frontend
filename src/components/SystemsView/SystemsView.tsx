@@ -12,6 +12,7 @@ import { PageSection, Pagination } from '@patternfly/react-core';
 import { DataViewToolbar } from '@patternfly/react-data-view/dist/dynamic/DataViewToolbar';
 import { BulkSelect } from '@patternfly/react-component-groups';
 import { useSystemsQuery } from './hooks/useSystemsQuery';
+import { useHostIdsWithKessel } from '../../Utilities/hooks/useHostIdsWithKessel';
 import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorState';
 import SkeletonTable from '@patternfly/react-component-groups/dist/dynamic/SkeletonTable';
 import NoEntitiesFound from '../InventoryTable/NoEntitiesFound';
@@ -26,7 +27,6 @@ import { SystemsViewBulkActions } from './SystemsViewBulkActions';
 import { useBulkSelect } from './hooks/useBulkSelect';
 import { useRows } from './hooks/useRows';
 import AccessDenied from '../../Utilities/AccessDenied';
-import { useHostIdsWithKessel } from '../../Utilities/hooks/useHostIdsWithKessel';
 import './SystemsView.scss';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import { ISortBy } from '@patternfly/react-table';
@@ -75,22 +75,25 @@ const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
   const { filters, onSetFilters, clearAllFilters } =
     useDataViewFilters<InventoryFilters>({
       initialFilters: {
-        name: '',
+        hostname_or_id: '',
         status: [],
-        dataCollector: [],
+        source: [],
         rhcStatus: [],
-        systemType: [],
+        system_type: [],
         workspace: [],
       },
       searchParams,
       setSearchParams,
     });
 
-  const debouncedName = useDebouncedValue(filters.name, DEBOUNCE_TIMEOUT_MS);
+  const debouncedName = useDebouncedValue(
+    filters.hostname_or_id,
+    DEBOUNCE_TIMEOUT_MS,
+  );
   const queryFilters: InventoryFilters = useMemo(() => {
     return {
       ...filters,
-      name: debouncedName,
+      hostname_or_id: debouncedName,
     };
   }, [filters, debouncedName]);
 
@@ -122,17 +125,18 @@ const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
   });
 
   const { hostsWithPermissions } = useHostIdsWithKessel(data);
-  const dataWithPermissions = hostsWithPermissions;
 
   const { rows } = useRows({
-    data: dataWithPermissions,
+    data: hostsWithPermissions ?? data,
     renderableColumns,
   });
 
-  const selectedIds = selected.map(({ id }) => id);
+  const selectedIds = selected.map(({ id }: { id?: string }) => id);
+  const systemsForSelection = hostsWithPermissions ?? data;
   const selectedSystems =
-    dataWithPermissions?.filter(({ id }) => id && selectedIds.includes(id)) ||
-    [];
+    systemsForSelection?.filter(
+      (sys: { id?: string }) => sys.id && selectedIds.includes(sys.id),
+    ) ?? [];
 
   const activeState =
     isLoading || isFetching
