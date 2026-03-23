@@ -301,6 +301,70 @@ describe('SystemCard', () => {
     });
   });
 
+  describe('Image builder blueprint', () => {
+    const blueprintId = 'b5f4dcb0-09a5-4e42-a670-4a83a2e6b687';
+
+    it('should render a link when blueprint_id is present', () => {
+      render(
+        <TestWrapper
+          store={mockStore({
+            systemProfileStore: {
+              systemProfile: {
+                loaded: true,
+                ...testProperties,
+                image_builder: { blueprint_id: blueprintId },
+              },
+            },
+          })}
+        >
+          <SystemCard writePermissions={true} entity={entity} />
+        </TestWrapper>,
+      );
+
+      const link = screen.getByRole('link', { name: blueprintId });
+      expect(link).toBeInTheDocument();
+      expect(link).toHaveAttribute(
+        'href',
+        `/insights/image-builder?blueprint_id=${blueprintId}`,
+      );
+      expect(screen.getByText('Image builder blueprint')).toBeInTheDocument();
+    });
+
+    it('should not render when blueprint_id is absent', () => {
+      render(
+        <TestWrapper store={mockStore(initialState)}>
+          <SystemCard writePermissions={true} entity={entity} />
+        </TestWrapper>,
+      );
+
+      expect(
+        screen.queryByText('Image builder blueprint'),
+      ).not.toBeInTheDocument();
+    });
+
+    it('should not render when image_builder is null', () => {
+      render(
+        <TestWrapper
+          store={mockStore({
+            systemProfileStore: {
+              systemProfile: {
+                loaded: true,
+                ...testProperties,
+                image_builder: null,
+              },
+            },
+          })}
+        >
+          <SystemCard writePermissions={true} entity={entity} />
+        </TestWrapper>,
+      );
+
+      expect(
+        screen.queryByText('Image builder blueprint'),
+      ).not.toBeInTheDocument();
+    });
+  });
+
   describe('ClipboardCopy', () => {
     it('should show copy button for host name when fqdn is present', () => {
       const entityWithFqdn = { ...entity, fqdn: 'my-host.example.com' };
