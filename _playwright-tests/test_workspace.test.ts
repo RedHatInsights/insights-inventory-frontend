@@ -348,12 +348,22 @@ test('User can add and remove system from workspace', async ({
     await expect(dialog).toBeHidden({ timeout: 10000 });
   });
 
-  await test.step('Remove system from workspace', async () => {
-    await page.reload({ waitUntil: 'networkidle' });
+  await test.step('Verify workspace has 1 system', async () => {
+    await navigateToWorkspacesFunc(page);
+    await searchByName(page, workspaceName);
+    const workspaceNameCell = page.locator('td[data-label="Name"]');
+    await expect(workspaceNameCell).toHaveCount(1);
+
+    const workspaceLink = page.getByRole('link', { name: workspaceName });
+    await expect(workspaceLink).toBeVisible({ timeout: 100000 });
+    await workspaceLink.click();
+
     const nameCell = page.locator('td[data-label="Name"]');
     await expect(nameCell.first()).toBeVisible({ timeout: 20000 });
     await expect(nameCell).toHaveCount(1);
+  });
 
+  await test.step('Remove system from workspace', async () => {
     await page.locator('[aria-label="Kebab toggle"]').click();
 
     const removeButton = page
