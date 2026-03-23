@@ -10,6 +10,7 @@ export const OS_CHIP = 'operating_system';
 export const RHCD_FILTER_KEY = 'rhc_client_id';
 export const UPDATE_METHOD_KEY = 'system_update_method';
 export const SYSTEM_TYPE_KEY = 'system_type';
+export const WORKLOAD_FILTER_KEY = 'workload';
 export const LAST_SEEN_CHIP = 'last_seen';
 export const HOST_GROUP_CHIP = 'group_name'; // use the same naming as for the back end parameter
 //REPORTERS

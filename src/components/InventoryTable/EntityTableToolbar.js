@@ -31,6 +31,7 @@ import {
   TEXT_FILTER,
   TagsModal,
   SYSTEM_TYPE_KEY,
+  WORKLOAD_FILTER_KEY,
   arrayToSelection,
   reduceFilters,
 } from '../../Utilities/index';
@@ -508,6 +509,8 @@ const EntityTableToolbar = ({
       setHostGroupValue(onDeleteFilter(deleted, hostGroupValue)),
     [SYSTEM_TYPE_KEY]: (deleted) =>
       setSystemTypeValue(onDeleteFilter(deleted, systemTypeValue)),
+    [WORKLOAD_FILTER_KEY]: (deleted) =>
+      setWorkloadFilterValue(onDeleteFilter(deleted, workloadFilterValue)),
   };
   /**
    * Function to reset all filters with 'Reset Filter' is clicked
@@ -522,6 +525,7 @@ const EntityTableToolbar = ({
     enabledFilters.lastSeenFilter && setLastSeenFilterValue([]);
     enabledFilters.hostGroupFilter && setHostGroupValue([]);
     enabledFilters.systemTypeFilter && setSystemTypeValue([]);
+    enabledFilters.workloadFilter && setWorkloadFilterValue([]);
     setEndDate();
     setStartDate(UNIX_EPOCH);
     dispatch(setFilter([]));

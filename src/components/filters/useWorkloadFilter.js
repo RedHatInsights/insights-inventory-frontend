@@ -3,8 +3,7 @@ import { WORKLOAD_FILTER_KEY, workloadOptions } from '../../Utilities/index';
 
 export const workloadFilterState = { workloadFilter: [] };
 export const WORKLOAD_FILTER = 'WORKLOAD_FILTER';
-export const workloadFilterReducer = (state, { type, payload }) => ({
-  ...state,
+export const workloadFilterReducer = (_state, { type, payload }) => ({
   ...(type === WORKLOAD_FILTER && {
     workloadFilter: payload,
   }),
@@ -29,7 +28,7 @@ export const useWorkloadFilter = (
       value: workloadValue,
       onChange: (_e, value) => setValue(value),
       items: workloadOptions,
-      placeholder: 'Filter by Workload',
+      placeholder: 'Filter by workload',
     },
   };
 
