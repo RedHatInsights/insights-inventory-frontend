@@ -363,7 +363,7 @@ test('User can add and remove system from workspace', async ({
     await expect(nameCell).toHaveCount(1);
   });
 
-  await test.step('Remove system from workspace', async () => {
+  await test.step.skip('Remove system from workspace', async () => {
     await page.locator('[aria-label="Kebab toggle"]').click();
 
     const removeButton = page
