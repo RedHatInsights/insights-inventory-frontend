@@ -100,9 +100,7 @@ export const closeCookieBanner = async (page: Page) => {
     'iframe[title="TrustArc Cookie Consent Manager"]',
   );
 
-  await frame
-    .getByRole('button', { name: 'Proceed with Required Cookies only' })
-    .click();
+  await frame.getByRole('button', { name: 'Required Cookies only' }).click();
   await iframeLocator.waitFor({ state: 'hidden', timeout: 5000 });
 };
 
