@@ -45,7 +45,7 @@ const DisplayName = ({ id, props, ...item }) => (
             >
               <Icon style={{ marginRight: '8px' }} aria-label="Image mode icon">
                 <FontAwesomeImageIcon
-                  fill="var(--pf-v5-global--icon--Color--light)"
+                  fill="var(--pf-t--global--icon--color--subtle)"
                   margin="0px"
                 />
               </Icon>
@@ -67,7 +67,7 @@ const DisplayName = ({ id, props, ...item }) => (
                 style={{ marginRight: '8px' }}
                 aria-label="Package mode icon"
               >
-                <BundleIcon color="var(--pf-v5-global--icon--Color--light)" />
+                <BundleIcon color="var(--pf-t--global--icon--color--subtle)" />
               </Icon>
             </Popover>
           )}
