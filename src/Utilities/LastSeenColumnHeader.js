@@ -12,7 +12,7 @@ export const LastSeenColumnHeader = () => {
           The timestamps may vary between applications as they rely on
           different data collectors.`}
       >
-        <Icon status="custom" class="pf-v6-u-ml-xs">
+        <Icon status="custom" className="pf-v6-u-ml-xs">
           <OutlinedQuestionCircleIcon color="var(--pf-t--global--icon--color--subtle)" />
         </Icon>
       </Tooltip>
