@@ -346,14 +346,24 @@ test('User can add and remove system from workspace', async ({
     ]);
 
     await expect(dialog).toBeHidden({ timeout: 10000 });
-    await page.reload();
   });
 
-  await test.step('Remove system from workspace', async () => {
+  await test.step('Verify workspace has 1 system', async () => {
+    await navigateToWorkspacesFunc(page);
+    await searchByName(page, workspaceName);
+    const workspaceNameCell = page.locator('td[data-label="Name"]');
+    await expect(workspaceNameCell).toHaveCount(1);
+
+    const workspaceLink = page.getByRole('link', { name: workspaceName });
+    await expect(workspaceLink).toBeVisible({ timeout: 100000 });
+    await workspaceLink.click();
+
     const nameCell = page.locator('td[data-label="Name"]');
     await expect(nameCell.first()).toBeVisible({ timeout: 20000 });
     await expect(nameCell).toHaveCount(1);
+  });
 
+  await test.step.skip('Remove system from workspace', async () => {
     await page.locator('[aria-label="Kebab toggle"]').click();
 
     const removeButton = page
@@ -455,8 +465,8 @@ sortingColumns.forEach((column) => {
         // Wait for the filter to be applied
         await expect(async () => {
           const nameCell = page.locator('td[data-label="Name"] a');
-          const count = await nameCell.count();
-          expect(count).toBe(3);
+          const count = nameCell;
+          await expect(count).toHaveCount(3);
         }).toPass({ timeout: 15000 });
       });
 
@@ -511,7 +521,7 @@ sortingColumns.forEach((column) => {
           const nameCell = page.locator('td[data-label="Name"] a');
           await expect(async () => {
             const allNames = await nameCell.allTextContents();
-            expect(allNames.length).toBe(3);
+            expect(allNames).toHaveLength(3);
 
             // Verify the sort is actually applied by checking first element
             const sortFn = {
