@@ -67,6 +67,7 @@ const fetchSystems = async ({
             'operating_system',
             'system_update_method',
             'bootc_status',
+            'host_type',
           ],
         },
         ...(filters?.rhcStatus && {
