@@ -10,6 +10,7 @@ import OperatingSystem from '../../../routes/Systems/components/SystemsTable/com
 import { System } from './useSystemsQuery';
 import type { onSort, SortBy, SortDirection } from '../SystemsView';
 import Tags from '../Tags';
+import { LastSeenColumnHeader } from '../../../Utilities/LastSeenColumnHeader';
 
 export interface Column extends ColumnManagementModalColumn {}
 export interface RenderableColumn extends Column {
@@ -49,7 +50,7 @@ const INITIAL_COLUMNS: Column[] = [
     isShown: true,
   },
   {
-    title: 'Last Seen',
+    title: <LastSeenColumnHeader />,
     key: 'last_seen',
     isShownByDefault: true,
     isShown: true,
