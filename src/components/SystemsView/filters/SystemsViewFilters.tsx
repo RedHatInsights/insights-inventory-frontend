@@ -12,6 +12,7 @@ import LastSeenFilter, { LastSeenFilterItem } from './LastSeenFilter';
 import { ToolbarLabel } from '@patternfly/react-core';
 import LastSeenFilterExtension from './LastSeenFilterExtension';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
+import { useDataViewFiltersContext } from '../DataViewFiltersContext';
 
 export interface InventoryFilters {
   hostname_or_id: string;
@@ -22,19 +23,12 @@ export interface InventoryFilters {
   workspace: string[];
   last_seen?: LastSeenFilterItem;
 }
-interface SystemsViewFiltersProps {
-  filters: InventoryFilters;
-  onSetFilters: (_: Partial<InventoryFilters>) => void;
-}
-
 export const isToolbarLabel = (
   label: string | ToolbarLabel,
 ): label is ToolbarLabel => typeof label === 'object' && 'key' in label;
 
-export const SystemsViewFilters = ({
-  filters,
-  onSetFilters,
-}: SystemsViewFiltersProps) => {
+export const SystemsViewFilters = () => {
+  const { filters, onSetFilters } = useDataViewFiltersContext();
   const isHideRHCFilterFlagEnabled = useFeatureFlag('hbi.ui.hide_rhc_filter');
 
   return (

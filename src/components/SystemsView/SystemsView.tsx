@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import {
   DataView,
   DataViewTrObject,
-  useDataViewFilters,
   useDataViewPagination,
   useDataViewSort,
 } from '@patternfly/react-data-view';
@@ -21,7 +20,7 @@ import {
   SystemsViewFilters,
 } from './filters/SystemsViewFilters';
 import { useColumns } from './hooks/useColumns';
-import { useSearchParams } from 'react-router-dom';
+import { SetURLSearchParams, useSearchParams } from 'react-router-dom';
 import { SystemActionModalsProvider } from './SystemActionModalsContext';
 import { SystemsViewBulkActions } from './SystemsViewBulkActions';
 import { useBulkSelect } from './hooks/useBulkSelect';
@@ -31,6 +30,10 @@ import './SystemsView.scss';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import { ISortBy } from '@patternfly/react-table';
 import { ColumnManagementModalProvider } from './ColumnManagementModalContext';
+import {
+  DataViewFiltersProvider,
+  useDataViewFiltersContext,
+} from './DataViewFiltersContext';
 import { useDebouncedValue } from '../../Utilities/hooks/useDebouncedValue';
 import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
 
@@ -51,13 +54,28 @@ export type onSort = (
 const PER_PAGE = 50;
 const DEBOUNCE_TIMEOUT_MS = 300;
 
-interface SystemsViewProps {
-  /** When false, shows the no-access state and does not fetch systems. Default true when not provided (e.g. when not wrapped by RenderWrapper). */
-  hasAccess?: boolean;
+interface SystemsViewInnerProps {
+  searchParams: URLSearchParams;
+  setSearchParams: SetURLSearchParams;
 }
 
-const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+const SystemsViewInner = ({
+  searchParams,
+  setSearchParams,
+}: SystemsViewInnerProps) => {
+  const { filters, clearAllFilters } = useDataViewFiltersContext();
+
+  const debouncedName = useDebouncedValue(
+    filters.hostname_or_id,
+    DEBOUNCE_TIMEOUT_MS,
+  );
+  const queryFilters: InventoryFilters = useMemo(
+    () => ({
+      ...filters,
+      hostname_or_id: debouncedName,
+    }),
+    [filters, debouncedName],
+  );
 
   const pagination = useDataViewPagination({
     perPage: PER_PAGE,
@@ -71,31 +89,6 @@ const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
     initialSelected: [],
   }) as SystemsViewSelection;
   const { selected, setSelected } = selection;
-
-  const { filters, onSetFilters, clearAllFilters } =
-    useDataViewFilters<InventoryFilters>({
-      initialFilters: {
-        hostname_or_id: '',
-        status: [],
-        source: [],
-        rhcStatus: [],
-        system_type: [],
-        workspace: [],
-      },
-      searchParams,
-      setSearchParams,
-    });
-
-  const debouncedName = useDebouncedValue(
-    filters.hostname_or_id,
-    DEBOUNCE_TIMEOUT_MS,
-  );
-  const queryFilters: InventoryFilters = useMemo(() => {
-    return {
-      ...filters,
-      hostname_or_id: debouncedName,
-    };
-  }, [filters, debouncedName]);
 
   const sort = useDataViewSort({
     initialSort: {
@@ -121,7 +114,6 @@ const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
     filters: queryFilters,
     sortBy,
     direction,
-    enabled: hasAccess,
   });
 
   const { hostsWithPermissions } = useHostIdsWithKessel(data);
@@ -153,21 +145,6 @@ const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
     total,
   });
 
-  if (!hasAccess) {
-    return (
-      <AccessDenied
-        title="This application requires Inventory permissions"
-        description={
-          <div>
-            To view the content of this page, you must be granted a minimum of
-            inventory permissions from your Organization Administrator.
-          </div>
-        }
-        requiredPermission="inventory:*:read"
-      />
-    );
-  }
-
   return (
     <SystemActionModalsProvider onSelectionClear={() => setSelected([])}>
       <ColumnManagementModalProvider columns={columns} setColumns={setColumns}>
@@ -187,12 +164,7 @@ const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
                   onSelect={onBulkSelect}
                 />
               }
-              filters={
-                <SystemsViewFilters
-                  filters={filters}
-                  onSetFilters={onSetFilters}
-                />
-              }
+              filters={<SystemsViewFilters />}
               actions={
                 <SystemsViewBulkActions
                   selectedSystems={selectedSystems}
@@ -242,6 +214,41 @@ const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
         </DataView>
       </ColumnManagementModalProvider>
     </SystemActionModalsProvider>
+  );
+};
+
+interface SystemsViewProps {
+  hasAccess?: boolean;
+}
+
+export const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  if (!hasAccess) {
+    return (
+      <AccessDenied
+        title="This application requires Inventory permissions"
+        description={
+          <div>
+            To view the content of this page, you must be granted a minimum of
+            inventory permissions from your Organization Administrator.
+          </div>
+        }
+        requiredPermission="inventory:*:read"
+      />
+    );
+  }
+
+  return (
+    <DataViewFiltersProvider
+      searchParams={searchParams}
+      setSearchParams={setSearchParams}
+    >
+      <SystemsViewInner
+        searchParams={searchParams}
+        setSearchParams={setSearchParams}
+      />
+    </DataViewFiltersProvider>
   );
 };
 
