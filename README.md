@@ -219,7 +219,7 @@ Once the MR is open (either manually or via bot):
 * Review: Request a review from another Inventory team member.
 * Approval: The reviewer must comment `/lgtm` to trigger the automatic merge.
 * Responsibility: The engineer who approved the MR is responsible for monitoring the rollout to ensure the production environment remains stable: 
-  * OpenShift namespace: [frontends](https://console-openshift-console.apps.crcp01ue1.o9m8.p1.openshiftapps.com/k8s/cluster/projects/frontends)
+  * OpenShift namespace: [frontends](https://console-openshift-console.apps.rosa.hccp01ue1.8moc.p3.openshiftapps.com/k8s/ns/frontends/core~v1~Pod?name=inventory)
   * Check for Pod: `inventory-frontend`
 
 
