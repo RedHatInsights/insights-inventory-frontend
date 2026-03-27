@@ -45,6 +45,7 @@ export const BaseTagsModal = ({
       <ModalBody>
         <div
           className="ins-c-tags-modal-body"
+          data-testid="tags-modal-body"
           data-tags-modal-client-controlled={isClientControlled}
         >
           {children}

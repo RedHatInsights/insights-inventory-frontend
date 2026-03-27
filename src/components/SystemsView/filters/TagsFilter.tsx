@@ -107,91 +107,87 @@ export const TagsFilter = ({
   );
 
   return (
-    <div data-ouia-component-id="FilterByTags">
-      <Select
-        id="tags-filter-select"
-        ouiaId="Filter by tags"
-        isOpen={isOpen}
-        onSelect={(event, selected) => {
-          if (selected === LOADER_ID) return;
-          onChange?.(event, xor(value, [selected]));
-        }}
-        onOpenChange={onOpenChange}
-        toggle={toggle}
-        isScrollable
-        popperProps={{
-          width: FILTER_DROPDOWN_WIDTH,
-        }}
-      >
-        <SelectList isAriaMultiselectable>
-          {isLoading && (
-            <SelectOption isLoading={true}>
-              <Spinner size="lg" />
-            </SelectOption>
-          )}
-          {tagOptions.length === 0 && !isLoading ? (
-            <SelectOption isDisabled={true}>No tags available</SelectOption>
-          ) : (
-            <>
-              {tagOptions.map(([namespace, tags], index) => {
-                return (
-                  <SelectGroup key={namespace} label={namespace}>
-                    {tags.map((tag) => {
-                      return (
-                        <SelectOption
-                          value={`${namespace}/${tag.name}`}
-                          key={tag.name}
-                          isSelected={value.some(
-                            (item) => item === `${namespace}/${tag.name}`,
-                          )}
-                          data-ouia-component-id="FilterByTagsOption"
-                          hasCheckbox={true}
+    <Select
+      id="tags-filter-select"
+      isOpen={isOpen}
+      onSelect={(event, selected) => {
+        if (selected === LOADER_ID) return;
+        onChange?.(event, xor(value, [selected]));
+      }}
+      onOpenChange={onOpenChange}
+      toggle={toggle}
+      isScrollable
+      popperProps={{
+        width: FILTER_DROPDOWN_WIDTH,
+      }}
+    >
+      <SelectList isAriaMultiselectable>
+        {isLoading && (
+          <SelectOption isLoading={true}>
+            <Spinner size="lg" />
+          </SelectOption>
+        )}
+        {tagOptions.length === 0 && !isLoading ? (
+          <SelectOption isDisabled={true}>No tags available</SelectOption>
+        ) : (
+          <>
+            {tagOptions.map(([namespace, tags], index) => {
+              return (
+                <SelectGroup key={namespace} label={namespace}>
+                  {tags.map((tag) => {
+                    return (
+                      <SelectOption
+                        value={`${namespace}/${tag.name}`}
+                        key={tag.name}
+                        isSelected={value.some(
+                          (item) => item === `${namespace}/${tag.name}`,
+                        )}
+                        hasCheckbox={true}
+                      >
+                        <Flex
+                          flexWrap={{
+                            default: 'nowrap',
+                          }}
                         >
-                          <Flex
-                            flexWrap={{
-                              default: 'nowrap',
-                            }}
-                          >
-                            <FlexItem>
-                              <Truncate content={tag.name}>{tag.name}</Truncate>
-                            </FlexItem>
-                            <FlexItem>
-                              <Tooltip
-                                position="right"
-                                enableFlip
-                                content={`Applicable to ${tag.count} system${tag.count === 1 ? '' : 's'}.`}
-                              >
-                                <Badge isRead>{tag.count}</Badge>
-                              </Tooltip>
-                            </FlexItem>
-                          </Flex>
-                        </SelectOption>
-                      );
-                    })}
-                  </SelectGroup>
-                );
-              })}
-              {hasMoreTags && (
-                <SelectOption
-                  isLoading={isFetching}
-                  isLoadButton={!isFetching}
-                  style={{ overflow: 'visible' }}
-                  isDisabled={isFetching || total == null}
-                  onClick={() => onMoreTagsAvailable()}
-                  itemId={LOADER_ID}
-                >
-                  {isFetching || total == null ? (
-                    <Spinner size="lg" />
-                  ) : (
-                    `${total - PER_PAGE} more tags available`
-                  )}
-                </SelectOption>
-              )}
-            </>
-          )}
-        </SelectList>
-      </Select>
-    </div>
+                          <FlexItem>
+                            <Truncate content={tag.name}>{tag.name}</Truncate>
+                          </FlexItem>
+                          <FlexItem>
+                            <Tooltip
+                              position="right"
+                              enableFlip
+                              content={`Applicable to ${tag.count} system${tag.count === 1 ? '' : 's'}.`}
+                            >
+                              <Badge isRead>{tag.count}</Badge>
+                            </Tooltip>
+                          </FlexItem>
+                        </Flex>
+                      </SelectOption>
+                    );
+                  })}
+                </SelectGroup>
+              );
+            })}
+            {hasMoreTags && (
+              <SelectOption
+                isLoading={isFetching}
+                isLoadButton={!isFetching}
+                style={{ overflow: 'visible' }}
+                isDisabled={isFetching || total == null}
+                onClick={() => onMoreTagsAvailable()}
+                itemId={LOADER_ID}
+              >
+                {isFetching || total == null ? (
+                  <Spinner size="lg" />
+                ) : (
+                  `${total - PER_PAGE} more tags available`
+                )}
+              </SelectOption>
+            )}
+          </>
+        )}
+      </SelectList>
+    </Select>
   );
 };
 

@@ -138,14 +138,13 @@ export const TagsModalTable = ({
 
   const columns = ['Name', 'Value', 'Tag source'];
 
-  const ouiaId = 'tags-modal-table';
   return (
     <DataView
       activeState={activeState}
       selection={hasSelectionEnabled ? selectionFromParent : undefined}
     >
       <DataViewToolbar
-        ouiaId="tags-table-header"
+        data-testid="tags-table-header-toolbar"
         bulkSelect={
           selectionFromParent ? (
             <BulkSelect
@@ -181,7 +180,6 @@ export const TagsModalTable = ({
       />
       <DataViewTable
         aria-label="Tags table"
-        ouiaId={ouiaId}
         columns={columns}
         rows={rows}
         variant="compact"
@@ -193,7 +191,7 @@ export const TagsModalTable = ({
         bodyStates={{
           empty: (
             <Tbody>
-              <Tr key="empty" ouiaId={`${ouiaId}-tr-empty`}>
+              <Tr key="empty">
                 <Td colSpan={columns.length}>
                   <NoEntitiesFound entities="tags" />
                 </Td>
@@ -207,7 +205,6 @@ export const TagsModalTable = ({
           ),
           error: (
             <ErrorState
-              ouiaId={`${ouiaId}-error`}
               titleText="Unable to load tags"
               bodyText="There was an error retrieving tags. Check your connection and try again."
             />
@@ -215,7 +212,6 @@ export const TagsModalTable = ({
         }}
       />
       <DataViewToolbar
-        ouiaId="tags-table-footer"
         className="pf-v6-u-mt-lg"
         pagination={<Pagination itemCount={itemCount} {...paginationForUi} />}
       />
