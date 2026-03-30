@@ -113,20 +113,21 @@ const TagsModal = ({
     [fetchTags, filterBy],
   );
 
-  // Initial fetch when modal opens
+  // Initial fetch when modal opens — use toolbar dropdown search (filterTagsBy) so Redux
+  // tag data matches the modal filter, not only the input value.
   useEffect(() => {
     if (showTagDialog) {
       if (isInitialMount.current) {
         isInitialMount.current = false;
         if (!activeSystemTag) {
-          fetchTags(pagination, '');
+          fetchTags(PAGINATION_DEFAULT, filterTagsBy);
         }
       }
     } else {
       // Reset when modal closes
       isInitialMount.current = true;
     }
-  }, [showTagDialog, activeSystemTag, fetchTags, pagination]);
+  }, [showTagDialog, activeSystemTag, fetchTags, filterTagsBy]);
 
   const isSelected = (id, { key, value, namespace }) =>
     id === `${namespace}/${key}=${value}`;
@@ -167,10 +168,14 @@ const TagsModal = ({
       loaded={loaded}
       isOpen={showTagDialog}
       toggleModal={() => {
+        debouncedFetch.cancel();
         setSelected(preselectedTags);
-        setFilterBy('');
-        onToggleModal();
+        setFilterBy(filterTagsBy);
         setStatePagination(PAGINATION_DEFAULT);
+        onToggleModal();
+        if (!activeSystemTag) {
+          dispatch(fetchAllTags(filterTagsBy, {}, getTags));
+        }
         dispatch(toggleTagModal(false));
       }}
       filters={[
