@@ -2,8 +2,8 @@ import React from 'react';
 import {
   Button,
   ClipboardCopy,
-  Level,
-  LevelItem,
+  Flex,
+  FlexItem,
   Modal,
   ModalBody,
   ModalFooter,
@@ -78,8 +78,8 @@ const DeleteModal = ({
         </Split>
       </ModalBody>
       <ModalFooter>
-        <Level hasGutter>
-          <LevelItem>
+        <Flex>
+          <FlexItem>
             <Button
               variant="danger"
               ouiaId="confirm-inventory-delete"
@@ -88,6 +88,8 @@ const DeleteModal = ({
             >
               Delete
             </Button>
+          </FlexItem>
+          <FlexItem>
             <Button
               variant="link"
               ouiaId="cancel-inventory-delete"
@@ -95,8 +97,8 @@ const DeleteModal = ({
             >
               Cancel
             </Button>
-          </LevelItem>
-        </Level>
+          </FlexItem>
+        </Flex>
       </ModalFooter>
     </Modal>
   );
