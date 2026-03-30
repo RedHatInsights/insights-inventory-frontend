@@ -50,10 +50,6 @@ const DeleteModal = ({
       ouiaId="inventory-delete-modal"
       isOpen={isModalOpen}
       onClose={() => handleModalToggle(false)}
-      appendTo={
-        (document.getElementsByClassName('inventory')[0] as HTMLElement) ||
-        document.body
-      }
     >
       <ModalHeader
         title={`Delete ${Array.isArray(currentSystems) && currentSystems.length > 1 ? 'systems' : 'system'} from inventory?`}
