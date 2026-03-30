@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   Button,
   ClipboardCopy,
@@ -14,25 +13,34 @@ import {
   Stack,
   StackItem,
 } from '@patternfly/react-core';
+import { System } from '../components/SystemsView/hooks/useSystemsQuery';
+
+export interface DeleteModalProps {
+  handleModalToggle?: (open: boolean) => void;
+  isModalOpen?: boolean;
+  currentSystems?: System | System[];
+  onConfirm?: () => void;
+}
 
 const DeleteModal = ({
-  handleModalToggle,
-  isModalOpen,
+  handleModalToggle = () => undefined,
+  isModalOpen = false,
   currentSystems,
-  onConfirm,
-}) => {
-  let systemToRemove;
-  let systemLabel = 'system';
-  let systemPronoun = 'this';
+  onConfirm = () => undefined,
+}: DeleteModalProps) => {
+  let systemToRemove: string | undefined;
+  let systemLabel: 'system' | 'systems' = 'system';
+  let systemPronoun: 'this' | 'these' = 'this';
+
   if (Array.isArray(currentSystems)) {
     systemToRemove =
       currentSystems.length === 1
-        ? currentSystems[0].display_name
+        ? (currentSystems[0].display_name ?? undefined)
         : `${currentSystems.length} systems`;
-    systemLabel = currentSystems.length === 1 ? systemLabel : 'systems';
-    systemPronoun = currentSystems.length === 1 ? systemPronoun : 'these';
+    systemLabel = currentSystems.length === 1 ? 'system' : 'systems';
+    systemPronoun = currentSystems.length === 1 ? 'this' : 'these';
   } else {
-    systemToRemove = currentSystems.display_name;
+    systemToRemove = currentSystems?.display_name ?? undefined;
   }
 
   return (
@@ -43,7 +51,8 @@ const DeleteModal = ({
       isOpen={isModalOpen}
       onClose={() => handleModalToggle(false)}
       appendTo={
-        document.getElementsByClassName('inventory')[0] || document.body
+        (document.getElementsByClassName('inventory')[0] as HTMLElement) ||
+        document.body
       }
     >
       <ModalHeader
@@ -95,28 +104,6 @@ const DeleteModal = ({
       </ModalFooter>
     </Modal>
   );
-};
-
-const ActiveSystemProp = PropTypes.shape({
-  id: PropTypes.string,
-  displayName: PropTypes.string,
-});
-
-DeleteModal.propTypes = {
-  isModalOpen: PropTypes.bool,
-  currentSystems: PropTypes.oneOfType([
-    ActiveSystemProp,
-    PropTypes.arrayOf(ActiveSystemProp),
-  ]),
-  handleModalToggle: PropTypes.func,
-  onConfirm: PropTypes.func,
-};
-
-DeleteModal.defaultProps = {
-  isModalOpen: false,
-  currentSystems: {},
-  handleModalToggle: () => undefined,
-  onConfirm: () => undefined,
 };
 
 export default DeleteModal;
