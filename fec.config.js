@@ -116,7 +116,7 @@ module.exports = {
         __dirname,
         '/src/store/systemProfileStore.js',
       ),
-      './DeleteModal': resolve(__dirname, '/src/Utilities/DeleteModal.js'),
+      './DeleteModal': resolve(__dirname, '/src/Utilities/DeleteModal.tsx'),
       './HybridInventoryTabs': resolve(
         __dirname,
         '/src/modules/HybridInventoryTabs.js',
