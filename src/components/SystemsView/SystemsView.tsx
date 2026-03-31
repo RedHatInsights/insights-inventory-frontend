@@ -36,6 +36,7 @@ import {
 } from './DataViewFiltersContext';
 import { useDebouncedValue } from '../../Utilities/hooks/useDebouncedValue';
 import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
+import { PER_PAGE } from '../../constants';
 
 export interface SystemsViewSelection {
   selected: DataViewTrObject[];
@@ -50,8 +51,8 @@ export type onSort = (
   newSortBy: string,
   newSortDirection: SortDirection,
 ) => void;
+export type Pagination = ReturnType<typeof useDataViewPagination>;
 
-const PER_PAGE = 50;
 const DEBOUNCE_TIMEOUT_MS = 300;
 
 interface SystemsViewInnerProps {
@@ -164,7 +165,7 @@ const SystemsViewInner = ({
                   onSelect={onBulkSelect}
                 />
               }
-              filters={<SystemsViewFilters />}
+              filters={<SystemsViewFilters pagination={pagination} />}
               actions={
                 <SystemsViewBulkActions
                   selectedSystems={selectedSystems}
