@@ -1,10 +1,4 @@
-import React, {
-  Fragment,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import * as actions from '../../../store/actions';
@@ -32,7 +26,6 @@ import useGlobalFilter from '../../filters/useGlobalFilter';
 import useOnRefresh from '../../filters/useOnRefresh';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import { useKesselMigrationFeatureFlag } from '../../../Utilities/hooks/useKesselMigrationFeatureFlag';
-import { AccountStatContext } from '../../../Contexts';
 import { INVENTORY_COLUMNS } from '../../../store/constants';
 import { DEFAULT_COLUMNS } from '../../../store/entities';
 import MoveSystemsToWorkspaceModal from '../../InventoryTable/MoveSystemsToWorkspaceModal';
@@ -254,7 +247,6 @@ const ConventionalSystemsTab = ({
   );
 
   const isBootcEnabled = useFeatureFlag('hbi.ui.bifrost');
-  const { hasBootcImages } = useContext(AccountStatContext);
 
   const isLastCheckInEnabled = useFeatureFlag(
     'hbi.create_last_check_in_update_per_reporter_staleness',
@@ -313,7 +305,7 @@ const ConventionalSystemsTab = ({
   return (
     <Fragment>
       <InventoryTableCmp
-        showSystemTypeFilter={isBootcEnabled && hasBootcImages}
+        showSystemTypeFilter={isBootcEnabled}
         hasAccess={hasAccess}
         isRbacEnabled
         customFilters={{ filters, globalFilter }}
