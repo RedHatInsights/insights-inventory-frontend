@@ -70,7 +70,7 @@ function entityDeleted(state, { meta, payload }) {
   meta.systems.forEach((id) => selected.delete(id));
 
   if (payload.status === 400 || payload.status === 404) {
-    meta.notifications.rejected();
+    meta.notifications.rejected(payload);
   } else {
     meta.notifications.fulfilled();
   }
@@ -81,8 +81,8 @@ function entityDeleted(state, { meta, payload }) {
   };
 }
 
-function entityDeleteRejected(state, { meta }) {
-  meta.notifications.rejected();
+function entityDeleteRejected(state, { meta, payload }) {
+  meta.notifications.rejected(payload);
   return state;
 }
 

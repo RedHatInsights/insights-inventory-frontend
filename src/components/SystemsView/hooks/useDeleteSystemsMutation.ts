@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import { deleteSystemsById } from '../../InventoryTable/utils/api';
+import { getDeleteErrorDescription } from '../../InventoryTable/utils/errorUtils';
 import { type System } from './useSystemsQuery';
 import { useMemo } from 'react';
 
@@ -59,8 +60,7 @@ export const useDeleteSystemsMutation = ({
       addNotification({
         variant: 'danger',
         title: 'System(s) failed to be removed from Inventory',
-        description:
-          'There was an error processing the request. Please try again.',
+        description: getDeleteErrorDescription(error),
         dismissable: true,
       });
 
