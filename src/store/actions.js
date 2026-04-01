@@ -9,6 +9,7 @@ import {
 } from './action-types';
 import { getEntitySystemProfile } from '../api';
 import { deleteSystemsById } from '../components/InventoryTable/utils/api';
+import { getDeleteErrorDescription } from '../components/InventoryTable/utils/errorUtils';
 import { patchHostById } from '../api/hostInventoryApi';
 export * from './system-issues-actions';
 export * from './inventory-actions';
@@ -25,12 +26,11 @@ export const deleteEntity = (systems, displayName, addNotification) => ({
           description: `${displayName} has been successfully removed.`,
           dismissable: true,
         }),
-      rejected: () =>
+      rejected: (error) =>
         addNotification({
           variant: 'danger',
           title: 'System failed to be removed from Inventory',
-          description:
-            'There was an error processing the request. Please try again.',
+          description: getDeleteErrorDescription(error),
           dismissable: true,
         }),
     },
