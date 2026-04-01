@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { getHostList, getHostTags } from '../../../api/hostInventoryApiTyped';
 import { InventoryFilters } from '../filters/SystemsViewFilters';
 import {
@@ -121,6 +121,7 @@ export const useSystemsQuery = ({
     queryFn: async () => {
       return await fetchSystems({ page, perPage, filters, sortBy, direction });
     },
+    placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
     enabled,
   });
