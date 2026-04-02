@@ -1,33 +1,52 @@
-import { expect, test as setup } from '@playwright/test';
+import { expect, test as setup, type Page } from '@playwright/test';
 import {
   ensureNotInPreview,
   enableSystemsView,
-  logInWithUser1,
-  storeStorageStateAndToken,
-  throwIfMissingEnvVariables,
+  logInAsRole,
+  throwIfMissingAdminEnvVariables,
+  throwIfMissingRbacEnvVariables,
   closePopupsIfExist,
   closeCookieBanner,
+  getAdminUserForSetup,
+  getRbacUsersForSetup,
+  type UserConfig,
 } from './helpers/loginHelpers';
 import { isSystemsViewEnabled } from './helpers/constants';
 
-setup.describe('Setup', async () => {
+async function authenticateUser(page: Page, user: UserConfig) {
+  if (isSystemsViewEnabled) {
+    await enableSystemsView(page);
+  }
+  await closePopupsIfExist(page);
+  await logInAsRole(page, user);
+  await closeCookieBanner(page);
+  await ensureNotInPreview(page);
+}
+
+setup.describe('Setup', () => {
   setup.describe.configure({ retries: 3 });
 
-  setup('Ensure needed ENV variables exist', async () => {
-    expect(() => throwIfMissingEnvVariables()).not.toThrow();
+  setup('Ensure admin ENV variables exist', async () => {
+    expect(() => throwIfMissingAdminEnvVariables()).not.toThrow();
   });
 
-  setup('Authenticate', async ({ page }) => {
+  setup('Authenticate as admin', async ({ page }) => {
     setup.setTimeout(120_000);
-
-    if (isSystemsViewEnabled) {
-      await enableSystemsView(page);
+    const admin = getAdminUserForSetup();
+    if (!admin) {
+      throw new Error('No admin UserConfig for current PROD/stage mode');
     }
-
-    await closePopupsIfExist(page);
-    await logInWithUser1(page);
-    await closeCookieBanner(page);
-    await ensureNotInPreview(page);
-    await storeStorageStateAndToken(page);
+    await authenticateUser(page, admin);
   });
+
+  setup('Ensure RBAC ENV variables exist', async () => {
+    expect(() => throwIfMissingRbacEnvVariables()).not.toThrow();
+  });
+
+  for (const user of getRbacUsersForSetup()) {
+    setup(`Authenticate as ${user.role}`, async ({ page }) => {
+      setup.setTimeout(120_000);
+      await authenticateUser(page, user);
+    });
+  }
 });

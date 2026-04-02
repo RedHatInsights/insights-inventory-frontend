@@ -18,12 +18,12 @@ test('User can filter, search and see details of "Ungrouped Hosts" workspace', a
   page: Page;
 }) => {
   /**
-   * The 'ungroued' workspace is an unique workspace introduced by Kessel/Management Fabric team: 
+   * The 'ungroued' workspace is an unique workspace introduced by Kessel/Management Fabric team:
    * - It's limited to one per account.
    * - Workspace actions are disabled within it.
    * - Systems stored here can be moved to any other workspace
    * Metadata:
-     - requirements: 
+     - requirements:
      - inv-hosts-filter-by-group_name
      - inv-kessel-ungrouped
      - importance: critical
