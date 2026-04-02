@@ -1,93 +1,65 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import { useConditionalRBAC } from '../../../Utilities/hooks/useConditionalRBAC';
+import classnames from 'classnames';
+import { useSelector } from 'react-redux';
+import { Button, Tooltip } from '@patternfly/react-core';
+import { PencilAltIcon } from '@patternfly/react-icons';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 
-import { PencilAltIcon } from '@patternfly/react-icons';
+import { useConditionalRBAC } from '../../../Utilities/hooks/useConditionalRBAC';
 import {
   NO_MODIFY_HOST_TOOLTIP_MESSAGE,
   REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP,
 } from '../../../constants';
-import { useSelector } from 'react-redux';
-import { Button, Tooltip } from '@patternfly/react-core';
 
-const InnerButton = ({ onClick, variant = 'plain' }) => (
-  <Button
-    icon={<PencilAltIcon />}
-    onClick={onClick}
-    className="ins-c-inventory__detail--action"
-    aria-label="Edit"
-    variant={variant}
-  ></Button>
-);
-
-InnerButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  /** 'plain' for field-specific inline edit (pencil toggle), 'link' for full-page edit */
-  variant: PropTypes.oneOf(['plain', 'link']),
-};
-
-const EditButtonUnknownPermissions = (props) => {
+const EditButton = ({
+  writePermissions,
+  variant = 'plain',
+  onClick,
+  className,
+  ...rest
+}) => {
+  const { isProd } = useChrome();
   const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
 
-  const { hasAccess: canEditHost } = useConditionalRBAC([
+  const { hasAccess: canEditFromRbac } = useConditionalRBAC([
     REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
-      entity?.groups?.[0]?.id ?? null, // null stands for ungroupped hosts
+      entity?.groups?.[0]?.id ?? null,
     ),
   ]);
 
-  if (!canEditHost) {
-    return (
-      <Tooltip content={NO_MODIFY_HOST_TOOLTIP_MESSAGE}>
-        <Button
-          icon={<PencilAltIcon />}
-          isAriaDisabled
-          isDisabled={true}
-          aria-label="Edit"
-          variant="plain"
-        />
-      </Tooltip>
-    );
-  }
+  const isEnabled =
+    Boolean(isProd?.()) ||
+    writePermissions === true ||
+    (typeof writePermissions !== 'boolean' && canEditFromRbac);
 
-  return <InnerButton {...props} />;
-};
-
-EditButtonUnknownPermissions.propTypes = {
-  link: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-  variant: PropTypes.oneOf(['plain', 'link']),
-};
-
-const EditButtonWrapper = ({ writePermissions, variant, ...props }) => {
-  const { isProd } = useChrome();
-
-  if (isProd?.() || writePermissions) {
-    return <InnerButton variant={variant} {...props} />;
-  }
-
-  if (typeof writePermissions !== 'boolean') {
-    return <EditButtonUnknownPermissions variant={variant} {...props} />;
-  }
-
-  return (
-    <Tooltip content={NO_MODIFY_HOST_TOOLTIP_MESSAGE}>
-      <Button
-        icon={<PencilAltIcon />}
-        isAriaDisabled
-        isDisabled={true}
-        aria-label="Edit"
-        variant="plain"
-      />
-    </Tooltip>
+  const button = (
+    <Button
+      {...rest}
+      icon={<PencilAltIcon />}
+      type="button"
+      className={classnames('ins-c-inventory__detail--action', className)}
+      aria-label="Edit"
+      variant={variant}
+      onClick={isEnabled ? onClick : undefined}
+      isDisabled={!isEnabled}
+      isAriaDisabled={!isEnabled}
+    />
   );
+
+  if (!isEnabled) {
+    return <Tooltip content={NO_MODIFY_HOST_TOOLTIP_MESSAGE}>{button}</Tooltip>;
+  }
+
+  return button;
 };
 
-EditButtonWrapper.propTypes = {
+EditButton.propTypes = {
   writePermissions: PropTypes.bool,
   /** 'plain' for field-specific inline edit (default), 'link' for full-page edit */
   variant: PropTypes.oneOf(['plain', 'link']),
+  onClick: PropTypes.func.isRequired,
+  className: PropTypes.string,
 };
 
-export default EditButtonWrapper;
+export default EditButton;

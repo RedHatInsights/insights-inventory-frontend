@@ -246,9 +246,9 @@ const MoveSystemsToWorkspaceModal = ({
                 <>
                   This action will move{' '}
                   <strong>{systems[0].display_name ?? systems[0].id}</strong>
-                  from <strong>
-                    {systems[0].groups?.[0]?.name ?? '—'}
-                  </strong> to <strong>{newWorkspaceName}</strong>.
+                  {systems[0].groups?.[0]?.name ? ' from ' : ''}{' '}
+                  <strong>{systems[0].groups?.[0]?.name ?? '—'}</strong> to{' '}
+                  <strong>{newWorkspaceName}</strong>.
                 </>
               ) : (
                 <>
