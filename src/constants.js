@@ -321,6 +321,7 @@ export const TAB_REQUIRED_PERMISSIONS = {
 // Kessel access-check API (see PR 2919 / useHostIdsWithKessel)
 export const KESSEL_API_PATH = '/api/kessel/v1beta2';
 export const HOST_RESOURCE_TYPE = 'host';
+export const HOST_RESOURCE_TYPE_VIEW = 'view';
 export const HOST_RESOURCE_TYPE_UPDATE = 'update';
 export const HOST_RESOURCE_TYPE_DELETE = 'delete';
 export const PER_PAGE_MAX = 100;
