@@ -44,6 +44,7 @@ docs/*
 
 # Environment files
 .env
+creds.json
 
 # Auth files
 .auth/

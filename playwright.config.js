@@ -3,6 +3,18 @@ import 'dotenv/config';
 
 const isCI = !!process.env.CI;
 const useCtrf = isCI && !!process.env.USE_CTRF; // toggle CTRF explicitly in CI
+const rbacOnlyCI = isCI && process.env.RBAC === 'true';
+
+/** Single Playwright project so Currents reports one group per workflow (not one per role). */
+const rbacProject = {
+  name: 'E2E RBAC',
+  testDir: './_playwright-tests/rbac/',
+  testMatch: /test_(viewer_role_access|granular_access|no_access)\.test\.ts/,
+  use: {
+    ...devices['Desktop Chrome'],
+  },
+  dependencies: ['setup'],
+};
 
 export default defineConfig({
   testDir: './_playwright-tests/',
@@ -53,14 +65,21 @@ export default defineConfig({
       : {}),
   },
   projects: [
+    // auth setup run once
     { name: 'setup', testMatch: /.*\.setup\.ts/ },
-    {
-      name: 'chromium',
-      use: {
-        ...devices['Desktop Chrome'],
-        storageState: '.auth/admin_user.json',
-      },
-      dependencies: ['setup'],
-    },
+    ...(rbacOnlyCI
+      ? [rbacProject]
+      : [
+          {
+            name: 'E2E',
+            testIgnore: '**/rbac/**',
+            use: {
+              ...devices['Desktop Chrome'],
+              storageState: '.auth/admin_user.json',
+            },
+            dependencies: ['setup'],
+          },
+          ...(!isCI ? [rbacProject] : []),
+        ]),
   ],
 });

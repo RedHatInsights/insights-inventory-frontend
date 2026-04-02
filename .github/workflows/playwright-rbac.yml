@@ -1,4 +1,4 @@
-name: 'E2E: Full Test Suite'
+name: 'E2E: RBAC tests'
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  playwright-tests:
+  playwright-RBAC-tests:
     runs-on:
       - codebuild-host-inventory-frontend-${{ github.run_id }}-${{ github.run_attempt }}
       - instance-size:large
@@ -22,27 +22,23 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Create front-end .env file
+      - name: Create RBAC front-end .env file
         run: |
-          # Check if the secrets are set
-          if [ -z "$PLAYWRIGHT_USER" ]; then
-            echo "Error: PLAYWRIGHT_USER secret is not set."
+          if [ -z "$RBAC_VIEWER_ROLE_ACCESS_USER" ] || [ -z "$RBAC_GRANULAR_ACCESS_USER" ] || \
+             [ -z "$RBAC_NO_ACCESS_USER" ] || [ -z "$RBAC_PASSWORD_STAGE" ]; then
+            echo "Error: One or more RBAC secrets are not set (RBAC_VIEWER_ROLE_ACCESS_USER, RBAC_GRANULAR_ACCESS_USER, RBAC_NO_ACCESS_USER, RBAC_PASSWORD_STAGE)."
             exit 1
           fi
 
-          if [ -z "$PLAYWRIGHT_PASSWORD" ]; then
-            echo "Error: PLAYWRIGHT_PASSWORD secret is not set."
-            exit 1
-          fi
-
-          # Create the .env file and write the secrets and other variables to it
           {
-            echo "PLAYWRIGHT_USER=$PLAYWRIGHT_USER"
-            echo "PLAYWRIGHT_PASSWORD=$PLAYWRIGHT_PASSWORD"
+            echo "RBAC_VIEWER_ROLE_ACCESS_USER=$RBAC_VIEWER_ROLE_ACCESS_USER"
+            echo "RBAC_GRANULAR_ACCESS_USER=$RBAC_GRANULAR_ACCESS_USER"
+            echo "RBAC_NO_ACCESS_USER=$RBAC_NO_ACCESS_USER"
+            echo "RBAC_PASSWORD_STAGE=$RBAC_PASSWORD_STAGE"
             echo "BASE_URL=https://stage.foo.redhat.com:1337"
             echo "CI=true"
+            echo "RBAC=true"
             echo "PROXY=$PROXY"
-            echo "STAGE_OFFLINE_TOKEN=$STAGE_OFFLINE_TOKEN"
           } >> .env
 
           echo ".env file created successfully."
@@ -55,15 +51,6 @@ jobs:
           echo "Pull Request URL: $pr_url"
           # Set the PR URL as an output using the environment file
           echo "pr_url=$pr_url" >> $GITHUB_ENV
-      
-      - name: Cache - node_modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            dist
-          key: ${{ runner.os }}-frontend-node-modules-${{ hashFiles('package-lock.json') }}
-          restore-keys: ${{ runner.os }}-frontend-node-modules-
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -75,7 +62,7 @@ jobs:
         run: npm ci
 
       - name: Install Playwright
-        run: npx playwright install chromium
+        run: npx playwright install --with-deps
 
       - name: Increase file watchers limit
         run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
@@ -92,7 +79,9 @@ jobs:
           npx wait-on http://localhost:8003/apps/inventory/
 
       - name: Run front-end Playwright tests
-        run: USE_CTRF=1 CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-e2e-full-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test --grep-invert @integration --grep-invert @rbac
+        env:
+          RBAC: 'true'
+        run: USE_CTRF=1 CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test --grep @rbac --grep-invert @integration
 
       - name: Publish front-end Test Report
         uses: ctrf-io/github-test-reporter@v1
