@@ -187,7 +187,11 @@ const TagsModal = ({
           filterValues: {
             value: filterBy,
             onChange: (_e, value) => {
-              debouncedFetch(pagination, value);
+              const nextPagination = {
+                ...(pagination || PAGINATION_DEFAULT),
+                page: 1,
+              };
+              debouncedFetch(nextPagination, value);
               setFilterBy(value);
             },
           },

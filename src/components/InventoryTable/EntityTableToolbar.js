@@ -422,7 +422,10 @@ const EntityTableToolbar = ({
 
   useEffect(() => {
     if (shouldReload && showTags && enabledFilters.tags) {
-      onSetFilter(mapGroups(selectedTags), 'tagFilters', debouncedRefresh);
+      // Use immediate refresh (not debouncedRefresh) so tag changes from the Tags modal
+      // apply with page 1; a shared debounced refresh can be superseded by another call
+      // and leave pagination on the previous page.
+      onSetFilter(mapGroups(selectedTags), 'tagFilters', updateData);
     }
   }, [selectedTags, enabledFilters.tags, showTags]);
 
