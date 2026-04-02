@@ -327,6 +327,7 @@ export const PER_PAGE_MAX = 100;
 export const PER_PAGE = 50;
 export const INITIAL_PAGE = 1;
 export const EMPTY_CELL = '';
+export const DEBOUNCE_TIMEOUT_MS = 300;
 export const WORKSPACE_RESOURCE_TYPE = 'workspace';
 export const WORKSPACE_RELATION_EDIT = 'edit';
 /** Reporter for host access checks (HBI). */

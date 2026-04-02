@@ -9,6 +9,8 @@ export const INITIAL_INVENTORY_FILTERS: InventoryFilters = {
   rhcStatus: [],
   system_type: [],
   workspace: [],
+  last_seen: undefined,
+  tags: [],
 };
 
 export interface DataViewFiltersContextValue {
