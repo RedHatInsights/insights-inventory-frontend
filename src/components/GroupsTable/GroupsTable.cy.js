@@ -384,7 +384,7 @@ describe('actions', () => {
       cy.get(DROPDOWN_ITEM).contains('Delete workspace').click();
       cy.get(MODAL_CONTENT)
         .find('h1')
-        .should('contain.text', 'Cannot delete workspace at this time');
+        .should('contain.text', 'Cannot delete workspace');
     });
 
     it('can delete more groups', () => {
@@ -420,7 +420,7 @@ describe('actions', () => {
       cy.get(DROPDOWN_ITEM).contains('Delete workspaces').click();
       cy.get(MODAL_CONTENT)
         .find('h1')
-        .should('contain.text', 'Cannot delete workspaces at this time');
+        .should('contain.text', 'Cannot delete workspaces');
     });
   });
 
