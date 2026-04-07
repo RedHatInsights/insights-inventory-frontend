@@ -1,19 +1,27 @@
 import { useCallback } from 'react';
 import { DataViewTrObject } from '@patternfly/react-data-view';
-import type { SystemsViewSelection } from '../SystemsView';
+import { BulkSelectValue } from '@patternfly/react-component-groups/dist/dynamic/BulkSelect';
 
-interface UseBulkSelectParams {
-  selection: SystemsViewSelection;
-  rows: DataViewTrObject[];
+export interface DataViewBulkSelection<T = DataViewTrObject> {
+  selected: T[];
+  setSelected: (items: T[]) => void;
+  onSelect: (isSelecting: boolean, items?: T[] | T) => void;
+  isSelected: (item: T) => boolean;
+}
+
+interface UseBulkSelectParams<T = DataViewTrObject> {
+  selection: DataViewBulkSelection<T>;
+  rows: T[];
   total?: number;
 }
 
-export const useBulkSelect = ({
+export const useBulkSelect = <T = DataViewTrObject>({
   selection,
   rows,
   total = 0,
-}: UseBulkSelectParams) => {
+}: UseBulkSelectParams<T>) => {
   const { selected, setSelected, onSelect, isSelected } = selection;
+
   const isAnySelected = selected.length > 0;
   const isFullySelected = total > 0 && selected.length === total;
   const isPartiallySelected = isAnySelected && !isFullySelected;
@@ -21,18 +29,26 @@ export const useBulkSelect = ({
     rows.length > 0 && rows.every((row) => isSelected(row));
 
   const onBulkSelect = useCallback(
-    async (value: string) => {
+    async (value: BulkSelectValue) => {
       switch (value) {
-        case 'none':
-        case 'nonePage':
+        case BulkSelectValue.none:
+        case BulkSelectValue.nonePage:
           setSelected([]);
           break;
-        case 'page':
+        case BulkSelectValue.page:
+          /**
+           * Unchecking checkbox event and select page event are conflicting.
+           * They're both encoded by value "page" in page-selected state, hence it's not possible
+           * to implement all behaviors from our BulkSelect Design Doc.
+           * Tracked by JIRA: RHINENG-25287
+           */
           if (isPartiallySelected) {
             setSelected([]);
           } else {
             onSelect(true, rows);
           }
+          break;
+        default:
           break;
       }
     },
@@ -43,5 +59,6 @@ export const useBulkSelect = ({
     isPageSelected,
     isPartiallySelected,
     onBulkSelect,
+    selectedCount: selected.length,
   };
 };

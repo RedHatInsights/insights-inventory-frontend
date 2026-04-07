@@ -1,85 +1,106 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { TagsModalTable } from './TagsModalTable';
-import { TAGS_100 } from './__fixtures__/tags';
+import { TAGS_SAMPLE } from './__fixtures__/tags';
+import TagsModalTable from './TagsModalTable';
 
 describe('TagsModalTable', () => {
-  it('should render first page of tags', () => {
-    render(<TagsModalTable tags={TAGS_100} />);
-
-    expect(
-      screen.getByRole('columnheader', { name: /name/i }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole('columnheader', { name: /value/i }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole('columnheader', { name: /tag source/i }),
-    ).toBeInTheDocument();
-
-    // First tag
-    expect(screen.getByText('key-0')).toBeInTheDocument();
-    expect(screen.getByText('value-0')).toBeInTheDocument();
-    expect(screen.getByText('namespace-0')).toBeInTheDocument();
-    // Last tag
-    expect(screen.getByText('key-49')).toBeInTheDocument();
-    expect(screen.getByText('value-49')).toBeInTheDocument();
-    expect(screen.getByText('namespace-49')).toBeInTheDocument();
-
-    const paginationRangeButtons = screen.getAllByRole('button', {
-      name: /1 - 50 of 100/,
-    });
-    expect(paginationRangeButtons.length).toBeGreaterThanOrEqual(1);
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  it('should paginate to second page', async () => {
-    const user = userEvent.setup();
-    render(<TagsModalTable tags={TAGS_100} />);
-
-    const nextPageButtons = screen.getAllByRole('button', {
-      name: /go to next page/i,
-    });
-    await user.click(nextPageButtons[0]);
-
-    expect(screen.getByText('key-50')).toBeInTheDocument();
-    expect(screen.getByText('value-50')).toBeInTheDocument();
-    expect(screen.getByText('namespace-50')).toBeInTheDocument();
-    expect(screen.getByText('key-99')).toBeInTheDocument();
-    expect(screen.getByText('value-99')).toBeInTheDocument();
-    expect(screen.getByText('namespace-99')).toBeInTheDocument();
+  it('shows error state when isError is true', () => {
+    render(<TagsModalTable tags={[]} isError />);
+    expect(
+      screen.getByText('Unable to load tags', { exact: false }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/error retrieving tags/i, { exact: false }),
+    ).toBeInTheDocument();
   });
 
-  it('should search over tags', async () => {
-    const user = userEvent.setup();
-    render(<TagsModalTable tags={TAGS_100} />);
-
-    const nextPageButtons = screen.getAllByRole('button', {
-      name: /go to next page/i,
-    });
-    await user.click(nextPageButtons[0]);
-    expect(screen.queryByText('key-42')).not.toBeInTheDocument();
-
-    const searchInput = screen.getByRole('textbox', {
-      name: /tags search input/i,
-    });
-    await user.type(searchInput, 'key-42');
-
-    expect(screen.getByText('key-42')).toBeInTheDocument();
-    expect(screen.getByText('value-42')).toBeInTheDocument();
-    expect(screen.getByText('namespace-42')).toBeInTheDocument();
-
-    // Others are not visible
-    expect(screen.queryByText('key-0')).not.toBeInTheDocument();
-    expect(screen.queryByText('key-41')).not.toBeInTheDocument();
+  it('shows loading state when isLoading', () => {
+    render(<TagsModalTable tags={[]} isLoading />);
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
   });
 
-  it('should render empty state component, when zero tags are found', () => {
+  it('shows empty state when there are no tags', () => {
     render(<TagsModalTable tags={[]} />);
+    expect(screen.getByText(/No matching tags found/i)).toBeInTheDocument();
+  });
 
+  it('renders tag rows with column headers', () => {
+    render(<TagsModalTable tags={TAGS_SAMPLE} />);
     expect(
-      screen.getByRole('heading', { name: /no matching tags found/i }),
+      screen.getByRole('columnheader', { name: 'Name' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('columnheader', { name: 'Value' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('columnheader', { name: 'Tag source' }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('cell', { name: 'key-0' })).toBeInTheDocument();
+    expect(screen.getByRole('cell', { name: 'value-0' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('cell', { name: 'namespace-0' }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('cell', { name: 'key-1' })).toBeInTheDocument();
+    expect(screen.getByRole('cell', { name: 'value-1' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('cell', { name: 'namespace-1' }),
+    ).toBeInTheDocument();
+  });
+
+  it('filters rows client-side by search (case-insensitive)', async () => {
+    const user = userEvent.setup();
+    render(<TagsModalTable tags={TAGS_SAMPLE} />);
+    const search = screen.getByRole('textbox', { name: /tags search input/i });
+    await user.type(search, 'VALUE-1');
+    expect(screen.getByRole('cell', { name: 'key-1' })).toBeInTheDocument();
+    expect(
+      screen.queryByRole('cell', { name: 'key-0' }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('clears client search via Reset', async () => {
+    const user = userEvent.setup();
+    render(<TagsModalTable tags={TAGS_SAMPLE} />);
+    const search = screen.getByRole('textbox', { name: /tags search input/i });
+    await user.type(search, 'nomatch');
+    expect(screen.getByText(/No matching tags found/i)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Reset' }));
+    expect(screen.getByRole('cell', { name: 'key-0' })).toBeInTheDocument();
+  });
+
+  it('delegates search to serverSearch.onChange when provided', async () => {
+    const user = userEvent.setup();
+    const onChange = jest.fn();
+    render(
+      <TagsModalTable
+        tags={TAGS_SAMPLE}
+        serverSearch={{ value: '', onChange }}
+      />,
+    );
+    const search = screen.getByRole('textbox', { name: /tags search input/i });
+    await user.type(search, 'a');
+    expect(onChange).toHaveBeenCalled();
+    const lastCall = onChange.mock.calls.at(-1)[0];
+    expect(lastCall).toBe('a');
+  });
+
+  it('shows BulkSelect when selection prop is provided', () => {
+    const selection = {
+      selected: [],
+      setSelected: jest.fn(),
+      onSelect: jest.fn(),
+      isSelected: () => false,
+    };
+    render(<TagsModalTable tags={TAGS_SAMPLE} selection={selection} />);
+    const toolbar = screen.getByTestId('tags-table-header-toolbar');
+    expect(
+      within(toolbar).getByRole('button', { name: /select/i }),
     ).toBeInTheDocument();
   });
 });

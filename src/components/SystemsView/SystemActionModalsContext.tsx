@@ -17,16 +17,26 @@ import { useKesselMigrationFeatureFlag } from '../../Utilities/hooks/useKesselMi
 import { useDeleteSystemsMutation } from './hooks/useDeleteSystemsMutation';
 import { usePatchSystemsMutation } from './hooks/usePatchSystemsMutation';
 import type { System } from './hooks/useSystemsQuery';
-import { TagsModal } from './TagsModal/TagsModal';
+import { AllTagsModal } from './TagsModal/AllTagsModal';
+import { SingleHostTagsModal } from './TagsModal/SingleHostTagsModal';
 
 type OpenModalFn = (systems: System[]) => void;
+
+export interface OpenTagsModalOptions {
+  initialTagSearch?: string;
+}
+
+export type OpenTagsModalFn = (
+  systems: System[],
+  options?: OpenTagsModalOptions,
+) => void;
 
 interface SystemActionModalsContextValue {
   openDeleteModal: OpenModalFn;
   openAddToWorkspaceModal: OpenModalFn;
   openRemoveFromWorkspaceModal: OpenModalFn;
   openEditModal: OpenModalFn;
-  openTagsModal: OpenModalFn;
+  openTagsModal: OpenTagsModalFn;
 }
 
 const SystemActionModalsContext =
@@ -65,6 +75,7 @@ export const SystemActionModalsProvider = ({
     useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [tagsModalOpen, setTagsModalOpen] = useState(false);
+  const [tagsModalInitialSearch, setTagsModalInitialSearch] = useState('');
 
   const { onDeleteConfirm } = useDeleteSystemsMutation({
     systems: systemsForAction,
@@ -118,8 +129,9 @@ export const SystemActionModalsProvider = ({
     setEditModalOpen(true);
   }, []);
 
-  const openTagsModal = useCallback((systems: System[]) => {
+  const openTagsModal = useCallback<OpenTagsModalFn>((systems, options) => {
     setSystemsForAction(systems);
+    setTagsModalInitialSearch(options?.initialTagSearch ?? '');
     setTagsModalOpen(true);
   }, []);
 
@@ -192,13 +204,26 @@ export const SystemActionModalsProvider = ({
           onSubmit={onPatchConfirm}
         />
       )}
-      {tagsModalOpen && (
-        <TagsModal
-          isOpen={tagsModalOpen}
-          system={systemsForAction[0]}
-          onClose={() => setTagsModalOpen(false)}
-        />
-      )}
+      {tagsModalOpen &&
+        (systemsForAction.length === 0 ? (
+          <AllTagsModal
+            isOpen={tagsModalOpen}
+            initialTagSearch={tagsModalInitialSearch}
+            onClose={() => {
+              setTagsModalInitialSearch('');
+              setTagsModalOpen(false);
+            }}
+          />
+        ) : (
+          <SingleHostTagsModal
+            isOpen={tagsModalOpen}
+            system={systemsForAction[0]!}
+            onClose={() => {
+              setTagsModalInitialSearch('');
+              setTagsModalOpen(false);
+            }}
+          />
+        ))}
     </SystemActionModalsContext.Provider>
   );
 };
