@@ -1,6 +1,13 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Flex, FlexItem, Grid, GridItem, Label } from '@patternfly/react-core';
+import {
+  ClipboardCopy,
+  Flex,
+  FlexItem,
+  Grid,
+  GridItem,
+  Label,
+} from '@patternfly/react-core';
 import {
   Skeleton,
   SkeletonSize,
@@ -27,79 +34,91 @@ const FactsInfo = ({
   loaded,
   LastSeenWrapper = Fragment,
   ...props
-}) => (
-  <Grid className="ins-entity-facts" {...props}>
-    <GridItem md={6}>
-      <Flex>
-        <FlexItem>UUID:</FlexItem>
-        <FlexItem grow={{ default: 'grow' }}>
-          {loaded ? (
-            getFact(`id`, entity) || ' '
-          ) : (
-            <Skeleton size={SkeletonSize.md} fontSize="sm" />
-          )}
-        </FlexItem>
-      </Flex>
-      <Flex>
-        <FlexItem>Last seen:</FlexItem>
-        <FlexItem grow={{ default: 'grow' }}>
-          {loaded ? (
-            <LastSeenWrapper>
-              {CullingInformation ? (
-                <CullingInformation
-                  culled={getFact('culled_timestamp', entity)}
-                  staleWarning={getFact('stale_warning_timestamp', entity)}
-                  stale={getFact('stale_timestamp', entity)}
-                  currDate={new Date()}
-                >
+}) => {
+  const [id, setId] = useState(null);
+
+  useEffect(() => {
+    setId(getFact(`id`, entity));
+  }, [entity]);
+
+  return (
+    <Grid className="ins-entity-facts" {...props}>
+      <GridItem md={6}>
+        <Flex>
+          <FlexItem>UUID:</FlexItem>
+          <FlexItem grow={{ default: 'grow' }}>
+            {loaded ? (
+              id ? (
+                <ClipboardCopy variant="inline-compact">{id}</ClipboardCopy>
+              ) : (
+                ' '
+              )
+            ) : (
+              <Skeleton size={SkeletonSize.md} fontSize="sm" />
+            )}
+          </FlexItem>
+        </Flex>
+        <Flex>
+          <FlexItem>Last seen:</FlexItem>
+          <FlexItem grow={{ default: 'grow' }}>
+            {loaded ? (
+              <LastSeenWrapper>
+                {CullingInformation ? (
+                  <CullingInformation
+                    culled={getFact('culled_timestamp', entity)}
+                    staleWarning={getFact('stale_warning_timestamp', entity)}
+                    stale={getFact('stale_timestamp', entity)}
+                    currDate={new Date()}
+                  >
+                    <DateFormat
+                      date={getFact('last_check_in', entity)}
+                      type="exact"
+                    />
+                  </CullingInformation>
+                ) : (
                   <DateFormat
                     date={getFact('last_check_in', entity)}
                     type="exact"
                   />
-                </CullingInformation>
-              ) : (
-                <DateFormat
-                  date={getFact('last_check_in', entity)}
-                  type="exact"
-                />
-              )}
-            </LastSeenWrapper>
-          ) : (
-            <Skeleton size={SkeletonSize.md} fontSize="sm" />
-          )}
-          {loaded &&
-            verifyCulledReporter(
-              getFact('per_reporter_staleness', entity),
-              REPORTER_PUPTOO,
-            ) && <InsightsDisconnected />}
-        </FlexItem>
-      </Flex>
-      <Flex>
-        <FlexItem>
-          {loaded &&
-            entity?.system_profile?.operating_system?.name ===
-              'CentOS Linux' && (
-              <div>
-                <Label color="teal">CentOS Linux</Label>
-              </div>
+                )}
+              </LastSeenWrapper>
+            ) : (
+              <Skeleton size={SkeletonSize.md} fontSize="sm" />
             )}
-        </FlexItem>
-        <FlexItem>
-          {loaded ? (
-            <OsModeLabel
-              osMode={
-                entity?.system_profile?.bootc_status?.booted?.image_digest ||
-                entity?.system_profile?.host_type === 'edge'
-                  ? 'image'
-                  : 'package'
-              }
-            />
-          ) : null}
-        </FlexItem>
-      </Flex>
-    </GridItem>
-  </Grid>
-);
+            {loaded &&
+              verifyCulledReporter(
+                getFact('per_reporter_staleness', entity),
+                REPORTER_PUPTOO,
+              ) && <InsightsDisconnected />}
+          </FlexItem>
+        </Flex>
+        <Flex>
+          <FlexItem>
+            {loaded &&
+              entity?.system_profile?.operating_system?.name ===
+                'CentOS Linux' && (
+                <div>
+                  <Label color="teal">CentOS Linux</Label>
+                </div>
+              )}
+          </FlexItem>
+          <FlexItem>
+            {loaded ? (
+              <OsModeLabel
+                osMode={
+                  entity?.system_profile?.bootc_status?.booted?.image_digest ||
+                  entity?.system_profile?.host_type === 'edge'
+                    ? 'image'
+                    : 'package'
+                }
+              />
+            ) : null}
+          </FlexItem>
+        </Flex>
+      </GridItem>
+    </Grid>
+  );
+};
 
 FactsInfo.propTypes = {
   loaded: PropTypes.bool,
