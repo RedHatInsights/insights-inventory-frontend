@@ -1,5 +1,6 @@
-import React, { Ref, useMemo, useState } from 'react';
+import React, { Ref, useId, useMemo, useState } from 'react';
 import {
+  Checkbox,
   MenuToggle,
   Select,
   SelectList,
@@ -7,6 +8,8 @@ import {
   Spinner,
   MenuToggleElement,
 } from '@patternfly/react-core';
+import { css } from '@patternfly/react-styles';
+import menuStyles from '@patternfly/react-styles/css/components/Menu/menu';
 import xor from 'lodash/xor';
 import { useOperatingSystemsQuery } from '../hooks/useOperatingSystemsQuery';
 import {
@@ -14,9 +17,7 @@ import {
   mapOperatingSystemApiResultsToVersionRows,
   type OperatingSystemSelectGroup,
 } from '../utils/operatingSystemSelectOptions';
-
-const MAJOR_TOKEN_PREFIX = '__major__|';
-const FILTER_DROPDOWN_WIDTH = '300px';
+import { FILTER_DROPDOWN_WIDTH } from '../constants';
 
 interface OperatingSystemsFilterProps {
   placeholder?: string;
@@ -24,17 +25,55 @@ interface OperatingSystemsFilterProps {
   onChange?: (event?: React.MouseEvent, values?: string[]) => void;
 }
 
-const majorSelectValue = (group: OperatingSystemSelectGroup) =>
-  `${MAJOR_TOKEN_PREFIX}${group.label}`;
-
 const groupTokens = (group: OperatingSystemSelectGroup): string[] =>
   group.items.map((item) => `${group.value}:${item.value}`);
+
+/* PF MenuItem doesn't support indeterminate checkbox state,
+ so we've re-created custom OsFilterOption which does */
+const OsFilterOption = ({
+  id,
+  text,
+  isChecked,
+  onCheckboxChange,
+  listItemClassName,
+}: {
+  id: string;
+  text: string;
+  isChecked: boolean | null;
+  onCheckboxChange: (
+    event: React.FormEvent<HTMLInputElement>,
+    checked: boolean,
+  ) => void;
+  listItemClassName?: string;
+}) => (
+  <li
+    className={css(menuStyles.menuListItem, listItemClassName)}
+    role="option"
+    aria-selected={isChecked === true}
+  >
+    <label className={css(menuStyles.menuItem)} htmlFor={id} tabIndex={-1}>
+      <span className={css(menuStyles.menuItemMain)}>
+        <span className={css(menuStyles.menuItemCheck)}>
+          <Checkbox
+            id={id}
+            component="span"
+            isChecked={isChecked}
+            onChange={onCheckboxChange}
+            aria-label={text}
+          />
+        </span>
+        <span className={css(menuStyles.menuItemText)}>{text}</span>
+      </span>
+    </label>
+  </li>
+);
 
 export const OperatingSystemsFilter = ({
   placeholder,
   value = [],
   onChange,
 }: OperatingSystemsFilterProps) => {
+  const idPrefix = useId();
   const [isOpen, setIsOpen] = useState(false);
   const { data, isLoading, isError, isFetched } = useOperatingSystemsQuery({
     enabled: isOpen,
@@ -55,32 +94,11 @@ export const OperatingSystemsFilter = ({
     </MenuToggle>
   );
 
-  const onSelect = (
-    _event: React.MouseEvent | undefined,
-    selected: string | number | undefined,
+  const notifyChange = (
+    event: React.FormEvent<HTMLInputElement>,
+    next: string[],
   ) => {
-    if (selected === undefined) {
-      return;
-    }
-    const selectedStr = String(selected);
-    if (selectedStr.startsWith(MAJOR_TOKEN_PREFIX)) {
-      const label = selectedStr.slice(MAJOR_TOKEN_PREFIX.length);
-      const group = groups.find((g) => g.label === label);
-      if (!group) {
-        return;
-      }
-      const tokens = groupTokens(group);
-      if (!tokens.length) {
-        return;
-      }
-      const allSelected = tokens.every((t) => value.includes(t));
-      const next = allSelected
-        ? value.filter((t) => !tokens.includes(t))
-        : [...new Set([...value, ...tokens])];
-      onChange?.(_event, next);
-      return;
-    }
-    onChange?.(_event, xor(value, [selectedStr]));
+    onChange?.(event as unknown as React.MouseEvent, next);
   };
 
   return (
@@ -88,7 +106,6 @@ export const OperatingSystemsFilter = ({
       id="operating-systems-filter-select"
       isOpen={isOpen}
       selected={value}
-      onSelect={onSelect}
       onOpenChange={(open) => setIsOpen(open)}
       toggle={toggle}
       isScrollable
@@ -112,7 +129,7 @@ export const OperatingSystemsFilter = ({
         )}
         {!isLoading &&
           !isError &&
-          groups.map((group) => {
+          groups.map((group, groupIndex) => {
             const tokens = groupTokens(group);
             const selectedCount = tokens.filter((t) =>
               value.includes(t),
@@ -120,29 +137,49 @@ export const OperatingSystemsFilter = ({
             const allSelected =
               tokens.length > 0 && selectedCount === tokens.length;
             const someSelected = selectedCount > 0 && !allSelected;
+            const majorChecked: boolean | null = allSelected
+              ? true
+              : someSelected
+                ? null
+                : false;
 
             return (
               <React.Fragment key={group.label}>
-                <SelectOption
-                  value={majorSelectValue(group)}
-                  hasCheckbox
-                  isSelected={allSelected}
-                  {...(someSelected ? { isIndeterminate: true } : {})}
-                >
-                  {group.label}
-                </SelectOption>
-                {group.items.map((item) => {
+                <OsFilterOption
+                  id={`${idPrefix}-major-${groupIndex}`}
+                  text={group.label}
+                  isChecked={majorChecked}
+                  onCheckboxChange={(event, checked) => {
+                    if (!tokens.length) {
+                      return;
+                    }
+                    // if indeterminate, we clear the group instead
+                    if (someSelected) {
+                      notifyChange(
+                        event,
+                        value.filter((t) => !tokens.includes(t)),
+                      );
+                      return;
+                    }
+                    const next = checked
+                      ? [...new Set([...value, ...tokens])]
+                      : value.filter((t) => !tokens.includes(t));
+                    notifyChange(event, next);
+                  }}
+                />
+                {group.items.map((item, itemIndex) => {
                   const token = `${group.value}:${item.value}`;
                   return (
-                    <SelectOption
+                    <OsFilterOption
                       key={token}
-                      value={token}
-                      hasCheckbox
-                      isSelected={value.includes(token)}
-                      className="pf-v6-u-pl-lg"
-                    >
-                      {item.label}
-                    </SelectOption>
+                      id={`${idPrefix}-g${groupIndex}-i${itemIndex}`}
+                      text={item.label}
+                      isChecked={value.includes(token)}
+                      listItemClassName="pf-v6-u-pl-lg"
+                      onCheckboxChange={(event) => {
+                        notifyChange(event, xor(value, [token]));
+                      }}
+                    />
                   );
                 })}
               </React.Fragment>
