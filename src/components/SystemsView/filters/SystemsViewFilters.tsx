@@ -69,6 +69,28 @@ export const SystemsViewFilters = ({ pagination }: SystemsViewFiltersProps) => {
             { label: 'Stale warning', value: 'stale_warning' },
           ]}
         />
+        <DataViewCustomFilter
+          filterId="operating_system"
+          title="Operating system"
+          placeholder="Filter by operating system"
+          ouiaId="SystemsViewOperatingSystemsFilter"
+          filterComponent={OperatingSystemsFilter}
+          createLabel={(value, title) =>
+            value?.map((item: string) => ({
+              key: title,
+              node: item.replace(':', ' '),
+            })) ?? []
+          }
+          deleteLabel={(_category, label, value, onChange) => {
+            const chipText = isToolbarLabel(label)
+              ? String(label.node)
+              : String(label);
+            onChange?.(
+              undefined,
+              value?.filter((item) => item.replace(':', ' ') !== chipText),
+            );
+          }}
+        />
         <DataViewCheckboxFilter
           filterId="source"
           title="Data Collector"
@@ -106,28 +128,6 @@ export const SystemsViewFilters = ({ pagination }: SystemsViewFiltersProps) => {
             { label: 'Package-based system', value: 'conventional' },
             { label: 'Image-based system', value: 'image' },
           ]}
-        />
-        <DataViewCustomFilter
-          filterId="operating_system"
-          title="Operating system"
-          placeholder="Filter by operating system"
-          ouiaId="SystemsViewOperatingSystemsFilter"
-          filterComponent={OperatingSystemsFilter}
-          createLabel={(value, title) =>
-            value?.map((item: string) => ({
-              key: title,
-              node: item.replace(':', ' '),
-            })) ?? []
-          }
-          deleteLabel={(_category, label, value, onChange) => {
-            const chipText = isToolbarLabel(label)
-              ? String(label.node)
-              : String(label);
-            onChange?.(
-              undefined,
-              value?.filter((item) => item.replace(':', ' ') !== chipText),
-            );
-          }}
         />
         <DataViewCustomFilter
           filterId="workspace"

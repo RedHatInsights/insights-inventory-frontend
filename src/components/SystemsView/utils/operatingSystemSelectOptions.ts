@@ -23,10 +23,26 @@ export type OperatingSystemProfileFilter = Record<
   { version: { eq: string[] } }
 >;
 
+export const toOsToken = (os: string, version: string) => `${os}:${version}`;
+export const fromOsToken = (token: string) => {
+  const [os, version] = token.split(':', 2);
+  return { os, version };
+};
+
+/**
+ * Maps one `OperatingSystemSelectGroup` to `${osName}:${major.minor}` tokens stored in toolbar filter state.
+ *
+ *  @param group - One major-version group from the OS filter (`value` is the OS name; each item is `major.minor`)
+ *  @returns     Token strings such as `RHEL:9.0`, one per item in the group
+ */
+export const buildOsFilterTokens = (
+  group: OperatingSystemSelectGroup,
+): string[] => group.items.map((item) => toOsToken(group.value, item.value));
+
 /**
  * Maps `${osName}:${major.minor}` tokens to `filter.system_profile.operating_system` for the host list API.
  *
- *  @param tokens - Toolbar selections (e.g. `RHEL:9.0`), or undefined
+ *  @param tokens - Toolbar Filter selection (e.g. `RHEL:9.0`), or undefined
  *  @returns      Profile Filter or undefined when there is nothing to filter
  */
 export const buildOperatingSystemProfileFilter = (
@@ -37,25 +53,19 @@ export const buildOperatingSystemProfileFilter = (
   }
 
   const byOs: Record<string, string[]> = {};
-
   for (const token of tokens) {
-    const index = token.indexOf(':');
-    if (index === -1) {
+    const { os, version } = fromOsToken(token);
+    if (!os || !version) {
       continue;
     }
-    const osName = token.slice(0, index);
-    const version = token.slice(index + 1);
-    if (!osName || !version) {
-      continue;
+    if (!byOs[os]) {
+      byOs[os] = [];
     }
-    if (!byOs[osName]) {
-      byOs[osName] = [];
-    }
-    byOs[osName].push(version);
+    byOs[os].push(version);
   }
 
-  const entries = Object.entries(byOs).map(([osName, versions]) => [
-    osName,
+  const entries = Object.entries(byOs).map(([os, versions]) => [
+    os,
     { version: { eq: [...new Set(versions)] } },
   ]);
 

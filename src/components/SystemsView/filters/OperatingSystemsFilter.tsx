@@ -14,8 +14,8 @@ import xor from 'lodash/xor';
 import { useOperatingSystemsQuery } from '../hooks/useOperatingSystemsQuery';
 import {
   buildOperatingSystemSelectGroups,
+  buildOsFilterTokens,
   mapOperatingSystemApiResultsToVersionRows,
-  type OperatingSystemSelectGroup,
 } from '../utils/operatingSystemSelectOptions';
 import { FILTER_DROPDOWN_WIDTH } from '../constants';
 
@@ -24,9 +24,6 @@ interface OperatingSystemsFilterProps {
   value?: string[];
   onChange?: (event?: React.MouseEvent, values?: string[]) => void;
 }
-
-const groupTokens = (group: OperatingSystemSelectGroup): string[] =>
-  group.items.map((item) => `${group.value}:${item.value}`);
 
 /* PF MenuItem doesn't support indeterminate checkbox state,
  so we've re-created custom OsFilterOption which does */
@@ -94,11 +91,8 @@ export const OperatingSystemsFilter = ({
     </MenuToggle>
   );
 
-  const notifyChange = (
-    event: React.FormEvent<HTMLInputElement>,
-    next: string[],
-  ) => {
-    onChange?.(event as unknown as React.MouseEvent, next);
+  const notifyChange = (next: string[]) => {
+    onChange?.(undefined, next);
   };
 
   return (
@@ -130,7 +124,7 @@ export const OperatingSystemsFilter = ({
         {!isLoading &&
           !isError &&
           groups.map((group, groupIndex) => {
-            const tokens = groupTokens(group);
+            const tokens = buildOsFilterTokens(group);
             const selectedCount = tokens.filter((t) =>
               value.includes(t),
             ).length;
@@ -149,22 +143,19 @@ export const OperatingSystemsFilter = ({
                   id={`${idPrefix}-major-${groupIndex}`}
                   text={group.label}
                   isChecked={majorChecked}
-                  onCheckboxChange={(event, checked) => {
+                  onCheckboxChange={(_event, checked) => {
                     if (!tokens.length) {
                       return;
                     }
                     // if indeterminate, we clear the group instead
                     if (someSelected) {
-                      notifyChange(
-                        event,
-                        value.filter((t) => !tokens.includes(t)),
-                      );
+                      notifyChange(value.filter((t) => !tokens.includes(t)));
                       return;
                     }
                     const next = checked
                       ? [...new Set([...value, ...tokens])]
                       : value.filter((t) => !tokens.includes(t));
-                    notifyChange(event, next);
+                    notifyChange(next);
                   }}
                 />
                 {group.items.map((item, itemIndex) => {
@@ -176,8 +167,8 @@ export const OperatingSystemsFilter = ({
                       text={item.label}
                       isChecked={value.includes(token)}
                       listItemClassName="pf-v6-u-pl-lg"
-                      onCheckboxChange={(event) => {
-                        notifyChange(event, xor(value, [token]));
+                      onCheckboxChange={() => {
+                        notifyChange(xor(value, [token]));
                       }}
                     />
                   );
