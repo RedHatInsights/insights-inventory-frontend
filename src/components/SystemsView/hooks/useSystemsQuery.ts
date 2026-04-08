@@ -8,6 +8,7 @@ import {
 import qs from 'qs';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import { SortDirection } from '../SystemsView';
+import { buildOperatingSystemProfileFilter } from '../utils/operatingSystemSelectOptions';
 
 const serializeSystemType = (values: string[]) => {
   const validValues = Object.values(ApiHostGetHostListSystemTypeEnum);
@@ -37,6 +38,19 @@ const fetchSystems = async ({
   sortBy,
   direction,
 }: FetchSystemsParams) => {
+  const operatingSystemFilter = buildOperatingSystemProfileFilter(
+    filters.operating_system,
+  );
+
+  const systemProfileFilter: Record<string, unknown> = {
+    ...(filters?.rhcStatus?.length && {
+      rhc_client_id: filters.rhcStatus,
+    }),
+    ...(operatingSystemFilter && { operating_system: operatingSystemFilter }),
+  };
+
+  const hasSystemProfileFilter = Object.keys(systemProfileFilter).length > 0;
+
   const params: ApiHostGetHostListParams = {
     page,
     perPage,
@@ -70,11 +84,9 @@ const fetchSystems = async ({
             'host_type',
           ],
         },
-        ...(filters?.rhcStatus && {
+        ...(hasSystemProfileFilter && {
           filter: {
-            system_profile: {
-              rhc_client_id: filters.rhcStatus,
-            },
+            system_profile: systemProfileFilter,
           },
         }),
       },

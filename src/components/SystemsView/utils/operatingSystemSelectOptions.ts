@@ -17,6 +17,55 @@ export interface OperatingSystemSelectGroup {
   items: OperatingSystemSelectItem[];
 }
 
+/** Nested `filter.system_profile.operating_system` fragment for host list API */
+export type OperatingSystemProfileFilter = Record<
+  string,
+  { version: { eq: string[] } }
+>;
+
+/**
+ * Maps `${osName}:${major.minor}` tokens to `filter.system_profile.operating_system` for the host list API.
+ *
+ *  @param tokens - Toolbar selections (e.g. `RHEL:9.0`), or undefined
+ *  @returns      Profile Filter or undefined when there is nothing to filter
+ */
+export const buildOperatingSystemProfileFilter = (
+  tokens: string[] | undefined,
+): OperatingSystemProfileFilter | undefined => {
+  if (!tokens?.length) {
+    return undefined;
+  }
+
+  const byOs: Record<string, string[]> = {};
+
+  for (const token of tokens) {
+    const index = token.indexOf(':');
+    if (index === -1) {
+      continue;
+    }
+    const osName = token.slice(0, index);
+    const version = token.slice(index + 1);
+    if (!osName || !version) {
+      continue;
+    }
+    if (!byOs[osName]) {
+      byOs[osName] = [];
+    }
+    byOs[osName].push(version);
+  }
+
+  const entries = Object.entries(byOs).map(([osName, versions]) => [
+    osName,
+    { version: { eq: [...new Set(versions)] } },
+  ]);
+
+  if (!entries.length) {
+    return undefined;
+  }
+
+  return Object.fromEntries(entries);
+};
+
 export const mapOperatingSystemApiResultsToVersionRows = (
   results: SystemProfileOperatingSystemOut['results'] | undefined,
 ): OperatingSystemVersionRow[] => {

@@ -11,6 +11,7 @@ export const INITIAL_INVENTORY_FILTERS: InventoryFilters = {
   workspace: [],
   last_seen: undefined,
   tags: [],
+  operating_system: [],
 };
 
 export interface DataViewFiltersContextValue {
