@@ -40,6 +40,11 @@ import { useDebouncedValue } from '../../Utilities/hooks/useDebouncedValue';
 import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
 import { PER_PAGE } from '../../constants';
 import { DEBOUNCE_TIMEOUT_MS } from '../../constants';
+import { useOperatingSystemsQuery } from './hooks/useOperatingSystemsQuery';
+import {
+  buildOperatingSystemSelectGroups,
+  mapOperatingSystemApiResultsToVersionRows,
+} from './utils/operatingSystemSelectOptions';
 
 export type SortDirection = ISortBy['direction'];
 export type SortBy = ApiOrderByEnum | undefined;
@@ -59,6 +64,12 @@ const SystemsViewInner = ({
   setSearchParams,
 }: SystemsViewInnerProps) => {
   const { filters, clearAllFilters } = useDataViewFiltersContext();
+
+  // TODO remove after implementing Operating Systems filter
+  // const { data: osData, total: osTotal } = useOperatingSystemsQuery();
+  // const osVersionRows = mapOperatingSystemApiResultsToVersionRows(osData);
+  // const osGroupItems = buildOperatingSystemSelectGroups(osVersionRows);
+  // console.log({ osData, osTotal, osVersionRows, osGroupItems });
 
   const debouncedName = useDebouncedValue(
     filters.hostname_or_id,
