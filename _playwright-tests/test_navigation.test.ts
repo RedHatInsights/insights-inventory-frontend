@@ -29,6 +29,7 @@ test.describe('Navigate to Inventory pages via side Navigation bar', () => {
   test('User can switch to the Images view in Inventory page', async ({
     page,
   }) => {
+    test.fixme(true, 'https://redhat.atlassian.net/browse/RHINENG-25470');
     const systemsPageNav = page
       .locator('li[data-ouia-component-id="Systems"]')
       .locator('a[data-quickstart-id="insights_inventory"]');
