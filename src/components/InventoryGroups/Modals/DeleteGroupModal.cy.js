@@ -36,10 +36,7 @@ describe('multiple non-empty groups', () => {
   });
 
   it('renders correct content', () => {
-    cy.get('h1').should(
-      'have.text',
-      'Danger alert:Cannot delete workspaces at this time',
-    );
+    cy.get('h1').should('have.text', 'Danger alert:Cannot delete workspaces');
     cy.get('p').should(
       'contain.text',
       `Workspaces containing systems cannot be deleted.`,
@@ -183,10 +180,7 @@ describe('single non-empty group', () => {
   });
 
   it('renders correct content', () => {
-    cy.get('h1').should(
-      'have.text',
-      'Danger alert:Cannot delete workspace at this time',
-    );
+    cy.get('h1').should('have.text', 'Danger alert:Cannot delete workspace');
     cy.get('p').should(
       'have.text',
       `Workspaces containing systems cannot be deleted. To delete ${fixtures.results[0].name}, first remove all of the systems from it.`,

@@ -18,7 +18,10 @@ export interface LastSeenFilterItem {
 
 export interface LastSeenFilterProps {
   value?: LastSeenFilterItem;
-  onChange?: (event: unknown, value: LastSeenFilterItem | undefined) => void;
+  onChange?: (
+    event?: React.MouseEvent,
+    values?: LastSeenFilterItem | undefined,
+  ) => void;
 }
 const LastSeenFilter: FC<LastSeenFilterProps> = ({ value, onChange }) => {
   const selectedLabel = value?.label;

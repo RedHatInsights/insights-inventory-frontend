@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { getHostList, getHostTags } from '../../../api/hostInventoryApiTyped';
 import { InventoryFilters } from '../filters/SystemsViewFilters';
 import {
@@ -38,7 +38,6 @@ const fetchSystems = async ({
   direction,
 }: FetchSystemsParams) => {
   const params: ApiHostGetHostListParams = {
-    tags: [],
     page,
     perPage,
     ...(sortBy && { orderBy: sortBy }),
@@ -50,6 +49,7 @@ const fetchSystems = async ({
       systemType: serializeSystemType(filters.system_type),
     }),
     ...(filters?.workspace && { groupName: filters.workspace }),
+    ...(filters?.tags && { tags: filters.tags }),
     ...(filters?.last_seen && {
       lastCheckInStart: filters.last_seen?.start,
       lastCheckInEnd: filters.last_seen?.end,
@@ -121,6 +121,7 @@ export const useSystemsQuery = ({
     queryFn: async () => {
       return await fetchSystems({ page, perPage, filters, sortBy, direction });
     },
+    placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
     enabled,
   });

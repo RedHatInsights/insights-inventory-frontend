@@ -22,6 +22,12 @@ import {
   ApiHostPatchHostByIdParams,
   ApiHostPatchHostByIdReturnType,
 } from '@redhat-cloud-services/host-inventory-client/ApiHostPatchHostById';
+import type { ApiTagGetTagsParams } from '@redhat-cloud-services/host-inventory-client/ApiTagGetTags';
+import type {
+  ApiSystemProfileGetOperatingSystemParams,
+  ApiSystemProfileGetOperatingSystemReturnType,
+} from '@redhat-cloud-services/host-inventory-client/ApiSystemProfileGetOperatingSystem';
+import type { ActiveTags } from '@redhat-cloud-services/host-inventory-client';
 
 export type {
   HostOut,
@@ -95,4 +101,20 @@ export const patchHostById = async (
   return (await hostInventoryApi().apiHostPatchHostById(
     params,
   )) as unknown as ApiHostPatchHostByIdReturnType;
+};
+
+export const getTagList = async (
+  params: ApiTagGetTagsParams = {},
+): Promise<ActiveTags> => {
+  return (await hostInventoryApi().apiTagGetTags(
+    params,
+  )) as unknown as ActiveTags;
+};
+
+export const getOperatingSystems = async (
+  params: ApiSystemProfileGetOperatingSystemParams = {},
+): Promise<ApiSystemProfileGetOperatingSystemReturnType> => {
+  return (await hostInventoryApi().apiSystemProfileGetOperatingSystem(
+    params,
+  )) as unknown as ApiSystemProfileGetOperatingSystemReturnType;
 };
