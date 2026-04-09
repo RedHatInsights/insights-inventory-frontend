@@ -117,8 +117,8 @@ const DeleteGroupModal = ({
       <ModalHeader
         title={
           fetchedGroups.length > 1
-            ? 'Cannot delete workspaces at this time'
-            : 'Cannot delete workspace at this time'
+            ? 'Cannot delete workspaces'
+            : 'Cannot delete workspace'
         }
         titleIconVariant="danger"
       />

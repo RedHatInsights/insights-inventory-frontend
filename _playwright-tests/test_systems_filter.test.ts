@@ -30,6 +30,7 @@ test.describe('Filtering Systems Tests', () => {
   });
 
   test('User can filter systems by System type', async ({ page }) => {
+    test.fixme(true, 'https://redhat.atlassian.net/browse/RHINENG-25470');
     /**
      * Metadata:
        - requirements:
