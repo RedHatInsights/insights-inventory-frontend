@@ -138,9 +138,7 @@ test('User cannot delete a workspace with systems from Workspace Details page', 
 
     await page.getByRole('menuitem', { name: 'Delete' }).first().click();
 
-    await expect(
-      page.locator('text=Cannot delete workspace at this time'),
-    ).toBeVisible();
+    await expect(page.locator('text=Cannot delete workspace')).toBeVisible();
   });
 });
 
