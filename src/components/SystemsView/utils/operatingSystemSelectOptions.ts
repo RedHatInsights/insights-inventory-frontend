@@ -17,6 +17,65 @@ export interface OperatingSystemSelectGroup {
   items: OperatingSystemSelectItem[];
 }
 
+/** Nested `filter.system_profile.operating_system` fragment for host list API */
+export type OperatingSystemProfileFilter = Record<
+  string,
+  { version: { eq: string[] } }
+>;
+
+export const toOsToken = (os: string, version: string) => `${os}:${version}`;
+export const fromOsToken = (token: string) => {
+  const [os, version] = token.split(':', 2);
+  return { os, version };
+};
+
+/**
+ * Maps one `OperatingSystemSelectGroup` to `${osName}:${major.minor}` tokens stored in toolbar filter state.
+ *
+ *  @param group - One major-version group from the OS filter (`value` is the OS name; each item is `major.minor`)
+ *  @returns     Token strings such as `RHEL:9.0`, one per item in the group
+ */
+export const buildOsFilterTokens = (
+  group: OperatingSystemSelectGroup,
+): string[] => group.items.map((item) => toOsToken(group.value, item.value));
+
+/**
+ * Maps `${osName}:${major.minor}` tokens to `filter.system_profile.operating_system` for the host list API.
+ *
+ *  @param tokens - Toolbar Filter selection (e.g. `RHEL:9.0`), or undefined
+ *  @returns      Profile Filter or undefined when there is nothing to filter
+ */
+export const buildOperatingSystemProfileFilter = (
+  tokens: string[] | undefined,
+): OperatingSystemProfileFilter | undefined => {
+  if (!tokens?.length) {
+    return undefined;
+  }
+
+  const byOs: Record<string, string[]> = {};
+  for (const token of tokens) {
+    const { os, version } = fromOsToken(token);
+    if (!os || !version) {
+      continue;
+    }
+    if (!byOs[os]) {
+      byOs[os] = [];
+    }
+    byOs[os].push(version);
+  }
+
+  const entries = Object.entries(byOs).map(([os, versions]) => [
+    os,
+    { version: { eq: [...new Set(versions)] } },
+  ]);
+
+  if (!entries.length) {
+    return undefined;
+  }
+
+  return Object.fromEntries(entries);
+};
+
 export const mapOperatingSystemApiResultsToVersionRows = (
   results: SystemProfileOperatingSystemOut['results'] | undefined,
 ): OperatingSystemVersionRow[] => {
