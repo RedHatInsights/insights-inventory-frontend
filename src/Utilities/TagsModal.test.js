@@ -243,6 +243,7 @@ describe('TagsModal', () => {
         }),
       );
       const actions = store.getActions();
+      // Open: ALL_TAGS_PENDING, ALL_TAGS_FULFILLED; close: restore dropdown tags then hide modal
       expect(actions[0]).toMatchObject({
         type: 'ALL_TAGS_PENDING',
       });
@@ -250,8 +251,14 @@ describe('TagsModal', () => {
         type: 'ALL_TAGS_FULFILLED',
       });
       expect(actions[2]).toMatchObject({
+        type: 'ALL_TAGS_PENDING',
+      });
+      expect(actions[3]).toMatchObject({
         payload: { isOpen: false },
         type: 'TOGGLE_TAG_MODAL',
+      });
+      expect(actions[4]).toMatchObject({
+        type: 'ALL_TAGS_FULFILLED',
       });
     });
 
