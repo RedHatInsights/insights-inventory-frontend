@@ -44,6 +44,14 @@ const appList = {
       systemProfilePrefetched: true,
     },
     {
+      title: 'Content',
+      name: 'patch',
+      component: (props) => (
+        <ApplicationTab appName="patch" title="Content" {...props} />
+      ),
+      nonEdge: true,
+    },
+    {
       title: 'Advisor',
       name: 'advisor',
       component: (props) => (
@@ -69,14 +77,6 @@ const appList = {
       ),
       nonEdge: true,
       nonImage: true,
-    },
-    {
-      title: 'Content',
-      name: 'patch',
-      component: (props) => (
-        <ApplicationTab appName="patch" title="Content" {...props} />
-      ),
-      nonEdge: true,
     },
     {
       title: 'Resource Optimization',
