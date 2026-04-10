@@ -41,7 +41,7 @@ export const WorkspaceFilter = ({
   const INITIAL_VISIBLE_SIZE = PAGE_SIZE;
   const VIEW_MORE_SIZE = PAGE_SIZE;
   const LOADER_ID = 'loader';
-  // TODO plug in access control solution
+  const UNGROUPED_ID = 'Ungrouped hosts';
   const hasAccess = true;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -91,7 +91,9 @@ export const WorkspaceFilter = ({
       }));
 
     return [
-      ...(debouncedSearch ? [] : [{ itemId: '', children: 'Ungrouped hosts' }]),
+      ...(debouncedSearch
+        ? []
+        : [{ itemId: UNGROUPED_ID, children: UNGROUPED_ID }]),
       ...items,
     ];
   }, [data, debouncedSearch]);
@@ -208,7 +210,7 @@ export const WorkspaceFilter = ({
                       hasCheckbox={true}
                       {...option}
                     />
-                    {option.itemId === '' && <Divider />}
+                    {option.itemId === UNGROUPED_ID && <Divider />}
                   </Fragment>
                 );
               })}
