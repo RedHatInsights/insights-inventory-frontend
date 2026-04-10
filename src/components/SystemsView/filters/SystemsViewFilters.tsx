@@ -16,6 +16,7 @@ import LastSeenFilterExtension from './LastSeenFilterExtension';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import { useDataViewFiltersContext } from '../DataViewFiltersContext';
 import { WORKLOAD_FILTER_OPTIONS } from '../utils/workloadsFilter';
+import { formatOperatingSystemChipLabel } from '../utils/operatingSystemSelectOptions';
 
 export interface InventoryFilters {
   hostname_or_id: string;
@@ -72,7 +73,7 @@ export const SystemsViewFilters = () => {
           createLabel={(value, title) =>
             value?.map((item: string) => ({
               key: title,
-              node: item.replace(':', ' '),
+              node: formatOperatingSystemChipLabel(item),
             })) ?? []
           }
           deleteLabel={(_category, label, value, onChange) => {
@@ -81,7 +82,9 @@ export const SystemsViewFilters = () => {
               : String(label);
             onChange?.(
               undefined,
-              value?.filter((item) => item.replace(':', ' ') !== chipText),
+              value?.filter(
+                (item) => formatOperatingSystemChipLabel(item) !== chipText,
+              ),
             );
           }}
         />
