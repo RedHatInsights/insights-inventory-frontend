@@ -15,8 +15,6 @@ import { ToolbarLabel } from '@patternfly/react-core';
 import LastSeenFilterExtension from './LastSeenFilterExtension';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import { useDataViewFiltersContext } from '../DataViewFiltersContext';
-import { INITIAL_PAGE } from '../../InventoryViews/constants';
-import type { Pagination } from '../SystemsView';
 
 export interface InventoryFilters {
   hostname_or_id: string;
@@ -35,11 +33,7 @@ export const isToolbarLabel = (
   label: string | ToolbarLabel,
 ): label is ToolbarLabel => typeof label === 'object' && 'key' in label;
 
-interface SystemsViewFiltersProps {
-  pagination: Pagination;
-}
-
-export const SystemsViewFilters = ({ pagination }: SystemsViewFiltersProps) => {
+export const SystemsViewFilters = () => {
   const { filters, onSetFilters } = useDataViewFiltersContext();
   const isHideRHCFilterFlagEnabled = useFeatureFlag('hbi.ui.hide_rhc_filter');
 
@@ -49,7 +43,6 @@ export const SystemsViewFilters = ({ pagination }: SystemsViewFiltersProps) => {
       <DataViewFilters
         onChange={(_, values) => {
           onSetFilters(values);
-          pagination.onSetPage(undefined, INITIAL_PAGE);
         }}
         values={filters}
       >
