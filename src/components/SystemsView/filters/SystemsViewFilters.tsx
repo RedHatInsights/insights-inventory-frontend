@@ -15,6 +15,7 @@ import { ToolbarLabel } from '@patternfly/react-core';
 import LastSeenFilterExtension from './LastSeenFilterExtension';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import { useDataViewFiltersContext } from '../DataViewFiltersContext';
+import { WORKLOAD_FILTER_OPTIONS } from '../utils/workloadsFilter';
 
 export interface InventoryFilters {
   hostname_or_id: string;
@@ -24,8 +25,8 @@ export interface InventoryFilters {
   system_type: string[];
   workspace: string[];
   tags: string[];
-  /** Selected OS minors as `${osName}:${major.minor}` (e.g. `RHEL:9.0`) */
   operating_system: string[];
+  workloads: string[];
   last_seen?: LastSeenFilterItem;
 }
 
@@ -206,6 +207,12 @@ export const SystemsViewFilters = () => {
             );
           }}
           isMultiGroup={true}
+        />
+        <DataViewCheckboxFilter
+          filterId="workloads"
+          title="Workload"
+          placeholder="Filter by workload"
+          options={[...WORKLOAD_FILTER_OPTIONS]}
         />
       </DataViewFilters>
       <LastSeenFilterExtension
