@@ -37,6 +37,7 @@ import {
   useDataViewFiltersContext,
 } from './DataViewFiltersContext';
 import { useDebouncedValue } from '../../Utilities/hooks/useDebouncedValue';
+import { useResetPage } from './hooks/useResetPage';
 import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
 import { PER_PAGE } from '../../constants';
 import { DEBOUNCE_TIMEOUT_MS } from '../../constants';
@@ -60,6 +61,15 @@ const SystemsViewInner = ({
 }: SystemsViewInnerProps) => {
   const { filters, clearAllFilters } = useDataViewFiltersContext();
 
+  const pagination = useDataViewPagination({
+    perPage: PER_PAGE,
+    page: INITIAL_PAGE,
+    searchParams,
+    setSearchParams,
+  });
+
+  useResetPage(filters, pagination);
+
   const debouncedName = useDebouncedValue(
     filters.hostname_or_id,
     DEBOUNCE_TIMEOUT_MS,
@@ -71,13 +81,6 @@ const SystemsViewInner = ({
     }),
     [filters, debouncedName],
   );
-
-  const pagination = useDataViewPagination({
-    perPage: PER_PAGE,
-    page: INITIAL_PAGE,
-    searchParams,
-    setSearchParams,
-  });
 
   const selection = useDataViewSelection({
     matchOption: (a, b) => a.id === b.id,
@@ -159,7 +162,7 @@ const SystemsViewInner = ({
                   onSelect={onBulkSelect}
                 />
               }
-              filters={<SystemsViewFilters pagination={pagination} />}
+              filters={<SystemsViewFilters />}
               actions={
                 <SystemsViewBulkActions
                   selectedSystems={selectedSystems}
