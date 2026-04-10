@@ -32,6 +32,8 @@ interface WorkspaceFilterProps {
   onChange?: (event?: React.MouseEvent, values?: string[]) => void;
 }
 
+export const UNGROUPED_ID = 'Ungrouped hosts';
+
 export const WorkspaceFilter = ({
   placeholder,
   value = [],
@@ -41,7 +43,6 @@ export const WorkspaceFilter = ({
   const INITIAL_VISIBLE_SIZE = PAGE_SIZE;
   const VIEW_MORE_SIZE = PAGE_SIZE;
   const LOADER_ID = 'loader';
-  const UNGROUPED_ID = 'Ungrouped hosts';
   const hasAccess = true;
 
   const [isOpen, setIsOpen] = useState(false);
