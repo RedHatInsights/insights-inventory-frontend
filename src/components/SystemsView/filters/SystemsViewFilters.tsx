@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  DataViewCheckboxFilter,
-  useDataViewPagination,
-} from '@patternfly/react-data-view';
+import { DataViewCheckboxFilter } from '@patternfly/react-data-view';
 import DataViewFilters from '@patternfly/react-data-view/dist/cjs/DataViewFilters';
 import {
   ApiHostGetHostListRegisteredWithEnum,
@@ -13,12 +10,12 @@ import WorkspaceFilter from './WorkspaceFilter';
 import DataViewTextFilterWithChipTitle from './DataViewTextFilterWithChipTitle';
 import LastSeenFilter, { LastSeenFilterItem } from './LastSeenFilter';
 import TagsFilter from './TagsFilter';
+import OperatingSystemsFilter from './OperatingSystemsFilter';
 import { ToolbarLabel } from '@patternfly/react-core';
 import LastSeenFilterExtension from './LastSeenFilterExtension';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import { useDataViewFiltersContext } from '../DataViewFiltersContext';
-import { INITIAL_PAGE } from '../../InventoryViews/constants';
-import type { Pagination } from '../SystemsView';
+import { WORKLOAD_FILTER_OPTIONS } from '../utils/workloadsFilter';
 
 export interface InventoryFilters {
   hostname_or_id: string;
@@ -28,6 +25,8 @@ export interface InventoryFilters {
   system_type: string[];
   workspace: string[];
   tags: string[];
+  operating_system: string[];
+  workloads: string[];
   last_seen?: LastSeenFilterItem;
 }
 
@@ -35,11 +34,7 @@ export const isToolbarLabel = (
   label: string | ToolbarLabel,
 ): label is ToolbarLabel => typeof label === 'object' && 'key' in label;
 
-interface SystemsViewFiltersProps {
-  pagination: Pagination;
-}
-
-export const SystemsViewFilters = ({ pagination }: SystemsViewFiltersProps) => {
+export const SystemsViewFilters = () => {
   const { filters, onSetFilters } = useDataViewFiltersContext();
   const isHideRHCFilterFlagEnabled = useFeatureFlag('hbi.ui.hide_rhc_filter');
 
@@ -49,7 +44,6 @@ export const SystemsViewFilters = ({ pagination }: SystemsViewFiltersProps) => {
       <DataViewFilters
         onChange={(_, values) => {
           onSetFilters(values);
-          pagination.onSetPage(undefined, INITIAL_PAGE);
         }}
         values={filters}
       >
@@ -68,6 +62,28 @@ export const SystemsViewFilters = ({ pagination }: SystemsViewFiltersProps) => {
             { label: 'Stale', value: 'stale' },
             { label: 'Stale warning', value: 'stale_warning' },
           ]}
+        />
+        <DataViewCustomFilter
+          filterId="operating_system"
+          title="Operating system"
+          placeholder="Filter by operating system"
+          ouiaId="SystemsViewOperatingSystemsFilter"
+          filterComponent={OperatingSystemsFilter}
+          createLabel={(value, title) =>
+            value?.map((item: string) => ({
+              key: title,
+              node: item.replace(':', ' '),
+            })) ?? []
+          }
+          deleteLabel={(_category, label, value, onChange) => {
+            const chipText = isToolbarLabel(label)
+              ? String(label.node)
+              : String(label);
+            onChange?.(
+              undefined,
+              value?.filter((item) => item.replace(':', ' ') !== chipText),
+            );
+          }}
         />
         <DataViewCheckboxFilter
           filterId="source"
@@ -191,6 +207,12 @@ export const SystemsViewFilters = ({ pagination }: SystemsViewFiltersProps) => {
             );
           }}
           isMultiGroup={true}
+        />
+        <DataViewCheckboxFilter
+          filterId="workloads"
+          title="Workload"
+          placeholder="Filter by workload"
+          options={[...WORKLOAD_FILTER_OPTIONS]}
         />
       </DataViewFilters>
       <LastSeenFilterExtension

@@ -37,14 +37,10 @@ import {
   useDataViewFiltersContext,
 } from './DataViewFiltersContext';
 import { useDebouncedValue } from '../../Utilities/hooks/useDebouncedValue';
+import { useResetPage } from './hooks/useResetPage';
 import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
 import { PER_PAGE } from '../../constants';
 import { DEBOUNCE_TIMEOUT_MS } from '../../constants';
-import { useOperatingSystemsQuery } from './hooks/useOperatingSystemsQuery';
-import {
-  buildOperatingSystemSelectGroups,
-  mapOperatingSystemApiResultsToVersionRows,
-} from './utils/operatingSystemSelectOptions';
 
 export type SortDirection = ISortBy['direction'];
 export type SortBy = ApiOrderByEnum | undefined;
@@ -65,11 +61,14 @@ const SystemsViewInner = ({
 }: SystemsViewInnerProps) => {
   const { filters, clearAllFilters } = useDataViewFiltersContext();
 
-  // TODO remove after implementing Operating Systems filter
-  // const { data: osData, total: osTotal } = useOperatingSystemsQuery();
-  // const osVersionRows = mapOperatingSystemApiResultsToVersionRows(osData);
-  // const osGroupItems = buildOperatingSystemSelectGroups(osVersionRows);
-  // console.log({ osData, osTotal, osVersionRows, osGroupItems });
+  const pagination = useDataViewPagination({
+    perPage: PER_PAGE,
+    page: INITIAL_PAGE,
+    searchParams,
+    setSearchParams,
+  });
+
+  useResetPage(filters, pagination);
 
   const debouncedName = useDebouncedValue(
     filters.hostname_or_id,
@@ -82,13 +81,6 @@ const SystemsViewInner = ({
     }),
     [filters, debouncedName],
   );
-
-  const pagination = useDataViewPagination({
-    perPage: PER_PAGE,
-    page: INITIAL_PAGE,
-    searchParams,
-    setSearchParams,
-  });
 
   const selection = useDataViewSelection({
     matchOption: (a, b) => a.id === b.id,
@@ -170,7 +162,7 @@ const SystemsViewInner = ({
                   onSelect={onBulkSelect}
                 />
               }
-              filters={<SystemsViewFilters pagination={pagination} />}
+              filters={<SystemsViewFilters />}
               actions={
                 <SystemsViewBulkActions
                   selectedSystems={selectedSystems}
