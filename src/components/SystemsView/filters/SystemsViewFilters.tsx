@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  DataViewCheckboxFilter,
-  useDataViewPagination,
-} from '@patternfly/react-data-view';
+import { DataViewCheckboxFilter } from '@patternfly/react-data-view';
 import DataViewFilters from '@patternfly/react-data-view/dist/cjs/DataViewFilters';
 import {
   ApiHostGetHostListRegisteredWithEnum,
@@ -13,6 +10,7 @@ import WorkspaceFilter from './WorkspaceFilter';
 import DataViewTextFilterWithChipTitle from './DataViewTextFilterWithChipTitle';
 import LastSeenFilter, { LastSeenFilterItem } from './LastSeenFilter';
 import TagsFilter from './TagsFilter';
+import OperatingSystemsFilter from './OperatingSystemsFilter';
 import { ToolbarLabel } from '@patternfly/react-core';
 import LastSeenFilterExtension from './LastSeenFilterExtension';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
@@ -28,6 +26,8 @@ export interface InventoryFilters {
   system_type: string[];
   workspace: string[];
   tags: string[];
+  /** Selected OS minors as `${osName}:${major.minor}` (e.g. `RHEL:9.0`) */
+  operating_system: string[];
   last_seen?: LastSeenFilterItem;
 }
 
@@ -68,6 +68,28 @@ export const SystemsViewFilters = ({ pagination }: SystemsViewFiltersProps) => {
             { label: 'Stale', value: 'stale' },
             { label: 'Stale warning', value: 'stale_warning' },
           ]}
+        />
+        <DataViewCustomFilter
+          filterId="operating_system"
+          title="Operating system"
+          placeholder="Filter by operating system"
+          ouiaId="SystemsViewOperatingSystemsFilter"
+          filterComponent={OperatingSystemsFilter}
+          createLabel={(value, title) =>
+            value?.map((item: string) => ({
+              key: title,
+              node: item.replace(':', ' '),
+            })) ?? []
+          }
+          deleteLabel={(_category, label, value, onChange) => {
+            const chipText = isToolbarLabel(label)
+              ? String(label.node)
+              : String(label);
+            onChange?.(
+              undefined,
+              value?.filter((item) => item.replace(':', ' ') !== chipText),
+            );
+          }}
         />
         <DataViewCheckboxFilter
           filterId="source"

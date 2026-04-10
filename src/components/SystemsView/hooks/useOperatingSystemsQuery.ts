@@ -8,7 +8,7 @@ interface UseOperatingSystemsQueryParams {
 export const useOperatingSystemsQuery = ({
   enabled = true,
 }: UseOperatingSystemsQueryParams = {}) => {
-  const { data, isLoading, isFetching, isError, error } = useQuery({
+  const { data, isLoading, isFetching, isError, error, isFetched } = useQuery({
     queryKey: ['operatingSystems'],
     queryFn: async () => await getOperatingSystems(),
     refetchOnWindowFocus: false,
@@ -22,5 +22,6 @@ export const useOperatingSystemsQuery = ({
     isFetching,
     isError,
     error,
+    isFetched,
   };
 };

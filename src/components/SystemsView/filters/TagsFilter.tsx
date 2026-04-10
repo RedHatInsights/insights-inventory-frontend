@@ -20,9 +20,7 @@ import { useDebouncedValue } from '../../../Utilities/hooks/useDebouncedValue';
 import { useSystemActionModalsContext } from '../SystemActionModalsContext';
 import { useTagsQuery } from '../hooks/useTagsQuery';
 import { DEBOUNCE_TIMEOUT_MS, PER_PAGE } from '../../../constants';
-
-const LOADER_ID = 'loader';
-const FILTER_DROPDOWN_WIDTH = '300px';
+import { FILTER_DROPDOWN_WIDTH, LOADER_ID } from '../constants';
 
 interface TagsFilterProps {
   placeholder?: string;

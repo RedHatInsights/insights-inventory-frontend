@@ -2,6 +2,7 @@ import { expect } from '@jest/globals';
 import '@testing-library/jest-dom';
 import type { OperatingSystemVersionRow } from './operatingSystemSelectOptions';
 import {
+  buildOperatingSystemProfileFilter,
   getOsSelectOptions,
   mapOperatingSystemApiResultsToVersionRows,
   osVersionSorter,
@@ -44,6 +45,35 @@ describe('osVersionSorter', () => {
     expect(
       [a, b, c].sort(osVersionSorter).map((x) => `${x.major}.${x.minor}`),
     ).toEqual(['9.0', '8.10', '8.4']);
+  });
+});
+
+describe('buildOperatingSystemProfileFilter', () => {
+  it('returns undefined for empty or undefined input', () => {
+    expect(buildOperatingSystemProfileFilter(undefined)).toBeUndefined();
+    expect(buildOperatingSystemProfileFilter([])).toBeUndefined();
+  });
+
+  it('groups tokens by OS name and dedupes versions', () => {
+    expect(
+      buildOperatingSystemProfileFilter([
+        'RHEL:9.0',
+        'RHEL:8.4',
+        'RHEL:9.0',
+        'CentOS Linux:7.9',
+      ]),
+    ).toEqual({
+      RHEL: { version: { eq: ['9.0', '8.4'] } },
+      'CentOS Linux': { version: { eq: ['7.9'] } },
+    });
+  });
+
+  it('skips malformed tokens', () => {
+    expect(
+      buildOperatingSystemProfileFilter(['nocolon', ':onlyversion', 'OK:1.0']),
+    ).toEqual({
+      OK: { version: { eq: ['1.0'] } },
+    });
   });
 });
 
