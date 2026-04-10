@@ -169,6 +169,9 @@ const EntityTableToolbar = ({
   );
 
   const isHideRHCFilterFlagEnabled = useFeatureFlag('hbi.ui.hide_rhc_filter');
+  const isHideWorkloadFilterFlagEnabled = useFeatureFlag(
+    'hbi.ui.hide_workload_filter',
+  );
 
   const activeFilters = useSelector(
     ({ entities: { activeFilters } }) => activeFilters,
@@ -286,7 +289,8 @@ const EntityTableToolbar = ({
       !hideFilters.systemTypeFilter,
     workloadFilter:
       !(hideFilters.all && hideFilters.workloadFilter !== false) &&
-      !hideFilters.workloadFilter,
+      !hideFilters.workloadFilter &&
+      !isHideWorkloadFilterFlagEnabled,
   };
   const exportConfig = useInventoryExport({
     filters: {
