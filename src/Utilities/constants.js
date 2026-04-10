@@ -159,15 +159,16 @@ export const workloadOptions = [
   { label: 'SAP', value: 'sap' },
 ];
 
+/** Maps workload filter keys to system_profile.workloads.* API filter shapes (presence). */
 export const WORKLOAD_API_MAP = {
-  sap: { sap_system: true },
-  ansible: { controller_version: 'not_nil' },
-  mssql: { version: 'not_nil' },
-  crowdstrike: { falcon_version: 'not_nil' },
-  ibm_db2: { is_running: true },
-  oracle_db: { is_running: true },
-  intersystems: { is_intersystems: true },
-  rhel_ai: { variant: 'not_nil' },
+  sap: { is: 'not_nil' },
+  ansible: { is: 'not_nil' },
+  mssql: { is: 'not_nil' },
+  crowdstrike: { is: 'not_nil' },
+  ibm_db2: { is: 'not_nil' },
+  oracle_db: { is: 'not_nil' },
+  intersystems: { is: 'not_nil' },
+  rhel_ai: { is: 'not_nil' },
 };
 
 export function filterToGroup(filter = [], valuesKey = 'values') {

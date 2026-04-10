@@ -9,6 +9,7 @@ import {
 import {
   RHCD_FILTER_KEY,
   UPDATE_METHOD_KEY,
+  WORKLOAD_API_MAP,
   allStaleFilters,
 } from '../Utilities/constants';
 import { ApiTagGetTagsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiTagGetTags';
@@ -142,17 +143,6 @@ const buildOperatingSystemFilter = (osFilterState = {}) => {
         },
       };
     }, {});
-};
-
-const WORKLOAD_API_MAP = {
-  sap: { is: 'not_nil' },
-  ansible: { is: 'not_nil' },
-  mssql: { is: 'not_nil' },
-  crowdstrike: { is: 'not_nil' },
-  ibm_db2: { is: 'not_nil' },
-  oracle_db: { is: 'not_nil' },
-  intersystems: { is: 'not_nil' },
-  rhel_ai: { is: 'not_nil' },
 };
 
 const mapWorkloadFilter = (workloadFilter = []) => {
