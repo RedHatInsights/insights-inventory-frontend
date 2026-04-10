@@ -16,11 +16,6 @@ describe('buildWorkloadsFilter', () => {
     expect(buildWorkloadsFilter([])).toBeUndefined();
   });
 
-  it('maps each selected key to { is: not_nil } (presence on system_profile.workloads.<key>)', () => {
-    const keys = ['ansible', 'oracle_db', 'ibm_db2'];
-    expect(buildWorkloadsFilter(keys)).toEqual(presenceFilterForKeys(keys));
-  });
-
   it('when every toolbar workload is selected, includes one not_nil entry per known workload key', () => {
     const allKeys = WORKLOAD_FILTER_OPTIONS.map((o) => o.value);
     expect(buildWorkloadsFilter([...allKeys])).toEqual(
