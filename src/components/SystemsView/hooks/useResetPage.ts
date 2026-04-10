@@ -1,5 +1,6 @@
 import { useDataViewPagination } from '@patternfly/react-data-view';
 import { useEffect, useMemo, useRef } from 'react';
+import type { InventoryFilters } from '../filters/SystemsViewFilters';
 import { INITIAL_PAGE } from '../../InventoryViews/constants';
 
 type DataViewPagination = ReturnType<typeof useDataViewPagination>;
@@ -13,7 +14,7 @@ type DataViewPagination = ReturnType<typeof useDataViewPagination>;
  *  @param pagination - Return value of `useDataViewPagination`.
  */
 export const useResetPage = (
-  filters: unknown,
+  filters: InventoryFilters,
   pagination: DataViewPagination,
 ) => {
   /* `pagination.onSetPage` is a new function each render;
