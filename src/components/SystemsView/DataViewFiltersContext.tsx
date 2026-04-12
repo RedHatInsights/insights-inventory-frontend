@@ -8,7 +8,7 @@ export const INITIAL_INVENTORY_FILTERS: InventoryFilters = {
   source: [],
   rhcStatus: [],
   system_type: [],
-  workspace: [],
+  group_name: [],
   last_seen: undefined,
   tags: [],
   operating_system: [],

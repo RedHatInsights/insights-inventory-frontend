@@ -24,7 +24,7 @@ export interface InventoryFilters {
   source: ApiHostGetHostListRegisteredWithEnum[];
   rhcStatus: string[];
   system_type: string[];
-  workspace: string[];
+  group_name: string[];
   tags: string[];
   operating_system: string[];
   workloads: string[];
@@ -127,7 +127,7 @@ export const SystemsViewFilters = () => {
           ]}
         />
         <DataViewCustomFilter
-          filterId="workspace"
+          filterId="group_name"
           title="Workspace"
           placeholder="Filter by workspace"
           ouiaId="SystemsViewWorkspaceFilter"

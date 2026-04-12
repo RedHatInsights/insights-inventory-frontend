@@ -65,7 +65,7 @@ const fetchSystems = async ({
     ...(filters?.system_type && {
       systemType: serializeSystemType(filters.system_type),
     }),
-    ...(filters?.workspace && { groupName: filters.workspace }),
+    ...(filters?.group_name && { groupName: filters.group_name }),
     ...(filters?.tags && { tags: filters.tags }),
     ...(filters?.last_seen && {
       lastCheckInStart: filters.last_seen?.start,
