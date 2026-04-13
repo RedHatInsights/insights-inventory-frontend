@@ -8,6 +8,7 @@ import type { System } from './hooks/useSystemsQuery';
 import { useSystemActionModalsContext } from './SystemActionModalsContext';
 import { useColumnManagementModalContext } from './ColumnManagementModalContext';
 import { useKesselMigrationFeatureFlag } from '../../Utilities/hooks/useKesselMigrationFeatureFlag';
+import useInventoryViewsFeatureFlag from '../../Utilities/useInventoryViewsFeatureFlag';
 import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 import {
   GENERAL_GROUPS_WRITE_PERMISSION,
@@ -24,6 +25,7 @@ export const SystemsViewBulkActions = ({
   activeState,
 }: SystemsViewBulkActionsProps) => {
   const isKesselEnabled = useKesselMigrationFeatureFlag();
+  const isInventoryViewsEnabled = useInventoryViewsFeatureFlag();
   const { hasAccess: hasGroupsWrite } = useConditionalRBAC(
     [GENERAL_GROUPS_WRITE_PERMISSION],
     false,
@@ -63,9 +65,11 @@ export const SystemsViewBulkActions = ({
           >
             Delete
           </ResponsiveAction>
-          <ResponsiveAction onClick={() => openColumnManagementModal()}>
-            Manage columns
-          </ResponsiveAction>
+          {isInventoryViewsEnabled && (
+            <ResponsiveAction onClick={() => openColumnManagementModal()}>
+              Manage columns
+            </ResponsiveAction>
+          )}
         </ResponsiveActions>
       ) : (
         <ResponsiveActions ouiaId="systems-view-toolbar-actions">
@@ -88,9 +92,11 @@ export const SystemsViewBulkActions = ({
           >
             Remove from workspace
           </ResponsiveAction>
-          <ResponsiveAction onClick={() => openColumnManagementModal()}>
-            Manage columns
-          </ResponsiveAction>
+          {isInventoryViewsEnabled && (
+            <ResponsiveAction onClick={() => openColumnManagementModal()}>
+              Manage columns
+            </ResponsiveAction>
+          )}
         </ResponsiveActions>
       )}
     </Fragment>

@@ -2,8 +2,8 @@ import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 import RenderWrapper from './Utilities/Wrapper';
 import useFeatureFlag from './Utilities/useFeatureFlag';
+import useSystemsViewFeatureFlag from './Utilities/useSystemsViewFeatureFlag';
 import useSystemsTableFeatureFlag from './routes/Systems/components/SystemsTable/hooks/useSystemsTableFeatureFlag';
-import useInventoryViewsFeatureFlag from './Utilities/useInventoryViewsFeatureFlag';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
 import {
@@ -27,7 +27,6 @@ const InventoryGroupDetail = lazy(
   () => import('./routes/InventoryGroupDetail'),
 );
 const InventoryGroups = lazy(() => import('./routes/InventoryGroups'));
-
 export const routes = {
   table: '/',
   detail: '/:inventoryId',
@@ -38,14 +37,13 @@ export const routes = {
   workspace: '/workspaces',
   workspaceDetail: '/workspaces/:groupId',
 };
-
 export const Routes = () => {
   const [hasSystems, setHasSystems] = useState(true);
   const [hasBootcImages, setHasBootcImages] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const isSystemsTableEnabled = useSystemsTableFeatureFlag();
-  const isInventoryViewsEnabled = useInventoryViewsFeatureFlag();
+  const isSystemsViewEnabled = useSystemsViewFeatureFlag();
   const isBifrostEnabled = useFeatureFlag('hbi.ui.bifrost');
   const isLastCheckInEnabled = useFeatureFlag(
     'hbi.create_last_check_in_update_per_reporter_staleness',
@@ -78,7 +76,7 @@ export const Routes = () => {
   let element = useRoutes([
     {
       path: '/',
-      element: isInventoryViewsEnabled ? (
+      element: isSystemsViewEnabled ? (
         <RenderWrapper cmp={InventoryViews} />
       ) : isSystemsTableEnabled ? (
         <Systems />
