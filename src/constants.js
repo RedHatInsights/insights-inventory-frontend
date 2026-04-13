@@ -361,15 +361,13 @@ export const INITIAL_PAGE = 1;
 export const EMPTY_CELL = '';
 export const DEBOUNCE_TIMEOUT_MS = 300;
 export const WORKSPACE_RESOURCE_TYPE = 'workspace';
-/**
- * Kessel self-access relation for read access on a `workspace` resource (RBAC reporter).
- * Aligns with `docs/kessel-frontend-design-document.md` (workspace `view` = read / list / detail).
- */
 export const WORKSPACE_RELATION_VIEW = 'view';
 export const WORKSPACE_RELATION_EDIT = 'edit';
 export const WORKSPACE_RELATION_DELETE = 'delete';
 export const KESSEL_REPORTER = { type: 'hbi' };
 export const KESSEL_WORKSPACE_REPORTER = { type: 'rbac' };
+/** HTTP status codes from `fetchDefaultWorkspace` that indicate access denied (vs transient failures). */
+export const RBAC_FETCH_ACCESS_DENIED_CODES = [401, 403, 404];
 /**
  * Self-access `relation` values on {@link WORKSPACE_RESOURCE_TYPE} with Default workspace id
  * (see kessel-sdk-browser README “Fetching Workspace IDs for Access Checks”).
