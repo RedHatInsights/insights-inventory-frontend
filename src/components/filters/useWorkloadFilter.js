@@ -22,7 +22,7 @@ export const useWorkloadFilter = (
 
   const filter = {
     label: 'Workload',
-    value: 'workload',
+    value: 'workloads',
     type: 'checkbox',
     filterValues: {
       value: workloadValue,
