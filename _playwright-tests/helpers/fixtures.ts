@@ -1,7 +1,7 @@
 import { test as base } from '@playwright/test';
 import fs from 'fs';
-import { closePopupsIfExist } from './loginHelpers';
-import { GLOBAL_DATA_PATH } from './constants';
+import { closePopupsIfExist, enableSystemsViewAndKessel } from './loginHelpers';
+import { GLOBAL_DATA_PATH, isSystemsViewEnabled } from './constants';
 import { System } from './uploadArchive';
 
 type SystemsTestData = {
@@ -14,6 +14,7 @@ type SystemsTestData = {
 
 /**
  * Safely loads and validates the global test data file.
+ *  @param path
  */
 function loadGlobalSystemsData(path: string): SystemsTestData {
   if (!fs.existsSync(path)) {
@@ -32,6 +33,10 @@ export const test = base.extend<{
   systems: SystemsTestData;
 }>({
   page: async ({ page }, use) => {
+    if (isSystemsViewEnabled) {
+      await enableSystemsViewAndKessel(page);
+    }
+
     await closePopupsIfExist(page);
     await use(page);
   },

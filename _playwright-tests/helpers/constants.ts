@@ -12,6 +12,8 @@ export const GLOBAL_DATA_PATH = path.resolve(
   `../.global-data-${RUN_ID}.json`,
 );
 
+export const isSystemsViewEnabled = process.env.SYSTEMS_VIEW === 'true';
+
 // Base archives
 export const CENTOS_ARCHIVE = 'centos79.tar.gz';
 export const BOOTC_ARCHIVE = 'image-mode-rhel94.tar.gz';

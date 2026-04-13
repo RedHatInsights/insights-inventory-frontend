@@ -104,6 +104,20 @@ export const closeCookieBanner = async (page: Page) => {
   await iframeLocator.waitFor({ state: 'hidden', timeout: 5000 });
 };
 
+export const enableSystemsViewAndKessel = async (page: Page) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('ui.systems-view', 'true');
+    localStorage.setItem('inventory-frontend.kessel-enabled', 'true');
+  });
+};
+
+export const disableSystemsViewAndKessel = async (page: Page) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('ui.systems-view', 'false');
+    localStorage.setItem('inventory-frontend.kessel-enabled', 'false');
+  });
+};
+
 export const storeStorageStateAndToken = async (page: Page) => {
   const { cookies } = await page.context().storageState({
     path: path.join(__dirname, '../../.auth/admin_user.json'),
@@ -140,6 +154,7 @@ export const ensureNotInPreview = async (page: Page) => {
     .locator('div')
     .filter({ hasText: 'Preview mode' })
     .getByRole('switch');
+
   if ((await toggle.isVisible()) && (await toggle.isChecked())) {
     await toggle.click();
   }

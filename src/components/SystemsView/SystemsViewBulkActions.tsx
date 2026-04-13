@@ -60,6 +60,7 @@ export const SystemsViewBulkActions = ({
           <ResponsiveAction
             isPersistent
             variant="secondary"
+            ouiaId="bulk-delete-button"
             onClick={() => openDeleteModal(selectedSystems)}
             isDisabled={moveDisabled}
           >
@@ -75,6 +76,7 @@ export const SystemsViewBulkActions = ({
         <ResponsiveActions ouiaId="systems-view-toolbar-actions">
           <ResponsiveAction
             isPersistent
+            ouiaId="bulk-delete-button"
             onClick={() => openDeleteModal(selectedSystems)}
             isDisabled={moveDisabled || !hasHostsWrite}
           >
