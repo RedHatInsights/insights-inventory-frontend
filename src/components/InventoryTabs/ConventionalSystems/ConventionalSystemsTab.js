@@ -171,6 +171,7 @@ const ConventionalSystemsTab = ({
   hasAccess,
   hostGroupFilter,
   systemTypeFilter,
+  workloadFilter,
   sortBy,
 }) => {
   const addNotification = useAddNotification();
@@ -190,6 +191,7 @@ const ConventionalSystemsTab = ({
       hostGroupFilter,
       lastSeenFilter,
       systemTypeFilter,
+      workloadFilter,
     ),
   );
   const [editOpen, onEditOpen] = useState(false);
@@ -490,6 +492,10 @@ ConventionalSystemsTab.propTypes = {
     PropTypes.string,
   ]),
   systemTypeFilter: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string,
+  ]),
+  workloadFilter: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.string,
   ]),

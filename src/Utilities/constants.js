@@ -10,6 +10,7 @@ export const OS_CHIP = 'operating_system';
 export const RHCD_FILTER_KEY = 'rhc_client_id';
 export const UPDATE_METHOD_KEY = 'system_update_method';
 export const SYSTEM_TYPE_KEY = 'system_type';
+export const WORKLOAD_FILTER_KEY = 'workloads';
 export const LAST_SEEN_CHIP = 'last_seen';
 export const HOST_GROUP_CHIP = 'group_name'; // use the same naming as for the back end parameter
 //REPORTERS
@@ -147,6 +148,29 @@ export const systemTypeOptions = [
   },
 ];
 
+export const workloadOptions = [
+  { label: 'Ansible Automation Platform', value: 'ansible' },
+  { label: 'CrowdStrike', value: 'crowdstrike' },
+  { label: 'IBM DB2', value: 'ibm_db2' },
+  { label: 'InterSystems', value: 'intersystems' },
+  { label: 'Microsoft SQL', value: 'mssql' },
+  { label: 'Oracle DB', value: 'oracle_db' },
+  { label: 'RHEL AI', value: 'rhel_ai' },
+  { label: 'SAP', value: 'sap' },
+];
+
+/** Maps workload filter keys to system_profile.workloads.* API filter shapes (presence). */
+export const WORKLOAD_API_MAP = {
+  sap: { is: 'not_nil' },
+  ansible: { is: 'not_nil' },
+  mssql: { is: 'not_nil' },
+  crowdstrike: { is: 'not_nil' },
+  ibm_db2: { is: 'not_nil' },
+  oracle_db: { is: 'not_nil' },
+  intersystems: { is: 'not_nil' },
+  rhel_ai: { is: 'not_nil' },
+};
+
 export function filterToGroup(filter = [], valuesKey = 'values') {
   return filter.reduce(
     (accGroup, group) => ({
@@ -223,6 +247,7 @@ export function reduceFilters(filters = []) {
         'hostGroupFilter',
         '',
         'systemTypeFilter',
+        'workloadFilter',
       ].find((item) => Object.keys(oneFilter).includes(item));
 
       return {
@@ -260,6 +285,7 @@ export const generateFilter = (
   hostGroupFilter,
   lastSeenFilter,
   systemTypeFilter,
+  workloadFilter,
 ) =>
   [
     !isEmpty(status) && {
@@ -309,6 +335,11 @@ export const generateFilter = (
       systemTypeFilter: Array.isArray(systemTypeFilter)
         ? systemTypeFilter
         : [systemTypeFilter],
+    },
+    !isEmpty(workloadFilter) && {
+      workloadFilter: Array.isArray(workloadFilter)
+        ? workloadFilter
+        : [workloadFilter],
     },
   ].filter(Boolean);
 

@@ -9,6 +9,7 @@ import {
 import {
   RHCD_FILTER_KEY,
   UPDATE_METHOD_KEY,
+  WORKLOAD_API_MAP,
   allStaleFilters,
 } from '../Utilities/constants';
 import { ApiTagGetTagsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiTagGetTags';
@@ -144,12 +145,29 @@ const buildOperatingSystemFilter = (osFilterState = {}) => {
     }, {});
 };
 
+const mapWorkloadFilter = (workloadFilter = []) => {
+  return workloadFilter.reduce((acc, key) => {
+    if (WORKLOAD_API_MAP[key]) {
+      acc[key] = WORKLOAD_API_MAP[key];
+    }
+    return acc;
+  }, {});
+};
+
 export const calculateSystemProfile = (
-  { osFilter, rhcdFilter, updateMethodFilter, hostTypeFilter, system_profile },
+  {
+    osFilter,
+    rhcdFilter,
+    updateMethodFilter,
+    hostTypeFilter,
+    workloadFilter,
+    system_profile,
+  },
   filterImmutable = true,
 ) => {
   const operating_system = buildOperatingSystemFilter(osFilter);
   const defaultHostTypeFilter = filterImmutable ? { host_type: 'nil' } : {};
+  const workloads = mapWorkloadFilter(workloadFilter);
   const newSystemProfile = {
     ...system_profile,
     ...(hostTypeFilter ? { host_type: hostTypeFilter } : defaultHostTypeFilter),
@@ -162,6 +180,7 @@ export const calculateSystemProfile = (
       : {}),
     ...(rhcdFilter ? { [RHCD_FILTER_KEY]: rhcdFilter } : {}),
     ...(Object.keys(operating_system).length ? { operating_system } : {}),
+    ...(Object.keys(workloads).length ? { workloads } : {}),
   };
 
   return Object.keys(newSystemProfile).length
@@ -191,6 +210,9 @@ export const filtersReducer = (acc, filter = {}) => ({
   }),
   ...('systemTypeFilter' in filter && {
     systemTypeFilter: filter.systemTypeFilter,
+  }),
+  ...('workloadFilter' in filter && {
+    workloadFilter: filter.workloadFilter,
   }),
 });
 

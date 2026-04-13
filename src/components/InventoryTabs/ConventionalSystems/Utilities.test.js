@@ -1,4 +1,5 @@
 import { calculateFilters } from './Utilities';
+import { WORKLOAD_FILTER_KEY } from '../../../Utilities/constants';
 
 describe('calculateFilters', () => {
   it('should returns a mutated SearchParams for filters', () => {
@@ -51,5 +52,14 @@ describe('calculateFilters', () => {
       'RHEL7.0',
       'CentOS Linux7.9',
     ]);
+  });
+
+  it('should append workload query params when workloadFilter is present', () => {
+    const searchParams = new URLSearchParams();
+    const filters = [{ workloadFilter: ['sap', 'ansible'] }];
+
+    expect(
+      calculateFilters(searchParams, filters).getAll(WORKLOAD_FILTER_KEY),
+    ).toEqual(['sap', 'ansible']);
   });
 });

@@ -28,6 +28,7 @@ const AVAILABLE_FILTER_NAMES = [
   'Last seen',
   'Workspace',
   'Tags',
+  'Workload',
 ];
 
 before(() => {

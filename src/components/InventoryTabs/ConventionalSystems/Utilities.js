@@ -4,6 +4,7 @@ import {
   RHCD_FILTER_KEY,
   UPDATE_METHOD_KEY,
   SYSTEM_TYPE_KEY,
+  WORKLOAD_FILTER_KEY,
 } from '../../../Utilities/constants';
 
 const mapTags = ({ category, values }) =>
@@ -65,6 +66,10 @@ const filterMapper = {
   systemTypeFilter: ({ systemTypeFilter }, searchParams) =>
     systemTypeFilter?.forEach((item) =>
       searchParams.append(SYSTEM_TYPE_KEY, item),
+    ),
+  workloadFilter: ({ workloadFilter }, searchParams) =>
+    workloadFilter?.forEach((item) =>
+      searchParams.append(WORKLOAD_FILTER_KEY, item),
     ),
 };
 
