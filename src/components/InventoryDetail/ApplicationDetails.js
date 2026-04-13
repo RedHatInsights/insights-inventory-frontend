@@ -39,6 +39,7 @@ const ApplicationDetails = ({
   inventoryId,
   entity,
   fetchEntity,
+  writePermissions,
   ...props
 }) => {
   const store = useStore();
@@ -140,11 +141,12 @@ const ApplicationDetails = ({
                           <NotConnected />
                         ) : (
                           <Cmp
+                            {...item}
                             inventoryId={inventoryId}
                             store={store}
                             entity={entity}
                             fetchEntity={fetchEntity}
-                            {...item}
+                            writePermissions={writePermissions}
                           />
                         )}
                       </PageSection>
@@ -177,6 +179,7 @@ ApplicationDetails.propTypes = {
   inventoryId: PropTypes.string.isRequired,
   entity: PropTypes.object,
   fetchEntity: PropTypes.func,
+  writePermissions: PropTypes.bool,
 };
 
 export default ApplicationDetails;

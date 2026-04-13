@@ -3,13 +3,16 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
+import { Bullseye, Spinner } from '@patternfly/react-core';
 import './inventory.scss';
 import * as actions from '../store/actions';
 import InventoryDetail from '../components/InventoryDetail/InventoryDetail';
 import { OverviewTab, DetailsTab } from '../components/SystemDetails';
 import { useConditionalRBAC } from '../Utilities/hooks/useConditionalRBAC';
-import { useCanDeleteHostDetails } from '../Utilities/hooks/useCanDeleteHostDetails';
+import { useHostDetailsKesselPermissions } from '../Utilities/hooks/useHostDetailsKesselPermissions';
 import { useKesselMigrationFeatureFlag } from '../Utilities/hooks/useKesselMigrationFeatureFlag';
+import AccessDenied from '../Utilities/AccessDenied';
+import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorState';
 import { REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP } from '../constants';
 import ApplicationTab from '../ApplicationTab';
 import { useLightspeedFeatureFlag } from '../Utilities/hooks/useLightspeedFeatureFlag';
@@ -151,20 +154,28 @@ const Inventory = () => {
     setAvailableApps(newApps);
   }, [entity, cloudProvider, hostType]);
 
-  const { hasAccess: canDeleteHost } = useConditionalRBAC([
+  const { hasAccess: canModifyHostByRbac } = useConditionalRBAC([
     REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP(
       entity?.groups?.[0]?.id ?? null, // null stands for ungroupped hosts
     ),
   ]);
 
   const isKesselEnabled = useKesselMigrationFeatureFlag();
-  const { canDelete: kesselCanDelete, isLoading: kesselDeleteLoading } =
-    useCanDeleteHostDetails(entity?.id);
+  const {
+    canView: kesselCanView,
+    canUpdate: kesselCanUpdate,
+    canDelete: kesselCanDelete,
+    isLoading: kesselPermissionsLoading,
+  } = useHostDetailsKesselPermissions(inventoryId);
 
-  // When Kessel flag is off: use RBAC (canDeleteHost). When Kessel flag is on: use single-resource Kessel check (kesselCanDelete); disable while loading.
+  // Kessel off: RBAC for delete and inline edit. Kessel on: Kessel relations (delete / update); disable while permissions load.
   const showDelete = isKesselEnabled
-    ? !kesselDeleteLoading && kesselCanDelete === true
-    : canDeleteHost;
+    ? !kesselPermissionsLoading && kesselCanDelete === true
+    : canModifyHostByRbac;
+
+  const writePermissions = isKesselEnabled
+    ? !kesselPermissionsLoading && kesselCanUpdate === true
+    : canModifyHostByRbac;
 
   useEffect(() => {
     chrome?.hideGlobalFilter?.(true);
@@ -199,6 +210,37 @@ const Inventory = () => {
     [searchParams],
   );
 
+  if (entityError?.status === 400) {
+    return (
+      <div className="ins-entity-detail">
+        <ErrorState />
+      </div>
+    );
+  }
+
+  if (isKesselEnabled && inventoryId) {
+    if (kesselPermissionsLoading) {
+      return (
+        <Bullseye className="pf-v6-u-p-xl">
+          <Spinner aria-label="Loading permissions" />
+        </Bullseye>
+      );
+    }
+
+    if (kesselCanView === false) {
+      return (
+        <AccessDenied
+          title="You do not have access to this system"
+          description={
+            <div>
+              You do not have permission to view this system in inventory.
+            </div>
+          }
+        />
+      );
+    }
+  }
+
   return (
     <InventoryDetail
       additionalClasses={additionalClasses}
@@ -219,6 +261,7 @@ const Inventory = () => {
       entity={entity}
       fetchEntity={fetchEntity}
       entityError={entityError}
+      writePermissions={writePermissions}
     />
   );
 };

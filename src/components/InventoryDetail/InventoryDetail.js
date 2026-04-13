@@ -45,6 +45,7 @@ const InventoryDetail = ({
   entity: entityProp,
   fetchEntity,
   entityError,
+  writePermissions,
   ...headerProps
 }) => {
   const dispatch = useDispatch();
@@ -104,6 +105,7 @@ const InventoryDetail = ({
               inventoryId={inventoryId}
               entity={entity}
               fetchEntity={fetchEntity}
+              writePermissions={writePermissions}
             />
           )}
         </>
@@ -126,6 +128,8 @@ InventoryDetail.propTypes = {
       pageId: PropTypes.string,
     }),
   ),
+  writePermissions: PropTypes.bool,
+  entityError: PropTypes.shape({ status: PropTypes.number }),
 };
 
 const InventoryDetailWrapper = ({ inventoryId, ...props }) => {

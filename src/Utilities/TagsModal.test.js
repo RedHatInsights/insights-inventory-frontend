@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import debounce from 'lodash/debounce';
 import React from 'react';
@@ -301,6 +301,66 @@ describe('TagsModal', () => {
       );
       const actions = store.getActions();
       expect(actions[0]).toMatchObject({ type: 'ALL_TAGS_PENDING' });
+    });
+
+    it('requests page 1 when the in-modal tag search filter changes', async () => {
+      jest.useFakeTimers();
+      const tagListResponse = {
+        results: [],
+        total: 0,
+        page: 1,
+        per_page: 10,
+      };
+      const getTags = jest.fn().mockResolvedValue(tagListResponse);
+      const store = mockStore({
+        entities: {
+          ...initialState.entities,
+          allTagsLoaded: true,
+          allTagsTotal: 50,
+          allTagsPagination: {
+            page: 4,
+            perPage: 10,
+          },
+          allTags: [
+            {
+              tags: [
+                {
+                  tag: {
+                    key: 'some',
+                    value: 'test',
+                    namespace: 'something',
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      });
+
+      try {
+        render(
+          <Provider store={store}>
+            <TagsModal getTags={getTags} />
+          </Provider>,
+        );
+
+        getTags.mockClear();
+
+        const filterInput = screen.getByPlaceholderText('Filter tags');
+        fireEvent.change(filterInput, { target: { value: 'prod' } });
+
+        await act(async () => {
+          jest.advanceTimersByTime(800);
+        });
+
+        expect(getTags).toHaveBeenCalledTimes(1);
+        expect(getTags).toHaveBeenCalledWith(
+          'prod',
+          expect.objectContaining({ page: 1, perPage: 10 }),
+        );
+      } finally {
+        jest.useRealTimers();
+      }
     });
   });
 });

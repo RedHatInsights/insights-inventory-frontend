@@ -9,6 +9,7 @@ import qs from 'qs';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import { SortDirection } from '../SystemsView';
 import { buildOperatingSystemProfileFilter } from '../utils/operatingSystemSelectOptions';
+import { buildWorkloadsFilter } from '../utils/workloadsFilter';
 
 const serializeSystemType = (values: string[]) => {
   const validValues = Object.values(ApiHostGetHostListSystemTypeEnum);
@@ -41,12 +42,14 @@ const fetchSystems = async ({
   const operatingSystemFilter = buildOperatingSystemProfileFilter(
     filters.operating_system,
   );
+  const workloadsFilter = buildWorkloadsFilter(filters.workloads);
 
   const systemProfileFilter: Record<string, unknown> = {
     ...(filters?.rhcStatus?.length && {
       rhc_client_id: filters.rhcStatus,
     }),
     ...(operatingSystemFilter && { operating_system: operatingSystemFilter }),
+    ...(workloadsFilter && { workloads: workloadsFilter }),
   };
 
   const hasSystemProfileFilter = Object.keys(systemProfileFilter).length > 0;
