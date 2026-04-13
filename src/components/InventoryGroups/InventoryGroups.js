@@ -9,6 +9,9 @@ import { EmptyStateNoAccessToGroups } from '../InventoryGroupDetail/EmptyStateNo
 import GetHelpExpandable from './GetHelpExpandable';
 import CreateGroupModal from './Modals/CreateGroupModal';
 import { PageSection } from '@patternfly/react-core';
+import { useWorkspacesPageKesselAccess } from '../../Utilities/hooks/useWorkspacesPageKesselAccess';
+
+const rbacFetchDeniedCodes = [401, 403, 404];
 
 const InventoryGroups = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -16,6 +19,14 @@ const InventoryGroups = () => {
   const [hasError, setHasError] = useState(false);
   const [error, setError] = useState(null);
   const [createModalOpen, setCreateModalOpen] = useState(false);
+
+  const {
+    isKesselGated,
+    isWorkspaceAccessLoading,
+    canViewDefaultWorkspace,
+    defaultWorkspaceFetchError,
+    kesselCheckError,
+  } = useWorkspacesPageKesselAccess();
 
   const ignore = useRef(false); // https://react.dev/learn/synchronizing-with-effects#fetching-data
 
@@ -51,6 +62,13 @@ const InventoryGroups = () => {
     };
   }, []);
 
+  const pageLoading = isLoading || (isKesselGated && isWorkspaceAccessLoading);
+
+  const rbacFetchCode = defaultWorkspaceFetchError?.code;
+  const isRbacFetchLikelyAccessDenied =
+    typeof rbacFetchCode === 'number' &&
+    rbacFetchDeniedCodes.includes(rbacFetchCode);
+
   return (
     <PageSection
       hasBodyWrapper={false}
@@ -71,10 +89,20 @@ const InventoryGroups = () => {
         ) : (
           <ErrorState />
         )
-      ) : isLoading ? (
+      ) : pageLoading ? (
         <Bullseye>
           <Spinner />
         </Bullseye>
+      ) : isKesselGated && kesselCheckError ? (
+        <ErrorState />
+      ) : isKesselGated && defaultWorkspaceFetchError ? (
+        isRbacFetchLikelyAccessDenied ? (
+          <EmptyStateNoAccessToGroups />
+        ) : (
+          <ErrorState />
+        )
+      ) : isKesselGated && canViewDefaultWorkspace === false ? (
+        <EmptyStateNoAccessToGroups />
       ) : hasGroups ? (
         <GroupsTable onCreateGroupClick={onCreateGroupClick} />
       ) : (

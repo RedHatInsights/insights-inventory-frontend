@@ -330,6 +330,7 @@ export const INITIAL_PAGE = 1;
 export const EMPTY_CELL = '';
 export const DEBOUNCE_TIMEOUT_MS = 300;
 export const WORKSPACE_RESOURCE_TYPE = 'workspace';
+export const WORKSPACE_RELATION_VIEW = 'view';
 export const WORKSPACE_RELATION_EDIT = 'edit';
 /** Reporter for host access checks (HBI). */
 export const KESSEL_REPORTER = { type: 'hbi' };
