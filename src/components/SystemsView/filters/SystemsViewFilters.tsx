@@ -8,13 +8,14 @@ import {
 import { DataViewCustomFilter } from './DataViewCustomFilter';
 import WorkspaceFilter from './WorkspaceFilter';
 import DataViewTextFilterWithChipTitle from './DataViewTextFilterWithChipTitle';
-import LastSeenFilter, { LastSeenFilterItem } from './LastSeenFilter';
+import LastSeenFilter from './LastSeenFilter';
 import TagsFilter from './TagsFilter';
 import OperatingSystemsFilter from './OperatingSystemsFilter';
 import { ToolbarLabel } from '@patternfly/react-core';
 import LastSeenFilterExtension from './LastSeenFilterExtension';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import { useDataViewFiltersContext } from '../DataViewFiltersContext';
+import { LAST_SEEN_OPTIONS, type LastSeenKey } from '../constants';
 import { WORKLOAD_FILTER_OPTIONS } from '../utils/workloadsFilter';
 import { formatOperatingSystemChipLabel } from '../utils/operatingSystemSelectOptions';
 
@@ -28,7 +29,7 @@ export interface InventoryFilters {
   tags: string[];
   operating_system: string[];
   workloads: string[];
-  last_seen?: LastSeenFilterItem;
+  last_seen: LastSeenKey | '';
 }
 
 export const isToolbarLabel = (
@@ -149,24 +150,27 @@ export const SystemsViewFilters = () => {
             )
           }
         />
-        <DataViewCustomFilter
+        <DataViewCustomFilter<LastSeenKey | ''>
           filterId="last_seen"
           title="Last seen"
           placeholder="Filter by last seen"
           ouiaId="SystemsViewLastSeenFilter"
           filterComponent={LastSeenFilter}
           createLabel={(value, title) => {
-            return value
+            const opt = value
+              ? LAST_SEEN_OPTIONS.find((o) => o.key === value)
+              : undefined;
+            return opt
               ? [
                   {
                     key: title,
-                    node: value?.label,
+                    node: opt.label,
                   },
                 ]
               : [];
           }}
           deleteLabel={(_category, _label, _value, onChange) => {
-            onChange?.(undefined, undefined);
+            onChange?.(undefined, '');
           }}
         />
         <DataViewCustomFilter
@@ -218,12 +222,7 @@ export const SystemsViewFilters = () => {
           options={[...WORKLOAD_FILTER_OPTIONS]}
         />
       </DataViewFilters>
-      <LastSeenFilterExtension
-        value={filters?.last_seen}
-        onChange={(event, value) => {
-          onSetFilters({ ...filters, last_seen: value });
-        }}
-      />
+      <LastSeenFilterExtension />
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React, { FC, Ref, useState } from 'react';
+import React, { Ref, useState } from 'react';
 import {
   Select,
   SelectOption,
@@ -8,43 +8,38 @@ import {
   SplitItem,
   MenuToggleElement,
 } from '@patternfly/react-core';
-import { LAST_SEEN_OPTIONS as selectOptions } from '../../../routes/Systems/components/SystemsTable/components/helpers';
-
-export interface LastSeenFilterItem {
-  label: string;
-  start?: string;
-  end?: string;
-}
+import {
+  LAST_SEEN_OPTIONS as selectOptions,
+  type LastSeenKey,
+} from '../constants';
 
 export interface LastSeenFilterProps {
-  value?: LastSeenFilterItem;
-  onChange?: (
-    event?: React.MouseEvent,
-    values?: LastSeenFilterItem | undefined,
-  ) => void;
+  value?: LastSeenKey | '';
+  onChange?: (event?: React.MouseEvent, values?: LastSeenKey | '') => void;
 }
-const LastSeenFilter: FC<LastSeenFilterProps> = ({ value, onChange }) => {
-  const selectedLabel = value?.label;
+
+const LastSeenFilter = ({ value = '', onChange }: LastSeenFilterProps) => {
+  const selectedKey = value || undefined;
+  const selectedOption = selectedKey
+    ? selectOptions.find((option) => option.key === selectedKey)
+    : undefined;
+  const selectedLabel = selectedOption?.label;
+
   const [isOpen, setIsOpen] = useState(false);
   const onToggleClick = () => {
     setIsOpen(!isOpen);
   };
 
-  const onSelect = (_event: unknown, value: string) => {
-    if (value === selectedLabel) {
+  const onSelect = (_event: unknown, label: string) => {
+    if (label === selectedLabel) {
       setIsOpen(false);
       return;
     }
 
-    const selectedOption = selectOptions.find(
-      (option) => option.label === value,
-    );
+    const option = selectOptions.find((o) => o.label === label);
 
-    if (selectedOption) {
-      onChange?.(undefined, {
-        ...selectedOption.value,
-        label: selectedOption.label,
-      });
+    if (option) {
+      onChange?.(undefined, option.key);
     }
     setIsOpen(false);
   };

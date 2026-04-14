@@ -1,6 +1,19 @@
-import React, { createContext, useContext, useMemo } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useDataViewFilters } from '@patternfly/react-data-view';
 import type { InventoryFilters } from './filters/SystemsViewFilters';
+import { normalizeLastSeenFilterValue } from './constants';
+
+export type LastSeenCustomRange = {
+  start?: string;
+  end?: string;
+} | null;
 
 export const INITIAL_INVENTORY_FILTERS: InventoryFilters = {
   hostname_or_id: '',
@@ -9,7 +22,7 @@ export const INITIAL_INVENTORY_FILTERS: InventoryFilters = {
   rhcStatus: [],
   system_type: [],
   group_name: [],
-  last_seen: undefined,
+  last_seen: '',
   tags: [],
   operating_system: [],
   workloads: [],
@@ -19,6 +32,10 @@ export interface DataViewFiltersContextValue {
   filters: InventoryFilters;
   onSetFilters: (_: Partial<InventoryFilters>) => void;
   clearAllFilters: () => void;
+  lastSeenCustomRange: LastSeenCustomRange;
+  setLastSeenCustomRange: React.Dispatch<
+    React.SetStateAction<LastSeenCustomRange>
+  >;
 }
 
 const DataViewFiltersContext =
@@ -52,20 +69,53 @@ export const DataViewFiltersProvider = ({
   searchParams,
   setSearchParams,
 }: DataViewFiltersProviderProps) => {
-  const { filters, onSetFilters, clearAllFilters } =
-    useDataViewFilters<InventoryFilters>({
-      initialFilters: INITIAL_INVENTORY_FILTERS,
-      searchParams,
-      setSearchParams,
-    });
+  const [lastSeenCustomRange, setLastSeenCustomRange] =
+    useState<LastSeenCustomRange>(null);
+
+  const {
+    filters: rawFilters,
+    onSetFilters,
+    clearAllFilters: hookClearAll,
+  } = useDataViewFilters<InventoryFilters>({
+    initialFilters: INITIAL_INVENTORY_FILTERS,
+    searchParams,
+    setSearchParams,
+  });
+
+  const filters = useMemo(
+    () => ({
+      ...rawFilters,
+      last_seen: normalizeLastSeenFilterValue(rawFilters.last_seen),
+    }),
+    [rawFilters],
+  );
+
+  useEffect(() => {
+    if (normalizeLastSeenFilterValue(rawFilters.last_seen) !== 'custom') {
+      setLastSeenCustomRange(null);
+    }
+  }, [rawFilters.last_seen]);
+
+  const clearAllFilters = useCallback(() => {
+    setLastSeenCustomRange(null);
+    hookClearAll();
+  }, [hookClearAll]);
 
   const value = useMemo(
     () => ({
       filters,
       onSetFilters,
       clearAllFilters,
+      lastSeenCustomRange,
+      setLastSeenCustomRange,
     }),
-    [filters, onSetFilters, clearAllFilters],
+    [
+      filters,
+      onSetFilters,
+      clearAllFilters,
+      lastSeenCustomRange,
+      setLastSeenCustomRange,
+    ],
   );
 
   return (
