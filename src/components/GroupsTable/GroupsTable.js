@@ -23,8 +23,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   GENERAL_GROUPS_WRITE_PERMISSION,
-  NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE,
-  NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE,
   REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
   TABLE_DEFAULT_PAGINATION,
 } from '../../constants';
@@ -46,6 +44,7 @@ import {
   ActionDropdownItem,
 } from '../InventoryTable/ActionWithRBAC';
 import PropTypes from 'prop-types';
+import { useGroupsTableWorkspaceActionPermissions } from './useGroupsTableWorkspaceActionPermissions';
 
 const GROUPS_TABLE_INITIAL_STATE = {
   perPage: TABLE_DEFAULT_PAGINATION,
@@ -126,6 +125,11 @@ const GroupsTable = ({ onCreateGroupClick }) => {
   const groups = useMemo(() => data?.results || [], [data]);
   const { fetchBatched } = useFetchBatched();
   const loadingState = uninitialized || loading;
+  const {
+    getRowWorkspaceMenuItemProps,
+    bulkDeleteMenuItemProps,
+    createWorkspaceButtonProps,
+  } = useGroupsTableWorkspaceActionPermissions({ groups, selectedIds });
 
   const fetchData = useCallback(
     debounce((filters) => {
@@ -315,26 +319,51 @@ const GroupsTable = ({ onCreateGroupClick }) => {
   const displayedIds = map(rows, 'groupId');
   const pageSelected = difference(displayedIds, selectedIds).length === 0;
 
-  const modifyActionButton = (buttonText, onClick, rowData) => ({
-    title: (
-      <ActionDropdownItem
-        requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-          rowData?.groupId,
-        )}
-        isAriaDisabled={rowData?.ungrouped}
-        noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
-        onClick={() => {
-          setSelectedGroup({
-            id: rowData?.groupId,
-            name: rowData?.groupName,
-          });
-          onClick();
-        }}
-      >
-        {buttonText}
-      </ActionDropdownItem>
-    ),
-  });
+  const renameWorkspaceAction = (rowData) => {
+    const access = getRowWorkspaceMenuItemProps(rowData, 'rename');
+    return {
+      title: (
+        <ActionDropdownItem
+          requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+            rowData?.groupId,
+          )}
+          {...access}
+          onClick={() => {
+            setSelectedGroup({
+              id: rowData?.groupId,
+              name: rowData?.groupName,
+            });
+            setRenameModalOpen(true);
+          }}
+        >
+          Rename workspace
+        </ActionDropdownItem>
+      ),
+    };
+  };
+
+  const deleteWorkspaceAction = (rowData) => {
+    const access = getRowWorkspaceMenuItemProps(rowData, 'delete');
+    return {
+      title: (
+        <ActionDropdownItem
+          requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
+            rowData?.groupId,
+          )}
+          {...access}
+          onClick={() => {
+            setSelectedGroup({
+              id: rowData?.groupId,
+              name: rowData?.groupName,
+            });
+            setDeleteModalOpen(true);
+          }}
+        >
+          Delete workspace
+        </ActionDropdownItem>
+      ),
+    };
+  };
 
   const containsUngrouped = (selectedIds) => {
     for (const id of selectedIds) {
@@ -347,16 +376,8 @@ const GroupsTable = ({ onCreateGroupClick }) => {
   };
 
   const groupsActionsResolver = (rowData) => [
-    modifyActionButton(
-      'Rename workspace',
-      () => setRenameModalOpen(true),
-      rowData,
-    ),
-    modifyActionButton(
-      'Delete workspace',
-      () => setDeleteModalOpen(true),
-      rowData,
-    ),
+    renameWorkspaceAction(rowData),
+    deleteWorkspaceAction(rowData),
   ];
 
   return (
@@ -460,7 +481,7 @@ const GroupsTable = ({ onCreateGroupClick }) => {
             <ActionButton
               key="create-group-btn"
               requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
-              noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
+              {...createWorkspaceButtonProps}
               onClick={onCreateGroupClick}
               ouiaId="CreateGroupButton"
             >
@@ -472,10 +493,13 @@ const GroupsTable = ({ onCreateGroupClick }) => {
                   requiredPermissions={selectedIds.flatMap((id) =>
                     REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(id),
                   )}
-                  noAccessTooltip={NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE}
+                  noAccessTooltip={bulkDeleteMenuItemProps.noAccessTooltip}
+                  override={bulkDeleteMenuItemProps.override}
                   onClick={() => setDeleteModalOpen(true)}
                   isAriaDisabled={
-                    selectedIds.length === 0 || containsUngrouped(selectedIds)
+                    selectedIds.length === 0 ||
+                    containsUngrouped(selectedIds) ||
+                    bulkDeleteMenuItemProps.isKesselGateBusy
                   }
                   checkAll
                 >
