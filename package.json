@@ -20,6 +20,7 @@
     "@redhat-cloud-services/javascript-clients-shared": "^2.0.0",
     "@sentry/webpack-plugin": "^2.22.5",
     "@unleash/proxy-client-react": "^3.5.0",
+    "axios": "^1.15.0",
     "awesome-debounce-promise": "^2.1.0",
     "bastilian-tabletools": "^1.11.5",
     "classnames": "^2.3.1",
