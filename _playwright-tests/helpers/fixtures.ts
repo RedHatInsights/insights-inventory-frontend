@@ -1,7 +1,7 @@
 import { test as base } from '@playwright/test';
 import fs from 'fs';
-import { closePopupsIfExist, enableSystemsViewAndKessel } from './loginHelpers';
-import { GLOBAL_DATA_PATH, isSystemsViewEnabled } from './constants';
+import { closePopupsIfExist } from './loginHelpers';
+import { GLOBAL_DATA_PATH } from './constants';
 import { System } from './uploadArchive';
 
 type SystemsTestData = {
@@ -33,10 +33,6 @@ export const test = base.extend<{
   systems: SystemsTestData;
 }>({
   page: async ({ page }, use) => {
-    if (isSystemsViewEnabled) {
-      await enableSystemsViewAndKessel(page);
-    }
-
     await closePopupsIfExist(page);
     await use(page);
   },
