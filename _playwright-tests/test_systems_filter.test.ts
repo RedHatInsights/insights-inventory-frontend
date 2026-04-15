@@ -264,9 +264,6 @@ test.describe('Filtering Systems Tests', () => {
       }
 
       // Open conditional filter dropdown and select "Last seen"
-      // await page
-      //   .getByRole('button', { name: 'Conditional filter toggle' })
-      //   .click();
       await page
         .locator(
           '[data-ouia-component-id="DataViewFilters"] button.pf-v6-c-menu-toggle',
