@@ -86,6 +86,11 @@ export const useGroupsTableWorkspaceActionPermissions = ({
     [isKesselMigrationEnabled, workspacePermissionsLoading],
   );
 
+  const isRowActionDisabled = useCallback(
+    (rowData) => Boolean(rowData?.ungrouped || kesselGateBusy),
+    [kesselGateBusy],
+  );
+
   /**
    * Props for rename/delete row kebab items (RBAC + optional Kessel override).
    *
@@ -94,84 +99,108 @@ export const useGroupsTableWorkspaceActionPermissions = ({
    */
   const getRowWorkspaceMenuItemProps = useCallback(
     (rowData, kind) => ({
-      isAriaDisabled: Boolean(rowData?.ungrouped || kesselGateBusy),
+      isAriaDisabled: isRowActionDisabled(rowData),
       noAccessTooltip: rowAccessTooltip(kind),
       override: rowData?.ungrouped
         ? undefined
         : rowAccessOverride(rowData?.groupId, kind),
     }),
-    [kesselGateBusy, rowAccessOverride, rowAccessTooltip],
+    [isRowActionDisabled, rowAccessOverride, rowAccessTooltip],
+  );
+
+  const selectionHasUngrouped = useCallback(
+    () =>
+      selectedIds.some((id) =>
+        Boolean(groups.find((group) => group.id === id)?.ungrouped),
+      ),
+    [selectedIds, groups],
+  );
+
+  const allSelectedDeletable = useCallback(
+    () =>
+      selectedIds.every(
+        (id) => workspacePermissionById[id]?.canDelete === true,
+      ),
+    [selectedIds, workspacePermissionById],
   );
 
   const bulkDeleteMenuItemProps = useMemo(() => {
+    const kesselBulkDeleteBase = {
+      noAccessTooltip: NO_DELETE_SELECTED_WORKSPACES_KESSEL_TOOLTIP_MESSAGE,
+      isKesselGateBusy: false,
+    };
+
     if (!isKesselMigrationEnabled) {
       return {
+        ...kesselBulkDeleteBase,
         noAccessTooltip: NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE,
         override: undefined,
-        isKesselGateBusy: false,
       };
     }
+
     if (workspacePermissionsLoading) {
       return {
+        ...kesselBulkDeleteBase,
         noAccessTooltip: NO_WORKSPACE_PERMISSIONS_LOADING_TOOLTIP_MESSAGE,
         override: false,
         isKesselGateBusy: true,
       };
     }
-    if (selectedIds.length === 0) {
+
+    if (!selectedIds.length) {
       return {
-        noAccessTooltip: NO_DELETE_SELECTED_WORKSPACES_KESSEL_TOOLTIP_MESSAGE,
+        noAccessTooltip: undefined,
         override: undefined,
         isKesselGateBusy: false,
       };
     }
-    const selectionHasUngrouped = selectedIds.some((id) =>
-      Boolean(groups.find((group) => group.id === id)?.ungrouped),
-    );
-    if (selectionHasUngrouped) {
-      return {
-        noAccessTooltip: NO_DELETE_SELECTED_WORKSPACES_KESSEL_TOOLTIP_MESSAGE,
-        override: undefined,
-        isKesselGateBusy: false,
-      };
+
+    if (selectionHasUngrouped()) {
+      return { ...kesselBulkDeleteBase, override: undefined };
     }
-    const allDeletable = selectedIds.every(
-      (id) => workspacePermissionById[id]?.canDelete === true,
-    );
+
     return {
-      noAccessTooltip: NO_DELETE_SELECTED_WORKSPACES_KESSEL_TOOLTIP_MESSAGE,
-      override: allDeletable,
-      isKesselGateBusy: false,
+      ...kesselBulkDeleteBase,
+      override: allSelectedDeletable(),
     };
   }, [
     isKesselMigrationEnabled,
-    selectedIds,
-    workspacePermissionById,
     workspacePermissionsLoading,
-    groups,
+    selectedIds,
+    selectionHasUngrouped,
+    allSelectedDeletable,
   ]);
 
+  /** @type {'legacy' | 'loading' | 'ready'} */
+  const createMode = !isKesselMigrationEnabled
+    ? 'legacy'
+    : createPermissionLoading
+      ? 'loading'
+      : 'ready';
+
   const createWorkspaceButtonProps = useMemo(() => {
-    if (!isKesselMigrationEnabled) {
-      return {
-        noAccessTooltip: NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE,
-        override: undefined,
-        isAriaDisabled: false,
-      };
+    switch (createMode) {
+      case 'legacy':
+        return {
+          noAccessTooltip: NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE,
+          override: undefined,
+          isAriaDisabled: false,
+        };
+      case 'loading':
+        return {
+          noAccessTooltip: NO_WORKSPACE_PERMISSIONS_LOADING_TOOLTIP_MESSAGE,
+          override: false,
+          isAriaDisabled: true,
+        };
+      case 'ready':
+      default:
+        return {
+          noAccessTooltip: NO_CREATE_WORKSPACE_KESSEL_TOOLTIP_MESSAGE,
+          override: canCreateWorkspace === true,
+          isAriaDisabled: false,
+        };
     }
-    if (createPermissionLoading) {
-      return {
-        noAccessTooltip: NO_WORKSPACE_PERMISSIONS_LOADING_TOOLTIP_MESSAGE,
-        override: false,
-        isAriaDisabled: true,
-      };
-    }
-    return {
-      noAccessTooltip: NO_CREATE_WORKSPACE_KESSEL_TOOLTIP_MESSAGE,
-      override: canCreateWorkspace === true,
-      isAriaDisabled: false,
-    };
-  }, [isKesselMigrationEnabled, createPermissionLoading, canCreateWorkspace]);
+  }, [createMode, canCreateWorkspace]);
 
   return {
     isKesselMigrationEnabled,

@@ -233,6 +233,9 @@ describe('useGroupsTableWorkspaceActionPermissions', () => {
         }),
       );
       expect(empty.current.bulkDeleteMenuItemProps.override).toBeUndefined();
+      expect(
+        empty.current.bulkDeleteMenuItemProps.noAccessTooltip,
+      ).toBeUndefined();
 
       const { result: ungrouped } = renderHook(() =>
         useGroupsTableWorkspaceActionPermissions({

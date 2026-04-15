@@ -319,8 +319,9 @@ const GroupsTable = ({ onCreateGroupClick }) => {
   const displayedIds = map(rows, 'groupId');
   const pageSelected = difference(displayedIds, selectedIds).length === 0;
 
-  const renameWorkspaceAction = (rowData) => {
-    const access = getRowWorkspaceMenuItemProps(rowData, 'rename');
+  const buildWorkspaceAction = (kind, label, openModal) => (rowData) => {
+    const access = getRowWorkspaceMenuItemProps(rowData, kind);
+
     return {
       title: (
         <ActionDropdownItem
@@ -333,37 +334,26 @@ const GroupsTable = ({ onCreateGroupClick }) => {
               id: rowData?.groupId,
               name: rowData?.groupName,
             });
-            setRenameModalOpen(true);
+            openModal(true);
           }}
         >
-          Rename workspace
+          {label}
         </ActionDropdownItem>
       ),
     };
   };
 
-  const deleteWorkspaceAction = (rowData) => {
-    const access = getRowWorkspaceMenuItemProps(rowData, 'delete');
-    return {
-      title: (
-        <ActionDropdownItem
-          requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-            rowData?.groupId,
-          )}
-          {...access}
-          onClick={() => {
-            setSelectedGroup({
-              id: rowData?.groupId,
-              name: rowData?.groupName,
-            });
-            setDeleteModalOpen(true);
-          }}
-        >
-          Delete workspace
-        </ActionDropdownItem>
-      ),
-    };
-  };
+  const renameWorkspaceAction = buildWorkspaceAction(
+    'rename',
+    'Rename workspace',
+    setRenameModalOpen,
+  );
+
+  const deleteWorkspaceAction = buildWorkspaceAction(
+    'delete',
+    'Delete workspace',
+    setDeleteModalOpen,
+  );
 
   const containsUngrouped = (selectedIds) => {
     for (const id of selectedIds) {

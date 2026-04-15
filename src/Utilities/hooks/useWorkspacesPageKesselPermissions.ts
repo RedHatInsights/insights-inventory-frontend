@@ -74,26 +74,24 @@ export const useWorkspaceTableRowKesselPermissions = (
   } as BulkSelfAccessCheckNestedRelationsParams);
 
   const workspacePermissionById = useMemo(() => {
-    const record: Record<string, WorkspaceRowKesselPermissions> = {};
-    for (const id of workspaceIds) {
-      record[id] = { canEdit: false, canDelete: false };
-    }
-    if (!checks?.length) {
-      return record;
-    }
-    for (const check of checks) {
-      const id = check.resource?.id;
-      if (!id || !(id in record)) {
-        continue;
-      }
-      const current = record[id];
-      if (check.relation === WORKSPACE_RELATION_EDIT) {
-        record[id] = { ...current, canEdit: check.allowed === true };
-      } else if (check.relation === WORKSPACE_RELATION_DELETE) {
-        record[id] = { ...current, canDelete: check.allowed === true };
-      }
-    }
-    return record;
+    return workspaceIds.reduce<Record<string, WorkspaceRowKesselPermissions>>(
+      (acc, id) => {
+        const relevantChecks = checks?.filter((c) => c.resource?.id === id);
+        const canEdit =
+          relevantChecks?.some(
+            (c) => c.relation === WORKSPACE_RELATION_EDIT && c.allowed === true,
+          ) ?? false;
+        const canDelete =
+          relevantChecks?.some(
+            (c) =>
+              c.relation === WORKSPACE_RELATION_DELETE && c.allowed === true,
+          ) ?? false;
+
+        acc[id] = { canEdit, canDelete };
+        return acc;
+      },
+      {},
+    );
   }, [checks, workspaceIds]);
 
   return {
@@ -167,32 +165,39 @@ export const useKesselCanCreateWorkspace = () => {
     resources,
   } as BulkSelfAccessCheckNestedRelationsParams);
 
-  const canCreateWorkspace = useMemo(() => {
+  const { canCreateWorkspace, createPermissionLoading } = useMemo(() => {
     if (!isKesselEnabled) {
-      return undefined;
+      return { canCreateWorkspace: undefined, createPermissionLoading: false };
     }
+
     if (rootFetchStatus === 'error') {
-      return false;
+      return { canCreateWorkspace: false, createPermissionLoading: false };
     }
-    if (rootFetchStatus !== 'ready' || !rootWorkspaceId) {
-      return false;
+
+    if (
+      rootFetchStatus === 'idle' ||
+      rootFetchStatus === 'loading' ||
+      !rootWorkspaceId
+    ) {
+      return { canCreateWorkspace: false, createPermissionLoading: true };
     }
+
     if (checkLoading) {
-      return false;
+      return { canCreateWorkspace: false, createPermissionLoading: true };
     }
-    return checks?.some(
+
+    const allowed = checks?.some(
       (c) =>
         c.relation === WORKSPACE_RELATION_EDIT &&
         c.resource?.id === rootWorkspaceId &&
         c.allowed === true,
     );
-  }, [isKesselEnabled, rootFetchStatus, rootWorkspaceId, checkLoading, checks]);
 
-  const createPermissionLoading =
-    isKesselEnabled &&
-    (rootFetchStatus === 'idle' ||
-      rootFetchStatus === 'loading' ||
-      (rootFetchStatus === 'ready' && checkLoading));
+    return {
+      canCreateWorkspace: allowed,
+      createPermissionLoading: false,
+    };
+  }, [isKesselEnabled, rootFetchStatus, rootWorkspaceId, checkLoading, checks]);
 
   return { canCreateWorkspace, createPermissionLoading };
 };
