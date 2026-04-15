@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { DataViewTrObject } from '@patternfly/react-data-view';
-import { BulkSelectValue } from '@patternfly/react-component-groups/dist/dynamic/BulkSelect';
+import { BulkSelectValue } from '../../BulkSelect';
 
 export interface DataViewBulkSelection<T = DataViewTrObject> {
   selected: T[];
@@ -22,9 +22,8 @@ export const useBulkSelect = <T = DataViewTrObject>({
 }: UseBulkSelectParams<T>) => {
   const { selected, setSelected, onSelect, isSelected } = selection;
 
-  const isAnySelected = selected.length > 0;
   const isFullySelected = total > 0 && selected.length === total;
-  const isPartiallySelected = isAnySelected && !isFullySelected;
+  const isPartiallySelected = selected.length > 0 && !isFullySelected;
   const isPageSelected =
     rows.length > 0 && rows.every((row) => isSelected(row));
 
