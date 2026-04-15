@@ -246,7 +246,6 @@ test('User should be able to delete multiple systems from Systems page', async (
     });
 
     await test.step(`Sort by Name column in ${order} order`, async () => {
-      // const columnHeader = page.locator('th[data-label="Name"] button');
       const columnHeader = page
         .locator('button.pf-v6-c-table__button')
         .filter({ hasText: /^Name$/ })
