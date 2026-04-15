@@ -13,7 +13,7 @@ export const navigateToInventorySystemsFunc = async (page: Page) => {
   });
   await page
     .locator('[data-ouia-component-id="SkeletonTable"]')
-    .waitFor({ state: 'detached', timeout: 10000 });
+    .waitFor({ state: 'hidden', timeout: 10000 });
 };
 
 /**

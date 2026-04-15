@@ -96,7 +96,7 @@ export const filterSystemsWithConditionalFilter = async (
   // wait for table to be filtered
   await page
     .locator('[data-ouia-component-id="SkeletonTable"]')
-    .waitFor({ state: 'detached', timeout: 10000 });
+    .waitFor({ state: 'hidden', timeout: 10000 });
 };
 
 /**
@@ -151,7 +151,7 @@ export const searchByName = async (page: Page, name: string): Promise<void> => {
   await searchInput.fill(name);
   await page
     .locator('[data-ouia-component-id="SkeletonTable"]')
-    .waitFor({ state: 'detached', timeout: 10000 });
+    .waitFor({ state: 'hidden', timeout: 10000 });
 };
 
 /**
