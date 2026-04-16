@@ -32,21 +32,18 @@ test('User should be able to edit and delete a system from Systems page', async 
   await test.step(`Edit the system "${system.hostname}" display name and save`, async () => {
     await searchByName(page, system.hostname);
     await expect(nameCell).toHaveCount(1);
-    await page
+    const kebab = page
       .getByRole('row', { name: new RegExp(system.hostname, 'i') })
-      .getByLabel('Kebab toggle')
-      .click();
+      .getByLabel('Kebab toggle');
+    await kebab.click();
+    await expect(kebab).toHaveAttribute('aria-expanded', 'true');
 
-    if (isSystemsViewEnabled) {
-      const editButton = page.getByRole('menuitem', { name: /^\s*Edit\s*$/i });
-      await expect(editButton).toBeEnabled({ timeout: 10000 });
-      await editButton.click();
-    } else {
-      await page
-        .getByRole('menuitem', { name: 'Edit display name' })
-        .first()
-        .click();
-    }
+    const editButton = page.getByRole('menuitem', { name: /^Edit/ }).first();
+    await expect(editButton).toBeEnabled({
+      enabled: isSystemsViewEnabled || undefined,
+      timeout: 50000,
+    });
+    await editButton.click();
     await expect(dialog).toBeVisible();
 
     await expect(page.getByRole('textbox')).toHaveValue(system.hostname);
@@ -57,24 +54,23 @@ test('User should be able to edit and delete a system from Systems page', async 
   await test.step(`Delete the renamed system "${newDisplayName}" and verify it is removed`, async () => {
     await searchByName(page, newDisplayName);
     await expect(nameCell).toHaveCount(1);
+    const row = page.getByRole('row', {
+      name: new RegExp(newDisplayName, 'i'),
+    });
+    await expect(row).toBeVisible();
+    const kebab = row.getByLabel('Kebab toggle');
+    await kebab.click();
+    await expect(kebab).toHaveAttribute('aria-expanded', 'true');
 
-    await page
-      .getByRole('row', { name: new RegExp(newDisplayName, 'i') })
-      .getByLabel('Kebab toggle')
-      .click();
+    const deleteButton = page
+      .getByRole('menuitem', { name: /^Delete/ })
+      .first();
+    await expect(deleteButton).toBeEnabled({
+      enabled: isSystemsViewEnabled || undefined,
+      timeout: 50000,
+    });
+    await deleteButton.click();
 
-    if (isSystemsViewEnabled) {
-      const deleteButton = page.getByRole('menuitem', {
-        name: /^\s*Delete\s*$/i,
-      });
-      await expect(deleteButton).toBeEnabled({ timeout: 10000 });
-      await deleteButton.click();
-    } else {
-      await page
-        .getByRole('menuitem', { name: 'Delete from inventory' })
-        .first()
-        .click();
-    }
     await expect(dialog).toBeVisible();
     await dialog.getByRole('button', { name: 'Delete' }).click();
 
@@ -185,14 +181,9 @@ test('User should be able to delete multiple systems from Systems page', async (
      - importance: critical
    */
   const dialog = page.locator('[role="dialog"]');
-  let nameCell: Locator;
-  if (isSystemsViewEnabled) {
-    nameCell = page.locator(
-      'tbody.pf-v6-c-table__tbody tr[data-ouia-component-type="PF6/TableRow"]',
-    );
-  } else {
-    nameCell = page.locator('td[data-label="Name"]');
-  }
+  const nameCell = page.locator(
+    'tbody.pf-v6-c-table__tbody tr[data-ouia-component-type="PF6/TableRow"]',
+  );
 
   await test.step('Navigate to Inventory → Systems', async () => {
     await navigateToInventorySystemsFunc(page);

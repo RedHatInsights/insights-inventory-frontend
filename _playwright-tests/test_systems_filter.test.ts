@@ -10,6 +10,7 @@ import {
   WORKSPACE_WITH_SYSTEMS,
   BASE_ARCHIVE_TAG_COUNT,
   TAG,
+  isSystemsViewEnabled,
 } from './helpers/constants';
 
 test.describe('Filtering Systems Tests', () => {
@@ -300,7 +301,7 @@ test.describe('Filtering Systems Tests', () => {
     });
 
     await test.step('Verify URL contains correct filter parameter', async () => {
-      if (process.env.SYSTEMS_VIEW !== 'true') {
+      if (!isSystemsViewEnabled) {
         await expect(async () => {
           const url = page.url();
           expect(url).toContain('last_seen=last24');

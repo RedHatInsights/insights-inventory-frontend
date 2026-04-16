@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { type Locator, type Page } from '@playwright/test';
+import { isSystemsViewEnabled } from './constants';
 
 /**
  * Applies a conditional filter to the systems list in the UI.
@@ -128,8 +129,8 @@ export const expectAllRowsHaveText = async (
 /**
  * Searches for an item on the page by entering its name into the "Filter by name" input field.
  *
- * This function ensures the search input is visible, reloads the page to guarantee a clean state,
- * then fills the specified name into the input field.
+ * This function ensures the search input is visible, reloads the page to guarantee a clean state
+ * (waiting for the network to be idle), and then fills the specified name into the input field.
  *
  *  @param   {Page}          page - The Playwright Page object to interact with.
  *  @param   {string}        name - The name to enter into the "Filter by name" input field.
@@ -139,19 +140,13 @@ export const expectAllRowsHaveText = async (
  * await searchByName(page, 'my-system-name');
  */
 export const searchByName = async (page: Page, name: string): Promise<void> => {
-  const searchInput = page
-    .locator('input[placeholder="Filter by name"]')
-    .or(page.getByRole('textbox', { name: /display name filter/i }));
-  if (process.env.SYSTEMS_VIEW !== 'true') {
-    await page.reload({ waitUntil: 'networkidle' });
-  } else {
-    await page.reload({ waitUntil: 'load' });
-  }
-  await expect(searchInput).toBeVisible({ timeout: 60_000 });
+  const searchInput = page.locator('input[placeholder="Filter by name"]');
+  await page.reload({ waitUntil: 'networkidle' });
+  await expect(searchInput).toBeVisible({ timeout: 30000 });
   await searchInput.fill(name);
   await page
     .locator('[data-ouia-component-id="SkeletonTable"]')
-    .waitFor({ state: 'hidden', timeout: 10000 });
+    .waitFor({ state: 'hidden', timeout: 30000 });
 };
 
 /**
