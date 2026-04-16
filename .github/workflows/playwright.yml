@@ -74,7 +74,7 @@ jobs:
         run: npm ci
 
       - name: Install Playwright
-        run: npx playwright install chromium --only-shell
+        run: npx playwright install chromium
 
       - name: Increase file watchers limit
         run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
