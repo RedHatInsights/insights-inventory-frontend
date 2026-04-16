@@ -19,6 +19,15 @@ jobs:
         uses: actions/checkout@v5
         with:
           submodules: recursive
+      
+      - name: Cache - node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            dist
+          key: ${{ runner.os }}-frontend-node-modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: ${{ runner.os }}-frontend-node-modules-
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -56,7 +65,7 @@ jobs:
         run: npm ci
 
       - name: Install Playwright
-        run: npx playwright install --with-deps
+        run: npx playwright install chromium
 
       - name: Run front-end Playwright tests
         run: USE_CTRF=1 CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test --grep-invert @integration

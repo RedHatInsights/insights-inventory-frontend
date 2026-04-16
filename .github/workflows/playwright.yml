@@ -54,6 +54,15 @@ jobs:
           echo "Pull Request URL: $pr_url"
           # Set the PR URL as an output using the environment file
           echo "pr_url=$pr_url" >> $GITHUB_ENV
+      
+      - name: Cache - node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            dist
+          key: ${{ runner.os }}-frontend-node-modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: ${{ runner.os }}-frontend-node-modules-
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -65,7 +74,7 @@ jobs:
         run: npm ci
 
       - name: Install Playwright
-        run: npx playwright install --with-deps
+        run: npx playwright install chromium
 
       - name: Increase file watchers limit
         run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
