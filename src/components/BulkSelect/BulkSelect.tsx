@@ -29,6 +29,8 @@ export const BulkSelectValue = {
 export type BulkSelectValue =
   (typeof BulkSelectValue)[keyof typeof BulkSelectValue];
 
+export type BulkSelectSource = 'checkbox' | 'dropdown';
+
 const defaultSelectPageLabel = (pageCount?: number) =>
   `Select page${pageCount ? ` (${pageCount})` : ''}`;
 const defaultSelectAllLabel = (totalCount?: number) =>
@@ -56,7 +58,7 @@ export interface BulkSelectProps
   /** Indicates if ONLY some current page items are selected */
   pagePartiallySelected?: boolean;
   /** Callback called on item select */
-  onSelect: (value: BulkSelectValue) => void;
+  onSelect: (value: BulkSelectValue, source?: BulkSelectSource) => void;
   /** Custom OUIA ID */
   ouiaId?: string;
   /** Additional props for MenuToggleCheckbox */
@@ -161,7 +163,7 @@ export const BulkSelect: FC<BulkSelectProps> = ({
       ouiaId={`${ouiaId}-dropdown`}
       onSelect={(_e, value) => {
         setOpen(!isOpen);
-        onSelect?.(value as BulkSelectValue);
+        onSelect?.(value as BulkSelectValue, 'dropdown');
       }}
       isOpen={isOpen}
       onOpenChange={(isOpen: boolean) => setOpen(isOpen)}
@@ -190,6 +192,7 @@ export const BulkSelect: FC<BulkSelectProps> = ({
               onChange={(checked) =>
                 onSelect?.(
                   !checked || checked === null ? noneOption : allOption,
+                  'checkbox',
                 )
               }
               {...menuToggleCheckboxProps}

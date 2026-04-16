@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { DataViewTrObject } from '@patternfly/react-data-view';
-import { BulkSelectValue } from '../../BulkSelect';
+import { BulkSelectSource, BulkSelectValue } from '../../BulkSelect';
 
 export interface DataViewBulkSelection<T = DataViewTrObject> {
   selected: T[];
@@ -28,23 +28,21 @@ export const useBulkSelect = <T = DataViewTrObject>({
     rows.length > 0 && rows.every((row) => isSelected(row));
 
   const onBulkSelect = useCallback(
-    async (value: BulkSelectValue) => {
+    async (value: BulkSelectValue, source: BulkSelectSource) => {
       switch (value) {
         case BulkSelectValue.none:
         case BulkSelectValue.nonePage:
           setSelected([]);
           break;
         case BulkSelectValue.page:
-          /**
-           * Unchecking checkbox event and select page event are conflicting.
-           * They're both encoded by value "page" in page-selected state, hence it's not possible
-           * to implement all behaviors from our BulkSelect Design Doc.
-           * Tracked by JIRA: RHINENG-25287
-           */
-          if (isPartiallySelected) {
-            setSelected([]);
-          } else {
+          if (source === 'dropdown') {
             onSelect(true, rows);
+          } else if (source === 'checkbox') {
+            if (isPartiallySelected) {
+              setSelected([]);
+            } else {
+              onSelect(true, rows);
+            }
           }
           break;
         default:
