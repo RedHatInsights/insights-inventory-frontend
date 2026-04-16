@@ -28,7 +28,7 @@ export const useBulkSelect = <T = DataViewTrObject>({
     rows.length > 0 && rows.every((row) => isSelected(row));
 
   const onBulkSelect = useCallback(
-    async (value: BulkSelectValue, source: BulkSelectSource) => {
+    async (value: BulkSelectValue, source?: BulkSelectSource) => {
       switch (value) {
         case BulkSelectValue.none:
         case BulkSelectValue.nonePage:

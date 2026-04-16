@@ -111,6 +111,7 @@ export const BulkSelect: FC<BulkSelectProps> = ({
           ouiaId={`${ouiaId}-select-none`}
           value={BulkSelectValue.none}
           key={BulkSelectValue.none}
+          isDisabled={selectedCount === 0}
         >
           {selectNoneLabel}
         </DropdownItem>
@@ -143,6 +144,7 @@ export const BulkSelect: FC<BulkSelectProps> = ({
       selectAllLabel,
       pageCount,
       totalCount,
+      selectedCount,
     ],
   );
 
