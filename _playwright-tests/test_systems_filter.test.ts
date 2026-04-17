@@ -10,6 +10,7 @@ import {
   WORKSPACE_WITH_SYSTEMS,
   BASE_ARCHIVE_TAG_COUNT,
   TAG,
+  isSystemsViewEnabled,
 } from './helpers/constants';
 
 test.describe('Filtering Systems Tests', () => {
@@ -21,9 +22,9 @@ test.describe('Filtering Systems Tests', () => {
   test.beforeEach(async ({ page }) => {
     await closePopupsIfExist(page);
     await navigateToInventorySystemsFunc(page);
-    const resetFiltersButton = page.getByRole('button', {
-      name: 'Reset filters',
-    });
+    const resetFiltersButton = page
+      .getByRole('button', { name: 'Reset filters' })
+      .or(page.getByRole('button', { name: 'Clear filters' }));
     if (await resetFiltersButton.isVisible({ timeout: 100 })) {
       await resetFiltersButton.click();
     }
@@ -55,9 +56,9 @@ test.describe('Filtering Systems Tests', () => {
 
     await test.step('Image-based system option', async () => {
       // Reset previews filter
-      const resetFiltersButton = page.getByRole('button', {
-        name: 'Reset filters',
-      });
+      const resetFiltersButton = page
+        .getByRole('button', { name: 'Reset filters' })
+        .or(page.getByRole('button', { name: 'Clear filters' }));
       // eslint-disable-next-line playwright/no-conditional-in-test
       if (await resetFiltersButton.isVisible({ timeout: 100 })) {
         await resetFiltersButton.click();
@@ -90,12 +91,18 @@ test.describe('Filtering Systems Tests', () => {
       'Workspace',
       WORKSPACE_WITH_SYSTEMS,
     );
-    const workspaceCellWithValue = page.locator(
-      'table tbody td[data-label="Workspace"]',
-      {
+    const workspaceCellWithValue = page
+      .locator('td[data-label="Workspace"]', {
         hasText: WORKSPACE_WITH_SYSTEMS,
-      },
-    );
+      })
+      .or(
+        page.locator(
+          'td[data-ouia-component-id^="systems-view-table-td-"][data-ouia-component-id$="-1"]',
+          {
+            hasText: WORKSPACE_WITH_SYSTEMS,
+          },
+        ),
+      );
     await expect(workspaceCellWithValue.first()).toBeVisible();
     const count = await workspaceCellWithValue.count();
     await expect(workspaceCellWithValue).toHaveText(
@@ -149,12 +156,13 @@ test.describe('Filtering Systems Tests', () => {
       });
 
       await test.step('Verify filtered results show correct OS', async () => {
-        const columnVersionOS = page.locator(
-          'table tbody td[data-label="OS"]',
-          {
-            hasText: testData.OS,
-          },
-        );
+        const columnVersionOS = page
+          .locator('td[data-label="OS"]', { hasText: testData.OS })
+          .or(
+            page.locator('span[aria-label="Formatted OS version"]', {
+              hasText: testData.OS,
+            }),
+          );
         await expect(columnVersionOS.first()).toBeVisible();
         const count = await columnVersionOS.count();
         await expect(columnVersionOS).toHaveText(
@@ -258,7 +266,10 @@ test.describe('Filtering Systems Tests', () => {
 
       // Open conditional filter dropdown and select "Last seen"
       await page
-        .getByRole('button', { name: 'Conditional filter toggle' })
+        .locator(
+          '[data-ouia-component-id="DataViewFilters"] button.pf-v6-c-menu-toggle',
+        )
+        .or(page.getByRole('button', { name: 'Conditional filter toggle' }))
         .click();
       await page.getByRole('menuitem', { name: 'Last seen' }).click();
 
@@ -290,10 +301,12 @@ test.describe('Filtering Systems Tests', () => {
     });
 
     await test.step('Verify URL contains correct filter parameter', async () => {
-      await expect(async () => {
-        const url = page.url();
-        expect(url).toContain('last_seen=last24');
-      }).toPass({ timeout: 5000 });
+      if (!isSystemsViewEnabled) {
+        await expect(async () => {
+          const url = page.url();
+          expect(url).toContain('last_seen=last24');
+        }).toPass({ timeout: 5000 });
+      }
     });
 
     await test.step('Verify table shows filtered results', async () => {

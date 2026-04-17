@@ -190,7 +190,6 @@ const SystemsViewInner = ({
               bodyStates={{
                 loading: (
                   <SkeletonTable
-                    ouiaId="loading-state"
                     isSelectable
                     rowsCount={pagination.perPage}
                     columns={tableHeaderNodes}

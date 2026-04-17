@@ -14,6 +14,7 @@ type SystemsTestData = {
 
 /**
  * Safely loads and validates the global test data file.
+ *  @param path
  */
 function loadGlobalSystemsData(path: string): SystemsTestData {
   if (!fs.existsSync(path)) {
