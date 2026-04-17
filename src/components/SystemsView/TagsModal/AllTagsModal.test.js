@@ -38,6 +38,8 @@ function renderWithFilters(ui, options) {
     filters,
     onSetFilters = jest.fn(),
     clearAllFilters = jest.fn(),
+    lastSeenCustomRange = null,
+    setLastSeenCustomRange = jest.fn(),
   } = options;
   const queryClient = createTestQueryClient();
   return {
@@ -45,7 +47,13 @@ function renderWithFilters(ui, options) {
     ...render(
       <QueryClientProvider client={queryClient}>
         <DataViewFiltersContext.Provider
-          value={{ filters, onSetFilters, clearAllFilters }}
+          value={{
+            filters,
+            onSetFilters,
+            clearAllFilters,
+            lastSeenCustomRange,
+            setLastSeenCustomRange,
+          }}
         >
           {ui}
         </DataViewFiltersContext.Provider>

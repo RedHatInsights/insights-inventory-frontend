@@ -57,10 +57,10 @@ describe('buildOperatingSystemProfileFilter', () => {
   it('groups tokens by OS name and dedupes versions', () => {
     expect(
       buildOperatingSystemProfileFilter([
-        'RHEL:9.0',
-        'RHEL:8.4',
-        'RHEL:9.0',
-        'CentOS Linux:7.9',
+        'RHEL9.0',
+        'RHEL8.4',
+        'RHEL9.0',
+        'CentOS Linux7.9',
       ]),
     ).toEqual({
       RHEL: { version: { eq: ['9.0', '8.4'] } },
@@ -70,7 +70,7 @@ describe('buildOperatingSystemProfileFilter', () => {
 
   it('skips malformed tokens', () => {
     expect(
-      buildOperatingSystemProfileFilter(['nocolon', ':onlyversion', 'OK:1.0']),
+      buildOperatingSystemProfileFilter(['nocolon', ':onlyversion', 'OK1.0']),
     ).toEqual({
       OK: { version: { eq: ['1.0'] } },
     });
