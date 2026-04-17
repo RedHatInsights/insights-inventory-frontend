@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { type Locator, type Page } from '@playwright/test';
-import { isSystemsViewEnabled } from './constants';
+
+const SKELETON_TABLE = '[data-ouia-component-id="SkeletonTable"]';
 
 /**
  * Applies a conditional filter to the systems list in the UI.
@@ -96,7 +97,7 @@ export const filterSystemsWithConditionalFilter = async (
   await page.mouse.click(0, 0); //to make sure menu is closed
   // wait for table to be filtered
   await page
-    .locator('[data-ouia-component-id="SkeletonTable"]')
+    .locator(SKELETON_TABLE)
     .waitFor({ state: 'hidden', timeout: 10000 });
 };
 
@@ -144,9 +145,23 @@ export const searchByName = async (page: Page, name: string): Promise<void> => {
   await page.reload({ waitUntil: 'networkidle' });
   await expect(searchInput).toBeVisible({ timeout: 30000 });
   await searchInput.fill(name);
-  await page
-    .locator('[data-ouia-component-id="SkeletonTable"]')
-    .waitFor({ state: 'hidden', timeout: 30000 });
+};
+
+export const waitForSystemsTableKebabReady = async (
+  page: Page,
+  rowNameMatch: RegExp,
+): Promise<Locator> => {
+  const row = page.getByRole('row', { name: rowNameMatch });
+  const kebab = row.getByLabel('Kebab toggle');
+
+  await expect(async () => {
+    await expect(page.locator(SKELETON_TABLE)).toBeHidden();
+    await expect(row).toBeVisible();
+    await expect(kebab).toBeVisible();
+    await expect(kebab).toBeEnabled();
+  }).toPass({ timeout: 45000 });
+
+  return kebab;
 };
 
 /**

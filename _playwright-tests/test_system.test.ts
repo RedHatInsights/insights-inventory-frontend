@@ -2,7 +2,10 @@ import { expect, Locator } from '@playwright/test';
 import { createSystem } from './helpers/uploadArchive';
 import { navigateToInventorySystemsFunc } from './helpers/navHelpers';
 import { test } from './helpers/fixtures';
-import { searchByName } from './helpers/filterHelpers';
+import {
+  searchByName,
+  waitForSystemsTableKebabReady,
+} from './helpers/filterHelpers';
 import { isSystemsViewEnabled } from './helpers/constants';
 
 test('User should be able to edit and delete a system from Systems page', async ({
@@ -32,9 +35,10 @@ test('User should be able to edit and delete a system from Systems page', async 
   await test.step(`Edit the system "${system.hostname}" display name and save`, async () => {
     await searchByName(page, system.hostname);
     await expect(nameCell).toHaveCount(1);
-    const kebab = page
-      .getByRole('row', { name: new RegExp(system.hostname, 'i') })
-      .getByLabel('Kebab toggle');
+    const kebab = await waitForSystemsTableKebabReady(
+      page,
+      new RegExp(system.hostname, 'i'),
+    );
     await kebab.click();
     await expect(kebab).toHaveAttribute('aria-expanded', 'true');
 
@@ -54,11 +58,10 @@ test('User should be able to edit and delete a system from Systems page', async 
   await test.step(`Delete the renamed system "${newDisplayName}" and verify it is removed`, async () => {
     await searchByName(page, newDisplayName);
     await expect(nameCell).toHaveCount(1);
-    const row = page.getByRole('row', {
-      name: new RegExp(newDisplayName, 'i'),
-    });
-    await expect(row).toBeVisible();
-    const kebab = row.getByLabel('Kebab toggle');
+    const kebab = await waitForSystemsTableKebabReady(
+      page,
+      new RegExp(newDisplayName, 'i'),
+    );
     await kebab.click();
     await expect(kebab).toHaveAttribute('aria-expanded', 'true');
 
