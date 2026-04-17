@@ -16,6 +16,7 @@ import {
   buildOperatingSystemSelectGroups,
   buildOsFilterTokens,
   mapOperatingSystemApiResultsToVersionRows,
+  serializeOperatingSystemFilterValue,
 } from '../utils/operatingSystemSelectOptions';
 import { FILTER_DROPDOWN_WIDTH } from '../constants';
 
@@ -159,7 +160,10 @@ export const OperatingSystemsFilter = ({
                   }}
                 />
                 {group.items.map((item, itemIndex) => {
-                  const token = `${group.value}:${item.value}`;
+                  const token = serializeOperatingSystemFilterValue(
+                    group.value,
+                    item.value,
+                  );
                   return (
                     <OsFilterOption
                       key={token}
