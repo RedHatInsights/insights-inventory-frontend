@@ -173,9 +173,10 @@ export const getSearchParams = (searchParams) => {
   const lastSeenFilter = searchParams.getAll('last_seen');
   const systemTypeFilter = searchParams.getAll('system_type');
   const workloadFilter = searchParams.getAll(WORKLOAD_FILTER_KEY);
+  const rawSort = searchParams.get('sort');
   const sortBy = {
-    key: searchParams.get('sort')?.replace('-', ''),
-    direction: searchParams.get('sort')?.includes('-') ? 'desc' : 'asc',
+    key: rawSort?.startsWith('-') ? rawSort.slice(1) : rawSort,
+    direction: rawSort?.startsWith('-') ? 'desc' : 'asc',
   };
 
   return {
