@@ -10,6 +10,8 @@ import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-s
 import { SortDirection } from '../SystemsView';
 import { buildOperatingSystemProfileFilter } from '../utils/operatingSystemSelectOptions';
 import { buildWorkloadsFilter } from '../utils/workloadsFilter';
+import { lastSeenKeysToApiParams } from '../utils/lastSeenKeysToApiParams';
+import type { LastSeenCustomRange } from '../DataViewFiltersContext';
 
 const serializeSystemType = (values: string[]) => {
   const validValues = Object.values(ApiHostGetHostListSystemTypeEnum);
@@ -29,6 +31,7 @@ interface FetchSystemsParams {
   page: number;
   perPage: number;
   filters: InventoryFilters;
+  lastSeenCustomRange: LastSeenCustomRange;
   sortBy: ApiOrderByEnum | undefined;
   direction: SortDirection | undefined;
 }
@@ -36,6 +39,7 @@ const fetchSystems = async ({
   page,
   perPage,
   filters,
+  lastSeenCustomRange,
   sortBy,
   direction,
 }: FetchSystemsParams) => {
@@ -54,6 +58,11 @@ const fetchSystems = async ({
 
   const hasSystemProfileFilter = Object.keys(systemProfileFilter).length > 0;
 
+  const lastSeenParams = lastSeenKeysToApiParams(
+    filters.last_seen,
+    lastSeenCustomRange,
+  );
+
   const params: ApiHostGetHostListParams = {
     page,
     perPage,
@@ -65,12 +74,9 @@ const fetchSystems = async ({
     ...(filters?.system_type && {
       systemType: serializeSystemType(filters.system_type),
     }),
-    ...(filters?.workspace && { groupName: filters.workspace }),
+    ...(filters?.group_name && { groupName: filters.group_name }),
     ...(filters?.tags && { tags: filters.tags }),
-    ...(filters?.last_seen && {
-      lastCheckInStart: filters.last_seen?.start,
-      lastCheckInEnd: filters.last_seen?.end,
-    }),
+    ...(lastSeenParams ?? {}),
     /* Override default dot notation from API client: backend requires bracket notation for nested params (fields, filter) */
     options: {
       paramsSerializer: (params) => {
@@ -118,6 +124,7 @@ interface UseSystemsQueryParams {
   page: number;
   perPage: number;
   filters: InventoryFilters;
+  lastSeenCustomRange: LastSeenCustomRange;
   sortBy: ApiOrderByEnum | undefined;
   direction: SortDirection | undefined;
   /** When false, the query is not run (e.g. when user has no access). Default true. */
@@ -127,14 +134,30 @@ export const useSystemsQuery = ({
   page,
   perPage,
   filters,
+  lastSeenCustomRange,
   sortBy,
   direction,
   enabled = true,
 }: UseSystemsQueryParams) => {
   const { data, isLoading, isFetching, isError, error } = useQuery({
-    queryKey: ['systems', page, perPage, filters, sortBy, direction],
+    queryKey: [
+      'systems',
+      page,
+      perPage,
+      filters,
+      lastSeenCustomRange,
+      sortBy,
+      direction,
+    ],
     queryFn: async () => {
-      return await fetchSystems({ page, perPage, filters, sortBy, direction });
+      return await fetchSystems({
+        page,
+        perPage,
+        filters,
+        lastSeenCustomRange,
+        sortBy,
+        direction,
+      });
     },
     placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,

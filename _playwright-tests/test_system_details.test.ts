@@ -4,6 +4,7 @@ import { test } from './helpers/fixtures';
 import { searchByName } from './helpers/filterHelpers';
 import { closePopupsIfExist } from './helpers/loginHelpers';
 import { WORKSPACE_UNGROUPED_HOSTS } from './helpers/constants';
+import { createSystem } from './helpers/uploadArchive';
 
 test.describe('System Details tests', () => {
   test.beforeEach(async ({ page }) => {
@@ -161,6 +162,76 @@ test.describe('System Details tests', () => {
       // Complinace doesn't support image-based system
       const complianceTab = page.locator('button[name="compliance"]');
       await expect(complianceTab).toBeDisabled();
+    });
+  });
+
+  test('User should be able to edit and delete a system from System Details page', async ({
+    page,
+  }) => {
+    /**
+     * Jira References:
+       - https://issues.redhat.com/browse/RHINENG-21147 – Edit a system
+       - https://issues.redhat.com/browse/RHINENG-21149 - Delete a system
+     * Metadata:
+       - requirements:
+       - inv-hosts-patch
+       - inv-hosts-delete-by-id
+       - importance: critical
+     */
+    const system = await createSystem();
+    const editButtons = page.getByRole('button', { name: 'Edit' });
+    const dialog = page.locator('[role="dialog"]');
+    const nameCell = page.locator('td[data-label="Name"]');
+    const newDisplayName = `host_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+    const newAnsibleName = `host_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+
+    await test.step("Navigate to system's details page", async () => {
+      await navigateToInventorySystemsFunc(page);
+      await searchByName(page, system.hostname);
+      await expect(nameCell).toHaveCount(1);
+
+      const systemLink = page.getByRole('link', { name: system.hostname });
+      await systemLink.click();
+
+      // Detail page heading shows display_name (full or truncated); accept either
+      const heading = page.getByRole('heading', { level: 1 }).first();
+      await expect(heading).toBeVisible({ timeout: 100000 });
+      await expect(heading).toContainText(system.hostname.substring(0, 36));
+    });
+
+    await test.step('Edit the system display name and verify', async () => {
+      await editButtons.nth(0).click();
+      await page.locator('[aria-label="name"]').first().fill(newDisplayName);
+      await page.getByRole('button', { name: 'submit' }).click();
+      await page.waitForTimeout(2000);
+
+      await expect(
+        page.getByRole('heading', { name: newDisplayName, level: 1 }),
+      ).toBeVisible();
+      const displayNameValueLocator = page.getByLabel('Display name value');
+      // UI may truncate with ellipsis (maxCharsDisplayed=36)
+      await expect(displayNameValueLocator).toContainText(newDisplayName);
+    });
+
+    await test.step('Edit the system Ansible name and verify', async () => {
+      await editButtons.nth(1).click();
+      await page.locator('[aria-label="name"]').first().fill(newAnsibleName);
+      await page.getByRole('button', { name: 'submit' }).click();
+      await page.waitForTimeout(2000);
+
+      const ansibleNameValueLocator = page.getByLabel('Ansible hostname value');
+      // UI may truncate with ellipsis (maxCharsDisplayed=36)
+      await expect(ansibleNameValueLocator).toContainText(newAnsibleName);
+    });
+
+    await test.step(`Delete the system and verify it is removed`, async () => {
+      await page.getByRole('button', { name: 'Delete' }).click();
+      await expect(dialog).toBeVisible();
+      await dialog.getByRole('button', { name: 'Delete' }).click();
+      await page.waitForTimeout(2000);
+      await expect(page.getByText('Delete operation finished')).toBeVisible({
+        timeout: 5000,
+      });
     });
   });
 });

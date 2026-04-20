@@ -59,7 +59,8 @@ const SystemsViewInner = ({
   searchParams,
   setSearchParams,
 }: SystemsViewInnerProps) => {
-  const { filters, clearAllFilters } = useDataViewFiltersContext();
+  const { filters, clearAllFilters, lastSeenCustomRange } =
+    useDataViewFiltersContext();
 
   const pagination = useDataViewPagination({
     perPage: PER_PAGE,
@@ -68,7 +69,7 @@ const SystemsViewInner = ({
     setSearchParams,
   });
 
-  useResetPage(filters, pagination);
+  useResetPage(filters, pagination, lastSeenCustomRange);
 
   const debouncedName = useDebouncedValue(
     filters.hostname_or_id,
@@ -110,6 +111,7 @@ const SystemsViewInner = ({
     page: pagination.page,
     perPage: pagination.perPage,
     filters: queryFilters,
+    lastSeenCustomRange,
     sortBy,
     direction,
   });
@@ -188,7 +190,6 @@ const SystemsViewInner = ({
               bodyStates={{
                 loading: (
                   <SkeletonTable
-                    ouiaId="loading-state"
                     isSelectable
                     rowsCount={pagination.perPage}
                     columns={tableHeaderNodes}

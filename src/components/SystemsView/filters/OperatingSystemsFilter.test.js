@@ -18,7 +18,7 @@ const rhel9Results = [
 ];
 
 /** Order matches `osVersionSorter` within a major (higher minor first). */
-const GROUP_TOKENS = ['RHEL:9.1', 'RHEL:9.0'];
+const GROUP_TOKENS = ['RHEL9.1', 'RHEL9.0'];
 
 function mockLoadedOperatingSystems(data = rhel9Results) {
   useOperatingSystemsQuery.mockReturnValue({
@@ -130,7 +130,7 @@ describe('OperatingSystemsFilter', () => {
     mockLoadedOperatingSystems();
     const user = userEvent.setup();
     const onChange = jest.fn();
-    render(<OperatingSystemsFilter value={['RHEL:9.0']} onChange={onChange} />);
+    render(<OperatingSystemsFilter value={['RHEL9.0']} onChange={onChange} />);
     await openOperatingSystemsMenu(user);
     await user.click(screen.getByRole('checkbox', { name: /^RHEL 9$/ }));
     expect(onChange).toHaveBeenCalledWith(undefined, []);
@@ -164,7 +164,7 @@ describe('OperatingSystemsFilter', () => {
       );
       await openOperatingSystemsMenu(user);
       await user.click(screen.getByRole('checkbox', { name: 'RHEL 9.0' }));
-      expect(onChange).toHaveBeenCalledWith(undefined, ['RHEL:9.0']);
+      expect(onChange).toHaveBeenCalledWith(undefined, ['RHEL9.0']);
       const groupInput = screen.getByRole('checkbox', { name: /^RHEL 9$/ });
       expect(groupInput).toHaveProperty('indeterminate', true);
       expect(screen.getByRole('checkbox', { name: 'RHEL 9.0' })).toBeChecked();
@@ -183,7 +183,7 @@ describe('OperatingSystemsFilter', () => {
     try {
       mockLoadedOperatingSystems();
       const user = userEvent.setup();
-      render(<ControlledOperatingSystemsFilter initialValue={['RHEL:9.0']} />);
+      render(<ControlledOperatingSystemsFilter initialValue={['RHEL9.0']} />);
       await openOperatingSystemsMenu(user);
       expect(screen.getByRole('checkbox', { name: /^RHEL 9$/ })).toHaveProperty(
         'indeterminate',

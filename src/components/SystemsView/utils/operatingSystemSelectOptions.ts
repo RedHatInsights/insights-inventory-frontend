@@ -23,26 +23,47 @@ export type OperatingSystemProfileFilter = Record<
   { version: { eq: string[] } }
 >;
 
-export const toOsToken = (os: string, version: string) => `${os}:${version}`;
-export const fromOsToken = (token: string) => {
-  const [os, version] = token.split(':', 2);
+export const serializeOperatingSystemFilterValue = (
+  os: string,
+  version: string,
+) => `${os}${version}`;
+
+export const parseOperatingSystemFilterValue = (
+  token: string,
+): { os: string; version: string } | null => {
+  if (!token) {
+    return null;
+  }
+  const match = token.match(/^(.+?)(\d+\.\d+)$/);
+  if (!match) {
+    return null;
+  }
+  const [, os, version] = match;
   return { os, version };
 };
 
+export const formatOperatingSystemChipLabel = (value: string): string => {
+  const parsed = parseOperatingSystemFilterValue(value);
+  return parsed ? `${parsed.os} ${parsed.version}` : value;
+};
+
 /**
- * Maps one `OperatingSystemSelectGroup` to `${osName}:${major.minor}` tokens stored in toolbar filter state.
+ * Maps one `OperatingSystemSelectGroup` to `${osName}${major.minor}` tokens stored in toolbar filter state / URL.
  *
  *  @param group - One major-version group from the OS filter (`value` is the OS name; each item is `major.minor`)
- *  @returns     Token strings such as `RHEL:9.0`, one per item in the group
+ *  @returns     Token strings such as `RHEL9.0`, one per item in the group
  */
 export const buildOsFilterTokens = (
   group: OperatingSystemSelectGroup,
-): string[] => group.items.map((item) => toOsToken(group.value, item.value));
+): string[] =>
+  group.items.map((item) =>
+    serializeOperatingSystemFilterValue(group.value, item.value),
+  );
 
 /**
- * Maps `${osName}:${major.minor}` tokens to `filter.system_profile.operating_system` for the host list API.
+ * Maps OS filter tokens to `filter.system_profile.operating_system` for the host list API.
  *
- *  @param tokens - Toolbar Filter selection (e.g. `RHEL:9.0`), or undefined
+ *  @param tokens - Toolbar filter selection (e.g. `RHEL9.0`), or undefined
  *  @returns      Profile Filter or undefined when there is nothing to filter
  */
 export const buildOperatingSystemProfileFilter = (
@@ -54,10 +75,11 @@ export const buildOperatingSystemProfileFilter = (
 
   const byOs: Record<string, string[]> = {};
   for (const token of tokens) {
-    const { os, version } = fromOsToken(token);
-    if (!os || !version) {
+    const parsed = parseOperatingSystemFilterValue(token);
+    if (!parsed?.os || !parsed.version) {
       continue;
     }
+    const { os, version } = parsed;
     if (!byOs[os]) {
       byOs[os] = [];
     }

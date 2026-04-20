@@ -45,4 +45,29 @@ describe('useResetPage (SystemsView pagination reset on filter change)', () => {
     });
     expect(onSetPage).toHaveBeenCalledWith(undefined, INITIAL_PAGE);
   });
+
+  it('resets page when additionalSignature changes', async () => {
+    const onSetPage = jest.fn();
+
+    const { rerender } = renderHook(
+      ({ additionalSignature }) =>
+        useResetPage(
+          INITIAL_INVENTORY_FILTERS,
+          paginationStub(onSetPage),
+          additionalSignature,
+        ),
+      {
+        initialProps: {
+          additionalSignature: null as { start?: string } | null,
+        },
+      },
+    );
+
+    rerender({ additionalSignature: { start: '2024-01-01' } });
+
+    await waitFor(() => {
+      expect(onSetPage).toHaveBeenCalledTimes(1);
+    });
+    expect(onSetPage).toHaveBeenCalledWith(undefined, INITIAL_PAGE);
+  });
 });
