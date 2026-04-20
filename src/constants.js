@@ -260,19 +260,14 @@ export const NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE =
   'You do not have the necessary permissions to modify workspaces. Contact your organization administrator.';
 export const NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE =
   'You do not have the necessary permissions to modify this workspace. Contact your organization administrator.';
-/** Shown while Kessel workspace permission checks are in flight on the Workspaces table. */
 export const NO_WORKSPACE_PERMISSIONS_LOADING_TOOLTIP_MESSAGE =
   'Checking your workspace permissions. Try again in a moment.';
-/** Kessel: user lacks workspace edit (rename) on this row. */
 export const NO_RENAME_WORKSPACE_KESSEL_TOOLTIP_MESSAGE =
   'You do not have permission to rename this workspace. Contact your organization administrator.';
-/** Kessel: user lacks workspace delete on this row. */
 export const NO_DELETE_WORKSPACE_KESSEL_TOOLTIP_MESSAGE =
   'You do not have permission to delete this workspace. Contact your organization administrator.';
-/** Kessel: bulk delete when any selected workspace is not deletable. */
 export const NO_DELETE_SELECTED_WORKSPACES_KESSEL_TOOLTIP_MESSAGE =
   'You do not have permission to delete every selected workspace. Remove workspaces you cannot delete from the selection, or contact your organization administrator.';
-/** Kessel: user cannot create workspaces (edit on organization root workspace). */
 export const NO_CREATE_WORKSPACE_KESSEL_TOOLTIP_MESSAGE =
   'You do not have permission to create workspaces. Contact your organization administrator.';
 export const NO_MODIFY_HOSTS_TOOLTIP_MESSAGE =

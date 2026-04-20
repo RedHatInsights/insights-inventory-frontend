@@ -14,13 +14,43 @@ import {
   useWorkspaceTableRowKesselPermissions,
 } from '../../Utilities/hooks/useWorkspacesPageKesselPermissions';
 
-/**
- * Row shape from the groups API for workspace permission checks.
- *
- * @typedef {object} GroupsTableWorkspaceGroupRow
- *  @property {string}  [id]
- *  @property {boolean} [ungrouped]
- */
+/** Row shape from the groups API for workspace permission checks. */
+export type GroupsTableWorkspaceGroupRow = {
+  id?: string;
+  ungrouped?: boolean;
+};
+
+export type WorkspaceMenuItemKind = 'rename' | 'delete';
+
+export type GroupsTableWorkspaceRowData = {
+  groupId?: string;
+  ungrouped?: boolean;
+};
+
+export type RowWorkspaceMenuItemProps = {
+  isAriaDisabled: boolean;
+  noAccessTooltip: string;
+  override: boolean | undefined;
+};
+
+export type BulkDeleteMenuItemProps = {
+  noAccessTooltip: string | undefined;
+  override?: boolean | undefined;
+  isKesselGateBusy?: boolean;
+};
+
+export type CreateWorkspaceButtonProps = {
+  noAccessTooltip: string;
+  override: boolean | undefined;
+  isAriaDisabled: boolean;
+};
+
+export type UseGroupsTableWorkspaceActionPermissionsParams = {
+  groups: GroupsTableWorkspaceGroupRow[];
+  selectedIds: string[];
+};
+
+type CreateWorkspaceMode = 'legacy' | 'loading' | 'ready';
 
 /**
  * Workspace row + toolbar permission wiring for the Workspaces (groups) table.
@@ -28,16 +58,14 @@ import {
  * When the Kessel migration feature flag is removed, delete `isKesselMigrationEnabled`
  * branches and keep the Kessel-only paths (or fold `isKesselMigrationEnabled` to `true`
  * at the call site of `useKesselMigrationFeatureFlag`).
- *
- *  @param   {object}                         params             - Hook inputs
- *  @param   {GroupsTableWorkspaceGroupRow[]} params.groups      - Current page of groups from the API
- *  @param   {string[]}                       params.selectedIds - Toolbar bulk selection
- *  @returns {object}                                            Props and helpers for ActionButton / ActionDropdownItem
+ *  @param root0
+ *  @param root0.groups
+ *  @param root0.selectedIds
  */
 export const useGroupsTableWorkspaceActionPermissions = ({
   groups,
   selectedIds,
-}) => {
+}: UseGroupsTableWorkspaceActionPermissionsParams) => {
   const isKesselMigrationEnabled = useKesselMigrationFeatureFlag();
   const {
     workspacePermissionById,
@@ -50,14 +78,17 @@ export const useGroupsTableWorkspaceActionPermissions = ({
     isKesselMigrationEnabled && workspacePermissionsLoading;
 
   const rowAccessOverride = useCallback(
-    (groupId, kind) => {
+    (
+      groupId: string | undefined,
+      kind: WorkspaceMenuItemKind,
+    ): boolean | undefined => {
       if (!isKesselMigrationEnabled) {
         return undefined;
       }
       if (workspacePermissionsLoading) {
         return false;
       }
-      const perms = workspacePermissionById[groupId];
+      const perms = groupId ? workspacePermissionById[groupId] : undefined;
       if (kind === 'rename') {
         return perms?.canEdit === true;
       }
@@ -71,7 +102,7 @@ export const useGroupsTableWorkspaceActionPermissions = ({
   );
 
   const rowAccessTooltip = useCallback(
-    (kind) => {
+    (kind: WorkspaceMenuItemKind): string => {
       if (!isKesselMigrationEnabled) {
         return NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE;
       }
@@ -87,18 +118,16 @@ export const useGroupsTableWorkspaceActionPermissions = ({
   );
 
   const isRowActionDisabled = useCallback(
-    (rowData) => Boolean(rowData?.ungrouped || kesselGateBusy),
+    (rowData: GroupsTableWorkspaceRowData | undefined) =>
+      Boolean(rowData?.ungrouped || kesselGateBusy),
     [kesselGateBusy],
   );
 
-  /**
-   * Props for rename/delete row kebab items (RBAC + optional Kessel override).
-   *
-   *  @param {object}              rowData - Table row with groupId, groupName, ungrouped
-   *  @param {'rename' | 'delete'} kind    - Which menu action
-   */
   const getRowWorkspaceMenuItemProps = useCallback(
-    (rowData, kind) => ({
+    (
+      rowData: GroupsTableWorkspaceRowData | undefined,
+      kind: WorkspaceMenuItemKind,
+    ): RowWorkspaceMenuItemProps => ({
       isAriaDisabled: isRowActionDisabled(rowData),
       noAccessTooltip: rowAccessTooltip(kind),
       override: rowData?.ungrouped
@@ -124,8 +153,8 @@ export const useGroupsTableWorkspaceActionPermissions = ({
     [selectedIds, workspacePermissionById],
   );
 
-  const bulkDeleteMenuItemProps = useMemo(() => {
-    const kesselBulkDeleteBase = {
+  const bulkDeleteMenuItemProps = useMemo((): BulkDeleteMenuItemProps => {
+    const kesselBulkDeleteBase: BulkDeleteMenuItemProps = {
       noAccessTooltip: NO_DELETE_SELECTED_WORKSPACES_KESSEL_TOOLTIP_MESSAGE,
       isKesselGateBusy: false,
     };
@@ -171,14 +200,13 @@ export const useGroupsTableWorkspaceActionPermissions = ({
     allSelectedDeletable,
   ]);
 
-  /** @type {'legacy' | 'loading' | 'ready'} */
-  const createMode = !isKesselMigrationEnabled
+  const createMode: CreateWorkspaceMode = !isKesselMigrationEnabled
     ? 'legacy'
     : createPermissionLoading
       ? 'loading'
       : 'ready';
 
-  const createWorkspaceButtonProps = useMemo(() => {
+  const createWorkspaceButtonProps = useMemo((): CreateWorkspaceButtonProps => {
     switch (createMode) {
       case 'legacy':
         return {

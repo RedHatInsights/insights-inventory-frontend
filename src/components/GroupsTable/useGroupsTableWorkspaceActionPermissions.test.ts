@@ -13,19 +13,37 @@ import {
   NO_RENAME_WORKSPACE_KESSEL_TOOLTIP_MESSAGE,
   NO_WORKSPACE_PERMISSIONS_LOADING_TOOLTIP_MESSAGE,
 } from '../../constants';
+import type { WorkspaceRowKesselPermissions } from '../../Utilities/hooks/useWorkspacesPageKesselPermissions';
 import { useGroupsTableWorkspaceActionPermissions } from './useGroupsTableWorkspaceActionPermissions';
 
-const mockUseKesselMigrationFeatureFlag = jest.fn();
-const mockUseWorkspaceTableRowKesselPermissions = jest.fn();
-const mockUseKesselCanCreateWorkspace = jest.fn();
+type MockWorkspaceRowKesselGroup = { id?: string; ungrouped?: boolean };
+
+type MockWorkspaceRowKesselReturn = {
+  workspacePermissionById: Record<string, WorkspaceRowKesselPermissions>;
+  permissionsLoading: boolean;
+};
+
+const mockUseKesselMigrationFeatureFlag = jest.fn<boolean, []>();
+const mockUseWorkspaceTableRowKesselPermissions = jest.fn<
+  MockWorkspaceRowKesselReturn,
+  [MockWorkspaceRowKesselGroup[]]
+>();
+const mockUseKesselCanCreateWorkspace = jest.fn<
+  {
+    canCreateWorkspace: boolean | undefined;
+    createPermissionLoading: boolean;
+  },
+  []
+>();
 
 jest.mock('../../Utilities/hooks/useKesselMigrationFeatureFlag', () => ({
   useKesselMigrationFeatureFlag: () => mockUseKesselMigrationFeatureFlag(),
 }));
 
 jest.mock('../../Utilities/hooks/useWorkspacesPageKesselPermissions', () => ({
-  useWorkspaceTableRowKesselPermissions: (...args) =>
-    mockUseWorkspaceTableRowKesselPermissions(...args),
+  useWorkspaceTableRowKesselPermissions: (
+    groups: MockWorkspaceRowKesselGroup[],
+  ) => mockUseWorkspaceTableRowKesselPermissions(groups),
   useKesselCanCreateWorkspace: () => mockUseKesselCanCreateWorkspace(),
 }));
 
