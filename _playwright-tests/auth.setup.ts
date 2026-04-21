@@ -1,7 +1,7 @@
 import { expect, test as setup } from '@playwright/test';
 import {
   ensureNotInPreview,
-  enableSystemsViewAndKessel,
+  enableSystemsView,
   logInWithUser1,
   storeStorageStateAndToken,
   throwIfMissingEnvVariables,
@@ -21,7 +21,7 @@ setup.describe('Setup', async () => {
     setup.setTimeout(120_000);
 
     if (isSystemsViewEnabled) {
-      await enableSystemsViewAndKessel(page);
+      await enableSystemsView(page);
     }
 
     await closePopupsIfExist(page);
