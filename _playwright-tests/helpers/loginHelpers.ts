@@ -104,17 +104,15 @@ export const closeCookieBanner = async (page: Page) => {
   await iframeLocator.waitFor({ state: 'hidden', timeout: 5000 });
 };
 
-export const enableSystemsViewAndKessel = async (page: Page) => {
+export const enableSystemsView = async (page: Page) => {
   await page.addInitScript(() => {
     localStorage.setItem('ui.systems-view', 'true');
-    localStorage.setItem('inventory-frontend.kessel-enabled', 'true');
   });
 };
 
-export const disableSystemsViewAndKessel = async (page: Page) => {
+export const disableSystemsView = async (page: Page) => {
   await page.addInitScript(() => {
     localStorage.setItem('ui.systems-view', 'false');
-    localStorage.setItem('inventory-frontend.kessel-enabled', 'false');
   });
 };
 
