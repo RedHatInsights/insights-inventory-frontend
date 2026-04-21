@@ -107,14 +107,12 @@ export const closeCookieBanner = async (page: Page) => {
 export const enableSystemsViewAndKessel = async (page: Page) => {
   await page.addInitScript(() => {
     localStorage.setItem('ui.systems-view', 'true');
-    localStorage.setItem('inventory-frontend.kessel-enabled', 'true');
   });
 };
 
 export const disableSystemsViewAndKessel = async (page: Page) => {
   await page.addInitScript(() => {
     localStorage.setItem('ui.systems-view', 'false');
-    localStorage.setItem('inventory-frontend.kessel-enabled', 'false');
   });
 };
 

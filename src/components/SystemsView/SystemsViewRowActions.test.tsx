@@ -30,9 +30,7 @@ function renderWithProvider(ui: React.ReactElement) {
 
 jest.mock('../../Utilities/useFeatureFlag', () => ({
   __esModule: true,
-  default: jest.fn(
-    (key: string) => key === 'inventory-frontend.kessel-enabled',
-  ),
+  default: jest.fn((key: string) => key === 'platform.rbac.workspaces'),
 }));
 
 jest.mock('../../Utilities/hooks/useConditionalRBAC', () => ({
