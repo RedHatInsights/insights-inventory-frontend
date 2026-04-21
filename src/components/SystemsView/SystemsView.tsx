@@ -67,6 +67,7 @@ const SystemsViewInner = ({
   const pagination = useDataViewPagination({
     perPage: PER_PAGE,
     page: INITIAL_PAGE,
+    perPageParam: 'per_page',
     searchParams,
     setSearchParams,
   });
