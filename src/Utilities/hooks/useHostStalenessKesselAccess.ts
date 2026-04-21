@@ -14,7 +14,11 @@ import {
 } from '../../constants';
 import { useKesselMigrationFeatureFlag } from './useKesselMigrationFeatureFlag';
 
-type DefaultWorkspaceStatus = 'idle' | 'loading' | 'ready' | 'error';
+type WorkspaceState = {
+  id?: string;
+  loading: boolean;
+  error: boolean;
+};
 
 export type HostStalenessKesselAccess =
   | { mode: 'rbac' }
@@ -48,38 +52,33 @@ export type HostStalenessKesselAccess =
 export const useHostStalenessKesselAccess = (): HostStalenessKesselAccess => {
   const isKesselEnabled = useKesselMigrationFeatureFlag();
 
-  const [defaultWorkspaceStatus, setDefaultWorkspaceStatus] =
-    useState<DefaultWorkspaceStatus>('idle');
-  const [defaultWorkspaceId, setDefaultWorkspaceId] = useState<
-    string | undefined
-  >();
+  const [workspace, setWorkspace] = useState<WorkspaceState>({
+    id: undefined,
+    loading: false,
+    error: false,
+  });
 
   useEffect(() => {
     if (!isKesselEnabled || typeof window === 'undefined') {
-      setDefaultWorkspaceStatus('idle');
-      setDefaultWorkspaceId(undefined);
+      setWorkspace({ id: undefined, loading: false, error: false });
       return;
     }
 
     let cancelled = false;
-    setDefaultWorkspaceStatus('loading');
+    setWorkspace((prev) => ({ ...prev, loading: true, error: false }));
+
     fetchDefaultWorkspace(window.location.origin, undefined, undefined)
       .then((ws) => {
-        if (!cancelled) {
-          if (ws?.id) {
-            setDefaultWorkspaceId(ws.id);
-            setDefaultWorkspaceStatus('ready');
-          } else {
-            setDefaultWorkspaceId(undefined);
-            setDefaultWorkspaceStatus('error');
-          }
+        if (cancelled) return;
+        if (ws?.id) {
+          setWorkspace({ id: ws.id, loading: false, error: false });
+        } else {
+          setWorkspace({ id: undefined, loading: false, error: true });
         }
       })
       .catch(() => {
-        if (!cancelled) {
-          setDefaultWorkspaceId(undefined);
-          setDefaultWorkspaceStatus('error');
-        }
+        if (cancelled) return;
+        setWorkspace({ id: undefined, loading: false, error: true });
       });
 
     return () => {
@@ -88,16 +87,11 @@ export const useHostStalenessKesselAccess = (): HostStalenessKesselAccess => {
   }, [isKesselEnabled]);
 
   const resources = useMemo(() => {
-    if (
-      !isKesselEnabled ||
-      defaultWorkspaceStatus !== 'ready' ||
-      !defaultWorkspaceId
-    ) {
+    if (!isKesselEnabled || !workspace.id) {
       return [];
     }
-    const id = defaultWorkspaceId;
     const base = {
-      id,
+      id: workspace.id,
       type: WORKSPACE_RESOURCE_TYPE,
       reporter: KESSEL_WORKSPACE_REPORTER,
     };
@@ -107,21 +101,38 @@ export const useHostStalenessKesselAccess = (): HostStalenessKesselAccess => {
       { ...base, relation: HOST_WORKSPACE_RELATION_VIEW },
       { ...base, relation: HOST_WORKSPACE_RELATION_UPDATE },
     ];
-  }, [isKesselEnabled, defaultWorkspaceStatus, defaultWorkspaceId]);
+  }, [isKesselEnabled, workspace.id]);
 
   const { data: checks, loading: checksLoading } = useSelfAccessCheck({
     resources,
   } as BulkSelfAccessCheckNestedRelationsParams);
 
-  return useMemo((): HostStalenessKesselAccess => {
+  const isLoading =
+    isKesselEnabled &&
+    (workspace.loading || checksLoading || (!workspace.id && !workspace.error));
+
+  const byRelation = useMemo(() => {
+    const map = new Map<string, boolean>();
+    for (const check of checks ?? []) {
+      if (!check?.relation) continue;
+      map.set(check.relation, check.allowed === true);
+    }
+    return map;
+  }, [checks]);
+
+  const stalenessReadAllowed =
+    byRelation.get(STALENESS_WORKSPACE_RELATION_VIEW) ?? false;
+  const stalenessWriteAllowed =
+    byRelation.get(STALENESS_WORKSPACE_RELATION_UPDATE) ?? false;
+  const hostsReadAllowed =
+    byRelation.get(HOST_WORKSPACE_RELATION_VIEW) ?? false;
+  const hostsWriteAllowed =
+    byRelation.get(HOST_WORKSPACE_RELATION_UPDATE) ?? false;
+
+  return useMemo<HostStalenessKesselAccess>(() => {
     if (!isKesselEnabled) {
       return { mode: 'rbac' };
     }
-
-    const isLoading =
-      defaultWorkspaceStatus === 'idle' ||
-      defaultWorkspaceStatus === 'loading' ||
-      (resources.length > 0 && checksLoading);
 
     if (isLoading) {
       return {
@@ -132,7 +143,7 @@ export const useHostStalenessKesselAccess = (): HostStalenessKesselAccess => {
       };
     }
 
-    if (defaultWorkspaceStatus === 'error' || !defaultWorkspaceId) {
+    if (!workspace.id || workspace.error) {
       return {
         mode: 'kessel',
         isLoading: false,
@@ -141,41 +152,12 @@ export const useHostStalenessKesselAccess = (): HostStalenessKesselAccess => {
       };
     }
 
-    let stalenessReadAllowed = false;
-    let stalenessWriteAllowed = false;
-    let hostsReadAllowed = false;
-    let hostsWriteAllowed = false;
-
-    for (const check of checks ?? []) {
-      if (check.resource?.id !== defaultWorkspaceId) {
-        continue;
-      }
-      switch (check.relation) {
-        case STALENESS_WORKSPACE_RELATION_VIEW:
-          stalenessReadAllowed = check.allowed === true;
-          break;
-        case STALENESS_WORKSPACE_RELATION_UPDATE:
-          stalenessWriteAllowed = check.allowed === true;
-          break;
-        case HOST_WORKSPACE_RELATION_VIEW:
-          hostsReadAllowed = check.allowed === true;
-          break;
-        case HOST_WORKSPACE_RELATION_UPDATE:
-          hostsWriteAllowed = check.allowed === true;
-          break;
-        default:
-          break;
-      }
-    }
-
     const canViewPage = stalenessReadAllowed && hostsReadAllowed;
     const canEditStaleness = stalenessWriteAllowed && hostsWriteAllowed;
-
-    const isReadOnlyGranular = canViewPage && !canEditStaleness;
-
-    const editDisabledTooltip = isReadOnlyGranular
-      ? 'You can view these settings, but editing requires staleness update and inventory host update permissions on the Default workspace.'
-      : undefined;
+    const editDisabledTooltip =
+      canViewPage && !canEditStaleness
+        ? 'You can view these settings, but editing requires staleness update and inventory host update permissions on the Default workspace.'
+        : undefined;
 
     return {
       mode: 'kessel',
@@ -186,10 +168,12 @@ export const useHostStalenessKesselAccess = (): HostStalenessKesselAccess => {
     };
   }, [
     isKesselEnabled,
-    defaultWorkspaceStatus,
-    defaultWorkspaceId,
-    resources.length,
-    checksLoading,
-    checks,
+    isLoading,
+    workspace.id,
+    workspace.error,
+    stalenessReadAllowed,
+    stalenessWriteAllowed,
+    hostsReadAllowed,
+    hostsWriteAllowed,
   ]);
 };
