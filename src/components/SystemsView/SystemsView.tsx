@@ -8,7 +8,7 @@ import { DataViewTable } from '@patternfly/react-data-view/dist/dynamic/DataView
 import { useDataViewSelection } from '@patternfly/react-data-view/dist/dynamic/Hooks';
 import { PageSection, Pagination } from '@patternfly/react-core';
 import { DataViewToolbar } from '@patternfly/react-data-view/dist/dynamic/DataViewToolbar';
-import { BulkSelect } from '@patternfly/react-component-groups';
+import { BulkSelect } from '../BulkSelect';
 import { useSystemsQuery } from './hooks/useSystemsQuery';
 import { useHostIdsWithKessel } from '../../Utilities/hooks/useHostIdsWithKessel';
 import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorState';
