@@ -41,6 +41,8 @@ import { useResetPage } from './hooks/useResetPage';
 import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
 import { PER_PAGE } from '../../constants';
 import { DEBOUNCE_TIMEOUT_MS } from '../../constants';
+import { normalizeLegacySortSearchParams } from './utils/normalizeLegacySortSearchParams';
+import { SORT_DIR_URL_PARAM, SORT_URL_PARAM } from './constants';
 
 export type SortDirection = ISortBy['direction'];
 export type SortBy = ApiOrderByEnum | undefined;
@@ -90,16 +92,25 @@ const SystemsViewInner = ({
   }) as DataViewBulkSelection;
   const { selected, setSelected } = selection;
 
+  const sortSearchParams = useMemo(
+    () =>
+      normalizeLegacySortSearchParams(searchParams, {
+        sortParam: SORT_URL_PARAM,
+        directionParam: SORT_DIR_URL_PARAM,
+      }),
+    [searchParams],
+  );
+
   const sort = useDataViewSort({
     initialSort: {
       direction: 'desc',
       sortBy: ApiOrderByEnum.LastCheckIn,
     },
     defaultDirection: 'asc',
-    searchParams,
+    searchParams: sortSearchParams,
     setSearchParams,
-    sortByParam: 'order_by',
-    directionParam: 'order_how',
+    sortByParam: SORT_URL_PARAM,
+    directionParam: SORT_DIR_URL_PARAM,
   });
 
   const sortBy = sort?.sortBy as SortBy;

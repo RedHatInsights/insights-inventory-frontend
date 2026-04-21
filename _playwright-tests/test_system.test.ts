@@ -248,8 +248,8 @@ test('User should be able to delete multiple systems from Systems page', async (
 
       // Expected URL sort parameter: ascending = display_name, descending = -display_name
       const expectedSortParam = {
-        ascending: /sort=display_name|order_how=asc/,
-        descending: /sort=-display_name|order_how=desc/,
+        ascending: /sort=display_name|sort_dir=asc/,
+        descending: /sort=-display_name|sort_dir=desc/,
       };
 
       // Keep clicking until we reach the desired sort direction (max 3 clicks)
@@ -266,7 +266,7 @@ test('User should be able to delete multiple systems from Systems page', async (
         await columnHeader.click();
 
         // Wait for the sort to take effect
-        await expect(page).toHaveURL(/sort=|order_how=/);
+        await expect(page).toHaveURL(/sort=|sort_dir=/);
       }
 
       // Verify we reached the target sort direction
