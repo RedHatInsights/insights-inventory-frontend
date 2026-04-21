@@ -18,13 +18,19 @@ import DeleteGroupModal from '../InventoryGroups/Modals/DeleteGroupModal';
 import RenameGroupModal from '../InventoryGroups/Modals/RenameGroupModal';
 import { fetchGroupDetail } from '../../store/inventory-actions';
 import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
+import { useWorkspaceDetailEditActionsAccess } from '../../Utilities/hooks/useWorkspaceDetailEditActionsAccess';
 import {
   REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
   REQUIRED_PERMISSIONS_TO_READ_GROUP,
 } from '../../constants';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 
-const GroupDetailHeader = ({ groupId }) => {
+const GroupDetailHeader = ({
+  groupId,
+  workspaceKesselGateActive = false,
+  workspaceKesselCanEdit,
+  workspaceKesselPermissionsLoading = false,
+}) => {
   const dispatch = useDispatch();
   const navigate = useInsightsNavigate();
   const { uninitialized, loading, data } = useSelector(
@@ -35,9 +41,17 @@ const GroupDetailHeader = ({ groupId }) => {
     REQUIRED_PERMISSIONS_TO_READ_GROUP(groupId),
   );
 
-  const { hasAccess: canModify } = useConditionalRBAC(
+  const { hasAccess: rbacCanModify } = useConditionalRBAC(
     REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId),
   );
+
+  const { canModifyWorkspaceForActions, noAccessEditTooltip } =
+    useWorkspaceDetailEditActionsAccess({
+      workspaceKesselGateActive,
+      workspaceKesselCanEdit,
+      workspaceKesselPermissionsLoading,
+      rbacCanModify,
+    });
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [renameModalOpen, setRenameModalOpen] = useState(false);
@@ -107,7 +121,9 @@ const GroupDetailHeader = ({ groupId }) => {
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 id="group-dropdown-toggle"
                 toggleVariant="secondary"
-                isDisabled={!canModify || uninitialized || loading}
+                isDisabled={
+                  !canModifyWorkspaceForActions || uninitialized || loading
+                }
                 ouiaId="group-actions-dropdown-toggle"
               >
                 Actions
@@ -118,14 +134,20 @@ const GroupDetailHeader = ({ groupId }) => {
               <DropdownItem
                 key="rename-group"
                 onClick={() => setRenameModalOpen(true)}
-                isAriaDisabled={ungrouped}
+                isAriaDisabled={ungrouped || !canModifyWorkspaceForActions}
+                {...(!canModifyWorkspaceForActions && {
+                  tooltipProps: { content: noAccessEditTooltip },
+                })}
               >
                 Rename workspace
               </DropdownItem>
               <DropdownItem
                 key="delete-group"
                 onClick={() => setDeleteModalOpen(true)}
-                isAriaDisabled={ungrouped}
+                isAriaDisabled={ungrouped || !canModifyWorkspaceForActions}
+                {...(!canModifyWorkspaceForActions && {
+                  tooltipProps: { content: noAccessEditTooltip },
+                })}
               >
                 Delete workspace
               </DropdownItem>
@@ -139,6 +161,9 @@ const GroupDetailHeader = ({ groupId }) => {
 
 GroupDetailHeader.propTypes = {
   groupId: PropTypes.string.isRequired,
+  workspaceKesselGateActive: PropTypes.bool,
+  workspaceKesselCanEdit: PropTypes.bool,
+  workspaceKesselPermissionsLoading: PropTypes.bool,
 };
 
 export default GroupDetailHeader;

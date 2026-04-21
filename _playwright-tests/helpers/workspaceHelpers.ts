@@ -2,6 +2,46 @@ import { Response, expect, type Page } from '@playwright/test';
 import { INVENTORY_API_BASE } from './apiHelpers';
 
 /**
+ * Locator for the workspace details page header "Actions" menu toggle (not table bulk Actions).
+ *
+ *  @param page - Playwright page on workspace details
+ *  @returns    Locator for the header Actions toggle
+ */
+export const workspaceHeaderActionsToggle = (page: Page) =>
+  page.locator('#group-dropdown-toggle');
+
+export type WaitForWorkspaceDetailOptions = {
+  /**
+   * Also wait until the header Actions menu is enabled (group detail fetch
+   * finished and workspace-edit checks passed). Required for rename/delete
+   * from the header; the Systems tab can appear before this is true.
+   */
+  waitForEditableHeader?: boolean;
+};
+
+/**
+ * Waits until workspace details main UI is ready (Systems tab visible).
+ * Optionally waits until the header Actions toggle is enabled.
+ *
+ *  @param page    - Playwright page on workspace details
+ *  @param options - When `waitForEditableHeader` is true, waits for `#group-dropdown-toggle` to be enabled
+ *  @returns       Resolves when ready conditions are met
+ */
+export const waitForWorkspaceDetailPageReady = async (
+  page: Page,
+  options?: WaitForWorkspaceDetailOptions,
+) => {
+  await expect(page.getByRole('tab', { name: 'Systems' })).toBeVisible({
+    timeout: 120000,
+  });
+  if (options?.waitForEditableHeader) {
+    await expect(workspaceHeaderActionsToggle(page)).toBeEnabled({
+      timeout: 120000,
+    });
+  }
+};
+
+/**
  *  @returns randomized workspace name
  */
 export const generateUniqueWorkspaceName = async () => {

@@ -5,6 +5,7 @@ import {
   Tab,
   Tabs,
 } from '@patternfly/react-core';
+import AccessDenied from '../../Utilities/AccessDenied';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import PropTypes from 'prop-types';
 import React, { Suspense, lazy, useEffect, useState } from 'react';
@@ -13,6 +14,8 @@ import { fetchGroupDetail } from '../../store/inventory-actions';
 import GroupSystems from '../GroupSystems';
 import GroupDetailHeader from './GroupDetailHeader';
 import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
+import { useKesselMigrationFeatureFlag } from '../../Utilities/hooks/useKesselMigrationFeatureFlag';
+import { useWorkspaceDetailKesselPermissions } from '../../Utilities/hooks/useWorkspaceDetailKesselPermissions';
 import {
   REQUIRED_PERMISSIONS_TO_READ_GROUP,
   REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS,
@@ -37,6 +40,13 @@ const InventoryGroupDetail = ({ groupId }) => {
   const chrome = useChrome();
   const groupName = data?.results?.[0]?.name;
   const ungrouped = data?.results?.[0]?.ungrouped;
+  const isUngroupedHostsWorkspace =
+    fulfilled && Boolean(data?.results?.[0]?.ungrouped);
+
+  const isKesselEnabled = useKesselMigrationFeatureFlag();
+  const workspaceKessel = useWorkspaceDetailKesselPermissions(groupId, {
+    skipKessel: isUngroupedHostsWorkspace,
+  });
 
   const { hasAccess: canViewGroup } = useConditionalRBAC(
     REQUIRED_PERMISSIONS_TO_READ_GROUP(groupId),
@@ -44,6 +54,21 @@ const InventoryGroupDetail = ({ groupId }) => {
   const { hasAccess: canViewHosts } = useConditionalRBAC(
     REQUIRED_PERMISSIONS_TO_READ_GROUP_HOSTS(groupId),
   );
+
+  const kesselWorkspaceAccessDenied =
+    isKesselEnabled &&
+    fulfilled &&
+    !isUngroupedHostsWorkspace &&
+    workspaceKessel.appliesKesselWorkspaceChecks &&
+    !workspaceKessel.isLoading &&
+    workspaceKessel.canView === false;
+
+  const kesselWorkspacePermissionsLoading =
+    isKesselEnabled &&
+    fulfilled &&
+    !isUngroupedHostsWorkspace &&
+    workspaceKessel.appliesKesselWorkspaceChecks &&
+    workspaceKessel.isLoading;
 
   useEffect(() => {
     if (canViewGroup === true) {
@@ -69,50 +94,82 @@ const InventoryGroupDetail = ({ groupId }) => {
 
   return (
     <React.Fragment>
-      <GroupDetailHeader groupId={groupId} />
+      <GroupDetailHeader
+        groupId={groupId}
+        workspaceKesselCanEdit={workspaceKessel.canEdit}
+        workspaceKesselPermissionsLoading={workspaceKessel.isLoading}
+        workspaceKesselGateActive={workspaceKessel.appliesKesselWorkspaceChecks}
+      />
       {canViewGroup ? (
-        <PageSection hasBodyWrapper={false} type="tabs">
-          <Tabs
-            activeKey={activeTabKey}
-            onSelect={(_event, value) => setActiveTabKey(value)}
-            aria-label="Group tabs"
-            role="region"
-            inset={{ default: 'insetMd' }} // add extra space before the first tab (according to mocks)
-          >
-            <Tab eventKey={0} title="Systems" aria-label="Group systems tab">
-              <PageSection hasBodyWrapper={false}>
-                {canViewHosts ? (
-                  <GroupSystems
-                    groupName={groupName}
-                    groupId={groupId}
-                    ungrouped={ungrouped}
-                  />
-                ) : (
-                  <EmptyStateNoAccessToSystems />
-                )}
-              </PageSection>
-            </Tab>
-            <Tab
-              eventKey={1}
-              title="Workspace info"
-              aria-label="Workspace info tab"
+        kesselWorkspaceAccessDenied ? (
+          <PageSection hasBodyWrapper={false}>
+            <AccessDenied
+              title="You do not have access to this workspace"
+              description={
+                <div>
+                  You do not have permission to view this workspace in
+                  inventory.
+                </div>
+              }
+            />
+          </PageSection>
+        ) : kesselWorkspacePermissionsLoading ? (
+          <PageSection hasBodyWrapper={false}>
+            <Bullseye className="pf-v6-u-p-xl">
+              <Spinner aria-label="Loading workspace permissions" />
+            </Bullseye>
+          </PageSection>
+        ) : (
+          <PageSection hasBodyWrapper={false} type="tabs">
+            <Tabs
+              activeKey={activeTabKey}
+              onSelect={(_event, value) => setActiveTabKey(value)}
+              aria-label="Group tabs"
+              role="region"
+              inset={{ default: 'insetMd' }} // add extra space before the first tab (according to mocks)
             >
-              {activeTabKey === 1 && ( // helps to lazy load the component
+              <Tab eventKey={0} title="Systems" aria-label="Group systems tab">
                 <PageSection hasBodyWrapper={false}>
-                  <Suspense
-                    fallback={
-                      <Bullseye>
-                        <Spinner />
-                      </Bullseye>
-                    }
-                  >
-                    <GroupDetailInfo />
-                  </Suspense>
+                  {canViewHosts ? (
+                    <GroupSystems
+                      groupName={groupName}
+                      groupId={groupId}
+                      ungrouped={ungrouped}
+                      workspaceKesselCanEdit={workspaceKessel.canEdit}
+                      workspaceKesselPermissionsLoading={
+                        workspaceKessel.isLoading
+                      }
+                      workspaceKesselGateActive={
+                        workspaceKessel.appliesKesselWorkspaceChecks
+                      }
+                    />
+                  ) : (
+                    <EmptyStateNoAccessToSystems />
+                  )}
                 </PageSection>
-              )}
-            </Tab>
-          </Tabs>
-        </PageSection>
+              </Tab>
+              <Tab
+                eventKey={1}
+                title="Workspace info"
+                aria-label="Workspace info tab"
+              >
+                {activeTabKey === 1 && ( // helps to lazy load the component
+                  <PageSection hasBodyWrapper={false}>
+                    <Suspense
+                      fallback={
+                        <Bullseye>
+                          <Spinner />
+                        </Bullseye>
+                      }
+                    >
+                      <GroupDetailInfo />
+                    </Suspense>
+                  </PageSection>
+                )}
+              </Tab>
+            </Tabs>
+          </PageSection>
+        )
       ) : (
         <PageSection hasBodyWrapper={false}>
           <EmptyStateNoAccessToGroups isSingle />

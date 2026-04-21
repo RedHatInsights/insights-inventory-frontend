@@ -5,9 +5,15 @@ import {
 } from './helpers/navHelpers';
 import { searchByName, waitForTableKebabReady } from './helpers/filterHelpers';
 import {
+  installKesselCheckSelfBulkAllowAll,
+  uninstallKesselCheckSelfBulkMock,
+} from './helpers/kesselAccessRouteMock';
+import {
   generateUniqueWorkspaceName,
   createNewWorkspace,
   isWorkspaceResponse,
+  waitForWorkspaceDetailPageReady,
+  workspaceHeaderActionsToggle,
 } from './helpers/workspaceHelpers';
 import { test } from './helpers/fixtures';
 import {
@@ -15,6 +21,15 @@ import {
   WORKSPACE_NAME_MODIFIED_PREFIX,
   WORKSPACE_NAME_SORT_PREFIX,
 } from './helpers/constants';
+
+test.beforeEach(async ({ page }) => {
+  await uninstallKesselCheckSelfBulkMock(page);
+  await installKesselCheckSelfBulkAllowAll(page);
+});
+
+test.afterEach(async ({ page }) => {
+  await uninstallKesselCheckSelfBulkMock(page);
+});
 
 test('User can create, rename, and delete a workspace from Workspace Details page', async ({
   page,
@@ -56,10 +71,13 @@ test('User can create, rename, and delete a workspace from Workspace Details pag
     const workspaceLink = page.getByRole('link', { name: workspaceName });
     await expect(workspaceLink).toBeVisible({ timeout: 100000 });
     await workspaceLink.click();
+    await waitForWorkspaceDetailPageReady(page, {
+      waitForEditableHeader: true,
+    });
   });
 
   await test.step('Rename the workspace', async () => {
-    const actionsButton = page.getByRole('button', { name: 'Actions' });
+    const actionsButton = workspaceHeaderActionsToggle(page);
     await expect(actionsButton).toBeVisible();
     await actionsButton.click();
 
@@ -74,11 +92,11 @@ test('User can create, rename, and delete a workspace from Workspace Details pag
     await dialog.getByRole('button', { name: 'Save' }).click();
     await expect(
       page.getByRole('heading', { name: renamedWorkspace }),
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 60000 });
   });
 
   await test.step.skip('Delete the renamed workspace', async () => {
-    const actionsButton = page.getByRole('button', { name: 'Actions' });
+    const actionsButton = workspaceHeaderActionsToggle(page);
     await expect(actionsButton).toBeVisible();
     await actionsButton.click();
 
@@ -129,16 +147,24 @@ test('User cannot delete a workspace with systems from Workspace Details page', 
     });
     await expect(workspaceLink).toBeVisible({ timeout: 100000 });
     await workspaceLink.click();
+    await waitForWorkspaceDetailPageReady(page, {
+      waitForEditableHeader: true,
+    });
   });
 
   await test.step('Attempt to delete workspace with systems and verify warning', async () => {
-    const actionsButton = page.getByRole('button', { name: 'Actions' });
+    const actionsButton = workspaceHeaderActionsToggle(page);
     await expect(actionsButton).toBeVisible();
     await actionsButton.click();
 
-    await page.getByRole('menuitem', { name: 'Delete' }).first().click();
+    await page
+      .getByRole('menuitem', { name: 'Delete workspace' })
+      .first()
+      .click();
 
-    await expect(page.locator('text=Cannot delete workspace')).toBeVisible();
+    await expect(page.locator('text=Cannot delete workspace')).toBeVisible({
+      timeout: 120000,
+    });
   });
 });
 
@@ -317,6 +343,9 @@ test('User can add and remove system from workspace', async ({
     const workspaceLink = page.getByRole('link', { name: workspaceName });
     await expect(workspaceLink).toBeVisible({ timeout: 100000 });
     await workspaceLink.click();
+    await waitForWorkspaceDetailPageReady(page, {
+      waitForEditableHeader: true,
+    });
   });
 
   await test.step('Add system to workspace', async () => {
@@ -416,6 +445,7 @@ test('User can navigate to Workspace Info Tab', async ({ page }) => {
     });
     await expect(workspaceLink).toBeVisible({ timeout: 100000 });
     await workspaceLink.click();
+    await waitForWorkspaceDetailPageReady(page);
   });
 
   await test.step('Verify Workspace info shows User access configuration section', async () => {

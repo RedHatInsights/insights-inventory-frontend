@@ -7,8 +7,8 @@ import InventoryTable from '../InventoryTable/InventoryTable';
 import { useSearchParams } from 'react-router-dom';
 import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFromGroupModal';
 import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
+import { useWorkspaceDetailEditActionsAccess } from '../../Utilities/hooks/useWorkspaceDetailEditActionsAccess';
 import {
-  NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE,
   REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
   getSearchParams,
 } from '../../constants';
@@ -26,7 +26,14 @@ import { generateFilter } from '../../Utilities/constants';
 import { prepareColumns } from './helpers';
 import { useDeepCompareMemo } from 'use-deep-compare';
 
-const GroupSystems = ({ groupName, groupId, ungrouped }) => {
+const GroupSystems = ({
+  groupName,
+  groupId,
+  ungrouped,
+  workspaceKesselGateActive = false,
+  workspaceKesselCanEdit,
+  workspaceKesselPermissionsLoading = false,
+}) => {
   const dispatch = useDispatch();
   const globalFilter = useGlobalFilter();
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
@@ -49,8 +56,18 @@ const GroupSystems = ({ groupName, groupId, ungrouped }) => {
     REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId),
   );
 
+  const {
+    canModifyWorkspaceForActions,
+    noAccessEditTooltip,
+    kesselActionOverride,
+  } = useWorkspaceDetailEditActionsAccess({
+    workspaceKesselGateActive,
+    workspaceKesselCanEdit,
+    workspaceKesselPermissionsLoading,
+    rbacCanModify: canModify,
+  });
+
   const [searchParams] = useSearchParams();
-  const noAccessTooltip = NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE;
   const removeLabel = 'Remove from workspace';
 
   /*eslint-disable react-hooks/exhaustive-deps*/
@@ -157,7 +174,8 @@ const GroupSystems = ({ groupName, groupId, ungrouped }) => {
                       groupId,
                     )}
                     isAriaDisabled={ungrouped}
-                    noAccessTooltip={noAccessTooltip}
+                    noAccessTooltip={noAccessEditTooltip}
+                    override={kesselActionOverride}
                     onClick={() => {
                       setCurrentSystem([row]);
                       setRemoveHostsFromGroupModalOpen(true);
@@ -176,13 +194,14 @@ const GroupSystems = ({ groupName, groupId, ungrouped }) => {
                 requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                   groupId,
                 )}
-                noAccessTooltip={noAccessTooltip}
+                noAccessTooltip={noAccessEditTooltip}
+                override={kesselActionOverride}
                 onClick={() => {
                   dispatch(clearEntitiesAction());
                   setAddToGroupModalOpen(true);
                 }}
                 ouiaId="add-systems-button"
-                isAriaDisabled={ungrouped || !canModify}
+                isAriaDisabled={ungrouped || !canModifyWorkspaceForActions}
               >
                 Add systems
               </ActionButton>,
@@ -190,10 +209,12 @@ const GroupSystems = ({ groupName, groupId, ungrouped }) => {
                 label: removeLabel,
                 props: {
                   isAriaDisabled:
-                    ungrouped || !canModify || calculateSelected() === 0,
-                  ...(!canModify && {
+                    ungrouped ||
+                    !canModifyWorkspaceForActions ||
+                    calculateSelected() === 0,
+                  ...(!canModifyWorkspaceForActions && {
                     tooltipProps: {
-                      content: noAccessTooltip,
+                      content: noAccessEditTooltip,
                     },
                   }),
                 },
@@ -223,6 +244,9 @@ GroupSystems.propTypes = {
   groupId: PropTypes.string.isRequired,
   ungrouped: PropTypes.string,
   hostType: PropTypes.string,
+  workspaceKesselGateActive: PropTypes.bool,
+  workspaceKesselCanEdit: PropTypes.bool,
+  workspaceKesselPermissionsLoading: PropTypes.bool,
 };
 
 GroupSystems.defaultProps = {
