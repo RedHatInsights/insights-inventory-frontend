@@ -68,3 +68,7 @@ export const LAST_SEEN_OPTIONS: { label: string; key: LastSeenKey }[] = [
   { label: 'More than 30 days ago', key: '30more' },
   { label: 'Custom', key: 'custom' },
 ];
+
+export const SORT_URL_PARAM = 'sort';
+
+export const SORT_DIR_URL_PARAM = 'sort_dir';
