@@ -173,9 +173,10 @@ export const getSearchParams = (searchParams) => {
   const lastSeenFilter = searchParams.getAll('last_seen');
   const systemTypeFilter = searchParams.getAll('system_type');
   const workloadFilter = searchParams.getAll(WORKLOAD_FILTER_KEY);
+  const rawSort = searchParams.get('sort');
   const sortBy = {
-    key: searchParams.get('sort')?.replace('-', ''),
-    direction: searchParams.get('sort')?.includes('-') ? 'desc' : 'asc',
+    key: rawSort?.startsWith('-') ? rawSort.slice(1) : rawSort,
+    direction: rawSort?.startsWith('-') ? 'desc' : 'asc',
   };
 
   return {
@@ -260,6 +261,16 @@ export const NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE =
   'You do not have the necessary permissions to modify workspaces. Contact your organization administrator.';
 export const NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE =
   'You do not have the necessary permissions to modify this workspace. Contact your organization administrator.';
+export const NO_WORKSPACE_PERMISSIONS_LOADING_TOOLTIP_MESSAGE =
+  'Checking your workspace permissions. Try again in a moment.';
+export const NO_RENAME_WORKSPACE_KESSEL_TOOLTIP_MESSAGE =
+  'You do not have permission to rename this workspace. Contact your organization administrator.';
+export const NO_DELETE_WORKSPACE_KESSEL_TOOLTIP_MESSAGE =
+  'You do not have permission to delete this workspace. Contact your organization administrator.';
+export const NO_DELETE_SELECTED_WORKSPACES_KESSEL_TOOLTIP_MESSAGE =
+  'You do not have permission to delete every selected workspace. Remove workspaces you cannot delete from the selection, or contact your organization administrator.';
+export const NO_CREATE_WORKSPACE_KESSEL_TOOLTIP_MESSAGE =
+  'You do not have permission to create workspaces. Contact your organization administrator.';
 export const NO_MODIFY_HOSTS_TOOLTIP_MESSAGE =
   'You do not have the necessary permissions to modify hosts. Contact your organization administrator.';
 export const NO_MODIFY_HOST_TOOLTIP_MESSAGE =
@@ -334,6 +345,8 @@ export const EMPTY_CELL = '';
 export const DEBOUNCE_TIMEOUT_MS = 300;
 export const WORKSPACE_RESOURCE_TYPE = 'workspace';
 export const WORKSPACE_RELATION_EDIT = 'edit';
+/** Kessel self-access relation for removing a workspace (see react-kessel-access-check package README). */
+export const WORKSPACE_RELATION_DELETE = 'delete';
 /** Reporter for host access checks (HBI). */
 export const KESSEL_REPORTER = { type: 'hbi' };
 /** Reporter for workspace access checks; README recommends { type: 'rbac' } for RBAC-based authorization. */
