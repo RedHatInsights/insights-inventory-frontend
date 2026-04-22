@@ -338,6 +338,8 @@ export const HOST_RESOURCE_TYPE = 'host';
 export const HOST_RESOURCE_TYPE_VIEW = 'view';
 export const HOST_RESOURCE_TYPE_UPDATE = 'update';
 export const HOST_RESOURCE_TYPE_DELETE = 'delete';
+export const INVENTORY_STALENESS_READ_PERMISSION = 'inventory:staleness:read';
+export const INVENTORY_STALENESS_WRITE_PERMISSION = 'inventory:staleness:write';
 export const PER_PAGE_MAX = 100;
 export const PER_PAGE = 50;
 export const INITIAL_PAGE = 1;
@@ -351,5 +353,15 @@ export const WORKSPACE_RELATION_DELETE = 'delete';
 export const KESSEL_REPORTER = { type: 'hbi' };
 /** Reporter for workspace access checks; README recommends { type: 'rbac' } for RBAC-based authorization. */
 export const KESSEL_WORKSPACE_REPORTER = { type: 'rbac' };
+/**
+ * Self-access `relation` values on {@link WORKSPACE_RESOURCE_TYPE} with Default workspace id
+ * (see kessel-sdk-browser README “Fetching Workspace IDs for Access Checks”).
+ * Source: RedHatInsights/rbac-config `configs/stage/schemas/schema.zed` (`rbac/workspace`).
+ */
+export const STALENESS_WORKSPACE_RELATION_VIEW = 'staleness_staleness_view';
+export const STALENESS_WORKSPACE_RELATION_UPDATE = 'staleness_staleness_update';
+/** Inventory hosts in workspace: `inventory_host_view` / `inventory_host_update` on that workspace object. */
+export const HOST_WORKSPACE_RELATION_VIEW = 'inventory_host_view';
+export const HOST_WORKSPACE_RELATION_UPDATE = 'inventory_host_update';
 export const DEFAULT_DELETE_ERROR_MESSAGE =
   'There was an error processing the request. Please try again.';
