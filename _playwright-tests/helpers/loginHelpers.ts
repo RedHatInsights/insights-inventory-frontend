@@ -104,6 +104,18 @@ export const closeCookieBanner = async (page: Page) => {
   await iframeLocator.waitFor({ state: 'hidden', timeout: 5000 });
 };
 
+export const enableSystemsView = async (page: Page) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('ui.systems-view', 'true');
+  });
+};
+
+export const disableSystemsView = async (page: Page) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('ui.systems-view', 'false');
+  });
+};
+
 export const storeStorageStateAndToken = async (page: Page) => {
   const { cookies } = await page.context().storageState({
     path: path.join(__dirname, '../../.auth/admin_user.json'),
@@ -140,6 +152,7 @@ export const ensureNotInPreview = async (page: Page) => {
     .locator('div')
     .filter({ hasText: 'Preview mode' })
     .getByRole('switch');
+
   if ((await toggle.isVisible()) && (await toggle.isChecked())) {
     await toggle.click();
   }

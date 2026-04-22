@@ -1,5 +1,5 @@
 ## Jira
-[RHINENG-xxxx](https://issues.redhat.com/browse/RHINENG-xxxx)
+[RHINENG-xxxxx](https://redhat.atlassian.net/browse/RHINENG-xxxxx)
 
 ## What
 <!-- Short description of the change -->

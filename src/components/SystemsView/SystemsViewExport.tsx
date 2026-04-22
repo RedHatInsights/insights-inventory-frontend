@@ -40,7 +40,8 @@ export const SystemsViewExport = () => {
           toggle={(toggleRef) => (
             <MenuToggle
               ref={toggleRef}
-              aria-label="Persistent example overflow menu"
+              aria-label="Export"
+              ouiaId="Export"
               variant="plain"
               onClick={onToggle}
               isExpanded={isOpen}

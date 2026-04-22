@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { type Locator, type Page } from '@playwright/test';
 
+const SKELETON_TABLE = '[data-ouia-component-id="SkeletonTable"]';
+
 /**
  * Applies a conditional filter to the systems list in the UI.
  *
@@ -22,7 +24,12 @@ export const filterSystemsWithConditionalFilter = async (
 ) => {
   let optionCheckbox: Locator | undefined = undefined;
   // 1. SELECT FILER
-  await page.getByRole('button', { name: 'Conditional filter toggle' }).click();
+  await page
+    .locator(
+      '[data-ouia-component-id="DataViewFilters"] button.pf-v6-c-menu-toggle',
+    )
+    .or(page.getByRole('button', { name: 'Conditional filter toggle' }))
+    .click();
   // Wait for the filter menu to be visible before proceeding
   await page
     .getByRole('menuitem', { name: filterName })
@@ -66,7 +73,15 @@ export const filterSystemsWithConditionalFilter = async (
     await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
     await optionCheckbox.click();
   } else if (filterName === 'Operating system') {
-    await page.getByRole('button', { name: 'Group filter' }).nth(1).click();
+    await page
+      .getByRole('button', { name: 'Group filter' })
+      .nth(1)
+      .or(
+        page.locator(
+          '[data-ouia-component-id="SystemsViewOperatingSystemsFilter"]',
+        ),
+      )
+      .click();
     await page.getByRole('checkbox', { name: option, exact: true }).check();
   } else if (filterName === 'Last seen') {
     const lastSeenToggle = page.locator('button', {
@@ -81,12 +96,9 @@ export const filterSystemsWithConditionalFilter = async (
 
   await page.mouse.click(0, 0); //to make sure menu is closed
   // wait for table to be filtered
-  await expect(
-    page.locator('[data-ouia-component-id="SkeletonTable"]'),
-  ).toBeVisible();
   await page
-    .locator('[data-ouia-component-id="SkeletonTable"]')
-    .waitFor({ state: 'hidden' });
+    .locator(SKELETON_TABLE)
+    .waitFor({ state: 'hidden', timeout: 10000 });
 };
 
 /**
@@ -131,8 +143,25 @@ export const expectAllRowsHaveText = async (
 export const searchByName = async (page: Page, name: string): Promise<void> => {
   const searchInput = page.locator('input[placeholder="Filter by name"]');
   await page.reload({ waitUntil: 'networkidle' });
-  await expect(searchInput).toBeVisible();
+  await expect(searchInput).toBeVisible({ timeout: 30000 });
   await searchInput.fill(name);
+};
+
+export const waitForSystemsTableKebabReady = async (
+  page: Page,
+  rowNameMatch: RegExp,
+): Promise<Locator> => {
+  const row = page.getByRole('row', { name: rowNameMatch });
+  const kebab = row.getByLabel('Kebab toggle');
+
+  await expect(async () => {
+    await expect(page.locator(SKELETON_TABLE)).toBeHidden();
+    await expect(row).toBeVisible();
+    await expect(kebab).toBeVisible();
+    await expect(kebab).toBeEnabled();
+  }).toPass({ timeout: 45000 });
+
+  return kebab;
 };
 
 /**

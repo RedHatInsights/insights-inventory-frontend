@@ -31,7 +31,7 @@ const InventoryViews = ({ hasAccess }: InventoryViewsProps) => {
               style={{ alignItems: 'center' }}
               spaceItems={{ default: 'spaceItemsSm' }}
             >
-              <FlexItem>Systems View</FlexItem>
+              <FlexItem>Systems</FlexItem>
               <FlexItem>
                 <InventoryPopover />
               </FlexItem>

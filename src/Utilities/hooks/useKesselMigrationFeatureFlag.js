@@ -1,6 +1,6 @@
 import useFeatureFlag from '../useFeatureFlag';
 
 export const useKesselMigrationFeatureFlag = () => {
-  const isFlagEnabled = useFeatureFlag('inventory-frontend.kessel-enabled');
+  const isFlagEnabled = useFeatureFlag('platform.rbac.workspaces');
   return isFlagEnabled || false;
 };

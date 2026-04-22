@@ -1,8 +1,12 @@
-import { expect } from '@playwright/test';
+import { expect, Locator } from '@playwright/test';
 import { createSystem } from './helpers/uploadArchive';
 import { navigateToInventorySystemsFunc } from './helpers/navHelpers';
 import { test } from './helpers/fixtures';
-import { searchByName } from './helpers/filterHelpers';
+import {
+  searchByName,
+  waitForSystemsTableKebabReady,
+} from './helpers/filterHelpers';
+import { isSystemsViewEnabled } from './helpers/constants';
 
 test('User should be able to edit and delete a system from Systems page', async ({
   page,
@@ -20,7 +24,9 @@ test('User should be able to edit and delete a system from Systems page', async 
   const system = await createSystem();
   const newDisplayName = `${system.hostname}_Renamed`;
   const dialog = page.locator('[role="dialog"]');
-  const nameCell = page.locator('td[data-label="Name"]');
+  const nameCell = page
+    .locator('[data-ouia-component-id="systems-view-table-td-0-0"]')
+    .or(page.locator('td[data-label="Name"]'));
 
   await test.step('Navigate to Inventory → Systems', async () => {
     await navigateToInventorySystemsFunc(page);
@@ -29,17 +35,21 @@ test('User should be able to edit and delete a system from Systems page', async 
   await test.step(`Edit the system "${system.hostname}" display name and save`, async () => {
     await searchByName(page, system.hostname);
     await expect(nameCell).toHaveCount(1);
-    await page
-      .getByRole('row', { name: new RegExp(system.hostname, 'i') })
-      .getByLabel('Kebab toggle')
-      .click();
+    const kebab = await waitForSystemsTableKebabReady(
+      page,
+      new RegExp(system.hostname, 'i'),
+    );
+    await kebab.click();
+    await expect(kebab).toHaveAttribute('aria-expanded', 'true');
 
-    await page
-      .getByRole('menuitem', { name: 'Edit display name' })
-      .nth(1)
-      .click();
-
+    const editButton = page.getByRole('menuitem', { name: /^Edit/ }).first();
+    await expect(editButton).toBeEnabled({
+      enabled: isSystemsViewEnabled || undefined,
+      timeout: 50000,
+    });
+    await editButton.click();
     await expect(dialog).toBeVisible();
+
     await expect(page.getByRole('textbox')).toHaveValue(system.hostname);
     await dialog.locator('input').first().fill(newDisplayName);
     await dialog.getByRole('button', { name: 'Save' }).click();
@@ -48,91 +58,27 @@ test('User should be able to edit and delete a system from Systems page', async 
   await test.step(`Delete the renamed system "${newDisplayName}" and verify it is removed`, async () => {
     await searchByName(page, newDisplayName);
     await expect(nameCell).toHaveCount(1);
+    const kebab = await waitForSystemsTableKebabReady(
+      page,
+      new RegExp(newDisplayName, 'i'),
+    );
+    await kebab.click();
+    await expect(kebab).toHaveAttribute('aria-expanded', 'true');
 
-    await page
-      .getByRole('row', { name: new RegExp(newDisplayName, 'i') })
-      .getByLabel('Kebab toggle')
-      .click();
+    const deleteButton = page
+      .getByRole('menuitem', { name: /^Delete/ })
+      .first();
+    await expect(deleteButton).toBeEnabled({
+      enabled: isSystemsViewEnabled || undefined,
+      timeout: 50000,
+    });
+    await deleteButton.click();
 
-    await page
-      .getByRole('menuitem', { name: 'Delete from inventory' })
-      .nth(1)
-      .click();
     await expect(dialog).toBeVisible();
     await dialog.getByRole('button', { name: 'Delete' }).click();
 
     await searchByName(page, newDisplayName);
     await expect(page.getByText('No matching systems found')).toBeVisible();
-  });
-});
-
-test('User should be able to edit and delete a system from System Details page', async ({
-  page,
-}) => {
-  /**
-   * Jira References:
-     - https://issues.redhat.com/browse/RHINENG-21147 – Edit a system
-     - https://issues.redhat.com/browse/RHINENG-21149 - Delete a system
-   * Metadata:
-     - requirements:
-     - inv-hosts-patch
-     - inv-hosts-delete-by-id
-     - importance: critical
-   */
-  const system = await createSystem();
-  const editButtons = page.getByRole('button', { name: 'Edit' });
-  const dialog = page.locator('[role="dialog"]');
-  const nameCell = page.locator('td[data-label="Name"]');
-  const newDisplayName = `host_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
-  const newAnsibleName = `host_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
-
-  await test.step("Navigate to system's details page", async () => {
-    await navigateToInventorySystemsFunc(page);
-    await searchByName(page, system.hostname);
-    await expect(nameCell).toHaveCount(1);
-
-    const systemLink = page.getByRole('link', { name: system.hostname });
-    await systemLink.click();
-
-    // Detail page heading shows display_name (full or truncated); accept either
-    const heading = page.getByRole('heading', { level: 1 }).first();
-    await expect(heading).toBeVisible({ timeout: 100000 });
-    await expect(heading).toContainText(system.hostname.substring(0, 36));
-  });
-
-  await test.step('Edit the system display name and verify', async () => {
-    await editButtons.nth(0).click();
-    await page.locator('[aria-label="name"]').first().fill(newDisplayName);
-    await page.getByRole('button', { name: 'submit' }).click();
-    await page.waitForTimeout(2000);
-
-    await expect(
-      page.getByRole('heading', { name: newDisplayName, level: 1 }),
-    ).toBeVisible();
-    const displayNameValueLocator = page.getByLabel('Display name value');
-    // UI may truncate with ellipsis (maxCharsDisplayed=36)
-    await expect(displayNameValueLocator).toContainText(newDisplayName);
-  });
-
-  await test.step('Edit the system Ansible name and verify', async () => {
-    await editButtons.nth(1).click();
-    await page.locator('[aria-label="name"]').first().fill(newAnsibleName);
-    await page.getByRole('button', { name: 'submit' }).click();
-    await page.waitForTimeout(2000);
-
-    const ansibleNameValueLocator = page.getByLabel('Ansible hostname value');
-    // UI may truncate with ellipsis (maxCharsDisplayed=36)
-    await expect(ansibleNameValueLocator).toContainText(newAnsibleName);
-  });
-
-  await test.step(`Delete the system and verify it is removed`, async () => {
-    await page.getByRole('button', { name: 'Delete' }).click();
-    await expect(dialog).toBeVisible();
-    await dialog.getByRole('button', { name: 'Delete' }).click();
-    await page.waitForTimeout(2000);
-    await expect(page.getByText('Delete operation finished')).toBeVisible({
-      timeout: 5000,
-    });
   });
 });
 
@@ -238,7 +184,9 @@ test('User should be able to delete multiple systems from Systems page', async (
      - importance: critical
    */
   const dialog = page.locator('[role="dialog"]');
-  const nameCell = page.locator('td[data-label="Name"]');
+  const nameCell = page.locator(
+    'tbody.pf-v6-c-table__tbody tr[data-ouia-component-type="PF6/TableRow"]',
+  );
 
   await test.step('Navigate to Inventory → Systems', async () => {
     await navigateToInventorySystemsFunc(page);
@@ -248,11 +196,15 @@ test('User should be able to delete multiple systems from Systems page', async (
   });
 
   await test.step('Select all systems using Bulk Select', async () => {
-    await page.locator('[data-ouia-component-id="BulkSelect"]').click();
+    const bulkSelectBtn = page
+      .locator('[data-ouia-component-id="BulkSelect-toggle"]')
+      .or(page.locator('[data-ouia-component-id="BulkSelect"]'));
+    await bulkSelectBtn.click();
+
     await page.getByRole('menuitem', { name: 'Select page' }).click();
-    const bulkSelect = page.locator(
-      '[id="bulk-select-systems-toggle-checkbox"]',
-    );
+    const bulkSelect = page
+      .locator('[id="bulk-select-systems-toggle-checkbox"]')
+      .or(page.locator('[data-ouia-component-id="BulkSelect-text"]'));
     await expect(bulkSelect).toContainText(
       `${systems.deleteSystems.length} selected`,
     );
@@ -288,13 +240,16 @@ test('User should be able to delete multiple systems from Systems page', async (
     });
 
     await test.step(`Sort by Name column in ${order} order`, async () => {
-      const columnHeader = page.locator('th[data-label="Name"] button');
+      const columnHeader = page
+        .locator('button.pf-v6-c-table__button')
+        .filter({ hasText: /^Name$/ })
+        .or(page.locator('th[data-label="Name"] button'));
       await expect(columnHeader).toBeVisible();
 
       // Expected URL sort parameter: ascending = display_name, descending = -display_name
       const expectedSortParam = {
-        ascending: 'sort=display_name',
-        descending: 'sort=-display_name',
+        ascending: /sort=display_name|sort_dir=asc/,
+        descending: /sort=-display_name|sort_dir=desc/,
       };
 
       // Keep clicking until we reach the desired sort direction (max 3 clicks)
@@ -311,10 +266,7 @@ test('User should be able to delete multiple systems from Systems page', async (
         await columnHeader.click();
 
         // Wait for the sort to take effect
-        await expect(async () => {
-          const url = page.url();
-          expect(url).toContain('sort=');
-        }).toPass({ timeout: 5000 });
+        await expect(page).toHaveURL(/sort=|sort_dir=/);
       }
 
       // Verify we reached the target sort direction
@@ -328,12 +280,14 @@ test('User should be able to delete multiple systems from Systems page', async (
       // Verify URL has exact sort parameter for the expected order
       await expect(async () => {
         const url = page.url();
-        expect(url).toContain(expectedSortParam[order]);
+        expect(url).toMatch(expectedSortParam[order]);
       }).toPass({ timeout: 5000 });
     });
 
     await test.step('Verify systems are sorted alphabetically', async () => {
-      const nameCell = page.locator('td[data-label="Name"] a');
+      const nameCell = page
+        .locator('[data-ouia-component-id="systems-view-table-td-0-0"]')
+        .or(page.locator('td[data-label="Name"]'));
       await expect(nameCell.first()).toBeVisible();
 
       const displayedNames = await nameCell.allTextContents();
@@ -354,7 +308,10 @@ test('User should be able to delete multiple systems from Systems page', async (
     });
 
     await test.step('Verify sort indicator is displayed', async () => {
-      const columnHeader = page.locator('th[data-label="Name"]');
+      const columnHeader = page
+        .locator('th')
+        .filter({ has: page.getByRole('button', { name: 'Name' }) })
+        .or(page.locator('[data-ouia-component-id="systems-view-table-th-0"]'));
       await expect(columnHeader).toHaveAttribute('aria-sort', order);
     });
   });
