@@ -1,9 +1,6 @@
 import {
-  Alert,
   AlertActionLink,
   Button,
-  Flex,
-  FlexItem,
   Modal,
   ModalHeader,
   ModalBody,
@@ -12,7 +9,7 @@ import {
 import { TableVariant } from '@patternfly/react-table';
 import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchGroupDetail } from '../../../store/inventory-actions';
 import InventoryTable from '../../InventoryTable/InventoryTable';
 import { addHostsToGroupById } from '../utils/api';
@@ -29,6 +26,7 @@ const AddSystemsToGroupModal = ({
   groupName,
 }) => {
   const apiWithToast = useApiWithToast();
+  const dispatch = useDispatch();
 
   const selected = useSelector(
     (state) => state?.entities?.selected || new Map(),
@@ -48,12 +46,6 @@ const AddSystemsToGroupModal = ({
     true,
     pageSelected,
   );
-
-  const alreadyHasGroup = [...selected].filter((entry) => {
-    return (
-      !entry[1]?.groups?.[0]?.ungrouped && entry[1]?.groups?.[0]?.name !== ''
-    );
-  });
 
   const handleSystemAddition = useCallback(
     (hostIds) => {
@@ -102,8 +94,6 @@ const AddSystemsToGroupModal = ({
   const overallSelectedKeys = [...selected.keys()];
   // noneSelected a boolean showing that no system is selected
   const noneSelected = overallSelectedKeys.length === 0;
-  // showWarning when systems had groups
-  const showWarning = alreadyHasGroup.length > 0;
 
   const ConventionalInventoryTable = (
     <InventoryTable
@@ -139,34 +129,21 @@ const AddSystemsToGroupModal = ({
           <ModalHeader title="Add systems" />
           <ModalBody>{ConventionalInventoryTable}</ModalBody>
           <ModalFooter>
-            <Flex direction={{ default: 'column' }} style={{ width: '100%' }}>
-              {showWarning && (
-                <FlexItem fullWidth={{ default: 'fullWidth' }}>
-                  <Alert
-                    variant="warning"
-                    isInline
-                    title="One or more of the selected systems already belong to a workspace. Only systems not already belonging to a workspace can be added. Unselect these systems to move forward."
-                  />
-                </FlexItem>
-              )}
-              <FlexItem>
-                <Button
-                  key="confirm"
-                  variant="primary"
-                  onClick={handleAddSystemsButton}
-                  isDisabled={noneSelected || showWarning}
-                >
-                  Add systems
-                </Button>
-                <Button
-                  key="cancel"
-                  variant="link"
-                  onClick={() => setIsModalOpen(false)}
-                >
-                  Cancel
-                </Button>
-              </FlexItem>
-            </Flex>
+            <Button
+              key="confirm"
+              variant="primary"
+              onClick={handleAddSystemsButton}
+              isDisabled={noneSelected}
+            >
+              Add systems
+            </Button>
+            <Button
+              key="cancel"
+              variant="link"
+              onClick={() => setIsModalOpen(false)}
+            >
+              Cancel
+            </Button>
           </ModalFooter>
         </Modal>
       </>
