@@ -70,3 +70,99 @@ export async function uninstallKesselCheckSelfBulkMock(
 ): Promise<void> {
   await page.unroute(KESSEL_CHECKSELFBULK_ROUTE_GLOB);
 }
+
+const WORKSPACE_RESOURCE_TYPE = 'workspace';
+const WORKSPACE_RELATION_VIEW = 'view';
+const WORKSPACE_RELATION_EDIT = 'edit';
+
+function isWorkspaceRelationItem(
+  item: CheckSelfBulkRequestItem,
+  relation: string,
+): boolean {
+  return (
+    item.object?.resourceType === WORKSPACE_RESOURCE_TYPE &&
+    item.relation === relation
+  );
+}
+
+/**
+ * Denies only workspace **view** self-access; all other bulk items (including
+ * workspace **edit**) are allowed. Use on workspace details to assert the
+ * AccessDenied path while keeping list/create flows workable.
+ */
+export async function installKesselCheckSelfBulkDenyView(
+  page: Page,
+): Promise<void> {
+  await page.route(KESSEL_CHECKSELFBULK_ROUTE_GLOB, async (route: Route) => {
+    const req = route.request();
+    if (req.method() !== 'POST') {
+      await route.continue();
+      return;
+    }
+
+    let body: CheckSelfBulkBody;
+    try {
+      body = req.postDataJSON() as CheckSelfBulkBody;
+    } catch {
+      await route.continue();
+      return;
+    }
+
+    const items = body?.items ?? [];
+    const pairs = items.map((item) => ({
+      request: item,
+      item: {
+        allowed: isWorkspaceRelationItem(item, WORKSPACE_RELATION_VIEW)
+          ? 'ALLOWED_FALSE'
+          : 'ALLOWED_TRUE',
+      },
+    }));
+
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ pairs }),
+    });
+  });
+}
+
+/**
+ * Denies only workspace **edit** self-access; **view** and all other items
+ * stay allowed. Workspace details should still load Systems while header
+ * Actions stay disabled.
+ */
+export async function installKesselCheckSelfBulkDenyEdit(
+  page: Page,
+): Promise<void> {
+  await page.route(KESSEL_CHECKSELFBULK_ROUTE_GLOB, async (route: Route) => {
+    const req = route.request();
+    if (req.method() !== 'POST') {
+      await route.continue();
+      return;
+    }
+
+    let body: CheckSelfBulkBody;
+    try {
+      body = req.postDataJSON() as CheckSelfBulkBody;
+    } catch {
+      await route.continue();
+      return;
+    }
+
+    const items = body?.items ?? [];
+    const pairs = items.map((item) => ({
+      request: item,
+      item: {
+        allowed: isWorkspaceRelationItem(item, WORKSPACE_RELATION_EDIT)
+          ? 'ALLOWED_FALSE'
+          : 'ALLOWED_TRUE',
+      },
+    }));
+
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ pairs }),
+    });
+  });
+}

@@ -94,9 +94,11 @@ describe('group detail header', () => {
     useKesselMigrationFeatureFlag.mockReturnValue(true);
 
     renderHeader({
-      workspaceKesselGateActive: true,
-      workspaceKesselCanEdit: false,
-      workspaceKesselPermissionsLoading: false,
+      workspaceAccess: {
+        gateActive: true,
+        canEdit: false,
+        isLoading: false,
+      },
     });
 
     expect(screen.getByRole('button', { name: /actions/i })).toBeDisabled();
@@ -106,9 +108,11 @@ describe('group detail header', () => {
     useKesselMigrationFeatureFlag.mockReturnValue(true);
 
     renderHeader({
-      workspaceKesselGateActive: true,
-      workspaceKesselCanEdit: true,
-      workspaceKesselPermissionsLoading: true,
+      workspaceAccess: {
+        gateActive: true,
+        canEdit: true,
+        isLoading: true,
+      },
     });
 
     expect(screen.getByRole('button', { name: /actions/i })).toBeDisabled();
@@ -118,9 +122,11 @@ describe('group detail header', () => {
     useKesselMigrationFeatureFlag.mockReturnValue(true);
 
     renderHeader({
-      workspaceKesselGateActive: true,
-      workspaceKesselCanEdit: true,
-      workspaceKesselPermissionsLoading: false,
+      workspaceAccess: {
+        gateActive: true,
+        canEdit: true,
+        isLoading: false,
+      },
     });
 
     const toggle = screen.getByRole('button', { name: /actions/i });

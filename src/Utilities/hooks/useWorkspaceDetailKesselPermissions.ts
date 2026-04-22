@@ -1,10 +1,5 @@
-import { useMemo } from 'react';
 import { useSelfAccessCheck } from '@project-kessel/react-kessel-access-check';
-import {
-  type BulkSelfAccessCheckNestedRelationsParams,
-  type SelfAccessCheckResource,
-  type SelfAccessCheckResourceWithRelation,
-} from '@project-kessel/react-kessel-access-check/types';
+import { type BulkSelfAccessCheckNestedRelationsParams } from '@project-kessel/react-kessel-access-check/types';
 import {
   KESSEL_WORKSPACE_REPORTER,
   WORKSPACE_RELATION_EDIT,
@@ -13,32 +8,10 @@ import {
 } from '../../constants';
 import { useKesselMigrationFeatureFlag } from './useKesselMigrationFeatureFlag';
 
-/**
- * Nested bulk params only — keeps `useSelfAccessCheck` on one overload so TypeScript is satisfied.
- * When `run` is false, `resources` is empty and the SDK completes immediately (no network).
- * When `run` is true, a single `{ ...resource, relation }` entry avoids bulk index/order bugs vs two relations in one request.
- *
- *  @param run      - Whether to include the workspace resource in `resources`
- *  @param resource - Workspace resource without relation, or null when idle
- *  @param relation - Kessel relation for the single bulk item
- *  @returns        Params for `useSelfAccessCheck` nested bulk overload
- */
-function workspaceNestedBulkParams(
-  run: boolean,
-  resource: SelfAccessCheckResource | null,
-  relation: string,
-): BulkSelfAccessCheckNestedRelationsParams {
-  if (!run || !resource) {
-    return {
-      resources: [],
-    } as unknown as BulkSelfAccessCheckNestedRelationsParams;
-  }
-  const withRelation: SelfAccessCheckResourceWithRelation = {
-    ...resource,
-    relation,
-  };
-  return { resources: [withRelation] };
-}
+/** Empty bulk payload when Kessel checks are skipped; SDK completes without network. */
+const emptyBulkParams = {
+  resources: [],
+} as unknown as BulkSelfAccessCheckNestedRelationsParams;
 
 export type WorkspaceDetailKesselPermissions = {
   /** When false, callers should use RBAC only (Kessel off or ungrouped hosts workspace). */
@@ -71,40 +44,33 @@ export const useWorkspaceDetailKesselPermissions = (
   const appliesKesselWorkspaceChecks =
     isKesselEnabled === true && skipKessel !== true;
 
-  const workspaceResource = useMemo(
-    () =>
-      workspaceId
-        ? {
-            id: workspaceId,
-            type: WORKSPACE_RESOURCE_TYPE,
-            reporter: KESSEL_WORKSPACE_REPORTER,
-          }
-        : null,
-    [workspaceId],
-  );
+  const viewAccessParams: BulkSelfAccessCheckNestedRelationsParams =
+    appliesKesselWorkspaceChecks && workspaceId
+      ? {
+          resources: [
+            {
+              id: workspaceId,
+              type: WORKSPACE_RESOURCE_TYPE,
+              reporter: KESSEL_WORKSPACE_REPORTER,
+              relation: WORKSPACE_RELATION_VIEW,
+            },
+          ],
+        }
+      : emptyBulkParams;
 
-  const runSingleChecks =
-    appliesKesselWorkspaceChecks && workspaceResource != null;
-
-  const viewAccessParams = useMemo(
-    () =>
-      workspaceNestedBulkParams(
-        runSingleChecks,
-        workspaceResource,
-        WORKSPACE_RELATION_VIEW,
-      ),
-    [runSingleChecks, workspaceResource],
-  );
-
-  const editAccessParams = useMemo(
-    () =>
-      workspaceNestedBulkParams(
-        runSingleChecks,
-        workspaceResource,
-        WORKSPACE_RELATION_EDIT,
-      ),
-    [runSingleChecks, workspaceResource],
-  );
+  const editAccessParams: BulkSelfAccessCheckNestedRelationsParams =
+    appliesKesselWorkspaceChecks && workspaceId
+      ? {
+          resources: [
+            {
+              id: workspaceId,
+              type: WORKSPACE_RESOURCE_TYPE,
+              reporter: KESSEL_WORKSPACE_REPORTER,
+              relation: WORKSPACE_RELATION_EDIT,
+            },
+          ],
+        }
+      : emptyBulkParams;
 
   const viewCheck = useSelfAccessCheck(viewAccessParams);
   const editCheck = useSelfAccessCheck(editAccessParams);

@@ -9,9 +9,7 @@ const GroupSystemsWrapper = ({
   groupName,
   groupId,
   ungrouped,
-  workspaceKesselCanEdit,
-  workspaceKesselPermissionsLoading,
-  workspaceKesselGateActive,
+  workspaceAccess,
 }) => {
   const { uninitialized, loading, data } = useSelector(
     (state) => state.groupDetail,
@@ -27,17 +25,13 @@ const GroupSystemsWrapper = ({
       groupId={groupId}
       groupName={groupName}
       ungrouped={ungrouped ?? false}
-      workspaceKesselCanEdit={workspaceKesselCanEdit}
-      workspaceKesselPermissionsLoading={workspaceKesselPermissionsLoading}
-      workspaceKesselGateActive={workspaceKesselGateActive}
+      workspaceAccess={workspaceAccess}
     />
   ) : (
     <NoSystemsEmptyState
       groupId={groupId}
       groupName={groupName}
-      workspaceKesselCanEdit={workspaceKesselCanEdit}
-      workspaceKesselPermissionsLoading={workspaceKesselPermissionsLoading}
-      workspaceKesselGateActive={workspaceKesselGateActive}
+      workspaceAccess={workspaceAccess}
     />
   );
 };
@@ -46,9 +40,11 @@ GroupSystemsWrapper.propTypes = {
   groupName: PropTypes.string.isRequired,
   groupId: PropTypes.string.isRequired,
   ungrouped: PropTypes.bool,
-  workspaceKesselCanEdit: PropTypes.bool,
-  workspaceKesselPermissionsLoading: PropTypes.bool,
-  workspaceKesselGateActive: PropTypes.bool,
+  workspaceAccess: PropTypes.shape({
+    canEdit: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    gateActive: PropTypes.bool,
+  }),
 };
 
 export default GroupSystemsWrapper;

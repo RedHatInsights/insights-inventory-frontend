@@ -6,11 +6,14 @@ import {
 import { searchByName, waitForTableKebabReady } from './helpers/filterHelpers';
 import {
   installKesselCheckSelfBulkAllowAll,
+  installKesselCheckSelfBulkDenyEdit,
+  installKesselCheckSelfBulkDenyView,
   uninstallKesselCheckSelfBulkMock,
 } from './helpers/kesselAccessRouteMock';
 import {
   generateUniqueWorkspaceName,
   createNewWorkspace,
+  getWorkspaceIdFromWorkspacesListLink,
   isWorkspaceResponse,
   waitForWorkspaceDetailPageReady,
   workspaceHeaderActionsToggle,
@@ -29,6 +32,77 @@ test.beforeEach(async ({ page }) => {
 
 test.afterEach(async ({ page }) => {
   await uninstallKesselCheckSelfBulkMock(page);
+});
+
+test('Workspace details shows AccessDenied when Kessel denies view', async ({
+  page,
+}) => {
+  const workspaceName = `${WORKSPACE_NAME_SORT_PREFIX}_kessel_view_denied_${Date.now()}`;
+
+  await navigateToWorkspacesFunc(page);
+  await createNewWorkspace(page, workspaceName);
+
+  await page.reload({ waitUntil: 'load' });
+  const searchInput = page.locator('input[placeholder="Filter by name"]');
+  await expect(searchInput).toBeVisible();
+  await searchInput.fill(workspaceName);
+
+  const workspaceId = await getWorkspaceIdFromWorkspacesListLink(
+    page,
+    workspaceName,
+  );
+
+  await uninstallKesselCheckSelfBulkMock(page);
+  await installKesselCheckSelfBulkDenyView(page);
+
+  await page.goto(`/insights/inventory/workspaces/${workspaceId}`, {
+    waitUntil: 'load',
+  });
+
+  await expect(
+    page.getByRole('heading', {
+      name: 'You do not have access to this workspace',
+    }),
+  ).toBeVisible({ timeout: 120000 });
+
+  await expect(page.locator('.ins-c-inventory__no--access')).toBeVisible();
+
+  await expect(page.getByRole('tab', { name: 'Systems' })).toHaveCount(0);
+  await expect(page.getByRole('tab', { name: 'Workspace info' })).toHaveCount(
+    0,
+  );
+});
+
+test('Workspace details disables header Actions when Kessel denies edit', async ({
+  page,
+}) => {
+  const workspaceName = `${WORKSPACE_NAME_SORT_PREFIX}_kessel_edit_denied_${Date.now()}`;
+
+  await navigateToWorkspacesFunc(page);
+  await createNewWorkspace(page, workspaceName);
+
+  await page.reload({ waitUntil: 'load' });
+  const searchInput = page.locator('input[placeholder="Filter by name"]');
+  await expect(searchInput).toBeVisible();
+  await searchInput.fill(workspaceName);
+
+  const workspaceId = await getWorkspaceIdFromWorkspacesListLink(
+    page,
+    workspaceName,
+  );
+
+  await uninstallKesselCheckSelfBulkMock(page);
+  await installKesselCheckSelfBulkDenyEdit(page);
+
+  await page.goto(`/insights/inventory/workspaces/${workspaceId}`, {
+    waitUntil: 'load',
+  });
+
+  await expect(page.getByRole('tab', { name: 'Systems' })).toBeVisible({
+    timeout: 120000,
+  });
+
+  await expect(workspaceHeaderActionsToggle(page)).toBeDisabled();
 });
 
 test('User can create, rename, and delete a workspace from Workspace Details page', async ({
@@ -65,7 +139,7 @@ test('User can create, rename, and delete a workspace from Workspace Details pag
   await test.step('Search and open newly created workspace', async () => {
     const searchInput = page.locator('input[placeholder="Filter by name"]');
     await expect(searchInput).toBeVisible();
-    await page.reload({ waitUntil: 'networkidle' });
+    await page.reload({ waitUntil: 'load' });
     await searchInput.fill(workspaceName);
 
     const workspaceLink = page.getByRole('link', { name: workspaceName });
@@ -139,7 +213,7 @@ test('User cannot delete a workspace with systems from Workspace Details page', 
   await test.step('Search and open workspace with systems', async () => {
     const searchInput = page.locator('input[placeholder="Filter by name"]');
     await expect(searchInput).toBeVisible();
-    await page.reload({ waitUntil: 'networkidle' });
+    await page.reload({ waitUntil: 'load' });
     await searchInput.fill(WORKSPACE_WITH_SYSTEMS);
 
     const workspaceLink = page.getByRole('link', {
@@ -192,7 +266,7 @@ test.skip('User able to bulk delete empty workspaces', async ({ page }) => {
       await expect(dialog).toBeVisible({ timeout: 100000 });
       await dialog.locator('input').first().fill(workspaceName);
       await dialog.getByRole('button', { name: 'Create' }).click();
-      await page.reload({ waitUntil: 'networkidle' });
+      await page.reload({ waitUntil: 'load' });
     }
   });
 

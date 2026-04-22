@@ -13,13 +13,23 @@ import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 import { useWorkspaceDetailEditActionsAccess } from '../../Utilities/hooks/useWorkspaceDetailEditActionsAccess';
 import { ActionButton } from '../InventoryTable/ActionWithRBAC';
 
+const defaultWorkspaceAccess = {
+  canEdit: undefined,
+  isLoading: false,
+  gateActive: false,
+};
+
 const NoSystemsEmptyState = ({
   groupId,
   groupName,
-  workspaceKesselGateActive = false,
-  workspaceKesselCanEdit,
-  workspaceKesselPermissionsLoading = false,
+  workspaceAccess = defaultWorkspaceAccess,
 }) => {
+  const {
+    canEdit: workspaceKesselCanEdit,
+    isLoading: workspaceKesselPermissionsLoading,
+    gateActive: workspaceKesselGateActive,
+  } = workspaceAccess;
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { hasAccess: rbacCanModify } = useConditionalRBAC(
@@ -78,8 +88,10 @@ const NoSystemsEmptyState = ({
 NoSystemsEmptyState.propTypes = {
   groupId: PropTypes.string,
   groupName: PropTypes.string,
-  workspaceKesselGateActive: PropTypes.bool,
-  workspaceKesselCanEdit: PropTypes.bool,
-  workspaceKesselPermissionsLoading: PropTypes.bool,
+  workspaceAccess: PropTypes.shape({
+    canEdit: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    gateActive: PropTypes.bool,
+  }),
 };
 export default NoSystemsEmptyState;

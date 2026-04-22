@@ -10,6 +10,35 @@ import { INVENTORY_API_BASE } from './apiHelpers';
 export const workspaceHeaderActionsToggle = (page: Page) =>
   page.locator('#group-dropdown-toggle');
 
+/**
+ * Reads the workspace UUID from the Workspaces list row link after search.
+ *
+ *  @param page          - Playwright page on `/insights/inventory/workspaces`
+ *  @param workspaceName - Exact visible name of the workspace link
+ *  @returns             Workspace (group) id from the link href
+ */
+export const getWorkspaceIdFromWorkspacesListLink = async (
+  page: Page,
+  workspaceName: string,
+): Promise<string> => {
+  const workspaceLink = page.getByRole('link', { name: workspaceName });
+  await expect(workspaceLink).toBeVisible({ timeout: 100000 });
+  const href = await workspaceLink.getAttribute('href');
+  if (!href) {
+    throw new Error(`Workspace link for "${workspaceName}" is missing href`);
+  }
+  const fromPath = href.match(/\/workspaces\/([^/?#]+)/);
+  if (fromPath?.[1]) {
+    return fromPath[1];
+  }
+  const trimmed = href.replace(/\/$/, '');
+  const lastSegment = trimmed.split('/').pop();
+  if (lastSegment && !lastSegment.includes('.')) {
+    return lastSegment;
+  }
+  throw new Error(`Could not parse workspace id from href: ${href}`);
+};
+
 export type WaitForWorkspaceDetailOptions = {
   /**
    * Also wait until the header Actions menu is enabled (group detail fetch

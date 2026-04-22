@@ -25,12 +25,21 @@ import {
 } from '../../constants';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 
+const defaultWorkspaceAccess = {
+  canEdit: undefined,
+  isLoading: false,
+  gateActive: false,
+};
+
 const GroupDetailHeader = ({
   groupId,
-  workspaceKesselGateActive = false,
-  workspaceKesselCanEdit,
-  workspaceKesselPermissionsLoading = false,
+  workspaceAccess = defaultWorkspaceAccess,
 }) => {
+  const {
+    canEdit: workspaceKesselCanEdit,
+    isLoading: workspaceKesselPermissionsLoading,
+    gateActive: workspaceKesselGateActive,
+  } = workspaceAccess;
   const dispatch = useDispatch();
   const navigate = useInsightsNavigate();
   const { uninitialized, loading, data } = useSelector(
@@ -161,9 +170,11 @@ const GroupDetailHeader = ({
 
 GroupDetailHeader.propTypes = {
   groupId: PropTypes.string.isRequired,
-  workspaceKesselGateActive: PropTypes.bool,
-  workspaceKesselCanEdit: PropTypes.bool,
-  workspaceKesselPermissionsLoading: PropTypes.bool,
+  workspaceAccess: PropTypes.shape({
+    canEdit: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    gateActive: PropTypes.bool,
+  }),
 };
 
 export default GroupDetailHeader;

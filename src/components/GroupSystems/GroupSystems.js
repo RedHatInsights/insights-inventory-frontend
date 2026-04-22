@@ -26,14 +26,23 @@ import { generateFilter } from '../../Utilities/constants';
 import { prepareColumns } from './helpers';
 import { useDeepCompareMemo } from 'use-deep-compare';
 
+const defaultWorkspaceAccess = {
+  canEdit: undefined,
+  isLoading: false,
+  gateActive: false,
+};
+
 const GroupSystems = ({
   groupName,
   groupId,
   ungrouped,
-  workspaceKesselGateActive = false,
-  workspaceKesselCanEdit,
-  workspaceKesselPermissionsLoading = false,
+  workspaceAccess = defaultWorkspaceAccess,
 }) => {
+  const {
+    canEdit: workspaceKesselCanEdit,
+    isLoading: workspaceKesselPermissionsLoading,
+    gateActive: workspaceKesselGateActive,
+  } = workspaceAccess;
   const dispatch = useDispatch();
   const globalFilter = useGlobalFilter();
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
@@ -173,9 +182,12 @@ const GroupSystems = ({
                     requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
                       groupId,
                     )}
-                    isAriaDisabled={ungrouped}
+                    isAriaDisabled={ungrouped || !canModifyWorkspaceForActions}
                     noAccessTooltip={noAccessEditTooltip}
                     override={kesselActionOverride}
+                    {...(!canModifyWorkspaceForActions && {
+                      tooltipProps: { content: noAccessEditTooltip },
+                    })}
                     onClick={() => {
                       setCurrentSystem([row]);
                       setRemoveHostsFromGroupModalOpen(true);
@@ -244,9 +256,11 @@ GroupSystems.propTypes = {
   groupId: PropTypes.string.isRequired,
   ungrouped: PropTypes.string,
   hostType: PropTypes.string,
-  workspaceKesselGateActive: PropTypes.bool,
-  workspaceKesselCanEdit: PropTypes.bool,
-  workspaceKesselPermissionsLoading: PropTypes.bool,
+  workspaceAccess: PropTypes.shape({
+    canEdit: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    gateActive: PropTypes.bool,
+  }),
 };
 
 GroupSystems.defaultProps = {
