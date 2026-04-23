@@ -28,6 +28,7 @@ export const filterSystemsWithConditionalFilter = async (
     .locator(
       '[data-ouia-component-id="DataViewFilters"] button.pf-v6-c-menu-toggle',
     )
+    .first()
     .or(page.getByRole('button', { name: 'Conditional filter toggle' }))
     .click();
   // Wait for the filter menu to be visible before proceeding
@@ -68,7 +69,14 @@ export const filterSystemsWithConditionalFilter = async (
     await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
     await optionCheckbox.click();
   } else if (filterName === 'System type') {
-    await page.getByRole('button', { name: 'Options menu' }).click();
+    await page
+      .getByRole('button', { name: 'Options menu' })
+      .or(
+        page.locator(
+          'button[data-ouia-component-id="DataViewCheckboxFilter-toggle"]',
+        ),
+      )
+      .click();
     optionCheckbox = page.getByText(option, { exact: true });
     await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
     await optionCheckbox.click();
@@ -147,7 +155,7 @@ export const searchByName = async (page: Page, name: string): Promise<void> => {
   await searchInput.fill(name);
 };
 
-export const waitForSystemsTableKebabReady = async (
+export const waitForTableKebabReady = async (
   page: Page,
   rowNameMatch: RegExp,
 ): Promise<Locator> => {

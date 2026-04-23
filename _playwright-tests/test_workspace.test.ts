@@ -3,10 +3,7 @@ import {
   navigateToWorkspacesFunc,
   navigateToInventorySystemsFunc,
 } from './helpers/navHelpers';
-import {
-  searchByName,
-  waitForSystemsTableKebabReady,
-} from './helpers/filterHelpers';
+import { searchByName, waitForTableKebabReady } from './helpers/filterHelpers';
 import {
   generateUniqueWorkspaceName,
   createNewWorkspace,
@@ -237,7 +234,7 @@ test('User can create, rename and delete a workspace from Workspaces page', asyn
   });
 
   await test.step('Rename workspace via per-row action from Workspaces page and verify renaming via search', async () => {
-    const kebab = await waitForSystemsTableKebabReady(
+    const kebab = await waitForTableKebabReady(
       page,
       new RegExp(workspaceName, 'i'),
     );
@@ -264,7 +261,7 @@ test('User can create, rename and delete a workspace from Workspaces page', asyn
 
   await test.step('Delete workspace via per-row action from Workspaces page and verify deletion via search', async () => {
     await searchByName(page, renamedWorkspace);
-    const kebab = await waitForSystemsTableKebabReady(
+    const kebab = await waitForTableKebabReady(
       page,
       new RegExp(renamedWorkspace, 'i'),
     );
