@@ -37,6 +37,7 @@ import {
   useDataViewFiltersContext,
 } from './DataViewFiltersContext';
 import { useDebouncedValue } from '../../Utilities/hooks/useDebouncedValue';
+import { useSearchParamsWithFragment } from './hooks/useSearchParamsWithFragment';
 import { useResetPage } from './hooks/useResetPage';
 import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
 import { PER_PAGE } from '../../constants';
@@ -221,7 +222,7 @@ interface SystemsViewProps {
 }
 
 export const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParamsWithFragment();
 
   if (!hasAccess) {
     return (
