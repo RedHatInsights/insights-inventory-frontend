@@ -43,9 +43,9 @@ export const Clickable = ({
   workload,
   title,
 }) => {
-  const { pathname, search, hash } = useLocation();
+  const location = useLocation();
   // const { modalId } = useParams(); is causing regression when using LoadingCard derived components in Federated mode
-  const modalId = pathname.split('/').pop();
+  const modalId = location.pathname.split('/').pop();
   const onClickRef = useRef(onClick);
   onClickRef.current = onClick;
 
@@ -66,9 +66,8 @@ export const Clickable = ({
   return (
     <Link
       to={{
-        pathname: `${pathname}/${target}`,
-        search: search || '',
-        hash: hash || '',
+        ...location,
+        pathname: `${location.pathname}/${target}`,
       }}
     >
       {workload ? title : valueToText(value, singular, plural)}
