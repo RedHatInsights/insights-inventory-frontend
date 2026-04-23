@@ -10,7 +10,6 @@ import {
 } from '@patternfly/react-core';
 import { verifyCulledReporter } from '../../Utilities/sharedFunctions';
 import { getFact } from './helpers';
-import { NotConnected } from '@redhat-cloud-services/frontend-components/NotConnected';
 import {
   APP_NAME_ADVISOR,
   APP_NAME_PATCH,
@@ -69,7 +68,7 @@ const ApplicationDetails = ({
       setActiveTabs(items);
     }
     setCurrentApp(activeApp || items?.[0]?.name);
-  }, [disabledApps, appList]);
+  }, [disabledApps, appList, activeApp]);
 
   const isDisconnected = useMemo(
     () => verifyCulledReporter(perReporterStaleness, REPORTER_PUPTOO),
@@ -137,18 +136,15 @@ const ApplicationDetails = ({
                   {item.name === currentApp && (
                     <Suspense fallback={Spinner}>
                       <PageSection hasBodyWrapper={false}>
-                        {isEmptyState(currentApp) ? (
-                          <NotConnected />
-                        ) : (
-                          <Cmp
-                            {...item}
-                            inventoryId={inventoryId}
-                            store={store}
-                            entity={entity}
-                            fetchEntity={fetchEntity}
-                            writePermissions={writePermissions}
-                          />
-                        )}
+                        <Cmp
+                          {...item}
+                          inventoryId={inventoryId}
+                          store={store}
+                          entity={entity}
+                          fetchEntity={fetchEntity}
+                          writePermissions={writePermissions}
+                          insightsDisconnected={isEmptyState(currentApp)}
+                        />
                       </PageSection>
                     </Suspense>
                   )}

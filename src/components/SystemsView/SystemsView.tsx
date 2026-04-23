@@ -8,7 +8,7 @@ import { DataViewTable } from '@patternfly/react-data-view/dist/dynamic/DataView
 import { useDataViewSelection } from '@patternfly/react-data-view/dist/dynamic/Hooks';
 import { PageSection, Pagination } from '@patternfly/react-core';
 import { DataViewToolbar } from '@patternfly/react-data-view/dist/dynamic/DataViewToolbar';
-import { BulkSelect } from '@patternfly/react-component-groups';
+import { BulkSelect } from '../BulkSelect';
 import { useSystemsQuery } from './hooks/useSystemsQuery';
 import { useHostIdsWithKessel } from '../../Utilities/hooks/useHostIdsWithKessel';
 import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorState';
@@ -42,6 +42,8 @@ import { useResetPage } from './hooks/useResetPage';
 import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
 import { PER_PAGE } from '../../constants';
 import { DEBOUNCE_TIMEOUT_MS } from '../../constants';
+import { normalizeLegacySortSearchParams } from './utils/normalizeLegacySortSearchParams';
+import { SORT_DIR_URL_PARAM, SORT_URL_PARAM } from './constants';
 
 export type SortDirection = ISortBy['direction'];
 export type SortBy = ApiOrderByEnum | undefined;
@@ -66,6 +68,7 @@ const SystemsViewInner = ({
   const pagination = useDataViewPagination({
     perPage: PER_PAGE,
     page: INITIAL_PAGE,
+    perPageParam: 'per_page',
     searchParams,
     setSearchParams,
   });
@@ -90,16 +93,25 @@ const SystemsViewInner = ({
   }) as DataViewBulkSelection;
   const { selected, setSelected } = selection;
 
+  const sortSearchParams = useMemo(
+    () =>
+      normalizeLegacySortSearchParams(searchParams, {
+        sortParam: SORT_URL_PARAM,
+        directionParam: SORT_DIR_URL_PARAM,
+      }),
+    [searchParams],
+  );
+
   const sort = useDataViewSort({
     initialSort: {
       direction: 'desc',
       sortBy: ApiOrderByEnum.LastCheckIn,
     },
     defaultDirection: 'asc',
-    searchParams,
+    searchParams: sortSearchParams,
     setSearchParams,
-    sortByParam: 'order_by',
-    directionParam: 'order_how',
+    sortByParam: SORT_URL_PARAM,
+    directionParam: SORT_DIR_URL_PARAM,
   });
 
   const sortBy = sort?.sortBy as SortBy;

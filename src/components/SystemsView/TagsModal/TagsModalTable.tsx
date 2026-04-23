@@ -12,7 +12,7 @@ import {
   SearchInput,
   Spinner,
 } from '@patternfly/react-core';
-import { BulkSelect } from '@patternfly/react-component-groups';
+import { BulkSelect } from '../../BulkSelect';
 import { System } from '../hooks/useSystemsQuery';
 import { INITIAL_PAGE, PER_PAGE } from '../../../constants';
 import { NO_HEADER } from '../../InventoryViews/constants';

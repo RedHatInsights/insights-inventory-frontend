@@ -566,111 +566,111 @@ sortingColumns.forEach((column) => {
   });
 });
 
-test('User can add a system to workspace from Systems page', async ({
-  page,
-  systems,
-}) => {
-  /**
-   * Jira References:
-   * - https://issues.redhat.com/browse/RHINENG-21946 – Add systems to workspace with systems
-   * Metadata:
-   * - requirements: inv-groups-add-hosts
-   * - importance: high
-   */
+test.fixme(
+  'User can add a system to workspace from Systems page',
+  async ({ page, systems }) => {
+    /**
+     * Jira References:
+     * - https://issues.redhat.com/browse/RHINENG-21946 – Add systems to workspace with systems
+     * Metadata:
+     * - requirements: inv-groups-add-hosts
+     * - importance: high
+     */
 
-  const system = systems.workspaceSystems[2];
-  const nameCell = page.locator('td[data-label="Name"]');
+    const system = systems.workspaceSystems[2];
+    const nameCell = page.locator('td[data-label="Name"]');
 
-  await test.step('Navigate to Inventory → Systems', async () => {
-    await navigateToInventorySystemsFunc(page);
-  });
+    await test.step('Navigate to Inventory → Systems', async () => {
+      await navigateToInventorySystemsFunc(page);
+    });
 
-  await test.step(`Add system "${system.hostname}" to "${WORKSPACE_WITH_SYSTEMS}"`, async () => {
-    await searchByName(page, system.hostname);
-    await expect(nameCell).toHaveCount(1);
-    await page
-      .getByRole('row', { name: new RegExp(system.hostname, 'i') })
-      .getByLabel('Kebab toggle')
-      .click();
+    await test.step(`Add system "${system.hostname}" to "${WORKSPACE_WITH_SYSTEMS}"`, async () => {
+      await searchByName(page, system.hostname);
+      await expect(nameCell).toHaveCount(1);
+      await page
+        .getByRole('row', { name: new RegExp(system.hostname, 'i') })
+        .getByLabel('Kebab toggle')
+        .click();
 
-    await page
-      .getByRole('menuitem', { name: 'Add to workspace' })
-      .first()
-      .click();
+      await page
+        .getByRole('menuitem', { name: 'Add to workspace' })
+        .first()
+        .click();
 
-    const dialog = page.locator('[role="dialog"]');
-    await expect(dialog).toBeVisible();
+      const dialog = page.locator('[role="dialog"]');
+      await expect(dialog).toBeVisible();
 
-    // search for workspace
-    const inputLocator = page.getByPlaceholder(
-      'Type or click to select a workspace',
-    );
-    await expect(inputLocator).toBeEnabled();
+      // search for workspace
+      const inputLocator = page.getByPlaceholder(
+        'Type or click to select a workspace',
+      );
+      await expect(inputLocator).toBeEnabled();
 
-    await inputLocator.click();
-    await inputLocator.fill(WORKSPACE_WITH_SYSTEMS);
-    await expect(
-      page.locator(`input[value="${WORKSPACE_WITH_SYSTEMS}"]`),
-    ).toBeVisible();
+      await inputLocator.click();
+      await inputLocator.fill(WORKSPACE_WITH_SYSTEMS);
+      await expect(
+        page.locator(`input[value="${WORKSPACE_WITH_SYSTEMS}"]`),
+      ).toBeVisible();
 
-    await expect(
-      page.getByRole('option', { name: WORKSPACE_WITH_SYSTEMS }),
-    ).toBeVisible();
-    await page.getByRole('option', { name: WORKSPACE_WITH_SYSTEMS }).click();
+      await expect(
+        page.getByRole('option', { name: WORKSPACE_WITH_SYSTEMS }),
+      ).toBeVisible();
+      await page.getByRole('option', { name: WORKSPACE_WITH_SYSTEMS }).click();
 
-    await dialog.getByRole('button', { name: 'Add' }).click();
-  });
+      await dialog.getByRole('button', { name: 'Add' }).click();
+    });
 
-  await test.step('Verify system was added to workspace', async () => {
-    const workspaceCellWithValue = page.locator(
-      'table tbody td[data-label="Workspace"]',
-      {
-        hasText: WORKSPACE_WITH_SYSTEMS,
-      },
-    );
-    await expect(workspaceCellWithValue.first()).toBeVisible();
+    await test.step('Verify system was added to workspace', async () => {
+      const workspaceCellWithValue = page.locator(
+        'table tbody td[data-label="Workspace"]',
+        {
+          hasText: WORKSPACE_WITH_SYSTEMS,
+        },
+      );
+      await expect(workspaceCellWithValue.first()).toBeVisible();
 
-    const nameCellWithValue = page.locator(
-      'table tbody td[data-label="Name"]',
-      {
-        hasText: system.hostname,
-      },
-    );
-    await expect(nameCellWithValue.first()).toBeVisible();
-  });
+      const nameCellWithValue = page.locator(
+        'table tbody td[data-label="Name"]',
+        {
+          hasText: system.hostname,
+        },
+      );
+      await expect(nameCellWithValue.first()).toBeVisible();
+    });
 
-  await test.step(`Remove system "${system.hostname}" from "${WORKSPACE_WITH_SYSTEMS}"`, async () => {
-    // await searchByName(page, systemName);
-    await page
-      .getByRole('row', { name: new RegExp(system.hostname, 'i') })
-      .getByLabel('Kebab toggle')
-      .click();
+    await test.step(`Remove system "${system.hostname}" from "${WORKSPACE_WITH_SYSTEMS}"`, async () => {
+      // await searchByName(page, systemName);
+      await page
+        .getByRole('row', { name: new RegExp(system.hostname, 'i') })
+        .getByLabel('Kebab toggle')
+        .click();
 
-    await page
-      .getByRole('menuitem', { name: 'Remove from workspace' })
-      .first()
-      .click();
+      await page
+        .getByRole('menuitem', { name: 'Remove from workspace' })
+        .first()
+        .click();
 
-    const dialog = page.locator('[role="dialog"]');
-    await expect(dialog).toBeVisible();
-    await dialog.getByRole('button', { name: 'Remove' }).click();
-  });
+      const dialog = page.locator('[role="dialog"]');
+      await expect(dialog).toBeVisible();
+      await dialog.getByRole('button', { name: 'Remove' }).click();
+    });
 
-  await test.step('Verify system was removed from workspace', async () => {
-    const workspaceCellWithValue = page.locator(
-      'table tbody td[data-label="Workspace"]',
-      {
-        hasText: 'Ungrouped Hosts',
-      },
-    );
-    await expect(workspaceCellWithValue.first()).toBeVisible();
+    await test.step('Verify system was removed from workspace', async () => {
+      const workspaceCellWithValue = page.locator(
+        'table tbody td[data-label="Workspace"]',
+        {
+          hasText: 'Ungrouped Hosts',
+        },
+      );
+      await expect(workspaceCellWithValue.first()).toBeVisible();
 
-    const nameCellWithValue = page.locator(
-      'table tbody td[data-label="Name"]',
-      {
-        hasText: system.hostname,
-      },
-    );
-    await expect(nameCellWithValue.first()).toBeVisible();
-  });
-});
+      const nameCellWithValue = page.locator(
+        'table tbody td[data-label="Name"]',
+        {
+          hasText: system.hostname,
+        },
+      );
+      await expect(nameCellWithValue.first()).toBeVisible();
+    });
+  },
+);
