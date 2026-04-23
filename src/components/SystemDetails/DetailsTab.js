@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Details from './Details';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
+import { useKesselMigrationFeatureFlag } from '../../Utilities/hooks/useKesselMigrationFeatureFlag';
 
 const DetailsTab = ({ entity, ...props }) => {
-  const enableRuntimesInventoryCard = useFeatureFlag(
-    'runtimes.inventory-card.enabled',
-  );
+  const isKesselMigrationEnabled = useKesselMigrationFeatureFlag();
+  const showRuntimesProcesses = !isKesselMigrationEnabled;
 
   if (!entity) {
     console.error('DetailsTab: entity data is missing. Rendering aborted.', {
@@ -19,7 +18,7 @@ const DetailsTab = ({ entity, ...props }) => {
     <Details
       {...props}
       isBootcHost={!!entity.system_profile?.bootc_status?.booted?.image_digest}
-      showRuntimesProcesses={enableRuntimesInventoryCard}
+      showRuntimesProcesses={showRuntimesProcesses}
       entity={entity}
     />
   );
