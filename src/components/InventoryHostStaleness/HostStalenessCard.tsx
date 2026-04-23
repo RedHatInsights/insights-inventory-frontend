@@ -35,14 +35,20 @@ import isEqual from 'lodash/isEqual';
 
 interface HostStalenessCardProps {
   canModifyHostStaleness: boolean;
+  /** When provided, shown instead of the default RBAC-oriented disabled Edit tooltip. */
+  editDisabledTooltip?: string;
 }
 
 export type Staleness = {
   id?: string;
 } & Partial<Record<HostStalenessApiKey, number>>;
 
+const DEFAULT_EDIT_DISABLED_TOOLTIP =
+  'You do not have the Staleness and deletion admin role and/or Inventory Hosts Administrator role required to perform this action. Contact your org admin for access.';
+
 const HostStalenessCard = ({
   canModifyHostStaleness,
+  editDisabledTooltip,
 }: HostStalenessCardProps) => {
   const [lastSavedStaleness, setLastSavedStaleness] = useState<Staleness>({});
   const [staleness, setStaleness] = useState<Staleness>({});
@@ -215,7 +221,9 @@ const HostStalenessCard = ({
                   Edit
                 </Button>
               ) : (
-                <Tooltip content="You do not have the Staleness and deletion admin role and/or Inventory Hosts Administrator role required to perform this action. Contact your org admin for access.">
+                <Tooltip
+                  content={editDisabledTooltip ?? DEFAULT_EDIT_DISABLED_TOOLTIP}
+                >
                   <div>
                     <Button variant="link" isDisabled={true}>
                       Edit
