@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Card,
@@ -43,12 +43,15 @@ export const Clickable = ({
   workload,
   title,
 }) => {
-  const { pathname } = useLocation();
+  const { pathname, search, hash } = useLocation();
   // const { modalId } = useParams(); is causing regression when using LoadingCard derived components in Federated mode
   const modalId = pathname.split('/').pop();
+  const onClickRef = useRef(onClick);
+  onClickRef.current = onClick;
+
   useEffect(() => {
     if (target === modalId) {
-      onClick({ value, target });
+      onClickRef.current({ value, target });
     }
   }, [modalId, target, value]);
 
@@ -61,7 +64,13 @@ export const Clickable = ({
   }
 
   return (
-    <Link to={`${pathname}/${target}`}>
+    <Link
+      to={{
+        pathname: `${pathname}/${target}`,
+        search: search || '',
+        hash: hash || '',
+      }}
+    >
       {workload ? title : valueToText(value, singular, plural)}
     </Link>
   );
