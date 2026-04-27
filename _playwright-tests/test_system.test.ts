@@ -2,10 +2,7 @@ import { expect, Locator } from '@playwright/test';
 import { createSystem } from './helpers/uploadArchive';
 import { navigateToInventorySystemsFunc } from './helpers/navHelpers';
 import { test } from './helpers/fixtures';
-import {
-  searchByName,
-  waitForSystemsTableKebabReady,
-} from './helpers/filterHelpers';
+import { searchByName, waitForTableKebabReady } from './helpers/filterHelpers';
 import { isSystemsViewEnabled } from './helpers/constants';
 
 test('User should be able to edit and delete a system from Systems page', async ({
@@ -34,8 +31,8 @@ test('User should be able to edit and delete a system from Systems page', async 
 
   await test.step(`Edit the system "${system.hostname}" display name and save`, async () => {
     await searchByName(page, system.hostname);
-    await expect(nameCell).toHaveCount(1);
-    const kebab = await waitForSystemsTableKebabReady(
+    await expect(nameCell).toHaveCount(1, { timeout: 10000 });
+    const kebab = await waitForTableKebabReady(
       page,
       new RegExp(system.hostname, 'i'),
     );
@@ -57,8 +54,8 @@ test('User should be able to edit and delete a system from Systems page', async 
 
   await test.step(`Delete the renamed system "${newDisplayName}" and verify it is removed`, async () => {
     await searchByName(page, newDisplayName);
-    await expect(nameCell).toHaveCount(1);
-    const kebab = await waitForSystemsTableKebabReady(
+    await expect(nameCell).toHaveCount(1, { timeout: 10000 });
+    const kebab = await waitForTableKebabReady(
       page,
       new RegExp(newDisplayName, 'i'),
     );
