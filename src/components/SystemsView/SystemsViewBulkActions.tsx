@@ -14,6 +14,7 @@ import {
   GENERAL_GROUPS_WRITE_PERMISSION,
   GENERAL_HOSTS_WRITE_PERMISSIONS,
 } from '../../constants';
+import { hasWorkspace } from './utils/systemHelpers';
 
 interface SystemsViewBulkActionsProps {
   selectedSystems: System[];
@@ -84,13 +85,21 @@ export const SystemsViewBulkActions = ({
           </ResponsiveAction>
           <ResponsiveAction
             onClick={() => openAddToWorkspaceModal(selectedSystems)}
-            isDisabled={moveDisabled || !hasGroupsWrite}
+            isDisabled={
+              moveDisabled ||
+              !hasGroupsWrite ||
+              selectedSystems.some((s) => hasWorkspace(s))
+            }
           >
             Add to workspace
           </ResponsiveAction>
           <ResponsiveAction
             onClick={() => openRemoveFromWorkspaceModal(selectedSystems)}
-            isDisabled={moveDisabled || !hasGroupsWrite}
+            isDisabled={
+              moveDisabled ||
+              !hasGroupsWrite ||
+              selectedSystems.some((s) => !hasWorkspace(s))
+            }
           >
             Remove from workspace
           </ResponsiveAction>
