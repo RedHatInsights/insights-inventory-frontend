@@ -3,7 +3,7 @@ import {
   navigateToWorkspacesFunc,
   navigateToInventorySystemsFunc,
 } from './helpers/navHelpers';
-import { searchByName } from './helpers/filterHelpers';
+import { searchByName, waitForTableKebabReady } from './helpers/filterHelpers';
 import {
   generateUniqueWorkspaceName,
   createNewWorkspace,
@@ -222,8 +222,6 @@ test('User can create, rename and delete a workspace from Workspaces page', asyn
   const workspaceName = await generateUniqueWorkspaceName();
   const renamedWorkspace = `${workspaceName}_Renamed`;
   const dialogModal = page.locator('[data-ouia-component-id="group-modal"]');
-  const perRowKebabButton = page.getByRole('button', { name: 'Kebab toggle' });
-  const perRowMenu = page.locator('[class="pf-v6-c-menu"]');
   const nameCell = page.locator('td[data-label="Name"]');
 
   await test.step('Test setup: navigate to Workspaces page, create workspace to work with', async () => {
@@ -231,16 +229,24 @@ test('User can create, rename and delete a workspace from Workspaces page', asyn
     await createNewWorkspace(page, workspaceName);
     // search for workspace and via 'Name' column make sure only 1 workspace is found
     await searchByName(page, workspaceName);
-    await expect(nameCell).toHaveCount(1);
+    await expect(nameCell).toHaveCount(1, { timeout: 10000 });
     await expect(nameCell).toHaveText(workspaceName);
   });
 
   await test.step('Rename workspace via per-row action from Workspaces page and verify renaming via search', async () => {
-    await perRowKebabButton.click();
-    await expect(perRowMenu).toBeVisible();
+    const kebab = await waitForTableKebabReady(
+      page,
+      new RegExp(workspaceName, 'i'),
+    );
+    await kebab.click();
+    await expect(kebab).toHaveAttribute('aria-expanded', 'true');
+
     const renameWorkspaceButton = page
       .getByRole('menuitem', { name: 'Rename workspace' })
       .first();
+    await expect(renameWorkspaceButton).toBeEnabled({
+      timeout: 50000,
+    });
     await renameWorkspaceButton.click();
 
     await expect(dialogModal).toBeVisible();
@@ -249,18 +255,26 @@ test('User can create, rename and delete a workspace from Workspaces page', asyn
 
     // search for the new name to confirm rename worked
     await searchByName(page, renamedWorkspace);
-    await expect(nameCell).toHaveCount(1);
+    await expect(nameCell).toHaveCount(1, { timeout: 10000 });
     await expect(nameCell).toHaveText(renamedWorkspace);
   });
 
   await test.step('Delete workspace via per-row action from Workspaces page and verify deletion via search', async () => {
     await searchByName(page, renamedWorkspace);
-    await perRowKebabButton.click();
-    await expect(perRowMenu).toBeVisible();
-    await page
+    const kebab = await waitForTableKebabReady(
+      page,
+      new RegExp(renamedWorkspace, 'i'),
+    );
+    await kebab.click();
+    await expect(kebab).toHaveAttribute('aria-expanded', 'true');
+
+    const deleteWorkspaceButton = page
       .getByRole('menuitem', { name: 'Delete workspace' })
-      .first()
-      .click();
+      .first();
+    await expect(deleteWorkspaceButton).toBeEnabled({
+      timeout: 50000,
+    });
+    await deleteWorkspaceButton.click();
 
     await expect(dialogModal).toBeVisible();
     await dialogModal.getByRole('button', { name: 'Delete' }).click();

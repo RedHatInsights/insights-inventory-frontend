@@ -8,17 +8,27 @@ import LoadingCard, {
   getDefaultColumnModifier,
 } from './LoadingCard';
 
+const defaultUseLocation = () => ({
+  pathname: 'localhost:3000/example/path',
+  search: '',
+  hash: '',
+});
+
+const mockUseLocation = jest.fn(defaultUseLocation);
+
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
-    pathname: 'localhost:3000/example/path',
-  }),
+  useLocation: () => mockUseLocation(),
   useParams: () => ({
     modalId: 'path',
   }),
 }));
 
 describe('LoadingCard', () => {
+  beforeEach(() => {
+    mockUseLocation.mockImplementation(defaultUseLocation);
+  });
+
   [true, false].map((isLoading) => {
     it(`Loading card render - isLoading: ${isLoading}`, () => {
       const view = render(
@@ -276,6 +286,25 @@ describe('LoadingCard', () => {
     expect(screen.getByRole('link', { name: /15/i })).toHaveAttribute(
       'href',
       'localhost:3000/example/path/some-target',
+    );
+  });
+
+  it('Clickable should preserve search params when building modal path', () => {
+    mockUseLocation.mockReturnValue({
+      pathname: '/insights/inventory/abc-123',
+      search: '?appName=details',
+      hash: '',
+    });
+
+    render(
+      <TestWrapper>
+        <Clickable onClick={jest.fn()} value="15" target="kernel_modules" />
+      </TestWrapper>,
+    );
+
+    expect(screen.getByRole('link', { name: /15/i })).toHaveAttribute(
+      'href',
+      '/insights/inventory/abc-123/kernel_modules?appName=details',
     );
   });
 

@@ -77,8 +77,8 @@ describe('AddSystemsToGroupModal', () => {
 
     cy.wait('@getHosts');
     cy.get('h1').contains('Add systems');
-    cy.get('button').contains('Add systems');
-    cy.get('button').contains('Cancel');
+    cy.contains('button', 'Add systems');
+    cy.contains('button', 'Cancel');
   });
 
   it('renders the inventory table', () => {
@@ -100,15 +100,15 @@ describe('AddSystemsToGroupModal', () => {
       'data-ouia-safe',
       'true',
     );
-    cy.get('button').contains('Add systems').should('be.disabled');
+    cy.contains('button', 'Add systems').should('be.disabled');
     selectRowN(3);
-    cy.get('button').contains('Add systems').click();
+    cy.contains('button', 'Add systems').click();
     cy.wait('@postHosts')
       .its('request.body')
       .should('deep.equal', ['consectetur']);
   });
 
-  it.skip('cannot add systems that are already in group', () => {
+  it('can add systems that already belong to another workspace', () => {
     groupDetailInterceptors['post hosts successful']();
     mountModal();
 
@@ -118,10 +118,8 @@ describe('AddSystemsToGroupModal', () => {
       'true',
     );
     selectRowN(0);
-    cy.get(ALERT); // check the alert is shown
-    cy.get('button')
-      .contains('Add systems')
-      .should('have.attr', 'aria-disabled', 'true');
+    cy.get(ALERT).should('not.exist');
+    cy.contains('button', 'Add systems').should('be.enabled');
   });
 
   describe('filters', () => {

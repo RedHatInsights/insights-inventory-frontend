@@ -26,7 +26,7 @@ import {
   useBulkSelect,
   type DataViewBulkSelection,
 } from './hooks/useBulkSelect';
-import { useRows } from './hooks/useRows';
+import { useRows, type SystemsViewTableRow } from './hooks/useRows';
 import AccessDenied from '../../Utilities/AccessDenied';
 import './SystemsView.scss';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
@@ -90,7 +90,7 @@ const SystemsViewInner = ({
   const selection = useDataViewSelection({
     matchOption: (a, b) => a.id === b.id,
     initialSelected: [],
-  }) as DataViewBulkSelection;
+  }) as DataViewBulkSelection<SystemsViewTableRow>;
   const { selected, setSelected } = selection;
 
   const sortSearchParams = useMemo(
@@ -136,12 +136,7 @@ const SystemsViewInner = ({
     renderableColumns,
   });
 
-  const selectedIds = selected.map(({ id }: { id?: string }) => id);
-  const systemsForSelection = hostsWithPermissions ?? data;
-  const selectedSystems =
-    systemsForSelection?.filter(
-      (sys: { id?: string }) => sys.id && selectedIds.includes(sys.id),
-    ) ?? [];
+  const selectedSystems = selected.map((row) => row.meta);
 
   const activeState =
     isLoading || isFetching
