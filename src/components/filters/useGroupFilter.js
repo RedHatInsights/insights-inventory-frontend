@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import debounce from 'lodash/debounce';
 import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 
@@ -7,6 +7,11 @@ import SearchableGroupFilter from './SearchableGroupFilter';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { getGroups } from '../InventoryGroups/utils/api';
 import { GENERAL_GROUPS_READ_PERMISSION } from '../../constants';
+import {
+  HostGroupChipNode,
+  useHostGroupNames,
+} from '../../hooks/useHostGroupChipDisplayNames';
+import { useUngroupedWorkspaceId } from '../../hooks/useUngroupedWorkspaceId';
 
 const PAGE_SIZE = 10;
 const INPUT_DEBOUNCE_MS = 300;
@@ -19,18 +24,32 @@ export const groupFilterReducer = (_state, { type, payload }) => ({
   }),
 });
 
-export const buildHostGroupChips = (selectedGroups = []) => {
-  const chips = [...selectedGroups]?.map((group) =>
-    group === ''
-      ? {
-          name: 'Ungrouped hosts',
-          value: '',
-        }
-      : {
-          name: group,
-          value: group,
-        },
+export const buildHostGroupChips = (
+  selectedIds = [],
+  groupsList = [],
+  resolveChipName,
+) => {
+  const idToName = Object.fromEntries(
+    (groupsList || []).map((g) => [g.id, g.name]),
   );
+  const chips = [...selectedIds]?.map((id) => {
+    if (id === '') {
+      return {
+        name: 'Ungrouped hosts',
+        value: '',
+      };
+    }
+    if (idToName[id]) {
+      return {
+        name: idToName[id],
+        value: id,
+      };
+    }
+    return {
+      name: resolveChipName ? resolveChipName(id) : id,
+      value: id,
+    };
+  });
   return chips?.length > 0
     ? [
         {
@@ -176,12 +195,32 @@ const useGroupsQueryWithFilter = ({
 };
 
 const useGroupFilter = (showNoGroupOption = false) => {
-  const [selectedGroupNames, setSelectedGroupNames] = useState([]);
+  const [selectedGroupIds, setSelectedGroupIds] = useState([]);
 
   const { hasAccess } = useConditionalRBAC(
     [GENERAL_GROUPS_READ_PERMISSION],
     true,
     false,
+  );
+
+  const { data: ungroupedWorkspaceId } = useUngroupedWorkspaceId(
+    Boolean(hasAccess && showNoGroupOption),
+  );
+
+  const { names, isFetching, ids, pendingLabelFetchIds } =
+    useHostGroupNames(selectedGroupIds);
+
+  const chipNodeForId = useCallback(
+    (id) => (
+      <HostGroupChipNode
+        id={id}
+        names={names}
+        isFetching={isFetching}
+        ids={ids}
+        pendingLabelFetchIds={pendingLabelFetchIds}
+      />
+    ),
+    [names, isFetching, ids, pendingLabelFetchIds],
   );
 
   const {
@@ -197,9 +236,21 @@ const useGroupFilter = (showNoGroupOption = false) => {
     debounceTime: INPUT_DEBOUNCE_MS,
   });
 
+  useEffect(() => {
+    if (!ungroupedWorkspaceId) {
+      return;
+    }
+    setSelectedGroupIds((prev) => {
+      if (!prev?.includes('')) {
+        return prev;
+      }
+      return prev.map((id) => (id === '' ? ungroupedWorkspaceId : id));
+    });
+  }, [ungroupedWorkspaceId]);
+
   const chips = useMemo(
-    () => buildHostGroupChips(selectedGroupNames),
-    [selectedGroupNames],
+    () => buildHostGroupChips(selectedGroupIds, groups, chipNodeForId),
+    [selectedGroupIds, groups, chipNodeForId],
   );
 
   return [
@@ -217,16 +268,17 @@ const useGroupFilter = (showNoGroupOption = false) => {
             hasNextPage={hasNextPage}
             fetchNextPage={fetchNextPage}
             groups={groups}
-            selectedGroupNames={selectedGroupNames}
-            setSelectedGroupNames={setSelectedGroupNames}
+            selectedGroupIds={selectedGroupIds}
+            setSelectedGroupIds={setSelectedGroupIds}
             showNoGroupOption={showNoGroupOption}
+            ungroupedWorkspaceId={ungroupedWorkspaceId}
           />
         ),
       },
     },
     chips,
-    selectedGroupNames,
-    (groupNames) => setSelectedGroupNames(groupNames || []),
+    selectedGroupIds,
+    (groupIds) => setSelectedGroupIds(groupIds || []),
   ];
 };
 

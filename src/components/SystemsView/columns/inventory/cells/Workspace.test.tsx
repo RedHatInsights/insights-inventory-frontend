@@ -2,7 +2,6 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import Workspace from './Workspace';
-import { UNGROUPED_ID } from '../../../filters/WorkspaceFilter';
 import type { System } from '../../../hooks/useSystemsQuery';
 
 const SYSTEM_ID = 'test-system-id';

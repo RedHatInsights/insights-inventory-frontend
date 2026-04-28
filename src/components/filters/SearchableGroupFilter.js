@@ -26,9 +26,10 @@ const SearchableGroupFilter = ({
   hasNextPage,
   groups,
   fetchNextPage,
-  selectedGroupNames,
-  setSelectedGroupNames,
+  selectedGroupIds,
+  setSelectedGroupIds,
   showNoGroupOption,
+  ungroupedWorkspaceId,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [focusedItemIndex, setFocusedItemIndex] = useState(null);
@@ -41,23 +42,31 @@ const SearchableGroupFilter = ({
     setFocusedItemIndex(null);
   }, [searchQuery]);
 
+  const ungroupedRow = useMemo(
+    () => groups.find((row) => row.ungrouped === true),
+    [groups],
+  );
+
+  const ungroupedOptionId = ungroupedRow?.id ?? ungroupedWorkspaceId ?? '';
+
   const prefixOptions = useMemo(
     () =>
       showNoGroupOption
         ? [
             {
-              itemId: '',
+              itemId: ungroupedOptionId,
               children: 'Ungrouped hosts',
             },
           ]
         : [],
-    [showNoGroupOption],
+    [showNoGroupOption, ungroupedOptionId],
   );
 
   const groupOptions = useMemo(() => {
-    const g = groups.slice(0, visibleCount);
-    return g.map(({ name, host_count: hostCount }) => ({
-      itemId: name,
+    const visibleGroups = groups.filter((row) => !row.ungrouped);
+    const g = visibleGroups.slice(0, visibleCount);
+    return g.map(({ id, name, host_count: hostCount }) => ({
+      itemId: id,
       children: (
         <Flex alignItems={{ default: 'alignItemsCenter' }}>
           <FlexItem>{name}</FlexItem>
@@ -163,7 +172,7 @@ const SearchableGroupFilter = ({
       return;
     }
 
-    setSelectedGroupNames(xor(selectedGroupNames, [itemId]));
+    setSelectedGroupIds(xor(selectedGroupIds, [itemId]));
   };
 
   const onViewMoreClick = () => {
@@ -203,7 +212,7 @@ const SearchableGroupFilter = ({
         id="groups-filter-select"
         ouiaId="Filter by group"
         isOpen={isOpen}
-        selected={selectedGroupNames}
+        selected={selectedGroupIds}
         onSelect={(event, selection) => onSelect(selection)}
         onOpenChange={() => {
           setIsOpen(false);
@@ -218,7 +227,7 @@ const SearchableGroupFilter = ({
             selectOptions.map((option, index) => (
               <div key={option.itemId || option.children}>
                 <SelectOption
-                  isSelected={selectedGroupNames.includes(option.itemId)}
+                  isSelected={selectedGroupIds.includes(option.itemId)}
                   key={option.itemId || option.children}
                   isFocused={focusedItemIndex === index}
                   className={option.className}
@@ -226,7 +235,9 @@ const SearchableGroupFilter = ({
                   hasCheckbox
                   {...option}
                 />
-                {option.itemId === '' && <Divider />}
+                {showNoGroupOption &&
+                  !searchQuery &&
+                  option.itemId === ungroupedOptionId && <Divider />}
               </div>
             ))
           )}
@@ -262,13 +273,16 @@ SearchableGroupFilter.propTypes = {
   fetchNextPage: PropTypes.func.isRequired,
   groups: PropTypes.arrayOf(
     PropTypes.shape({
+      id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       host_count: PropTypes.number,
+      ungrouped: PropTypes.bool,
     }),
   ).isRequired,
-  selectedGroupNames: PropTypes.arrayOf(PropTypes.string).isRequired,
-  setSelectedGroupNames: PropTypes.func.isRequired,
+  selectedGroupIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  setSelectedGroupIds: PropTypes.func.isRequired,
   showNoGroupOption: PropTypes.bool,
+  ungroupedWorkspaceId: PropTypes.string,
 };
 
 export default SearchableGroupFilter;
