@@ -22,14 +22,15 @@ import { PageSection } from '@patternfly/react-core';
 
 /**
  * Component that renders tabs for each application detail and handles clicking on each item.
- *  @param   {object}          props             additional features from parent component.
- *  @param   {Function}        props.onTabSelect on tab select function
- *  @param   {Array}           props.appList     app list
- *  @param   {string}          props.activeApp   active app name
- *  @param   {string}          props.inventoryId inventory id
- *  @param   {object}          props.entity      entity object
- *  @param   {Function}        props.fetchEntity fetch entity function
- *  @returns {React.ReactNode}                   the application details component
+ *  @param                     props.writePermissions
+ *  @param   {object}          props                  additional features from parent component.
+ *  @param   {Function}        props.onTabSelect      on tab select function
+ *  @param   {Array}           props.appList          app list
+ *  @param   {string}          props.activeApp        active app name
+ *  @param   {string}          props.inventoryId      inventory id
+ *  @param   {object}          props.entity           entity object
+ *  @param   {Function}        props.fetchEntity      fetch entity function
+ *  @returns {React.ReactNode}                        the application details component
  */
 const ApplicationDetails = ({
   onTabSelect,
