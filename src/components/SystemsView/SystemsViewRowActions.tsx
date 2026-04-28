@@ -9,6 +9,7 @@ import {
   GENERAL_HOSTS_WRITE_PERMISSIONS,
 } from '../../constants';
 import type { SystemWithPermissions } from '../../Utilities/hooks/useHostIdsWithKessel';
+import { hasWorkspace } from './utils/systemHelpers';
 
 interface RowActionsProps {
   system: System | SystemWithPermissions;
@@ -64,12 +65,12 @@ const SystemsViewRowActions = ({ system }: RowActionsProps) => {
         {
           title: 'Add to workspace',
           onClick: () => openAddToWorkspaceModal([system]),
-          isDisabled: !hasGroupsWrite,
+          isDisabled: !hasGroupsWrite || hasWorkspace(system),
         },
         {
           title: 'Remove from workspace',
           onClick: () => openRemoveFromWorkspaceModal([system]),
-          isDisabled: !hasGroupsWrite,
+          isDisabled: !hasGroupsWrite || !hasWorkspace(system),
         },
         {
           title: 'Edit display name',
