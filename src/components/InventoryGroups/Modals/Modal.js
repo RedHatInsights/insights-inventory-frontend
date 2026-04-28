@@ -24,9 +24,6 @@ const RepoModal = ({
   return (
     <Modal
       ouiaId="group-modal"
-      appendTo={() =>
-        document.body.querySelector('.inventory') || document.body
-      } // required to support the app's stylesheets
       variant={size ?? 'small'}
       isOpen={isModalOpen}
       onClose={closeModal}
