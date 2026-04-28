@@ -1,5 +1,6 @@
 import React, {
   useCallback,
+  useContext,
   useMemo,
   useState,
   useEffect,
@@ -22,9 +23,10 @@ import {
   FlexItem,
 } from '@patternfly/react-core';
 import xor from 'lodash/xor';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { getGroupList } from '../../../api/hostInventoryApiTyped';
+import { useWorkspaceGroupsInfiniteQuery } from '../../filters/useWorkspaceGroupsInfiniteQuery';
 import { DEBOUNCE_TIMEOUT_MS } from '../../../constants';
+import { UNGROUPED_HOSTS_LABEL } from '../constants';
+import { DataViewFiltersContext } from '../DataViewFiltersContext';
 
 interface WorkspaceFilterProps {
   placeholder?: string;
@@ -32,13 +34,16 @@ interface WorkspaceFilterProps {
   onChange?: (event?: React.MouseEvent, values?: string[]) => void;
 }
 
-export const UNGROUPED_ID = 'Ungrouped hosts';
+export { UNGROUPED_HOSTS_LABEL };
 
 export const WorkspaceFilter = ({
   placeholder,
   value = [],
   onChange,
 }: WorkspaceFilterProps) => {
+  const dataViewCtx = useContext(DataViewFiltersContext);
+  const ungroupedWorkspaceIdHint = dataViewCtx?.ungroupedWorkspaceId;
+
   const PAGE_SIZE = 50;
   const INITIAL_VISIBLE_SIZE = PAGE_SIZE;
   const VIEW_MORE_SIZE = PAGE_SIZE;
@@ -52,33 +57,21 @@ export const WorkspaceFilter = ({
   const [focusedOption, setFocusedOption] = useState(0);
 
   const { data, fetchNextPage, hasNextPage, isFetching, isPending } =
-    useInfiniteQuery({
-      queryKey: ['groups', debouncedSearch],
-      queryFn: async ({ pageParam }) =>
-        getGroupList({
-          page: pageParam,
-          perPage: PAGE_SIZE,
-          ...(debouncedSearch && { name: debouncedSearch }),
-        }),
+    useWorkspaceGroupsInfiniteQuery(debouncedSearch, {
       enabled: hasAccess,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      initialPageParam: 1,
-      getNextPageParam: (lastPage) => {
-        return lastPage.per_page * lastPage.page < lastPage.total
-          ? lastPage.page + 1
-          : null;
-      },
+      pageSize: PAGE_SIZE,
     });
 
   const workspaceOptions = useMemo(() => {
     if (!data?.pages) return [];
 
-    const items = data.pages
-      .map((page) => page.results)
-      .flat()
-      .map(({ name, host_count: hostCount }) => ({
-        itemId: name,
+    const flattened = data.pages.map((page) => page.results).flat();
+    const ungroupedRow = flattened.find((g) => g.ungrouped === true);
+
+    const items = flattened
+      .filter((g) => !g.ungrouped)
+      .map(({ id, name, host_count: hostCount }) => ({
+        itemId: id,
         children: (
           <Flex alignItems={{ default: 'alignItemsCenter' }}>
             <FlexItem>{name}</FlexItem>
@@ -91,13 +84,18 @@ export const WorkspaceFilter = ({
         ),
       }));
 
-    return [
-      ...(debouncedSearch
-        ? []
-        : [{ itemId: UNGROUPED_ID, children: UNGROUPED_ID }]),
-      ...items,
-    ];
-  }, [data, debouncedSearch]);
+    const ungroupedOptionId =
+      ungroupedRow?.id ?? ungroupedWorkspaceIdHint ?? '';
+
+    const ungroupedOption =
+      !debouncedSearch &&
+      ({
+        itemId: ungroupedOptionId,
+        children: UNGROUPED_HOSTS_LABEL,
+      } as const);
+
+    return [...(ungroupedOption ? [ungroupedOption] : []), ...items];
+  }, [data, debouncedSearch, ungroupedWorkspaceIdHint]);
 
   const visibleOptions = workspaceOptions.slice(0, visibleSize);
   const debounceTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
@@ -211,7 +209,8 @@ export const WorkspaceFilter = ({
                       hasCheckbox={true}
                       {...option}
                     />
-                    {option.itemId === UNGROUPED_ID && <Divider />}
+                    {(option.itemId === '' ||
+                      option.children === UNGROUPED_HOSTS_LABEL) && <Divider />}
                   </Fragment>
                 );
               })}

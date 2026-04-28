@@ -24,7 +24,7 @@ test('User can filter, search and see details of "Ungrouped Hosts" workspace', a
    * - Systems stored here can be moved to any other workspace
    * Metadata:
      - requirements: 
-     - inv-hosts-filter-by-group_name
+     - inv-hosts-filter-by-group_id
      - inv-kessel-ungrouped
      - importance: critical
    */

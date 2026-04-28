@@ -314,9 +314,25 @@ export async function getEntities(
     const fieldsQueryParams =
       Object.keys(fields || {}).length && generateFilter(fields, 'fields');
 
+    const rawHostGroupFilter = filters?.hostGroupFilter;
+    const hostGroupFilterArr =
+      rawHostGroupFilter === undefined || rawHostGroupFilter === null
+        ? []
+        : Array.isArray(rawHostGroupFilter)
+          ? rawHostGroupFilter
+          : [rawHostGroupFilter];
+    const nonEmptyGroupIds = hostGroupFilterArr.filter((id) => id !== '');
+    const filterByUngroupedHosts = hostGroupFilterArr.includes('');
+
+    /** Ungrouped hosts: use group_id (empty value) per API, not group_name. */
+    const groupIdParam =
+      nonEmptyGroupIds.length || filterByUngroupedHosts
+        ? [...nonEmptyGroupIds, ...(filterByUngroupedHosts ? [''] : [])]
+        : [];
+
     return apiGetHostList({
       hostnameOrId: filters.hostnameOrId,
-      groupName: filters.hostGroupFilter,
+      ...(groupIdParam.length ? { groupId: groupIdParam } : {}),
       perPage,
       page,
       orderBy,

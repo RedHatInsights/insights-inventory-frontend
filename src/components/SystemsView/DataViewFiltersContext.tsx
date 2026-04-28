@@ -9,6 +9,9 @@ import React, {
 import { useDataViewFilters } from '@patternfly/react-data-view';
 import type { InventoryFilters } from './filters/SystemsViewFilters';
 import { normalizeLastSeenFilterValue } from './constants';
+import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
+import { GENERAL_GROUPS_READ_PERMISSION } from '../../constants';
+import { useUngroupedWorkspaceId } from '../../hooks/useUngroupedWorkspaceId';
 
 export type LastSeenCustomRange = {
   start?: string;
@@ -21,7 +24,7 @@ export const INITIAL_INVENTORY_FILTERS: InventoryFilters = {
   source: [],
   rhcStatus: [],
   system_type: [],
-  group_name: [],
+  group_id: [],
   last_seen: '',
   tags: [],
   operating_system: [],
@@ -36,6 +39,8 @@ export interface DataViewFiltersContextValue {
   setLastSeenCustomRange: React.Dispatch<
     React.SetStateAction<LastSeenCustomRange>
   >;
+  /** Kessel ungrouped workspace UUID when `/groups?group_type=ungrouped-hosts` returns it */
+  ungroupedWorkspaceId: string | undefined;
 }
 
 const DataViewFiltersContext =
@@ -72,6 +77,16 @@ export const DataViewFiltersProvider = ({
   const [lastSeenCustomRange, setLastSeenCustomRange] =
     useState<LastSeenCustomRange>(null);
 
+  const { hasAccess } = useConditionalRBAC(
+    [GENERAL_GROUPS_READ_PERMISSION],
+    true,
+    false,
+  );
+
+  const { data: ungroupedWorkspaceId } = useUngroupedWorkspaceId(
+    Boolean(hasAccess),
+  );
+
   const {
     filters: rawFilters,
     onSetFilters,
@@ -96,6 +111,19 @@ export const DataViewFiltersProvider = ({
     }
   }, [rawFilters.last_seen]);
 
+  useEffect(() => {
+    if (!ungroupedWorkspaceId) {
+      return;
+    }
+    const ids = rawFilters.group_id;
+    if (!ids?.includes('')) {
+      return;
+    }
+    onSetFilters({
+      group_id: ids.map((id) => (id === '' ? ungroupedWorkspaceId : id)),
+    });
+  }, [ungroupedWorkspaceId, rawFilters.group_id, onSetFilters]);
+
   const clearAllFilters = useCallback(() => {
     setLastSeenCustomRange(null);
     hookClearAll();
@@ -108,6 +136,7 @@ export const DataViewFiltersProvider = ({
       clearAllFilters,
       lastSeenCustomRange,
       setLastSeenCustomRange,
+      ungroupedWorkspaceId,
     }),
     [
       filters,
@@ -115,6 +144,7 @@ export const DataViewFiltersProvider = ({
       clearAllFilters,
       lastSeenCustomRange,
       setLastSeenCustomRange,
+      ungroupedWorkspaceId,
     ],
   );
 

@@ -15,9 +15,17 @@ import { ToolbarLabel } from '@patternfly/react-core';
 import LastSeenFilterExtension from './LastSeenFilterExtension';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import { useDataViewFiltersContext } from '../DataViewFiltersContext';
-import { LAST_SEEN_OPTIONS, type LastSeenKey } from '../constants';
+import {
+  LAST_SEEN_OPTIONS,
+  SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM,
+  type LastSeenKey,
+} from '../constants';
 import { WORKLOAD_FILTER_OPTIONS } from '../utils/workloadsFilter';
 import { formatOperatingSystemChipLabel } from '../utils/operatingSystemSelectOptions';
+import {
+  HostGroupChipNode,
+  useWorkspaceDisplayNames,
+} from '../hooks/useWorkspaceDisplayNames';
 
 export interface InventoryFilters {
   hostname_or_id: string;
@@ -25,7 +33,7 @@ export interface InventoryFilters {
   source: ApiHostGetHostListRegisteredWithEnum[];
   rhcStatus: string[];
   system_type: string[];
-  group_name: string[];
+  group_id: string[];
   tags: string[];
   operating_system: string[];
   workloads: string[];
@@ -38,6 +46,8 @@ export const isToolbarLabel = (
 
 export const SystemsViewFilters = () => {
   const { filters, onSetFilters } = useDataViewFiltersContext();
+  const { names, isFetching, ids, pendingLabelFetchIds } =
+    useWorkspaceDisplayNames(filters.group_id);
   const isHideRHCFilterFlagEnabled = useFeatureFlag('hbi.ui.hide_rhc_filter');
 
   return (
@@ -128,25 +138,34 @@ export const SystemsViewFilters = () => {
           ]}
         />
         <DataViewCustomFilter
-          filterId="group_name"
+          filterId={SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM}
           title="Workspace"
           placeholder="Filter by workspace"
           ouiaId="SystemsViewWorkspaceFilter"
           filterComponent={WorkspaceFilter}
           createLabel={(value, title) =>
-            value?.map((item: string) => {
-              return {
-                key: title,
-                node: item,
-              };
-            }) ?? []
+            value?.map((item: string) => ({
+              key: item,
+              node: (
+                <HostGroupChipNode
+                  id={item}
+                  names={names}
+                  isFetching={isFetching}
+                  ids={ids}
+                  pendingLabelFetchIds={pendingLabelFetchIds}
+                />
+              ),
+            })) ?? []
           }
           deleteLabel={(_category, label, value, onChange) =>
             onChange?.(
               undefined,
-              value?.filter(
-                (item) => item !== (isToolbarLabel(label) ? label.node : label),
-              ),
+              value?.filter((item) => {
+                if (isToolbarLabel(label)) {
+                  return item !== label.key;
+                }
+                return item !== label;
+              }),
             )
           }
         />

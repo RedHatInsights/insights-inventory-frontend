@@ -9,6 +9,7 @@ interface ArchiveEntry {
 
 /**
  * Records archive metadata to a local JSON manifest for tracking and cleanup.
+ *  @param entry
  */
 export function recordToManifest(entry: ArchiveEntry) {
   let entries = [];

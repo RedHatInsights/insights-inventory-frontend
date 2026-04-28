@@ -19,14 +19,17 @@ import {
 export const getGroups = (
   search = {},
   pagination = { page: 1, per_page: TABLE_DEFAULT_PAGINATION },
-) =>
-  getGroupList({
-    ...search,
-    orderBy: search.order_by,
-    orderHow: search.order_how,
+) => {
+  const { type, order_by, order_how, ...rest } = search;
+  return getGroupList({
+    ...rest,
+    ...(type !== undefined ? { groupType: type } : {}),
+    orderBy: order_by,
+    orderHow: order_how,
     page: pagination.page,
     perPage: pagination.per_page,
   });
+};
 
 export const getWritableGroups = async (
   groupName,

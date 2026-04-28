@@ -27,6 +27,7 @@ import _ from 'lodash';
  *  @param   {string}          props.activeApp         active app name
  *  @param   {Array}           props.appList           app list
  *  @param   {boolean}         props.showMainSection   if show main section is true
+ *  @param                     props.writePermissions
  *  @param   {object}          props.headerProps       props for the detail header
  *  @param   {object}          props.entity            entity object
  *  @param   {Function}        props.fetchEntity       fetch entity function

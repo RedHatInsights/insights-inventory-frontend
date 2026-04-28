@@ -170,6 +170,8 @@ export function prepareTestArchive(
 
 /**
  * Initializes and uploads a single host archive.
+ *  @param baseArchiveName
+ *  @param prefix
  */
 export async function createSystem(
   baseArchiveName: string = PACKAGE_BASED_ARCHIVE,
@@ -185,6 +187,8 @@ export async function createSystem(
 
 /**
  * Sequential uploads of multiple test systems.
+ *  @param baseArchiveName
+ *  @param prefix
  */
 export async function setupMultipleSystems(
   baseArchiveName: string[],

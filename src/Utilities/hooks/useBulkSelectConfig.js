@@ -14,7 +14,8 @@ export const useBulkSelectConfig = (
   rows,
   loaded,
   pageSelected,
-  groupName,
+  /** When set (e.g. workspace systems tab), bulk select is scoped to this group id. */
+  groupId,
 ) => {
   const [isBulkLoading, setBulkLoading] = useState(false);
   const { fetchBatched } = useFetchBatched();
@@ -48,8 +49,8 @@ export const useBulkSelectConfig = (
     setBulkLoading(true);
     const data = await fetchAllSystemIds(
       {
-        filters: groupName
-          ? [...activeFilters, { hostGroupFilter: groupName }]
+        filters: groupId
+          ? [...activeFilters, { hostGroupFilter: [groupId] }]
           : activeFilters,
         globalFilter: globalFilter ?? {},
       },
