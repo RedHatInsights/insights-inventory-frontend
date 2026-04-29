@@ -10,10 +10,13 @@ import * as apiMod from '../api/index';
 import RenderWrapper from '../Utilities/Wrapper';
 import { AccessCheck } from '@project-kessel/react-kessel-access-check';
 import { KESSEL_API_PATH } from '../constants';
+import { useKesselMigrationFeatureFlag } from '../Utilities/hooks/useKesselMigrationFeatureFlag';
 const { mergeWithDetail, ...rest } = storeMod;
 const queryClient = new QueryClient();
 
 const AsyncInventory = ({ component, onLoad, store, innerRef, ...props }) => {
+  const isKesselMigrationEnabled = useKesselMigrationFeatureFlag();
+
   useEffect(() => {
     onLoad?.({
       ...rest,
@@ -37,15 +40,19 @@ const AsyncInventory = ({ component, onLoad, store, innerRef, ...props }) => {
     </Provider>
   );
 
-  // Skipping RBACProvider caused InventoryTable not to load in other apps
+  // When Kessel is enabled RBACProvider might throw
   return (
     <AccessCheck.Provider
       baseUrl={typeof window !== 'undefined' ? window.location.origin : ''}
       apiPath={KESSEL_API_PATH}
     >
-      <RBACProvider appName="inventory" checkResourceDefinitions>
-        {content}
-      </RBACProvider>
+      {isKesselMigrationEnabled ? (
+        content
+      ) : (
+        <RBACProvider appName="inventory" checkResourceDefinitions>
+          {content}
+        </RBACProvider>
+      )}
     </AccessCheck.Provider>
   );
 };
