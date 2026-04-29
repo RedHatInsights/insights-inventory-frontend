@@ -30,7 +30,7 @@ import { useRows, type SystemsViewTableRow } from './hooks/useRows';
 import AccessDenied from '../../Utilities/AccessDenied';
 import './SystemsView.scss';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
-import { ISortBy } from '@patternfly/react-table';
+import { InnerScrollContainer, ISortBy } from '@patternfly/react-table';
 import { ColumnManagementModalProvider } from './ColumnManagementModalContext';
 import {
   DataViewFiltersProvider,
@@ -183,36 +183,38 @@ const SystemsViewInner = ({
                 <Pagination isCompact itemCount={total} {...pagination} />
               }
             />
-            <DataViewTable
-              aria-label="Systems table"
-              variant="compact"
-              ouiaId="systems-view-table"
-              columns={tableHeaderNodes}
-              className="ins-c-systems-view-table"
-              rows={rows}
-              headStates={{
-                loading: NO_HEADER,
-                empty: NO_HEADER,
-                error: NO_HEADER,
-              }}
-              bodyStates={{
-                loading: (
-                  <SkeletonTable
-                    isSelectable
-                    rowsCount={pagination.perPage}
-                    columns={tableHeaderNodes}
-                  />
-                ),
-                empty: <NoEntitiesFound />,
-                error: (
-                  <ErrorState
-                    ouiaId="error-state"
-                    titleText="Unable to load data"
-                    bodyText="There was an error retrieving data. Check your connection and reload the page."
-                  />
-                ),
-              }}
-            />
+            <InnerScrollContainer className="ins-c-systems-view-table-scroll">
+              <DataViewTable
+                aria-label="Systems table"
+                variant="compact"
+                ouiaId="systems-view-table"
+                columns={tableHeaderNodes}
+                className="ins-c-systems-view-table"
+                rows={rows}
+                headStates={{
+                  loading: NO_HEADER,
+                  empty: NO_HEADER,
+                  error: NO_HEADER,
+                }}
+                bodyStates={{
+                  loading: (
+                    <SkeletonTable
+                      isSelectable
+                      rowsCount={pagination.perPage}
+                      columns={tableHeaderNodes}
+                    />
+                  ),
+                  empty: <NoEntitiesFound />,
+                  error: (
+                    <ErrorState
+                      ouiaId="error-state"
+                      titleText="Unable to load data"
+                      bodyText="There was an error retrieving data. Check your connection and reload the page."
+                    />
+                  ),
+                }}
+              />
+            </InnerScrollContainer>
             <DataViewToolbar
               ouiaId="systems-view-footer"
               pagination={<Pagination itemCount={total} {...pagination} />}

@@ -11,6 +11,9 @@ import { System } from './useSystemsQuery';
 import type { onSort, SortBy, SortDirection } from '../SystemsView';
 import Tags from '../Tags';
 import { LastSeenColumnHeader } from '../../../Utilities/LastSeenColumnHeader';
+import { STICKY_NAME_HEADER_PROPS } from '../stickyNameColumn';
+import { getSystemsViewColumnMinWidthStyle } from '../columnMinWidths';
+import { STICKY_ACTIONS_HEADER_PROPS } from '../stickyActionsColumn';
 
 export interface Column extends ColumnManagementModalColumn {}
 export interface RenderableColumn extends Column {
@@ -125,17 +128,28 @@ export const useColumns = ({ sortBy, onSort, direction }: UseColumnParams) => {
   );
 
   const tableHeaderNodes: DataViewTh[] = useMemo(
-    () =>
-      renderableColumns
+    () => [
+      ...renderableColumns
         .filter((col) => col.isShown)
         .map((col, index) => {
           return {
             cell: col.title,
             props: {
+              ...(col.key === 'name'
+                ? STICKY_NAME_HEADER_PROPS
+                : (getSystemsViewColumnMinWidthStyle(col.key) ?? {})),
               ...(col.sortBy && {
                 sort: {
                   sortBy: { index: fromSortByToIndex(sortBy), direction },
-                  onSort: (_, __, newDirection) => {
+                  onSort: (
+                    _event:
+                      | React.MouseEvent
+                      | React.KeyboardEvent
+                      | MouseEvent
+                      | undefined,
+                    _columnIndex: number,
+                    newDirection: SortDirection,
+                  ) => {
                     onSort(undefined, col.sortBy!, newDirection);
                   },
                   columnIndex: index,
@@ -144,6 +158,11 @@ export const useColumns = ({ sortBy, onSort, direction }: UseColumnParams) => {
             },
           };
         }),
+      {
+        cell: '',
+        props: STICKY_ACTIONS_HEADER_PROPS,
+      },
+    ],
     [renderableColumns, fromSortByToIndex, sortBy, direction, onSort],
   );
 
