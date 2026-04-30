@@ -21,26 +21,26 @@ export const useWorkspaceDetailEditActionsAccess = ({
   workspaceKesselPermissionsLoading,
   rbacCanModify,
 }: Params) => {
-  const useKesselEditGate =
+  const isKesselEditGating =
     workspaceKesselGateActive === true &&
     typeof workspaceKesselCanEdit === 'boolean';
 
-  const canModifyWorkspaceForActions = useKesselEditGate
+  const canModifyWorkspaceForActions = isKesselEditGating
     ? !workspaceKesselPermissionsLoading && workspaceKesselCanEdit
     : rbacCanModify;
 
-  const noAccessEditTooltip = useKesselEditGate
+  const noAccessEditTooltip = isKesselEditGating
     ? workspaceKesselPermissionsLoading
       ? NO_WORKSPACE_PERMISSIONS_LOADING_TOOLTIP_MESSAGE
       : NO_EDIT_WORKSPACE_KESSEL_TOOLTIP_MESSAGE
     : NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE;
 
-  const kesselActionOverride = useKesselEditGate
+  const kesselActionOverride = isKesselEditGating
     ? !workspaceKesselPermissionsLoading && workspaceKesselCanEdit
     : undefined;
 
   return {
-    useKesselEditGate,
+    isKesselEditGating,
     canModifyWorkspaceForActions,
     noAccessEditTooltip,
     kesselActionOverride,

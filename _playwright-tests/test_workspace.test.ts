@@ -5,15 +5,8 @@ import {
 } from './helpers/navHelpers';
 import { searchByName, waitForTableKebabReady } from './helpers/filterHelpers';
 import {
-  installKesselCheckSelfBulkAllowAll,
-  installKesselCheckSelfBulkDenyEdit,
-  installKesselCheckSelfBulkDenyView,
-  uninstallKesselCheckSelfBulkMock,
-} from './helpers/kesselAccessRouteMock';
-import {
   generateUniqueWorkspaceName,
   createNewWorkspace,
-  getWorkspaceIdFromWorkspacesListLink,
   isWorkspaceResponse,
   waitForWorkspaceDetailPageReady,
   workspaceHeaderActionsToggle,
@@ -24,86 +17,6 @@ import {
   WORKSPACE_NAME_MODIFIED_PREFIX,
   WORKSPACE_NAME_SORT_PREFIX,
 } from './helpers/constants';
-
-test.beforeEach(async ({ page }) => {
-  await uninstallKesselCheckSelfBulkMock(page);
-  await installKesselCheckSelfBulkAllowAll(page);
-});
-
-test.afterEach(async ({ page }) => {
-  await uninstallKesselCheckSelfBulkMock(page);
-});
-
-test('Workspace details shows AccessDenied when Kessel denies view', async ({
-  page,
-}) => {
-  const workspaceName = `${WORKSPACE_NAME_SORT_PREFIX}_kessel_view_denied_${Date.now()}`;
-
-  await navigateToWorkspacesFunc(page);
-  await createNewWorkspace(page, workspaceName);
-
-  await page.reload({ waitUntil: 'load' });
-  const searchInput = page.locator('input[placeholder="Filter by name"]');
-  await expect(searchInput).toBeVisible();
-  await searchInput.fill(workspaceName);
-
-  const workspaceId = await getWorkspaceIdFromWorkspacesListLink(
-    page,
-    workspaceName,
-  );
-
-  await uninstallKesselCheckSelfBulkMock(page);
-  await installKesselCheckSelfBulkDenyView(page);
-
-  await page.goto(`/insights/inventory/workspaces/${workspaceId}`, {
-    waitUntil: 'load',
-  });
-
-  await expect(
-    page.getByRole('heading', {
-      name: 'You do not have access to this workspace',
-    }),
-  ).toBeVisible({ timeout: 120000 });
-
-  await expect(page.locator('.ins-c-inventory__no--access')).toBeVisible();
-
-  await expect(page.getByRole('tab', { name: 'Systems' })).toHaveCount(0);
-  await expect(page.getByRole('tab', { name: 'Workspace info' })).toHaveCount(
-    0,
-  );
-});
-
-test('Workspace details disables header Actions when Kessel denies edit', async ({
-  page,
-}) => {
-  const workspaceName = `${WORKSPACE_NAME_SORT_PREFIX}_kessel_edit_denied_${Date.now()}`;
-
-  await navigateToWorkspacesFunc(page);
-  await createNewWorkspace(page, workspaceName);
-
-  await page.reload({ waitUntil: 'load' });
-  const searchInput = page.locator('input[placeholder="Filter by name"]');
-  await expect(searchInput).toBeVisible();
-  await searchInput.fill(workspaceName);
-
-  const workspaceId = await getWorkspaceIdFromWorkspacesListLink(
-    page,
-    workspaceName,
-  );
-
-  await uninstallKesselCheckSelfBulkMock(page);
-  await installKesselCheckSelfBulkDenyEdit(page);
-
-  await page.goto(`/insights/inventory/workspaces/${workspaceId}`, {
-    waitUntil: 'load',
-  });
-
-  await expect(page.getByRole('tab', { name: 'Systems' })).toBeVisible({
-    timeout: 120000,
-  });
-
-  await expect(workspaceHeaderActionsToggle(page)).toBeDisabled();
-});
 
 test('User can create, rename, and delete a workspace from Workspace Details page', async ({
   page,

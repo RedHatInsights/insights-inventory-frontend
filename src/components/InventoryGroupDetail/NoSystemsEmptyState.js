@@ -37,7 +37,7 @@ const NoSystemsEmptyState = ({
   );
 
   const {
-    useKesselEditGate,
+    isKesselEditGating,
     canModifyWorkspaceForActions,
     noAccessEditTooltip,
     kesselActionOverride,
@@ -75,7 +75,7 @@ const NoSystemsEmptyState = ({
           onClick={() => setIsModalOpen(true)}
           ouiaId="add-systems-button"
           isAriaDisabled={
-            useKesselEditGate === true ? !canModifyWorkspaceForActions : false
+            isKesselEditGating === true ? !canModifyWorkspaceForActions : false
           }
         >
           Add systems
