@@ -6,45 +6,48 @@
 }
 
 .ins-c-systems-view-table {
-  // Grow with column min-widths; horizontal scroll is on `.ins-c-systems-view-table-scroll`.
-  width: max-content;
-  min-width: 100%;
-
   .pf-v6-c-table__tr, .pf-v6-c-table__check {
     vertical-align: middle;
   }
 
-  // Row-select column: DataViewTableHead renders this Th without sticky props — mirror PatternFly
-  // sticky-cell behavior so checkboxes stay visible during horizontal scroll (see Name column offset in stickyNameColumn.ts).
-  thead tr > th:first-child,
-  tbody tr > td:first-child {
-    --pf-v6-c-table__sticky-cell--InsetInlineStart: 0;
-    --pf-v6-c-table__sticky-cell--MinWidth: var(--pf-t--global--spacer--2xl);
+  // Scroll layout, min-width-driven columns, checkbox/name/actions stacking — gated by inventory views feature flag in SystemsView.tsx.
+  &--scroll-layout {
+    // Grow with column min-widths; horizontal scroll is on `.ins-c-systems-view-table-scroll`.
+    width: max-content;
+    min-width: 100%;
 
-    position: sticky;
-    inset-inline-start: var(--pf-v6-c-table__sticky-cell--InsetInlineStart);
-    inset-inline-end: var(--pf-v6-c-table__sticky-cell--InsetInlineEnd);
-    z-index: var(--pf-v6-c-table__sticky-cell--ZIndex);
-    min-width: var(--pf-v6-c-table__sticky-cell--MinWidth);
-    background-color: var(--pf-v6-c-table__sticky-cell--BackgroundColor);
-    background-clip: padding-box;
-  }
+    // Row-select column: DataViewTableHead renders this Th without sticky props — mirror PatternFly
+    // sticky-cell behavior so checkboxes stay visible during horizontal scroll (see Name column offset in utils/stickyNameColumn.ts).
+    thead tr > th:first-child,
+    tbody tr > td:first-child {
+      --pf-v6-c-table__sticky-cell--InsetInlineStart: 0;
+      --pf-v6-c-table__sticky-cell--MinWidth: var(--pf-t--global--spacer--2xl);
 
-  // Name column sits to the right of the row-select column — higher z-index when stacking order matters.
-  thead tr > th:nth-child(2).pf-v6-c-table__sticky-cell,
-  tbody tr > td:nth-child(2).pf-v6-c-table__sticky-cell {
-    z-index: calc(var(--pf-v6-c-table__sticky-cell--ZIndex) + 1);
-  }
+      position: sticky;
+      inset-inline-start: var(--pf-v6-c-table__sticky-cell--InsetInlineStart);
+      inset-inline-end: var(--pf-v6-c-table__sticky-cell--InsetInlineEnd);
+      z-index: var(--pf-v6-c-table__sticky-cell--ZIndex);
+      min-width: var(--pf-v6-c-table__sticky-cell--MinWidth);
+      background-color: var(--pf-v6-c-table__sticky-cell--BackgroundColor);
+      background-clip: padding-box;
+    }
 
-  // Right-sticky actions column: above scrolling data cells.
-  thead tr > th:last-child.pf-v6-c-table__sticky-cell,
-  tbody tr > td:last-child.pf-v6-c-table__sticky-cell {
-    z-index: calc(var(--pf-v6-c-table__sticky-cell--ZIndex) + 2);
-  }
+    // Name column sits to the right of the row-select column — higher z-index when stacking order matters.
+    thead tr > th:nth-child(2).pf-v6-c-table__sticky-cell,
+    tbody tr > td:nth-child(2).pf-v6-c-table__sticky-cell {
+      z-index: calc(var(--pf-v6-c-table__sticky-cell--ZIndex) + 1);
+    }
 
-  // DataViewTh forces modifier="truncate" on headers; nowrap pairs with sticky + horizontal scroll per PF guidance.
-  thead tr th:nth-child(2).pf-v6-c-table__sticky-cell {
-    white-space: nowrap;
+    // Right-sticky actions column: above scrolling data cells.
+    thead tr > th:last-child.pf-v6-c-table__sticky-cell,
+    tbody tr > td:last-child.pf-v6-c-table__sticky-cell {
+      z-index: calc(var(--pf-v6-c-table__sticky-cell--ZIndex) + 2);
+    }
+
+    // DataViewTh forces modifier="truncate" on headers; nowrap pairs with sticky + horizontal scroll per PF guidance.
+    thead tr th:nth-child(2).pf-v6-c-table__sticky-cell {
+      white-space: nowrap;
+    }
   }
 }
 
