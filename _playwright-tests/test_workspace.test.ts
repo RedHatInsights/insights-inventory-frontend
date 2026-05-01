@@ -8,6 +8,8 @@ import {
   generateUniqueWorkspaceName,
   createNewWorkspace,
   isWorkspaceResponse,
+  waitForWorkspaceDetailPageReady,
+  workspaceHeaderActionsToggle,
 } from './helpers/workspaceHelpers';
 import { test } from './helpers/fixtures';
 import {
@@ -50,16 +52,19 @@ test('User can create, rename, and delete a workspace from Workspace Details pag
   await test.step('Search and open newly created workspace', async () => {
     const searchInput = page.locator('input[placeholder="Filter by name"]');
     await expect(searchInput).toBeVisible();
-    await page.reload({ waitUntil: 'networkidle' });
+    await page.reload({ waitUntil: 'load' });
     await searchInput.fill(workspaceName);
 
     const workspaceLink = page.getByRole('link', { name: workspaceName });
     await expect(workspaceLink).toBeVisible({ timeout: 100000 });
     await workspaceLink.click();
+    await waitForWorkspaceDetailPageReady(page, {
+      waitForEditableHeader: true,
+    });
   });
 
   await test.step('Rename the workspace', async () => {
-    const actionsButton = page.getByRole('button', { name: 'Actions' });
+    const actionsButton = workspaceHeaderActionsToggle(page);
     await expect(actionsButton).toBeVisible();
     await actionsButton.click();
 
@@ -74,11 +79,11 @@ test('User can create, rename, and delete a workspace from Workspace Details pag
     await dialog.getByRole('button', { name: 'Save' }).click();
     await expect(
       page.getByRole('heading', { name: renamedWorkspace }),
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 60000 });
   });
 
   await test.step.skip('Delete the renamed workspace', async () => {
-    const actionsButton = page.getByRole('button', { name: 'Actions' });
+    const actionsButton = workspaceHeaderActionsToggle(page);
     await expect(actionsButton).toBeVisible();
     await actionsButton.click();
 
@@ -121,7 +126,7 @@ test('User cannot delete a workspace with systems from Workspace Details page', 
   await test.step('Search and open workspace with systems', async () => {
     const searchInput = page.locator('input[placeholder="Filter by name"]');
     await expect(searchInput).toBeVisible();
-    await page.reload({ waitUntil: 'networkidle' });
+    await page.reload({ waitUntil: 'load' });
     await searchInput.fill(WORKSPACE_WITH_SYSTEMS);
 
     const workspaceLink = page.getByRole('link', {
@@ -129,16 +134,24 @@ test('User cannot delete a workspace with systems from Workspace Details page', 
     });
     await expect(workspaceLink).toBeVisible({ timeout: 100000 });
     await workspaceLink.click();
+    await waitForWorkspaceDetailPageReady(page, {
+      waitForEditableHeader: true,
+    });
   });
 
   await test.step('Attempt to delete workspace with systems and verify warning', async () => {
-    const actionsButton = page.getByRole('button', { name: 'Actions' });
+    const actionsButton = workspaceHeaderActionsToggle(page);
     await expect(actionsButton).toBeVisible();
     await actionsButton.click();
 
-    await page.getByRole('menuitem', { name: 'Delete' }).first().click();
+    await page
+      .getByRole('menuitem', { name: 'Delete workspace' })
+      .first()
+      .click();
 
-    await expect(page.locator('text=Cannot delete workspace')).toBeVisible();
+    await expect(page.locator('text=Cannot delete workspace')).toBeVisible({
+      timeout: 120000,
+    });
   });
 });
 
@@ -166,7 +179,7 @@ test.skip('User able to bulk delete empty workspaces', async ({ page }) => {
       await expect(dialog).toBeVisible({ timeout: 100000 });
       await dialog.locator('input').first().fill(workspaceName);
       await dialog.getByRole('button', { name: 'Create' }).click();
-      await page.reload({ waitUntil: 'networkidle' });
+      await page.reload({ waitUntil: 'load' });
     }
   });
 
@@ -317,6 +330,9 @@ test('User can add and remove system from workspace', async ({
     const workspaceLink = page.getByRole('link', { name: workspaceName });
     await expect(workspaceLink).toBeVisible({ timeout: 100000 });
     await workspaceLink.click();
+    await waitForWorkspaceDetailPageReady(page, {
+      waitForEditableHeader: true,
+    });
   });
 
   await test.step('Add system to workspace', async () => {
@@ -416,6 +432,7 @@ test('User can navigate to Workspace Info Tab', async ({ page }) => {
     });
     await expect(workspaceLink).toBeVisible({ timeout: 100000 });
     await workspaceLink.click();
+    await waitForWorkspaceDetailPageReady(page);
   });
 
   await test.step('Verify Workspace info shows User access configuration section', async () => {

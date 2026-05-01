@@ -2,6 +2,75 @@ import { Response, expect, type Page } from '@playwright/test';
 import { INVENTORY_API_BASE } from './apiHelpers';
 
 /**
+ * Locator for the workspace details page header "Actions" menu toggle (not table bulk Actions).
+ *
+ *  @param page - Playwright page on workspace details
+ *  @returns    Locator for the header Actions toggle
+ */
+export const workspaceHeaderActionsToggle = (page: Page) =>
+  page.locator('#group-dropdown-toggle');
+
+/**
+ * Reads the workspace UUID from the Workspaces list row link after search.
+ *
+ *  @param page          - Playwright page on `/insights/inventory/workspaces`
+ *  @param workspaceName - Exact visible name of the workspace link
+ *  @returns             Workspace (group) id from the link href
+ */
+export const getWorkspaceIdFromWorkspacesListLink = async (
+  page: Page,
+  workspaceName: string,
+): Promise<string> => {
+  const workspaceLink = page.getByRole('link', { name: workspaceName });
+  await expect(workspaceLink).toBeVisible({ timeout: 100000 });
+  const href = await workspaceLink.getAttribute('href');
+  if (!href) {
+    throw new Error(`Workspace link for "${workspaceName}" is missing href`);
+  }
+  const fromPath = href.match(/\/workspaces\/([^/?#]+)/);
+  if (fromPath?.[1]) {
+    return fromPath[1];
+  }
+  const trimmed = href.replace(/\/$/, '');
+  const lastSegment = trimmed.split('/').pop();
+  if (lastSegment && !lastSegment.includes('.')) {
+    return lastSegment;
+  }
+  throw new Error(`Could not parse workspace id from href: ${href}`);
+};
+
+export type WaitForWorkspaceDetailOptions = {
+  /**
+   * Also wait until the header Actions menu is enabled (group detail fetch
+   * finished and workspace-edit checks passed). Required for rename/delete
+   * from the header; the Systems tab can appear before this is true.
+   */
+  waitForEditableHeader?: boolean;
+};
+
+/**
+ * Waits until workspace details main UI is ready (Systems tab visible).
+ * Optionally waits until the header Actions toggle is enabled.
+ *
+ *  @param page    - Playwright page on workspace details
+ *  @param options - When `waitForEditableHeader` is true, waits for `#group-dropdown-toggle` to be enabled
+ *  @returns       Resolves when ready conditions are met
+ */
+export const waitForWorkspaceDetailPageReady = async (
+  page: Page,
+  options?: WaitForWorkspaceDetailOptions,
+) => {
+  await expect(page.getByRole('tab', { name: 'Systems' })).toBeVisible({
+    timeout: 120000,
+  });
+  if (options?.waitForEditableHeader) {
+    await expect(workspaceHeaderActionsToggle(page)).toBeEnabled({
+      timeout: 120000,
+    });
+  }
+};
+
+/**
  *  @returns randomized workspace name
  */
 export const generateUniqueWorkspaceName = async () => {

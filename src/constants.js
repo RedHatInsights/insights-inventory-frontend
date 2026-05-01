@@ -265,6 +265,8 @@ export const NO_WORKSPACE_PERMISSIONS_LOADING_TOOLTIP_MESSAGE =
   'Checking your workspace permissions. Try again in a moment.';
 export const NO_RENAME_WORKSPACE_KESSEL_TOOLTIP_MESSAGE =
   'You do not have permission to rename this workspace. Contact your organization administrator.';
+export const NO_EDIT_WORKSPACE_KESSEL_TOOLTIP_MESSAGE =
+  'You do not have permission to edit this workspace. Contact your organization administrator.';
 export const NO_DELETE_WORKSPACE_KESSEL_TOOLTIP_MESSAGE =
   'You do not have permission to delete this workspace. Contact your organization administrator.';
 export const NO_DELETE_SELECTED_WORKSPACES_KESSEL_TOOLTIP_MESSAGE =
@@ -346,12 +348,14 @@ export const INITIAL_PAGE = 1;
 export const EMPTY_CELL = '';
 export const DEBOUNCE_TIMEOUT_MS = 300;
 export const WORKSPACE_RESOURCE_TYPE = 'workspace';
+/**
+ * Kessel self-access relation for read access on a `workspace` resource (RBAC reporter).
+ * Aligns with `docs/kessel-frontend-design-document.md` (workspace `view` = read / list / detail).
+ */
+export const WORKSPACE_RELATION_VIEW = 'view';
 export const WORKSPACE_RELATION_EDIT = 'edit';
-/** Kessel self-access relation for removing a workspace (see react-kessel-access-check package README). */
 export const WORKSPACE_RELATION_DELETE = 'delete';
-/** Reporter for host access checks (HBI). */
 export const KESSEL_REPORTER = { type: 'hbi' };
-/** Reporter for workspace access checks; README recommends { type: 'rbac' } for RBAC-based authorization. */
 export const KESSEL_WORKSPACE_REPORTER = { type: 'rbac' };
 /**
  * Self-access `relation` values on {@link WORKSPACE_RESOURCE_TYPE} with Default workspace id
