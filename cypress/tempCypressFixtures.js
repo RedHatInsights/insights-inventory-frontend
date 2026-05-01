@@ -6,7 +6,6 @@ export const DROPDOWN = '[data-ouia-component-type="PF6/Dropdown"]';
 export const DROPDOWN_TOGGLE =
   '[data-ouia-component-type="PF6/DropdownToggle"]';
 export const DROPDOWN_ITEM = '[data-ouia-component-type="PF6/DropdownItem"]';
-export const CHIP = '[data-ouia-component-type="PF6/Chip"]';
 export const MENU = '[data-ouia-component-type="PF6/Menu"]';
 export const MENU_TOGGLE_CHECKBOX =
   '[data-ouia-component-type="PF6/MenuToggleCheckbox"]';
@@ -39,6 +38,8 @@ export const EMPTY_STATE_TITLE = '.pf-v6-c-empty-state__title';
 export const EMPTY_STATE_ICON = '.pf-v6-c-empty-state__icon';
 export const CARD_TITLE = '.pf-v6-c-card__title';
 export const CHIP_GROUP = '.pf-v6-c-label-group';
+/** FEC FilterChips / toolbar filters: PF Label inside LabelGroup, not OUIA PF6/Chip */
+export const CHIP = `${CHIP_GROUP} .pf-v6-c-label`;
 
 /** PF5 aria */
 export const PAGINATION_NEXT = 'button[aria-label="Go to next page"]';
