@@ -11,6 +11,9 @@ import { System } from './useSystemsQuery';
 import type { onSort, SortBy, SortDirection } from '../SystemsView';
 import Tags from '../Tags';
 import { LastSeenColumnHeader } from '../../../Utilities/LastSeenColumnHeader';
+import { getSystemsViewColumnMinWidthStyle } from '../utils/columnMinWidths';
+import { STICKY_ACTIONS_HEADER_PROPS } from '../utils/stickyActionsColumn';
+import { STICKY_NAME_HEADER_PROPS } from '../utils/stickyNameColumn';
 
 export interface Column extends ColumnManagementModalColumn {}
 export interface RenderableColumn extends Column {
@@ -103,9 +106,19 @@ interface UseColumnParams {
   sortBy: SortBy;
   onSort: onSort;
   direction: SortDirection;
+  /**
+   * When true (inventory views feature): sticky Name/actions columns, column min-widths,
+   * and horizontal scroll layout (see SystemsView).
+   */
+  isInventoryViewsEnabled: boolean;
 }
 
-export const useColumns = ({ sortBy, onSort, direction }: UseColumnParams) => {
+export const useColumns = ({
+  sortBy,
+  onSort,
+  direction,
+  isInventoryViewsEnabled,
+}: UseColumnParams) => {
   const [columns, setColumns] = useState<Column[]>(INITIAL_COLUMNS);
 
   const renderableColumns: RenderableColumn[] = useMemo(() => {
@@ -125,17 +138,32 @@ export const useColumns = ({ sortBy, onSort, direction }: UseColumnParams) => {
   );
 
   const tableHeaderNodes: DataViewTh[] = useMemo(
-    () =>
-      renderableColumns
+    () => [
+      ...renderableColumns
         .filter((col) => col.isShown)
         .map((col, index) => {
           return {
             cell: col.title,
             props: {
+              ...(col.key === 'name'
+                ? isInventoryViewsEnabled
+                  ? STICKY_NAME_HEADER_PROPS
+                  : {}
+                : isInventoryViewsEnabled
+                  ? (getSystemsViewColumnMinWidthStyle(col.key) ?? {})
+                  : {}),
               ...(col.sortBy && {
                 sort: {
                   sortBy: { index: fromSortByToIndex(sortBy), direction },
-                  onSort: (_, __, newDirection) => {
+                  onSort: (
+                    _event:
+                      | React.MouseEvent
+                      | React.KeyboardEvent
+                      | MouseEvent
+                      | undefined,
+                    _columnIndex: number,
+                    newDirection: SortDirection,
+                  ) => {
                     onSort(undefined, col.sortBy!, newDirection);
                   },
                   columnIndex: index,
@@ -144,7 +172,21 @@ export const useColumns = ({ sortBy, onSort, direction }: UseColumnParams) => {
             },
           };
         }),
-    [renderableColumns, fromSortByToIndex, sortBy, direction, onSort],
+      {
+        cell: '',
+        props: isInventoryViewsEnabled
+          ? STICKY_ACTIONS_HEADER_PROPS
+          : { screenReaderText: 'Actions' },
+      },
+    ],
+    [
+      renderableColumns,
+      fromSortByToIndex,
+      sortBy,
+      direction,
+      onSort,
+      isInventoryViewsEnabled,
+    ],
   );
 
   useEffect(() => {

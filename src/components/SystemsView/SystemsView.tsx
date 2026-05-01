@@ -30,7 +30,7 @@ import { useRows, type SystemsViewTableRow } from './hooks/useRows';
 import AccessDenied from '../../Utilities/AccessDenied';
 import './SystemsView.scss';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
-import { ISortBy } from '@patternfly/react-table';
+import { InnerScrollContainer, ISortBy } from '@patternfly/react-table';
 import { ColumnManagementModalProvider } from './ColumnManagementModalContext';
 import {
   DataViewFiltersProvider,
@@ -44,6 +44,7 @@ import { PER_PAGE } from '../../constants';
 import { DEBOUNCE_TIMEOUT_MS } from '../../constants';
 import { normalizeLegacySortSearchParams } from './utils/normalizeLegacySortSearchParams';
 import { SORT_DIR_URL_PARAM, SORT_URL_PARAM } from './constants';
+import useInventoryViewsFeatureFlag from '../../Utilities/useInventoryViewsFeatureFlag';
 
 export type SortDirection = ISortBy['direction'];
 export type SortBy = ApiOrderByEnum | undefined;
@@ -117,8 +118,15 @@ const SystemsViewInner = ({
   const sortBy = sort?.sortBy as SortBy;
   const { direction, onSort } = sort;
 
+  const isInventoryViewsEnabled = useInventoryViewsFeatureFlag();
+
   const { columns, setColumns, renderableColumns, tableHeaderNodes } =
-    useColumns({ sortBy, onSort, direction });
+    useColumns({
+      sortBy,
+      onSort,
+      direction,
+      isInventoryViewsEnabled,
+    });
 
   const { data, total, isLoading, isFetching, isError } = useSystemsQuery({
     page: pagination.page,
@@ -134,6 +142,7 @@ const SystemsViewInner = ({
   const { rows } = useRows({
     data: hostsWithPermissions ?? data,
     renderableColumns,
+    isInventoryViewsEnabled,
   });
 
   const selectedSystems = selected.map((row) => row.meta);
@@ -152,6 +161,46 @@ const SystemsViewInner = ({
     rows,
     total,
   });
+
+  const systemsTableClassName = [
+    'ins-c-systems-view-table',
+    isInventoryViewsEnabled && 'ins-c-systems-view-table--scroll-layout',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  const systemsTable = (
+    <DataViewTable
+      aria-label="Systems table"
+      variant="compact"
+      ouiaId="systems-view-table"
+      columns={tableHeaderNodes}
+      className={systemsTableClassName}
+      rows={rows}
+      headStates={{
+        loading: NO_HEADER,
+        empty: NO_HEADER,
+        error: NO_HEADER,
+      }}
+      bodyStates={{
+        loading: (
+          <SkeletonTable
+            isSelectable
+            rowsCount={pagination.perPage}
+            columns={tableHeaderNodes}
+          />
+        ),
+        empty: <NoEntitiesFound />,
+        error: (
+          <ErrorState
+            ouiaId="error-state"
+            titleText="Unable to load data"
+            bodyText="There was an error retrieving data. Check your connection and reload the page."
+          />
+        ),
+      }}
+    />
+  );
 
   return (
     <SystemActionModalsProvider onSelectionClear={() => setSelected([])}>
@@ -183,36 +232,13 @@ const SystemsViewInner = ({
                 <Pagination isCompact itemCount={total} {...pagination} />
               }
             />
-            <DataViewTable
-              aria-label="Systems table"
-              variant="compact"
-              ouiaId="systems-view-table"
-              columns={tableHeaderNodes}
-              className="ins-c-systems-view-table"
-              rows={rows}
-              headStates={{
-                loading: NO_HEADER,
-                empty: NO_HEADER,
-                error: NO_HEADER,
-              }}
-              bodyStates={{
-                loading: (
-                  <SkeletonTable
-                    isSelectable
-                    rowsCount={pagination.perPage}
-                    columns={tableHeaderNodes}
-                  />
-                ),
-                empty: <NoEntitiesFound />,
-                error: (
-                  <ErrorState
-                    ouiaId="error-state"
-                    titleText="Unable to load data"
-                    bodyText="There was an error retrieving data. Check your connection and reload the page."
-                  />
-                ),
-              }}
-            />
+            {isInventoryViewsEnabled ? (
+              <InnerScrollContainer className="ins-c-systems-view-table-scroll">
+                {systemsTable}
+              </InnerScrollContainer>
+            ) : (
+              systemsTable
+            )}
             <DataViewToolbar
               ouiaId="systems-view-footer"
               pagination={<Pagination itemCount={total} {...pagination} />}
