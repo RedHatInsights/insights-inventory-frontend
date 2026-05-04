@@ -6,6 +6,7 @@ import {
   FlexItem,
   MenuToggle,
   Skeleton,
+  Tooltip,
 } from '@patternfly/react-core';
 import {
   PageHeader,
@@ -123,21 +124,50 @@ const GroupDetailHeader = ({
             popperProps={{
               position: 'right',
             }}
-            toggle={(toggleRef) => (
-              <MenuToggle
-                ref={toggleRef}
-                isExpanded={dropdownOpen}
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                id="group-dropdown-toggle"
-                toggleVariant="secondary"
-                isDisabled={
-                  !canModifyWorkspaceForActions || uninitialized || loading
-                }
-                ouiaId="group-actions-dropdown-toggle"
-              >
-                Actions
-              </MenuToggle>
-            )}
+            toggle={(toggleRef) => {
+              const detailLoading = uninitialized || loading;
+              const actionsToggleDisabled =
+                !canModifyWorkspaceForActions || detailLoading;
+              const menuToggle = (
+                <MenuToggle
+                  ref={toggleRef}
+                  isExpanded={dropdownOpen}
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  id="group-dropdown-toggle"
+                  toggleVariant="secondary"
+                  isDisabled={actionsToggleDisabled}
+                  ouiaId="group-actions-dropdown-toggle"
+                >
+                  Actions
+                </MenuToggle>
+              );
+
+              // MenuToggle uses native `disabled`, which blocks hover; a transparent
+              // layer receives pointer events so the PatternFly tooltip can show.
+              if (!canModifyWorkspaceForActions) {
+                return (
+                  <Tooltip content={noAccessEditTooltip}>
+                    <span
+                      data-testid="group-detail-header-actions-tooltip-trigger"
+                      className="pf-v6-u-display-inline-block"
+                      style={{ position: 'relative', cursor: 'not-allowed' }}
+                    >
+                      <span
+                        aria-hidden
+                        style={{
+                          position: 'absolute',
+                          inset: 0,
+                          zIndex: 1,
+                        }}
+                      />
+                      {menuToggle}
+                    </span>
+                  </Tooltip>
+                );
+              }
+
+              return menuToggle;
+            }}
           >
             <DropdownList>
               <DropdownItem
