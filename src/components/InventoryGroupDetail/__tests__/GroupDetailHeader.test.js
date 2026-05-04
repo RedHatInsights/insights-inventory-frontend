@@ -1,11 +1,12 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import GroupDetailHeader from '../GroupDetailHeader';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import userEvent from '@testing-library/user-event';
 import { useKesselMigrationFeatureFlag } from '../../../Utilities/hooks/useKesselMigrationFeatureFlag';
+import { NO_EDIT_WORKSPACE_KESSEL_TOOLTIP_MESSAGE } from '../../../constants';
 
 jest.mock('../../../Utilities/useFeatureFlag');
 jest.mock('../../../Utilities/hooks/useKesselMigrationFeatureFlag', () => ({
@@ -102,6 +103,29 @@ describe('group detail header', () => {
     });
 
     expect(screen.getByRole('button', { name: /actions/i })).toBeDisabled();
+  });
+
+  it('shows a tooltip on Actions when Kessel workspace edit is denied', async () => {
+    useKesselMigrationFeatureFlag.mockReturnValue(true);
+
+    renderHeader({
+      workspaceAccess: {
+        gateActive: true,
+        canEdit: false,
+        isLoading: false,
+      },
+    });
+
+    await userEvent.hover(
+      screen.getByTestId('group-detail-header-actions-tooltip-trigger'),
+    );
+
+    await waitFor(() => {
+      expect(screen.getByRole('tooltip')).toBeVisible();
+    });
+    expect(screen.getByRole('tooltip')).toHaveTextContent(
+      NO_EDIT_WORKSPACE_KESSEL_TOOLTIP_MESSAGE,
+    );
   });
 
   it('disables the Actions toggle while Kessel workspace permissions are loading', () => {
