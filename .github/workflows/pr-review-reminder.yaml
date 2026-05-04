@@ -30,15 +30,15 @@ jobs:
             --json number,title,author,createdAt,url,isDraft,reviewDecision,reviews,comments \
             --limit 100)
 
-          # Filter: not draft, older than 1 day, no human reviews or comments
+          # Filter: not draft, older than 1 day, no human reviews or comments in the last 24 hours
           # Bot interactions (logins matching "bot", "sourcery", or "github-actions") are ignored
           # Sort: oldest first (highest priority)
           FILTERED=$(echo "$PRS" | jq --argjson now "$NOW" --argjson day "$ONE_DAY" '
             [ .[]
               | select(.isDraft == false)
               | .author.login as $pr_author
-              | select(([.reviews[] | select(.author.login != $pr_author and (.author.login | test("bot|sourcery|github-actions") | not))] | length) == 0)
-              | select(([.comments[] | select(.author.login != $pr_author and (.author.login | test("bot|sourcery|github-actions") | not))] | length) == 0)
+              | select(([.reviews[] | select(.author.login != $pr_author and (.author.login | test("bot|sourcery|github-actions") | not)) | select(.submittedAt != null and ($now - (.submittedAt | fromdateiso8601)) <= $day)] | length) == 0)
+              | select(([.comments[] | select(.author.login != $pr_author and (.author.login | test("bot|sourcery|github-actions") | not)) | select(($now - (.createdAt | fromdateiso8601)) <= $day)] | length) == 0)
               | select(.reviewDecision != "APPROVED")
               | (.createdAt | fromdateiso8601) as $created
               | select(($now - $created) > $day)
