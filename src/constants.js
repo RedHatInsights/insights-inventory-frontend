@@ -277,6 +277,8 @@ export const NO_MODIFY_HOSTS_TOOLTIP_MESSAGE =
   'You do not have the necessary permissions to modify hosts. Contact your organization administrator.';
 export const NO_MODIFY_HOST_TOOLTIP_MESSAGE =
   'You do not have the necessary permissions to modify this host. Contact your organization administrator.';
+export const NO_MODIFY_HOST_KESSEL_TOOLTIP_MESSAGE =
+  'You do not have permission to edit this host. Contact your organization administrator.';
 export const NO_MANAGE_USER_ACCESS_TOOLTIP_MESSAGE =
   'You must be an organization administrator to modify User Access configuration.';
 const REMEDIATIONS_DISPLAY = 'Automation Toolkit > Remediations';
