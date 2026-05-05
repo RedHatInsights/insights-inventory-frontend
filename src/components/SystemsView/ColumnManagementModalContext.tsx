@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { Column } from './hooks/useColumns';
-import { ColumnManagementModal } from '@patternfly/react-component-groups';
+import { ColumnManagementModal } from '../ColumnManagementModal';
 
 interface SystemsViewColumnManagementContextValue {
   openColumnManagementModal: () => void;
