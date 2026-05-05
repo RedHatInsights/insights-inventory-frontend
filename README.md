@@ -42,7 +42,7 @@ It is based on the [insights-frontend-starter-app](git@github.com:RedHatInsights
 
 1. Clone the repository.
 2. Install dependencies with `npm install`.
-3. Run development server with `npm run start:proxy` (defaults to **stage** and avoids the interactive environment prompt). To pick **prod** / **dev** / **ephemeral** interactively, use `npm run start:proxy:interactive`. See `fec.config.js` and `package.json` (npm scripts) for more options and parameters available.
+3. Run development server with `npm run start:proxy`. See `dev.webpack.config.js` and `package.json` (npm scripts) for more options and parameters available.
 4. Local version of the app will be available at `https://stage.foo.redhat.com:1337/insights/inventory/`. If you run with slightly different setup (for example, using production environment), you should still see the generated URL in your terminal, the webpack script output.
 
 ## Testing
@@ -233,25 +233,6 @@ After the changes have successfully landed in Production (verify the deployment 
 
 
 ## Common Problems You Might Encounter
-
-* **`npm run start:proxy` fails with `EMFILE: too many open files` (or file watcher errors)**  
-  The dev server watches many files. On Linux, raise limits before starting (values below match what CI uses for Playwright):
-
-  ```bash
-  ulimit -n 65536
-  sudo sysctl fs.inotify.max_user_watches=524288
-  ```
-
-  If you cannot raise `inotify` limits (e.g. some containers), try polling watchers (slower, but fewer native watches):
-
-  ```bash
-  CHOKIDAR_USEPOLLING=true WATCHPACK_POLLING=true npm run start:proxy
-  ```
-
-  Also ensure `/etc/hosts` includes the dev hostnames (`npm run patch:hosts` or the [insights-proxy patch script](https://github.com/RedHatInsights/insights-proxy/blob/master/scripts/patch-etc-hosts.sh)); `fec` warns if entries such as `ephemeral.foo.redhat.com` are missing.
-
-* **`fec dev-proxy` fails while pulling or starting containers (Podman / Docker)**  
-  `start:proxy` runs local Chrome/proxy images via your container runtime. Install and start **Podman** or **Docker**, ensure you can pull from `quay.io` (VPN/corp network may be required), then retry. If image pulls fail, check the error above the stack trace from `podman pull` / `docker pull`.
 
 * Some APIs we use require the latest version of their client package in order to enjoy the latest properties they provide.
 In case you checked the Network tab in the console and had a look at the requiered API call that should contain a property you need to fetch and use, but did not see this property in the list of properties in the Response tab, make sure you have the latest version of the client package that contains this API.
