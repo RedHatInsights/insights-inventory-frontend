@@ -47,19 +47,23 @@ export const ALL_USERS: UserConfig[] = [
   },
 ];
 
-/**
- * Roles to log in during `auth.setup.ts`.
- */
+export function getAdminUserForSetup(): UserConfig | undefined {
+  const isProd = process.env.PROD === 'true';
+  return ALL_USERS.find((u) => u.role === 'admin' && u.isProd === isProd);
+}
+
+export function getRbacUsersForSetup(): UserConfig[] {
+  return ALL_USERS.filter((u) => u.rbac === true);
+}
+
+/** @deprecated Prefer tag-scoped setup in `auth.setup.ts` or use helpers above. */
 export function getUsersForAuthSetup(): UserConfig[] {
-  if (process.env.CI && process.env.RBAC === 'true') {
-    return ALL_USERS.filter((u) => u.rbac === true);
+  if (process.env.RBAC === 'true') {
+    return getRbacUsersForSetup();
   }
 
-  const isProd = process.env.PROD === 'true';
-  const admin = ALL_USERS.find(
-    (u) => u.role === 'admin' && u.isProd === isProd,
-  );
-  const rbacUsers = ALL_USERS.filter((u) => u.rbac === true);
+  const admin = getAdminUserForSetup();
+  const rbacUsers = getRbacUsersForSetup();
 
   if (process.env.CI) {
     return admin ? [admin] : [];
@@ -196,16 +200,15 @@ export const storeStorageStateAndToken = async (
   await page.waitForTimeout(100);
 };
 
-export const throwIfMissingEnvVariables = () => {
+export const throwIfMissingRbacEnvVariables = () => {
   const ManditoryEnvVariables = [
-    'PLAYWRIGHT_USER',
-    process.env.PROD === 'true'
-      ? 'PROD_PLAYWRIGHT_PASSWORD'
-      : 'PLAYWRIGHT_PASSWORD',
     'BASE_URL',
-
+    'RBAC_VIEWER_ROLE_ACCESS_USER',
+    'RBAC_GRANULAR_ACCESS_USER',
+    'RBAC_NO_ACCESS_USER',
+    'RBAC_PASSWORD_STAGE',
     ...(process.env.INTEGRATION ? ['PROXY'] : []),
-  ];
+  ] as const;
 
   const missing: string[] = [];
   ManditoryEnvVariables.forEach((envVar) => {
@@ -217,6 +220,38 @@ export const throwIfMissingEnvVariables = () => {
   if (missing.length > 0) {
     throw new Error('Missing env variables:' + missing.join(','));
   }
+};
+
+/** Admin stage/full E2E setup: PLAYWRIGHT_* credentials. */
+export const throwIfMissingAdminEnvVariables = () => {
+  const ManditoryEnvVariables = [
+    'PLAYWRIGHT_USER',
+    process.env.PROD === 'true'
+      ? 'PROD_PLAYWRIGHT_PASSWORD'
+      : 'PLAYWRIGHT_PASSWORD',
+    'BASE_URL',
+
+    ...(process.env.INTEGRATION ? ['PROXY'] : []),
+  ] as const;
+
+  const missing: string[] = [];
+  ManditoryEnvVariables.forEach((envVar) => {
+    if (!process.env[envVar]) {
+      missing.push(envVar);
+    }
+  });
+
+  if (missing.length > 0) {
+    throw new Error('Missing env variables:' + missing.join(','));
+  }
+};
+
+/** @deprecated Use {@link throwIfMissingAdminEnvVariables} or {@link throwIfMissingRbacEnvVariables}. */
+export const throwIfMissingEnvVariables = () => {
+  if (process.env.RBAC === 'true') {
+    return throwIfMissingRbacEnvVariables();
+  }
+  return throwIfMissingAdminEnvVariables();
 };
 
 export const ensureNotInPreview = async (page: Page) => {

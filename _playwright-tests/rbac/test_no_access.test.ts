@@ -1,10 +1,8 @@
 import { test } from '../helpers/fixtures';
 import { expect } from '@playwright/test';
+import { NO_ACCESS_STALENESS, NO_ACCESS_INVENTORY } from './constants';
 
 test.use({ storageState: '.auth/no_access_user.json' });
-
-const NO_ACCESS_INVENTORY = 'This application requires Inventory permissions';
-const NO_ACCESS_STALENESS = 'Access permissions needed';
 
 test.describe('No access: @rbac', () => {
   test('Systems page', async ({ page }) => {

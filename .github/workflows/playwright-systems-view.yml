@@ -3,10 +3,11 @@ name: 'E2E: SystemsView + Kessel'
 on:
   pull_request:
     types: [opened, reopened, synchronize]
+  merge_group:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.number }}
+  group: e2e-systems-view-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
 
 jobs:
@@ -20,7 +21,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Create front-end .env file
         run: |
