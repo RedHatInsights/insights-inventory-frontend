@@ -41,9 +41,10 @@ const Details = ({
   isBootcHost = false,
   showRuntimesProcesses = false,
 }) => {
-  const hasSatelliteTags = entity?.tags?.some(
+  const satelliteTags = (entity?.tags || []).filter(
     (t) => t?.namespace === 'satellite',
   );
+  const hasSatelliteTags = satelliteTags.length > 0;
   const {
     isModalOpen,
     modalTitle,
@@ -107,7 +108,10 @@ const Details = ({
               )}
               {SatelliteCardWrapper && hasSatelliteTags && (
                 <GridItem>
-                  <SatelliteCardWrapper entity={entity} />
+                  <SatelliteCardWrapper
+                    entity={entity}
+                    satelliteTags={satelliteTags}
+                  />
                 </GridItem>
               )}
               {RhelAICardWrapper &&
@@ -168,7 +172,13 @@ Details.propTypes = {
   entity: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     fqdn: PropTypes.string,
-    tags: PropTypes.array,
+    tags: PropTypes.arrayOf(
+      PropTypes.shape({
+        namespace: PropTypes.string,
+        key: PropTypes.string,
+        value: PropTypes.string,
+      }),
+    ),
   }),
   store: PropTypes.any,
   OperatingSystemCardWrapper: PropTypes.oneOfType([
