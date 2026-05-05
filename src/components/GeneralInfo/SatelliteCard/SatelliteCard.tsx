@@ -1,12 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { type ComponentProps } from 'react';
 import LoadingCard from '../LoadingCard';
 import {
   SATELLITE_TAG_NAMESPACE,
   getSatelliteTagsFromEntityTags,
+  type InventoryTag,
 } from './satelliteTags';
 
-const SATELLITE_FIELDS = [
+type SatelliteField = { key: string; label: string };
+
+const SATELLITE_FIELDS: SatelliteField[] = [
   { key: 'activation_key', label: 'Activation key' },
   { key: 'content_view', label: 'Content view' },
   { key: 'host_collection', label: 'Host collection' },
@@ -19,13 +21,32 @@ const SATELLITE_FIELDS = [
   { key: 'satellite_instance_id', label: 'Satellite instance ID' },
 ];
 
-const buildTagFilter = ({ namespace, key, value }) => {
-  return `/${'?'}tags=${encodeURIComponent(namespace)}/${encodeURIComponent(
+const buildTagFilter = ({
+  namespace,
+  key,
+  value,
+}: {
+  namespace: string;
+  key: string;
+  value: string;
+}) =>
+  `/${'?'}tags=${encodeURIComponent(namespace)}/${encodeURIComponent(
     key,
   )}=${encodeURIComponent(value)}`;
+
+export type SatelliteCardEntity = {
+  tags?: InventoryTag[];
 };
 
-export const SatelliteCard = ({ entity, satelliteTags: satelliteTagsProp }) => {
+export type SatelliteCardProps = {
+  entity?: SatelliteCardEntity;
+  satelliteTags?: InventoryTag[];
+};
+
+export const SatelliteCard = ({
+  entity,
+  satelliteTags: satelliteTagsProp,
+}: SatelliteCardProps) => {
   const satelliteTags =
     satelliteTagsProp ?? getSatelliteTagsFromEntityTags(entity?.tags);
 
@@ -52,28 +73,9 @@ export const SatelliteCard = ({ entity, satelliteTags: satelliteTagsProp }) => {
       title="Satellite"
       cardId="satellite-card"
       isLoading={false}
-      items={items}
+      items={items as unknown as ComponentProps<typeof LoadingCard>['items']}
     />
   );
-};
-
-SatelliteCard.propTypes = {
-  entity: PropTypes.shape({
-    tags: PropTypes.arrayOf(
-      PropTypes.shape({
-        namespace: PropTypes.string,
-        key: PropTypes.string,
-        value: PropTypes.string,
-      }),
-    ),
-  }),
-  satelliteTags: PropTypes.arrayOf(
-    PropTypes.shape({
-      namespace: PropTypes.string,
-      key: PropTypes.string,
-      value: PropTypes.string,
-    }),
-  ),
 };
 
 export default SatelliteCard;
