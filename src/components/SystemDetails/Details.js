@@ -16,6 +16,7 @@ import { BootcImageCard } from '../GeneralInfo/BootcImageCard';
 import { NetworkInterfacesCard } from '../GeneralInfo/NetworkInterfacesCard';
 import { ConfigurationCard } from '../GeneralInfo/ConfigurationCard';
 import { HardwarePropertiesCard } from '../GeneralInfo/HardwarePropertiesCard';
+import { SatelliteCard } from '../GeneralInfo/SatelliteCard';
 import { Provider } from 'react-redux';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 import useModalState from './hooks/useModalState';
@@ -30,6 +31,7 @@ const Details = ({
   NetworkInterfacesCardWrapper = NetworkInterfacesCard,
   HardwarePropertiesCardWrapper = HardwarePropertiesCard,
   ConfigurationCardWrapper = ConfigurationCard,
+  SatelliteCardWrapper = SatelliteCard,
   CollectionCardWrapper = false,
   navigate,
   entity = {},
@@ -39,6 +41,9 @@ const Details = ({
   isBootcHost = false,
   showRuntimesProcesses = false,
 }) => {
+  const hasSatelliteTags = entity?.tags?.some(
+    (t) => t?.namespace === 'satellite',
+  );
   const {
     isModalOpen,
     modalTitle,
@@ -100,6 +105,11 @@ const Details = ({
                   <ConfigurationCardWrapper handleClick={handleModalToggle} />
                 </GridItem>
               )}
+              {SatelliteCardWrapper && hasSatelliteTags && (
+                <GridItem>
+                  <SatelliteCardWrapper entity={entity} />
+                </GridItem>
+              )}
               {RhelAICardWrapper &&
                 entity?.system_profile?.workloads?.rhel_ai && (
                   <GridItem>
@@ -158,6 +168,7 @@ Details.propTypes = {
   entity: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     fqdn: PropTypes.string,
+    tags: PropTypes.array,
   }),
   store: PropTypes.any,
   OperatingSystemCardWrapper: PropTypes.oneOfType([
@@ -182,6 +193,10 @@ Details.propTypes = {
     PropTypes.bool,
   ]),
   ConfigurationCardWrapper: PropTypes.oneOfType([
+    PropTypes.elementType,
+    PropTypes.bool,
+  ]),
+  SatelliteCardWrapper: PropTypes.oneOfType([
     PropTypes.elementType,
     PropTypes.bool,
   ]),
