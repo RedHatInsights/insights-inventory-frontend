@@ -8,6 +8,8 @@ import {
   Skeleton,
   Tooltip,
 } from '@patternfly/react-core';
+import { css } from '@patternfly/react-styles';
+import menuToggleStyles from '@patternfly/react-styles/css/components/MenuToggle/menu-toggle';
 import {
   PageHeader,
   PageHeaderTitle,
@@ -25,6 +27,7 @@ import {
   REQUIRED_PERMISSIONS_TO_READ_GROUP,
 } from '../../constants';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
+import './GroupDetailHeader.scss';
 
 const defaultWorkspaceAccess = {
   canEdit: undefined,
@@ -126,40 +129,44 @@ const GroupDetailHeader = ({
             }}
             toggle={(toggleRef) => {
               const detailLoading = uninitialized || loading;
-              const actionsToggleDisabled =
-                !canModifyWorkspaceForActions || detailLoading;
+              const actionsTogglePermissionDisabled =
+                !canModifyWorkspaceForActions;
+              const actionsToggleLoadingDisabled = detailLoading;
               const menuToggle = (
                 <MenuToggle
                   ref={toggleRef}
                   isExpanded={dropdownOpen}
-                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  onClick={() => {
+                    if (actionsTogglePermissionDisabled) {
+                      return;
+                    }
+                    setDropdownOpen(!dropdownOpen);
+                  }}
                   id="group-dropdown-toggle"
-                  toggleVariant="secondary"
-                  isDisabled={actionsToggleDisabled}
+                  isDisabled={actionsToggleLoadingDisabled}
+                  className={
+                    actionsTogglePermissionDisabled &&
+                    !actionsToggleLoadingDisabled
+                      ? css(menuToggleStyles.modifiers.disabled)
+                      : undefined
+                  }
+                  {...(actionsTogglePermissionDisabled &&
+                    !actionsToggleLoadingDisabled && {
+                      'aria-disabled': true,
+                    })}
                   ouiaId="group-actions-dropdown-toggle"
                 >
                   Actions
                 </MenuToggle>
               );
 
-              // MenuToggle uses native `disabled`, which blocks hover; a transparent
-              // layer receives pointer events so the PatternFly tooltip can show.
               if (!canModifyWorkspaceForActions) {
                 return (
                   <Tooltip content={noAccessEditTooltip}>
                     <span
                       data-testid="group-detail-header-actions-tooltip-trigger"
-                      className="pf-v6-u-display-inline-block"
-                      style={{ position: 'relative', cursor: 'not-allowed' }}
+                      className="pf-v6-u-display-inline-block ins-c-group-detail-header__actions-tooltip-anchor"
                     >
-                      <span
-                        aria-hidden
-                        style={{
-                          position: 'absolute',
-                          inset: 0,
-                          zIndex: 1,
-                        }}
-                      />
                       {menuToggle}
                     </span>
                   </Tooltip>
