@@ -37,7 +37,7 @@ test('User can filter, search and see details of "Ungrouped Hosts" workspace', a
       'Ungrouped hosts',
     );
     const workspaceCell = page.locator('td[data-label="Workspace"]');
-    await page.waitForTimeout(3000);
+    await expect(workspaceCell.first()).toBeVisible({ timeout: 15000 });
     await expectAllRowsHaveText(workspaceCell, WORKSPACE_UNGROUPED_HOSTS);
   });
 
@@ -53,10 +53,10 @@ test('User can filter, search and see details of "Ungrouped Hosts" workspace', a
     const workspaceLink = page.getByRole('link', {
       name: WORKSPACE_UNGROUPED_HOSTS,
     });
-    await expect(workspaceLink).toBeVisible({ timeout: 100000 });
+    await expect(workspaceLink).toBeVisible({ timeout: 30000 });
     await workspaceLink.click();
     await expect(
       page.getByRole('heading', { name: WORKSPACE_UNGROUPED_HOSTS }),
-    ).toBeVisible({ timeout: 100000 });
+    ).toBeVisible({ timeout: 30000 });
   });
 });

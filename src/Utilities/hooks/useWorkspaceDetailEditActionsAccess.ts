@@ -14,6 +14,11 @@ type Params = {
 /**
  * Merges RBAC workspace write with Kessel `edit` for workspace-details actions
  * (Add systems, Remove from workspace) when {@link Params.workspaceKesselGateActive} is true.
+ *  @param root0
+ *  @param root0.workspaceKesselGateActive
+ *  @param root0.workspaceKesselCanEdit
+ *  @param root0.workspaceKesselPermissionsLoading
+ *  @param root0.rbacCanModify
  */
 export const useWorkspaceDetailEditActionsAccess = ({
   workspaceKesselGateActive,

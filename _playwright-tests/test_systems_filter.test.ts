@@ -102,11 +102,14 @@ test.describe('Filtering Systems Tests', () => {
           },
         ),
       );
-    await expect(workspaceCellWithValue.first()).toBeVisible();
-    const count = await workspaceCellWithValue.count();
-    await expect(workspaceCellWithValue).toHaveText(
-      Array(count).fill(WORKSPACE_WITH_SYSTEMS),
-    );
+    await expect(async () => {
+      await expect(workspaceCellWithValue.first()).toBeVisible();
+      const count = await workspaceCellWithValue.count();
+      expect(count).toBeGreaterThan(0);
+      await expect(workspaceCellWithValue).toHaveText(
+        Array(count).fill(WORKSPACE_WITH_SYSTEMS),
+      );
+    }).toPass({ timeout: 20000 });
   });
 
   test.skip('User can filter systems by OS major version option', async ({
@@ -122,7 +125,7 @@ test.describe('Filtering Systems Tests', () => {
     await filterSystemsWithConditionalFilter(page, 'Operating system', OS);
 
     // Verify all filter chips contain Major version OS RHEL 9
-    const filterChipGroup = page.locator('span.pf-v6-c-label__text');
+    const filterChipGroup = page.locator('[class*="label__text"]');
     const pattern = /RHEL 9\./;
     await assertAllContain(filterChipGroup, pattern);
 
@@ -162,11 +165,14 @@ test.describe('Filtering Systems Tests', () => {
               hasText: testData.OS,
             }),
           );
-        await expect(columnVersionOS.first()).toBeVisible();
-        const count = await columnVersionOS.count();
-        await expect(columnVersionOS).toHaveText(
-          Array(count).fill(testData.OS),
-        );
+        await expect(async () => {
+          await expect(columnVersionOS.first()).toBeVisible();
+          const count = await columnVersionOS.count();
+          expect(count).toBeGreaterThan(0);
+          await expect(columnVersionOS).toHaveText(
+            Array(count).fill(testData.OS),
+          );
+        }).toPass({ timeout: 20000 });
       });
     });
   });
@@ -259,8 +265,9 @@ test.describe('Filtering Systems Tests', () => {
       // eslint-disable-next-line playwright/no-conditional-in-test
       if (await closeChipButton.first().isVisible({ timeout: 2000 })) {
         await closeChipButton.first().click();
-        // Wait for table to reload
-        await page.waitForTimeout(1000);
+        await page
+          .locator('[data-ouia-component-id="SkeletonTable"]')
+          .waitFor({ state: 'hidden', timeout: 10000 });
       }
 
       // Open conditional filter dropdown and select "Last seen"
@@ -279,8 +286,6 @@ test.describe('Filtering Systems Tests', () => {
       await expect(lastSeenToggle).toBeVisible({ timeout: 10000 });
       await lastSeenToggle.click();
 
-      // Wait for dropdown to be ready, then click the first option
-      await page.waitForTimeout(500);
       const option = page
         .getByRole('option', { name: 'Within the last 24 hours' })
         .first();
@@ -289,14 +294,16 @@ test.describe('Filtering Systems Tests', () => {
       await option.click();
 
       // Wait for table to reload with filter
-      await page.waitForTimeout(1000);
+      await page
+        .locator('[data-ouia-component-id="SkeletonTable"]')
+        .waitFor({ state: 'hidden', timeout: 15000 });
     });
 
     await test.step('Verify filter chip is displayed', async () => {
-      const filterChip = page.locator('span.pf-v6-c-label__text', {
-        hasText: 'Within the last 24 hours',
+      const filterChip = page.getByText('Within the last 24 hours', {
+        exact: false,
       });
-      await expect(filterChip).toBeVisible({ timeout: 10000 });
+      await expect(filterChip.first()).toBeVisible({ timeout: 10000 });
     });
 
     await test.step('Verify URL contains correct filter parameter', async () => {
@@ -309,10 +316,9 @@ test.describe('Filtering Systems Tests', () => {
     });
 
     await test.step('Verify table shows filtered results', async () => {
-      await page.waitForSelector('.loading-spinner', {
-        state: 'hidden',
-        timeout: 10000,
-      });
+      await page
+        .locator('[data-ouia-component-id="SkeletonTable"]')
+        .waitFor({ state: 'hidden', timeout: 15000 });
 
       const tableRows = page.locator('table tbody tr');
       await expect(async () => {

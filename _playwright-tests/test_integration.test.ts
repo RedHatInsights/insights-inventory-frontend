@@ -45,9 +45,8 @@ test.describe('Inventory federated modules check @integration', () => {
         }
       });
 
-      await page.goto(service.url);
-      // eslint-disable-next-line playwright/no-networkidle
-      await page.waitForLoadState('networkidle');
+      await page.goto(service.url, { waitUntil: 'domcontentloaded' });
+      await page.waitForLoadState('load');
 
       expect(
         logs,

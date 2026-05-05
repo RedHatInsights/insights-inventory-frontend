@@ -7,9 +7,9 @@ import { test as base, expect } from '@playwright/test';
  *  @param {Page} page - The Playwright page object
  */
 export const navigateToInventorySystemsFunc = async (page: Page) => {
-  await page.goto('/insights/inventory/', { timeout: 100000 });
+  await page.goto('/insights/inventory/', { timeout: 60000 });
   await expect(page.getByRole('heading', { name: 'Systems' })).toBeVisible({
-    timeout: 100000,
+    timeout: 30000,
   });
   await page
     .locator('[data-ouia-component-id="SkeletonTable"]')
@@ -22,13 +22,13 @@ export const navigateToInventorySystemsFunc = async (page: Page) => {
  *  @param {Page} page - The Playwright page object
  */
 export const navigateToWorkspacesFunc = async (page: Page) => {
-  await page.goto('/insights/inventory/workspaces', { timeout: 100000 });
+  await page.goto('/insights/inventory/workspaces', { timeout: 60000 });
   await expect(page.getByRole('heading', { name: 'Workspaces' })).toBeVisible({
-    timeout: 100000,
+    timeout: 30000,
   });
   await expect(
     page.locator('#pagination-options-menu-bottom-bottom-toggle'),
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 30000 });
 };
 
 /**
@@ -38,7 +38,7 @@ export const navigateToWorkspacesFunc = async (page: Page) => {
  */
 export const navigateToStalenessPageFunc = async (page: Page) => {
   await page.goto('/insights/inventory/staleness-and-deletion', {
-    timeout: 100000,
+    timeout: 60000,
   });
 
   // Check if there's an error page and retry if needed
@@ -46,14 +46,13 @@ export const navigateToStalenessPageFunc = async (page: Page) => {
   const isError = await errorHeading.isVisible().catch(() => false);
 
   if (isError) {
-    // Retry navigation if we hit an error
     await page.reload({ waitUntil: 'domcontentloaded', timeout: 30000 });
   }
 
   await expect(
     page.getByRole('heading', { name: 'Staleness and Deletion', exact: true }),
   ).toBeVisible({
-    timeout: 100000,
+    timeout: 30000,
   });
   await expect(
     page.getByText('Organization level system staleness and deletion'),

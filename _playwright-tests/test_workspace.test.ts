@@ -17,6 +17,17 @@ import {
   WORKSPACE_NAME_MODIFIED_PREFIX,
   WORKSPACE_NAME_SORT_PREFIX,
 } from './helpers/constants';
+import { deleteWorkspacesByPrefix } from './helpers/apiHelpers';
+
+const TEST_WORKSPACE_PREFIX = 'Workspace_';
+
+test.afterAll(async () => {
+  try {
+    await deleteWorkspacesByPrefix(TEST_WORKSPACE_PREFIX);
+  } catch {
+    // best-effort cleanup
+  }
+});
 
 test('User can create, rename, and delete a workspace from Workspace Details page', async ({
   page,
@@ -44,19 +55,28 @@ test('User can create, rename, and delete a workspace from Workspace Details pag
   await test.step('Create a new workspace', async () => {
     await page.click('button:has-text("Create workspace")');
     const dialog = page.locator('[role="dialog"]');
-    await expect(dialog).toBeVisible({ timeout: 100000 });
+    await expect(dialog).toBeVisible({ timeout: 30000 });
     await dialog.locator('input').first().fill(workspaceName);
-    await dialog.getByRole('button', { name: 'Create' }).click();
+    await Promise.all([
+      dialog.getByRole('button', { name: 'Create' }).click(),
+      page.waitForResponse(
+        (res) =>
+          res.url().includes('/groups') &&
+          res.request().method() === 'POST' &&
+          res.ok(),
+      ),
+    ]);
+    await expect(dialog).toBeHidden({ timeout: 10000 });
   });
 
   await test.step('Search and open newly created workspace', async () => {
     const searchInput = page.locator('input[placeholder="Filter by name"]');
     await expect(searchInput).toBeVisible();
-    await page.reload({ waitUntil: 'load' });
+    await page.reload({ waitUntil: 'domcontentloaded' });
     await searchInput.fill(workspaceName);
 
     const workspaceLink = page.getByRole('link', { name: workspaceName });
-    await expect(workspaceLink).toBeVisible({ timeout: 100000 });
+    await expect(workspaceLink).toBeVisible({ timeout: 30000 });
     await workspaceLink.click();
     await waitForWorkspaceDetailPageReady(page, {
       waitForEditableHeader: true,
@@ -76,10 +96,18 @@ test('User can create, rename, and delete a workspace from Workspace Details pag
     const dialog = page.locator('[role="dialog"]');
     await expect(dialog).toBeVisible();
     await dialog.locator('input').first().fill(renamedWorkspace);
-    await dialog.getByRole('button', { name: 'Save' }).click();
+    await Promise.all([
+      dialog.getByRole('button', { name: 'Save' }).click(),
+      page.waitForResponse(
+        (res) =>
+          res.url().includes('/groups') &&
+          res.request().method() === 'PATCH' &&
+          res.ok(),
+      ),
+    ]);
     await expect(
       page.getByRole('heading', { name: renamedWorkspace }),
-    ).toBeVisible({ timeout: 60000 });
+    ).toBeVisible({ timeout: 30000 });
   });
 
   await test.step.skip('Delete the renamed workspace', async () => {
@@ -126,13 +154,13 @@ test('User cannot delete a workspace with systems from Workspace Details page', 
   await test.step('Search and open workspace with systems', async () => {
     const searchInput = page.locator('input[placeholder="Filter by name"]');
     await expect(searchInput).toBeVisible();
-    await page.reload({ waitUntil: 'load' });
+    await page.reload({ waitUntil: 'domcontentloaded' });
     await searchInput.fill(WORKSPACE_WITH_SYSTEMS);
 
     const workspaceLink = page.getByRole('link', {
       name: WORKSPACE_WITH_SYSTEMS,
     });
-    await expect(workspaceLink).toBeVisible({ timeout: 100000 });
+    await expect(workspaceLink).toBeVisible({ timeout: 30000 });
     await workspaceLink.click();
     await waitForWorkspaceDetailPageReady(page, {
       waitForEditableHeader: true,
@@ -150,7 +178,7 @@ test('User cannot delete a workspace with systems from Workspace Details page', 
       .click();
 
     await expect(page.locator('text=Cannot delete workspace')).toBeVisible({
-      timeout: 120000,
+      timeout: 30000,
     });
   });
 });
@@ -176,10 +204,18 @@ test.skip('User able to bulk delete empty workspaces', async ({ page }) => {
     for (let i = 1; i <= 3; i++) {
       const workspaceName = `empty_${Date.now()}_${i}`;
       await page.click('button:has-text("Create workspace")');
-      await expect(dialog).toBeVisible({ timeout: 100000 });
+      await expect(dialog).toBeVisible({ timeout: 30000 });
       await dialog.locator('input').first().fill(workspaceName);
-      await dialog.getByRole('button', { name: 'Create' }).click();
-      await page.reload({ waitUntil: 'load' });
+      await Promise.all([
+        dialog.getByRole('button', { name: 'Create' }).click(),
+        page.waitForResponse(
+          (res) =>
+            res.url().includes('/groups') &&
+            res.request().method() === 'POST' &&
+            res.ok(),
+        ),
+      ]);
+      await page.reload({ waitUntil: 'domcontentloaded' });
     }
   });
 
@@ -258,13 +294,21 @@ test('User can create, rename and delete a workspace from Workspaces page', asyn
       .getByRole('menuitem', { name: 'Rename workspace' })
       .first();
     await expect(renameWorkspaceButton).toBeEnabled({
-      timeout: 50000,
+      timeout: 30000,
     });
     await renameWorkspaceButton.click();
 
     await expect(dialogModal).toBeVisible();
     await dialogModal.locator('input').first().fill(renamedWorkspace);
-    await dialogModal.getByRole('button', { name: 'Save' }).click();
+    await Promise.all([
+      dialogModal.getByRole('button', { name: 'Save' }).click(),
+      page.waitForResponse(
+        (res) =>
+          res.url().includes('/groups') &&
+          res.request().method() === 'PATCH' &&
+          res.ok(),
+      ),
+    ]);
 
     // search for the new name to confirm rename worked
     await searchByName(page, renamedWorkspace);
@@ -285,12 +329,20 @@ test('User can create, rename and delete a workspace from Workspaces page', asyn
       .getByRole('menuitem', { name: 'Delete workspace' })
       .first();
     await expect(deleteWorkspaceButton).toBeEnabled({
-      timeout: 50000,
+      timeout: 30000,
     });
     await deleteWorkspaceButton.click();
 
     await expect(dialogModal).toBeVisible();
-    await dialogModal.getByRole('button', { name: 'Delete' }).click();
+    await Promise.all([
+      dialogModal.getByRole('button', { name: 'Delete' }).click(),
+      page.waitForResponse(
+        (res) =>
+          res.url().includes('/groups') &&
+          res.request().method() === 'DELETE' &&
+          res.ok(),
+      ),
+    ]);
 
     // search for the workspace to confirm workspace is removed
     await searchByName(page, renamedWorkspace);
@@ -328,7 +380,7 @@ test('User can add and remove system from workspace', async ({
     await expect(nameCell).toHaveCount(1);
 
     const workspaceLink = page.getByRole('link', { name: workspaceName });
-    await expect(workspaceLink).toBeVisible({ timeout: 100000 });
+    await expect(workspaceLink).toBeVisible({ timeout: 30000 });
     await workspaceLink.click();
     await waitForWorkspaceDetailPageReady(page, {
       waitForEditableHeader: true,
@@ -337,7 +389,7 @@ test('User can add and remove system from workspace', async ({
 
   await test.step('Add system to workspace', async () => {
     const addSystemsButton = page.getByRole('button', { name: 'Add systems' });
-    await expect(addSystemsButton).toBeVisible({ timeout: 100000 });
+    await expect(addSystemsButton).toBeVisible({ timeout: 30000 });
     await addSystemsButton.click();
 
     const dialog = page.locator('[role="dialog"]');
@@ -383,7 +435,7 @@ test('User can add and remove system from workspace', async ({
     await expect(workspaceNameCell).toHaveCount(1);
 
     const workspaceLink = page.getByRole('link', { name: workspaceName });
-    await expect(workspaceLink).toBeVisible({ timeout: 100000 });
+    await expect(workspaceLink).toBeVisible({ timeout: 30000 });
     await workspaceLink.click();
 
     const nameCell = page.locator('td[data-label="Name"]');
@@ -419,7 +471,7 @@ test('User can add and remove system from workspace', async ({
       page.getByText(
         'To manage systems more effectively, add systems to the workspace.',
       ),
-    ).toBeVisible({ timeout: 100000 });
+    ).toBeVisible({ timeout: 30000 });
   });
 });
 
@@ -430,7 +482,7 @@ test('User can navigate to Workspace Info Tab', async ({ page }) => {
     const workspaceLink = page.getByRole('link', {
       name: WORKSPACE_WITH_SYSTEMS,
     });
-    await expect(workspaceLink).toBeVisible({ timeout: 100000 });
+    await expect(workspaceLink).toBeVisible({ timeout: 30000 });
     await workspaceLink.click();
     await waitForWorkspaceDetailPageReady(page);
   });
@@ -444,7 +496,7 @@ test('User can navigate to Workspace Info Tab', async ({ page }) => {
       page.getByText('Manage your workspace user access configuration', {
         exact: false,
       }),
-    ).toBeVisible({ timeout: 100000 });
+    ).toBeVisible({ timeout: 30000 });
   });
 });
 

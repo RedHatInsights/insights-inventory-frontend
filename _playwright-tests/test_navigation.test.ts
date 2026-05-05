@@ -3,8 +3,10 @@ import { test } from './helpers/fixtures';
 
 test.describe('Navigate to Inventory pages via side Navigation bar', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/insights/inventory/');
-    await page.locator('[data-quickstart-id="Inventory"]').isVisible();
+    await page.goto('/insights/inventory/', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('[data-quickstart-id="Inventory"]')).toBeVisible({
+      timeout: 30000,
+    });
   });
 
   test('Use can navigate to Staleness and Deletion page', async ({ page }) => {
@@ -44,7 +46,7 @@ test.describe('Navigate to Inventory pages via side Navigation bar', () => {
     await test.step('Verify Images view is visible', async () => {
       await expect(
         page.getByRole('columnheader', { name: 'Image name' }),
-      ).toBeVisible({ timeout: 50000 });
+      ).toBeVisible({ timeout: 30000 });
     });
   });
 
