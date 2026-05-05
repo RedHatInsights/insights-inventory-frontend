@@ -83,15 +83,18 @@ describe('group detail header', () => {
     ).toBeVisible();
   });
 
-  it('disables the Actions toggle when RBAC denies workspace modify (Kessel migration off)', () => {
+  it('marks the Actions toggle aria-disabled when RBAC denies workspace modify (Kessel migration off)', () => {
     usePermissionsWithContext.mockImplementation(() => ({ hasAccess: false }));
 
     renderHeader();
 
-    expect(screen.getByRole('button', { name: /actions/i })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /actions/i })).toHaveAttribute(
+      'aria-disabled',
+      'true',
+    );
   });
 
-  it('disables the Actions toggle when Kessel workspace edit is denied', () => {
+  it('marks the Actions toggle aria-disabled when Kessel workspace edit is denied', () => {
     useKesselMigrationFeatureFlag.mockReturnValue(true);
 
     renderHeader({
@@ -102,7 +105,10 @@ describe('group detail header', () => {
       },
     });
 
-    expect(screen.getByRole('button', { name: /actions/i })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /actions/i })).toHaveAttribute(
+      'aria-disabled',
+      'true',
+    );
   });
 
   it('shows a tooltip on Actions when Kessel workspace edit is denied', async () => {
@@ -128,7 +134,25 @@ describe('group detail header', () => {
     );
   });
 
-  it('disables the Actions toggle while Kessel workspace permissions are loading', () => {
+  it('does not show a tooltip on Actions when Kessel workspace edit is allowed', async () => {
+    useKesselMigrationFeatureFlag.mockReturnValue(true);
+
+    renderHeader({
+      workspaceAccess: {
+        gateActive: true,
+        canEdit: true,
+        isLoading: false,
+      },
+    });
+
+    await userEvent.hover(screen.getByRole('button', { name: /actions/i }));
+
+    await waitFor(() => {
+      expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+    });
+  });
+
+  it('marks the Actions toggle aria-disabled while Kessel workspace permissions are loading', () => {
     useKesselMigrationFeatureFlag.mockReturnValue(true);
 
     renderHeader({
@@ -139,7 +163,10 @@ describe('group detail header', () => {
       },
     });
 
-    expect(screen.getByRole('button', { name: /actions/i })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /actions/i })).toHaveAttribute(
+      'aria-disabled',
+      'true',
+    );
   });
 
   it('opens the actions menu when Kessel workspace edit is allowed', async () => {
