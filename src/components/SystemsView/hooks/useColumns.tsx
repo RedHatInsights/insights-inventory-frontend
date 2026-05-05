@@ -26,43 +26,15 @@ const FALLBACK_SORT: { sortBy: SortBy; direction: SortDirection } = {
   direction: 'asc',
 };
 
-const INITIAL_COLUMNS: Column[] = [
+const INITIAL_COLUMNS: RenderableColumn[] = [
   {
     title: 'Name',
     key: 'name',
     isShownByDefault: true,
     isShown: true,
     isUntoggleable: true,
-  },
-  {
-    title: 'Workspace',
-    key: 'workspace',
-    isShownByDefault: true,
-    isShown: true,
-  },
-  {
-    title: 'Tags',
-    key: 'tags',
-    isShownByDefault: true,
-    isShown: true,
-  },
-  {
-    title: 'OS',
-    key: 'os',
-    isShownByDefault: true,
-    isShown: true,
-  },
-  {
-    title: <LastSeenColumnHeader />,
-    key: 'last_seen',
-    isShownByDefault: true,
-    isShown: true,
-  },
-];
-
-const COLUMN_RENDER_CELLS: Record<string, (system: System) => React.ReactNode> =
-  {
-    name: (system: System) => (
+    sortBy: ApiOrderByEnum.DisplayName,
+    renderCell: (system: System) => (
       <DisplayName
         key={`name-${system.id}`}
         id={system.id}
@@ -70,19 +42,46 @@ const COLUMN_RENDER_CELLS: Record<string, (system: System) => React.ReactNode> =
         {...system}
       />
     ),
-    workspace: (system: System) => (
+  },
+  {
+    title: 'Workspace',
+    key: 'workspace',
+    isShownByDefault: true,
+    isShown: true,
+    sortBy: ApiOrderByEnum.GroupName,
+    renderCell: (system: System) => (
       <Workspace key={`workspace-${system.id}`} groups={system.groups} />
     ),
-    tags: (system: System) => (
+  },
+  {
+    title: 'Tags',
+    key: 'tags',
+    isShownByDefault: true,
+    isShown: true,
+    renderCell: (system: System) => (
       <Tags key={`tags-${system.id}`} system={system} />
     ),
-    os: (system: System) => (
+  },
+  {
+    title: 'OS',
+    key: 'os',
+    isShownByDefault: true,
+    isShown: true,
+    sortBy: ApiOrderByEnum.OperatingSystem,
+    renderCell: (system: System) => (
       <OperatingSystem
         key={`os-${system.id}`}
         system_profile={system.system_profile}
       />
     ),
-    last_seen: (system: System) => (
+  },
+  {
+    title: <LastSeenColumnHeader />,
+    key: 'last_seen',
+    isShownByDefault: true,
+    isShown: true,
+    sortBy: ApiOrderByEnum.LastCheckIn,
+    renderCell: (system: System) => (
       <LastSeen
         key={`lastseen-${system.id}`}
         updated={system.last_check_in}
@@ -92,15 +91,13 @@ const COLUMN_RENDER_CELLS: Record<string, (system: System) => React.ReactNode> =
         per_reporter_staleness={system?.per_reporter_staleness}
       />
     ),
-  };
+  },
+];
 
-const COLUMN_SORT_BY: Record<string, ApiOrderByEnum | undefined> = {
-  name: ApiOrderByEnum.DisplayName,
-  workspace: ApiOrderByEnum.GroupName,
-  tags: undefined,
-  os: ApiOrderByEnum.OperatingSystem,
-  last_seen: ApiOrderByEnum.LastCheckIn,
-};
+function toManagementColumn(col: RenderableColumn): Column {
+  const { renderCell: _renderCell, sortBy: _sortBy, ...rest } = col;
+  return rest;
+}
 
 interface UseColumnParams {
   sortBy: SortBy;
@@ -119,15 +116,22 @@ export const useColumns = ({
   direction,
   isInventoryViewsEnabled,
 }: UseColumnParams) => {
-  const [columns, setColumns] = useState<Column[]>(INITIAL_COLUMNS);
+  const [columns, setColumns] = useState<Column[]>(() =>
+    INITIAL_COLUMNS.map(toManagementColumn),
+  );
 
-  const renderableColumns: RenderableColumn[] = useMemo(() => {
-    return columns.map((col) => ({
-      ...col,
-      renderCell: COLUMN_RENDER_CELLS[col.key] || (() => null),
-      sortBy: COLUMN_SORT_BY[col.key],
-    }));
-  }, [columns]);
+  const renderableColumns: RenderableColumn[] = useMemo(
+    () =>
+      columns.map((col) => {
+        const template = INITIAL_COLUMNS.find((c) => c.key === col.key);
+        return {
+          ...col,
+          renderCell: template?.renderCell ?? (() => null),
+          sortBy: template?.sortBy,
+        };
+      }),
+    [columns],
+  );
 
   const fromSortByToIndex = useCallback(
     (sortBy?: ApiOrderByEnum) =>
