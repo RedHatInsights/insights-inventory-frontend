@@ -6,7 +6,7 @@
  * Copied locally for customization; keep in sync with upstream when upgrading PatternFly packages.
  * ListManager remains imported from `@patternfly/react-component-groups`.
  */
-import React, { useEffect, useState, type FunctionComponent } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Content,
@@ -37,16 +37,17 @@ export interface ColumnManagementModalColumn {
 }
 
 /** extends ModalProps */
-export interface ColumnManagementModalProps
-  extends Omit<ModalProps, 'ref' | 'children'> {
+export interface ColumnManagementModalProps<
+  T extends ColumnManagementModalColumn = ColumnManagementModalColumn,
+> extends Omit<ModalProps, 'ref' | 'children'> {
   /** Flag to show the modal */
   isOpen?: boolean;
   /** Invoked when modal visibility is changed */
   onClose?: (event: KeyboardEvent | React.MouseEvent) => void;
   /** Current column state */
-  appliedColumns: ColumnManagementModalColumn[];
+  appliedColumns: T[];
   /** Invoked with new column state after save button is clicked */
-  applyColumns: (newColumns: ColumnManagementModalColumn[]) => void;
+  applyColumns: (newColumns: T[]) => void;
   /* Modal description text */
   description?: string;
   /* Modal title text */
@@ -57,9 +58,9 @@ export interface ColumnManagementModalProps
   enableDragDrop?: boolean;
 }
 
-export const ColumnManagementModal: FunctionComponent<
-  ColumnManagementModalProps
-> = ({
+export function ColumnManagementModal<
+  T extends ColumnManagementModalColumn = ColumnManagementModalColumn,
+>({
   title = 'Manage columns',
   description = 'Selected categories will be displayed in the table.',
   isOpen = false,
@@ -69,8 +70,8 @@ export const ColumnManagementModal: FunctionComponent<
   ouiaId = 'ColumnManagementModal',
   enableDragDrop = false,
   ...props
-}: ColumnManagementModalProps) => {
-  const [currentColumns, setCurrentColumns] = useState(() =>
+}: ColumnManagementModalProps<T>) {
+  const [currentColumns, setCurrentColumns] = useState<T[]>(() =>
     appliedColumns.map((column) => ({
       ...column,
       isShown: column.isShown ?? column.isShownByDefault,
@@ -142,13 +143,16 @@ export const ColumnManagementModal: FunctionComponent<
   };
 
   const handleSave = (items: ListManagerItem[]) => {
-    const updatedColumns = items.map((item) => ({
-      key: item.key,
-      title: item.title,
-      isShown: item.isSelected,
-      isShownByDefault: item.isShownByDefault,
-      isUntoggleable: item.isUntoggleable,
-    }));
+    const updatedColumns = items.map((item) => {
+      const originalColumn = currentColumns.find((col) => col.key === item.key);
+      if (!originalColumn) {
+        throw new Error(`Column with key ${item.key} not found`);
+      }
+      return {
+        ...originalColumn,
+        isShown: item.isSelected,
+      };
+    });
     applyColumns(updatedColumns);
     onClose({} as KeyboardEvent);
   };
@@ -191,6 +195,6 @@ export const ColumnManagementModal: FunctionComponent<
       />
     </Modal>
   );
-};
+}
 
 export default ColumnManagementModal;
