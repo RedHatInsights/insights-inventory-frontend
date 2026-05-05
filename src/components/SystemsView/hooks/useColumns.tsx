@@ -1,7 +1,7 @@
 import { DataViewTh } from '@patternfly/react-data-view';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
-import { ColumnManagementModalColumn } from '@patternfly/react-component-groups';
+import type { ColumnManagementModalColumn } from '../../ColumnManagementModal';
 import DisplayName from '../../../routes/Systems/components/SystemsTable/components/columns/DisplayName';
 import React from 'react';
 import Workspace from '../../../routes/Systems/components/SystemsTable/components/columns/Workspace';
