@@ -8,6 +8,10 @@ import {
   REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP,
 } from '../../../constants';
 import { ActionDropdownItem } from '../../InventoryTable/ActionWithRBAC';
+import {
+  MoveSystemActionDropdownItem,
+  isKesselMoveSystemRowDisabled,
+} from '../../InventoryTable/moveSystemRowAction';
 
 // Build host row actions (edit, delete). Pure builder, no hook deps.
 const buildHostActions = (row, { isKesselEnabled, onEdit, onDelete }) => {
@@ -86,15 +90,15 @@ const buildGroupActions = (row, { isKesselEnabled, onMove, onRemove }) => {
     return [
       {
         title: (
-          <ActionDropdownItem
-            key={`${row.id}-move-system`}
+          <MoveSystemActionDropdownItem
+            rowId={row.id}
+            isKesselMigrationEnabled={isKesselEnabled}
             onClick={onMove}
+            isAriaDisabled={isKesselMoveSystemRowDisabled(row)}
             requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
             noAccessTooltip={NO_MOVE_SYSTEM_KESSEL_TOOLTIP_MESSAGE}
             override={row.permissions?.hasWorkspaceEdit ?? false}
-          >
-            Move system
-          </ActionDropdownItem>
+          />
         ),
       },
     ];

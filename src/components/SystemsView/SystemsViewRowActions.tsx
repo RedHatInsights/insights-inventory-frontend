@@ -10,10 +10,13 @@ import {
   NO_MODIFY_HOST_TOOLTIP_MESSAGE,
   NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE,
   NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE,
-  NO_MOVE_SYSTEM_KESSEL_TOOLTIP_MESSAGE,
 } from '../../constants';
 import type { SystemWithPermissions } from '../../Utilities/hooks/useHostIdsWithKessel';
 import { hasWorkspace } from './utils/systemHelpers';
+import {
+  buildMoveSystemActionsColumnItem,
+  type MoveSystemActionsColumnRow,
+} from '../InventoryTable/moveSystemRowAction';
 
 interface RowActionsProps {
   system: System | SystemWithPermissions;
@@ -41,24 +44,18 @@ const SystemsViewRowActions = ({ system }: RowActionsProps) => {
   const permissions = 'permissions' in system ? system.permissions : undefined;
 
   const hasDelete = permissions?.hasDelete ?? false;
-  const canWorkspaceEdit = permissions?.hasWorkspaceEdit ?? false;
   const canUpdate = permissions?.hasUpdate ?? false;
 
   const addToWorkspaceDisabled = !hasGroupsWrite || hasWorkspace(system);
   const removeFromWorkspaceDisabled = !hasGroupsWrite || !hasWorkspace(system);
 
+  const moveSystemRow: MoveSystemActionsColumnRow = { permissions };
+
   const rowActions = isKesselEnabled
     ? [
-        {
-          title: 'Move system',
-          onClick: () => openAddToWorkspaceModal([system]),
-          ...(!canWorkspaceEdit && {
-            isAriaDisabled: true,
-            tooltipProps: {
-              content: NO_MOVE_SYSTEM_KESSEL_TOOLTIP_MESSAGE,
-            },
-          }),
-        },
+        buildMoveSystemActionsColumnItem(moveSystemRow, () =>
+          openAddToWorkspaceModal([system]),
+        ),
         {
           title: 'Edit',
           onClick: () => openEditModal([system]),

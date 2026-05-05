@@ -365,6 +365,50 @@ describe('actions', () => {
     });
   });
 
+  it('kessel: row action Move system opens move system modal', () => {
+    featureFlagsInterceptors.kesselSuccessful();
+    const hostsWithPerms = cloneDeep(hostsAllInGroupFixtures);
+    hostsWithPerms.results = hostsWithPerms.results.map((host) => ({
+      ...host,
+      permissions: { hasWorkspaceEdit: true },
+    }));
+    hostsInterceptors.successful(hostsWithPerms);
+
+    cy.mountWithContext(GroupSystems, undefined, {
+      groupName: GROUP_NAME,
+      groupId: TEST_ID,
+      isKesselEnabled: true,
+    });
+    waitForTable(true);
+
+    cy.get(TABLE_ROW).eq(0).find(MENU_TOGGLE).click();
+    cy.get(DROPDOWN_ITEM).contains('Move system').click();
+    cy.get(MODAL_CONTENT).find('h1').contains('Move system');
+  });
+
+  it('kessel: bulk Move systems opens move systems modal', () => {
+    featureFlagsInterceptors.kesselSuccessful();
+    const hostsWithPerms = cloneDeep(hostsAllInGroupFixtures);
+    hostsWithPerms.results = hostsWithPerms.results.map((host) => ({
+      ...host,
+      permissions: { hasWorkspaceEdit: true },
+    }));
+    hostsInterceptors.successful(hostsWithPerms);
+
+    cy.mountWithContext(GroupSystems, undefined, {
+      groupName: GROUP_NAME,
+      groupId: TEST_ID,
+      isKesselEnabled: true,
+    });
+    waitForTable(true);
+
+    cy.get(TABLE_ROW_CHECKBOX).eq(0).click();
+    cy.get(TABLE_ROW_CHECKBOX).eq(1).click();
+    cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
+    cy.get(MENU_ITEM).contains('Move systems').click();
+    cy.get(MODAL_CONTENT).find('h1').contains('Move systems');
+  });
+
   it('can remove more hosts from the same group', () => {
     cy.intercept(
       'DELETE',
@@ -398,6 +442,52 @@ describe('actions', () => {
     });
     waitForTable(true);
     cy.contains('button', 'Add systems').shouldHaveAriaDisabled();
+  });
+
+  it('kessel: row Move system on Ungrouped hosts workspace opens modal', () => {
+    featureFlagsInterceptors.kesselSuccessful();
+    const hostsWithPerms = cloneDeep(hostsAllInGroupFixtures);
+    hostsWithPerms.results = hostsWithPerms.results.map((host) => ({
+      ...host,
+      permissions: { hasWorkspaceEdit: true },
+    }));
+    hostsInterceptors.successful(hostsWithPerms);
+
+    cy.mountWithContext(GroupSystems, undefined, {
+      groupName: GROUP_NAME,
+      groupId: TEST_ID,
+      ungrouped: true,
+      isKesselEnabled: true,
+    });
+    waitForTable(true);
+
+    cy.get(TABLE_ROW).eq(0).find(MENU_TOGGLE).click();
+    cy.get(DROPDOWN_ITEM).contains('Move system').click();
+    cy.get(MODAL_CONTENT).find('h1').contains('Move system');
+  });
+
+  it('kessel: bulk Move systems on Ungrouped hosts workspace opens modal', () => {
+    featureFlagsInterceptors.kesselSuccessful();
+    const hostsWithPerms = cloneDeep(hostsAllInGroupFixtures);
+    hostsWithPerms.results = hostsWithPerms.results.map((host) => ({
+      ...host,
+      permissions: { hasWorkspaceEdit: true },
+    }));
+    hostsInterceptors.successful(hostsWithPerms);
+
+    cy.mountWithContext(GroupSystems, undefined, {
+      groupName: GROUP_NAME,
+      groupId: TEST_ID,
+      ungrouped: true,
+      isKesselEnabled: true,
+    });
+    waitForTable(true);
+
+    cy.get(TABLE_ROW_CHECKBOX).eq(0).click();
+    cy.get(TABLE_ROW_CHECKBOX).eq(1).click();
+    cy.get(PRIMARY_TOOLBAR_ACTIONS).click();
+    cy.get(MENU_ITEM).contains('Move systems').click();
+    cy.get(MODAL_CONTENT).find('h1').contains('Move systems');
   });
 });
 
