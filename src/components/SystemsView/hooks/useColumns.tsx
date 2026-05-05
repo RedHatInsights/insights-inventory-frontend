@@ -15,8 +15,7 @@ import { getSystemsViewColumnMinWidthStyle } from '../utils/columnMinWidths';
 import { STICKY_ACTIONS_HEADER_PROPS } from '../utils/stickyActionsColumn';
 import { STICKY_NAME_HEADER_PROPS } from '../utils/stickyNameColumn';
 
-export interface Column extends ColumnManagementModalColumn {}
-export interface RenderableColumn extends Column {
+export interface RenderableColumn extends ColumnManagementModalColumn {
   renderCell: (system: System) => React.ReactNode;
   sortBy?: ApiOrderByEnum;
 }
@@ -94,19 +93,10 @@ const INITIAL_COLUMNS: RenderableColumn[] = [
   },
 ];
 
-function toManagementColumn(col: RenderableColumn): Column {
-  const { renderCell: _renderCell, sortBy: _sortBy, ...rest } = col;
-  return rest;
-}
-
 interface UseColumnParams {
   sortBy: SortBy;
   onSort: onSort;
   direction: SortDirection;
-  /**
-   * When true (inventory views feature): sticky Name/actions columns, column min-widths,
-   * and horizontal scroll layout (see SystemsView).
-   */
   isInventoryViewsEnabled: boolean;
 }
 
@@ -116,34 +106,19 @@ export const useColumns = ({
   direction,
   isInventoryViewsEnabled,
 }: UseColumnParams) => {
-  const [columns, setColumns] = useState<Column[]>(() =>
-    INITIAL_COLUMNS.map(toManagementColumn),
-  );
-
-  const renderableColumns: RenderableColumn[] = useMemo(
-    () =>
-      columns.map((col) => {
-        const template = INITIAL_COLUMNS.find((c) => c.key === col.key);
-        return {
-          ...col,
-          renderCell: template?.renderCell ?? (() => null),
-          sortBy: template?.sortBy,
-        };
-      }),
-    [columns],
-  );
+  const [columns, setColumns] = useState<RenderableColumn[]>(INITIAL_COLUMNS);
 
   const fromSortByToIndex = useCallback(
     (sortBy?: ApiOrderByEnum) =>
-      renderableColumns
+      columns
         .filter((col) => col.isShown)
         .findIndex((col) => col.sortBy === sortBy),
-    [renderableColumns],
+    [columns],
   );
 
   const tableHeaderNodes: DataViewTh[] = useMemo(
     () => [
-      ...renderableColumns
+      ...columns
         .filter((col) => col.isShown)
         .map((col, index) => {
           return {
@@ -184,7 +159,7 @@ export const useColumns = ({
       },
     ],
     [
-      renderableColumns,
+      columns,
       fromSortByToIndex,
       sortBy,
       direction,
@@ -195,7 +170,7 @@ export const useColumns = ({
 
   useEffect(() => {
     if (sortBy) {
-      const isSortColumnVisible = renderableColumns.some(
+      const isSortColumnVisible = columns.some(
         (col) => col.sortBy === sortBy && col.isShown,
       );
 
@@ -208,7 +183,6 @@ export const useColumns = ({
   return {
     columns,
     setColumns,
-    renderableColumns,
     tableHeaderNodes,
   };
 };
