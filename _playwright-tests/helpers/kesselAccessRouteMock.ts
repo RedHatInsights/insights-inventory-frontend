@@ -89,6 +89,8 @@ function isWorkspaceRelationItem(
  * Denies only workspace **view** self-access; all other bulk items (including
  * workspace **edit**) are allowed. Use on workspace details to assert the
  * AccessDenied path while keeping list/create flows workable.
+ *
+ *  @param page - Playwright page to install route mock on
  */
 export async function installKesselCheckSelfBulkDenyView(
   page: Page,
@@ -130,6 +132,8 @@ export async function installKesselCheckSelfBulkDenyView(
  * Denies only workspace **edit** self-access; **view** and all other items
  * stay allowed. Workspace details should still load Systems while header
  * Actions stay disabled.
+ *
+ *  @param page - Playwright page to install route mock on
  */
 export async function installKesselCheckSelfBulkDenyEdit(
   page: Page,
