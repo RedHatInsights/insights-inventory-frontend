@@ -16,7 +16,10 @@ import { BootcImageCard } from '../GeneralInfo/BootcImageCard';
 import { NetworkInterfacesCard } from '../GeneralInfo/NetworkInterfacesCard';
 import { ConfigurationCard } from '../GeneralInfo/ConfigurationCard';
 import { HardwarePropertiesCard } from '../GeneralInfo/HardwarePropertiesCard';
-import { SatelliteCard } from '../GeneralInfo/SatelliteCard';
+import {
+  SatelliteCard,
+  getSatelliteTagsFromEntityTags,
+} from '../GeneralInfo/SatelliteCard';
 import { Provider } from 'react-redux';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 import useModalState from './hooks/useModalState';
@@ -41,9 +44,7 @@ const Details = ({
   isBootcHost = false,
   showRuntimesProcesses = false,
 }) => {
-  const satelliteTags = (entity?.tags || []).filter(
-    (t) => t?.namespace === 'satellite',
-  );
+  const satelliteTags = getSatelliteTagsFromEntityTags(entity?.tags);
   const hasSatelliteTags = satelliteTags.length > 0;
   const {
     isModalOpen,

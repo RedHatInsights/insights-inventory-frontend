@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import LoadingCard from '../LoadingCard';
-
-const SATELLITE_NAMESPACE = 'satellite';
+import {
+  SATELLITE_TAG_NAMESPACE,
+  getSatelliteTagsFromEntityTags,
+} from './satelliteTags';
 
 const SATELLITE_FIELDS = [
   { key: 'activation_key', label: 'Activation key' },
@@ -25,8 +27,7 @@ const buildTagFilter = ({ namespace, key, value }) => {
 
 export const SatelliteCard = ({ entity, satelliteTags: satelliteTagsProp }) => {
   const satelliteTags =
-    satelliteTagsProp ||
-    (entity?.tags || []).filter((t) => t?.namespace === SATELLITE_NAMESPACE);
+    satelliteTagsProp ?? getSatelliteTagsFromEntityTags(entity?.tags);
 
   if (!satelliteTags.length) {
     return null;
@@ -36,7 +37,7 @@ export const SatelliteCard = ({ entity, satelliteTags: satelliteTagsProp }) => {
     const tag = satelliteTags.find((t) => t?.key === key && t?.value);
     const value = tag?.value;
     const tagFilter = value
-      ? buildTagFilter({ namespace: SATELLITE_NAMESPACE, key, value })
+      ? buildTagFilter({ namespace: SATELLITE_TAG_NAMESPACE, key, value })
       : undefined;
 
     return {
