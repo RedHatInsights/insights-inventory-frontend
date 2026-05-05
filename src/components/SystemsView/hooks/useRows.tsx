@@ -15,7 +15,7 @@ export type SystemsViewTableRow = DataViewTrObject & {
 
 interface UseRowsParams {
   data?: (System | SystemWithPermissions)[];
-  renderableColumns: RenderableColumn[];
+  columns: RenderableColumn[];
   /**
    * When true (inventory views feature): sticky Name/actions cells and column min-widths.
    */
@@ -28,13 +28,13 @@ interface UseRowsReturnValue {
 
 export const useRows = ({
   data,
-  renderableColumns,
+  columns,
   isInventoryViewsEnabled,
 }: UseRowsParams): UseRowsReturnValue => {
   const mapSystemToRow = (
     system: System | SystemWithPermissions,
   ): SystemsViewTableRow => {
-    const selectableColumnCells = renderableColumns
+    const selectableColumnCells = columns
       .filter((col) => col.isShown)
       .map((col) => {
         const cell = col.renderCell(system);
