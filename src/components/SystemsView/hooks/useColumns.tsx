@@ -33,7 +33,9 @@ export const useColumns = ({
   direction,
   isInventoryViewsEnabled,
 }: UseColumnParams) => {
-  const [columns, setColumns] = useState<RenderableColumn[]>(initialColumns);
+  const [columns, setColumns] = useState<RenderableColumn[]>(() =>
+    initialColumns.map((col) => ({ ...col })),
+  );
 
   const fromSortByToIndex = useCallback(
     (sortBy?: ApiOrderByEnum) =>
