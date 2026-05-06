@@ -8,7 +8,7 @@ import type { onSort, SortBy, SortDirection } from '../SystemsView';
 import { getSystemsViewColumnMinWidthStyle } from '../utils/columnMinWidths';
 import { STICKY_ACTIONS_HEADER_PROPS } from '../utils/stickyActionsColumn';
 import { STICKY_NAME_HEADER_PROPS } from '../utils/stickyNameColumn';
-import { INITIAL_COLUMNS } from '../columns/inventory/columnDefinitions';
+import initialColumns from '../columns/allColumnDefinitions';
 
 export interface RenderableColumn extends ColumnManagementModalColumn {
   renderCell: (system: System) => React.ReactNode;
@@ -33,7 +33,7 @@ export const useColumns = ({
   direction,
   isInventoryViewsEnabled,
 }: UseColumnParams) => {
-  const [columns, setColumns] = useState<RenderableColumn[]>(INITIAL_COLUMNS);
+  const [columns, setColumns] = useState<RenderableColumn[]>(initialColumns);
 
   const fromSortByToIndex = useCallback(
     (sortBy?: ApiOrderByEnum) =>
