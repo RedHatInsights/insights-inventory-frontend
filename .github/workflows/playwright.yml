@@ -42,6 +42,7 @@ jobs:
             echo "BASE_URL=https://stage.foo.redhat.com:1337"
             echo "CI=true"
             echo "PROXY=$PROXY"
+            echo "STAGE_OFFLINE_TOKEN=$STAGE_OFFLINE_TOKEN"
           } >> .env
 
           echo ".env file created successfully."
