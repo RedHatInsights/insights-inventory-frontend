@@ -1,4 +1,4 @@
-name: Auto-Approve Konflux PRs
+name: Auto-Approve Dependency-Update PRs
 
 on:
   pull_request:
@@ -7,14 +7,26 @@ on:
 jobs:
   auto-approve:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.user.login == 'red-hat-konflux[bot]'
+    if: ${{ github.event.pull_request.user.login == 'red-hat-konflux[bot]' || github.event.pull_request.user.login == 'dependabot[bot]' }}
 
     permissions:
       pull-requests: write
 
     steps:
+      - name: Metadata for PR
+        if: github.event.pull_request.user.login == 'dependabot[bot]'
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
       - name: Auto-approve PR
+        if: ${{ github.event.pull_request.user.login == 'red-hat-konflux[bot]' ||
+                (github.event.pull_request.user.login == 'dependabot[bot]' &&
+                contains(github.event.pull_request.labels.*.name, 'dependencies') && (
+                  steps.metadata.outputs.update-type == 'version-update:semver-minor' ||
+                  steps.metadata.outputs.update-type == 'version-update:semver-patch'
+                ))}}
         uses: hmarr/auto-approve-action@8f929096a962e83ccdfa8afcf855f39f12d4dac7 # v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          review-message: "This PR from Konflux has been automatically approved."
+          review-message: "This dependency-update PR has been automatically approved."
