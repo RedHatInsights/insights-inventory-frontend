@@ -12,11 +12,6 @@ import {
 } from './helpers/loginHelpers';
 import { isSystemsViewEnabled } from './helpers/constants';
 
-/**
- * Shared auth setup file. Two Playwright projects (`setup-admin`, `setup-rbac`) both use
- * `testMatch: /auth\.setup\.ts/` and filter with `grep: /@admin-setup/` or `/@rbac-setup/`
- * so RBAC runs never execute admin login and vice versa (CLI `--grep` does not split setup).
- */
 setup.describe('Setup (admin)', { tag: '@admin-setup' }, () => {
   setup.describe.configure({ retries: 3 });
 

@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  # Unique prefix per workflow file so this suite never shares a group with rbac / systems-view.
+  # Unique prefix per workflow file so this suite never shares a group with systems-view.
   group: e2e-full-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
 
@@ -94,7 +94,7 @@ jobs:
           npx wait-on http://localhost:8003/apps/inventory/
 
       - name: Run front-end Playwright tests
-        run: USE_CTRF=1 CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-e2e-full-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test --grep-invert @integration --grep-invert @rbac
+        run: USE_CTRF=1 CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-e2e-full-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test --grep-invert @integration
 
       - name: Publish front-end Test Report
         uses: ctrf-io/github-test-reporter@v1

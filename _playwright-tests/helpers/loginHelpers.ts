@@ -56,22 +56,6 @@ export function getRbacUsersForSetup(): UserConfig[] {
   return ALL_USERS.filter((u) => u.rbac === true);
 }
 
-/** @deprecated Prefer tag-scoped setup in `auth.setup.ts` or use helpers above. */
-export function getUsersForAuthSetup(): UserConfig[] {
-  if (process.env.RBAC === 'true') {
-    return getRbacUsersForSetup();
-  }
-
-  const admin = getAdminUserForSetup();
-  const rbacUsers = getRbacUsersForSetup();
-
-  if (process.env.CI) {
-    return admin ? [admin] : [];
-  }
-
-  return admin ? [admin, ...rbacUsers] : rbacUsers;
-}
-
 export const logout = async (page: Page) => {
   const button = page.locator(
     'div.pf-v6-c-toolbar__item.pf-m-hidden.pf-m-visible-on-lg.pf-v6-u-mr-0 > button',
@@ -244,14 +228,6 @@ export const throwIfMissingAdminEnvVariables = () => {
   if (missing.length > 0) {
     throw new Error('Missing env variables:' + missing.join(','));
   }
-};
-
-/** @deprecated Use {@link throwIfMissingAdminEnvVariables} or {@link throwIfMissingRbacEnvVariables}. */
-export const throwIfMissingEnvVariables = () => {
-  if (process.env.RBAC === 'true') {
-    return throwIfMissingRbacEnvVariables();
-  }
-  return throwIfMissingAdminEnvVariables();
 };
 
 export const ensureNotInPreview = async (page: Page) => {
