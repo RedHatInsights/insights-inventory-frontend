@@ -22,7 +22,7 @@ export const getWorkspaceIdFromWorkspacesListLink = async (
   workspaceName: string,
 ): Promise<string> => {
   const workspaceLink = page.getByRole('link', { name: workspaceName });
-  await expect(workspaceLink).toBeVisible({ timeout: 100000 });
+  await expect(workspaceLink).toBeVisible({ timeout: 30000 });
   const href = await workspaceLink.getAttribute('href');
   if (!href) {
     throw new Error(`Workspace link for "${workspaceName}" is missing href`);
@@ -61,11 +61,11 @@ export const waitForWorkspaceDetailPageReady = async (
   options?: WaitForWorkspaceDetailOptions,
 ) => {
   await expect(page.getByRole('tab', { name: 'Systems' })).toBeVisible({
-    timeout: 120000,
+    timeout: 45000,
   });
   if (options?.waitForEditableHeader) {
     await expect(workspaceHeaderActionsToggle(page)).toBeEnabled({
-      timeout: 120000,
+      timeout: 45000,
     });
   }
 };
@@ -85,13 +85,20 @@ export const generateUniqueWorkspaceName = async () => {
  *  @returns {Promise<void>}
  */
 export const createNewWorkspace = async (page: Page, name: string) => {
-  // 1. Click the "Create Workspace" button
   await page.click('button:has-text("Create workspace")');
-  // 2. Wait for dialog to appear and fill in the workspace name
   const dialog = page.locator('[role="dialog"]');
-  await expect(dialog).toBeVisible({ timeout: 100000 });
+  await expect(dialog).toBeVisible({ timeout: 30000 });
   await dialog.locator('input').first().fill(name);
-  await dialog.getByRole('button', { name: 'Create' }).click();
+  await Promise.all([
+    dialog.getByRole('button', { name: 'Create' }).click(),
+    page.waitForResponse(
+      (res) =>
+        res.url().includes(`${INVENTORY_API_BASE}/groups`) &&
+        res.request().method() === 'POST' &&
+        res.ok(),
+    ),
+  ]);
+  await expect(dialog).toBeHidden({ timeout: 10000 });
 };
 
 type Method = 'GET' | 'POST' | 'DELETE' | 'PATCH';

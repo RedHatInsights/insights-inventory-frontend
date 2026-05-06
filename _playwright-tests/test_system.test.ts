@@ -42,7 +42,7 @@ test('User should be able to edit and delete a system from Systems page', async 
     const editButton = page.getByRole('menuitem', { name: /^Edit/ }).first();
     await expect(editButton).toBeEnabled({
       enabled: isSystemsViewEnabled || undefined,
-      timeout: 50000,
+      timeout: 30000,
     });
     await editButton.click();
     await expect(dialog).toBeVisible();
@@ -67,7 +67,7 @@ test('User should be able to edit and delete a system from Systems page', async 
       .first();
     await expect(deleteButton).toBeEnabled({
       enabled: isSystemsViewEnabled || undefined,
-      timeout: 50000,
+      timeout: 30000,
     });
     await deleteButton.click();
 
@@ -107,22 +107,18 @@ test('User should be able to export systems to JSON', async ({ page }) => {
     // Verify the export request was made successfully
     const exportRequest = await exportRequestPromise;
     expect(exportRequest.url()).toContain('/exports');
-    console.log('  ✓ Export request initiated successfully');
 
     // Verify that status checking begins (indicates the "export being prepared" notification should appear)
     await statusCheckPromise;
-    console.log('  ✓ Export status checking started (export being prepared)');
 
-    // Wait for any additional status checks that indicate completion
-    await page.waitForTimeout(3000);
-    console.log(
-      '  ✓ Export process completed - notifications should have appeared for preparation and download',
-    );
-
-    // Note: Due to auto-close handlers, we verify export functionality through API calls
-    // The notifications that should appear are:
-    // 1. "The requested export is being prepared. When ready, the download will start automatically."
-    // 2. "The requested export is being downloaded."
+    // Wait for a successful export status response indicating completion
+    await expect(async () => {
+      const response = await page.waitForResponse(
+        (res) => res.url().includes('/exports/') && res.ok(),
+        { timeout: 10000 },
+      );
+      expect(response.ok()).toBe(true);
+    }).toPass({ timeout: 15000 });
   });
 });
 
@@ -154,17 +150,18 @@ test('User should be able to export systems to CSV', async ({ page }) => {
     // Verify the export request was made successfully
     const exportRequest = await exportRequestPromise;
     expect(exportRequest.url()).toContain('/exports');
-    console.log('  ✓ Export request initiated successfully');
 
     // Verify that status checking begins (indicates the "export being prepared" notification should appear)
     await statusCheckPromise;
-    console.log('  ✓ Export status checking started (export being prepared)');
 
-    // Wait for any additional status checks that indicate completion
-    await page.waitForTimeout(3000);
-    console.log(
-      '  ✓ Export process completed - notifications should have appeared for preparation and download',
-    );
+    // Wait for a successful export status response indicating completion
+    await expect(async () => {
+      const response = await page.waitForResponse(
+        (res) => res.url().includes('/exports/') && res.ok(),
+        { timeout: 10000 },
+      );
+      expect(response.ok()).toBe(true);
+    }).toPass({ timeout: 15000 });
   });
 });
 
@@ -182,7 +179,7 @@ test('User should be able to delete multiple systems from Systems page', async (
    */
   const dialog = page.locator('[role="dialog"]');
   const nameCell = page.locator(
-    'tbody.pf-v6-c-table__tbody tr[data-ouia-component-type="PF6/TableRow"]',
+    'table tbody tr[data-ouia-component-type*="TableRow"]',
   );
 
   await test.step('Navigate to Inventory → Systems', async () => {

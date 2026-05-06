@@ -8,7 +8,7 @@ export default defineConfig({
   testDir: './_playwright-tests/',
   fullyParallel: true,
   forbidOnly: isCI,
-  retries: isCI ? 2 : 0,
+  retries: isCI ? 2 : 1,
   workers: 1,
   reporter: isCI
     ? [
@@ -38,7 +38,6 @@ export default defineConfig({
     video: 'retain-on-failure',
     trace: 'on',
     ignoreHTTPSErrors: true,
-    launchOptions: { args: ['--disable-http-cache'] },
     viewport: null,
     ...(process.env.INTEGRATION === 'true'
       ? {

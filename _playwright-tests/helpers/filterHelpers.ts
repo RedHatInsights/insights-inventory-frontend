@@ -49,7 +49,7 @@ export const filterSystemsWithConditionalFilter = async (
       await expect(menuOption).toHaveCount(1);
     }
     optionCheckbox = menuOption.first();
-    await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
+    await expect(optionCheckbox).toBeVisible({ timeout: 30000 });
     await optionCheckbox.click();
   } else if (filterName === 'Data collector') {
     // TODO: Implement logic to select the Data Collector filter option.
@@ -66,29 +66,20 @@ export const filterSystemsWithConditionalFilter = async (
     ).toBeVisible();
 
     optionCheckbox = page.getByText(option, { exact: true }).first();
-    await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
+    await expect(optionCheckbox).toBeVisible({ timeout: 30000 });
     await optionCheckbox.click();
   } else if (filterName === 'System type') {
     await page
-      .getByRole('button', { name: 'Options menu' })
-      .or(
-        page.locator(
-          'button[data-ouia-component-id="DataViewCheckboxFilter-toggle"]',
-        ),
-      )
+      .locator('button[data-ouia-component-id="DataViewCheckboxFilter-toggle"]')
+      .or(page.getByRole('button', { name: 'Options menu' }))
       .click();
     optionCheckbox = page.getByText(option, { exact: true });
-    await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
+    await expect(optionCheckbox).toBeVisible({ timeout: 30000 });
     await optionCheckbox.click();
   } else if (filterName === 'Operating system') {
     await page
-      .getByRole('button', { name: 'Group filter' })
-      .nth(1)
-      .or(
-        page.locator(
-          '[data-ouia-component-id="SystemsViewOperatingSystemsFilter"]',
-        ),
-      )
+      .locator('[data-ouia-component-id="SystemsViewOperatingSystemsFilter"]')
+      .or(page.getByRole('button', { name: 'Group filter' }).nth(1))
       .click();
     await page.getByRole('checkbox', { name: option, exact: true }).check();
   } else if (filterName === 'Last seen') {
@@ -128,11 +119,14 @@ export const expectAllRowsHaveText = async (
   rowLocator: Locator,
   expectedText: string,
 ) => {
-  const expectedCount = await rowLocator.count();
-  for (let i = 0; i < expectedCount; i++) {
-    const row = rowLocator.nth(i);
-    await expect(row).toHaveText(expectedText);
-  }
+  await expect(async () => {
+    const expectedCount = await rowLocator.count();
+    expect(expectedCount).toBeGreaterThan(0);
+    for (let i = 0; i < expectedCount; i++) {
+      const row = rowLocator.nth(i);
+      await expect(row).toHaveText(expectedText);
+    }
+  }).toPass({ timeout: 15000 });
 };
 
 /**
@@ -150,9 +144,16 @@ export const expectAllRowsHaveText = async (
  */
 export const searchByName = async (page: Page, name: string): Promise<void> => {
   const searchInput = page.locator('input[placeholder="Filter by name"]');
-  await page.reload({ waitUntil: 'networkidle' });
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await page
+    .locator(SKELETON_TABLE)
+    .waitFor({ state: 'hidden', timeout: 30000 });
   await expect(searchInput).toBeVisible({ timeout: 30000 });
+  await searchInput.fill('');
   await searchInput.fill(name);
+  await page
+    .locator(SKELETON_TABLE)
+    .waitFor({ state: 'hidden', timeout: 15000 });
 };
 
 export const waitForTableKebabReady = async (
@@ -183,17 +184,14 @@ export async function assertAllContain(
   locator: Locator,
   pattern: RegExp,
 ): Promise<void> {
-  // Wait for at least one element to be visible
-  await expect(locator.first()).toBeVisible({ timeout: 10000 });
-  // Wait for all elements to be visible before reading text
-  const count = await locator.count();
-  expect(count).toBeGreaterThanOrEqual(1);
-  for (let i = 0; i < count; i++) {
-    await expect(locator.nth(i)).toBeVisible({ timeout: 5000 });
-  }
-  const allTexts = await locator.allTextContents();
-  const allMatch = allTexts.every((text) => pattern.test(text));
-  expect(allMatch).toBe(true);
+  await expect(async () => {
+    await expect(locator.first()).toBeVisible();
+    const count = await locator.count();
+    expect(count).toBeGreaterThanOrEqual(1);
+    const allTexts = await locator.allTextContents();
+    const allMatch = allTexts.every((text) => pattern.test(text));
+    expect(allMatch).toBe(true);
+  }).toPass({ timeout: 15000 });
 }
 
 /**

@@ -29,3 +29,42 @@ export const deleteStaleness = async () => {
     options: { axios: getPlaywrightApiClient() },
   });
 };
+
+/**
+ * Deletes a workspace (group) by its ID via the inventory API.
+ * Silently ignores 404 (already deleted).
+ *  @param groupId
+ */
+export const deleteWorkspaceById = async (groupId: string) => {
+  const client = getPlaywrightApiClient();
+  try {
+    await client.delete(`/api/inventory/v1/groups/${groupId}`);
+  } catch (err) {
+    if (axios.isAxiosError(err) && err.response?.status === 404) {
+      return;
+    }
+    throw err;
+  }
+};
+
+/**
+ * Searches for workspaces matching a name prefix and deletes them all.
+ * Useful for cleaning up test-created workspaces on failure.
+ *  @param prefix
+ */
+export const deleteWorkspacesByPrefix = async (prefix: string) => {
+  const client = getPlaywrightApiClient();
+  try {
+    const response = await client.get(
+      `/api/inventory/v1/groups?name=${encodeURIComponent(prefix)}`,
+    );
+    const groups = response.data?.results || [];
+    for (const group of groups) {
+      if (group.id && group.name?.startsWith(prefix)) {
+        await deleteWorkspaceById(group.id);
+      }
+    }
+  } catch (err) {
+    console.warn(`Workspace cleanup for prefix "${prefix}" failed:`, err);
+  }
+};
