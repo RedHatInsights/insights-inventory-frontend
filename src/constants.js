@@ -267,6 +267,8 @@ export const NO_RENAME_WORKSPACE_KESSEL_TOOLTIP_MESSAGE =
   'You do not have permission to rename this workspace. Contact your organization administrator.';
 export const NO_EDIT_WORKSPACE_KESSEL_TOOLTIP_MESSAGE =
   'You do not have permission to edit this workspace. Contact your organization administrator.';
+export const NO_MOVE_SYSTEM_KESSEL_TOOLTIP_MESSAGE =
+  'You do not have permission to move systems from this workspace. Contact your organization administrator.';
 export const NO_DELETE_WORKSPACE_KESSEL_TOOLTIP_MESSAGE =
   'You do not have permission to delete this workspace. Contact your organization administrator.';
 export const NO_DELETE_SELECTED_WORKSPACES_KESSEL_TOOLTIP_MESSAGE =

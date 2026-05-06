@@ -4,6 +4,7 @@ import {
   NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE,
   NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE,
   NO_MODIFY_HOST_TOOLTIP_MESSAGE,
+  NO_MOVE_SYSTEM_KESSEL_TOOLTIP_MESSAGE,
   REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP,
 } from '../../../constants';
 import { ActionDropdownItem } from '../../InventoryTable/ActionWithRBAC';
@@ -89,8 +90,8 @@ const buildGroupActions = (row, { isKesselEnabled, onMove, onRemove }) => {
             key={`${row.id}-move-system`}
             onClick={onMove}
             requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
-            noAccessTooltip={NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE}
-            isAriaDisabled={!row.permissions?.hasWorkspaceEdit}
+            noAccessTooltip={NO_MOVE_SYSTEM_KESSEL_TOOLTIP_MESSAGE}
+            override={row.permissions?.hasWorkspaceEdit ?? false}
           >
             Move system
           </ActionDropdownItem>
