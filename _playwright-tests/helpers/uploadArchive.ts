@@ -14,35 +14,103 @@ export interface ModifiedArchive {
   archiveName: string;
 }
 
+let cachedAccessToken: string | null = null;
+
+/**
+ * Exchanges an offline (refresh) token for a short-lived access token via SSO.
+ * Caches the result for the lifetime of the process to avoid repeated exchanges.
+ */
+function getAccessToken(): string {
+  if (cachedAccessToken) {
+    return cachedAccessToken;
+  }
+
+  const offlineToken =
+    process.env.PROD === 'true'
+      ? process.env.PROD_OFFLINE_TOKEN
+      : process.env.STAGE_OFFLINE_TOKEN;
+  const proxy = process.env.PROXY;
+
+  const tokenEnvName =
+    process.env.PROD === 'true' ? 'PROD_OFFLINE_TOKEN' : 'STAGE_OFFLINE_TOKEN';
+
+  if (!offlineToken) {
+    throw new Error(
+      `Missing ${tokenEnvName} environment variable. Generate one from SSO.`,
+    );
+  }
+
+  const ssoUrl =
+    process.env.PROD === 'true'
+      ? 'https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token'
+      : 'https://sso.stage.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token';
+
+  const args = [
+    '-s',
+    '-d',
+    'grant_type=refresh_token',
+    '-d',
+    'client_id=rhsm-api',
+    '-d',
+    `refresh_token=${offlineToken}`,
+    ssoUrl,
+  ];
+
+  if (proxy && proxy !== 'undefined') args.unshift('-x', proxy);
+
+  const result = spawnSync('curl', args, { encoding: 'utf-8' });
+
+  if (result.error) {
+    throw new Error(`SSO token exchange failed: ${result.error.message}`);
+  }
+
+  let json: {
+    access_token?: string;
+    error?: string;
+    error_description?: string;
+  };
+  try {
+    json = JSON.parse(result.stdout);
+  } catch {
+    throw new Error(
+      `SSO returned non-JSON response: ${result.stdout.slice(0, 200)}`,
+    );
+  }
+
+  if (json.access_token) {
+    cachedAccessToken = json.access_token;
+    return cachedAccessToken;
+  }
+
+  throw new Error(
+    `SSO token exchange failed: ${json.error_description || json.error || 'unknown error'}`,
+  );
+}
+
 /**
  * Uploads a .tar.gz archive to the Red Hat Ingress API via curl.
- * Requires: PROXY, PLAYWRIGHT_USER, and PLAYWRIGHT_PASSWORD env vars.
+ * Authenticates using a Bearer token obtained from SSO offline token exchange.
  *
  * Jira References: https://issues.redhat.com/browse/RHINENG-21146
  *
  *  @param   {string}                        archivePath - Relative path to the archive in host_archives/.
+ *  @param   {number}                        maxRetries  - Number of upload attempts (default 3).
  *  @returns {Promise<{ httpCode: number }>}             Object containing the HTTP response code.
  * @throws {Error} Missing credentials, curl failure, or non-201 response.
  */
-export async function uploadArchive(archivePath: string) {
+export async function uploadArchive(
+  archivePath: string,
+  maxRetries: number = 3,
+) {
   const fullPath = `host_archives/${archivePath}`;
   const proxy = process.env.PROXY;
-  const user = process.env.PLAYWRIGHT_USER;
-  const password =
-    process.env.PROD === 'true'
-      ? process.env.PROD_PLAYWRIGHT_PASSWORD
-      : process.env.PLAYWRIGHT_PASSWORD;
 
   const uploadUrl =
     process.env.PROD === 'true'
       ? 'https://console.redhat.com/api/ingress/v1/upload'
       : 'https://console.stage.redhat.com/api/ingress/v1/upload';
 
-  if (!user || !password) {
-    throw new Error(
-      'Missing PLAYWRIGHT_USER or PLAYWRIGHT_PASSWORD environment variables.',
-    );
-  }
+  const accessToken = getAccessToken();
 
   const args = [
     '--retry',
@@ -55,28 +123,54 @@ export async function uploadArchive(archivePath: string) {
     '/tmp/upload_output.txt',
     '-w',
     '%{http_code}',
+    '-H',
+    `Authorization: Bearer ${accessToken}`,
     '-F',
     `upload=@${fullPath};type=application/vnd.redhat.advisor.collection+tgz`,
     uploadUrl,
-    '-u',
-    `${user}:${password}`,
   ];
 
   if (proxy && proxy !== 'undefined') args.unshift('-x', proxy);
 
-  const result = spawnSync('curl', args, { encoding: 'utf-8' });
+  let lastError: Error | null = null;
 
-  if (result.error) throw new Error(`Curl failed: ${result.error.message}`);
-  const stdout = result.stdout.trim();
-  const httpCode = Number(stdout.slice(-3));
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    const result = spawnSync('curl', args, { encoding: 'utf-8' });
 
-  if (httpCode !== 201) {
+    if (result.error) {
+      lastError = new Error(`Curl failed: ${result.error.message}`);
+      if (attempt < maxRetries) {
+        console.warn(
+          `Upload attempt ${attempt}/${maxRetries} failed (curl error), retrying in 5s...`,
+        );
+        await new Promise((r) => setTimeout(r, 5000));
+        continue;
+      }
+      throw lastError;
+    }
+
+    const stdout = result.stdout.trim();
+    const httpCode = Number(stdout.slice(-3));
+
+    if (httpCode === 201) {
+      return { httpCode };
+    }
+
     const stderrMsg = result.stderr?.toString().trim() || 'Unknown error';
-    throw new Error(
+    lastError = new Error(
       `Upload failed with HTTP code ${httpCode}. stderr: ${stderrMsg}`,
     );
+
+    if (attempt < maxRetries) {
+      console.warn(
+        `Upload attempt ${attempt}/${maxRetries} failed (HTTP ${httpCode}), retrying in 5s...`,
+      );
+      await new Promise((r) => setTimeout(r, 5000));
+      continue;
+    }
   }
-  return { httpCode };
+
+  throw lastError!;
 }
 
 /**
