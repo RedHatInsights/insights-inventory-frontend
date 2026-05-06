@@ -12,21 +12,30 @@ jest.mock(
   }),
 );
 
+jest.mock('../../../Utilities/hooks/useKesselMigrationFeatureFlag', () => ({
+  __esModule: true,
+  useKesselMigrationFeatureFlag: jest.fn(() => false),
+}));
+
 jest.mock('react-redux', () => ({
   esModule: true,
   useSelector: () => ({}),
 }));
 
-const checkDisabledEditButton = async () => {
+const { useKesselMigrationFeatureFlag } = jest.requireMock(
+  '../../../Utilities/hooks/useKesselMigrationFeatureFlag',
+);
+
+const checkDisabledEditButton = async (expectedTooltipSubstring) => {
   const button = await screen.findByRole('button', { name: /edit/i });
   await userEvent.hover(button);
   await waitFor(() => {
     expect(screen.queryByRole('tooltip')).toBeVisible();
   });
   expect(screen.queryByRole('tooltip')).toHaveTextContent(
-    'You do not have the necessary permissions to modify this host.',
+    expectedTooltipSubstring,
   );
-  expect(screen.queryByRole('button')).toBeDisabled();
+  expect(button).toHaveAttribute('aria-disabled', 'true');
 };
 
 describe('EditButton with no access', () => {
@@ -34,16 +43,29 @@ describe('EditButton with no access', () => {
 
   beforeEach(() => {
     onClick = jest.fn();
+    useKesselMigrationFeatureFlag.mockReturnValue(false);
   });
 
   it('disables with no permission', async () => {
     render(<EditButton onClick={onClick} />);
-    await checkDisabledEditButton();
+    await checkDisabledEditButton(
+      'You do not have the necessary permissions to modify this host.',
+    );
   });
 
   it('disables with no permission - write permissions set to false', async () => {
     render(<EditButton onClick={onClick} writePermissions={false} />);
-    await checkDisabledEditButton();
+    await checkDisabledEditButton(
+      'You do not have the necessary permissions to modify this host.',
+    );
+  });
+
+  it('uses Kessel denial tooltip when Kessel migration is on and write permissions are false', async () => {
+    useKesselMigrationFeatureFlag.mockReturnValue(true);
+    render(<EditButton onClick={onClick} writePermissions={false} />);
+    await checkDisabledEditButton(
+      'You do not have permission to edit this host.',
+    );
   });
 
   it('enables when write permissions are set to true', () => {
