@@ -3,10 +3,12 @@ name: 'E2E: Full Test Suite'
 on:
   pull_request:
     types: [opened, reopened, synchronize]
+  merge_group:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.number }}
+  # Unique prefix per workflow file so this suite never shares a group with systems-view.
+  group: e2e-full-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
 
 jobs:
@@ -20,7 +22,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Create front-end .env file
         run: |

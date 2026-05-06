@@ -4,6 +4,17 @@ import 'dotenv/config';
 const isCI = !!process.env.CI;
 const useCtrf = isCI && !!process.env.USE_CTRF; // toggle CTRF explicitly in CI
 
+const setupAdminProject = {
+  name: 'setup-admin',
+  testMatch: /auth\.setup\.ts/,
+  grep: /@admin-setup/,
+};
+const setupRbacProject = {
+  name: 'setup-rbac',
+  testMatch: /auth\.setup\.ts/,
+  grep: /@rbac-setup/,
+};
+
 export default defineConfig({
   testDir: './_playwright-tests/',
   fullyParallel: true,
@@ -38,7 +49,6 @@ export default defineConfig({
     video: 'retain-on-failure',
     trace: 'on',
     ignoreHTTPSErrors: true,
-    launchOptions: { args: ['--disable-http-cache'] },
     viewport: null,
     ...(process.env.INTEGRATION === 'true'
       ? {
@@ -53,14 +63,26 @@ export default defineConfig({
       : {}),
   },
   projects: [
-    { name: 'setup', testMatch: /.*\.setup\.ts/ },
+    setupAdminProject,
+    setupRbacProject,
     {
-      name: 'chromium',
+      name: 'E2E',
+      testIgnore: '**/rbac/**',
       use: {
         ...devices['Desktop Chrome'],
         storageState: '.auth/admin_user.json',
       },
-      dependencies: ['setup'],
+      dependencies: ['setup-admin'],
+    },
+    {
+      name: 'E2E RBAC',
+      testDir: './_playwright-tests/rbac/',
+      testMatch:
+        /test_(viewer_role_access|granular_access|no_access)\.test\.ts/,
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+      dependencies: ['setup-rbac'],
     },
   ],
 });
