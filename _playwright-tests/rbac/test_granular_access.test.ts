@@ -60,18 +60,20 @@ test.describe('Granular access: 2 workspaces only @rbac', () => {
     );
     await expect(createButton).toBeDisabled();
 
-    const rows = page.locator('td[data-label="Name"]');
-    await expect(rows.first()).toBeVisible({ timeout: 20000 });
-
     await test.step('User has access only to 2 workspaces', async () => {
+      const firstWorkspace = page.getByRole('link', {
+        name: GRANULAR_WORKPSACE_RW,
+      });
+      await expect(firstWorkspace).toBeVisible({ timeout: 100000 });
+
+      const secondWorkspace = page.getByRole('link', {
+        name: GRANULAR_WORKPSACE_R,
+      });
+      await expect(secondWorkspace).toBeVisible({ timeout: 100000 });
+
+      const rows = page.locator('td[data-label="Name"]');
+      await expect(rows.first()).toBeVisible({ timeout: 20000 });
       await expect(rows).toHaveCount(2);
-      const texts = await rows.allInnerTexts();
-      for (const text of texts) {
-        const isMatch =
-          text.includes(GRANULAR_WORKPSACE_RW) ||
-          text.includes(GRANULAR_WORKPSACE_R);
-        expect(isMatch).toBe(true);
-      }
     });
   });
 

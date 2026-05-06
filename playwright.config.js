@@ -1,20 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 import 'dotenv/config';
 
-/**
- * Playwright runs every project below by default (admin E2E + RBAC E2E + both auth setups).
- *
- * Filtering (CLI grep applies across projects; setup projects use project `grep` so the right
- * storageState is produced for what you selected):
- *
- *   npx playwright test                          — full suite (needs admin + RBAC env vars)
- *   npx playwright test --grep @rbac             — RBAC setup + RBAC specs only
- *   npx playwright test --grep-invert @rbac      — admin setup + main E2E only (skips RBAC users)
- *
- * Prefer `@rbac` over the plain `rbac` pattern so unrelated titles are not matched. Combine
- * with other filters as needed, e.g. `--grep-invert @integration --grep-invert @rbac`.
- */
-
 const isCI = !!process.env.CI;
 const useCtrf = isCI && !!process.env.USE_CTRF; // toggle CTRF explicitly in CI
 
@@ -91,7 +77,8 @@ export default defineConfig({
     {
       name: 'E2E RBAC',
       testDir: './_playwright-tests/rbac/',
-      testMatch: /test_(viewer_role_access|granular_access|no_access)\.test\.ts/,
+      testMatch:
+        /test_(viewer_role_access|granular_access|no_access)\.test\.ts/,
       use: {
         ...devices['Desktop Chrome'],
       },
