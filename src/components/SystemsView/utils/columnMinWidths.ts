@@ -5,8 +5,9 @@ import type { CSSProperties } from 'react';
  * When the inventory views feature flag is on and combined minimum widths exceed the scroll
  * container, {@link ../SystemsView.tsx InnerScrollContainer} shows horizontal scroll.
  *
- * **Where to edit:** add or change entries keyed by `Column.key` from
- * `INITIAL_COLUMNS` in {@link ../hooks/useColumns.tsx useColumns.tsx}.
+ * **Where to edit:** add or change entries keyed by `Column.key` for each column
+ * listed in {@link ../columns/allColumnDefinitions.ts allColumnDefinitions.ts}
+ * (and the per-app `columnDefinitions` modules it pulls in).
  * New columns should get an entry here once you know how wide they need to be.
  *
  * The Name column width is also read by {@link ./stickyNameColumn.ts} for
