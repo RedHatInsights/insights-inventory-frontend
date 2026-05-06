@@ -189,7 +189,15 @@ export const workspace = {
   label: 'Workspace',
   type: 'workspace',
   filterSerialiser: (_config, values) => {
-    return { groupName: values };
+    const ids = (values || []).map((v) =>
+      typeof v === 'object' && v !== null && 'id' in v ? v.id : v,
+    );
+    const realIds = ids.filter((id) => id !== '' && id != null);
+    const hasUngrouped = ids.includes('');
+    const groupId = [...realIds, ...(hasUngrouped ? [''] : [])];
+    return {
+      ...(groupId.length ? { groupId } : {}),
+    };
   },
 };
 

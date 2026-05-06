@@ -108,7 +108,12 @@ export const onDeleteFilter = (
       workingItem &&
       Array.isArray(workingItem.value) &&
       workingItem.value.filter(
-        (item) => !deleted.chips.find(({ name }) => name === item),
+        (item) =>
+          !deleted.chips.find((chip) =>
+            chip.value !== undefined && chip.value !== null
+              ? chip.value === item
+              : chip.name === item,
+          ),
       );
     const newFilter =
       workingItem &&

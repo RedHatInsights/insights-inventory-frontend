@@ -81,12 +81,12 @@ describe('WorkspaceFilter', () => {
 
     await user.click(screen.getByText('Workspace 1'));
 
-    expect(mockOnChange).toHaveBeenCalledWith(['Workspace 1']);
+    expect(mockOnChange).toHaveBeenCalledWith(['1']);
   });
 
   it('toggles workspace selection when clicked again', async () => {
     const user = userEvent.setup();
-    const selectedWorkspaces = ['Workspace 1'];
+    const selectedWorkspaces = ['1'];
     renderWithWrapper({ value: selectedWorkspaces });
 
     await user.click(screen.getByRole('button'));

@@ -12,7 +12,8 @@ export const UPDATE_METHOD_KEY = 'system_update_method';
 export const SYSTEM_TYPE_KEY = 'system_type';
 export const WORKLOAD_FILTER_KEY = 'workloads';
 export const LAST_SEEN_CHIP = 'last_seen';
-export const HOST_GROUP_CHIP = 'group_name'; // use the same naming as for the back end parameter
+/** URL query and chip `type` for workspace filter; must match `GET /hosts?group_id=`. */
+export const HOST_GROUP_CHIP = 'group_id';
 //REPORTERS
 export const REPORTER_PUPTOO = 'puptoo';
 export const REPORTER_RHSM_CONDUIT = 'rhsm-conduit';

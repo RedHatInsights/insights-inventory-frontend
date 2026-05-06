@@ -129,7 +129,7 @@ const GroupSystems = ({
     rows,
     true,
     pageSelected,
-    groupName,
+    groupId,
   );
 
   return (
@@ -160,12 +160,12 @@ const GroupSystems = ({
           getEntities={async (items, config, showTags, defaultGetEntities) =>
             await defaultGetEntities(
               items,
-              // filter systems by the group name
+              // filter systems by workspace id (GET /hosts?group_id=)
               {
                 ...config,
                 filters: {
                   ...config.filters,
-                  hostGroupFilter: [groupName],
+                  hostGroupFilter: [groupId],
                 },
               },
               showTags,

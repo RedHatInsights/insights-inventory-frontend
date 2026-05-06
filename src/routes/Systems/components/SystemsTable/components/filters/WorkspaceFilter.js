@@ -15,11 +15,15 @@ import {
   SelectOption,
   Spinner,
   Divider,
+  Badge,
+  Flex,
+  FlexItem,
 } from '@patternfly/react-core';
 import xor from 'lodash/xor';
 import PropTypes from 'prop-types';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { getGroups } from '../../../../../../components/InventoryGroups/utils/api';
+import { useWorkspaceGroupsInfiniteQuery } from '../../../../../../components/filters/useWorkspaceGroupsInfiniteQuery';
+
+const UNGROUPED_HOSTS_LABEL = 'Ungrouped hosts';
 
 const WorkspaceFilter = ({
   value: selectedWorkspaces = [],
@@ -30,7 +34,6 @@ const WorkspaceFilter = ({
   const DEBOUNCE_TIMEOUT = 300;
   const VIEW_MORE_SIZE = PAGE_SIZE;
   const LOADER_ID = 'loader';
-  // TODO plug in access control solution
   const hasAccess = true;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -40,45 +43,46 @@ const WorkspaceFilter = ({
   const [focusedOption, setFocusedOption] = useState(0);
 
   const { data, fetchNextPage, hasNextPage, isFetching, isPending } =
-    useInfiniteQuery({
-      queryKey: ['groups', debouncedSearch],
-      queryFn: async ({ pageParam }) =>
-        getGroups(
-          {
-            type: 'standard',
-            ...(debouncedSearch && { name: debouncedSearch }),
-          },
-          {
-            page: pageParam,
-            per_page: PAGE_SIZE,
-          },
-        ),
+    useWorkspaceGroupsInfiniteQuery(debouncedSearch, {
       enabled: hasAccess,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      initialPageParam: 1,
-      getNextPageParam: (lastPage) => {
-        return lastPage.per_page * lastPage.page < lastPage.total
-          ? lastPage.page + 1
-          : null;
-      },
+      pageSize: PAGE_SIZE,
     });
 
   const workspaceOptions = useMemo(() => {
     if (!data?.pages) return [];
 
-    const items = data.pages
-      .map((page) => page.results)
-      .flat()
-      .map(({ name }) => ({
-        itemId: name,
-        children: name,
+    const flattened = data.pages.map((page) => page.results).flat();
+    const ungroupedRow = flattened.find((g) => g.ungrouped === true);
+
+    const items = flattened
+      .filter((g) => !g.ungrouped)
+      .map(({ id, name, host_count: hostCount }) => ({
+        itemId: id,
+        children: (
+          <Flex alignItems={{ default: 'alignItemsCenter' }}>
+            <FlexItem>{name}</FlexItem>
+            <FlexItem>
+              <Badge isRead>
+                {typeof hostCount === 'number' ? hostCount : '—'}
+              </Badge>
+            </FlexItem>
+          </Flex>
+        ),
       }));
 
-    return [
-      ...(debouncedSearch ? [] : [{ itemId: '', children: 'Ungrouped hosts' }]),
-      ...items,
-    ];
+    const ungroupedOption =
+      !debouncedSearch &&
+      (ungroupedRow?.id
+        ? {
+            itemId: ungroupedRow.id,
+            children: UNGROUPED_HOSTS_LABEL,
+          }
+        : {
+            itemId: '',
+            children: UNGROUPED_HOSTS_LABEL,
+          });
+
+    return [...(ungroupedOption ? [ungroupedOption] : []), ...items];
   }, [data, debouncedSearch]);
 
   const visibleOptions = workspaceOptions.slice(0, visibleSize);
@@ -190,7 +194,8 @@ const WorkspaceFilter = ({
                       hasCheckbox={true}
                       {...option}
                     />
-                    {option.itemId === '' && <Divider />}
+                    {(option.itemId === '' ||
+                      option.children === UNGROUPED_HOSTS_LABEL) && <Divider />}
                   </Fragment>
                 );
               })}
@@ -198,7 +203,6 @@ const WorkspaceFilter = ({
                 <SelectOption
                   isLoading={isFetching}
                   isLoadButton={!isFetching}
-                  // overflow:visible prevents this option's height from collapsing to 0px
                   style={{ overflow: 'visible' }}
                   isDisabled={isFetching}
                   onClick={onViewMoreClick}

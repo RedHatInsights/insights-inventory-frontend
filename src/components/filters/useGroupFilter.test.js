@@ -95,9 +95,9 @@ describe('groups request not yet resolved', () => {
           isFetchingNextPage={false}
           isLoading={true}
           searchQuery=""
-          selectedGroupNames={[]}
+          selectedGroupIds={[]}
           setSearchQuery={[Function]}
-          setSelectedGroupNames={[Function]}
+          setSelectedGroupIds={[Function]}
           showNoGroupOption={false}
         />,
       }
@@ -107,7 +107,24 @@ describe('groups request not yet resolved', () => {
 
 describe('with some groups available', () => {
   beforeAll(() => {
-    getGroups.mockResolvedValue({ total: 1, results: [{ name: 'group-1' }] });
+    getGroups.mockImplementation((search) => {
+      if (search?.type === 'ungrouped-hosts') {
+        return Promise.resolve({
+          total: 1,
+          results: [
+            {
+              id: 'ungrouped-kessel-id',
+              name: 'Ungrouped hosts',
+              ungrouped: true,
+            },
+          ],
+        });
+      }
+      return Promise.resolve({
+        total: 1,
+        results: [{ id: 'g1', name: 'group-1' }],
+      });
+    });
     usePermissionsWithContext.mockImplementation(() => ({ hasAccess: true }));
   });
 
@@ -127,6 +144,7 @@ describe('with some groups available', () => {
           groups={
             [
               {
+                "id": "g1",
                 "name": "group-1",
               },
             ]
@@ -135,9 +153,9 @@ describe('with some groups available', () => {
           isFetchingNextPage={false}
           isLoading={false}
           searchQuery=""
-          selectedGroupNames={[]}
+          selectedGroupIds={[]}
           setSearchQuery={[Function]}
-          setSelectedGroupNames={[Function]}
+          setSelectedGroupIds={[Function]}
           showNoGroupOption={false}
         />,
       }
@@ -150,21 +168,21 @@ describe('with some groups available', () => {
 
     const [, , , setValue] = result.current;
     act(() => {
-      setValue(['group-1']);
+      setValue(['g1']);
     });
     const [, chips, value] = result.current;
     expect(chips.length).toBe(1);
-    expect(value).toEqual(['group-1']);
+    expect(value).toEqual(['g1']);
     expect(chips).toMatchObject([
       {
         category: 'Workspace',
         chips: [
           {
             name: 'group-1',
-            value: 'group-1',
+            value: 'g1',
           },
         ],
-        type: 'group_name',
+        type: 'group_id',
       },
     ]);
   });
@@ -175,26 +193,28 @@ describe('with some groups available', () => {
 
     const [config] = result.current;
     expect(config.filterValues).toMatchInlineSnapshot(`
-      {
-        "children": <SearchableGroupFilter
-          fetchNextPage={[Function]}
-          groups={
-            [
-              {
-                "name": "group-1",
-              },
-            ]
-          }
-          hasNextPage={false}
-          isFetchingNextPage={false}
-          isLoading={false}
-          searchQuery=""
-          selectedGroupNames={[]}
-          setSearchQuery={[Function]}
-          setSelectedGroupNames={[Function]}
-          showNoGroupOption={true}
-        />,
-      }
+     {
+       "children": <SearchableGroupFilter
+         fetchNextPage={[Function]}
+         groups={
+           [
+             {
+               "id": "g1",
+               "name": "group-1",
+             },
+           ]
+         }
+         hasNextPage={false}
+         isFetchingNextPage={false}
+         isLoading={false}
+         searchQuery=""
+         selectedGroupIds={[]}
+         setSearchQuery={[Function]}
+         setSelectedGroupIds={[Function]}
+         showNoGroupOption={true}
+         ungroupedWorkspaceId="ungrouped-kessel-id"
+       />,
+     }
     `);
   });
 
@@ -218,7 +238,7 @@ describe('with some groups available', () => {
             value: '',
           },
         ],
-        type: 'group_name',
+        type: 'group_id',
       },
     ]);
   });
@@ -232,19 +252,37 @@ describe('filtering', () => {
   describe('local filtering (under 2 pages of data)', () => {
     beforeEach(() => {
       const total = 15; // under 2 pages of data - page size = 10
-      getGroups
-        .mockResolvedValueOnce({
-          total,
-          results: Array.from({ length: 10 }, (_, i) => ({
-            name: `group-${i + 1}`,
-          })),
-        })
-        .mockResolvedValueOnce({
+      getGroups.mockImplementation((search, pagination) => {
+        if (search?.type === 'ungrouped-hosts') {
+          return Promise.resolve({
+            total: 1,
+            results: [
+              {
+                id: 'ungrouped-kessel-id',
+                name: 'Ungrouped hosts',
+                ungrouped: true,
+              },
+            ],
+          });
+        }
+        const page = pagination?.page || 1;
+        if (page === 1) {
+          return Promise.resolve({
+            total,
+            results: Array.from({ length: 10 }, (_, i) => ({
+              id: `id-${i + 1}`,
+              name: `group-${i + 1}`,
+            })),
+          });
+        }
+        return Promise.resolve({
           total,
           results: Array.from({ length: 5 }, (_, i) => ({
+            id: `id-${i + 11}`,
             name: `group-${i + 11}`,
           })),
         });
+      });
     });
 
     it('can filter groups', async () => {
@@ -272,20 +310,34 @@ describe('filtering', () => {
   describe('remote filtering (over 2 pages of data)', () => {
     beforeEach(() => {
       const total = 170; // over 2 pages of data - page size = 10
-      getGroups.mockImplementation((...args) => {
-        if (args[0] && args[0].name === 'group-51') {
+      getGroups.mockImplementation((search, pagination) => {
+        if (search?.type === 'ungrouped-hosts') {
           return Promise.resolve({
             total: 1,
-            results: [{ name: 'group-51' }],
+            results: [
+              {
+                id: 'ungrouped-kessel-id',
+                name: 'Ungrouped hosts',
+                ungrouped: true,
+              },
+            ],
           });
         }
-        const pagination = args[1] || {};
-        const page = pagination.page || 1;
-        const perPage = pagination.per_page || 10;
+        if (search && search.name === 'group-51') {
+          return Promise.resolve({
+            total: 1,
+            results: [{ id: 'id-51', name: 'group-51' }],
+          });
+        }
+        const page = pagination?.page || 1;
+        const perPage = pagination?.per_page || 10;
         const offset = (page - 1) * perPage;
         const results = Array.from(
           { length: Math.min(perPage, total - offset) },
-          (_, i) => ({ name: `group-${offset + i + 1}` }),
+          (_, i) => ({
+            id: `id-${offset + i + 1}`,
+            name: `group-${offset + i + 1}`,
+          }),
         );
         return Promise.resolve({ total, results });
       });
@@ -315,7 +367,10 @@ describe('filtering', () => {
 describe('no groups:read permission', () => {
   beforeAll(() => {
     getGroups.mockClear();
-    getGroups.mockResolvedValue({ total: 1, results: [{ name: 'group-1' }] });
+    getGroups.mockResolvedValue({
+      total: 1,
+      results: [{ id: 'g1', name: 'group-1' }],
+    });
     usePermissionsWithContext.mockImplementation(() => ({ hasAccess: false }));
   });
 

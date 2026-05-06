@@ -7,8 +7,9 @@ export const workspace = {
   filterChips: (configItem, selectedValues) => ({
     category: configItem.label,
     chips: [
-      ...selectedValues.map((name) => ({
-        name: name ? name : 'Ungrouped hosts',
+      ...selectedValues.map((id) => ({
+        name: id ? id : 'Ungrouped hosts',
+        value: id,
       })),
     ],
   }),
@@ -16,8 +17,9 @@ export const workspace = {
     return [selectedValues, stringToId(configItem.label), true];
   },
   toDeselectValue: (configItem, chip) => {
-    const chipName = chip?.chips?.[0]?.name;
-    const customDeselectValue = chipName === 'Ungrouped hosts' ? '' : chipName;
+    const c = chip?.chips?.[0];
+    const raw = c?.value !== undefined && c?.value !== null ? c.value : c?.name;
+    const customDeselectValue = raw === 'Ungrouped hosts' ? '' : raw;
     return [customDeselectValue, stringToId(configItem.label), false];
   },
 };

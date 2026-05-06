@@ -243,6 +243,7 @@ describe('with default parameters', () => {
       });
 
       const firstGroupName = shorterGroupsFixtures.results[0].name;
+      const firstGroupId = shorterGroupsFixtures.results[0].id;
 
       it('creates a chip', () => {
         cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
@@ -261,7 +262,7 @@ describe('with default parameters', () => {
         cy.ouiaId('FilterByGroupOption').eq(0).click();
         cy.wait('@getHosts')
           .its('request.url')
-          .should('include', `group_name=${firstGroupName}`);
+          .should('include', `group_id=${firstGroupId}`);
       });
     });
 

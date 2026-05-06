@@ -2,11 +2,11 @@ import '@testing-library/jest-dom';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { WorkspaceFilter, UNGROUPED_ID } from './WorkspaceFilter';
+import { WorkspaceFilter, UNGROUPED_HOSTS_LABEL } from './WorkspaceFilter';
 import {
   makePage,
   mockGroupsInfiniteQuery,
-  useInfiniteQuery,
+  useWorkspaceGroupsInfiniteQuery,
 } from './__fixtures__/testHelpers';
 
 jest.mock('../../../constants', () => ({
@@ -14,9 +14,8 @@ jest.mock('../../../constants', () => ({
   DEBOUNCE_TIMEOUT_MS: 0,
 }));
 
-jest.mock('@tanstack/react-query', () => ({
-  ...jest.requireActual('@tanstack/react-query'),
-  useInfiniteQuery: jest.fn(),
+jest.mock('../../filters/useWorkspaceGroupsInfiniteQuery', () => ({
+  useWorkspaceGroupsInfiniteQuery: jest.fn(),
 }));
 
 const WORKSPACE_FILTER_PLACEHOLDER = 'Filter by workspace';
@@ -34,6 +33,7 @@ async function openWorkspaceMenu(user) {
 describe('WorkspaceFilter', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    useWorkspaceGroupsInfiniteQuery.mockReset();
   });
 
   it('renders the workspace filter', () => {
@@ -63,17 +63,18 @@ describe('WorkspaceFilter', () => {
     const user = userEvent.setup();
     renderWorkspaceFilter();
     await openWorkspaceMenu(user);
-    expect(screen.getByText(UNGROUPED_ID)).toBeInTheDocument();
+    expect(screen.getByText(UNGROUPED_HOSTS_LABEL)).toBeInTheDocument();
     expect(
       screen.queryByText('No workspaces available'),
     ).not.toBeInTheDocument();
   });
 
   it('shows "No workspaces available" when search has no matches', async () => {
-    useInfiniteQuery.mockImplementation(({ queryKey }) => {
-      const debouncedSearch = queryKey[1] ?? '';
+    useWorkspaceGroupsInfiniteQuery.mockImplementation((debouncedSearch) => {
       const empty = [makePage([], { total: 0 })];
-      const withGroup = [makePage([{ name: 'Workspace 1', host_count: 1 }])];
+      const withGroup = [
+        makePage([{ id: 'w1', name: 'Workspace 1', host_count: 1 }]),
+      ];
       return {
         data: {
           pages: debouncedSearch ? empty : withGroup,
@@ -103,15 +104,15 @@ describe('WorkspaceFilter', () => {
     mockGroupsInfiniteQuery({
       pages: [
         makePage([
-          { name: 'Alpha', host_count: 10 },
-          { name: 'Beta', host_count: 2 },
+          { id: 'a1', name: 'Alpha', host_count: 10 },
+          { id: 'b1', name: 'Beta', host_count: 2 },
         ]),
       ],
     });
     const user = userEvent.setup();
     renderWorkspaceFilter();
     await openWorkspaceMenu(user);
-    expect(screen.getByText(UNGROUPED_ID)).toBeInTheDocument();
+    expect(screen.getByText(UNGROUPED_HOSTS_LABEL)).toBeInTheDocument();
     expect(screen.getByText('Alpha')).toBeInTheDocument();
     expect(screen.getByText('Beta')).toBeInTheDocument();
     expect(screen.getByText('10')).toBeInTheDocument();
@@ -120,7 +121,7 @@ describe('WorkspaceFilter', () => {
 
   it('shows an em dash in the badge when host_count is not a number', async () => {
     mockGroupsInfiniteQuery({
-      pages: [makePage([{ name: 'Gamma', host_count: undefined }])],
+      pages: [makePage([{ id: 'g1', name: 'Gamma', host_count: undefined }])],
     });
     const user = userEvent.setup();
     renderWorkspaceFilter();
@@ -131,7 +132,7 @@ describe('WorkspaceFilter', () => {
 
   it('calls onChange with the selected workspace when an option is chosen', async () => {
     mockGroupsInfiniteQuery({
-      pages: [makePage([{ name: 'Workspace 1', host_count: 1 }])],
+      pages: [makePage([{ id: 'w1', name: 'Workspace 1', host_count: 1 }])],
     });
     const user = userEvent.setup();
     const onChange = jest.fn();
@@ -141,16 +142,16 @@ describe('WorkspaceFilter', () => {
     await user.click(within(row).getByRole('checkbox'));
     expect(onChange).toHaveBeenCalled();
     const last = onChange.mock.calls.at(-1);
-    expect(last[1]).toEqual(['Workspace 1']);
+    expect(last[1]).toEqual(['w1']);
   });
 
   it('toggles off a selected workspace when its checkbox is clicked again', async () => {
     mockGroupsInfiniteQuery({
-      pages: [makePage([{ name: 'Workspace 1', host_count: 1 }])],
+      pages: [makePage([{ id: 'w1', name: 'Workspace 1', host_count: 1 }])],
     });
     const user = userEvent.setup();
     const onChange = jest.fn();
-    renderWorkspaceFilter({ onChange, value: ['Workspace 1'] });
+    renderWorkspaceFilter({ onChange, value: ['w1'] });
     await openWorkspaceMenu(user);
     const row = screen.getByRole('menuitem', { name: /Workspace 1/i });
     await user.click(within(row).getByRole('checkbox'));
@@ -164,6 +165,7 @@ describe('WorkspaceFilter', () => {
       pages: [
         makePage(
           Array.from({ length: 50 }, (_, i) => ({
+            id: `ws-${i}`,
             name: `WS-${i}`,
             host_count: 1,
           })),

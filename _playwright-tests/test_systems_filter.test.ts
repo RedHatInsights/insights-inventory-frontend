@@ -82,7 +82,7 @@ test.describe('Filtering Systems Tests', () => {
     /**
      * Metadata:
        - requirements:
-       - inv-hosts-filter-by-group_name
+       - inv-hosts-filter-by-group_id
        - importance: critical
      */
     await filterSystemsWithConditionalFilter(
