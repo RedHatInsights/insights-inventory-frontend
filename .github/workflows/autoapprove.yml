@@ -16,7 +16,21 @@ jobs:
       - name: Metadata for PR
         if: github.event.pull_request.user.login == 'dependabot[bot]'
         id: metadata
-        uses: dependabot/fetch-metadata@v2
+        uses: dependabot/fetch-metadata@dbb049abf0d677abbd7f7eee0375145b417fdd34 # v2.2.0
+        # NOTE:
+        # the @V2 in the previous line "uses: dependabot/fetch-metadata@v2" made it mutable and a security risk.
+        # To make it mutable, use a specific SHA, like dbb049abf0d677abbd7f7eee0375145b417fdd34. 
+        # which was provided by running 
+        # "gh api repos/dependabot/fetch-metadata/git/ref/tags/v2.2.0 --jq '.object.sha'"
+        # To update it automatically, add the following to the dependabot.yml file:
+        #   - package-ecosystem: "github-actions"
+        #     directory: "/"
+        #     schedule:
+        #       interval: "weekly"
+        #     labels:
+        #       - "dependencies"
+        #     commit-message:
+        #       prefix: "ci(deps):"
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
       - name: Auto-approve PR
