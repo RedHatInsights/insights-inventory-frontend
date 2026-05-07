@@ -17,6 +17,17 @@ const systemWithRhelOs = {
   },
 } as unknown as System;
 
+const systemWithCentosOs = {
+  id: SYSTEM_ID,
+  system_profile: {
+    operating_system: {
+      name: 'CentOS Linux',
+      major: 7,
+      minor: 4,
+    },
+  },
+} as unknown as System;
+
 const systemWithoutProfile = {
   id: SYSTEM_ID,
 } as unknown as System;
@@ -32,6 +43,14 @@ describe('OperatingSystem cell', () => {
 
     expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
       'RHEL 8.10',
+    );
+  });
+
+  it('should show CentOS Linux OS version from system_profile.operating_system', () => {
+    render(<OperatingSystem system={systemWithCentosOs} />);
+
+    expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
+      'CentOS Linux 7.4',
     );
   });
 
