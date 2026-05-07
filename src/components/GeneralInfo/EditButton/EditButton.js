@@ -7,7 +7,9 @@ import { PencilAltIcon } from '@patternfly/react-icons';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 
 import { useConditionalRBAC } from '../../../Utilities/hooks/useConditionalRBAC';
+import { useKesselMigrationFeatureFlag } from '../../../Utilities/hooks/useKesselMigrationFeatureFlag';
 import {
+  NO_MODIFY_HOST_KESSEL_TOOLTIP_MESSAGE,
   NO_MODIFY_HOST_TOOLTIP_MESSAGE,
   REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP,
 } from '../../../constants';
@@ -17,9 +19,11 @@ const EditButton = ({
   variant = 'plain',
   onClick,
   className,
+  noAccessTooltip,
   ...rest
 }) => {
   const { isProd } = useChrome();
+  const isKesselEnabled = useKesselMigrationFeatureFlag();
   const entity = useSelector(({ entityDetails }) => entityDetails?.entity);
 
   const { hasAccess: canEditFromRbac } = useConditionalRBAC([
@@ -33,6 +37,12 @@ const EditButton = ({
     writePermissions === true ||
     (typeof writePermissions !== 'boolean' && canEditFromRbac);
 
+  const permissionDeniedTooltip =
+    noAccessTooltip ??
+    (isKesselEnabled && writePermissions === false
+      ? NO_MODIFY_HOST_KESSEL_TOOLTIP_MESSAGE
+      : NO_MODIFY_HOST_TOOLTIP_MESSAGE);
+
   const button = (
     <Button
       {...rest}
@@ -42,13 +52,12 @@ const EditButton = ({
       aria-label="Edit"
       variant={variant}
       onClick={isEnabled ? onClick : undefined}
-      isDisabled={!isEnabled}
       isAriaDisabled={!isEnabled}
     />
   );
 
   if (!isEnabled) {
-    return <Tooltip content={NO_MODIFY_HOST_TOOLTIP_MESSAGE}>{button}</Tooltip>;
+    return <Tooltip content={permissionDeniedTooltip}>{button}</Tooltip>;
   }
 
   return button;
@@ -56,6 +65,7 @@ const EditButton = ({
 
 EditButton.propTypes = {
   writePermissions: PropTypes.bool,
+  noAccessTooltip: PropTypes.string,
   /** 'plain' for field-specific inline edit (default), 'link' for full-page edit */
   variant: PropTypes.oneOf(['plain', 'link']),
   onClick: PropTypes.func.isRequired,
