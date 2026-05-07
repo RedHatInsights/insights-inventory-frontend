@@ -120,13 +120,12 @@ const SystemsViewInner = ({
 
   const isInventoryViewsEnabled = useInventoryViewsFeatureFlag();
 
-  const { columns, setColumns, renderableColumns, tableHeaderNodes } =
-    useColumns({
-      sortBy,
-      onSort,
-      direction,
-      isInventoryViewsEnabled,
-    });
+  const { columns, setColumns, tableHeaderNodes } = useColumns({
+    sortBy,
+    onSort,
+    direction,
+    isInventoryViewsEnabled,
+  });
 
   const { data, total, isLoading, isFetching, isError } = useSystemsQuery({
     page: pagination.page,
@@ -141,7 +140,7 @@ const SystemsViewInner = ({
 
   const { rows } = useRows({
     data: hostsWithPermissions ?? data,
-    renderableColumns,
+    columns,
     isInventoryViewsEnabled,
   });
 
