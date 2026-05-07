@@ -93,6 +93,7 @@ describe('Details', () => {
     );
 
     expectCardsToExist();
+    expect(screen.queryByText('Satellite')).not.toBeInTheDocument();
   });
 
   it('should render correctly', () => {
@@ -106,7 +107,34 @@ describe('Details', () => {
     );
 
     expectCardsToExist();
+    expect(screen.queryByText('Satellite')).not.toBeInTheDocument();
     expect(view.asFragment()).toMatchSnapshot();
+  });
+
+  it('should render Satellite card when satellite tags exist', () => {
+    const store = mockStore(initialState);
+    const entityWithTags = {
+      ...entity,
+      tags: [
+        { namespace: 'satellite', key: 'activation_key', value: 'AK_RHEL9' },
+        { namespace: 'satellite', key: 'organization', value: 'Acme' },
+      ],
+    };
+
+    render(
+      <MemoryRouter initialEntries={['/example']}>
+        <Provider store={store}>
+          <Details entity={entityWithTags} inventoryId={'test-id'} />
+        </Provider>
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByText('Satellite')).toBeVisible();
+    expect(screen.getByText('Activation key')).toBeVisible();
+    expect(screen.getByRole('link', { name: 'AK_RHEL9' })).toHaveAttribute(
+      'href',
+      expect.stringContaining('/?tags=satellite/activation_key=AK_RHEL9'),
+    );
   });
 
   describe('custom components', () => {

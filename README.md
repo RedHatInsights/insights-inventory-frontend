@@ -62,7 +62,10 @@ The E2E tests are located in the [_playwright-tests/](_playwright-tests/) direct
 #### First time setup
 
 1. Copy the example env file (`playwright_example.env`) and create a file named `.env`. For local development only the `BASE_URL` - `https://stage.foo.redhat.com:1337` is required, which is already set in the example config.
-You also need to set the `PLAYWRIGHT_USER` and `PLAYWRIGHT_PASSWORD` for your Stage testing account in the `.env` file.
+You also need to set the following variables in the `.env` file:
+   - `PLAYWRIGHT_USER` and `PLAYWRIGHT_PASSWORD` — Stage testing account credentials (used for browser login).
+   - `STAGE_OFFLINE_TOKEN` — A shared offline token for the `qe-ui-inventory` stage account, used to authenticate archive uploads to the Ingress API.
+   - `PROXY` — Corporate proxy (e.g., `squid.corp.redhat.com:3128`) if running directly against stage.
 
 2. Install the test runner:
 ```bash

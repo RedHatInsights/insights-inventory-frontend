@@ -43,6 +43,7 @@ jobs:
             echo "CI=true"
             echo "PROXY=$PROXY"
             echo "SYSTEMS_VIEW=true"
+            echo "STAGE_OFFLINE_TOKEN=$STAGE_OFFLINE_TOKEN"
           } >> .env
 
           echo ".env file created successfully."

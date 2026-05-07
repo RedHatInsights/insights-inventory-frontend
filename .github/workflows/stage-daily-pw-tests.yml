@@ -58,6 +58,7 @@ jobs:
             echo "INTEGRATION=true"
             echo "BASE_URL=$STAGE_BASE_URL" 
             echo "PROXY=$RH_PROXY_URL"
+            echo "STAGE_OFFLINE_TOKEN=$STAGE_OFFLINE_TOKEN"
           } >> .env 2>/dev/null
 
           echo ".env file created successfully."
