@@ -1,3 +1,4 @@
+import { NOT_AVAILABLE } from '../../../../../constants';
 import { UNGROUPED_ID } from '../../../filters/WorkspaceFilter';
 import { System } from '../../../hooks/useSystemsQuery';
 
@@ -9,10 +10,12 @@ const Workspace = ({ system }: WorkspaceProps) => {
   const [firstGroup] = system.groups ?? [];
 
   if (firstGroup === undefined) {
-    return UNGROUPED_ID;
+    return NOT_AVAILABLE;
   }
 
-  return firstGroup.name ?? (firstGroup.ungrouped ? UNGROUPED_ID : '');
+  return (
+    firstGroup.name ?? (firstGroup.ungrouped ? UNGROUPED_ID : NOT_AVAILABLE)
+  );
 };
 
 export default Workspace;

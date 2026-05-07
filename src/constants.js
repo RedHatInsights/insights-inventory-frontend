@@ -371,3 +371,4 @@ export const HOST_WORKSPACE_RELATION_VIEW = 'inventory_host_view';
 export const HOST_WORKSPACE_RELATION_UPDATE = 'inventory_host_update';
 export const DEFAULT_DELETE_ERROR_MESSAGE =
   'There was an error processing the request. Please try again.';
+export const NOT_AVAILABLE = 'N/A';
