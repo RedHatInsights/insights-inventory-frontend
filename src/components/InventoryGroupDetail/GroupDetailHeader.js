@@ -6,7 +6,6 @@ import {
   FlexItem,
   MenuToggle,
   Skeleton,
-  Tooltip,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import menuToggleStyles from '@patternfly/react-styles/css/components/MenuToggle/menu-toggle';
@@ -27,6 +26,7 @@ import {
   REQUIRED_PERMISSIONS_TO_READ_GROUP,
 } from '../../constants';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
+import NoAccessTooltipWrap from '../NoAccessTooltipWrap';
 import './GroupDetailHeader.scss';
 
 const defaultWorkspaceAccess = {
@@ -160,20 +160,21 @@ const GroupDetailHeader = ({
                 </MenuToggle>
               );
 
-              if (!canModifyWorkspaceForActions) {
-                return (
-                  <Tooltip content={noAccessEditTooltip}>
-                    <span
-                      data-testid="group-detail-header-actions-tooltip-trigger"
-                      className="pf-v6-u-display-inline-block ins-c-group-detail-header__actions-tooltip-anchor"
-                    >
-                      {menuToggle}
-                    </span>
-                  </Tooltip>
-                );
-              }
-
-              return menuToggle;
+              return (
+                <NoAccessTooltipWrap
+                  isEnabled={canModifyWorkspaceForActions}
+                  tooltipContent={noAccessEditTooltip}
+                  wrapTriggerInSpan
+                  triggerSpanProps={{
+                    'data-testid':
+                      'group-detail-header-actions-tooltip-trigger',
+                    className:
+                      'pf-v6-u-display-inline-block ins-c-group-detail-header__actions-tooltip-anchor',
+                  }}
+                >
+                  {menuToggle}
+                </NoAccessTooltipWrap>
+              );
             }}
           >
             <DropdownList>
