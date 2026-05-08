@@ -1,0 +1,37 @@
+name: Regular base image update check
+on:
+  schedule:
+    - cron: "5 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Install skopeo
+        run: sudo apt-get install -y skopeo
+      - name: Check change
+        run: |
+          base=$(grep -Po '(?<=FROM )[^\s]+' Containerfile | tail -1)
+          skopeo inspect "docker://$base" | jq .Digest --raw-output > .baseimagedigest
+      - name: Do change if the digest changed
+        run: |
+          git config user.name 'Update-a-Bot'
+          git config user.email 'insights@redhat.com'
+          git add .baseimagedigest
+          git commit -m "chore(image): update base image" || echo "No new changes"
+      - name: Create pull request
+        id: cpr
+        uses: peter-evans/create-pull-request@v8
+        with:
+          title: 'chore(image): update base image'
+      - name: Approve and enable auto-merge for the base image PR
+        if: ${{ steps.cpr.outputs.pull-request-operation == 'created' || steps.cpr.outputs.pull-request-operation == 'updated' }}
+        run: |
+          gh pr review --approve "$PR_URL"
+          gh pr merge --auto --rebase "$PR_URL"
+        env:
+          PR_URL: ${{ steps.cpr.outputs.pull-request-url }}
+          GH_TOKEN: ${{ ${{ secrets.GITHUB_TOKEN }} }}
