@@ -4,6 +4,12 @@ on:
   schedule:
     - cron: '0 4 * * *' # This cron expression runs the action every 24 hours at 04:00 UTC
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (validate setup without running tests)'
+        required: false
+        type: boolean
+        default: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }} # target branch
@@ -88,7 +94,7 @@ jobs:
 
       - name: Notify Slack on failure
         uses: slackapi/slack-github-action@v2.1.1
-        if: ${{ failure() && github.event_name == 'schedule' && !cancelled() }}
+        if: ${{ failure() && inputs.dry_run != true && !cancelled() }}
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: incoming-webhook
@@ -102,7 +108,7 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/ | :test_tube: [CI/CD] Daily Stage Inventory Frontend Test>: *failed* :red-stop: <!subteam^${{ secrets.SLACK_USER_GROUP }}|@hbi-frontend>"
+                        "text": "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/ | :test_tube: [CI/CD] Stage Inventory Frontend Test>: *failed* :red-stop: <!subteam^${{ secrets.SLACK_USER_GROUP }}|@hbi-frontend>"
                       }
                     }
                   ]

@@ -2,6 +2,12 @@ name: 'Prod Post-Release Sanity'
 
 on:
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (validate setup without running tests)'
+        required: false
+        type: boolean
+        default: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }} # target branch
@@ -84,3 +90,51 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 10
+
+      - name: Notify Slack on success
+        uses: slackapi/slack-github-action@v2.1.1
+        if: ${{ success() && inputs.dry_run != true }}
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "attachments": [
+                {
+                  "color": "#36a64f",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/ | :test_tube: [CI/CD] Prod Post-Release Sanity>: *passed* :large_green_circle: <!subteam^${{ secrets.SLACK_USER_GROUP }}|@hbi-frontend>"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+
+      - name: Notify Slack on failure
+        uses: slackapi/slack-github-action@v2.1.1
+        if: ${{ failure() && inputs.dry_run != true && !cancelled() }}
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "attachments": [
+                {
+                  "color": "#d72839",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/ | :test_tube: [CI/CD] Prod Post-Release Sanity>: *failed* :red-stop: <!subteam^${{ secrets.SLACK_USER_GROUP }}|@hbi-frontend>"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
