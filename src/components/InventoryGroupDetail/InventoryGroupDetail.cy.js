@@ -197,7 +197,7 @@ describe('integration with rbac', () => {
     });
 
     it('actions are disabled', () => {
-      cy.get(MENU_TOGGLE).should('be.disabled');
+      cy.get(MENU_TOGGLE).shouldHaveAriaDisabled();
       cy.contains('button', 'Add systems').shouldHaveAriaDisabled();
     });
 
