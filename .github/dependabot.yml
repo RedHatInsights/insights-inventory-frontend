@@ -1,5 +1,14 @@
 version: 2
 updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "ci(deps):"
+
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
