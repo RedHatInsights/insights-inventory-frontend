@@ -52,6 +52,11 @@ export type WaitForWorkspaceDetailOptions = {
  * Waits until workspace details main UI is ready (Systems tab visible).
  * Optionally waits until the header Actions toggle is enabled.
  *
+ * When `waitForEditableHeader` is true, the function retries with page
+ * reloads because RBAC/Kessel permissions for a newly created workspace
+ * may not have propagated by the time the detail page first loads,
+ * leaving the Actions toggle disabled.
+ *
  *  @param page    - Playwright page on workspace details
  *  @param options - When `waitForEditableHeader` is true, waits for `#group-dropdown-toggle` to be enabled
  *  @returns       Resolves when ready conditions are met
@@ -64,9 +69,15 @@ export const waitForWorkspaceDetailPageReady = async (
     timeout: 120000,
   });
   if (options?.waitForEditableHeader) {
-    await expect(workspaceHeaderActionsToggle(page)).toBeEnabled({
-      timeout: 120000,
-    });
+    await expect(async () => {
+      await page.reload({ waitUntil: 'load' });
+      await expect(page.getByRole('tab', { name: 'Systems' })).toBeVisible({
+        timeout: 30000,
+      });
+      await expect(workspaceHeaderActionsToggle(page)).toBeEnabled({
+        timeout: 10000,
+      });
+    }).toPass({ timeout: 120000 });
   }
 };
 
