@@ -1,5 +1,4 @@
 import React from 'react';
-import { type RenderableColumn } from '../../hooks/useColumns';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import DisplayName from './cells/DisplayName';
 import Workspace from './cells/Workspace';
@@ -8,8 +7,9 @@ import OperatingSystem from './cells/OperatingSystem';
 import Tags from './cells/Tags';
 import { LastSeenColumnHeader } from '../../../../Utilities/LastSeenColumnHeader';
 import { System } from '../../hooks/useSystemsQuery';
+import type { Column } from '../allColumnDefinitions';
 
-const nameColumn: RenderableColumn = {
+const nameColumn = {
   title: 'Name',
   key: 'name',
   isShownByDefault: true,
@@ -21,7 +21,7 @@ const nameColumn: RenderableColumn = {
   ),
 };
 
-const workspaceColumn: RenderableColumn = {
+const workspaceColumn = {
   title: 'Workspace',
   key: 'workspace',
   isShownByDefault: true,
@@ -32,7 +32,7 @@ const workspaceColumn: RenderableColumn = {
   ),
 };
 
-const tagsColumn: RenderableColumn = {
+const tagsColumn = {
   title: 'Tags',
   key: 'tags',
   isShownByDefault: true,
@@ -42,7 +42,7 @@ const tagsColumn: RenderableColumn = {
   ),
 };
 
-const operatingSystemColumn: RenderableColumn = {
+const operatingSystemColumn = {
   title: 'OS',
   key: 'os',
   isShownByDefault: true,
@@ -53,7 +53,7 @@ const operatingSystemColumn: RenderableColumn = {
   ),
 };
 
-const lastSeenColumn: RenderableColumn = {
+const lastSeenColumn = {
   title: <LastSeenColumnHeader />,
   key: 'last_seen',
   isShownByDefault: true,
@@ -70,4 +70,4 @@ export default [
   tagsColumn,
   operatingSystemColumn,
   lastSeenColumn,
-];
+] as const satisfies readonly Column[];
