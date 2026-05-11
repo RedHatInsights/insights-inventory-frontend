@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frontend PR Health Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --card: #1a1d28;
+      --border: #2a2d3a;
+      --text: #e4e4e7;
+      --muted: #9ca3af;
+      --green: #22c55e;
+      --red: #ef4444;
+      --blue: #3b82f6;
+      --purple: #a855f7;
+      --orange: #f97316;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 2rem;
+      line-height: 1.5;
+    }
+    h1 { font-size: 1.75rem; margin-bottom: 0.25rem; }
+    .subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 0.9rem; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+    .card h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+    .card .value {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+    .card .delta {
+      font-size: 0.8rem;
+      margin-top: 0.25rem;
+    }
+    .delta.good { color: var(--green); }
+    .delta.bad { color: var(--red); }
+    .delta.neutral { color: var(--muted); }
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 2rem 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .chart-container {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    canvas { max-height: 300px; }
+    .loading {
+      text-align: center;
+      padding: 4rem;
+      color: var(--muted);
+    }
+    .error {
+      text-align: center;
+      padding: 4rem;
+      color: var(--red);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    th, td {
+      padding: 0.6rem 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th { color: var(--muted); font-weight: 500; text-transform: uppercase; font-size: 0.75rem; }
+  </style>
+</head>
+<body>
+  <h1>Frontend PR Health Dashboard</h1>
+  <p class="subtitle">Auto-updated daily by CI. Data from <code>insights-inventory-frontend</code>.</p>
+
+  <div id="app"><div class="loading">Loading metrics data...</div></div>
+
+  <script>
+    const DATA_URL = 'data.json';
+
+    async function init() {
+      const app = document.getElementById('app');
+      try {
+        const resp = await fetch(DATA_URL);
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+        render(data);
+      } catch (e) {
+        app.innerHTML = `<div class="error">Failed to load data: ${e.message}<br><small>Make sure GitHub Pages is enabled and data.json exists on the gh-pages branch.</small></div>`;
+      }
+    }
+
+    function render(data) {
+      const app = document.getElementById('app');
+      const baseline = data.baseline;
+      const quarters = data.quarters || {};
+      const latestQ = Object.keys(quarters).sort().pop();
+      const current = quarters[latestQ];
+
+      if (!current) {
+        app.innerHTML = '<div class="loading">No quarterly data collected yet. The metrics job needs to run at least once.</div>';
+        return;
+      }
+
+      const review = current.review?.data;
+      const stale = current.stale?.data;
+      const bReview = baseline?.review?.data;
+      const bStale = baseline?.stale?.data;
+
+      let html = '';
+
+      // KPI cards
+      html += '<div class="grid">';
+      html += kpiCard('Total PRs (Quarter)', review?.total, bReview?.total, 'higher');
+      html += kpiCard('Merged', review?.merged, bReview?.merged, 'higher');
+      html += kpiCard('Median Time to Merge (hrs)', review?.median_ttm, bReview?.median_ttm, 'lower');
+      html += kpiCard('Median Time to First Review (hrs)', review?.median_ttfr, bReview?.median_ttfr, 'lower');
+      html += kpiCard('% Reviewed within 24h', review?.pct_reviewed_24h, bReview?.pct_reviewed_24h, 'higher');
+      html += kpiCard('PRs Open > 15 days', review?.open_15d, bReview?.open_15d, 'lower');
+      html += kpiCard('Bot-Closed (Stale)', stale?.bot_closed, bStale?.bot_closed, 'higher');
+      html += kpiCard('No Review in 24h', review?.no_review_24h, bReview?.no_review_24h, 'lower');
+      html += '</div>';
+
+      // Quarter comparison table
+      html += '<div class="section-title">Quarterly Breakdown</div>';
+      html += '<div class="card"><table><thead><tr>';
+      html += '<th>Quarter</th><th>Total</th><th>Merged</th><th>Med. TTM (hrs)</th><th>Med. TTFR (hrs)</th><th>% Rev 24h</th><th>Open 15d+</th>';
+      html += '</tr></thead><tbody>';
+
+      if (bReview) {
+        html += `<tr><td>Baseline</td><td>${bReview.total ?? '—'}</td><td>${bReview.merged ?? '—'}</td><td>${fmt(bReview.median_ttm)}</td><td>${fmt(bReview.median_ttfr)}</td><td>${fmt(bReview.pct_reviewed_24h)}%</td><td>${bReview.open_15d ?? '—'}</td></tr>`;
+      }
+
+      for (const q of Object.keys(quarters).sort()) {
+        const r = quarters[q].review?.data;
+        if (!r) continue;
+        html += `<tr><td>${q}</td><td>${r.total ?? '—'}</td><td>${r.merged ?? '—'}</td><td>${fmt(r.median_ttm)}</td><td>${fmt(r.median_ttfr)}</td><td>${fmt(r.pct_reviewed_24h)}%</td><td>${r.open_15d ?? '—'}</td></tr>`;
+      }
+
+      html += '</tbody></table></div>';
+
+      // Chart
+      html += '<div class="section-title">Trends</div>';
+      html += '<div class="chart-container"><canvas id="trendChart"></canvas></div>';
+
+      html += `<p class="subtitle" style="margin-top:2rem;">Last updated: ${current.updated || 'unknown'}</p>`;
+
+      app.innerHTML = html;
+
+      // Render chart
+      const labels = [];
+      const ttmData = [];
+      const ttfrData = [];
+      const revPctData = [];
+
+      if (bReview) {
+        labels.push('Baseline');
+        ttmData.push(bReview.median_ttm);
+        ttfrData.push(bReview.median_ttfr);
+        revPctData.push(bReview.pct_reviewed_24h);
+      }
+      for (const q of Object.keys(quarters).sort()) {
+        const r = quarters[q].review?.data;
+        if (!r) continue;
+        labels.push(q);
+        ttmData.push(r.median_ttm);
+        ttfrData.push(r.median_ttfr);
+        revPctData.push(r.pct_reviewed_24h);
+      }
+
+      new Chart(document.getElementById('trendChart'), {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            { label: 'Median TTM (hrs)', data: ttmData, borderColor: '#3b82f6', tension: 0.3 },
+            { label: 'Median TTFR (hrs)', data: ttfrData, borderColor: '#a855f7', tension: 0.3 },
+            { label: '% Reviewed 24h', data: revPctData, borderColor: '#22c55e', tension: 0.3, yAxisID: 'pct' },
+          ]
+        },
+        options: {
+          responsive: true,
+          interaction: { mode: 'index', intersect: false },
+          scales: {
+            y: { title: { display: true, text: 'Hours' }, grid: { color: '#2a2d3a' }, ticks: { color: '#9ca3af' } },
+            pct: { position: 'right', title: { display: true, text: '%' }, min: 0, max: 100, grid: { display: false }, ticks: { color: '#9ca3af' } },
+            x: { grid: { color: '#2a2d3a' }, ticks: { color: '#9ca3af' } }
+          },
+          plugins: { legend: { labels: { color: '#e4e4e7' } } }
+        }
+      });
+    }
+
+    function kpiCard(title, value, baseline, direction) {
+      let deltaHtml = '';
+      if (value != null && baseline != null) {
+        const diff = value - baseline;
+        const pct = baseline !== 0 ? ((diff / baseline) * 100).toFixed(0) : 0;
+        const isGood = direction === 'lower' ? diff < 0 : diff > 0;
+        const cls = diff === 0 ? 'neutral' : isGood ? 'good' : 'bad';
+        const arrow = diff > 0 ? '↑' : diff < 0 ? '↓' : '→';
+        deltaHtml = `<div class="delta ${cls}">${arrow} ${Math.abs(pct)}% vs baseline</div>`;
+      }
+      return `<div class="card"><h3>${title}</h3><div class="value">${fmt(value)}</div>${deltaHtml}</div>`;
+    }
+
+    function fmt(v) { return v != null ? v : '—'; }
+
+    init();
+  </script>
+</body>
+</html>
