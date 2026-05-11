@@ -1,12 +1,12 @@
 import { DataViewTrObject } from '@patternfly/react-data-view';
 import React from 'react';
 import SystemsViewRowActions from '../SystemsViewRowActions';
-import { RenderableColumn } from './useColumns';
 import { getSystemsViewColumnMinWidthStyle } from '../utils/columnMinWidths';
 import { STICKY_ACTIONS_BODY_PROPS } from '../utils/stickyActionsColumn';
 import { STICKY_NAME_BODY_PROPS } from '../utils/stickyNameColumn';
 import type { SystemWithPermissions } from '../../../Utilities/hooks/useHostIdsWithKessel';
 import type { System } from './useSystemsQuery';
+import { Column } from '../columns/allColumnDefinitions';
 
 /** DataViewTrObject Extension, `meta` points to associated system objects. */
 export type SystemsViewTableRow = DataViewTrObject & {
@@ -15,7 +15,7 @@ export type SystemsViewTableRow = DataViewTrObject & {
 
 interface UseRowsParams {
   data?: (System | SystemWithPermissions)[];
-  columns: RenderableColumn[];
+  columns: Column[];
   /**
    * When true (inventory views feature): sticky Name/actions cells and column min-widths.
    */
