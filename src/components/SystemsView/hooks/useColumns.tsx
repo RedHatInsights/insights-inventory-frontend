@@ -1,28 +1,31 @@
 import React from 'react';
 import { DataViewTh } from '@patternfly/react-data-view';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
-import type { ColumnManagementModalColumn } from '../../ColumnManagementModal';
-import { System } from './useSystemsQuery';
-import type { onSort, SortBy, SortDirection } from '../SystemsView';
+import type { OnSort, SortDirection } from '../SystemsView';
 import { getSystemsViewColumnMinWidthStyle } from '../utils/columnMinWidths';
 import { STICKY_ACTIONS_HEADER_PROPS } from '../utils/stickyActionsColumn';
 import { STICKY_NAME_HEADER_PROPS } from '../utils/stickyNameColumn';
-import initialColumns from '../columns/allColumnDefinitions';
+import initialColumns, { type Column } from '../columns/allColumnDefinitions';
 
-export interface RenderableColumn extends ColumnManagementModalColumn {
-  renderCell: (system: System) => React.ReactNode;
-  sortBy?: ApiOrderByEnum;
-}
+export const INITIAL_SORT: {
+  sortBy: Column['sortBy'];
+  direction: SortDirection;
+} = {
+  sortBy: 'last_check_in',
+  direction: 'desc',
+};
 
-const FALLBACK_SORT: { sortBy: SortBy; direction: SortDirection } = {
-  sortBy: ApiOrderByEnum.DisplayName,
+const FALLBACK_SORT: {
+  sortBy: Column['sortBy'];
+  direction: SortDirection;
+} = {
+  sortBy: 'display_name',
   direction: 'asc',
 };
 
 interface UseColumnParams {
-  sortBy: SortBy;
-  onSort: onSort;
+  sortBy: Column['sortBy'];
+  onSort: OnSort;
   direction: SortDirection;
   isInventoryViewsEnabled: boolean;
 }
@@ -33,12 +36,12 @@ export const useColumns = ({
   direction,
   isInventoryViewsEnabled,
 }: UseColumnParams) => {
-  const [columns, setColumns] = useState<RenderableColumn[]>(() =>
+  const [columns, setColumns] = useState<Column[]>(() =>
     initialColumns.map((col) => ({ ...col })),
   );
 
   const fromSortByToIndex = useCallback(
-    (sortBy?: ApiOrderByEnum) =>
+    (sortBy?: Column['sortBy']) =>
       columns
         .filter((col) => col.isShown)
         .findIndex((col) => col.sortBy === sortBy),
