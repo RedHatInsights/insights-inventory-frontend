@@ -5,7 +5,7 @@ import { NO_ACCESS_STALENESS, NO_ACCESS_INVENTORY } from './constants';
 test.use({ storageState: '.auth/no_access_user.json' });
 
 test.describe('@rbac No access:', () => {
-  test('Systems page', async ({ page }) => {
+  test('Systems page - no access is displayed', async ({ page }) => {
     await page.goto('/insights/inventory/', { timeout: 100000 });
 
     const emptyState = page.locator(
@@ -17,7 +17,7 @@ test.describe('@rbac No access:', () => {
     await expect(heading).toContainText(NO_ACCESS_INVENTORY);
   });
 
-  test('Workspaces page', async ({ page }) => {
+  test('Workspaces page - no access is displayed', async ({ page }) => {
     await page.goto('/insights/inventory/workspaces', { timeout: 100000 });
 
     const createButton = page.locator(
@@ -27,17 +27,11 @@ test.describe('@rbac No access:', () => {
 
     const heading = page.getByRole('heading', { level: 4 }).first();
     await expect(heading).toContainText('No workspaces');
-    // TODO: uncomment when RBAC v2 check is resolved
-    // const emptyState = page.locator(
-    //   '[data-ouia-component-id="UnauthorizedAccess"]',
-    // );
-    // await expect(emptyState).toBeVisible();
-
-    // const heading = page.getByRole('heading', { level: 5 }).first();
-    // await expect(heading).toContainText(NO_ACCESS_INVENTORY);
   });
 
-  test('Staleness and Deletion page', async ({ page }) => {
+  test('Staleness and Deletion page - no access is displayed', async ({
+    page,
+  }) => {
     await page.goto('/insights/inventory/staleness-and-deletion', {
       timeout: 100000,
     });

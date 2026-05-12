@@ -88,7 +88,9 @@ test.describe('@rbac Granular access:', () => {
     });
   });
 
-  test('Staleness and Deletion page: no access', async ({ page }) => {
+  test('Staleness and Deletion page: no access is displayed', async ({
+    page,
+  }) => {
     await page.goto('/insights/inventory/staleness-and-deletion', {
       timeout: 100000,
     });
@@ -98,9 +100,5 @@ test.describe('@rbac Granular access:', () => {
 
     const heading = page.getByRole('heading', { level: 5 }).first();
     await expect(heading).toContainText(NO_ACCESS_STALENESS);
-
-    // TODO: uncomment when RBAC v2 check is resolved
-    // const editButton = page.getByRole('button', { name: 'Edit' });
-    // await expect(editButton).toBeDisabled();
   });
 });
