@@ -4,7 +4,9 @@ import { test } from './helpers/fixtures';
 test.describe('Navigate to Inventory pages via side Navigation bar', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/insights/inventory/');
-    await page.locator('[data-quickstart-id="Inventory"]').isVisible();
+    await expect(page.locator('[data-quickstart-id="Inventory"]')).toBeVisible({
+      timeout: 30000,
+    });
   });
 
   test('Use can navigate to Staleness and Deletion page', async ({ page }) => {
@@ -13,8 +15,9 @@ test.describe('Navigate to Inventory pages via side Navigation bar', () => {
     const stalenessLink = page.locator(
       '[data-quickstart-id="insights_inventory_staleness-and-deletion"]',
     );
+    await expect(stalenessLink).toBeVisible({ timeout: 10000 });
     await stalenessLink.click();
-    await expect(page).toHaveURL(new RegExp(expectedURL));
+    await expect(page).toHaveURL(new RegExp(expectedURL), { timeout: 15000 });
   });
 
   test('Use can navigate to Inventory Systems page', async ({ page }) => {
