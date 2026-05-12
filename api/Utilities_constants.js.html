@@ -1,0 +1,562 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> Utilities/constants.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Inventory Frontend Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-custom_fetch.html">
+                                custom_fetch
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-general_info.html">
+                                general_info
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-hide_filters.html">
+                                hide_filters
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory.html">
+                                inventory
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_detail.html">
+                                inventory_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_header.html">
+                                inventory_header
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_detail.html">
+                                props_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_table.html">
+                                props_table
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/RedHatInsights/insights-inventory-frontend"
+                        >
+                            Inventory Frontend GitHub repository
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://console.redhat.com/docs/api/inventory"
+                        >
+                            Inventory REST API Documentation
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#AppInfo">AppInfo</a></li><li><a href="global.html#AppInfoCmp">AppInfoCmp</a></li><li><a href="global.html#AppInfoWrapper">AppInfoWrapper</a></li><li><a href="global.html#ApplicationDetails">ApplicationDetails</a></li><li><a href="global.html#ContextInventoryList">ContextInventoryList</a></li><li><a href="global.html#EntityTable">EntityTable</a></li><li><a href="global.html#EntityTableToolbar">EntityTableToolbar</a></li><li><a href="global.html#FactsInfo">FactsInfo</a></li><li><a href="global.html#FooterPagination">FooterPagination</a></li><li><a href="global.html#GROUP_TOKENS">GROUP_TOKENS</a></li><li><a href="global.html#HOST_WORKSPACE_RELATION_VIEW">HOST_WORKSPACE_RELATION_VIEW</a></li><li><a href="global.html#InventoryDetail">InventoryDetail</a></li><li><a href="global.html#InventoryList">InventoryList</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#STALENESS_WORKSPACE_RELATION_VIEW">STALENESS_WORKSPACE_RELATION_VIEW</a></li><li><a href="global.html#SystemNotFound">SystemNotFound</a></li><li><a href="global.html#TitleColumn">TitleColumn</a></li><li><a href="global.html#TopBar">TopBar</a></li><li><a href="global.html#WORKLOAD_API_MAP">WORKLOAD_API_MAP</a></li><li><a href="global.html#WORKSPACE_RELATION_VIEW">WORKSPACE_RELATION_VIEW</a></li><li><a href="global.html#buildOSFilterConfig">buildOSFilterConfig</a></li><li><a href="global.html#getSelectedOsFilterVersions">getSelectedOsFilterVersions</a></li><li><a href="global.html#groupOSVersions">groupOSVersions</a></li><li><a href="global.html#inventoryCache">inventoryCache</a></li><li><a href="global.html#onRowClick">onRowClick</a></li><li><a href="global.html#rhel9Results">rhel9Results</a></li><li><a href="global.html#toGroupSelection">toGroupSelection</a></li><li><a href="global.html#toGroupSelectionValue">toGroupSelectionValue</a></li><li><a href="global.html#updateURLSearchParams">updateURLSearchParams</a></li><li><a href="global.html#useCanFetchHostsWhenKessel">useCanFetchHostsWhenKessel</a></li><li><a href="global.html#useExportDownloadCheck">useExportDownloadCheck</a></li><li><a href="global.html#useGroupsQueryWithFilter">useGroupsQueryWithFilter</a></li><li><a href="global.html#useInventoryExport">useInventoryExport</a></li><li><a href="global.html#useModalState">useModalState</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>Utilities/constants.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { createContext } from 'react';
+import { Content } from '@patternfly/react-core';
+
+export const TEXT_FILTER = 'hostname_or_id';
+export const TEXTUAL_CHIP = 'textual';
+export const TAG_CHIP = 'tags';
+export const STALE_CHIP = 'staleness';
+export const REGISTERED_CHIP = 'registered_with';
+export const OS_CHIP = 'operating_system';
+export const RHCD_FILTER_KEY = 'rhc_client_id';
+export const UPDATE_METHOD_KEY = 'system_update_method';
+export const SYSTEM_TYPE_KEY = 'system_type';
+export const WORKLOAD_FILTER_KEY = 'workloads';
+export const LAST_SEEN_CHIP = 'last_seen';
+export const HOST_GROUP_CHIP = 'group_name'; // use the same naming as for the back end parameter
+//REPORTERS
+export const REPORTER_PUPTOO = 'puptoo';
+export const REPORTER_RHSM_CONDUIT = 'rhsm-conduit';
+export const REPORTER_RHSM_PROFILE_BRIDGE = 'rhsm-system-profile-bridge';
+//APP NAMES
+export const APP_NAME_VULNERABILITY = 'vulnerabilities';
+export const APP_NAME_ADVISOR = 'advisor';
+export const APP_NAME_PATCH = 'patch';
+// HOST_TYPE
+export const TYPE_CONVENTIONAL = '=conventional';
+export const TYPE_EDGE = '=edge';
+export const TYPE_BOOTC = '=bootc';
+
+export const INVENTORY_TOTAL_FETCH_URL_SERVER = '/api/inventory/v1/hosts';
+export const INVENTORY_TOTAL_FETCH_EDGE_PARAMS =
+  '?filter[system_profile][host_type]=edge&amp;page=1&amp;per_page=1';
+export const INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS = '?page=1&amp;per_page=1';
+export const INVENTORY_PACKAGE_BASED_SYSTEMS = `?${SYSTEM_TYPE_KEY}${TYPE_CONVENTIONAL}`;
+export const INVENTORY_IMAGE_BASED_SYSTEMS = `?${SYSTEM_TYPE_KEY}${TYPE_BOOTC}&amp;${SYSTEM_TYPE_KEY}${TYPE_EDGE}`;
+export const INVENTORY_FETCH_BOOTC = `?${SYSTEM_TYPE_KEY}${TYPE_BOOTC}`;
+export const INVENTORY_FETCH_EDGE = `?${SYSTEM_TYPE_KEY}${TYPE_EDGE}`;
+
+export function subtractDate(days) {
+  const date = new Date();
+  date.setDate(date.getDate() - days);
+  return date.toISOString();
+}
+
+export const staleness = [
+  { label: 'Fresh', value: 'fresh' },
+  { label: 'Stale', value: 'stale' },
+  { label: 'Stale warning', value: 'stale_warning' },
+];
+
+export const currentDate = new Date().toISOString();
+export const lastSeenFilterItems = [
+  {
+    value: 'last24',
+    label: 'Within the last 24 hours',
+  },
+  {
+    value: '24more',
+    label: 'More than 1 day ago',
+  },
+  {
+    value: '7more',
+    label: 'More than 7 days ago',
+  },
+  {
+    value: '15more',
+    label: 'More than 15 days ago',
+  },
+  {
+    value: '30more',
+    label: 'More than 30 days ago',
+  },
+  {
+    value: 'custom',
+    label: 'Custom',
+  },
+];
+export const lastSeenDefaults = {
+  last24: {
+    lastCheckInStart: subtractDate(1),
+    lastCheckInEnd: currentDate,
+  },
+  '24more': {
+    lastCheckInEnd: subtractDate(1),
+  },
+  '7more': {
+    lastCheckInEnd: subtractDate(7),
+  },
+  '15more': {
+    lastCheckInEnd: subtractDate(15),
+  },
+  '30more': {
+    lastCheckInEnd: subtractDate(30),
+  },
+  custom: {},
+};
+export const registered = [
+  {
+    label: 'insights-client',
+    value: 'puptoo',
+    idName: 'Insights Client ID',
+    idValue: 'insights_id',
+  },
+  {
+    label: 'subscription-manager',
+    value: 'rhsm-conduit',
+    idName: 'Subscription Manager ID',
+    idValue: 'subscription_manager_id',
+  },
+  {
+    label: 'Satellite',
+    value: 'satellite',
+    idName: 'Satellite ID',
+    idValue: 'satellite_id',
+  },
+  {
+    label: 'Discovery',
+    value: 'discovery',
+    idName: 'Discovery ID',
+    idValue: 'discovery_id',
+  },
+  { label: 'insights-client not connected', value: '!puptoo' },
+];
+export const InventoryContext = createContext({});
+
+export const rhcdOptions = [
+  { label: 'Active', value: 'not_nil' },
+  { label: 'Inactive', value: 'nil' },
+];
+
+const initUpdateMethodOptions = [
+  { label: 'yum', value: 'yum' },
+  { label: 'dnf', value: 'dnf' },
+  { label: 'rpm-ostree', value: 'rpm-ostree' },
+];
+
+export const updateMethodOptions = initUpdateMethodOptions;
+
+export const systemTypeOptions = [
+  {
+    label: 'Package-based system',
+    value: 'conventional',
+    packageBasedValues: ['conventional'],
+  },
+  {
+    label: 'Image-based system',
+    value: 'bootc',
+    imageBasedValues: ['bootc', 'edge'],
+  },
+];
+
+export const workloadOptions = [
+  { label: 'Ansible Automation Platform', value: 'ansible' },
+  { label: 'CrowdStrike', value: 'crowdstrike' },
+  { label: 'IBM DB2', value: 'ibm_db2' },
+  { label: 'InterSystems', value: 'intersystems' },
+  { label: 'Microsoft SQL', value: 'mssql' },
+  { label: 'Oracle DB', value: 'oracle_db' },
+  { label: 'RHEL AI', value: 'rhel_ai' },
+  { label: 'SAP', value: 'sap' },
+];
+
+/** Maps workload filter keys to system_profile.workloads.* API filter shapes (presence). */
+export const WORKLOAD_API_MAP = {
+  sap: { is: 'not_nil' },
+  ansible: { is: 'not_nil' },
+  mssql: { is: 'not_nil' },
+  crowdstrike: { is: 'not_nil' },
+  ibm_db2: { is: 'not_nil' },
+  oracle_db: { is: 'not_nil' },
+  intersystems: { is: 'not_nil' },
+  rhel_ai: { is: 'not_nil' },
+};
+
+export function filterToGroup(filter = [], valuesKey = 'values') {
+  return filter.reduce(
+    (accGroup, group) => ({
+      ...accGroup,
+      [group.key]: group[valuesKey].reduce(
+        (acc, curr) => ({
+          ...acc,
+          [curr.key]: {
+            isSelected: true,
+            group: curr.group,
+            item: {
+              meta: {
+                tag: {
+                  key: curr.tagKey,
+                  value: curr.value,
+                },
+              },
+            },
+          },
+        }),
+        {},
+      ),
+    }),
+    {},
+  );
+}
+
+export const arrayToSelection = (selected) =>
+  selected.reduce(
+    (acc, { cells: [key, value, namespace] }) => ({
+      ...acc,
+      [namespace]: {
+        ...acc[namespace?.title || namespace],
+        [`${key?.title || key}=${value?.title || value}`]: {
+          isSelected: true,
+          group: {
+            value: namespace?.title || namespace,
+            label: namespace?.title || namespace,
+          },
+          item: {
+            tagKey: key?.title || key,
+            tagValue: value?.title || value,
+            value: `${key?.title || key}=${value?.title || value}`,
+            id: `${key?.title || key}-${value?.title || value}`,
+            meta: {
+              tag: { key: key?.title || key, value: value?.title || value },
+            },
+          },
+        },
+      },
+    }),
+    {},
+  );
+
+export function reduceFilters(filters = []) {
+  return filters.reduce(
+    (acc, oneFilter) => {
+      if (oneFilter.value === TEXT_FILTER) {
+        return { ...acc, textFilter: oneFilter.filter };
+      } else if ('tagFilters' in oneFilter) {
+        return {
+          ...acc,
+          tagFilters: filterToGroup(oneFilter.tagFilters),
+        };
+      }
+
+      const foundKey = [
+        'staleFilter',
+        'registeredWithFilter',
+        'osFilter',
+        'rhcdFilter',
+        'updateMethodFilter',
+        'lastSeenFilter',
+        'hostGroupFilter',
+        '',
+        'systemTypeFilter',
+        'workloadFilter',
+      ].find((item) => Object.keys(oneFilter).includes(item));
+
+      return {
+        ...acc,
+        ...(foundKey &amp;&amp; { [foundKey]: oneFilter[foundKey] }),
+      };
+    },
+    {
+      textFilter: '',
+      tagFilters: {},
+    },
+  );
+}
+
+export const reloadWrapper = (event, callback) => {
+  return {
+    ...event,
+    payload: event.payload.then((data) => {
+      callback();
+      return data;
+    }),
+  };
+};
+
+export const isEmpty = (check) => !check || check?.length === 0;
+
+export const generateFilter = (
+  status,
+  source,
+  tagsFilter,
+  filterbyName,
+  operatingSystem,
+  rhcdFilter,
+  updateMethodFilter,
+  hostGroupFilter,
+  lastSeenFilter,
+  systemTypeFilter,
+  workloadFilter,
+) =>
+  [
+    !isEmpty(status) &amp;&amp; {
+      staleFilter: Array.isArray(status) ? status : [status],
+    },
+    !isEmpty(tagsFilter) &amp;&amp; {
+      tagFilters: Array.isArray(tagsFilter) ? tagsFilter : [tagsFilter],
+    },
+    !isEmpty(source) &amp;&amp; {
+      registeredWithFilter: Array.isArray(source) ? source : [source],
+    },
+    !isEmpty(filterbyName) &amp;&amp; {
+      value: 'hostname_or_id',
+      filter: Array.isArray(filterbyName) ? filterbyName[0] : filterbyName,
+    },
+    (!isEmpty(status) || !isEmpty(tagsFilter) || !isEmpty(filterbyName)) &amp;&amp;
+      isEmpty(source) &amp;&amp; {
+        registeredWithFilter: [],
+      },
+    (!isEmpty(source) || !isEmpty(tagsFilter) || !isEmpty(filterbyName)) &amp;&amp;
+      isEmpty(status) &amp;&amp; {
+        staleFilter: [],
+      },
+    !isEmpty(operatingSystem) &amp;&amp;
+      Object.keys(operatingSystem).length &amp;&amp; {
+        osFilter: operatingSystem,
+      },
+    !isEmpty(rhcdFilter) &amp;&amp; {
+      rhcdFilter: Array.isArray(rhcdFilter) ? rhcdFilter : [rhcdFilter],
+    },
+    !isEmpty(lastSeenFilter) &amp;&amp; {
+      lastSeenFilter: Array.isArray(lastSeenFilter)
+        ? { mark: lastSeenFilter[0], ...lastSeenDefaults[lastSeenFilter[0]] }
+        : [lastSeenFilter],
+    },
+    !isEmpty(updateMethodFilter) &amp;&amp; {
+      updateMethodFilter: Array.isArray(updateMethodFilter)
+        ? updateMethodFilter
+        : [updateMethodFilter],
+    },
+    !isEmpty(hostGroupFilter) &amp;&amp; {
+      hostGroupFilter: Array.isArray(hostGroupFilter)
+        ? hostGroupFilter
+        : [hostGroupFilter],
+    },
+    !isEmpty(systemTypeFilter) &amp;&amp; {
+      systemTypeFilter: Array.isArray(systemTypeFilter)
+        ? systemTypeFilter
+        : [systemTypeFilter],
+    },
+    !isEmpty(workloadFilter) &amp;&amp; {
+      workloadFilter: Array.isArray(workloadFilter)
+        ? workloadFilter
+        : [workloadFilter],
+    },
+  ].filter(Boolean);
+
+export const allStaleFilters = ['fresh', 'stale', 'stale_warning'];
+
+export const systemTypeContent = {
+  imageLabel: 'Image-based',
+  packageLabel: 'Package-based',
+  imageContent: (
+    &lt;Content>
+      &lt;Content component="p">
+        Image mode for Red Hat Enterprise Linux and Immutable (OSTree) are
+        version-controlled deployment models that support atomic updates and
+        rollbacks.
+      &lt;/Content>
+      &lt;Content component="p">
+        Image mode delivers the OS as a container image, while Immutable
+        (OSTree) manages it as a versioned file system tree – both providing
+        consistency and reliability similar to containerized applications.
+      &lt;/Content>
+    &lt;/Content>
+  ),
+  packageContent: (
+    &lt;Content>
+      &lt;Content component="p">
+        Package-based deployment is a familiar Red Hat Enterprise Linux (RHEL)
+        experience across any footprint where the OS is assembled and updated
+        from rpm packages. This is traditionally how RHEL is deployed and will
+        remain the preferred method for many.
+      &lt;/Content>
+    &lt;/Content>
+  ),
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

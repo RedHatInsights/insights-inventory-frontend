@@ -1,0 +1,355 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/InventoryTable/InventoryList.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Inventory Frontend Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-custom_fetch.html">
+                                custom_fetch
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-general_info.html">
+                                general_info
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-hide_filters.html">
+                                hide_filters
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory.html">
+                                inventory
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_detail.html">
+                                inventory_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_header.html">
+                                inventory_header
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_detail.html">
+                                props_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_table.html">
+                                props_table
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/RedHatInsights/insights-inventory-frontend"
+                        >
+                            Inventory Frontend GitHub repository
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://console.redhat.com/docs/api/inventory"
+                        >
+                            Inventory REST API Documentation
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#AppInfo">AppInfo</a></li><li><a href="global.html#AppInfoCmp">AppInfoCmp</a></li><li><a href="global.html#AppInfoWrapper">AppInfoWrapper</a></li><li><a href="global.html#ApplicationDetails">ApplicationDetails</a></li><li><a href="global.html#ContextInventoryList">ContextInventoryList</a></li><li><a href="global.html#EntityTable">EntityTable</a></li><li><a href="global.html#EntityTableToolbar">EntityTableToolbar</a></li><li><a href="global.html#FactsInfo">FactsInfo</a></li><li><a href="global.html#FooterPagination">FooterPagination</a></li><li><a href="global.html#GROUP_TOKENS">GROUP_TOKENS</a></li><li><a href="global.html#HOST_WORKSPACE_RELATION_VIEW">HOST_WORKSPACE_RELATION_VIEW</a></li><li><a href="global.html#InventoryDetail">InventoryDetail</a></li><li><a href="global.html#InventoryList">InventoryList</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#STALENESS_WORKSPACE_RELATION_VIEW">STALENESS_WORKSPACE_RELATION_VIEW</a></li><li><a href="global.html#SystemNotFound">SystemNotFound</a></li><li><a href="global.html#TitleColumn">TitleColumn</a></li><li><a href="global.html#TopBar">TopBar</a></li><li><a href="global.html#WORKLOAD_API_MAP">WORKLOAD_API_MAP</a></li><li><a href="global.html#WORKSPACE_RELATION_VIEW">WORKSPACE_RELATION_VIEW</a></li><li><a href="global.html#buildOSFilterConfig">buildOSFilterConfig</a></li><li><a href="global.html#getSelectedOsFilterVersions">getSelectedOsFilterVersions</a></li><li><a href="global.html#groupOSVersions">groupOSVersions</a></li><li><a href="global.html#inventoryCache">inventoryCache</a></li><li><a href="global.html#onRowClick">onRowClick</a></li><li><a href="global.html#rhel9Results">rhel9Results</a></li><li><a href="global.html#toGroupSelection">toGroupSelection</a></li><li><a href="global.html#toGroupSelectionValue">toGroupSelectionValue</a></li><li><a href="global.html#updateURLSearchParams">updateURLSearchParams</a></li><li><a href="global.html#useCanFetchHostsWhenKessel">useCanFetchHostsWhenKessel</a></li><li><a href="global.html#useExportDownloadCheck">useExportDownloadCheck</a></li><li><a href="global.html#useGroupsQueryWithFilter">useGroupsQueryWithFilter</a></li><li><a href="global.html#useInventoryExport">useInventoryExport</a></li><li><a href="global.html#useModalState">useModalState</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/InventoryTable/InventoryList.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable react/display-name */
+import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import InventoryEntityTable from './EntityTable';
+import { Grid, GridItem } from '@patternfly/react-core';
+import PropTypes from 'prop-types';
+import './InventoryList.scss';
+import isEqual from 'lodash/isEqual';
+import AccessDenied from '../../Utilities/AccessDenied';
+
+const convertItem = ({ children, isOpen, ...item }) => item;
+
+/**
+ * Component that works as a side channel for consumers to notify inventory of new data changes.
+ *  @param   {object}     props               props object
+ *  @param   {boolean}    props.showHealth    if true, the health is shown
+ *  @param   {Function}   props.onRefreshData on refresh data function to notify inventory of new data changes
+ *  @param   {boolean}    props.ignoreRefresh if true, the ignore refresh is enabled and the onRefreshData function is not called
+ *  @returns {React.node}                     React node with inventory list
+ */
+const ContextInventoryList = ({
+  showHealth,
+  onRefreshData,
+  ignoreRefresh,
+  ...props
+}) => {
+  const prevItems = useRef(props.items);
+  const prevSortBy = useRef(props.sortBy);
+
+  /* eslint-disable react-hooks/exhaustive-deps */
+  useEffect(() => {
+    if (props.hasItems) {
+      onRefreshData({}, ignoreRefresh);
+    }
+  }, []);
+  /* eslint-enable react-hooks/exhaustive-deps */
+
+  /**
+   * Function to calculate for new changes, this function limits re-renders by checking if previous items are
+   * same as new items.
+   * If items are not passed, it only checks for props sortBy.
+   *  @param   {object} prevProps previous props - items, hasItems, sortBy.
+   *  @returns {void}             void
+   */
+  useEffect(() => {
+    if (
+      props.hasItems &amp;&amp;
+      !isEqual(prevItems.current.map(convertItem), props.items.map(convertItem))
+    ) {
+      prevItems.current = props.items;
+      onRefreshData({}, ignoreRefresh);
+    }
+
+    if (
+      !props.hasItems &amp;&amp;
+      props.loaded == true &amp;&amp;
+      !isEqual(prevSortBy.current, props.sortBy)
+    ) {
+      prevSortBy.current = props.sortBy;
+      onRefreshData({});
+    }
+  });
+
+  return (
+    &lt;Grid
+      gutter="sm"
+      className="ins-inventory-list"
+      data-testid="inventory-table-list"
+    >
+      &lt;GridItem span={12}>
+        &lt;InventoryEntityTable {...props} onRefreshData={onRefreshData} />
+      &lt;/GridItem>
+    &lt;/Grid>
+  );
+};
+
+/**
+ * Component that consumes active filters and passes them down to component.
+ *  @param   {object}     props               props object
+ *  @param   {boolean}    props.hasAccess     if true, the access is granted
+ *  @param   {Function}   props.onRefreshData on refresh data function to notify inventory of new data changes
+ *  @returns {React.node}                     React node with inventory list
+ */
+const InventoryList = React.forwardRef(
+  ({ hasAccess, onRefreshData, ...props }, ref) => {
+    const activeFilters = useSelector(
+      ({ entities: { activeFilters } }) => activeFilters,
+    );
+
+    if (ref) {
+      ref.current = {
+        onRefreshData: (params, disableRefresh = true, forceRefresh) =>
+          onRefreshData(params, disableRefresh, forceRefresh),
+      };
+    }
+
+    return !hasAccess ? (
+      &lt;div className="ins-c-inventory__no-access">
+        &lt;AccessDenied showReturnButton={false} />
+      &lt;/div>
+    ) : (
+      &lt;ContextInventoryList
+        {...props}
+        activeFilters={activeFilters}
+        onRefreshData={onRefreshData}
+      />
+    );
+  },
+);
+
+ContextInventoryList.propTypes = {
+  ...InventoryList.propTypes,
+  setRefresh: PropTypes.func,
+  onRefreshData: PropTypes.func,
+  ignoreRefresh: PropTypes.bool,
+};
+ContextInventoryList.defaultProps = {
+  perPage: 50,
+  page: 1,
+  ignoreRefresh: true,
+};
+InventoryList.propTypes = {
+  showTags: PropTypes.bool,
+  filterEntities: PropTypes.func,
+  loadEntities: PropTypes.func,
+  showHealth: PropTypes.bool,
+  page: PropTypes.number,
+  perPage: PropTypes.number,
+  sortBy: PropTypes.shape({
+    key: PropTypes.string,
+    direction: PropTypes.string,
+  }),
+  items: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+      }),
+      PropTypes.shape({
+        account: PropTypes.any,
+        isOpen: PropTypes.bool,
+        title: PropTypes.node,
+      }),
+    ]),
+  ),
+  entities: PropTypes.arrayOf(PropTypes.any),
+  customFilters: PropTypes.shape({
+    tags: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.arrayOf(PropTypes.string),
+    ]),
+  }),
+  getEntities: PropTypes.func,
+  hideFilters: PropTypes.shape({
+    tags: PropTypes.bool,
+    name: PropTypes.bool,
+    registeredWith: PropTypes.bool,
+    stale: PropTypes.bool,
+    operatingSystem: PropTypes.bool,
+  }),
+  onRefreshData: PropTypes.func,
+};
+
+InventoryList.defaultProps = {
+  hasAccess: true,
+};
+
+export default InventoryList;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

@@ -1,0 +1,420 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/filters/useGroupFilter.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Inventory Frontend Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-custom_fetch.html">
+                                custom_fetch
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-general_info.html">
+                                general_info
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-hide_filters.html">
+                                hide_filters
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory.html">
+                                inventory
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_detail.html">
+                                inventory_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_header.html">
+                                inventory_header
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_detail.html">
+                                props_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_table.html">
+                                props_table
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/RedHatInsights/insights-inventory-frontend"
+                        >
+                            Inventory Frontend GitHub repository
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://console.redhat.com/docs/api/inventory"
+                        >
+                            Inventory REST API Documentation
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#AppInfo">AppInfo</a></li><li><a href="global.html#AppInfoCmp">AppInfoCmp</a></li><li><a href="global.html#AppInfoWrapper">AppInfoWrapper</a></li><li><a href="global.html#ApplicationDetails">ApplicationDetails</a></li><li><a href="global.html#ContextInventoryList">ContextInventoryList</a></li><li><a href="global.html#EntityTable">EntityTable</a></li><li><a href="global.html#EntityTableToolbar">EntityTableToolbar</a></li><li><a href="global.html#FactsInfo">FactsInfo</a></li><li><a href="global.html#FooterPagination">FooterPagination</a></li><li><a href="global.html#GROUP_TOKENS">GROUP_TOKENS</a></li><li><a href="global.html#HOST_WORKSPACE_RELATION_VIEW">HOST_WORKSPACE_RELATION_VIEW</a></li><li><a href="global.html#InventoryDetail">InventoryDetail</a></li><li><a href="global.html#InventoryList">InventoryList</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#STALENESS_WORKSPACE_RELATION_VIEW">STALENESS_WORKSPACE_RELATION_VIEW</a></li><li><a href="global.html#SystemNotFound">SystemNotFound</a></li><li><a href="global.html#TitleColumn">TitleColumn</a></li><li><a href="global.html#TopBar">TopBar</a></li><li><a href="global.html#WORKLOAD_API_MAP">WORKLOAD_API_MAP</a></li><li><a href="global.html#WORKSPACE_RELATION_VIEW">WORKSPACE_RELATION_VIEW</a></li><li><a href="global.html#buildOSFilterConfig">buildOSFilterConfig</a></li><li><a href="global.html#getSelectedOsFilterVersions">getSelectedOsFilterVersions</a></li><li><a href="global.html#groupOSVersions">groupOSVersions</a></li><li><a href="global.html#inventoryCache">inventoryCache</a></li><li><a href="global.html#onRowClick">onRowClick</a></li><li><a href="global.html#rhel9Results">rhel9Results</a></li><li><a href="global.html#toGroupSelection">toGroupSelection</a></li><li><a href="global.html#toGroupSelectionValue">toGroupSelectionValue</a></li><li><a href="global.html#updateURLSearchParams">updateURLSearchParams</a></li><li><a href="global.html#useCanFetchHostsWhenKessel">useCanFetchHostsWhenKessel</a></li><li><a href="global.html#useExportDownloadCheck">useExportDownloadCheck</a></li><li><a href="global.html#useGroupsQueryWithFilter">useGroupsQueryWithFilter</a></li><li><a href="global.html#useInventoryExport">useInventoryExport</a></li><li><a href="global.html#useModalState">useModalState</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/filters/useGroupFilter.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useMemo, useState, useEffect } from 'react';
+import debounce from 'lodash/debounce';
+import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
+
+import { HOST_GROUP_CHIP } from '../../Utilities/index';
+import SearchableGroupFilter from './SearchableGroupFilter';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { getGroups } from '../InventoryGroups/utils/api';
+import { GENERAL_GROUPS_READ_PERMISSION } from '../../constants';
+
+const PAGE_SIZE = 10;
+const INPUT_DEBOUNCE_MS = 300;
+
+export const groupFilterState = { hostGroupFilter: null };
+export const GROUP_FILTER = 'GROUP_FILTER';
+export const groupFilterReducer = (_state, { type, payload }) => ({
+  ...(type === GROUP_FILTER &amp;&amp; {
+    hostGroupFilter: payload,
+  }),
+});
+
+export const buildHostGroupChips = (selectedGroups = []) => {
+  const chips = [...selectedGroups]?.map((group) =>
+    group === ''
+      ? {
+          name: 'Ungrouped hosts',
+          value: '',
+        }
+      : {
+          name: group,
+          value: group,
+        },
+  );
+  return chips?.length > 0
+    ? [
+        {
+          category: 'Workspace',
+          type: HOST_GROUP_CHIP,
+          chips,
+        },
+      ]
+    : [];
+};
+
+/**
+ * Fetches workspaces (host groups) with a search support and infinite pagination.
+ *
+ * Behavior:
+ * - Captures the unfiltered total when debouncedTerm is empty to understand dataset size.
+ * - Uses a debounced search term for server-side filtering via getGroups if the total results exceed two pages (PAGE_SIZE * 2).
+ * - Exposes setSearchQuery which is debounced; when remote search is disabled it resets
+ * the debounced term to initSearchQuery to avoid unnecessary server calls.
+ *
+ *  @param   {object}  options                   The options object.
+ *  @param   {string}  [options.initSearchQuery] Initial query reflected when remote search is disabled.
+ *  @param   {boolean} [options.hasAccess]       Enables the underlying query when true, otherwise the query is disabled.
+ *  @param   {number}  [options.debounceTime]    Debounce duration for remote search, in ms.
+ *  @returns {Array}                             result array of a single object with the following properties:
+ *                                               result.groups {Array&lt;{name: string}>} - Flattened list of loaded workspaces.
+ *                                               result.setSearchQuery {function(string): void} - Debounced setter for the remote search term.
+ *                                               result.fetchNextPage {function(): void} - Load the next page when available.
+ *                                               result.hasNextPage {boolean} - Whether there is another page to load.
+ *                                               result.isFetchingNextPage {boolean} - True while the next page is loading.
+ *                                               result.remoteSearchEnabled {boolean} - True when server-side search should be used (> 2 pages total).
+ */
+const useGroupsQueryWithFilter = ({
+  hasAccess,
+  initSearchQuery = '',
+  debounceTime = INPUT_DEBOUNCE_MS,
+}) => {
+  const [searchTerm, setSearchTerm] = useState(initSearchQuery);
+  const [debouncedTerm, setDebouncedTerm] = useState(initSearchQuery);
+  const [unfilteredTotal, setUnfilteredTotal] = useState(undefined);
+
+  const remoteSearchEnabled = useMemo(() => {
+    return (
+      typeof unfilteredTotal === 'number' &amp;&amp; unfilteredTotal > PAGE_SIZE * 2
+    );
+  }, [unfilteredTotal]);
+
+  // Debounce the search term
+  const setSearchTermDebounced = useMemo(
+    () => debounce((term) => setDebouncedTerm(term), debounceTime),
+    [debounceTime, setDebouncedTerm],
+  );
+
+  const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ['groups', debouncedTerm],
+      queryFn: async ({ pageParam = 1 }) =>
+        getGroups(
+          {
+            ...(remoteSearchEnabled ? { name: debouncedTerm } : {}),
+            ...{ type: 'standard' },
+          },
+          {
+            page: pageParam,
+            per_page: PAGE_SIZE,
+          },
+        ),
+      // When menu opens, ensure at least first page is fetched
+      enabled: hasAccess,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      getNextPageParam: (lastPage, pages) => {
+        const currentCount = pages.reduce(
+          (sum, p) => sum + (p?.results?.length || 0),
+          0,
+        );
+        if (lastPage?.total &amp;&amp; currentCount &lt; lastPage.total) {
+          return pages.length + 1;
+        }
+        return undefined;
+      },
+    });
+
+  // Capture the total count for the unfiltered dataset (debouncedTerm === initSearchQuery)
+  useEffect(() => {
+    const firstPageTotal = data?.pages?.[0]?.total;
+    if (
+      debouncedTerm === initSearchQuery &amp;&amp;
+      typeof firstPageTotal === 'number'
+    ) {
+      setUnfilteredTotal(firstPageTotal);
+    }
+  }, [debouncedTerm, data, initSearchQuery, setUnfilteredTotal]);
+
+  // Auto-load subsequent pages if user is searching, to power full-text search
+  useEffect(() => {
+    if (!hasAccess) return;
+    if (!searchTerm || remoteSearchEnabled) return; // Only manual fetch unless searching through local data
+    if (hasNextPage &amp;&amp; !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [
+    hasAccess,
+    searchTerm,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+    remoteSearchEnabled,
+  ]);
+
+  // Collect data from all pages and filter groups based on the search term if remote search is disabled
+  const groups = useMemo(() => {
+    const allData = data?.pages?.flatMap((p) => p?.results || []) || [];
+    if (remoteSearchEnabled || !searchTerm) {
+      return allData;
+    }
+
+    return allData.filter((group) =>
+      String(group.name).toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+  }, [data, searchTerm, remoteSearchEnabled]);
+
+  // Set the search term and debounce it if remote search is enabled
+  const setSearchQuery = useMemo(() => {
+    return (term) => {
+      setSearchTerm(term);
+      if (remoteSearchEnabled) {
+        setSearchTermDebounced(term);
+      }
+    };
+  }, [setSearchTerm, setSearchTermDebounced, remoteSearchEnabled]);
+
+  return {
+    groups,
+    searchQuery: searchTerm,
+    setSearchQuery,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    remoteSearchEnabled,
+    isLoading,
+  };
+};
+
+const useGroupFilter = (showNoGroupOption = false) => {
+  const [selectedGroupNames, setSelectedGroupNames] = useState([]);
+
+  const { hasAccess } = useConditionalRBAC(
+    [GENERAL_GROUPS_READ_PERMISSION],
+    true,
+    false,
+  );
+
+  const {
+    groups,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+    setSearchQuery,
+    searchQuery,
+    isLoading,
+  } = useGroupsQueryWithFilter({
+    hasAccess,
+    debounceTime: INPUT_DEBOUNCE_MS,
+  });
+
+  const chips = useMemo(
+    () => buildHostGroupChips(selectedGroupNames),
+    [selectedGroupNames],
+  );
+
+  return [
+    {
+      label: 'Workspace',
+      value: 'group-host-filter',
+      type: 'custom',
+      filterValues: {
+        children: (
+          &lt;SearchableGroupFilter
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            isLoading={isLoading}
+            isFetchingNextPage={isFetchingNextPage}
+            hasNextPage={hasNextPage}
+            fetchNextPage={fetchNextPage}
+            groups={groups}
+            selectedGroupNames={selectedGroupNames}
+            setSelectedGroupNames={setSelectedGroupNames}
+            showNoGroupOption={showNoGroupOption}
+          />
+        ),
+      },
+    },
+    chips,
+    selectedGroupNames,
+    (groupNames) => setSelectedGroupNames(groupNames || []),
+  ];
+};
+
+export default useGroupFilter;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

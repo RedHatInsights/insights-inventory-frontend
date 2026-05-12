@@ -1,0 +1,279 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/InventoryTable/Pagination.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Inventory Frontend Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-custom_fetch.html">
+                                custom_fetch
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-general_info.html">
+                                general_info
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-hide_filters.html">
+                                hide_filters
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory.html">
+                                inventory
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_detail.html">
+                                inventory_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_header.html">
+                                inventory_header
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_detail.html">
+                                props_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_table.html">
+                                props_table
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/RedHatInsights/insights-inventory-frontend"
+                        >
+                            Inventory Frontend GitHub repository
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://console.redhat.com/docs/api/inventory"
+                        >
+                            Inventory REST API Documentation
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#AppInfo">AppInfo</a></li><li><a href="global.html#AppInfoCmp">AppInfoCmp</a></li><li><a href="global.html#AppInfoWrapper">AppInfoWrapper</a></li><li><a href="global.html#ApplicationDetails">ApplicationDetails</a></li><li><a href="global.html#ContextInventoryList">ContextInventoryList</a></li><li><a href="global.html#EntityTable">EntityTable</a></li><li><a href="global.html#EntityTableToolbar">EntityTableToolbar</a></li><li><a href="global.html#FactsInfo">FactsInfo</a></li><li><a href="global.html#FooterPagination">FooterPagination</a></li><li><a href="global.html#GROUP_TOKENS">GROUP_TOKENS</a></li><li><a href="global.html#HOST_WORKSPACE_RELATION_VIEW">HOST_WORKSPACE_RELATION_VIEW</a></li><li><a href="global.html#InventoryDetail">InventoryDetail</a></li><li><a href="global.html#InventoryList">InventoryList</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#STALENESS_WORKSPACE_RELATION_VIEW">STALENESS_WORKSPACE_RELATION_VIEW</a></li><li><a href="global.html#SystemNotFound">SystemNotFound</a></li><li><a href="global.html#TitleColumn">TitleColumn</a></li><li><a href="global.html#TopBar">TopBar</a></li><li><a href="global.html#WORKLOAD_API_MAP">WORKLOAD_API_MAP</a></li><li><a href="global.html#WORKSPACE_RELATION_VIEW">WORKSPACE_RELATION_VIEW</a></li><li><a href="global.html#buildOSFilterConfig">buildOSFilterConfig</a></li><li><a href="global.html#getSelectedOsFilterVersions">getSelectedOsFilterVersions</a></li><li><a href="global.html#groupOSVersions">groupOSVersions</a></li><li><a href="global.html#inventoryCache">inventoryCache</a></li><li><a href="global.html#onRowClick">onRowClick</a></li><li><a href="global.html#rhel9Results">rhel9Results</a></li><li><a href="global.html#toGroupSelection">toGroupSelection</a></li><li><a href="global.html#toGroupSelectionValue">toGroupSelectionValue</a></li><li><a href="global.html#updateURLSearchParams">updateURLSearchParams</a></li><li><a href="global.html#useCanFetchHostsWhenKessel">useCanFetchHostsWhenKessel</a></li><li><a href="global.html#useExportDownloadCheck">useExportDownloadCheck</a></li><li><a href="global.html#useGroupsQueryWithFilter">useGroupsQueryWithFilter</a></li><li><a href="global.html#useInventoryExport">useInventoryExport</a></li><li><a href="global.html#useModalState">useModalState</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/InventoryTable/Pagination.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import { Pagination, PaginationVariant } from '@patternfly/react-core';
+import PropTypes from 'prop-types';
+
+/**
+ * Bottom pagination used in table. It can remember what page user is on if user entered the page number in input.
+ *  @param   {object}     props                 props object
+ *  @param   {number}     props.total           total number of items
+ *  @param   {number}     props.page            current page
+ *  @param   {number}     props.perPage         items per page
+ *  @param   {string}     props.direction       direction of the pagination
+ *  @param   {boolean}    props.isFull          if true, the pagination is full
+ *  @param   {boolean}    props.hasAccess       if true, the pagination has access
+ *  @param   {object}     props.paginationProps pagination props
+ *  @param   {Function}   props.onRefreshData   on refresh data function
+ *  @param   {boolean}    props.loaded          if true, the pagination is loaded
+ *  @param   {string}     props.ouiaId          ouia id for testing
+ *  @returns {React.node}                       React node with pagination
+ */
+const FooterPagination = ({
+  total,
+  page,
+  perPage,
+  direction,
+  isFull,
+  hasAccess,
+  paginationProps,
+  onRefreshData,
+  loaded,
+  ouiaId,
+}) => {
+  /**
+   * Thi method sets new page and combines previous props to apply sort, filters etc.
+   *  @param   {event}  _event  html event to figure if target was input.
+   *  @param   {number} pageArg current page to change to.
+   *  @returns {void}           void
+   */
+  const onSetPage = (_event, pageArg) => onRefreshData({ page: pageArg });
+
+  /**
+   * This method changes per page, it automatically sets page to first one.
+   * It also applies previous sort, filters, etc.
+   *  @param   {event}  _event     event is now not used.
+   *  @param   {number} perPageArg new perPage set by user.
+   *  @returns {void}              void
+   */
+  const onPerPageSelect = (_event, perPageArg) =>
+    onRefreshData({ page: 1, per_page: perPageArg });
+
+  return loaded || !hasAccess ? (
+    &lt;Pagination
+      {...(isFull &amp;&amp; {
+        variant: PaginationVariant.bottom,
+      })}
+      isDisabled={!hasAccess}
+      itemCount={total}
+      page={page}
+      perPage={perPage}
+      dropDirection={direction}
+      onSetPage={onSetPage}
+      onPerPageSelect={onPerPageSelect}
+      titles={{
+        items: '',
+        optionsToggleAriaLabel: 'Items per page',
+      }}
+      ouiaId={ouiaId}
+      {...paginationProps}
+    />
+  ) : null;
+};
+
+FooterPagination.propTypes = {
+  perPage: PropTypes.number,
+  total: PropTypes.number,
+  page: PropTypes.number,
+  isFull: PropTypes.bool,
+  hasAccess: PropTypes.bool,
+  direction: PropTypes.string,
+  paginationProps: PropTypes.object,
+  loaded: PropTypes.bool,
+  onRefreshData: PropTypes.func.isRequired,
+  ouiaId: PropTypes.string,
+};
+
+FooterPagination.defaultProps = {
+  total: 0,
+  isFull: false,
+  direction: 'up',
+  hasAccess: true,
+};
+
+export default FooterPagination;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

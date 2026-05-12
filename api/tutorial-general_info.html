@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> general_info</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Inventory Frontend Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-custom_fetch.html">
+                                custom_fetch
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-general_info.html">
+                                general_info
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-hide_filters.html">
+                                hide_filters
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory.html">
+                                inventory
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_detail.html">
+                                inventory_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_header.html">
+                                inventory_header
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_detail.html">
+                                props_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_table.html">
+                                props_table
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/RedHatInsights/insights-inventory-frontend"
+                        >
+                            Inventory Frontend GitHub repository
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://console.redhat.com/docs/api/inventory"
+                        >
+                            Inventory REST API Documentation
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar tutorials"
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-custom_fetch.html">custom_fetch</a></li><li><a href="tutorial-general_info.html">general_info</a></li><li><a href="tutorial-hide_filters.html">hide_filters</a></li><li><a href="tutorial-inventory.html">inventory</a></li><li><a href="tutorial-inventory_detail.html">inventory_detail</a></li><li><a href="tutorial-inventory_header.html">inventory_header</a></li><li><a href="tutorial-props_detail.html">props_detail</a></li><li><a href="tutorial-props_table.html">props_table</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Tutorial</p>
+                    <h1>general_info</h1>
+                </header>
+                <section>
+
+<article>
+    <h1>Inventory detail - System Overview and Details tabs</h1>
+<p>The system details view is split into two tabs: <strong>Overview</strong> and <strong>Details</strong>. Each tab renders a set of General Info cards in a two-column grid.</p>
+<h2>Overview tab</h2>
+<p>Cards shown:</p>
+<ul>
+<li><strong>System status</strong> (<code>system-status-card</code>) – RHC status, last seen, stale timestamp</li>
+<li><strong>System properties</strong> (<code>system-card</code>) – Host name, Workloads, Display name, Workspace, Ansible hostname (editable when permitted)</li>
+<li><strong>Data collectors</strong> (<code>dataCollector-card</code>) – Reporters that collect data from hosts (e.g. puptoo, RHSM, Yupana)</li>
+<li><strong>Subscriptions</strong> (<code>subscriptions-card</code>) – Subscription and entitlement information</li>
+</ul>
+<p>Layout: System status and System properties in the left column; Data collectors and Subscriptions in the right column.</p>
+<h2>Details tab</h2>
+<p>Cards shown, in layout order:</p>
+<p><strong>Left column:</strong></p>
+<ul>
+<li><strong>Hardware properties</strong> (<code>hardware-properties-card</code>) – Number of CPUs, RAM, Sockets, Type, Cores per socket, Vendor, CPU flags</li>
+<li><strong>Operating system</strong> (<code>os-card</code>) – Architecture, Release, Kernel modules, Last boot time, Kernel release, Update method</li>
+<li><strong>Network interfaces</strong> (<code>network-interfaces-card</code>) – IPv4 addresses, Interfaces/NICs, IPv6 addresses, FQDN</li>
+<li><strong>BOOTC</strong> (<code>bootc-card</code>) – Shown only for image-based (Bootc) hosts</li>
+</ul>
+<p><strong>Right column:</strong></p>
+<ul>
+<li><strong>RHEL AI</strong> (<code>rhel-ai-card</code>) – Shown only when the system has RHEL AI workload data</li>
+<li><strong>Configuration</strong> (<code>configuration-card</code>) – Installed packages, enabled services, running processes, repositories</li>
+<li><strong>BIOS</strong> (<code>bios-card</code>) – BIOS vendor, version, release date</li>
+<li><strong>Collection information</strong> (<code>collection-card</code>) – Shown when <code>CollectionCardWrapper</code> is provided</li>
+<li><strong>Runtimes/Processes</strong> – Async component when <code>showRuntimesProcesses</code> is true and <code>entity.fqdn</code> is set</li>
+</ul>
+<p>All cards except BOOTC, RHEL AI, Collection, and Runtimes are visible by default. Cards can be replaced or disabled via wrapper props (e.g. <code>HardwarePropertiesCardWrapper={false}</code> or a custom component).</p>
+<hr>
+<h2>Card reference</h2>
+<h3>SystemCard (Overview)</h3>
+<p>Title: <strong>System properties</strong>. Displays host identity and workload info: Host name, Workloads, Display name, Workspace, Ansible hostname. Display name and Ansible hostname are inline-editable when the user has write permissions. Accepts an <code>extra</code> array of additional row items.</p>
+<h3>HardwarePropertiesCard (Details)</h3>
+<p>Title: <strong>Hardware properties</strong>. Displays CPU and hardware info from system profile and infrastructure selectors: Number of CPUs, RAM, Sockets, Type, Cores per socket, Vendor, CPU flags. Type is derived from infrastructure type or RHSM <code>IS_VIRTUAL</code>; Vendor from infrastructure. CPU flags open a modal when clicked. Connected to Redux for <code>systemProfile</code> and <code>entity</code>.</p>
+<h3>NetworkInterfacesCard (Details)</h3>
+<p>Title: <strong>Network interfaces</strong>. Displays network data from the infrastructure selector: IPv4 addresses, Interfaces/NICs, IPv6 addresses, FQDN. IPv4, IPv6, and Interfaces are clickable and open modals. Replaces the previous “Infrastructure” card for network-related fields (Type and Vendor moved to Hardware properties).</p>
+<h3>OperatingSystemCard (Details)</h3>
+<p>Title: <strong>Operating system</strong>. Displays OS info: Architecture, Release, Kernel modules, Last boot time, Kernel release, Update method (when present). Kernel modules open a modal when clicked.</p>
+<h3>DataCollectorsCard (Overview)</h3>
+<p>Title: <strong>Data collectors</strong>. “Data collector” is the tool or product that collects data from hosts and sends it to Red Hat. The card shows a table of default collectors (e.g. puptoo, RHSM, Yupana). Custom collectors can be passed via a <code>collectors</code> array, and a custom <code>dataMapper</code> can replace the default table behavior.</p>
+<h4>Usage</h4>
+<pre class="prettyprint source lang-jsx"><code>&lt;Overview
+  {...someProps}
+  DataCollectorsCardWrapper={(props) => (
+    &lt;Suspense fallback=&quot;&quot;>
+      &lt;DataCollectorsCard
+        {...props}
+        collectors={[
+          {
+            name: 'Custom reporter name',
+            status: customReporterStatus,
+            updated: customReporterLastCheckIn,
+            details: {
+              name: 'Custom reporter id name',
+              id: customReporterId,
+            },
+          },
+        ]}
+      />
+    &lt;/Suspense>
+  )}
+/>
+</code></pre>
+<h3>Other cards</h3>
+<ul>
+<li><strong>SystemStatusCard</strong> – System status (Overview).</li>
+<li><strong>SubscriptionCard</strong> – Subscriptions (Overview).</li>
+<li><strong>BiosCard</strong> – BIOS (Details).</li>
+<li><strong>ConfigurationCard</strong> – Configuration (Details).</li>
+<li><strong>BootcImageCard</strong> – BOOTC image (Details, image-based hosts only).</li>
+<li><strong>RhelAICard</strong> – RHEL AI (Details, when workload data is present).</li>
+<li><strong>CollectionCard</strong> – Collection information (Details, when wrapper provided).</li>
+</ul>
+<hr>
+<h2>Customizing cards</h2>
+<p>Overview and Details accept wrapper props so you can replace or hide a card:</p>
+<ul>
+<li><strong>Overview:</strong> <code>SystemCardWrapper</code>, <code>SystemStatusCardWrapper</code>, <code>DataCollectorsCardWrapper</code>, <code>SubscriptionCardWrapper</code></li>
+<li><strong>Details:</strong> <code>HardwarePropertiesCardWrapper</code>, <code>NetworkInterfacesCardWrapper</code>, <code>OperatingSystemCardWrapper</code>, <code>BiosCardWrapper</code>, <code>BootcImageCardWrapper</code>, <code>ConfigurationCardWrapper</code>, <code>RhelAICardWrapper</code>, <code>CollectionCardWrapper</code></li>
+</ul>
+<p>Pass a component to replace the default card, or <code>false</code> to hide it. Example:</p>
+<pre class="prettyprint source lang-jsx"><code>&lt;Details
+  entity={entity}
+  inventoryId={inventoryId}
+  fetchEntity={fetchEntity}
+  HardwarePropertiesCardWrapper={false}
+  ConfigurationCardWrapper={MyConfigurationCard}
+/>
+</code></pre>
+</article>
+
+</section>
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

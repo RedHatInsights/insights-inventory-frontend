@@ -1,0 +1,394 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/InventoryTable/EntityTable.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Inventory Frontend Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-custom_fetch.html">
+                                custom_fetch
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-general_info.html">
+                                general_info
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-hide_filters.html">
+                                hide_filters
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory.html">
+                                inventory
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_detail.html">
+                                inventory_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_header.html">
+                                inventory_header
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_detail.html">
+                                props_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_table.html">
+                                props_table
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/RedHatInsights/insights-inventory-frontend"
+                        >
+                            Inventory Frontend GitHub repository
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://console.redhat.com/docs/api/inventory"
+                        >
+                            Inventory REST API Documentation
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#AppInfo">AppInfo</a></li><li><a href="global.html#AppInfoCmp">AppInfoCmp</a></li><li><a href="global.html#AppInfoWrapper">AppInfoWrapper</a></li><li><a href="global.html#ApplicationDetails">ApplicationDetails</a></li><li><a href="global.html#ContextInventoryList">ContextInventoryList</a></li><li><a href="global.html#EntityTable">EntityTable</a></li><li><a href="global.html#EntityTableToolbar">EntityTableToolbar</a></li><li><a href="global.html#FactsInfo">FactsInfo</a></li><li><a href="global.html#FooterPagination">FooterPagination</a></li><li><a href="global.html#GROUP_TOKENS">GROUP_TOKENS</a></li><li><a href="global.html#HOST_WORKSPACE_RELATION_VIEW">HOST_WORKSPACE_RELATION_VIEW</a></li><li><a href="global.html#InventoryDetail">InventoryDetail</a></li><li><a href="global.html#InventoryList">InventoryList</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#STALENESS_WORKSPACE_RELATION_VIEW">STALENESS_WORKSPACE_RELATION_VIEW</a></li><li><a href="global.html#SystemNotFound">SystemNotFound</a></li><li><a href="global.html#TitleColumn">TitleColumn</a></li><li><a href="global.html#TopBar">TopBar</a></li><li><a href="global.html#WORKLOAD_API_MAP">WORKLOAD_API_MAP</a></li><li><a href="global.html#WORKSPACE_RELATION_VIEW">WORKSPACE_RELATION_VIEW</a></li><li><a href="global.html#buildOSFilterConfig">buildOSFilterConfig</a></li><li><a href="global.html#getSelectedOsFilterVersions">getSelectedOsFilterVersions</a></li><li><a href="global.html#groupOSVersions">groupOSVersions</a></li><li><a href="global.html#inventoryCache">inventoryCache</a></li><li><a href="global.html#onRowClick">onRowClick</a></li><li><a href="global.html#rhel9Results">rhel9Results</a></li><li><a href="global.html#toGroupSelection">toGroupSelection</a></li><li><a href="global.html#toGroupSelectionValue">toGroupSelectionValue</a></li><li><a href="global.html#updateURLSearchParams">updateURLSearchParams</a></li><li><a href="global.html#useCanFetchHostsWhenKessel">useCanFetchHostsWhenKessel</a></li><li><a href="global.html#useExportDownloadCheck">useExportDownloadCheck</a></li><li><a href="global.html#useGroupsQueryWithFilter">useGroupsQueryWithFilter</a></li><li><a href="global.html#useInventoryExport">useInventoryExport</a></li><li><a href="global.html#useModalState">useModalState</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/InventoryTable/EntityTable.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
+import { selectEntity, changeSort } from '../../store/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { TableGridBreakpoint, TableVariant } from '@patternfly/react-table';
+import {
+  Table as PfTable,
+  TableBody,
+  TableHeader,
+} from '@patternfly/react-table/deprecated';
+import { SkeletonTable } from '@redhat-cloud-services/frontend-components/SkeletonTable';
+import NoEntitiesFound from './NoEntitiesFound';
+import { createColumns, createRows } from './helpers';
+import useColumns from './hooks/useColumns';
+
+/**
+ * The actual (PF)table component. It calculates each cell and every table property.
+ * It uses rows, columns and loaded from redux to show correct data.
+ * When row is selected `selectEntity` is dispatched.
+ *  @param   {object}          props                       all props used in this component.
+ *  @param   {boolean}         props.hasItems              if true, the items are loaded
+ *  @param   {boolean}         props.expandable            if true, the expandable is enabled
+ *  @param   {Function}        props.onExpandClick         on expand click function
+ *  @param   {boolean}         props.hasCheckbox           if true, the checkbox is enabled
+ *  @param   {Array}           props.actions               actions array for the table
+ *  @param   {string}          props.variant               variant of the table
+ *  @param   {object}          props.sortBy                sort by object
+ *  @param   {object}          props.tableProps            table props object
+ *  @param   {Function}        props.onSort                on sort function
+ *  @param   {Function}        props.onRowClick            on row click function
+ *  @param   {boolean}         props.noDetail              if true, the no detail is enabled
+ *  @param   {React.node}      props.noSystemsTable        no systems table node
+ *  @param   {boolean}         props.showTags              if true, the tags are shown
+ *  @param   {Array}           props.columns               columns array
+ *  @param   {boolean}         props.disableDefaultColumns if true, the default columns are disabled
+ *  @param   {boolean}         props.loaded                if true, the loaded is true
+ *  @param   {number}          props.columnsCounter        columns counter
+ *  @param   {string}          props.lastSeenOverride      last seen override
+ *  @returns {React.ReactNode}                             the table component
+ */
+const EntityTable = ({
+  hasItems,
+  expandable = false,
+  onExpandClick = () => undefined,
+  hasCheckbox = true,
+  actions,
+  variant = TableVariant.compact,
+  sortBy,
+  tableProps = {},
+  onSort,
+  onRowClick,
+  noDetail,
+  noSystemsTable = &lt;NoEntitiesFound />,
+  showTags,
+  columns: columnsProp,
+  disableDefaultColumns,
+  loaded = false,
+  columnsCounter,
+  lastSeenOverride,
+}) => {
+  const isExpandable = expandable;
+  const dispatch = useDispatch();
+  const columns = useColumns(columnsProp, {
+    disableDefaultColumns,
+    showTags,
+    columnsCounter,
+    lastSeenOverride,
+  });
+  const rows = useSelector(({ entities: { rows } }) => rows);
+  const onItemSelect = (_event, checked, rowId) => {
+    const row = isExpandable ? rows[rowId / 2] : rows[rowId];
+    dispatch(selectEntity(rowId === -1 ? 0 : row.id, checked));
+  };
+
+  const onSortChange = (_event, key, direction, index) => {
+    if (key !== 'action' &amp;&amp; key !== 'health') {
+      dispatch(changeSort({ index, key, direction: direction?.toLowerCase() }));
+    }
+
+    onSort?.({ index, key, direction });
+  };
+
+  const cells = useMemo(
+    () => loaded &amp;&amp; createColumns(columns, hasItems, rows, isExpandable),
+    [loaded, columns, hasItems, rows, isExpandable],
+  );
+
+  const tableSortBy = {
+    index:
+      columns?.findIndex(
+        (item) =>
+          sortBy?.key === item.key ||
+          // Inventory API has different sort key for some columns
+          (sortBy?.key === 'operating_system' &amp;&amp;
+            item.key === 'system_profile') ||
+          (sortBy?.key === 'group_name' &amp;&amp; item.key === 'groups'),
+      ) +
+      Boolean(hasCheckbox) +
+      Boolean(expandable),
+    direction: sortBy?.direction,
+  };
+
+  const modifiedTableProps = useMemo(() => {
+    const { RowWrapper, ...withoutRowWrapper } = tableProps;
+    if (rows?.length === 0) {
+      const { actionResolver, ...filteredTableProps } = withoutRowWrapper;
+
+      return filteredTableProps;
+    }
+    return withoutRowWrapper;
+  }, [rows, tableProps]);
+
+  return (
+    &lt;React.Fragment>
+      {loaded &amp;&amp; cells ? (
+        PfTable &amp;&amp; (
+          &lt;PfTable
+            variant={variant}
+            aria-label="Host inventory"
+            data-ouia-component-id="systems-table"
+            cells={cells}
+            rows={createRows(rows, columns, {
+              actions,
+              expandable,
+              loaded,
+              onRowClick,
+              noDetail,
+              sortBy,
+              noSystemsTable,
+            })}
+            gridBreakPoint={
+              columns?.length > 5
+                ? TableGridBreakpoint.gridLg
+                : TableGridBreakpoint.gridMd
+            }
+            className="ins-c-entity-table sentry-mask data-hj-suppress"
+            onSort={(event, index, direction) => {
+              onSortChange(
+                event,
+                cells?.[index - Boolean(hasCheckbox) - Boolean(expandable)]
+                  ?.sortKey ||
+                  cells?.[index - Boolean(hasCheckbox) - Boolean(expandable)]
+                    ?.key,
+                direction,
+                index,
+              );
+            }}
+            sortBy={tableSortBy}
+            {...{
+              ...(hasCheckbox &amp;&amp; rows?.length !== 0
+                ? { onSelect: onItemSelect }
+                : {}),
+              ...(expandable ? { onCollapse: onExpandClick } : {}),
+              ...(actions &amp;&amp; rows?.length > 0 &amp;&amp; { actions }),
+            }}
+            isStickyHeader
+            {...modifiedTableProps}
+          >
+            &lt;TableHeader />
+            &lt;TableBody />
+          &lt;/PfTable>
+        )
+      ) : (
+        &lt;SkeletonTable
+          columns={columns.map(({ title, dataLabel }) => dataLabel || title)}
+          rows={15}
+          variant={variant ?? modifiedTableProps.variant}
+        />
+      )}
+    &lt;/React.Fragment>
+  );
+};
+
+EntityTable.propTypes = {
+  variant: PropTypes.oneOf(['compact']),
+  expandable: PropTypes.bool,
+  onExpandClick: PropTypes.func,
+  onSort: PropTypes.func,
+  hasCheckbox: PropTypes.bool,
+  hasItems: PropTypes.bool,
+  sortBy: PropTypes.shape({
+    key: PropTypes.string,
+    direction: PropTypes.oneOf(['asc', 'desc']),
+  }),
+  tableProps: PropTypes.shape({
+    [PropTypes.string]: PropTypes.any,
+    RowWrapper: PropTypes.elementType,
+    variant: PropTypes.string,
+    actionResolver: PropTypes.func,
+  }),
+  onRowClick: PropTypes.func,
+  showTags: PropTypes.bool,
+  noSystemsTable: PropTypes.node,
+  disableDefaultColumns: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.arrayOf(PropTypes.string),
+  ]),
+  loaded: PropTypes.bool,
+  columnsCounter: PropTypes.number,
+  columns: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
+  isLoaded: PropTypes.bool,
+  actions: PropTypes.array,
+  noDetail: PropTypes.any,
+  lastSeenOverride: PropTypes.string,
+};
+
+export default EntityTable;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

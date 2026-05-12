@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> inventory_detail</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Inventory Frontend Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-custom_fetch.html">
+                                custom_fetch
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-general_info.html">
+                                general_info
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-hide_filters.html">
+                                hide_filters
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory.html">
+                                inventory
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_detail.html">
+                                inventory_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_header.html">
+                                inventory_header
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_detail.html">
+                                props_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_table.html">
+                                props_table
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/RedHatInsights/insights-inventory-frontend"
+                        >
+                            Inventory Frontend GitHub repository
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://console.redhat.com/docs/api/inventory"
+                        >
+                            Inventory REST API Documentation
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar tutorials"
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-custom_fetch.html">custom_fetch</a></li><li><a href="tutorial-general_info.html">general_info</a></li><li><a href="tutorial-hide_filters.html">hide_filters</a></li><li><a href="tutorial-inventory.html">inventory</a></li><li><a href="tutorial-inventory_detail.html">inventory_detail</a></li><li><a href="tutorial-inventory_header.html">inventory_header</a></li><li><a href="tutorial-props_detail.html">props_detail</a></li><li><a href="tutorial-props_table.html">props_table</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Tutorial</p>
+                    <h1>inventory_detail</h1>
+                </header>
+                <section>
+
+<article>
+    <h1>Inventory detail</h1>
+<p>As of v1.3.1 you can render the inventory header and main section separately, rather than using obsolete AppInfo and InventoryDetailHead components to render the tab menu and main section separately (doc/inventory_detail.md).</p>
+<h1>Detail wrapper</h1>
+<p>This component serves as a wrapper for Inventory detail page components. It wrapps components with a drawer.</p>
+<p>IMPORTANT: inventoryId is a required prop that will be used to fetch inventory detail data from the inventory API. This data can be used to populate the header and main section later by accessing it from the redux</p>
+<h1>InventoryDetail</h1>
+<p>This is the main component that renders both header and main section. It adds deleteEntity action and an error handling.</p>
+<p>Note: you can pass a custom appList prop as an array of tabs to render in the main section. To do this you need to pass showMainSection as true together with the appList prop.</p>
+<pre class="prettyprint source lang-JSX"><code>
+import React, { useEffect, useState, useCallback } from 'react';
+import PropTypes from 'prop-types';
+import { useSelector, useStore, useDispatch } from 'react-redux';
+import { useLocation, useParams, Link, useHistory } from 'react-router-dom';
+import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
+import './inventory.scss';
+import * as actions from '../store/actions';
+import { routes } from '../Routes';
+import InventoryDetail from '../components/InventoryDetail/InventoryDetail';
+import { AdvisorTab, OverviewTab, DetailsTab } from '../components/SystemDetails';
+
+const appList = [
+    { title: 'Overview', name: 'overview', component: OverviewTab },
+    { title: 'Details', name: 'details', component: DetailsTab },
+    { title: 'Advisor', name: 'advisor', component: AdvisorTab }
+];
+
+const Inventory = () => {
+    const { inventoryId } = useParams();
+    const { search } = useLocation();
+    const searchParams = new URLSearchParams(search);
+    const [activeApp] = useState(searchParams.get('appName') || appList[0].name);
+    const store = useStore();
+    const history = useHistory();
+
+    const onTabSelect = useCallback((_, activeApp, appName) => {
+        searchParams.set('appName', appName);
+        const search = searchParams.toString();
+        history.push({
+            search
+        });
+    }, [searchParams]);
+
+    return (
+        &lt;InventoryDetail
+            additionalClasses={additionalClasses}
+            hideInvDrawer
+            showDelete={writePermissions}
+            hideInvLink
+            hideBack
+            inventoryId={inventoryId}
+            showTags
+            showMainSection
+            fallback=&quot;&quot;
+            store={store}
+            history={history}
+            isInventoryApp
+            shouldWrapAsPage
+            activeApp={activeApp}
+            appList={appList}
+            onTabSelect={onTabSelect}
+        />
+    );
+};
+
+
+</code></pre>
+<p>If you want to hide the main section, just pass showMainSection as false</p>
+<h1>Avaiable headers</h1>
+<h2>1. DetailHeader</h2>
+<p>You can import DetailHeader component if you have all the required data available in your application API. This component serves as a presentational component without any logic.</p>
+<h2>2. InventoryDetailHeader</h2>
+<p>If you do not have the data to populate the header in your application API, you can import the InventoryDetailHeader component that will request Inventory application API and populates the header with required information.
+IMPORTANT:</p>
+<ol>
+<li>As the data needs to be fetched on InventoryDetailHeader component, make sure to pass inventoryId to either DetailWrapper or InventoryDetailHeader itself</li>
+<li>shouldApplicationDetail = true prop needs to be passed so that main section is hidden.</li>
+</ol>
+<h3>Example</h3>
+<pre class="prettyprint source lang-JSX"><code>import React, { useEffect } from 'react';
+import { Main } from '@redhat-cloud-services/frontend-components/Main';
+import { DetailHeader, DetailWrapper } from '@redhat-cloud-services/frontend-components/Inventory';
+
+const InventoryDetail = () => {
+    const {  inventoryId } = useParams();
+     return (
+        &lt;DetailWrapper
+            // You can extend the entityDetail reducer with your own reducer
+            onLoad={({ mergeWithDetail }) => {
+                store.replaceReducer(combineReducers({
+                    ...defaultReducers,
+                    ...mergeWithDetail(SystemDetailStore)
+                }));
+            }}
+            inventoryId={inventoryId}
+        >
+            &lt;DetailHeader
+                hideBack
+                showTags
+                inventoryId={inventoryId}
+                actions={[]}
+                shouldWrapAsPage
+                {..apiDataAsProps}
+            >
+                {&lt;YourCustomComponentsInsideHeader />}
+            &lt;/DetailHeader>
+            &lt;Main>
+                &lt;YouCustomMainSection inventoryId={inventoryId}/>
+            &lt;/Main>
+        &lt;/DetailWrapper>);
+};
+
+
+</code></pre>
+</article>
+
+</section>
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

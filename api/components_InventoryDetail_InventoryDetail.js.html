@@ -1,0 +1,361 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/InventoryDetail/InventoryDetail.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Inventory Frontend Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-custom_fetch.html">
+                                custom_fetch
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-general_info.html">
+                                general_info
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-hide_filters.html">
+                                hide_filters
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory.html">
+                                inventory
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_detail.html">
+                                inventory_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_header.html">
+                                inventory_header
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_detail.html">
+                                props_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_table.html">
+                                props_table
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/RedHatInsights/insights-inventory-frontend"
+                        >
+                            Inventory Frontend GitHub repository
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://console.redhat.com/docs/api/inventory"
+                        >
+                            Inventory REST API Documentation
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#AppInfo">AppInfo</a></li><li><a href="global.html#AppInfoCmp">AppInfoCmp</a></li><li><a href="global.html#AppInfoWrapper">AppInfoWrapper</a></li><li><a href="global.html#ApplicationDetails">ApplicationDetails</a></li><li><a href="global.html#ContextInventoryList">ContextInventoryList</a></li><li><a href="global.html#EntityTable">EntityTable</a></li><li><a href="global.html#EntityTableToolbar">EntityTableToolbar</a></li><li><a href="global.html#FactsInfo">FactsInfo</a></li><li><a href="global.html#FooterPagination">FooterPagination</a></li><li><a href="global.html#GROUP_TOKENS">GROUP_TOKENS</a></li><li><a href="global.html#HOST_WORKSPACE_RELATION_VIEW">HOST_WORKSPACE_RELATION_VIEW</a></li><li><a href="global.html#InventoryDetail">InventoryDetail</a></li><li><a href="global.html#InventoryList">InventoryList</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#STALENESS_WORKSPACE_RELATION_VIEW">STALENESS_WORKSPACE_RELATION_VIEW</a></li><li><a href="global.html#SystemNotFound">SystemNotFound</a></li><li><a href="global.html#TitleColumn">TitleColumn</a></li><li><a href="global.html#TopBar">TopBar</a></li><li><a href="global.html#WORKLOAD_API_MAP">WORKLOAD_API_MAP</a></li><li><a href="global.html#WORKSPACE_RELATION_VIEW">WORKSPACE_RELATION_VIEW</a></li><li><a href="global.html#buildOSFilterConfig">buildOSFilterConfig</a></li><li><a href="global.html#getSelectedOsFilterVersions">getSelectedOsFilterVersions</a></li><li><a href="global.html#groupOSVersions">groupOSVersions</a></li><li><a href="global.html#inventoryCache">inventoryCache</a></li><li><a href="global.html#onRowClick">onRowClick</a></li><li><a href="global.html#rhel9Results">rhel9Results</a></li><li><a href="global.html#toGroupSelection">toGroupSelection</a></li><li><a href="global.html#toGroupSelectionValue">toGroupSelectionValue</a></li><li><a href="global.html#updateURLSearchParams">updateURLSearchParams</a></li><li><a href="global.html#useCanFetchHostsWhenKessel">useCanFetchHostsWhenKessel</a></li><li><a href="global.html#useExportDownloadCheck">useExportDownloadCheck</a></li><li><a href="global.html#useGroupsQueryWithFilter">useGroupsQueryWithFilter</a></li><li><a href="global.html#useInventoryExport">useInventoryExport</a></li><li><a href="global.html#useModalState">useModalState</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/InventoryDetail/InventoryDetail.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Fragment, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import {
+  deleteEntity as deleteEntityAction,
+  loadEntity,
+} from '../../store/actions';
+import './InventoryDetail.scss';
+import SystemNotFound from './SystemNotFound';
+import { reloadWrapper } from '../../Utilities/index';
+import ApplicationDetails from './ApplicationDetails';
+import './InventoryDetail.scss';
+import DetailHeader from './DetailHeader';
+import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
+import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorState';
+import _ from 'lodash';
+/**
+ * Composit component which tangles together Topbar, facts, tags, app details and if system is found or not.
+ * This component is connected to redux and reads `loaded` and `entity`.
+ *  @param   {object}          props                   additional features from parent component.
+ *  @param   {boolean}         props.showTags          if show tags is true
+ *  @param   {Function}        props.onTabSelect       on tab select function
+ *  @param   {Function}        props.onBackToListClick on back to list click function
+ *  @param   {string}          props.inventoryId       inventory id
+ *  @param   {object}          props.additionalClasses additional classes
+ *  @param   {string}          props.activeApp         active app name
+ *  @param   {Array}           props.appList           app list
+ *  @param   {boolean}         props.showMainSection   if show main section is true
+ *  @param   {object}          props.headerProps       props for the detail header
+ *  @param   {object}          props.entity            entity object
+ *  @param   {Function}        props.fetchEntity       fetch entity function
+ *  @param                     props.entityError
+ *  @returns {React.ReactNode}                         the inventory detail component
+ */
+const InventoryDetail = ({
+  showTags = false,
+  onTabSelect,
+  onBackToListClick,
+  inventoryId,
+  additionalClasses,
+  activeApp,
+  appList = [],
+  showMainSection,
+  entity: entityProp,
+  fetchEntity,
+  entityError,
+  writePermissions,
+  ...headerProps
+}) => {
+  const dispatch = useDispatch();
+  const addNotification = useAddNotification();
+  const reduxLoaded = useSelector(
+    ({ entityDetails }) => entityDetails?.loaded || false,
+  );
+  // If entityProp is provided and has an ID, treat as loaded
+  const loaded = reduxLoaded || entityProp?.id !== undefined;
+  const entity = useSelector(
+    ({ entityDetails }) => entityProp || entityDetails?.entity,
+  );
+
+  //TODO: one all apps migrate to away from AppAinfo, remove this
+  useEffect(() => {
+    // Only dispatch if not loaded yet, or if entity exists but doesn't match the inventoryId
+    // When entity prop is provided, still load via Redux to set loaded state
+    if (
+      (!loaded &amp;&amp; !entityProp) ||
+      (!_.isEmpty(entity) &amp;&amp; entity?.id !== inventoryId)
+    ) {
+      dispatch(loadEntity(inventoryId, { hasItems: true }, { showTags }));
+    }
+  }, [dispatch, inventoryId, entity, entityProp, showTags, loaded]);
+
+  const deleteEntity = (systems, displayName, callback) => {
+    const action = deleteEntityAction(systems, displayName, addNotification);
+    dispatch(reloadWrapper(action, callback));
+  };
+
+  // I'd love to replace the ErrorState with a custom error component that displays the error message
+  return (
+    &lt;div className="ins-entity-detail">
+      {entityError?.status === 400 ? (
+        &lt;ErrorState />
+      ) : loaded &amp;&amp; _.isEmpty(entity) ? (
+        &lt;SystemNotFound
+          onBackToListClick={onBackToListClick}
+          inventoryId={inventoryId}
+        />
+      ) : (
+        &lt;>
+          &lt;DetailHeader
+            entity={entity}
+            loaded={loaded}
+            onBackToListClick={onBackToListClick}
+            deleteEntity={deleteEntity}
+            addNotification={(payload) => addNotification(payload)}
+            showTags={showTags}
+            {...headerProps}
+          />
+          {showMainSection &amp;&amp; (
+            &lt;ApplicationDetails
+              onTabSelect={onTabSelect}
+              activeApp={activeApp}
+              appList={appList}
+              inventoryId={inventoryId}
+              entity={entity}
+              fetchEntity={fetchEntity}
+              writePermissions={writePermissions}
+            />
+          )}
+        &lt;/>
+      )}
+    &lt;/div>
+  );
+};
+
+InventoryDetail.propTypes = {
+  showTags: PropTypes.bool,
+  onTabSelect: PropTypes.func,
+  onBackToListClick: PropTypes.func,
+  inventoryId: PropTypes.string,
+  additionalClasses: PropTypes.object,
+  activeApp: PropTypes.string,
+  appList: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.node,
+      name: PropTypes.string.isRequired,
+      pageId: PropTypes.string,
+    }),
+  ),
+  writePermissions: PropTypes.bool,
+  entityError: PropTypes.shape({ status: PropTypes.number }),
+};
+
+const InventoryDetailWrapper = ({ inventoryId, ...props }) => {
+  const { inventoryId: entityId } = useParams();
+
+  if (!inventoryId) {
+    console.warn('~~~~~~~~~~');
+    console.warn('~~~~~~~~~~');
+    console.warn(
+      'Missing inventoryId! Please provide one, we will remove the fallback from URL soon.',
+    );
+    console.warn(`Please use DetailHead component in the fed-mod to render
+            only Inventory header. Migrate away InventoryDetailHead`);
+    console.warn('~~~~~~~~~~');
+    console.warn('~~~~~~~~~~');
+  }
+
+  return (
+    &lt;InventoryDetail
+      inventoryId={
+        inventoryId ||
+        entityId ||
+        location.pathname.replace(/\/$/, '').split('/').pop()
+      }
+      {...props}
+    />
+  );
+};
+
+InventoryDetailWrapper.propTypes = InventoryDetail.propTypes;
+
+// TODO: Remove once all apps send `inventoryId` and use directly InventoryDetail
+const InventoryDetailCmp = (props) =>
+  props.inventoryId ? (
+    &lt;InventoryDetail {...props} />
+  ) : (
+    &lt;InventoryDetailWrapper {...props} />
+  );
+
+InventoryDetailCmp.propTypes = InventoryDetail.propTypes;
+
+export default InventoryDetailWrapper;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

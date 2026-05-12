@@ -1,0 +1,1033 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/InventoryTable/EntityTableToolbar.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Inventory Frontend Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-custom_fetch.html">
+                                custom_fetch
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-general_info.html">
+                                general_info
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-hide_filters.html">
+                                hide_filters
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory.html">
+                                inventory
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_detail.html">
+                                inventory_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_header.html">
+                                inventory_header
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_detail.html">
+                                props_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_table.html">
+                                props_table
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/RedHatInsights/insights-inventory-frontend"
+                        >
+                            Inventory Frontend GitHub repository
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://console.redhat.com/docs/api/inventory"
+                        >
+                            Inventory REST API Documentation
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Global</h3><ul><li><a href="global.html#AppInfo">AppInfo</a></li><li><a href="global.html#AppInfoCmp">AppInfoCmp</a></li><li><a href="global.html#AppInfoWrapper">AppInfoWrapper</a></li><li><a href="global.html#ApplicationDetails">ApplicationDetails</a></li><li><a href="global.html#ContextInventoryList">ContextInventoryList</a></li><li><a href="global.html#EntityTable">EntityTable</a></li><li><a href="global.html#EntityTableToolbar">EntityTableToolbar</a></li><li><a href="global.html#FactsInfo">FactsInfo</a></li><li><a href="global.html#FooterPagination">FooterPagination</a></li><li><a href="global.html#GROUP_TOKENS">GROUP_TOKENS</a></li><li><a href="global.html#HOST_WORKSPACE_RELATION_VIEW">HOST_WORKSPACE_RELATION_VIEW</a></li><li><a href="global.html#InventoryDetail">InventoryDetail</a></li><li><a href="global.html#InventoryList">InventoryList</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#STALENESS_WORKSPACE_RELATION_VIEW">STALENESS_WORKSPACE_RELATION_VIEW</a></li><li><a href="global.html#SystemNotFound">SystemNotFound</a></li><li><a href="global.html#TitleColumn">TitleColumn</a></li><li><a href="global.html#TopBar">TopBar</a></li><li><a href="global.html#WORKLOAD_API_MAP">WORKLOAD_API_MAP</a></li><li><a href="global.html#WORKSPACE_RELATION_VIEW">WORKSPACE_RELATION_VIEW</a></li><li><a href="global.html#buildOSFilterConfig">buildOSFilterConfig</a></li><li><a href="global.html#getSelectedOsFilterVersions">getSelectedOsFilterVersions</a></li><li><a href="global.html#groupOSVersions">groupOSVersions</a></li><li><a href="global.html#inventoryCache">inventoryCache</a></li><li><a href="global.html#onRowClick">onRowClick</a></li><li><a href="global.html#rhel9Results">rhel9Results</a></li><li><a href="global.html#toGroupSelection">toGroupSelection</a></li><li><a href="global.html#toGroupSelectionValue">toGroupSelectionValue</a></li><li><a href="global.html#updateURLSearchParams">updateURLSearchParams</a></li><li><a href="global.html#useCanFetchHostsWhenKessel">useCanFetchHostsWhenKessel</a></li><li><a href="global.html#useExportDownloadCheck">useExportDownloadCheck</a></li><li><a href="global.html#useGroupsQueryWithFilter">useGroupsQueryWithFilter</a></li><li><a href="global.html#useInventoryExport">useInventoryExport</a></li><li><a href="global.html#useModalState">useModalState</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/InventoryTable/EntityTableToolbar.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import './EntityTableToolbar.scss';
+import React, { Fragment, useEffect, useReducer } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import {
+  Skeleton,
+  SkeletonSize,
+} from '@redhat-cloud-services/frontend-components/Skeleton';
+import {
+  mapGroups,
+  tagsFilterReducer,
+  tagsFilterState,
+} from '@redhat-cloud-services/frontend-components/FilterHooks';
+import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components/PrimaryToolbar';
+import {
+  clearFilters,
+  fetchAllTags,
+  setFilter,
+  toggleTagModal,
+} from '../../store/actions';
+import debounce from 'lodash/debounce';
+import {
+  HOST_GROUP_CHIP,
+  LAST_SEEN_CHIP,
+  OS_CHIP,
+  REGISTERED_CHIP,
+  RHCD_FILTER_KEY,
+  STALE_CHIP,
+  TAG_CHIP,
+  TEXTUAL_CHIP,
+  TEXT_FILTER,
+  TagsModal,
+  SYSTEM_TYPE_KEY,
+  WORKLOAD_FILTER_KEY,
+  arrayToSelection,
+  reduceFilters,
+} from '../../Utilities/index';
+import { onDeleteFilter, onDeleteGroupFilter, onDeleteTag } from './helpers';
+import {
+  filtersReducer,
+  groupFilterReducer,
+  groupFilterState,
+  lastSeenFilterReducer,
+  lastSeenFilterState,
+  operatingSystemFilterReducer,
+  operatingSystemFilterState,
+  registeredWithFilterReducer,
+  registeredWithFilterState,
+  rhcdFilterReducer,
+  rhcdFilterState,
+  stalenessFilterReducer,
+  stalenessFilterState,
+  textFilterReducer,
+  textFilterState,
+  useLastSeenFilter,
+  useOperatingSystemFilter,
+  useRegisteredWithFilter,
+  useRhcdFilter,
+  useStalenessFilter,
+  useTagsFilter,
+  useTextFilter,
+  useSystemTypeFilter,
+  systemTypeFilterReducer,
+  systemTypeFilterState,
+  useWorkloadFilter,
+  workloadFilterReducer,
+  workloadFilterState,
+} from '../filters';
+import useGroupFilter from '../filters/useGroupFilter';
+import {
+  DatePicker,
+  Split,
+  SplitItem,
+  ToolbarGroup,
+  ToolbarItem,
+} from '@patternfly/react-core';
+import { fromValidator, UNIX_EPOCH, toValidator } from '../filters/helpers';
+import { DownloadButton } from '@redhat-cloud-services/frontend-components/DownloadButton';
+import useInventoryExport from './hooks/useInventoryExport/useInventoryExport';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
+
+/**
+ * Table toolbar used at top of inventory table.
+ * It uses couple of filters and acces redux data along side all passed props.
+ *  @param   {object}     props                      props object
+ *  @param   {number}     props.total                total number of items
+ *  @param   {number}     props.page                 current page
+ *  @param   {number}     props.perPage              items per page
+ *  @param   {object}     props.filterConfig         filter configuration for the table
+ *  @param   {boolean}    props.hasItems             if true, the items are loaded
+ *  @param   {React.node} props.children             children nodes for the toolbar
+ *  @param   {object}     props.actionsConfig        actions configuration for the toolbar
+ *  @param   {object}     props.activeFiltersConfig  active filters configuration for the toolbar
+ *  @param   {boolean}    props.showTags             if true, the tags are shown
+ *  @param   {Function}   props.getTags              get tags function to fetch tags
+ *  @param   {Array}      props.items                row items array for the table (systems)
+ *  @param   {object}     props.sortBy               sort by configuration
+ *  @param   {object}     props.customFilters        custom filters configuration
+ *  @param   {boolean}    props.hasAccess            if true, the access is granted
+ *  @param   {object}     props.bulkSelect           bulk select configuration
+ *  @param   {object}     props.hideFilters          hide filters configuration for the toolbar
+ *  @param   {object}     props.paginationProps      pagination properties
+ *  @param   {Function}   props.onRefreshData        on refresh data function to notify inventory of new data changes
+ *  @param   {boolean}    props.loaded               if true, the loaded is true
+ *  @param   {Function}   props.showTagModal         show tag modal function to show the tag modal
+ *  @param   {boolean}    props.showSystemTypeFilter if true, the system type filter is shown
+ *  @param   {boolean}    props.showCentosVersions   if true, the centos versions are shown
+ *  @param   {boolean}    props.showNoGroupOption    if true, the no group option is shown
+ *  @param   {boolean}    props.enableExport         if true, the export is enabled
+ *  @param   {Function}   props.fetchCustomOSes      fetch custom OSes function to fetch custom OSes
+ *  @param   {Function}   props.axios                axios function
+ *  @returns {React.node}                            React node with inventory table toolbar
+ */
+const EntityTableToolbar = ({
+  total,
+  page,
+  perPage,
+  filterConfig,
+  hasItems,
+  children,
+  actionsConfig,
+  activeFiltersConfig,
+  showTags,
+  getTags,
+  items,
+  sortBy,
+  customFilters,
+  hasAccess,
+  bulkSelect,
+  hideFilters,
+  paginationProps,
+  onRefreshData,
+  loaded,
+  showTagModal,
+  showSystemTypeFilter,
+  showCentosVersions,
+  showNoGroupOption,
+  enableExport,
+  fetchCustomOSes,
+  axios,
+  ...props
+}) => {
+  const dispatch = useDispatch();
+  const reducer = useReducer(
+    filtersReducer([
+      textFilterReducer,
+      stalenessFilterReducer,
+      registeredWithFilterReducer,
+      tagsFilterReducer,
+      operatingSystemFilterReducer,
+      rhcdFilterReducer,
+      lastSeenFilterReducer,
+      groupFilterReducer,
+      systemTypeFilterReducer,
+      workloadFilterReducer,
+    ]),
+    {
+      ...textFilterState,
+      ...stalenessFilterState,
+      ...registeredWithFilterState,
+      ...tagsFilterState,
+      ...operatingSystemFilterState,
+      ...rhcdFilterState,
+      ...lastSeenFilterState,
+      ...groupFilterState,
+      ...systemTypeFilterState,
+      ...workloadFilterState,
+    },
+  );
+
+  const isHideRHCFilterFlagEnabled = useFeatureFlag('hbi.ui.hide_rhc_filter');
+  const isHideWorkloadFilterFlagEnabled = useFeatureFlag(
+    'hbi.ui.hide_workload_filter',
+  );
+
+  const activeFilters = useSelector(
+    ({ entities: { activeFilters } }) => activeFilters,
+  );
+  const allTagsLoaded = useSelector(
+    ({ entities: { allTagsLoaded } }) => allTagsLoaded,
+  );
+  const allTags = useSelector(({ entities: { allTags } }) => allTags);
+  const additionalTagsCount = useSelector(
+    ({ entities: { additionalTagsCount } }) => additionalTagsCount,
+  );
+  const [nameFilter, nameChip, textFilter, setTextFilter] =
+    useTextFilter(reducer);
+  const [stalenessFilter, stalenessChip, staleFilter, setStaleFilter] =
+    useStalenessFilter(reducer);
+  const [
+    registeredFilter,
+    registeredChip,
+    registeredWithFilter,
+    setRegisteredWithFilter,
+  ] = useRegisteredWithFilter(reducer);
+  const [
+    rhcdFilterConfig,
+    rhcdFilterChips,
+    rhcdFilterValue,
+    setRhcdFilterValue,
+  ] = useRhcdFilter(reducer);
+  const [
+    workloadFilterConfig,
+    workloadFilterChips,
+    workloadFilterValue,
+    setWorkloadFilterValue,
+  ] = useWorkloadFilter(reducer);
+  const [
+    lastSeenFilter,
+    lastSeenChip,
+    lastSeenFilterValue,
+    setLastSeenFilterValue,
+    onFromChange,
+    onToChange,
+    endDate,
+    startDate,
+    setStartDate,
+    setEndDate,
+  ] = useLastSeenFilter(reducer);
+  const [osFilterConfig, osFilterChips, osFilterValue, setOsFilterValue] =
+    useOperatingSystemFilter(
+      reducer,
+      [],
+      hasAccess,
+      showCentosVersions,
+      fetchCustomOSes,
+      axios,
+    );
+
+  const [hostGroupConfig, hostGroupChips, hostGroupValue, setHostGroupValue] =
+    useGroupFilter(showNoGroupOption);
+
+  const { tagsFilter, tagsChip, selectedTags, setSelectedTags, filterTagsBy } =
+    useTagsFilter(
+      allTags,
+      allTagsLoaded,
+      additionalTagsCount,
+      () => dispatch(toggleTagModal(true)),
+      reducer,
+    );
+
+  const [
+    systemTypeConfig,
+    systemTypeChips,
+    systemTypeValue,
+    setSystemTypeValue,
+  ] = useSystemTypeFilter(reducer);
+  /**
+   * Debounced function for fetching all tags.
+   */
+  const debounceGetAllTags = debounce((config, options) => {
+    if (showTags &amp;&amp; !hasItems &amp;&amp; hasAccess) {
+      dispatch(
+        fetchAllTags(
+          config,
+          {
+            ...options?.paginationhideFilters,
+          },
+          getTags,
+        ),
+      );
+    }
+  }, 800);
+
+  const enabledFilters = {
+    name: !(hideFilters.all &amp;&amp; hideFilters.name !== false) &amp;&amp; !hideFilters.name,
+    stale:
+      !(hideFilters.all &amp;&amp; hideFilters.stale !== false) &amp;&amp; !hideFilters.stale,
+    registeredWith:
+      !(hideFilters.all &amp;&amp; hideFilters.registeredWith !== false) &amp;&amp;
+      !hideFilters.registeredWith,
+    operatingSystem:
+      !(hideFilters.all &amp;&amp; hideFilters.operatingSystem !== false) &amp;&amp;
+      !hideFilters.operatingSystem,
+    tags: !(hideFilters.all &amp;&amp; hideFilters.tags !== false) &amp;&amp; !hideFilters.tags,
+    rhcdFilter:
+      !(hideFilters.all &amp;&amp; hideFilters.rhcdFilter !== false) &amp;&amp;
+      !hideFilters.rhcdFilter &amp;&amp;
+      !isHideRHCFilterFlagEnabled,
+    lastSeenFilter:
+      !(hideFilters.all &amp;&amp; hideFilters.lastSeen !== false) &amp;&amp;
+      !hideFilters.lastSeen,
+    //hides the filter untill API is ready. JIRA: RHIF-169
+    hostGroupFilter:
+      !(hideFilters.all &amp;&amp; hideFilters.hostGroupFilter !== false) &amp;&amp;
+      !hideFilters.hostGroupFilter,
+    systemTypeFilter:
+      !(hideFilters.all &amp;&amp; hideFilters.systemTypeFilter !== false) &amp;&amp;
+      !hideFilters.systemTypeFilter,
+    workloadFilter:
+      !(hideFilters.all &amp;&amp; hideFilters.workloadFilter !== false) &amp;&amp;
+      !hideFilters.workloadFilter &amp;&amp;
+      !isHideWorkloadFilterFlagEnabled,
+  };
+  const exportConfig = useInventoryExport({
+    filters: {
+      ...activeFilters,
+      ...customFilters,
+    },
+  });
+
+  /**
+   * Function to dispatch load systems and fetch all tags.
+   *  @param   {object} options options to fetch data
+   *  @returns {void}           void
+   */
+  const onRefreshDataInner = (options) => {
+    if (hasAccess) {
+      onRefreshData({ ...options, options: { axios } });
+      if (showTags &amp;&amp; !hasItems) {
+        dispatch(fetchAllTags(filterTagsBy, {}, getTags));
+      }
+    }
+  };
+
+  /**
+   * Function used to update data, it either calls `onRefresh` from props or dispatches `onRefreshData`.
+   * `onRefresh` function takes two parameters
+   * entire config with new changes.
+   * callback to update data.
+   *  @param   {object} config new config to fetch data.
+   *  @returns {void}          void
+   */
+  const updateData = (config) => {
+    if (hasAccess) {
+      onRefreshDataInner(config);
+    }
+  };
+
+  /**
+   * Debounced `updateData` function.
+   */
+  const debouncedRefresh = debounce((config) => updateData(config), 800);
+
+  /**
+   * Component did mount effect to calculate actual filters from redux.
+   */
+  useEffect(() => {
+    const {
+      textFilter,
+      tagFilters,
+      staleFilter,
+      registeredWithFilter,
+      osFilter,
+      rhcdFilter,
+      lastSeenFilter,
+      hostGroupFilter,
+      systemTypeFilter,
+      workloadFilter,
+    } = reduceFilters([
+      ...(activeFilters || []),
+      ...(customFilters?.filters || []),
+    ]);
+
+    /*eslint-disable react-hooks/exhaustive-deps*/
+    debouncedRefresh();
+    enabledFilters.name &amp;&amp; setTextFilter(textFilter);
+    enabledFilters.stale &amp;&amp; setStaleFilter(staleFilter);
+    enabledFilters.registeredWith &amp;&amp;
+      setRegisteredWithFilter(registeredWithFilter);
+    enabledFilters.tags &amp;&amp; setSelectedTags(tagFilters);
+    enabledFilters.operatingSystem &amp;&amp; setOsFilterValue(osFilter);
+    enabledFilters.rhcdFilter &amp;&amp; setRhcdFilterValue(rhcdFilter);
+    enabledFilters.lastSeenFilter &amp;&amp; setLastSeenFilterValue(lastSeenFilter);
+    enabledFilters.hostGroupFilter &amp;&amp; setHostGroupValue(hostGroupFilter);
+    enabledFilters.systemTypeFilter &amp;&amp; setSystemTypeValue(systemTypeFilter);
+    enabledFilters.workloadFilter &amp;&amp; setWorkloadFilterValue(workloadFilter);
+  }, []);
+  /*eslint-enable react-hooks/exhaustive-deps*/
+
+  /**
+   * Function used to change text filter.
+   *  @param   {string}  value     new value used for filtering.
+   *  @param   {boolean} debounced if debounce function should be used.
+   *  @returns {void}              void
+   */
+  const onSetTextFilter = (value, debounced = true) => {
+    const trimmedValue = value?.trim();
+
+    const textualFilter = activeFilters?.find(
+      (oneFilter) => oneFilter.value === TEXT_FILTER,
+    );
+    if (textualFilter) {
+      textualFilter.filter = trimmedValue;
+    } else {
+      if (trimmedValue) {
+        // TODO This is sus
+        activeFilters?.push({ value: TEXT_FILTER, filter: trimmedValue });
+      }
+    }
+
+    const refresh = debounced ? debouncedRefresh : updateData;
+    refresh({ page: 1, perPage, filters: activeFilters });
+  };
+
+  /**
+   * General function to apply filter (excluding tag and text).
+   *  @param   {object}   value     new value to be set of specified filter.
+   *  @param   {string}   filterKey which filter should be changed.
+   *  @param   {Function} refresh   refresh callback function.
+   *  @returns {void}               void
+   */
+  const onSetFilter = (value, filterKey, refresh) => {
+    const newFilters = [
+      ...(activeFilters || []).filter(
+        (oneFilter) =>
+          !Object.prototype.hasOwnProperty.call(oneFilter, filterKey),
+      ),
+      { [filterKey]: value },
+    ];
+    refresh({ page: 1, perPage, filters: newFilters });
+  };
+
+  const shouldReload = page &amp;&amp; perPage &amp;&amp; activeFilters &amp;&amp; (!hasItems || items);
+
+  useEffect(() => {
+    if (shouldReload &amp;&amp; showTags &amp;&amp; enabledFilters.tags) {
+      debounceGetAllTags(filterTagsBy);
+    }
+  }, [filterTagsBy, customFilters?.tags, enabledFilters.tags]);
+
+  useEffect(() => {
+    if (shouldReload &amp;&amp; enabledFilters.name) {
+      onSetTextFilter(textFilter, true);
+    }
+  }, [textFilter, enabledFilters.name]);
+
+  useEffect(() => {
+    if (shouldReload &amp;&amp; enabledFilters.stale) {
+      onSetFilter(staleFilter, 'staleFilter', debouncedRefresh);
+    }
+  }, [staleFilter, enabledFilters.stale]);
+
+  useEffect(() => {
+    if (shouldReload &amp;&amp; enabledFilters.registeredWith) {
+      onSetFilter(
+        registeredWithFilter,
+        'registeredWithFilter',
+        debouncedRefresh,
+      );
+    }
+  }, [registeredWithFilter, enabledFilters.registeredWith]);
+
+  useEffect(() => {
+    if (shouldReload &amp;&amp; showTags &amp;&amp; enabledFilters.tags) {
+      // Use immediate refresh (not debouncedRefresh) so tag changes from the Tags modal
+      // apply with page 1; a shared debounced refresh can be superseded by another call
+      // and leave pagination on the previous page.
+      onSetFilter(mapGroups(selectedTags), 'tagFilters', updateData);
+    }
+  }, [selectedTags, enabledFilters.tags, showTags]);
+
+  useEffect(() => {
+    if (shouldReload &amp;&amp; enabledFilters.operatingSystem) {
+      onSetFilter(osFilterValue, 'osFilter', debouncedRefresh);
+    }
+  }, [osFilterValue, enabledFilters.operatingSystem]);
+
+  useEffect(() => {
+    if (shouldReload &amp;&amp; enabledFilters.rhcdFilter) {
+      onSetFilter(rhcdFilterValue, 'rhcdFilter', debouncedRefresh);
+    }
+  }, [rhcdFilterValue, enabledFilters.rhcdFilter]);
+
+  useEffect(() => {
+    if (shouldReload &amp;&amp; enabledFilters.lastSeenFilter) {
+      onSetFilter(lastSeenFilterValue, 'lastSeenFilter', debouncedRefresh);
+    }
+  }, [lastSeenFilterValue, enabledFilters.lastSeenFilter]);
+
+  useEffect(() => {
+    if (shouldReload &amp;&amp; enabledFilters.hostGroupFilter) {
+      onSetFilter(hostGroupValue, 'hostGroupFilter', debouncedRefresh);
+    }
+  }, [hostGroupValue, enabledFilters.hostGroupFilter]);
+
+  useEffect(() => {
+    if (shouldReload &amp;&amp; enabledFilters.systemTypeFilter) {
+      onSetFilter(systemTypeValue, 'systemTypeFilter', debouncedRefresh);
+    }
+  }, [systemTypeValue, enabledFilters.systemTypeFilter]);
+
+  useEffect(() => {
+    if (shouldReload &amp;&amp; enabledFilters.workloadFilter) {
+      onSetFilter(workloadFilterValue, 'workloadFilter', debouncedRefresh);
+    }
+  }, [workloadFilterValue, enabledFilters.workloadFilter]);
+
+  /**
+   * Mapper to simplify removing of any filter.
+   */
+  const deleteMapper = {
+    [TEXTUAL_CHIP]: () => setTextFilter(''),
+    [TAG_CHIP]: (deleted) =>
+      setSelectedTags(
+        onDeleteTag(deleted, selectedTags, (selectedTags) =>
+          onSetFilter(mapGroups(selectedTags), 'tagFilters', updateData),
+        ),
+      ),
+    [STALE_CHIP]: (deleted) =>
+      setStaleFilter(onDeleteFilter(deleted, staleFilter)),
+    [REGISTERED_CHIP]: (deleted) =>
+      setRegisteredWithFilter(onDeleteFilter(deleted, registeredWithFilter)),
+    [OS_CHIP]: (deleted) =>
+      setOsFilterValue(onDeleteGroupFilter(deleted, osFilterValue)),
+    [RHCD_FILTER_KEY]: (deleted) =>
+      setRhcdFilterValue(onDeleteFilter(deleted, rhcdFilterValue)),
+    [LAST_SEEN_CHIP]: (deleted) => {
+      setLastSeenFilterValue(
+        onDeleteFilter(deleted, [lastSeenFilterValue.mark]),
+      );
+      setStartDate();
+      setEndDate();
+    },
+    [HOST_GROUP_CHIP]: (deleted) =>
+      setHostGroupValue(onDeleteFilter(deleted, hostGroupValue)),
+    [SYSTEM_TYPE_KEY]: (deleted) =>
+      setSystemTypeValue(onDeleteFilter(deleted, systemTypeValue)),
+    [WORKLOAD_FILTER_KEY]: (deleted) =>
+      setWorkloadFilterValue(onDeleteFilter(deleted, workloadFilterValue)),
+  };
+  /**
+   * Function to reset all filters with 'Reset Filter' is clicked
+   */
+  const resetFilters = () => {
+    enabledFilters.name &amp;&amp; setTextFilter('');
+    enabledFilters.stale &amp;&amp; setStaleFilter([]);
+    enabledFilters.registeredWith &amp;&amp; setRegisteredWithFilter([]);
+    enabledFilters.tags &amp;&amp; setSelectedTags({});
+    enabledFilters.operatingSystem &amp;&amp; setOsFilterValue([]);
+    enabledFilters.rhcdFilter &amp;&amp; setRhcdFilterValue([]);
+    enabledFilters.lastSeenFilter &amp;&amp; setLastSeenFilterValue([]);
+    enabledFilters.hostGroupFilter &amp;&amp; setHostGroupValue([]);
+    enabledFilters.systemTypeFilter &amp;&amp; setSystemTypeValue([]);
+    enabledFilters.workloadFilter &amp;&amp; setWorkloadFilterValue([]);
+    setEndDate();
+    setStartDate(UNIX_EPOCH);
+    dispatch(setFilter([]));
+    updateData({ page: 1, filters: [] });
+  };
+
+  /**
+   * Function to create active filters chips.
+   *  @returns {object} active filters chips
+   */
+  const constructFilters = () => {
+    return {
+      ...(activeFiltersConfig || {}),
+      filters: [
+        ...(showTags &amp;&amp; !hasItems &amp;&amp; enabledFilters.tags ? tagsChip : []),
+        ...(!hasItems &amp;&amp; enabledFilters.name ? nameChip : []),
+        ...(!hasItems &amp;&amp; enabledFilters.stale ? stalenessChip : []),
+        ...(!hasItems &amp;&amp; enabledFilters.registeredWith ? registeredChip : []),
+        ...(!hasItems &amp;&amp; enabledFilters.operatingSystem ? osFilterChips : []),
+        ...(!hasItems &amp;&amp; enabledFilters.rhcdFilter ? rhcdFilterChips : []),
+        ...(!hasItems &amp;&amp; enabledFilters.updateMethodFilter
+          ? updateMethodChips
+          : []),
+        ...(!hasItems &amp;&amp; enabledFilters.lastSeenFilter ? lastSeenChip : []),
+        ...(!hasItems &amp;&amp; enabledFilters.hostGroupFilter ? hostGroupChips : []),
+        ...(showSystemTypeFilter &amp;&amp; !hasItems &amp;&amp; enabledFilters.systemTypeFilter
+          ? systemTypeChips
+          : []),
+        ...(!hasItems &amp;&amp; enabledFilters.workloadFilter
+          ? workloadFilterChips
+          : []),
+        ...(activeFiltersConfig?.filters || []),
+      ],
+      onDelete: (e, [deleted, ...restDeleted], isAll) => {
+        if (isAll) {
+          dispatch(clearFilters());
+          resetFilters();
+        } else {
+          deleteMapper[deleted.type]?.(deleted);
+        }
+
+        activeFiltersConfig &amp;&amp;
+          activeFiltersConfig.onDelete &amp;&amp;
+          activeFiltersConfig.onDelete(e, [deleted, ...restDeleted], isAll);
+      },
+    };
+  };
+
+  const inventoryFilters = [
+    ...(!hasItems
+      ? [
+          ...(enabledFilters.name ? [nameFilter] : []),
+          ...(enabledFilters.stale ? [stalenessFilter] : []),
+          ...(enabledFilters.operatingSystem ? [osFilterConfig] : []),
+          ...(enabledFilters.registeredWith ? [registeredFilter] : []),
+          ...(enabledFilters.rhcdFilter ? [rhcdFilterConfig] : []),
+          ...(enabledFilters.updateMethodFilter ? [updateMethodConfig] : []),
+          ...(enabledFilters.lastSeenFilter ? [lastSeenFilter] : []),
+          ...(enabledFilters.hostGroupFilter ? [hostGroupConfig] : []),
+          ...(showSystemTypeFilter &amp;&amp; enabledFilters.systemTypeFilter
+            ? [systemTypeConfig]
+            : []),
+          ...(showTags &amp;&amp; enabledFilters.tags ? [tagsFilter] : []),
+          ...(enabledFilters.workloadFilter ? [workloadFilterConfig] : []),
+        ]
+      : []),
+    ...(filterConfig?.items || []),
+  ];
+  const preselectedTags = Object.entries(selectedTags).reduce(
+    (sTags, [namespace, tag]) => {
+      const tags = Object.values(tag)
+        .filter((tagItem) => {
+          // In frontend-components v7, the structure is { isSelected, group, item }
+          // Only include items that are selected and have the proper structure
+          return tagItem?.isSelected &amp;&amp; tagItem?.item?.meta?.tag;
+        })
+        .map(
+          ({
+            item: {
+              meta: {
+                tag: { key, value },
+              },
+            },
+          }) => ({
+            id: `${namespace}/${encodeURIComponent(key)}=${encodeURIComponent(value)}`,
+            cells: [key, value, namespace],
+            item: {
+              meta: {
+                tag: { key, value },
+              },
+            },
+          }),
+        );
+
+      return [...sTags, ...tags];
+    },
+    [],
+  );
+
+  // When kesselToolbarOrder is set, render Export then custom actions (e.g. Move, Delete) in one group.
+  // Keep actionsConfig as an object (FEC API expects ActionsProps); put the custom group in actions[0].
+  const useKesselActionsGroup =
+    loaded &amp;&amp;
+    actionsConfig?.kesselToolbarOrder &amp;&amp;
+    Array.isArray(actionsConfig?.actions) &amp;&amp;
+    enableExport &amp;&amp;
+    exportConfig &amp;&amp;
+    (exportConfig.onSelect || exportConfig.extraItems);
+
+  const kesselActionsGroupElement = useKesselActionsGroup
+    ? React.createElement(
+        ToolbarGroup,
+        {
+          className:
+            'ins-c-primary-toolbar__group-actions pf-m-spacer-md pf-m-space-items-sm',
+          variant: 'button-group',
+        },
+        React.createElement(
+          ToolbarItem,
+          { className: 'pf-m-spacer-sm' },
+          React.createElement(DownloadButton, exportConfig),
+        ),
+        ...actionsConfig.actions.map((action, idx) =>
+          React.createElement(
+            ToolbarItem,
+            { key: action?.key ?? idx, className: 'pf-m-spacer-sm' },
+            action,
+          ),
+        ),
+      )
+    : null;
+
+  const resolvedActionsConfig =
+    useKesselActionsGroup &amp;&amp; kesselActionsGroupElement
+      ? { ...actionsConfig, actions: [kesselActionsGroupElement] }
+      : actionsConfig;
+
+  return (
+    &lt;Fragment>
+      &lt;PrimaryToolbar
+        {...props}
+        {...(bulkSelect &amp;&amp; {
+          bulkSelect: {
+            ...bulkSelect,
+            isDisabled: bulkSelect?.isDisabled || !hasAccess,
+          },
+        })}
+        className={`ins-c-inventory__table--toolbar ${
+          hasItems || !inventoryFilters.length
+            ? 'ins-c-inventory__table--toolbar-has-items'
+            : ''
+        }`}
+        {...(inventoryFilters?.length > 0 &amp;&amp; {
+          filterConfig: {
+            ...(filterConfig || {}),
+            isDisabled: !hasAccess,
+            items: inventoryFilters?.map((filter) => ({
+              ...filter,
+              filterValues: {
+                placeholder:
+                  filter?.filterValues?.placeholder ||
+                  `Filter by ${filter?.label?.toLowerCase()}`,
+                ...filter?.filterValues,
+                isDisabled: !hasAccess,
+              },
+            })),
+          },
+        })}
+        {...(hasAccess &amp;&amp; { activeFiltersConfig: constructFilters() })}
+        actionsConfig={loaded ? resolvedActionsConfig : null}
+        pagination={
+          loaded ? (
+            {
+              page,
+              itemCount: !hasAccess ? 0 : total,
+              isDisabled: !hasAccess,
+              perPage,
+              onSetPage: (_e, newPage) => onRefreshData({ page: newPage }),
+              onPerPageSelect: (_e, newPerPage) =>
+                onRefreshData({ page: 1, per_page: newPerPage }),
+              titles: {
+                optionsToggleAriaLabel: 'Items per page',
+              },
+              ...paginationProps,
+            }
+          ) : (
+            &lt;Skeleton size={SkeletonSize.lg} />
+          )
+        }
+        exportConfig={
+          useKesselActionsGroup
+            ? undefined
+            : props.exportConfig
+              ? props.exportConfig
+              : enableExport &amp;&amp; exportConfig
+        }
+      >
+        {lastSeenFilterValue?.mark === 'custom' &amp;&amp; (
+          &lt;Split>
+            &lt;SplitItem>
+              &lt;DatePicker
+                onChange={onFromChange}
+                aria-label="Start date"
+                validators={[fromValidator(endDate)]}
+                placeholder="Start"
+              />
+            &lt;/SplitItem>
+            &lt;SplitItem style={{ padding: '6px 12px 0 12px' }}>to&lt;/SplitItem>
+            &lt;SplitItem>
+              &lt;DatePicker
+                value={endDate}
+                onChange={onToChange}
+                rangeStart={
+                  startDate === UNIX_EPOCH ? new Date() : new Date(startDate)
+                }
+                validators={[toValidator(startDate)]}
+                aria-label="End date"
+                placeholder="End"
+              />
+            &lt;/SplitItem>
+          &lt;/Split>
+        )}
+        {children}
+      &lt;/PrimaryToolbar>
+      {(showTags || enabledFilters.tags || showTagModal) &amp;&amp; (
+        &lt;TagsModal
+          selected={preselectedTags}
+          filterTagsBy={filterTagsBy}
+          onApply={(selected) => setSelectedTags(arrayToSelection(selected))}
+          getTags={getTags}
+        />
+      )}
+    &lt;/Fragment>
+  );
+};
+
+EntityTableToolbar.propTypes = {
+  className: PropTypes.string,
+  columns: PropTypes.func,
+  'data-testid': PropTypes.string,
+  id: PropTypes.string,
+  store: PropTypes.object,
+  loadChromelessInventory: PropTypes.bool,
+  showTags: PropTypes.bool,
+  getTags: PropTypes.func,
+  hasAccess: PropTypes.bool,
+  filterConfig: PropTypes.object,
+  total: PropTypes.number,
+  hasItems: PropTypes.bool,
+  page: PropTypes.number,
+  onClearFilters: PropTypes.func,
+  toggleTagModal: PropTypes.func,
+  perPage: PropTypes.number,
+  children: PropTypes.node,
+  pagination: PropTypes.shape({
+    page: PropTypes.number,
+    perPage: PropTypes.number,
+  }),
+  actionsConfig: PropTypes.object,
+  activeFiltersConfig: PropTypes.object,
+  onRefreshData: PropTypes.func,
+  customFilters: PropTypes.shape({
+    tags: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.arrayOf(PropTypes.string),
+    ]),
+    filters: PropTypes.array,
+  }),
+  hideFilters: PropTypes.shape({
+    tags: PropTypes.bool,
+    name: PropTypes.bool,
+    registeredWith: PropTypes.bool,
+    stale: PropTypes.bool,
+    operatingSystem: PropTypes.bool,
+    rhcdFilter: PropTypes.bool,
+    lastSeen: PropTypes.bool,
+    updateMethodFilter: PropTypes.bool,
+    hostGroupFilter: PropTypes.bool,
+    systemTypeFilter: PropTypes.bool,
+    workloadFilter: PropTypes.bool,
+    all: PropTypes.bool,
+  }),
+  paginationProps: PropTypes.object,
+  loaded: PropTypes.bool,
+  onRefresh: PropTypes.func,
+  hasCheckbox: PropTypes.bool,
+  isLoaded: PropTypes.bool,
+  items: PropTypes.array,
+  sortBy: PropTypes.object,
+  bulkSelect: PropTypes.object,
+  showTagModal: PropTypes.bool,
+  disableDefaultColumns: PropTypes.any,
+  showCentosVersions: PropTypes.bool,
+  showSystemTypeFilter: PropTypes.bool,
+  showNoGroupOption: PropTypes.bool,
+  enableExport: PropTypes.bool,
+  exportConfig: PropTypes.object,
+  fetchCustomOSes: PropTypes.func,
+  isKesselFFEnabled: PropTypes.bool,
+  axios: PropTypes.func,
+};
+
+EntityTableToolbar.defaultProps = {
+  showTags: false,
+  hasAccess: true,
+  activeFiltersConfig: {},
+  hideFilters: {},
+  showNoGroupOption: false,
+};
+
+export default EntityTableToolbar;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

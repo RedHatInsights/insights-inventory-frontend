@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> inventory_header</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Inventory Frontend Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-custom_fetch.html">
+                                custom_fetch
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-general_info.html">
+                                general_info
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-hide_filters.html">
+                                hide_filters
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory.html">
+                                inventory
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_detail.html">
+                                inventory_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_header.html">
+                                inventory_header
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_detail.html">
+                                props_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_table.html">
+                                props_table
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/RedHatInsights/insights-inventory-frontend"
+                        >
+                            Inventory Frontend GitHub repository
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://console.redhat.com/docs/api/inventory"
+                        >
+                            Inventory REST API Documentation
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar tutorials"
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-custom_fetch.html">custom_fetch</a></li><li><a href="tutorial-general_info.html">general_info</a></li><li><a href="tutorial-hide_filters.html">hide_filters</a></li><li><a href="tutorial-inventory.html">inventory</a></li><li><a href="tutorial-inventory_detail.html">inventory_detail</a></li><li><a href="tutorial-inventory_header.html">inventory_header</a></li><li><a href="tutorial-props_detail.html">props_detail</a></li><li><a href="tutorial-props_table.html">props_table</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Tutorial</p>
+                    <h1>inventory_header</h1>
+                </header>
+                <section>
+
+<article>
+    <p>::: warning Removed
+This feature has been removed. Inventory detail header and main section are independent as of v1.3.1. Please have a look (doc/inventory_detail.md)
+:::</p>
+<h1>Inventory detail</h1>
+<p>If you want to learn how to comunicate with inventory check out <a href="inventory.md">Inventory</a>, this documentation is for showing how to include inventory information at top and app info in bottom screen of inventory detail.</p>
+<h3>Usage</h3>
+<ol>
+<li>Import correct components</li>
+</ol>
+<p>Since we are going to use different layout than the one automatically provided you need to import <code>InventoryDetailHead</code> for basic information and <code>AppInfo</code> for application detail.</p>
+<pre class="prettyprint source lang-JSX"><code>import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import './inventory.scss';
+import { PageHeader, Main } from '@redhat-cloud-services/frontend-components';
+import routerParams from '@redhat-cloud-services/frontend-components-utilities/files/RouterParams';
+import { entitesDetailReducer } from '../store';
+import * as actions from '../actions';
+import { Grid, GridItem } from '@patternfly/react-core';
+import { asyncInventoryLoader } from '../components/inventory/AsyncInventory';
+import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
+
+@registryDecorator()
+class Inventory extends Component {
+
+    constructor(props, ctx) {
+        super(props, ctx);
+        this.loadInventory();
+
+        this.state = {};
+        this.onNavigate = this.onNavigate.bind(this);
+    }
+
+    async loadInventory() {
+        const {
+            inventoryConnector,
+            INVENTORY_ACTION_TYPES,
+            mergeWithDetail
+        } = await asyncInventoryLoader();
+        this.getRegistry().register({
+            ...mergeWithDetail(entitesDetailReducer(INVENTORY_ACTION_TYPES))
+        });
+
+        const { InventoryDetailHead, AppInfo } = inventoryConnector();
+
+        this.setState({
+            InventoryDetail: InventoryDetailHead,
+            AppInfo
+        });
+    }
+
+    componentWillUnmount() {
+        this.entityListener();
+    }
+
+    onNavigate(navigateTo) {
+        const { history } = this.props;
+        history.push(`/${navigateTo}`);
+    }
+
+    render() {
+        const { InventoryDetail, AppInfo } = this.state;
+        const { entity } = this.props;
+        return (
+            &lt;Fragment>
+                &lt;PageHeader className=&quot;pf-m-light ins-inventory-detail&quot;>
+                    {InventoryDetail && &lt;InventoryDetail hideBack />}
+                &lt;/PageHeader>
+                &lt;Main>
+                    &lt;Grid gutter=&quot;md&quot;>
+                        &lt;GridItem span={12}>
+                            {AppInfo && &lt;AppInfo />}
+                        &lt;/GridItem>
+                    &lt;/Grid>
+                &lt;/Main>
+            &lt;/Fragment>
+        );
+    }
+}
+
+Inventory.contextTypes = {
+    store: PropTypes.object
+};
+
+Inventory.propTypes = {
+    history: PropTypes.object,
+    entity: PropTypes.object,
+    addAlert: PropTypes.func,
+    loadEntities: PropTypes.func,
+    loadEntity: PropTypes.func
+};
+
+function mapStateToProps({ entityDetails }) {
+    return {
+        entity: entityDetails && entityDetails.entity
+    };
+}
+
+export default routerParams(connect(mapStateToProps, null)(Inventory));
+
+</code></pre>
+<ol start="2">
+<li>Add actions dropdown
+If you want to add some custom actions to inventory header you can do so by passing actions prop to inventory detail</li>
+</ol>
+<pre class="prettyprint source lang-JSX"><code>// ...
+// imports same as above example
+
+@registryDecorator()
+class Inventory extends Component {
+    // ...
+    // component bootstrap same as above example
+
+    render() {
+        const { InventoryDetail, AppInfo } = this.state;
+        const { entity } = this.props;
+        return (
+            &lt;Fragment>
+                &lt;PageHeader className=&quot;pf-m-light ins-inventory-detail&quot;>
+                    {InventoryDetail && &lt;InventoryDetail hideBack actions={[
+                        {
+                            title: 'First action',
+                            key: 'optional-unique-key'
+                            onClick: (event, item, key) => console.log(
+                                'do something with event and current item plus key',
+                                item,
+                                key
+                            )
+                        }, {
+                            title: &lt;div>I can be node as well&lt;/div>
+                            onClick: (event, item, key) => console.log(
+                                'and I do not even need to set key, but I will get it anyways',
+                                item,
+                                key
+                            )
+                        }
+                    ]}/>}
+                &lt;/PageHeader>
+                &lt;Main>
+                    &lt;Grid gutter=&quot;md&quot;>
+                        &lt;GridItem span={12}>
+                            {AppInfo && &lt;AppInfo />}
+                        &lt;/GridItem>
+                    &lt;/Grid>
+                &lt;/Main>
+            &lt;/Fragment>
+        );
+    }
+}
+</code></pre>
+<p>Each action should have <code>title</code> and <code>onClick</code> callback. <code>key</code> prop is optional and is only good if you want to handle large amount of actions that can change and you want to ease render itself.</p>
+</article>
+
+</section>
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

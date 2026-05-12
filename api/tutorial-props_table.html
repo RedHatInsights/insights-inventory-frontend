@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> props_table</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Inventory Frontend Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-custom_fetch.html">
+                                custom_fetch
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-general_info.html">
+                                general_info
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-hide_filters.html">
+                                hide_filters
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory.html">
+                                inventory
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_detail.html">
+                                inventory_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_header.html">
+                                inventory_header
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_detail.html">
+                                props_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_table.html">
+                                props_table
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/RedHatInsights/insights-inventory-frontend"
+                        >
+                            Inventory Frontend GitHub repository
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://console.redhat.com/docs/api/inventory"
+                        >
+                            Inventory REST API Documentation
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar tutorials"
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-custom_fetch.html">custom_fetch</a></li><li><a href="tutorial-general_info.html">general_info</a></li><li><a href="tutorial-hide_filters.html">hide_filters</a></li><li><a href="tutorial-inventory.html">inventory</a></li><li><a href="tutorial-inventory_detail.html">inventory_detail</a></li><li><a href="tutorial-inventory_header.html">inventory_header</a></li><li><a href="tutorial-props_detail.html">props_detail</a></li><li><a href="tutorial-props_table.html">props_table</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Tutorial</p>
+                    <h1>props_table</h1>
+                </header>
+                <section>
+
+<article>
+    <ul>
+<li><a href="#props">Props</a>
+<ul>
+<li><a href="#getentities">getEntities</a></li>
+<li><a href="#hidefilters">hideFilters</a></li>
+<li><a href="#columns">columns</a>
+<ul>
+<li><a href="#columns-as-function">columns as function</a></li>
+</ul>
+</li>
+<li><a href="#disabledefaultcolumns">disableDefaultColumns</a></li>
+<li><a href="#ref">ref</a></li>
+<li><a href="#onload">onLoad</a></li>
+<li><a href="#showtags">showTags</a></li>
+<li><a href="#customfilters">customFilters</a></li>
+<li><a href="#hascheckbox">hasCheckbox</a></li>
+<li><a href="#isfullview">isFullView</a></li>
+<li><a href="#onrefresh">onRefresh</a></li>
+<li><a href="#tableprops">tableProps</a></li>
+<li><a href="#paginationprops">paginationProps</a></li>
+<li><a href="#autorefresh">autoRefresh</a></li>
+<li><a href="#initialloading">initialLoading</a></li>
+<li><a href="#ignorerefresh">ignoreRefresh</a></li>
+<li><a href="#showtagmodal">showTagModal</a></li>
+<li><a href="#fetchCustomOSes">fetchCustomOSes</a></li>
+</ul>
+</li>
+</ul>
+<h1>Props</h1>
+<h2>getEntities</h2>
+<p><em>function</em></p>
+<p>A function allowing to replace default fetch function, so each application can load its specific data.</p>
+<p><a href="./custom_fetch.md">Read more.</a></p>
+<h2>hideFilters</h2>
+<p><em>object</em></p>
+<p>An object allowing to hide default filters.</p>
+<p><a href="./hide_filters.md">Read more.</a></p>
+<h2>columns</h2>
+<p><em>array | (defaultColumns) =&gt; array</em></p>
+<p>An array of columns definitions. They are merged with default columns by their keys.</p>
+<h3>columns as function</h3>
+<p>You can use a function as <code>columns</code> prop. This function receives the default columns array as the first attribute, so you can do any modification you need.</p>
+<p><strong>note: this function is called only 1x to keep a good performance. If you need to call it after the initial render (for example, some outside variable is changing the results) change <code>columnsCounter</code><number> prop.</strong></p>
+<h2>disableDefaultColumns</h2>
+<p><em>boolean | string[]</em></p>
+<p>You can disable default columns. If you set this prop to <code>true</code>, then all the default columns are disabled. Or you can provide an array of keys to disable just specific ones: <code>[ 'display_name', 'last_seen' ]</code>. <strong>This prop is working only with <code>columns</code> prop!</strong> If you are changing columns via reducer, nothing changes. But you should consider migrating your application to use the prop.</p>
+<h2>ref</h2>
+<p><em>ref</em></p>
+<h2>onLoad</h2>
+<p><em>function</em></p>
+<h2>showTags</h2>
+<p><em>boolean</em></p>
+<h2>customFilters</h2>
+<p><em>object</em></p>
+<p>You can pass consumer application specific filters to the InventoryTable using <code>customFilters</code>. Whenever those passed filters get changed, the Inventory table fires onRefresh function and reloads. This prop also allows you to pass default values for shared filters e.g OS, tag and stale filters</p>
+<h2>hasCheckbox</h2>
+<p><em>boolean</em></p>
+<h2>isFullView</h2>
+<p><em>boolean</em></p>
+<h2>onRefresh</h2>
+<p><em>function</em></p>
+<p>Function called when table is refreshed.</p>
+<h2>tableProps</h2>
+<p><em>object</em></p>
+<p>Props passed to table component. In addition it is used to pass <code>actionResolver</code> props.
+That will give you access to the row data, that way you can map through each row and enable/disable kebab action depending on the value. You cannot use both <code>actions</code> and <code>actionResolver</code> props - choose one.
+Example in <a href="https://github.com/RedHatInsights/patchman-ui/blob/master/src/SmartComponents/Systems/Systems.js#L191">Patchman UI</a></p>
+<h2>paginationProps</h2>
+<p><em>object</em></p>
+<p>Props passed to paginations components.</p>
+<h2>autoRefresh</h2>
+<p><em>boolean</em></p>
+<p>When <code>true</code>, the table is refreshed when <code>customFilters</code> are changed.</p>
+<h2>initialLoading</h2>
+<p><em>boolean</em></p>
+<p>When <code>true</code>, the table is in loading state on mount until <code>entities.loaded</code> is set to <code>false</code> (and from that point, <code>loaded</code> is the only determinator.). Use when users can go back to already loaded table, this prop ensures that there will be no change from <code>loaded</code> &gt; <code>loading</code> &gt; <code>loaded</code>.</p>
+<h2>ignoreRefresh</h2>
+<p><em>boolean = true</em></p>
+<p>On the initial mount and when items/sortBy are changed, the inventoryTable ignores <code>onRefresh</code> prop. By setting the prop to false, you can control this behavior.</p>
+<h2>showTagModal</h2>
+<p><em>boolean</em></p>
+<p>Will enable TagModal even the filter or the column is not shown.</p>
+<h2>fetchCustomOSes</h2>
+<p><em>falsy | (apFilters) =&gt; array</em></p>
+<p>Operating systems filter by default fetches the os versions from inventory API. However, there might be requirement to fetch from some other custom API endpoints. In this case, you can provide your custom operating system API fetch funtion as a prop. The returned result must be in the shape of:</p>
+<pre class="prettyprint source"><code>  {
+      &quot;total&quot;: Number,
+      &quot;count&quot;: Number,
+      &quot;page&quot;: Number,
+      &quot;per_page&quot;: Number,
+      &quot;results&quot;: [
+          {
+              &quot;value&quot;: {
+                  &quot;name&quot;: String,
+                  &quot;major&quot;: Number,
+                  &quot;minor&quot;: Number,
+              },
+              &quot;count&quot;: Number
+          },
+      ]
+  }
+</code></pre>
+<h2>lastSeenOverride</h2>
+<p><em>string</em></p>
+<p>Overrides the &quot;Last Seen&quot; column to use the specified <code>key</code> and <code>sortKey</code> instead of the default <code>updated</code> value. Also ensures proper handling when the default sorting is set to <code>updated</code>.</p>
+</article>
+
+</section>
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

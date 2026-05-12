@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> props_detail</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Inventory Frontend Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-custom_fetch.html">
+                                custom_fetch
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-general_info.html">
+                                general_info
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-hide_filters.html">
+                                hide_filters
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory.html">
+                                inventory
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_detail.html">
+                                inventory_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_header.html">
+                                inventory_header
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_detail.html">
+                                props_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_table.html">
+                                props_table
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/RedHatInsights/insights-inventory-frontend"
+                        >
+                            Inventory Frontend GitHub repository
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://console.redhat.com/docs/api/inventory"
+                        >
+                            Inventory REST API Documentation
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar tutorials"
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-custom_fetch.html">custom_fetch</a></li><li><a href="tutorial-general_info.html">general_info</a></li><li><a href="tutorial-hide_filters.html">hide_filters</a></li><li><a href="tutorial-inventory.html">inventory</a></li><li><a href="tutorial-inventory_detail.html">inventory_detail</a></li><li><a href="tutorial-inventory_header.html">inventory_header</a></li><li><a href="tutorial-props_detail.html">props_detail</a></li><li><a href="tutorial-props_table.html">props_table</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Tutorial</p>
+                    <h1>props_detail</h1>
+                </header>
+                <section>
+
+<article>
+    <ul>
+<li><a href="#AppInfo">AppInfo</a>
+<ul>
+<li><a href="#componentMapper">componentMapper</a></li>
+<li><a href="#appList">appList</a></li>
+</ul>
+</li>
+<li><a href="#InventoryDetailHead">InventoryDetailHead</a>
+<ul>
+<li><a href="#actions">actions</a></li>
+<li><a href="#showTags">showTags</a></li>
+<li><a href="#hideInvLink">hideInvLink</a></li>
+<li><a href="#onTabSelect">onTabSelect</a></li>
+<li><a href="#onBackToListClick">onBackToListClick</a></li>
+<li><a href="#showDelete">showDelete</a></li>
+<li><a href="#showInventoryDrawer">showInventoryDrawer</a></li>
+<li><a href="#UUIDWrapper">UUIDWrapper</a></li>
+<li><a href="#LastSeenWrapper">LastSeenWrapper</a></li>
+<li><a href="#TitleWrapper">TitleWrapper</a></li>
+<li><a href="#TagsWrapper">TagsWrapper</a></li>
+<li><a href="#DeleteWrapper">DeleteWrapper</a></li>
+<li><a href="#ActionsWrapper">ActionsWrapper</a>
+<ul>
+<li><a href="#Wrapper">Wrapper</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#InventoryDetail">InventoryDetail</a>
+<ul>
+<li><a href="#getentities">getEntities</a></li>
+</ul>
+</li>
+<li><a href="#TagWithDialog">TagWithDialog</a>
+<ul>
+<li><a href="#count">count</a></li>
+<li><a href="#loadTags">loadTags</a></li>
+<li><a href="#systemId">systemId</a></li>
+</ul>
+</li>
+<li><a href="#DetailWrapper">DetailWrapper</a>
+<ul>
+<li><a href="#showInventoryDrawer">showInventoryDrawer</a></li>
+<li><a href="#isRbacEnabled">isRbacEnabled</a></li>
+</ul>
+</li>
+</ul>
+<h1>AppInfo</h1>
+<p>Default information about active application, when more than 1 application is provided it will automatically show tabs with each application.</p>
+<h2>componentMapper</h2>
+<p><em>elemnt</em></p>
+<p>An element to be shown when rendering a application information. Used to override default inventory detail wrapper.</p>
+<h2>appList</h2>
+<p><em>array</em></p>
+<p>Array of applications to be rendered when system detail is accessed.</p>
+<h1>InventoryDetailHead</h1>
+<p>Detail information about currently observed system. It holds information about UUID, last seen, name and actions.</p>
+<h2>actions</h2>
+<p><em>array</em></p>
+<p>Additional actions used in inventory dropdown on right hand side of system detail.</p>
+<h2>showTags</h2>
+<p><em>boolean</em></p>
+<p>Toggle tags element, this will also add tags modal to see available tags on system.</p>
+<h2>hideInvLink</h2>
+<p><em>boolean</em></p>
+<p>Toggle to display inventory direct link, when active user will see action to navigate to full inventory view.</p>
+<h2>onTabSelect</h2>
+<p><em>function</em></p>
+<p>Callback function that is fired when user clicks on application tab.</p>
+<h2>onBackToListClick</h2>
+<p><em>function</em></p>
+<p>Callback function that is fired when user deletes currently observed system.</p>
+<h2>showDelete</h2>
+<p><em>boolean</em></p>
+<p>Toggle to display delete button for removing system from inventory DB.</p>
+<h2>appList</h2>
+<p><em>array</em></p>
+<p>Array of applications to be rendered when system detail is accessed.</p>
+<h2>showInventoryDrawer</h2>
+<p><em>boolean</em></p>
+<p>Toggle to show experimental inventory drawer</p>
+<h2>UUIDWrapper</h2>
+<p><em>element</em></p>
+<p>React element to be rendered as wrapper for UUID value.</p>
+<h2>LastSeenWrapper</h2>
+<p><em>element</em></p>
+<p>React element to be rendered as wrapper for Last seen value.</p>
+<h2>TitleWrapper</h2>
+<p><em>element</em></p>
+<p>React element to be rendered as wrapper for title value.</p>
+<h2>TagsWrapper</h2>
+<p><em>element</em></p>
+<p>React element to be rendered as wrapper for tags element value, including tags modal.</p>
+<h2>DeleteWrapper</h2>
+<p><em>element</em></p>
+<p>React element to be rendered as wrapper for rendering delete button.</p>
+<h2>ActionsWrapper</h2>
+<p><em>element</em></p>
+<p>React element to be rendered as wrapper for rendering actions.</p>
+<h3>Wrapper</h3>
+<p>When using <code>UUIDWrapper</code>, <code>LastSeenWrapper</code>, <code>TitleWrapper</code>, <code>TagsWrapper</code>, <code>DeleteWrapper</code> or <code>ActionsWrapper</code> please consume props and use <code>children</code> otherwise the wrapped value won't be visible.</p>
+<pre class="prettyprint source lang-JSX"><code>import React from 'react';
+
+const UUIDWrapper = ({ children }) => &lt;div>This is UUID {children} value.&lt;/div>
+
+// ... used in InventoryDetailHead component
+
+&lt;InventoryDetailHead
+    store={store}
+    history={history}
+    fallback=&quot;&quot;
+    UUIDWrapper={({ children }) => &lt;div>aaa {children}&lt;/div>}
+/>
+</code></pre>
+<h1>InventoryDetail</h1>
+<p>Legacy component to show full inventory detail, please use <code>AppInfo</code> and <code>InventoryDetailHead</code> instead.</p>
+<h1>TagWithDialog</h1>
+<p>Component to show tag count component and tag management dialog.</p>
+<h2>count</h2>
+<p><em>number</em></p>
+<p>Tag count to be shown both in tag element and in tag management dialog.</p>
+<h2>loadTags</h2>
+<p><em>function</em></p>
+<p>Redux connection function to select tags from redux store. Do not override unless you know what to do!</p>
+<h2>systemId</h2>
+<p><em>string</em></p>
+<p>ID of currently observed system, used for selecting tags from redux store based on this ID.</p>
+<h1>DetailWrapper</h1>
+<h2>showInventoryDrawer</h2>
+<p><em>boolean</em></p>
+<p>Toggle to enable inventory drawer.</p>
+<h2>isRbacEnabled</h2>
+<p><em>boolean</em></p>
+<p>Toggle to enable RBAC checks.</p>
+</article>
+
+</section>
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> inventory</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Inventory Frontend Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-custom_fetch.html">
+                                custom_fetch
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-general_info.html">
+                                general_info
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-hide_filters.html">
+                                hide_filters
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory.html">
+                                inventory
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_detail.html">
+                                inventory_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_header.html">
+                                inventory_header
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_detail.html">
+                                props_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_table.html">
+                                props_table
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/RedHatInsights/insights-inventory-frontend"
+                        >
+                            Inventory Frontend GitHub repository
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://console.redhat.com/docs/api/inventory"
+                        >
+                            Inventory REST API Documentation
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar tutorials"
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-custom_fetch.html">custom_fetch</a></li><li><a href="tutorial-general_info.html">general_info</a></li><li><a href="tutorial-hide_filters.html">hide_filters</a></li><li><a href="tutorial-inventory.html">inventory</a></li><li><a href="tutorial-inventory_detail.html">inventory_detail</a></li><li><a href="tutorial-inventory_header.html">inventory_header</a></li><li><a href="tutorial-props_detail.html">props_detail</a></li><li><a href="tutorial-props_table.html">props_table</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Tutorial</p>
+                    <h1>inventory</h1>
+                </header>
+                <section>
+
+<article>
+    <h1>Inventory</h1>
+<p>This component is designed to show list of all entities in static inventory and allow them to navigate to detail of
+each entity. In such detail user will see some basic static data alongside custom application details.</p>
+<p>This component is hot loaded via chrome, so any changes made to it will be automatically pulled by any application that uses it.</p>
+<h1>Notice!</h1>
+<p><strong>When using system detail do not use <code>Route</code> set to <code>exact</code>. It is designed as partial component and app details of inventory is loaded in same view so it will break if not used in non-exact mode.</strong></p>
+<p>You will need to register two routes (one for inventory table the other one for inventory detail) in this way</p>
+<pre class="prettyprint source lang-JSX"><code>&lt;Route exact path={'some/path/:itemId'} component={ItemPage} />
+&lt;Route path={'some/path/:itemId/:inventoryId'} component={InventoryPage} />
+</code></pre>
+<p>Where <code>ItemPage</code> contains <code>InventoryTable</code> and <code>InventoryPage</code> has inventory detail. If back button is not working correctly you might want to consider adding <code>root</code> to Inventory detail so it picks correct props and maps them to URL.</p>
+<p><strong>These examples count on using insight's registry, if you are using different make sure that you pass along correct one and don't use <code>registryDecorator</code></strong></p>
+<h2>Usage of hot loading</h2>
+<p>To load such inventory via chrome just call <code>window.insights.loadInventory</code> with dependencies and wait for it to load all data.</p>
+<p><strong>If you want to use new version of react-redux with hooks you have to change the way how you load the inventory to pass your store to it <code>inventoryConnector(store)</code>, where store is your redux store.</strong></p>
+<p>Expected dependencies is object with shape:</p>
+<pre class="prettyprint source lang-JS"><code>{
+    react: React, //Whole react
+    reactRouterDom: reactRouterDom //React router dom { withRouter, Switch, Route, Redirect, Link } are required
+    reactIcons: reactIcons //PF icons { TimesIcon, SyncIcon, hieldAltIcon, DollarSignIcon, WrenchIcon, CertificateIcon } are required, but they might be changed and more will be needed in future
+    reactCore: reactCore //PF react core items, best is to import * and pass whole reactCore
+    pfreact: pfreact // PF 3 react components - PaginationRow is currently used
+}
+</code></pre>
+<p>To load inventory table use like this:</p>
+<pre class="prettyprint source lang-JSX"><code>import React from 'react';
+import * as reactRouterDom from 'react-router-dom';
+import * as reactCore from '@patternfly/react-core';
+import * as reactIcons from '@patternfly/react-icons';
+import { PaginationRow } from 'patternfly-react';
+import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
+
+@registryDecorator()
+class SomeCmp extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            InventoryCmp: () => &lt;div>Loading...&lt;/div>
+        }
+
+        this.fetchInventory();
+    }
+
+    async fetchInventory() {
+        const { inventoryConnector, mergeWithEntities } = await insights.loadInventory({
+            react: React,
+            reactRouterDom,
+            reactCore,
+            reactIcons,
+            pfReact: { PaginationRow }
+        });
+
+        this.getRegistry().register({
+            ...mergeWithEntities()
+        });
+
+        this.setState({
+            // if you are going to use newer version of react-redux pass store to this function
+            // InventoryCmp: inventoryConnector(store).InventoryTable
+            // where `store` is your redux store - https://react-redux.js.org/api/provider#props
+            InventoryCmp: inventoryConnector().InventoryTable
+        })
+    }
+
+    render() {
+        const { InventoryCmp } = this.state;
+        return (
+            &lt;InventoryCmp />
+        )
+    }
+}
+</code></pre>
+<p>To show inventory detail use it like this:</p>
+<pre class="prettyprint source lang-JSX"><code>import React from 'react';
+import * as reactRouterDom from 'react-router-dom';
+import * as reactCore from '@patternfly/react-core';
+import * as reactIcons from '@patternfly/react-icons';
+import { PaginationRow } from 'patternfly-react';
+import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
+
+@registryDecorator()
+class SomeCmp extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            InventoryCmp: () => &lt;div>Loading...&lt;/div>
+        }
+
+        this.fetchInventory();
+    }
+
+    async fetchInventory() {
+        const { inventoryConnector, mergeWithDetail } = await insights.loadInventory({
+            react: React,
+            reactRouterDom,
+            reactCore,
+            reactIcons,
+            pfReact: { PaginationRow }
+        });
+
+        this.getRegistry().register({
+            ...mergeWithDetail()
+        });
+
+        this.setState({
+            InventoryCmp: inventoryConnector().InventoryDetail
+        })
+    }
+
+    render() {
+        const { InventoryCmp } = this.state;
+        return (
+            &lt;InventoryCmp root={'some/url/:someId'}/>
+        )
+    }
+}
+</code></pre>
+<p>You'll have to also register inventory reducers so the data are fetched correctly that is represent by calling
+<code>this.getRegistry().register</code> with <code>mergeWithEntities</code> and <code>mergeWithDetail</code>.</p>
+<ul>
+<li>react-redux with hooks</li>
+</ul>
+<pre class="prettyprint source lang-JSX"><code>import React, { useState, useEffect } from 'react';
+import { useStore } from 'react-redux'
+import * as reactCore from '@patternfly/react-core';
+import * as reactIcons from '@patternfly/react-icons';
+import * as pfReactTable from '@patternfly/react-table';
+import * as reactRouterDom from 'react-router-dom';
+import register from '../redux/store';
+
+const SomeCmp = () => {
+    const [ InventoryCmp, setInventory ] = useState(&lt;div>Loading...&lt;/div>);
+    const store = useStore()
+    const loadInventory = async () => {
+        const { inventoryConnector, mergeWithEntities } = await insights.loadInventory({
+            react: React,
+            reactRouterDom,
+            reactCore,
+            reactIcons,
+            pfReactTable
+        });
+
+        this.getRegistry().register({
+            ...mergeWithEntities()
+        });
+
+        setInventory(inventoryConnector(store).InventoryTable);
+    };
+
+    useEffect(() => {
+        loadInventory();
+    }, []);
+
+    return &lt;InventoryCmp />
+}
+</code></pre>
+<h2>Usage variants</h2>
+<p>With inventory component loaded same as in previous step we have couple of variants of how to use this component</p>
+<ol>
+<li>Passing array of prefetched items from different data source - if you want to fetch inventory information from another source and help inventory to fetch facts for only those items you can pass either array of (string) IDs or objects with ID and additional props.</li>
+</ol>
+<pre class="prettyprint source lang-JSX"><code>import React from 'react';
+import * as reactRouterDom from 'react-router-dom';
+import * as reactCore from '@patternfly/react-core';
+import * as reactIcons from '@patternfly/react-icons';
+import { PaginationRow } from 'patternfly-react';
+import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
+import { hostData } from './api';
+
+@registryDecorator()
+class SomeCmp extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            InventoryCmp: () => (&lt;div>Loading...&lt;/div>)
+        }
+
+        this.fetchInventory();
+    }
+
+    async fetchInventory() {
+        // This can be data from server, redux data or just plain object.  
+        const hostEntities = await hostData(); // from server
+        // const hostEntities = this.props.hostEntities // from redux
+        // const hostEntities = [{ id: '12-56-r-g', some: 'another', myData: 'something specific' }] // objects with ID
+        // cons hostEntities = [ '12-56-r-g' ] // array with IDs
+        const { inventoryConnector, mergeWithEntities } = await insights.loadInventory({
+            react: React,
+            reactRouterDom,
+            reactCore,
+            reactIcons,
+            pfReact: { PaginationRow }
+        });
+
+        this.getRegistry().register({
+            ...mergeWithEntities()
+        });
+
+        this.setState({
+            InventoryCmp: inventoryConnector().InventoryTable,
+            hostEntities: hostEntities
+        })
+    }
+
+    render() {
+        const { InventoryCmp, hostEntities } = this.state;
+        return (
+            &lt;InventoryCmp items={ hostEntities } />
+        )
+    }
+}
+</code></pre>
+<ol start="2">
+<li>Calling some action when all entities are loaded - if you want to do something with fetched data, callback function will receive argument with shape <code>{data: data, stopBubble: () =&gt; boolean}</code>, where data is Promise with fetched data and stopBubble prevents from bubling to store.</li>
+</ol>
+<pre class="prettyprint source lang-JSX"><code>import React from 'react';
+import * as reactRouterDom from 'react-router-dom';
+import * as reactCore from '@patternfly/react-core';
+import * as reactIcons from '@patternfly/react-icons';
+import { PaginationRow } from 'patternfly-react';
+import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
+
+@registryDecorator()
+class SomeCmp extends React.Component {
+    //...
+    async fetchInventory() {
+        const { inventoryConnector, mergeWithEntities} = await insights.loadInventory({
+            react: React,
+            reactRouterDom,
+            reactCore,
+            reactIcons,
+            pfReact: { PaginationRow }
+        });
+
+        this.getRegistry().register({
+            ...mergeWithEntities()
+        });
+
+        this.entitiesListener = addNewListener({
+            actionType: INVENTORY_ACTION_TYPES.LOAD_ENTITIES,
+            callback: this.callSomeFunction
+        });
+
+        this.setState({
+            InventoryCmp: inventoryConnector().InventoryTable
+        })
+    }
+
+    callSomeFunction({ data }) {
+        //Do something with data Promise
+    }
+    //...
+}
+</code></pre>
+<ol start="3">
+<li>Calling some action when entity detail is loaded - if you want to get the ID of entity callback function will receive argument with promise with shape <code>{data: data, stopBubble: () =&gt; boolean}</code>, where data is Promise with ID of selected item and fetched data, stopBubble prevents from bubling to store.</li>
+</ol>
+<pre class="prettyprint source lang-JSX"><code>import React from 'react';
+import * as reactRouterDom from 'react-router-dom';
+import * as reactCore from '@patternfly/react-core';
+import * as reactIcons from '@patternfly/react-icons';
+import { PaginationRow } from 'patternfly-react';
+import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
+
+@registryDecorator()
+class SomeCmp extends React.Component {
+  //...
+    async fetchInventory() {
+        const { inventoryConnector, mergeWithDetail, INVENTORY_ACTION_TYPES } = await insights.loadInventory({
+            react: React,
+            reactRouterDom,
+            reactCore,
+            reactIcons,
+            pfReact: { PaginationRow }
+        });
+
+        this.getRegistry().register({
+            ...mergeWithDetail()
+        });
+
+        this.entityListener = addNewListener({
+            actionType: INVENTORY_ACTION_TYPES.LOAD_ENTITY,
+            callback: this.callSomeOtherFunction
+        });
+
+        this.setState({
+            InventoryCmp: inventoryConnector().InventoryDetail
+        });
+    }
+
+    callSomeOtherFunction({ data }) {
+      //Do something with data Promise
+    }
+  //...
+}
+</code></pre>
+<h3>InventoryTable as tree</h3>
+<p>Since inventory table is regular table you can pass additional data to it to be rendered as tree table with collapsible rows and some specific data in such row.</p>
+<p>To show some collapsed information you can pass children prop for each item. This children can be either string or function with React children in it.</p>
+<p>Once user clicks on expand button you will be notified over <code>onExpandClick</code> callback.</p>
+<pre class="prettyprint source lang-JSX"><code>import React from 'react';
+import * as reactRouterDom from 'react-router-dom';
+import * as reactCore from '@patternfly/react-core';
+import * as reactIcons from '@patternfly/react-icons';
+import * as pfReactTable from '@patternfly/react-table';
+import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
+
+@registryDecorator()
+class SomeCmp extends React.Component {
+    constructor(props, ctx) {
+        super(props, ctx);
+        this.state = {
+            InventoryCmp: () => &lt;div>Loading...&lt;/div>,
+            items: [{
+                id: 'some-id',
+                children: () => &lt;div>Something&lt;/div>
+            }]
+        }
+        this.onExpandClick = this.onExpandClick.bind(this);
+        this.fetchInventory();
+    }
+
+    async fetchInventory() {
+        const { inventoryConnector, mergeWithEntities } = await insights.loadInventory({
+            react: React,
+            reactRouterDom,
+            reactCore,
+            reactIcons,
+            pfReactTable
+        });
+
+        this.getRegistry().register({
+            ...mergeWithEntities()
+        });
+
+        const { InventoryTable, updateEntities } = inventoryConnector();
+        this.updateEntities = updateEntities;
+
+        this.setState({
+            InventoryCmp: InventoryTable
+        })
+    }
+
+    render() {
+        const { InventoryCmp, items } = this.state;
+        const { onCollapse } = this.props;
+        return (
+            &lt;InventoryCmp
+                items={items}
+                expandable
+                onExpandClick={(_e, _i, isOpen, { id }) => expandItem(isOpen, id)}
+            />
+        )
+    }
+}
+
+SomeCmp.contextTypes = {
+   store: propTypes.object
+};
+
+export default connect((dispatch) => ({
+    onCollapse: (isOpen, id) => dispatch({ type: 'EXPAND', payload: { id, isOpen } })
+})() => ({}))(SomeCmp);
+</code></pre>
+<h3>Compact table</h3>
+<p>If you want to include inventory table in smaller area you can pass attribute <code>variant</code> it is the same as in <a href="http://patternfly-react.surge.sh/patternfly-4/components/table#Table">PF4 table</a></p>
+<pre class="prettyprint source lang-JSX"><code>import React from 'react';
+import * as reactRouterDom from 'react-router-dom';
+import * as reactCore from '@patternfly/react-core';
+import * as reactIcons from '@patternfly/react-icons';
+import * as pfReactTable from '@patternfly/react-table';
+import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
+
+@registryDecorator()
+class SomeCmp extends React.Component {
+    //...
+    render() {
+        const { InventoryCmp, items } = this.state;
+        return (
+            &lt;InventoryCmp variant={reactCore.TableVariant.compact} />
+        )
+    }
+}
+</code></pre>
+<h3>Refresh on change (for example on filter)</h3>
+<p>When user wants to update table, filter data (both trough filter select and textual filter) or you want to update visible items you can either update data in redux or use inventory ref and <code>onRefreshData</code> function.</p>
+<pre class="prettyprint source lang-JSX"><code>import React from 'react';
+import * as reactRouterDom from 'react-router-dom';
+import * as reactCore from '@patternfly/react-core';
+import * as reactIcons from '@patternfly/react-icons';
+import * as pfReactTable from '@patternfly/react-table';
+import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
+
+@registryDecorator()
+class SomeCmp extends React.Component {
+    constructor(props, ctx) {
+        super(props, ctx);
+        this.inventory = React.createRef();
+        this.state = {
+            InventoryCmp: () => &lt;div>Loading...&lt;/div>,
+            items: [] // some data
+        }
+        this.fetchInventory();
+    }
+
+    async fetchInventory() {
+        // ..
+    }
+
+    onRefresh(options) {
+        // Do something with this.state items and refresh data trough onRefreshData function
+        this.inventory.current && this.inventory.current.onRefreshData();
+    }
+
+    render() {
+        const { InventoryCmp, items } = this.state;
+        return (
+            &lt;InventoryCmp items={items} ref={this.inventory} onRefresh={this.onRefresh} />
+        )
+    }
+}
+</code></pre>
+<h3>Application pagination</h3>
+<pre class="prettyprint source lang-JSX"><code>import React from 'react';
+import * as reactRouterDom from 'react-router-dom';
+import * as reactCore from '@patternfly/react-core';
+import * as reactIcons from '@patternfly/react-icons';
+import * as pfReactTable from '@patternfly/react-table';
+import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
+
+@registryDecorator()
+class SomeCmp extends React.Component {
+    constructor(props, ctx) {
+        // ..
+        // initial data can be static or from server
+        this.state = {
+            // ..
+            InventoryCmp: () => &lt;div>Loading...&lt;/div>,
+            page: 1,
+            perPage: 25
+        }
+    }
+
+    async fetchInventory() {
+        // ..
+    }
+
+    onRefresh = (options) => {
+        // This will be called when user clicks on pagination
+        // Do something with these information
+        fetch(`/some/endpoint?page=${options.page}&count=${options.perPage}`).then(data => {
+            data.json().then(({ items, meta }) => {
+                this.setState({
+                    items,
+                    total: meta.total,
+                    page: meta.page,
+                    perPage: meta.count
+                });
+            });
+        });
+    }
+
+    render() {
+        const { InventoryCmp, items, page, perPage, total } = this.state;
+        return (
+            &lt;InventoryCmp items={items} onRefresh={this.onRefresh} page={page} perPage={perPage} total={total} />
+        )
+    }
+}
+</code></pre>
+<h3>Additional filtering</h3>
+<p>Inventory has some basic filters over name, system type and OS version. However if you want to add your own filters you can do that by passing filters. Also if you want to show some extra content in header just pass children and inventory will show them next to filters and refresh.</p>
+<p>You will be notified in <code>onRefresh</code> function about filter changes.</p>
+<pre class="prettyprint source lang-JSX"><code>import React from 'react';
+import * as reactRouterDom from 'react-router-dom';
+import * as reactCore from '@patternfly/react-core';
+import * as reactIcons from '@patternfly/react-icons';
+import * as pfReactTable from '@patternfly/react-table';
+import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
+
+@registryDecorator()
+class SomeCmp extends React.Component {
+    constructor(props, ctx) {
+        super(props, ctx);
+        this.inventory = React.createRef();
+        this.state = {
+            InventoryCmp: () => &lt;div>Loading...&lt;/div>
+        }
+        this.fetchInventory();
+    }
+
+    async fetchInventory() {
+        // ..
+    }
+
+    // options: { page, per_page, filters }
+    onRefresh(options) {
+        // do something with options
+    }
+
+    render() {
+        const { InventoryCmp } = this.state;
+        return (
+            &lt;InventoryCmp ref={this.inventory} filters={[
+                { title: 'Some filter', value: 'some-filter', items: [{ title: 'First', value: 'first' }] }
+            ]} onRefresh={this.onRefresh}/>
+        )
+    }
+}
+</code></pre>
+<h3>Using RBAC with inventory</h3>
+<p>By default inventory component will check <code>['inventory:*:*', 'inventory:*:read', 'inventory:hosts:read']</code> in RBAC. If any is found it means that the user has access to inventory host list and will show either container view or full page view.</p>
+<p>If you are using just inventory table in your screen please pass <code>isFullView={true}</code> to connected inventory component so the component will render in full page view instead of container view.</p>
+<h3>Changing list of entities</h3>
+<p>If you want to change list of entities you should change them in redux store so the changes are reflected in entity table automatically.</p>
+<p>Function <code>mergeWithEntities</code> accepts redux reducer (function wwhich in simplest way can look like <code>(state) =&gt; state</code>), just to be clear reducer function accepts <code>state</code> and <code>payload</code> as parameter and return either unchanged state or state which is changed
+based on payload.</p>
+<p>You'll want to split the reducers from your app logic in our example we have all reducers stored under <code>src/store/reducers</code>, but your application can have them anywhere you want.</p>
+<p>If you are going to change rows or entities in store, please use <code>mergeArraysByKey</code> function which helps you with merging both current state and new payload together so you don't loose any of it.</p>
+<ul>
+<li><code>src/store/reducers.js</code> - let's use <code>applyReducerHash</code> to demonstrate how to use such function</li>
+</ul>
+<pre class="prettyprint source lang-JS"><code>import { applyReducerHash } from '@redhat-cloud-services/frontend-components-utilities/files/ReducerRegistry';
+import { ACTION_TYPES } from '../constants';
+export const listReducer = applyReducerHash({
+  [ACTION_TYPES.GET_ENTITIES_FULFILLED]: (state, payload) => {
+    //do some logic with state
+    return {...state};
+  }
+})
+</code></pre>
+<ul>
+<li><code>src/SomeComponent.js</code> - this is our example component</li>
+</ul>
+<pre class="prettyprint source lang-JSX"><code>import React from 'react';
+import * as reactRouterDom from 'react-router-dom';
+import * as reactCore from '@patternfly/react-core';
+import * as reactIcons from '@patternfly/react-icons';
+import * as pfReactTable from '@patternfly/react-table';
+import { listReducer } from './store/reducers';
+import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
+
+@registryDecorator()
+class SomeCmp extends React.Component {
+  //...
+  async fetchInventory() {
+    const { inventoryConnector, mergeWithEntities, INVENTORY_ACTION_TYPES } = await insights.loadInventory({
+      react: React,
+      reactRouterDom,
+      reactCore,
+      reactIcons,
+      pfReactTable
+    });
+
+    this.getRegistry().register({
+      ...mergeWithEntities(listReducer)
+    });
+
+    this.entityListener = addNewListener({
+        actionType: INVENTORY_ACTION_TYPES.LOAD_ENTITY,
+        callback: this.props.fetchEntities
+        }
+    });
+
+    this.setState({
+      InventoryCmp: inventoryConnector().InventoryTable
+    })
+  }
+  //...
+}
+</code></pre>
+<h3>Changing detail</h3>
+<p>If you want to change detail of selected entity you should change it in redux store so the changes are reflected in entity detail automatically.</p>
+<p>Function <code>mergeWithDetail</code> accepts redux reducer (function wwhich in simplest way can look like <code>(state) =&gt; state</code>), just to be clear reducer function accepts <code>state</code> and <code>action</code> as parameter and return either unchanged state or state which is changed
+based on action's payload.</p>
+<p>You'll want to split the reducers from your app logic in our example we have all reducers stored under <code>src/store/reducers</code>, but your application can have them anywhere you want.</p>
+<ul>
+<li><code>src/store/reducers.js</code> - let's switch and also inventory action to demonstrate such usage</li>
+</ul>
+<pre class="prettyprint source lang-JS"><code>import { ACTION_TYPES } from '../constants';
+export function entityDetailReducer(INVENTORY_ACTIONS) {
+  return function(state, action) {
+    switch(action.type) {
+      case INVENTORY_ACTIONS.LOAD_ENTITY_FULFILLED: {
+        // do some thing with entity
+        return {...state}
+      }
+      case ACTION_TYPES.GET_ENTITY_FULFILLED: {
+        // do some thing with entity
+        return {...state}
+      }
+    }
+  }
+}
+</code></pre>
+<ul>
+<li><code>src/SomeComponent.js</code> - this is our example component</li>
+</ul>
+<pre class="prettyprint source lang-JSX"><code>import React from 'react';
+import * as reactRouterDom from 'react-router-dom';
+import * as reactCore from '@patternfly/react-core';
+import * as reactIcons from '@patternfly/react-icons';
+import * as pfReactTable from '@patternfly/react-table';
+import { entityDetailReducer } from './store/reducers';
+import registryDecorator from '@redhat-cloud-services/frontend-components-utilities/files/Registry';
+
+@registryDecorator()
+class SomeCmp extends React.Component {
+    //...
+    async fetchInventory() {
+        const {
+            inventoryConnector,
+            mergeWithDetail,
+            INVENTORY_ACTION_TYPES
+        } = await insights.loadInventory({
+            react: React,
+            reactRouterDom,
+            reactCore,
+            reactIcons,
+            pfReactTable
+        });
+
+        this.getRegistry().register({
+            ...mergeWithDetail(entityDetailReducer(INVENTORY_ACTION_TYPES))
+        });
+
+        this.entityListener = addNewListener({
+            actionType: INVENTORY_ACTION_TYPES.LOAD_ENTITY,
+            callback: this.props.fetchEntities
+            }
+        });
+
+        this.setState({
+            InventoryCmp: inventoryConnector().InventoryDetail
+        })
+    }
+  //...
+}
+</code></pre>
+<h3>Add custom app entity detail</h3>
+<p>If you want to display some information in entity detail you have option to do so, by adding details to store based on your application.</p>
+<p>We'll use our reducers file and add some application to it</p>
+<pre class="prettyprint source lang-JS"><code>import { Overview } from '@redhat-cloud-services/frontend-components';
+
+function enableApplications(state) {
+  return {
+    ...state,
+    loaded: true,
+    activeApps: [
+      { title: 'Overview', name: 'overview', component: Overview },
+      { title: 'Vulnerabilities', name: 'vulnerabilities' },
+    ]
+  }
+}
+
+export function entitesDetailReducer(INVENTORY_ACTION_TYPES) {
+    return applyReducerHash(
+        {
+            [INVENTORY_ACTION_TYPES.LOAD_ENTITY_FULFILLED]: enableApplications,
+        },
+        defaultState
+    );
+}
+</code></pre>
+<p>The most iportant part over here is the part of state <code>activeApps</code> which requires array of objects with <code>title</code> this will be displayed as tab, <code>name</code> this is to correctly navigate in router and <code>component</code> is optional with component which will be displayed as tab content.</p>
+<h3>Custom props to column</h3>
+<p>Sometimes you might want to change size of each column to style the table properly. You can do this by adding <code>props</code> to columns</p>
+<pre class="prettyprint source lang-JS"><code>import { ACTION_TYPES } from '../constants';
+export function entityDetailReducer(INVENTORY_ACTIONS) {
+  return function(state, action) {
+    switch(action.type) {
+      case INVENTORY_ACTIONS.LOAD_ENTITY_FULFILLED: {
+        state.columns = [
+            {
+                key: 'some.compliacated.key',
+                title: 'Some title',
+                props: {
+                    width: 40
+                }
+            }, {
+                key: 'simple',
+                title: 'Another',
+                props: {
+                    width: 10
+                }
+            }
+        ]
+        return {...state}
+      }
+    }
+  }
+}
+</code></pre>
+<p><strong>Please write these application specific details in some place where others can benefit from your implementation.</strong></p>
+<h2>Inventory actions</h2>
+<p>These actions are fired from inventory component. If action is marked with <code>*</code> it means it's async actions and so it has <code>_FULFILLED</code>, <code>_PENDING</code> and <code>_REJECTED</code> variants.</p>
+<ul>
+<li><code>LOAD_ENTITIES</code> - to trigger fetching entities from specific endpoint</li>
+<li><code>LOAD_ENTITY</code> - when detail data are being received from server</li>
+<li><code>SELECT_ENTITY</code> - if user clicks on checkbox in entity list</li>
+<li><code>CHANGE_SORT</code> - when user changes sort</li>
+<li><code>FILTER_ENTITIES</code> - when user wants to filter entities</li>
+</ul>
+<h2>Store shape</h2>
+<p>As mentioned before the async loader will load two functions <code>mergeWithEntities</code> and <code>mergeWithDetail</code> both have access to your store and they will create specific keys in store. Please do not change the data directly, since that can break the inventory component.</p>
+<p>Let's assume that the store looks like</p>
+<pre class="prettyprint source lang-JS"><code>{
+  someKey: {}
+}
+</code></pre>
+<h3>Entities key</h3>
+<p>Given store will look like</p>
+<pre class="prettyprint source lang-JS"><code>{
+    someKey: {},
+    entities: {
+        columns: Array({key: String, title: String, composed: Array(String)})
+        loaded: Boolean
+        rows: Array({}),
+        entities: Array({})
+    }
+}
+</code></pre>
+<ul>
+<li>columns - each entry has <code>key</code>, <code>title</code> and <code>composed</code>. Composed is array of paths for multiple values, <code>key</code> is path to display value.</li>
+<li>loaded - if data are loaded to indicate loading.</li>
+<li>rows - contains actual data. Based on columns the data will be queried by <code>key</code> or <code>composed</code> and shown in table. If no data are found <code>unknown</code> will be shown for such column.</li>
+<li>entities - is just copy of rows which are filtered and sorted.</li>
+</ul>
+<h3>EntityDetails key</h3>
+<pre class="prettyprint source lang-JS"><code>{
+    someKey: {},
+    entityDetails: {
+        activeApp: {appName: String},
+        activeApps: Array({title: String, name: String, component: React.Component}),
+        entity: {},
+        tags: {key: Array(String)}
+    }
+}
+</code></pre>
+<ul>
+<li>activeApp - name of active app.</li>
+<li>activeApps - array with visible apps, <code>title</code> will be tab title, <code>name</code> will be used for react router and <code>component</code> as tab content.</li>
+<li>entity - actual entity data.
+<ul>
+<li>Hostname: <code>display_name</code></li>
+<li>UUID: <code>facts.host_system_id</code></li>
+<li>System: <code>facts.release</code></li>
+<li>Last Check-in: TODO</li>
+<li>Registered: TODO</li>
+</ul>
+</li>
+<li>tags - tags data</li>
+</ul>
+</article>
+
+</section>
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>
