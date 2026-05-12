@@ -7,32 +7,32 @@
       "stale": {
         "period": "2026-04-01 to 2026-05-12",
         "data": {
-          "total": 64,
-          "merged": 54,
+          "total": 65,
+          "merged": 56,
           "closed_no_merge": 4,
-          "still_open": 6,
+          "still_open": 5,
           "bot_closed": 3,
           "median_ttm": 25.1,
-          "median_ttfr": 14.5,
-          "avg_ttfr": 36.8,
-          "pct_reviewed_24h": 66.66,
-          "no_review_24h": 10,
+          "median_ttfr": 15.6,
+          "avg_ttfr": 53.5,
+          "pct_reviewed_24h": 65.45,
+          "no_review_24h": 9,
           "open_15d": 2
         }
       },
       "review": {
         "period": "2026-04-01 to 2026-05-12",
         "data": {
-          "total": 64,
-          "merged": 54,
+          "total": 65,
+          "merged": 56,
           "closed_no_merge": 4,
-          "still_open": 6,
+          "still_open": 5,
           "bot_closed": 2,
           "median_ttm": 25.1,
-          "median_ttfr": 14.5,
-          "avg_ttfr": 36.8,
-          "pct_reviewed_24h": 66.66,
-          "no_review_24h": 10,
+          "median_ttfr": 15.6,
+          "avg_ttfr": 53.5,
+          "pct_reviewed_24h": 65.45,
+          "no_review_24h": 9,
           "open_15d": 2
         }
       }
