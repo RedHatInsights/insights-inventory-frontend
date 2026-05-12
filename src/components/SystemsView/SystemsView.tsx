@@ -18,8 +18,8 @@ import {
   InventoryFilters,
   SystemsViewFilters,
 } from './filters/SystemsViewFilters';
-import { useColumns } from './hooks/useColumns';
-import { SetURLSearchParams, useSearchParams } from 'react-router-dom';
+import { INITIAL_SORT, useColumns } from './hooks/useColumns';
+import { SetURLSearchParams } from 'react-router-dom';
 import { SystemActionModalsProvider } from './SystemActionModalsContext';
 import { SystemsViewBulkActions } from './SystemsViewBulkActions';
 import {
@@ -29,7 +29,6 @@ import {
 import { useRows, type SystemsViewTableRow } from './hooks/useRows';
 import AccessDenied from '../../Utilities/AccessDenied';
 import './SystemsView.scss';
-import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import { InnerScrollContainer, ISortBy } from '@patternfly/react-table';
 import { ColumnManagementModalProvider } from './ColumnManagementModalContext';
 import {
@@ -45,10 +44,11 @@ import { DEBOUNCE_TIMEOUT_MS } from '../../constants';
 import { normalizeLegacySortSearchParams } from './utils/normalizeLegacySortSearchParams';
 import { SORT_DIR_URL_PARAM, SORT_URL_PARAM } from './constants';
 import useInventoryViewsFeatureFlag from '../../Utilities/useInventoryViewsFeatureFlag';
+import type { Column } from './columns/allColumnDefinitions';
+import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 
 export type SortDirection = ISortBy['direction'];
-export type SortBy = ApiOrderByEnum | undefined;
-export type onSort = (
+export type OnSort = (
   _event: React.MouseEvent | React.KeyboardEvent | MouseEvent | undefined,
   newSortBy: string,
   newSortDirection: SortDirection,
@@ -104,10 +104,7 @@ const SystemsViewInner = ({
   );
 
   const sort = useDataViewSort({
-    initialSort: {
-      direction: 'desc',
-      sortBy: ApiOrderByEnum.LastCheckIn,
-    },
+    initialSort: INITIAL_SORT,
     defaultDirection: 'asc',
     searchParams: sortSearchParams,
     setSearchParams,
@@ -115,7 +112,7 @@ const SystemsViewInner = ({
     directionParam: SORT_DIR_URL_PARAM,
   });
 
-  const sortBy = sort?.sortBy as SortBy;
+  const sortBy = sort?.sortBy as Column['sortBy'];
   const { direction, onSort } = sort;
 
   const isInventoryViewsEnabled = useInventoryViewsFeatureFlag();
@@ -132,7 +129,7 @@ const SystemsViewInner = ({
     perPage: pagination.perPage,
     filters: queryFilters,
     lastSeenCustomRange,
-    sortBy,
+    sortBy: sortBy as ApiOrderByEnum | undefined,
     direction,
   });
 

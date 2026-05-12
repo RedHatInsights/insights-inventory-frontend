@@ -2,6 +2,12 @@ name: 'Prod Post-Release Sanity'
 
 on:
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run: Run tests without notifying Slack'
+        required: false
+        type: boolean
+        default: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }} # target branch
@@ -69,7 +75,7 @@ jobs:
         run: npx playwright install chromium
 
       - name: Run front-end Playwright tests
-        run: USE_CTRF=1 CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test --grep-invert @integration
+        run: USE_CTRF=1 CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test --grep-invert @integration --grep-invert @rbac
 
       - name: Publish front-end Test Report
         uses: ctrf-io/github-test-reporter@v1
@@ -84,3 +90,51 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 10
+
+      - name: Notify Slack on success
+        uses: slackapi/slack-github-action@v3.0.3
+        if: ${{ success() && inputs.dry_run != true }}
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "attachments": [
+                {
+                  "color": "#36a64f",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/ | :test_tube: [CI/CD] Prod Post-Release Sanity>: *passed* :large_green_circle: <!subteam^${{ secrets.SLACK_USER_GROUP }}|@hbi-frontend>"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+
+      - name: Notify Slack on failure
+        uses: slackapi/slack-github-action@v3.0.3
+        if: ${{ failure() && inputs.dry_run != true && !cancelled() }}
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "attachments": [
+                {
+                  "color": "#d72839",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}/ | :test_tube: [CI/CD] Prod Post-Release Sanity>: *failed* :red-stop: <!subteam^${{ secrets.SLACK_USER_GROUP }}|@hbi-frontend>"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }

@@ -95,8 +95,8 @@ npx playwright install  --with-deps
 * `npx playwright test test_navigation.test.ts` - run a specific test file
 * `npx playwright test test_navigation.test.ts -g "Test name"` - run a specific test by its name
 * `npx playwright test --grep-invert @integration` - run tests except integration tests
+* `npx playwright test --grep @rbac` - run only E2E RBAC tests
 * `SYSTEMS_VIEW=true npx playwright test` - run the complete playwright test suite with enabled `SystemsView` and `Kessel` components
-
 
 For more examples on how to run and debug tests, visit the [official Playwright documentation](https://playwright.dev/docs/running-tests).
 

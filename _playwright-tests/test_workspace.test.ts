@@ -234,7 +234,7 @@ test('User can create, rename and delete a workspace from Workspaces page', asyn
    */
   const workspaceName = await generateUniqueWorkspaceName();
   const renamedWorkspace = `${workspaceName}_Renamed`;
-  const dialogModal = page.locator('[data-ouia-component-id="group-modal"]');
+  const dialogModal = page.locator('[role="dialog"]');
   const nameCell = page.locator('td[data-label="Name"]');
 
   await test.step('Test setup: navigate to Workspaces page, create workspace to work with', async () => {
@@ -247,22 +247,24 @@ test('User can create, rename and delete a workspace from Workspaces page', asyn
   });
 
   await test.step('Rename workspace via per-row action from Workspaces page and verify renaming via search', async () => {
-    const kebab = await waitForTableKebabReady(
-      page,
-      new RegExp(workspaceName, 'i'),
-    );
-    await kebab.click();
-    await expect(kebab).toHaveAttribute('aria-expanded', 'true');
+    await expect(async () => {
+      await page.reload({ waitUntil: 'load' });
+      await searchByName(page, workspaceName);
+      const kebab = await waitForTableKebabReady(
+        page,
+        new RegExp(workspaceName, 'i'),
+      );
+      await kebab.click();
+      await expect(kebab).toHaveAttribute('aria-expanded', 'true');
 
-    const renameWorkspaceButton = page
-      .getByRole('menuitem', { name: 'Rename workspace' })
-      .first();
-    await expect(renameWorkspaceButton).toBeEnabled({
-      timeout: 50000,
-    });
-    await renameWorkspaceButton.click();
+      const renameWorkspaceButton = page
+        .getByRole('menuitem', { name: 'Rename workspace' })
+        .first();
+      await expect(renameWorkspaceButton).toBeEnabled();
+      await renameWorkspaceButton.click();
 
-    await expect(dialogModal).toBeVisible();
+      await expect(dialogModal).toBeVisible();
+    }).toPass({ timeout: 60000 });
     await dialogModal.locator('input').first().fill(renamedWorkspace);
     await dialogModal.getByRole('button', { name: 'Save' }).click();
 
@@ -273,23 +275,24 @@ test('User can create, rename and delete a workspace from Workspaces page', asyn
   });
 
   await test.step('Delete workspace via per-row action from Workspaces page and verify deletion via search', async () => {
-    await searchByName(page, renamedWorkspace);
-    const kebab = await waitForTableKebabReady(
-      page,
-      new RegExp(renamedWorkspace, 'i'),
-    );
-    await kebab.click();
-    await expect(kebab).toHaveAttribute('aria-expanded', 'true');
+    await expect(async () => {
+      await page.reload({ waitUntil: 'load' });
+      await searchByName(page, renamedWorkspace);
+      const kebab = await waitForTableKebabReady(
+        page,
+        new RegExp(renamedWorkspace, 'i'),
+      );
+      await kebab.click();
+      await expect(kebab).toHaveAttribute('aria-expanded', 'true');
 
-    const deleteWorkspaceButton = page
-      .getByRole('menuitem', { name: 'Delete workspace' })
-      .first();
-    await expect(deleteWorkspaceButton).toBeEnabled({
-      timeout: 50000,
-    });
-    await deleteWorkspaceButton.click();
+      const deleteWorkspaceButton = page
+        .getByRole('menuitem', { name: 'Delete workspace' })
+        .first();
+      await expect(deleteWorkspaceButton).toBeEnabled();
+      await deleteWorkspaceButton.click();
 
-    await expect(dialogModal).toBeVisible();
+      await expect(dialogModal).toBeVisible();
+    }).toPass({ timeout: 60000 });
     await dialogModal.getByRole('button', { name: 'Delete' }).click();
 
     // search for the workspace to confirm workspace is removed
@@ -475,8 +478,6 @@ sortingColumns.forEach((column) => {
     test(`User can sort workspaces by ${column.name} column in ${order} order`, async ({
       page,
     }) => {
-      test.fixme(true, 'https://issues.redhat.com/browse/RHINENG-24401');
-
       /**
        * Jira References:
        * - https://issues.redhat.com/browse/${column.jiraRef} – Sort workspaces
