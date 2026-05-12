@@ -58,7 +58,7 @@ jobs:
           echo "pr_url=$pr_url" >> $GITHUB_ENV
       
       - name: Cache - node_modules
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             node_modules
