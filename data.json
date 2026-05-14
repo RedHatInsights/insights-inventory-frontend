@@ -3,9 +3,9 @@
   "quarters": {
     "Q2": {
       "quarter": "Q2",
-      "updated": "2026-05-13",
+      "updated": "2026-05-14",
       "stale": {
-        "period": "2026-04-01 to 2026-05-13",
+        "period": "2026-04-01 to 2026-05-14",
         "data": {
           "total": 67,
           "merged": 57,
@@ -16,12 +16,12 @@
           "median_ttfr": 15.6,
           "avg_ttfr": 52.3,
           "pct_reviewed_24h": 64.91,
-          "no_review_24h": 9,
+          "no_review_24h": 10,
           "open_15d": 3
         }
       },
       "review": {
-        "period": "2026-04-01 to 2026-05-13",
+        "period": "2026-04-01 to 2026-05-14",
         "data": {
           "total": 67,
           "merged": 57,
@@ -32,7 +32,7 @@
           "median_ttfr": 15.6,
           "avg_ttfr": 52.3,
           "pct_reviewed_24h": 64.91,
-          "no_review_24h": 9,
+          "no_review_24h": 10,
           "open_15d": 3
         }
       }
