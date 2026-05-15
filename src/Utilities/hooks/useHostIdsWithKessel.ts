@@ -1,8 +1,5 @@
 import { useMemo } from 'react';
-import {
-  useSelfAccessCheck,
-  type SelfAccessCheckResourceWithRelation,
-} from '@project-kessel/react-kessel-access-check';
+import { useSelfAccessCheck } from '@project-kessel/react-kessel-access-check';
 import { type BulkSelfAccessCheckNestedRelationsParams } from '@project-kessel/react-kessel-access-check/types';
 import { useKesselMigrationFeatureFlag } from './useKesselMigrationFeatureFlag';
 import {
@@ -33,7 +30,7 @@ export interface SystemWithPermissions extends System {
  *
  * Use in both the legacy InventoryTable and the new SystemsView. Returned
  * `hostsWithPermissions` can replace the GET /hosts response so each host has
- * `permissions: { hasUpdate, hasDelete }`.
+ * `permissions: { hasUpdate, hasDelete, hasWorkspaceEdit }`.
  *
  *  @param hosts - Current page of host records (array of objects with at least an optional `id`)
  *  @returns     Object with hostIds, isKesselEnabled, hostsWithPermissions, permissionsLoading, permissionsError
@@ -50,7 +47,8 @@ export const useHostIdsWithKessel = (hosts: System[] | undefined) => {
       .filter((id): id is string => typeof id === 'string' && id.length > 0);
   }, [isKesselEnabled, hosts]);
 
-  // Unique workspace (group) IDs for hosts that are in a workspace (not ungrouped).
+  // Unique workspace (group) IDs on this page — includes Ungrouped Hosts (`ungrouped: true`),
+  // which still has an RBAC workspace id used for Kessel `workspace` + `edit` checks.
   const workspaceIds = useMemo(() => {
     if (!isKesselEnabled || !hosts?.length) return [];
     const ids = new Set<string>();
@@ -151,10 +149,11 @@ export const useHostIdsWithKessel = (hosts: System[] | undefined) => {
         hasDelete: false,
       };
       const group = host?.groups?.[0];
-      const hasWorkspaceEdit =
-        !group?.id || group?.ungrouped
-          ? true
-          : (workspaceEditByWorkspaceId.get(group.id) ?? false);
+      // Same `workspace` + `edit` self-access as other workspaces; Ungrouped Hosts must not bypass Kessel.
+      // Hosts with no group payload keep permissive default so legacy responses still allow move when unknown.
+      const hasWorkspaceEdit = group?.id
+        ? (workspaceEditByWorkspaceId.get(group.id) ?? false)
+        : true;
       return {
         ...host,
         permissions: isKesselEnabled
