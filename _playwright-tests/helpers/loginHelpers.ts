@@ -1,7 +1,60 @@
 import { expect, type Page } from '@playwright/test';
 import path from 'path';
 
-// This file can only contain functions that are referenced by authentication.
+export type UserConfig = {
+  role: string;
+  tokenEnvVar: string;
+  credentialEnvVars: [string, string];
+  rbac: boolean;
+  isProd: boolean;
+};
+
+export const ALL_USERS: UserConfig[] = [
+  {
+    role: 'admin',
+    tokenEnvVar: 'TOKEN_ADMIN',
+    credentialEnvVars: ['PLAYWRIGHT_USER', 'PLAYWRIGHT_PASSWORD'],
+    rbac: false,
+    isProd: false,
+  },
+  {
+    role: 'admin',
+    tokenEnvVar: 'TOKEN_ADMIN',
+    credentialEnvVars: ['PLAYWRIGHT_USER', 'PROD_PLAYWRIGHT_PASSWORD'],
+    rbac: false,
+    isProd: true,
+  },
+  {
+    role: 'viewer',
+    tokenEnvVar: 'TOKEN_VIEWER',
+    credentialEnvVars: ['RBAC_VIEWER_ROLE_ACCESS_USER', 'RBAC_PASSWORD_STAGE'],
+    rbac: true,
+    isProd: false,
+  },
+  {
+    role: 'granular',
+    tokenEnvVar: 'TOKEN_GRANULAR',
+    credentialEnvVars: ['RBAC_GRANULAR_ACCESS_USER', 'RBAC_PASSWORD_STAGE'],
+    rbac: true,
+    isProd: false,
+  },
+  {
+    role: 'no_access',
+    tokenEnvVar: 'TOKEN_NO_ACCESS',
+    credentialEnvVars: ['RBAC_NO_ACCESS_USER', 'RBAC_PASSWORD_STAGE'],
+    rbac: true,
+    isProd: false,
+  },
+];
+
+export function getAdminUserForSetup(): UserConfig | undefined {
+  const isProd = process.env.PROD === 'true';
+  return ALL_USERS.find((u) => u.role === 'admin' && u.isProd === isProd);
+}
+
+export function getRbacUsersForSetup(): UserConfig[] {
+  return ALL_USERS.filter((u) => u.rbac === true);
+}
 
 export const logout = async (page: Page) => {
   const button = page.locator(
@@ -58,31 +111,25 @@ export const logInWithUsernameAndPassword = async (
   });
 };
 
-const getPlaywrightPassword = (): string => {
-  const envVarName =
-    process.env.PROD === 'true'
-      ? 'PROD_PLAYWRIGHT_PASSWORD'
-      : 'PLAYWRIGHT_PASSWORD';
+export const logInAsRole = async (page: Page, user: UserConfig) => {
+  const [userKey, passKey] = user.credentialEnvVars;
+  const isProd = process.env.PROD === 'true';
 
-  const password = process.env[envVarName];
+  const username = isProd
+    ? process.env[`PROD_${userKey}`] || process.env[userKey]
+    : process.env[userKey];
+  const password = isProd
+    ? process.env[`PROD_${passKey}`] || process.env[passKey]
+    : process.env[passKey];
 
-  if (!password) {
+  if (!username || !password) {
     throw new Error(
-      `Missing required environment variable ${envVarName} for Playwright login`,
+      `Missing credentials for role: ${user.role}. Checked env vars: ${userKey}, ${passKey}`,
     );
   }
 
-  return password;
-};
-
-export const logInWithUser1 = async (page: Page) => {
-  const password = getPlaywrightPassword();
-
-  await logInWithUsernameAndPassword(
-    page,
-    process.env.PLAYWRIGHT_USER,
-    password,
-  );
+  await logInWithUsernameAndPassword(page, username, password);
+  await storeStorageStateAndToken(page, user.role, user.tokenEnvVar);
 };
 
 export const closeCookieBanner = async (page: Page) => {
@@ -116,15 +163,51 @@ export const disableSystemsView = async (page: Page) => {
   });
 };
 
-export const storeStorageStateAndToken = async (page: Page) => {
+export const storeStorageStateAndToken = async (
+  /** Save state using the specific token variable name from config */
+  page: Page,
+  role: string,
+  tokenEnvVar: string,
+) => {
+  const storagePath = path.join(__dirname, `../../.auth/${role}_user.json`);
+
   const { cookies } = await page.context().storageState({
-    path: path.join(__dirname, '../../.auth/admin_user.json'),
+    path: storagePath,
   });
-  process.env.TOKEN = `Bearer ${cookies.find((cookie) => cookie.name === 'cs_jwt')?.value}`;
+
+  const tokenValue = cookies.find((cookie) => cookie.name === 'cs_jwt')?.value;
+
+  if (tokenValue) {
+    process.env[tokenEnvVar] = `Bearer ${tokenValue}`;
+  }
+
   await page.waitForTimeout(100);
 };
 
-export const throwIfMissingEnvVariables = () => {
+export const throwIfMissingRbacEnvVariables = () => {
+  const ManditoryEnvVariables = [
+    'BASE_URL',
+    'RBAC_VIEWER_ROLE_ACCESS_USER',
+    'RBAC_GRANULAR_ACCESS_USER',
+    'RBAC_NO_ACCESS_USER',
+    'RBAC_PASSWORD_STAGE',
+    ...(process.env.INTEGRATION ? ['PROXY'] : []),
+  ] as const;
+
+  const missing: string[] = [];
+  ManditoryEnvVariables.forEach((envVar) => {
+    if (!process.env[envVar]) {
+      missing.push(envVar);
+    }
+  });
+
+  if (missing.length > 0) {
+    throw new Error('Missing env variables:' + missing.join(','));
+  }
+};
+
+/** Admin stage/full E2E setup: PLAYWRIGHT_* credentials. */
+export const throwIfMissingAdminEnvVariables = () => {
   const ManditoryEnvVariables = [
     'PLAYWRIGHT_USER',
     process.env.PROD === 'true'
@@ -133,7 +216,7 @@ export const throwIfMissingEnvVariables = () => {
     'BASE_URL',
 
     ...(process.env.INTEGRATION ? ['PROXY'] : []),
-  ];
+  ] as const;
 
   const missing: string[] = [];
   ManditoryEnvVariables.forEach((envVar) => {
@@ -182,6 +265,10 @@ export const ensureInPreview = async (page: Page) => {
  *  @param {Page} page - The Playwright Page object.
  */
 export const closePopupsIfExist = async (page: Page) => {
+  await page.route('https://consent.trustarc.com/**', (route) => route.abort());
+  await page.route('https://consent-pref.trustarc.com/**', (route) =>
+    route.abort(),
+  );
   const locatorsToCheck = [
     page.locator(`button[id^="pendo-close-guide-"]`), // This closes the pendo guide pop-up
     page.locator(`button[id="truste-consent-button"]`), // This closes the trusted consent pop-up

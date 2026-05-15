@@ -53,6 +53,7 @@ function renderWithFilters(ui, options) {
             clearAllFilters,
             lastSeenCustomRange,
             setLastSeenCustomRange,
+            ungroupedWorkspaceId: undefined,
           }}
         >
           {ui}

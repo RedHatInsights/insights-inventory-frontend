@@ -67,6 +67,7 @@ import {
   workloadFilterState,
 } from '../filters';
 import useGroupFilter from '../filters/useGroupFilter';
+import FilterChipsWithChipValueKey from './FilterChipsWithChipValueKey';
 import {
   DatePicker,
   Split,
@@ -701,7 +702,11 @@ const EntityTableToolbar = ({
             })),
           },
         })}
-        {...(hasAccess && { activeFiltersConfig: constructFilters() })}
+        {...(hasAccess && {
+          activeFiltersConfig: (
+            <FilterChipsWithChipValueKey {...constructFilters()} />
+          ),
+        })}
         actionsConfig={loaded ? resolvedActionsConfig : null}
         pagination={
           loaded ? (

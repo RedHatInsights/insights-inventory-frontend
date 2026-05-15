@@ -74,7 +74,14 @@ const fetchSystems = async ({
     ...(filters?.system_type && {
       systemType: serializeSystemType(filters.system_type),
     }),
-    ...(filters?.group_name && { groupName: filters.group_name }),
+    ...(() => {
+      const g = filters?.group_id ?? [];
+      const groupIdParam = [
+        ...g.filter((id) => id),
+        ...(g.includes('') ? [''] : []),
+      ];
+      return groupIdParam.length ? { groupId: groupIdParam } : {};
+    })(),
     ...(filters?.tags && { tags: filters.tags }),
     ...(lastSeenParams ?? {}),
     /* Override default dot notation from API client: backend requires bracket notation for nested params (fields, filter) */

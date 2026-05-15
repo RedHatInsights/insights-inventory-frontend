@@ -4,6 +4,20 @@ import 'dotenv/config';
 const isCI = !!process.env.CI;
 const useCtrf = isCI && !!process.env.USE_CTRF; // toggle CTRF explicitly in CI
 
+const setupProject = {
+  name: 'setup',
+  testMatch: /auth\.setup\.ts/,
+};
+
+const e2eProject = {
+  name: 'E2E',
+  use: {
+    ...devices['Desktop Chrome'],
+    storageState: '.auth/admin_user.json',
+  },
+  dependencies: ['setup'],
+};
+
 export default defineConfig({
   testDir: './_playwright-tests/',
   fullyParallel: true,
@@ -38,7 +52,6 @@ export default defineConfig({
     video: 'retain-on-failure',
     trace: 'on',
     ignoreHTTPSErrors: true,
-    launchOptions: { args: ['--disable-http-cache'] },
     viewport: null,
     ...(process.env.INTEGRATION === 'true'
       ? {
@@ -52,15 +65,5 @@ export default defineConfig({
         }
       : {}),
   },
-  projects: [
-    { name: 'setup', testMatch: /.*\.setup\.ts/ },
-    {
-      name: 'chromium',
-      use: {
-        ...devices['Desktop Chrome'],
-        storageState: '.auth/admin_user.json',
-      },
-      dependencies: ['setup'],
-    },
-  ],
+  projects: [setupProject, e2eProject],
 });
