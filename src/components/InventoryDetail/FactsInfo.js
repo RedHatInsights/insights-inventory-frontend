@@ -49,7 +49,9 @@ const FactsInfo = ({
           <FlexItem grow={{ default: 'grow' }}>
             {loaded ? (
               id ? (
-                <ClipboardCopy variant="inline-compact">{id}</ClipboardCopy>
+                <ClipboardCopy variant="inline-compact" ouiaId="system-uuid">
+                  {id}
+                </ClipboardCopy>
               ) : (
                 ' '
               )

@@ -35,7 +35,7 @@ export const usePatchSystemsMutation = ({
     { ids: string[]; fields: PatchHostIn }
   >({
     mutationFn: async ({ ids, fields }) => {
-      return await patchHostById({
+      await patchHostById({
         hostIdList: ids,
         patchHostIn: fields,
       });

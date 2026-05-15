@@ -12,8 +12,9 @@ it('shows no groups available message', async () => {
       searchQuery=""
       setSearchQuery={() => {}}
       groups={[]}
-      selectedGroupNames={[]}
-      setSelectedGroupNames={() => {}}
+      selectedGroupIds={[]}
+      setSelectedGroupIds={() => {}}
+      isLoading={false}
       isFetchingNextPage={false}
       hasNextPage={false}
       fetchNextPage={() => {}}
@@ -33,9 +34,10 @@ it('shows some groups when available', async () => {
     <SearchableGroupFilter
       searchQuery=""
       setSearchQuery={() => {}}
-      groups={[{ name: 'group-1' }]}
-      selectedGroupNames={[]}
-      setSelectedGroupNames={() => {}}
+      groups={[{ id: 'g1', name: 'group-1' }]}
+      selectedGroupIds={[]}
+      setSelectedGroupIds={() => {}}
+      isLoading={false}
       isFetchingNextPage={false}
       hasNextPage={false}
       fetchNextPage={() => {}}
@@ -59,9 +61,10 @@ it('a group can be selected', async () => {
     <SearchableGroupFilter
       searchQuery=""
       setSearchQuery={() => {}}
-      groups={[{ name: 'group-1' }]}
-      selectedGroupNames={[]}
-      setSelectedGroupNames={setter}
+      groups={[{ id: 'g1', name: 'group-1' }]}
+      selectedGroupIds={[]}
+      setSelectedGroupIds={setter}
+      isLoading={false}
       isFetchingNextPage={false}
       hasNextPage={false}
       fetchNextPage={() => {}}
@@ -74,7 +77,7 @@ it('a group can be selected', async () => {
     }),
   );
   await userEvent.click(screen.getByText('group-1'));
-  expect(setter).toHaveBeenCalledWith(['group-1']);
+  expect(setter).toHaveBeenCalledWith(['g1']);
 });
 
 it('selected groups are checked', async () => {
@@ -82,9 +85,13 @@ it('selected groups are checked', async () => {
     <SearchableGroupFilter
       searchQuery=""
       setSearchQuery={() => {}}
-      groups={[{ name: 'group-1' }, { name: 'group-2' }]}
-      selectedGroupNames={['group-1']}
-      setSelectedGroupNames={setter}
+      groups={[
+        { id: 'g1', name: 'group-1' },
+        { id: 'g2', name: 'group-2' },
+      ]}
+      selectedGroupIds={['g1']}
+      setSelectedGroupIds={setter}
+      isLoading={false}
       isFetchingNextPage={false}
       hasNextPage={false}
       fetchNextPage={() => {}}

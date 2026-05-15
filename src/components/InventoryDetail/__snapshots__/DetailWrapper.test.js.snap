@@ -208,6 +208,7 @@ exports[`DetailWrapper DOM should render with data 1`] = `
                     >
                       <div
                         class="pf-v6-c-clipboard-copy pf-m-inline"
+                        data-ouia-component-id="system-uuid"
                         data-ouia-component-type="PF6/ClipboardCopy"
                         data-ouia-safe="true"
                       >
