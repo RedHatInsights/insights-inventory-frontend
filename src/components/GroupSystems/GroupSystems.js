@@ -10,19 +10,11 @@ import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFrom
 import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 import { useWorkspaceDetailEditActionsAccess } from '../../Utilities/hooks/useWorkspaceDetailEditActionsAccess';
 import {
-  MOVE_SYSTEMS_MENU_TEXT,
   REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
   getSearchParams,
 } from '../../constants';
-import {
-  ActionButton,
-  ActionDropdownItem,
-} from '../InventoryTable/ActionWithRBAC';
-import {
-  MoveSystemActionDropdownItem,
-  isKesselBulkMoveSystemsDisabled,
-  isKesselMoveSystemRowDisabled,
-} from '../InventoryTable/moveSystemRowAction';
+import { ActionButton } from '../InventoryTable/ActionWithRBAC';
+import { getBulkActionConfig, getRowActionItem } from './groupSystemsActions';
 import { clearEntitiesAction, setPagination } from '../../store/actions';
 import { fetchGroupDetail } from '../../store/inventory-actions';
 import { useBulkSelectConfig } from '../../Utilities/hooks/useBulkSelectConfig';
@@ -149,14 +141,30 @@ const GroupSystems = ({
   }, [dispatch, groupId]);
 
   const selectedSystemsList = Array.from(selected.values());
-  const bulkRemoveOrMoveBaseDisabled =
-    ungrouped || !canModifyWorkspaceForActions || calculateSelected() === 0;
-  const bulkMoveSystemsDisabled = isKesselEnabled
-    ? isKesselBulkMoveSystemsDisabled(
-        canModifyWorkspaceForActions,
-        selectedSystemsList,
-      )
-    : bulkRemoveOrMoveBaseDisabled;
+  const selectedCount = calculateSelected();
+  const bulkAction = getBulkActionConfig({
+    isKesselEnabled,
+    ungrouped,
+    canModifyWorkspaceForActions,
+    selectedCount,
+    selectedSystemsList,
+    removeLabel,
+    setCurrentSystem,
+    setMoveSystemsToWorkspaceModalOpen,
+    setRemoveHostsFromGroupModalOpen,
+  });
+  const rowActionCommon = {
+    isKesselEnabled,
+    ungrouped,
+    canModifyWorkspaceForActions,
+    noAccessEditTooltip,
+    kesselActionOverride,
+    removeLabel,
+    requiredPermissions: REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId),
+    setCurrentSystem,
+    setMoveSystemsToWorkspaceModalOpen,
+    setRemoveHostsFromGroupModalOpen,
+  };
 
   return (
     <div id="group-systems-table">
@@ -211,46 +219,7 @@ const GroupSystems = ({
             canSelectAll: false,
             actionResolver: (row) => [
               {
-                title: isKesselEnabled ? (
-                  <MoveSystemActionDropdownItem
-                    rowId={row.id}
-                    isKesselMigrationEnabled={isKesselEnabled}
-                    requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                      groupId,
-                    )}
-                    isAriaDisabled={isKesselMoveSystemRowDisabled(
-                      row,
-                      canModifyWorkspaceForActions,
-                    )}
-                    noAccessTooltip={noAccessEditTooltip}
-                    override={kesselActionOverride}
-                    {...(!canModifyWorkspaceForActions && {
-                      tooltipProps: { content: noAccessEditTooltip },
-                    })}
-                    onClick={() => {
-                      setCurrentSystem([row]);
-                      setMoveSystemsToWorkspaceModalOpen(true);
-                    }}
-                  />
-                ) : (
-                  <ActionDropdownItem
-                    requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                      groupId,
-                    )}
-                    isAriaDisabled={ungrouped || !canModifyWorkspaceForActions}
-                    noAccessTooltip={noAccessEditTooltip}
-                    override={kesselActionOverride}
-                    {...(!canModifyWorkspaceForActions && {
-                      tooltipProps: { content: noAccessEditTooltip },
-                    })}
-                    onClick={() => {
-                      setCurrentSystem([row]);
-                      setRemoveHostsFromGroupModalOpen(true);
-                    }}
-                  >
-                    {removeLabel}
-                  </ActionDropdownItem>
-                ),
+                title: getRowActionItem({ row, ...rowActionCommon }),
               },
             ],
           }}
@@ -272,37 +241,18 @@ const GroupSystems = ({
               >
                 Add systems
               </ActionButton>,
-              isKesselEnabled
-                ? {
-                    label: MOVE_SYSTEMS_MENU_TEXT,
-                    props: {
-                      isAriaDisabled: bulkMoveSystemsDisabled,
-                      ...(!canModifyWorkspaceForActions && {
-                        tooltipProps: {
-                          content: noAccessEditTooltip,
-                        },
-                      }),
+              {
+                label: bulkAction.label,
+                props: {
+                  isAriaDisabled: bulkAction.isDisabled,
+                  ...(!canModifyWorkspaceForActions && {
+                    tooltipProps: {
+                      content: noAccessEditTooltip,
                     },
-                    onClick: () => {
-                      setCurrentSystem(selectedSystemsList);
-                      setMoveSystemsToWorkspaceModalOpen(true);
-                    },
-                  }
-                : {
-                    label: removeLabel,
-                    props: {
-                      isAriaDisabled: bulkRemoveOrMoveBaseDisabled,
-                      ...(!canModifyWorkspaceForActions && {
-                        tooltipProps: {
-                          content: noAccessEditTooltip,
-                        },
-                      }),
-                    },
-                    onClick: () => {
-                      setCurrentSystem(selectedSystemsList);
-                      setRemoveHostsFromGroupModalOpen(true);
-                    },
-                  },
+                  }),
+                },
+                onClick: bulkAction.onClick,
+              },
             ],
           }}
           bulkSelect={bulkSelectConfig}
