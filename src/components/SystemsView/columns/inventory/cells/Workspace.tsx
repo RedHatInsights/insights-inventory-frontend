@@ -1,5 +1,5 @@
 import { NOT_AVAILABLE } from '../../../../../constants';
-import { UNGROUPED_ID } from '../../../filters/WorkspaceFilter';
+import { UNGROUPED_HOSTS_LABEL } from '../../../constants';
 import { System } from '../../../hooks/useSystemsQuery';
 
 interface WorkspaceProps {
@@ -14,7 +14,8 @@ const Workspace = ({ system }: WorkspaceProps) => {
   }
 
   return (
-    firstGroup.name ?? (firstGroup.ungrouped ? UNGROUPED_ID : NOT_AVAILABLE)
+    firstGroup.name ??
+    (firstGroup.ungrouped ? UNGROUPED_HOSTS_LABEL : NOT_AVAILABLE)
   );
 };
 

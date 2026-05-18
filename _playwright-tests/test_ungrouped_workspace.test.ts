@@ -23,8 +23,8 @@ test('User can filter, search and see details of "Ungrouped Hosts" workspace', a
    * - Workspace actions are disabled within it.
    * - Systems stored here can be moved to any other workspace
    * Metadata:
-     - requirements:
-     - inv-hosts-filter-by-group_name
+     - requirements: 
+     - inv-hosts-filter-by-group_id
      - inv-kessel-ungrouped
      - importance: critical
    */

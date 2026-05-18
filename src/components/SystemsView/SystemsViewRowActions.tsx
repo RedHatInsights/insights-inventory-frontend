@@ -7,6 +7,7 @@ import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 import {
   GENERAL_GROUPS_WRITE_PERMISSION,
   GENERAL_HOSTS_WRITE_PERMISSIONS,
+  NO_MOVE_SYSTEM_KESSEL_TOOLTIP_MESSAGE,
 } from '../../constants';
 import type { SystemWithPermissions } from '../../Utilities/hooks/useHostIdsWithKessel';
 import { hasWorkspace } from './utils/systemHelpers';
@@ -37,13 +38,17 @@ const SystemsViewRowActions = ({ system }: RowActionsProps) => {
   const permissions = 'permissions' in system ? system.permissions : undefined;
 
   const hasDelete = permissions?.hasDelete ?? false;
+  const canMoveSystem = permissions?.hasWorkspaceEdit ?? false;
 
   const rowActions = isKesselEnabled
     ? [
         {
           title: 'Move system',
           onClick: () => openAddToWorkspaceModal([system]),
-          isDisabled: !(permissions?.hasWorkspaceEdit ?? false),
+          isDisabled: !canMoveSystem,
+          ...(!canMoveSystem && {
+            tooltipProps: { content: NO_MOVE_SYSTEM_KESSEL_TOOLTIP_MESSAGE },
+          }),
         },
         {
           title: 'Edit',
