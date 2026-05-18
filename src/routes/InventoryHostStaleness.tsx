@@ -7,17 +7,21 @@ import {
 import InventoryHostStaleness from '../components/InventoryHostStaleness';
 import { useConditionalRBAC } from '../Utilities/hooks/useConditionalRBAC';
 import { GENERAL_HOST_STALENESS_READ_PERMISSION } from '../components/InventoryHostStaleness/constants';
+import { GENERAL_HOSTS_READ_PERMISSIONS } from '../constants';
 import { Bullseye, PageSection, Spinner } from '@patternfly/react-core';
 import HostStalenessNoAccess from '../components/InventoryHostStaleness/HostStalenessNoAccess';
 import { OutageAlert } from '../components/OutageAlert';
 import { useHostStalenessKesselAccess } from '../Utilities/hooks/useHostStalenessKesselAccess';
 
-const REQUIRED_PERMISSIONS = [GENERAL_HOST_STALENESS_READ_PERMISSION];
+const REQUIRED_READ_PERMISSIONS = [
+  GENERAL_HOST_STALENESS_READ_PERMISSION,
+  GENERAL_HOSTS_READ_PERMISSIONS,
+];
 
 const HostStaleness = () => {
   const chrome = useChrome();
   const { hasAccess: canReadHostStalenessRbac } = useConditionalRBAC(
-    REQUIRED_PERMISSIONS,
+    REQUIRED_READ_PERMISSIONS,
     true,
   );
   const kesselAccess = useHostStalenessKesselAccess();
