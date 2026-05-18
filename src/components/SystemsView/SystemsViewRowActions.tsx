@@ -53,8 +53,10 @@ const SystemsViewRowActions = ({ system }: RowActionsProps) => {
 
   const rowActions = isKesselEnabled
     ? [
-        buildMoveSystemActionsColumnItem(moveSystemRow, () =>
-          openAddToWorkspaceModal([system]),
+        buildMoveSystemActionsColumnItem(
+          moveSystemRow,
+          () => openAddToWorkspaceModal([system]),
+          true,
         ),
         {
           title: 'Edit',

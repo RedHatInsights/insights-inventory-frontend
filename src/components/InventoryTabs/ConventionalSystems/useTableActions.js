@@ -91,10 +91,9 @@ const buildGroupActions = (row, { isKesselEnabled, onMove, onRemove }) => {
       {
         title: (
           <MoveSystemActionDropdownItem
-            rowId={row.id}
-            isKesselMigrationEnabled={isKesselEnabled}
+            key={`${row.id}-move-system`}
             onClick={onMove}
-            isAriaDisabled={isKesselMoveSystemRowDisabled(row)}
+            isAriaDisabled={isKesselMoveSystemRowDisabled(row, true)}
             requiredPermissions={[GENERAL_GROUPS_WRITE_PERMISSION]}
             noAccessTooltip={NO_MOVE_SYSTEM_KESSEL_TOOLTIP_MESSAGE}
             override={row.permissions?.hasWorkspaceEdit ?? false}
