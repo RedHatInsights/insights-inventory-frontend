@@ -2,7 +2,22 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
+import { AccessCheck } from '@project-kessel/react-kessel-access-check';
+import { KESSEL_API_PATH } from '../constants';
 import InventoryGroups from './InventoryGroups';
+
+const accessCheckWrapper = ({ children }) => (
+  <AccessCheck.Provider
+    baseUrl={
+      typeof window !== 'undefined'
+        ? window.location.origin
+        : 'http://localhost'
+    }
+    apiPath={KESSEL_API_PATH}
+  >
+    {children}
+  </AccessCheck.Provider>
+);
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -26,8 +41,10 @@ jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({
   }),
 }));
 jest.mock('../Utilities/useFeatureFlag', () => ({
-  __esModule: false,
-  default: jest.fn(() => true),
+  __esModule: true,
+  default: jest.fn((flag) =>
+    flag === 'inventory-frontend.kessel-enabled' ? false : true,
+  ),
   useFeatureVariant: jest.fn(() => ({
     isEnabled: false,
   })),
@@ -35,7 +52,7 @@ jest.mock('../Utilities/useFeatureFlag', () => ({
 
 describe('workspaces route', () => {
   it('renders header and table wrapper', () => {
-    render(<InventoryGroups />);
+    render(<InventoryGroups />, { wrapper: accessCheckWrapper });
 
     screen.getByRole('heading', {
       name: /workspaces/i,
@@ -44,7 +61,7 @@ describe('workspaces route', () => {
   });
 
   it('should contain get help expandable', async () => {
-    render(<InventoryGroups />);
+    render(<InventoryGroups />, { wrapper: accessCheckWrapper });
 
     await userEvent.click(
       screen.getByText(/help get started with new features/i),
