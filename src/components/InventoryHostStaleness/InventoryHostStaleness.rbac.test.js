@@ -11,6 +11,7 @@ import {
   GENERAL_HOST_STALENESS_WRITE_PERMISSION,
 } from './constants';
 import {
+  asPermissionList,
   GENERAL_HOSTS_READ_PERMISSIONS,
   GENERAL_HOSTS_WRITE_PERMISSIONS,
 } from '../../constants';
@@ -29,11 +30,11 @@ jest.mock('./HostStalenessCard', () => ({
   ),
 }));
 
-const MODIFY_PERMISSIONS = [
+const REQUIRED_MODIFY_PERMISSIONS = [
   GENERAL_HOST_STALENESS_WRITE_PERMISSION,
   GENERAL_HOST_STALENESS_READ_PERMISSION,
-  GENERAL_HOSTS_READ_PERMISSIONS,
-  GENERAL_HOSTS_WRITE_PERMISSIONS,
+  ...asPermissionList(GENERAL_HOSTS_READ_PERMISSIONS),
+  ...asPermissionList(GENERAL_HOSTS_WRITE_PERMISSIONS),
 ];
 
 describe('InventoryHostStaleness RBAC v1', () => {
@@ -49,7 +50,10 @@ describe('InventoryHostStaleness RBAC v1', () => {
 
     render(<InventoryHostStaleness />);
 
-    expect(useConditionalRBAC).toHaveBeenCalledWith(MODIFY_PERMISSIONS, true);
+    expect(useConditionalRBAC).toHaveBeenCalledWith(
+      REQUIRED_MODIFY_PERMISSIONS,
+      true,
+    );
   });
 
   it('passes canModifyHostStaleness false when write permissions are missing', () => {
