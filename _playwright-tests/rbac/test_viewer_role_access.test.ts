@@ -1,6 +1,10 @@
 import { test } from '../helpers/fixtures';
 import { expect } from '@playwright/test';
 import {
+  installKesselStalenessViewOnly,
+  uninstallKesselCheckSelfBulkMock,
+} from '../helpers/kesselAccessRouteMock';
+import {
   navigateToInventorySystemsFunc,
   navigateToStalenessPageFunc,
   navigateToWorkspacesFunc,
@@ -72,9 +76,16 @@ test.describe('@rbac Viewer:', () => {
   test('Staleness and Deletion page - all actions are disabled', async ({
     page,
   }) => {
-    await navigateToStalenessPageFunc(page);
+    // Staleness checks use the Root workspace under Kessel; stage policy for the
+    // viewer test user may not grant those relations yet (RHINENG-25942).
+    await installKesselStalenessViewOnly(page);
+    try {
+      await navigateToStalenessPageFunc(page);
 
-    const editButton = page.getByRole('button', { name: 'Edit' });
-    await expect(editButton).toBeDisabled();
+      const editButton = page.getByRole('button', { name: 'Edit' });
+      await expect(editButton).toBeDisabled();
+    } finally {
+      await uninstallKesselCheckSelfBulkMock(page);
+    }
   });
 });
