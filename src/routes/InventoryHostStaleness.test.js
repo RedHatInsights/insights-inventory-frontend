@@ -8,7 +8,7 @@ import HostStaleness from './InventoryHostStaleness';
 import { useConditionalRBAC } from '../Utilities/hooks/useConditionalRBAC';
 import { useHostStalenessKesselAccess } from '../Utilities/hooks/useHostStalenessKesselAccess';
 import { GENERAL_HOST_STALENESS_READ_PERMISSION } from '../components/InventoryHostStaleness/constants';
-import { GENERAL_HOSTS_READ_PERMISSIONS } from '../constants';
+import { asPermissionList, GENERAL_HOSTS_READ_PERMISSIONS } from '../constants';
 
 jest.mock('../Utilities/hooks/useConditionalRBAC', () => ({
   useConditionalRBAC: jest.fn(() => ({ hasAccess: false, isOrgAdmin: false })),
@@ -44,7 +44,10 @@ describe('HostStaleness route (RBAC v1)', () => {
     render(<HostStaleness />);
 
     expect(useConditionalRBAC).toHaveBeenCalledWith(
-      [GENERAL_HOST_STALENESS_READ_PERMISSION, GENERAL_HOSTS_READ_PERMISSIONS],
+      [
+        GENERAL_HOST_STALENESS_READ_PERMISSION,
+        ...asPermissionList(GENERAL_HOSTS_READ_PERMISSIONS),
+      ],
       true,
     );
   });
