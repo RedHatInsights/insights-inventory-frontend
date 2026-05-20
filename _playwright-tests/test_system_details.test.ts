@@ -202,12 +202,22 @@ test.describe('System Details tests', () => {
     await test.step('Edit the system display name and verify', async () => {
       await editButtons.nth(0).click();
       await page.locator('[aria-label="name"]').first().fill(newDisplayName);
-      await page.getByRole('button', { name: 'submit' }).click();
-      await page.waitForTimeout(2000);
+
+      // Wait for the PATCH request to complete
+      await Promise.all([
+        page.getByRole('button', { name: 'submit' }).click(),
+        page.waitForResponse(
+          (res) =>
+            res.url().includes('/hosts/') &&
+            res.request().method() === 'PATCH' &&
+            res.ok(),
+          { timeout: 10000 },
+        ),
+      ]);
 
       await expect(
         page.getByRole('heading', { name: newDisplayName, level: 1 }),
-      ).toBeVisible();
+      ).toBeVisible({ timeout: 10000 });
       const displayNameValueLocator = page.getByLabel('Display name value');
       // UI may truncate with ellipsis (maxCharsDisplayed=36)
       await expect(displayNameValueLocator).toContainText(newDisplayName);
@@ -216,21 +226,44 @@ test.describe('System Details tests', () => {
     await test.step('Edit the system Ansible name and verify', async () => {
       await editButtons.nth(1).click();
       await page.locator('[aria-label="name"]').first().fill(newAnsibleName);
-      await page.getByRole('button', { name: 'submit' }).click();
-      await page.waitForTimeout(2000);
+
+      // Wait for the PATCH request to complete
+      await Promise.all([
+        page.getByRole('button', { name: 'submit' }).click(),
+        page.waitForResponse(
+          (res) =>
+            res.url().includes('/hosts/') &&
+            res.request().method() === 'PATCH' &&
+            res.ok(),
+          { timeout: 10000 },
+        ),
+      ]);
 
       const ansibleNameValueLocator = page.getByLabel('Ansible hostname value');
       // UI may truncate with ellipsis (maxCharsDisplayed=36)
-      await expect(ansibleNameValueLocator).toContainText(newAnsibleName);
+      await expect(ansibleNameValueLocator).toContainText(newAnsibleName, {
+        timeout: 10000,
+      });
     });
 
     await test.step(`Delete the system and verify it is removed`, async () => {
       await page.getByRole('button', { name: 'Delete' }).click();
       await expect(dialog).toBeVisible();
-      await dialog.getByRole('button', { name: 'Delete' }).click();
-      await page.waitForTimeout(2000);
+
+      // Wait for the DELETE request to complete
+      await Promise.all([
+        dialog.getByRole('button', { name: 'Delete' }).click(),
+        page.waitForResponse(
+          (res) =>
+            res.url().includes('/hosts/') &&
+            res.request().method() === 'DELETE' &&
+            res.ok(),
+          { timeout: 10000 },
+        ),
+      ]);
+
       await expect(page.getByText('Delete operation finished')).toBeVisible({
-        timeout: 5000,
+        timeout: 10000,
       });
     });
   });
