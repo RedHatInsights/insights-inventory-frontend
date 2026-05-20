@@ -269,6 +269,50 @@ describe('useGroupsTableWorkspaceActionPermissions', () => {
       ).toBeUndefined();
     });
 
+    it('bulk delete checks permissions for selected workspaces not on current page (RHINENG-26284)', () => {
+      // Mock the permission hook to verify it receives augmented groups including selected IDs
+      let receivedGroups: MockWorkspaceRowKesselGroup[] = [];
+      mockUseWorkspaceTableRowKesselPermissions.mockImplementation((groups) => {
+        receivedGroups = groups;
+        return {
+          workspacePermissionById: {
+            page1: { canEdit: true, canDelete: true },
+            page2a: { canEdit: true, canDelete: true },
+            page2b: { canEdit: true, canDelete: true },
+          },
+          permissionsLoading: false,
+        };
+      });
+
+      // Scenario: User is on page 2 (groups page2a, page2b) but has selected
+      // workspace 'page1' from page 1. The hook should augment groups to include page1.
+      const { result } = renderHook(() =>
+        useGroupsTableWorkspaceActionPermissions({
+          groups: [
+            { id: 'page2a', ungrouped: false },
+            { id: 'page2b', ungrouped: false },
+          ],
+          selectedIds: ['page1', 'page2a'],
+        }),
+      );
+
+      // Verify the permission hook received augmented groups including the selected ID from page 1
+      expect(receivedGroups).toEqual(
+        expect.arrayContaining([
+          { id: 'page2a', ungrouped: false },
+          { id: 'page2b', ungrouped: false },
+          { id: 'page1', ungrouped: false }, // synthetic entry for cross-page selection
+        ]),
+      );
+      expect(receivedGroups).toHaveLength(3);
+
+      // Bulk delete should be enabled since both selected workspaces are deletable
+      expect(result.current.bulkDeleteMenuItemProps.override).toBe(true);
+      expect(result.current.bulkDeleteMenuItemProps.isKesselGateBusy).toBe(
+        false,
+      );
+    });
+
     it('create workspace button reflects Kessel create permission', () => {
       mockUseKesselCanCreateWorkspace.mockReturnValue({
         canCreateWorkspace: true,
