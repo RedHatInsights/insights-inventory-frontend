@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
+import { test } from './helpers/fixtures';
 import { navigateToInventorySystemsFunc } from './helpers/navHelpers';
 import {
   filterSystemsWithConditionalFilter,
@@ -7,7 +8,6 @@ import {
 } from './helpers/filterHelpers';
 import { closePopupsIfExist } from './helpers/loginHelpers';
 import {
-  WORKSPACE_WITH_SYSTEMS,
   BASE_ARCHIVE_TAG_COUNT,
   TAG,
   isSystemsViewEnabled,
@@ -78,7 +78,10 @@ test.describe('Filtering Systems Tests', () => {
     });
   });
 
-  test('User can filter systems by workspace', async ({ page }) => {
+  test('User can filter systems by workspace', async ({
+    page,
+    workspaceWithSystem,
+  }) => {
     /**
      * Metadata:
        - requirements:
@@ -88,24 +91,24 @@ test.describe('Filtering Systems Tests', () => {
     await filterSystemsWithConditionalFilter(
       page,
       'Workspace',
-      WORKSPACE_WITH_SYSTEMS,
+      workspaceWithSystem.workspaceName,
     );
     const workspaceCellWithValue = page
       .locator('td[data-label="Workspace"]', {
-        hasText: WORKSPACE_WITH_SYSTEMS,
+        hasText: workspaceWithSystem.workspaceName,
       })
       .or(
         page.locator(
           'td[data-ouia-component-id^="systems-view-table-td-"][data-ouia-component-id$="-1"]',
           {
-            hasText: WORKSPACE_WITH_SYSTEMS,
+            hasText: workspaceWithSystem.workspaceName,
           },
         ),
       );
     await expect(workspaceCellWithValue.first()).toBeVisible();
     const count = await workspaceCellWithValue.count();
     await expect(workspaceCellWithValue).toHaveText(
-      Array(count).fill(WORKSPACE_WITH_SYSTEMS),
+      Array(count).fill(workspaceWithSystem.workspaceName),
     );
   });
 
