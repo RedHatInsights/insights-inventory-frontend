@@ -147,6 +147,7 @@ const InventoryGroupDetail = ({ groupId }) => {
                   groupId={groupId}
                   ungrouped={ungrouped}
                   workspaceAccess={workspaceAccess}
+                  isKesselEnabled={isKesselEnabled}
                 />
               ) : (
                 <EmptyStateNoAccessToSystems />

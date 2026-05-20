@@ -1,9 +1,10 @@
 import { TableVariant } from '@patternfly/react-table';
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import InventoryTable from '../InventoryTable/InventoryTable';
+import MoveSystemsToWorkspaceModal from '../InventoryTable/MoveSystemsToWorkspaceModal';
 import { useSearchParams } from 'react-router-dom';
 import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFromGroupModal';
 import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
@@ -12,11 +13,10 @@ import {
   REQUIRED_PERMISSIONS_TO_MODIFY_GROUP,
   getSearchParams,
 } from '../../constants';
-import {
-  ActionButton,
-  ActionDropdownItem,
-} from '../InventoryTable/ActionWithRBAC';
+import { ActionButton } from '../InventoryTable/ActionWithRBAC';
+import { getBulkActionConfig, getRowActionItem } from './groupSystemsActions';
 import { clearEntitiesAction, setPagination } from '../../store/actions';
+import { fetchGroupDetail } from '../../store/inventory-actions';
 import { useBulkSelectConfig } from '../../Utilities/hooks/useBulkSelectConfig';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
@@ -37,6 +37,7 @@ const GroupSystems = ({
   groupId,
   ungrouped,
   workspaceAccess = defaultWorkspaceAccess,
+  isKesselEnabled = false,
 }) => {
   const {
     canEdit: workspaceKesselCanEdit,
@@ -60,6 +61,8 @@ const GroupSystems = ({
     difference(displayedIds, [...selected.keys()]).length === 0;
 
   const [addToGroupModalOpen, setAddToGroupModalOpen] = useState(false);
+  const [moveSystemsToWorkspaceModalOpen, setMoveSystemsToWorkspaceModalOpen] =
+    useState(false);
 
   const { hasAccess: canModify } = useConditionalRBAC(
     REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId),
@@ -132,6 +135,37 @@ const GroupSystems = ({
     groupId,
   );
 
+  const reloadDataAfterWorkspaceMove = useCallback(() => {
+    dispatch(fetchGroupDetail(groupId));
+    inventory.current?.onRefreshData?.({}, false, true);
+  }, [dispatch, groupId]);
+
+  const selectedSystemsList = Array.from(selected.values());
+  const selectedCount = calculateSelected();
+  const bulkAction = getBulkActionConfig({
+    isKesselEnabled,
+    ungrouped,
+    canModifyWorkspaceForActions,
+    selectedCount,
+    selectedSystemsList,
+    removeLabel,
+    setCurrentSystem,
+    setMoveSystemsToWorkspaceModalOpen,
+    setRemoveHostsFromGroupModalOpen,
+  });
+  const rowActionCommon = {
+    isKesselEnabled,
+    ungrouped,
+    canModifyWorkspaceForActions,
+    noAccessEditTooltip,
+    kesselActionOverride,
+    removeLabel,
+    requiredPermissions: REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(groupId),
+    setCurrentSystem,
+    setMoveSystemsToWorkspaceModalOpen,
+    setRemoveHostsFromGroupModalOpen,
+  };
+
   return (
     <div id="group-systems-table">
       {addToGroupModalOpen && (
@@ -150,6 +184,14 @@ const GroupSystems = ({
           isModalOpen={removeHostsFromGroupModalOpen}
           setIsModalOpen={setRemoveHostsFromGroupModalOpen}
           modalState={currentSystem}
+        />
+      )}
+      {moveSystemsToWorkspaceModalOpen && (
+        <MoveSystemsToWorkspaceModal
+          isModalOpen={moveSystemsToWorkspaceModalOpen}
+          setIsModalOpen={setMoveSystemsToWorkspaceModalOpen}
+          modalState={currentSystem}
+          reloadData={reloadDataAfterWorkspaceMove}
         />
       )}
       {!addToGroupModalOpen && (
@@ -177,25 +219,7 @@ const GroupSystems = ({
             canSelectAll: false,
             actionResolver: (row) => [
               {
-                title: (
-                  <ActionDropdownItem
-                    requiredPermissions={REQUIRED_PERMISSIONS_TO_MODIFY_GROUP(
-                      groupId,
-                    )}
-                    isAriaDisabled={ungrouped || !canModifyWorkspaceForActions}
-                    noAccessTooltip={noAccessEditTooltip}
-                    override={kesselActionOverride}
-                    {...(!canModifyWorkspaceForActions && {
-                      tooltipProps: { content: noAccessEditTooltip },
-                    })}
-                    onClick={() => {
-                      setCurrentSystem([row]);
-                      setRemoveHostsFromGroupModalOpen(true);
-                    }}
-                  >
-                    {removeLabel}
-                  </ActionDropdownItem>
-                ),
+                title: getRowActionItem({ row, ...rowActionCommon }),
               },
             ],
           }}
@@ -218,22 +242,16 @@ const GroupSystems = ({
                 Add systems
               </ActionButton>,
               {
-                label: removeLabel,
+                label: bulkAction.label,
                 props: {
-                  isAriaDisabled:
-                    ungrouped ||
-                    !canModifyWorkspaceForActions ||
-                    calculateSelected() === 0,
+                  isAriaDisabled: bulkAction.isDisabled,
                   ...(!canModifyWorkspaceForActions && {
                     tooltipProps: {
                       content: noAccessEditTooltip,
                     },
                   }),
                 },
-                onClick: () => {
-                  setCurrentSystem(Array.from(selected.values()));
-                  setRemoveHostsFromGroupModalOpen(true);
-                },
+                onClick: bulkAction.onClick,
               },
             ],
           }}
@@ -256,6 +274,7 @@ GroupSystems.propTypes = {
   groupId: PropTypes.string.isRequired,
   ungrouped: PropTypes.string,
   hostType: PropTypes.string,
+  isKesselEnabled: PropTypes.bool,
   workspaceAccess: PropTypes.shape({
     canEdit: PropTypes.bool,
     isLoading: PropTypes.bool,
