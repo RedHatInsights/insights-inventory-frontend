@@ -1,4 +1,4 @@
-import { expect, Locator } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { createSystem } from './helpers/uploadArchive';
 import { navigateToInventorySystemsFunc } from './helpers/navHelpers';
 import { test } from './helpers/fixtures';
@@ -91,11 +91,13 @@ test('User should be able to export systems to JSON', async ({ page }) => {
         request.url().includes('/exports') && request.method() === 'POST',
     );
 
-    // Listen for the export status check requests (indicates export processing)
-    const statusCheckPromise = page.waitForRequest(
-      (request) =>
-        request.url().includes('/exports/') &&
-        request.url().includes('/status'),
+    // Listen for the export status response (indicates export processing complete)
+    const statusResponsePromise = page.waitForResponse(
+      (response) =>
+        response.url().includes('/exports/') &&
+        response.url().includes('/status') &&
+        response.ok(),
+      { timeout: 15000 },
     );
 
     await page.getByRole('button', { name: 'Export' }).click();
@@ -109,20 +111,23 @@ test('User should be able to export systems to JSON', async ({ page }) => {
     expect(exportRequest.url()).toContain('/exports');
     console.log('  ✓ Export request initiated successfully');
 
-    // Verify that status checking begins (indicates the "export being prepared" notification should appear)
-    await statusCheckPromise;
-    console.log('  ✓ Export status checking started (export being prepared)');
+    // Wait for the status response to confirm export is being processed
+    await statusResponsePromise;
+    console.log('  ✓ Export status check completed (export processing)');
 
-    // Wait for any additional status checks that indicate completion
-    await page.waitForTimeout(3000);
-    console.log(
-      '  ✓ Export process completed - notifications should have appeared for preparation and download',
-    );
-
-    // Note: Due to auto-close handlers, we verify export functionality through API calls
-    // The notifications that should appear are:
-    // 1. "The requested export is being prepared. When ready, the download will start automatically."
-    // 2. "The requested export is being downloaded."
+    // Wait for either download notification or download event
+    await expect(async () => {
+      const downloadingText = page.getByText('being downloaded', {
+        exact: false,
+      });
+      const preparedText = page.getByText('being prepared', { exact: false });
+      const isDownloading = await downloadingText
+        .isVisible()
+        .catch(() => false);
+      const isPrepared = await preparedText.isVisible().catch(() => false);
+      expect(isDownloading || isPrepared).toBe(true);
+    }).toPass({ timeout: 10000 });
+    console.log('  ✓ Export process completed - notification appeared');
   });
 });
 
@@ -138,11 +143,13 @@ test('User should be able to export systems to CSV', async ({ page }) => {
         request.url().includes('/exports') && request.method() === 'POST',
     );
 
-    // Listen for the export status check requests (indicates export processing)
-    const statusCheckPromise = page.waitForRequest(
-      (request) =>
-        request.url().includes('/exports/') &&
-        request.url().includes('/status'),
+    // Listen for the export status response (indicates export processing complete)
+    const statusResponsePromise = page.waitForResponse(
+      (response) =>
+        response.url().includes('/exports/') &&
+        response.url().includes('/status') &&
+        response.ok(),
+      { timeout: 15000 },
     );
 
     await page.getByRole('button', { name: 'Export' }).click();
@@ -156,15 +163,23 @@ test('User should be able to export systems to CSV', async ({ page }) => {
     expect(exportRequest.url()).toContain('/exports');
     console.log('  ✓ Export request initiated successfully');
 
-    // Verify that status checking begins (indicates the "export being prepared" notification should appear)
-    await statusCheckPromise;
-    console.log('  ✓ Export status checking started (export being prepared)');
+    // Wait for the status response to confirm export is being processed
+    await statusResponsePromise;
+    console.log('  ✓ Export status check completed (export processing)');
 
-    // Wait for any additional status checks that indicate completion
-    await page.waitForTimeout(3000);
-    console.log(
-      '  ✓ Export process completed - notifications should have appeared for preparation and download',
-    );
+    // Wait for either download notification or download event
+    await expect(async () => {
+      const downloadingText = page.getByText('being downloaded', {
+        exact: false,
+      });
+      const preparedText = page.getByText('being prepared', { exact: false });
+      const isDownloading = await downloadingText
+        .isVisible()
+        .catch(() => false);
+      const isPrepared = await preparedText.isVisible().catch(() => false);
+      expect(isDownloading || isPrepared).toBe(true);
+    }).toPass({ timeout: 10000 });
+    console.log('  ✓ Export process completed - notification appeared');
   });
 });
 
