@@ -6,8 +6,9 @@
  */
 import React from 'react';
 import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
-import { Button, MenuItem, Tooltip } from '@patternfly/react-core';
+import { Button, MenuItem } from '@patternfly/react-core';
 import PropTypes from 'prop-types';
+import NoAccessTooltipWrap from '../NoAccessTooltipWrap';
 import './ActionWithRBAC.scss';
 
 export const ActionButton = ({
@@ -27,12 +28,10 @@ export const ActionButton = ({
           !ignoreResourceDefinitions
         );
 
-  return enabled ? (
-    <Button {...props} />
-  ) : (
-    <Tooltip content={noAccessTooltip}>
-      <Button {...props} isAriaDisabled />
-    </Tooltip>
+  return (
+    <NoAccessTooltipWrap isEnabled={enabled} tooltipContent={noAccessTooltip}>
+      <Button {...props} {...(!enabled ? { isAriaDisabled: true } : {})} />
+    </NoAccessTooltipWrap>
   );
 };
 

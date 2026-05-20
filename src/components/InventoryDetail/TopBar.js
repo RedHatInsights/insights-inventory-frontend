@@ -16,12 +16,12 @@ import {
   Split,
   SplitItem,
   Title,
-  Tooltip,
 } from '@patternfly/react-core';
 import { redirectToInventoryList } from './helpers';
 import { useDispatch } from 'react-redux';
 import { toggleDrawer } from '../../store/actions';
 import { NO_MODIFY_HOST_TOOLTIP_MESSAGE } from '../../constants';
+import NoAccessTooltipWrap from '../NoAccessTooltipWrap';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
 
 /**
@@ -114,20 +114,20 @@ const TopBar = ({
             <Flex>
               <FlexItem>
                 <DeleteWrapper>
-                  {showDelete ? (
+                  <NoAccessTooltipWrap
+                    isEnabled={showDelete}
+                    tooltipContent={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
+                  >
                     <Button
-                      onClick={() => setIsModalOpen(true)}
+                      onClick={
+                        showDelete ? () => setIsModalOpen(true) : undefined
+                      }
                       variant="secondary"
+                      {...(!showDelete ? { isAriaDisabled: true } : {})}
                     >
                       Delete
                     </Button>
-                  ) : (
-                    <Tooltip content={NO_MODIFY_HOST_TOOLTIP_MESSAGE}>
-                      <Button isAriaDisabled variant="secondary">
-                        Delete
-                      </Button>
-                    </Tooltip>
-                  )}
+                  </NoAccessTooltipWrap>
                 </DeleteWrapper>
               </FlexItem>
               {inventoryActions?.length > 0 && (
