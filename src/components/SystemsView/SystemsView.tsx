@@ -148,21 +148,11 @@ const SystemsViewInner = ({
     enabled: isInventoryViewsEnabled,
   });
 
-  const data = isInventoryViewsEnabled
-    ? inventoryViewsQueryResult.data
-    : systemsQueryResult.data;
-  const total = isInventoryViewsEnabled
-    ? inventoryViewsQueryResult.total
-    : systemsQueryResult.total;
-  const isLoading = isInventoryViewsEnabled
-    ? inventoryViewsQueryResult.isLoading
-    : systemsQueryResult.isLoading;
-  const isFetching = isInventoryViewsEnabled
-    ? inventoryViewsQueryResult.isFetching
-    : systemsQueryResult.isFetching;
-  const isError = isInventoryViewsEnabled
-    ? inventoryViewsQueryResult.isError
-    : systemsQueryResult.isError;
+  const activeResult = isInventoryViewsEnabled
+    ? inventoryViewsQueryResult
+    : systemsQueryResult;
+
+  const { data, total, isLoading, isFetching, isError } = activeResult;
 
   const { hostsWithPermissions } = useHostIdsWithKessel(data);
 
