@@ -9,6 +9,10 @@ import { useDataViewSelection } from '@patternfly/react-data-view/dist/dynamic/H
 import { PageSection, Pagination } from '@patternfly/react-core';
 import { DataViewToolbar } from '@patternfly/react-data-view/dist/dynamic/DataViewToolbar';
 import { BulkSelect } from '../BulkSelect';
+import {
+  type InventoryViewsSortBy,
+  useInventoryViewsQuery,
+} from './hooks/useInventoryViewsQuery';
 import { useSystemsQuery } from './hooks/useSystemsQuery';
 import { useHostIdsWithKessel } from '../../Utilities/hooks/useHostIdsWithKessel';
 import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorState';
@@ -124,14 +128,41 @@ const SystemsViewInner = ({
     isInventoryViewsEnabled,
   });
 
-  const { data, total, isLoading, isFetching, isError } = useSystemsQuery({
+  const sharedQueryArgs = {
     page: pagination.page,
     perPage: pagination.perPage,
     filters: queryFilters,
     lastSeenCustomRange,
-    sortBy: sortBy as ApiOrderByEnum | undefined,
     direction,
+  };
+
+  const systemsQueryResult = useSystemsQuery({
+    ...sharedQueryArgs,
+    sortBy: sortBy as ApiOrderByEnum | undefined,
+    enabled: !isInventoryViewsEnabled,
   });
+
+  const inventoryViewsQueryResult = useInventoryViewsQuery({
+    ...sharedQueryArgs,
+    sortBy: sortBy as InventoryViewsSortBy | undefined,
+    enabled: isInventoryViewsEnabled,
+  });
+
+  const data = isInventoryViewsEnabled
+    ? inventoryViewsQueryResult.data
+    : systemsQueryResult.data;
+  const total = isInventoryViewsEnabled
+    ? inventoryViewsQueryResult.total
+    : systemsQueryResult.total;
+  const isLoading = isInventoryViewsEnabled
+    ? inventoryViewsQueryResult.isLoading
+    : systemsQueryResult.isLoading;
+  const isFetching = isInventoryViewsEnabled
+    ? inventoryViewsQueryResult.isFetching
+    : systemsQueryResult.isFetching;
+  const isError = isInventoryViewsEnabled
+    ? inventoryViewsQueryResult.isError
+    : systemsQueryResult.isError;
 
   const { hostsWithPermissions } = useHostIdsWithKessel(data);
 
