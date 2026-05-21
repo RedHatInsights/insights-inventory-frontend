@@ -8,19 +8,9 @@ import {
   ApiHostViewsGetHostViewsStalenessEnum,
   ApiHostViewsGetHostViewsSystemTypeEnum,
 } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
-import { ApiHostGetHostListOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import { SortDirection } from '../SystemsView';
 import { lastSeenKeysToApiParams } from '../utils/lastSeenKeysToApiParams';
 import type { LastSeenCustomRange } from '../DataViewFiltersContext';
-
-/**
- * Sort field for `/beta/hosts-view` (`getHostViews`). Combines host-views order enums with
- * host-list order enums so callers can reuse Systems View column `sortBy` where values overlap
- * (e.g. `display_name`, `group_name`, `operating_system`, `last_check_in`).
- */
-export type InventoryViewsSortBy =
-  | ApiHostViewsGetHostViewsOrderByEnum
-  | ApiHostGetHostListOrderByEnum;
 
 const serializeSystemTypeForViews = (values: string[]) => {
   const validValues = Object.values(ApiHostViewsGetHostViewsSystemTypeEnum);
@@ -49,7 +39,7 @@ interface FetchInventoryViewsParams {
   perPage: number;
   filters: InventoryFilters;
   lastSeenCustomRange: LastSeenCustomRange;
-  sortBy: InventoryViewsSortBy | undefined;
+  sortBy: ApiHostViewsGetHostViewsOrderByEnum | undefined;
   direction: SortDirection | undefined;
 }
 
@@ -69,9 +59,7 @@ const fetchInventoryViews = async ({
   const params: ApiHostViewsGetHostViewsParams = {
     page,
     perPage,
-    ...(sortBy && {
-      orderBy: sortBy as NonNullable<ApiHostViewsGetHostViewsParams['orderBy']>,
-    }),
+    ...(sortBy && { orderBy: sortBy }),
     ...(direction && { orderHow: direction.toUpperCase() }),
     ...(filters?.hostname_or_id && { hostnameOrId: filters.hostname_or_id }),
     ...(filters?.status?.length && {
@@ -119,7 +107,7 @@ export interface UseInventoryViewsQueryParams {
   perPage: number;
   filters: InventoryFilters;
   lastSeenCustomRange: LastSeenCustomRange;
-  sortBy: InventoryViewsSortBy | undefined;
+  sortBy: ApiHostViewsGetHostViewsOrderByEnum | undefined;
   direction: SortDirection | undefined;
   /** When false, the query is not run (e.g. when user has no access). Default true. */
   enabled?: boolean;
