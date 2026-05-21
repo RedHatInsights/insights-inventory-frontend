@@ -47,6 +47,19 @@ describe('Table Renders', () => {
     menuToggleButtons.forEach((button) => expect(button).toBeDisabled());
   });
 
+  it('disables Edit and dropdowns when the user cannot modify staleness', async () => {
+    renderHostStalenessCard(false);
+
+    await screen.findByRole('button', { name: 'Edit' });
+    expect(screen.getByRole('button', { name: 'Edit' })).toBeDisabled();
+
+    const menuToggleButtons = screen
+      .getAllByRole('button')
+      .filter((button) => button.classList.contains('pf-v6-c-menu-toggle'));
+
+    menuToggleButtons.forEach((button) => expect(button).toBeDisabled());
+  });
+
   it('enables staleness editing when edit is clicked', async () => {
     renderHostStalenessCard();
 
