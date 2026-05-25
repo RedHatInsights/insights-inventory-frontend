@@ -226,6 +226,10 @@ describe('with default parameters', () => {
     });
 
     describe('groups filter', () => {
+      const UNGROUPED_HOSTS_LABEL = 'Ungrouped hosts';
+      const firstGroupName = shorterGroupsFixtures.results[0].name;
+      const firstGroupId = shorterGroupsFixtures.results[0].id;
+
       it('options are populated correctly', () => {
         cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
         cy.get(DROPDOWN_ITEM).contains('Workspace').click();
@@ -235,21 +239,21 @@ describe('with default parameters', () => {
         );
         cy.ouiaId('FilterByGroupOption').should(
           'have.length',
-          expectedNames.length,
+          expectedNames.length + 1,
         );
+        cy.ouiaId('FilterByGroupOption')
+          .contains(UNGROUPED_HOSTS_LABEL)
+          .should('exist');
         expectedNames.forEach((name) => {
           cy.ouiaId('FilterByGroupOption').contains(name).should('exist');
         });
       });
 
-      const firstGroupName = shorterGroupsFixtures.results[0].name;
-      const firstGroupId = shorterGroupsFixtures.results[0].id;
-
       it('creates a chip', () => {
         cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
         cy.get(DROPDOWN_ITEM).contains('Workspace').click();
         cy.ouiaId('FilterByGroup').click();
-        cy.ouiaId('FilterByGroupOption').eq(0).click();
+        cy.ouiaId('FilterByGroupOption').contains(firstGroupName).click();
         // Custom implementation for PatternFly v6 chips
         cy.get(CHIP_GROUP).should('exist');
         cy.get(CHIP).should('contain', firstGroupName);
@@ -259,7 +263,7 @@ describe('with default parameters', () => {
         cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
         cy.get(DROPDOWN_ITEM).contains('Workspace').click();
         cy.ouiaId('FilterByGroup').click();
-        cy.ouiaId('FilterByGroupOption').eq(0).click();
+        cy.ouiaId('FilterByGroupOption').contains(firstGroupName).click();
         cy.wait('@getHosts')
           .its('request.url')
           .should('include', `group_id=${firstGroupId}`);
