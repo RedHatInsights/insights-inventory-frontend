@@ -1,6 +1,6 @@
 import React from 'react';
-import { System } from '../../hooks/useSystemsQuery';
 import type { Column } from '../allColumnDefinitions';
+import { InventoryViewHost } from '../../hooks/useInventoryViewsQuery';
 
 import Recommendations from './cells/Recommendations';
 
@@ -9,7 +9,7 @@ const recommendationsColumn = {
   key: 'recommendations',
   isShownByDefault: false,
   isShown: true,
-  renderCell: (system: System) => (
+  renderCell: (system: InventoryViewHost) => (
     <Recommendations key={`recommendations-${system.id}`} system={system} />
   ),
 };
