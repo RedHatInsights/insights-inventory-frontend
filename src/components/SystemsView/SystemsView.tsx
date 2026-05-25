@@ -9,6 +9,7 @@ import { useDataViewSelection } from '@patternfly/react-data-view/dist/dynamic/H
 import { PageSection, Pagination } from '@patternfly/react-core';
 import { DataViewToolbar } from '@patternfly/react-data-view/dist/dynamic/DataViewToolbar';
 import { BulkSelect } from '../BulkSelect';
+import { useInventoryViewsQuery } from './hooks/useInventoryViewsQuery';
 import { useSystemsQuery } from './hooks/useSystemsQuery';
 import { useHostIdsWithKessel } from '../../Utilities/hooks/useHostIdsWithKessel';
 import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorState';
@@ -46,6 +47,7 @@ import { SORT_DIR_URL_PARAM, SORT_URL_PARAM } from './constants';
 import useInventoryViewsFeatureFlag from '../../Utilities/useInventoryViewsFeatureFlag';
 import type { Column } from './columns/allColumnDefinitions';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
+import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 
 export type SortDirection = ISortBy['direction'];
 export type OnSort = (
@@ -124,14 +126,31 @@ const SystemsViewInner = ({
     isInventoryViewsEnabled,
   });
 
-  const { data, total, isLoading, isFetching, isError } = useSystemsQuery({
+  const sharedQueryArgs = {
     page: pagination.page,
     perPage: pagination.perPage,
     filters: queryFilters,
     lastSeenCustomRange,
-    sortBy: sortBy as ApiOrderByEnum | undefined,
     direction,
+  };
+
+  const systemsQueryResult = useSystemsQuery({
+    ...sharedQueryArgs,
+    sortBy: sortBy as ApiOrderByEnum | undefined,
+    enabled: !isInventoryViewsEnabled,
   });
+
+  const inventoryViewsQueryResult = useInventoryViewsQuery({
+    ...sharedQueryArgs,
+    sortBy: sortBy as ApiHostViewsGetHostViewsOrderByEnum | undefined,
+    enabled: isInventoryViewsEnabled,
+  });
+
+  const activeResult = isInventoryViewsEnabled
+    ? inventoryViewsQueryResult
+    : systemsQueryResult;
+
+  const { data, total, isLoading, isFetching, isError } = activeResult;
 
   const { hostsWithPermissions } = useHostIdsWithKessel(data);
 

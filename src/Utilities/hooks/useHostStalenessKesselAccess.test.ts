@@ -18,7 +18,7 @@ const DEFAULT_WS_ID = 'default-ws-1';
 
 const mockUseKesselMigrationFeatureFlag = jest.fn();
 const mockUseSelfAccessCheck = jest.fn();
-const mockFetchDefaultWorkspace = jest.fn();
+const mockFetchRootWorkspace = jest.fn();
 
 jest.mock('./useKesselMigrationFeatureFlag', () => ({
   useKesselMigrationFeatureFlag: () => mockUseKesselMigrationFeatureFlag(),
@@ -26,8 +26,7 @@ jest.mock('./useKesselMigrationFeatureFlag', () => ({
 
 jest.mock('@project-kessel/react-kessel-access-check', () => ({
   useSelfAccessCheck: (opts: object) => mockUseSelfAccessCheck(opts),
-  fetchDefaultWorkspace: (...args: unknown[]) =>
-    mockFetchDefaultWorkspace(...args),
+  fetchRootWorkspace: (...args: unknown[]) => mockFetchRootWorkspace(...args),
 }));
 
 const defaultWorkspaceKesselResources = () => {
@@ -59,10 +58,10 @@ describe('useHostStalenessKesselAccess', () => {
     jest.clearAllMocks();
     mockUseKesselMigrationFeatureFlag.mockReturnValue(false);
     mockUseSelfAccessCheck.mockReturnValue({ data: [], loading: false });
-    mockFetchDefaultWorkspace.mockResolvedValue({
+    mockFetchRootWorkspace.mockResolvedValue({
       id: DEFAULT_WS_ID,
-      type: 'default',
-      name: 'Default',
+      type: 'root',
+      name: 'Root',
       created: '',
       modified: '',
     });
@@ -71,10 +70,10 @@ describe('useHostStalenessKesselAccess', () => {
   it('when Kessel is off, returns rbac mode', () => {
     const { result } = renderHook(() => useHostStalenessKesselAccess());
     expect(result.current).toEqual({ mode: 'rbac' });
-    expect(mockFetchDefaultWorkspace).not.toHaveBeenCalled();
+    expect(mockFetchRootWorkspace).not.toHaveBeenCalled();
   });
 
-  it('when Kessel is on, requests four rbac/workspace checks on the Default workspace id', async () => {
+  it('when Kessel is on, requests four rbac/workspace checks on the Root workspace id', async () => {
     mockUseKesselMigrationFeatureFlag.mockReturnValue(true);
     mockUseSelfAccessCheck.mockReturnValue({ data: [], loading: false });
 
@@ -89,9 +88,9 @@ describe('useHostStalenessKesselAccess', () => {
     });
   });
 
-  it('when Default workspace fetch fails, user cannot view the page', async () => {
+  it('when Root workspace fetch fails, user cannot view the page', async () => {
     mockUseKesselMigrationFeatureFlag.mockReturnValue(true);
-    mockFetchDefaultWorkspace.mockRejectedValue(new Error('network'));
+    mockFetchRootWorkspace.mockRejectedValue(new Error('network'));
 
     const { result } = renderHook(() => useHostStalenessKesselAccess());
 
