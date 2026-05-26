@@ -20,11 +20,8 @@ describe('Low cell', () => {
     expect(screen.getByText('0')).toBeInTheDocument();
   });
 
-  // TODO: waiting for requrements clarification on how to handle missing data
-  // it('should render nothing when advisor data is missing', () => {
-  //   const { container } = render(
-  //     <Low system={{} as unknown as InventoryViewHost} />,
-  //   );
-  //   expect(container).toBeEmptyDOMElement();
-  // });
+  it('should render N/A when advisor data is missing', () => {
+    render(<Low system={{} as unknown as InventoryViewHost} />);
+    expect(screen.getByText('N/A')).toBeInTheDocument();
+  });
 });

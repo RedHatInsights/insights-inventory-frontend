@@ -5,7 +5,7 @@ interface RecommendationsProps {
 }
 
 const Recommendations = ({ system }: RecommendationsProps) => {
-  const recommendations = system?.app_data?.advisor?.recommendations;
+  const recommendations = system?.app_data?.advisor?.recommendations ?? 'N/A';
 
   return recommendations;
 };

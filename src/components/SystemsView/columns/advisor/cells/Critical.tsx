@@ -5,7 +5,7 @@ interface CriticalProps {
 }
 
 const Critical = ({ system }: CriticalProps) => {
-  const critical = system?.app_data?.advisor?.critical;
+  const critical = system?.app_data?.advisor?.critical ?? 'N/A';
 
   return critical;
 };

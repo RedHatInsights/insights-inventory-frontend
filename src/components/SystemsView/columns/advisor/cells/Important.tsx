@@ -5,7 +5,7 @@ interface ImportantProps {
 }
 
 const Important = ({ system }: ImportantProps) => {
-  const important = system?.app_data?.advisor?.important;
+  const important = system?.app_data?.advisor?.important ?? 'N/A';
 
   return important;
 };

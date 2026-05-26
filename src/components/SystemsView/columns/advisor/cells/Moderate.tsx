@@ -5,7 +5,7 @@ interface ModerateProps {
 }
 
 const Moderate = ({ system }: ModerateProps) => {
-  const moderate = system?.app_data?.advisor?.moderate;
+  const moderate = system?.app_data?.advisor?.moderate ?? 'N/A';
 
   return moderate;
 };

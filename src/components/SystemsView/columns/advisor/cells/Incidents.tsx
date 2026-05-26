@@ -5,7 +5,7 @@ interface IncidentsProps {
 }
 
 const Incidents = ({ system }: IncidentsProps) => {
-  const incidents = system?.app_data?.advisor?.incidents;
+  const incidents = system?.app_data?.advisor?.incidents ?? 'N/A';
 
   return incidents;
 };
