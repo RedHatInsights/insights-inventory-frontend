@@ -57,3 +57,146 @@ export const deleteStaleness = async () => {
     options: { axios: getPlaywrightApiClient() },
   });
 };
+
+/**
+ * Deletes a workspace (group) by its ID via the inventory API.
+ * Silently ignores 404 (already deleted).
+ *  @param groupId
+ */
+export const deleteWorkspaceById = async (groupId: string) => {
+  const client = getPlaywrightApiClient();
+  try {
+    await client.delete(`/api/inventory/v1/groups/${groupId}`);
+  } catch (err) {
+    if (axios.isAxiosError(err) && err.response?.status === 404) {
+      return;
+    }
+    throw err;
+  }
+};
+
+/**
+ * Searches for workspaces matching a name prefix and deletes them all.
+ * Useful for cleaning up test-created workspaces on failure.
+ *  @param prefix
+ */
+export const deleteWorkspacesByPrefix = async (prefix: string) => {
+  const client = getPlaywrightApiClient();
+  try {
+    const response = await client.get(
+      `/api/inventory/v1/groups?name=${encodeURIComponent(prefix)}`,
+    );
+    const groups = response.data?.results || [];
+    for (const group of groups) {
+      if (group.id && group.name?.startsWith(prefix)) {
+        await deleteWorkspaceById(group.id);
+      }
+    }
+  } catch (err) {
+    console.warn(`Workspace cleanup for prefix "${prefix}" failed:`, err);
+  }
+};
+
+/**
+ * Gets a workspace (group) by exact name.
+ * Returns the workspace ID if found, null otherwise.
+ *  @param name - Exact workspace name to find
+ */
+export const getWorkspaceByName = async (
+  name: string,
+): Promise<string | null> => {
+  const client = getPlaywrightApiClient();
+  try {
+    const response = await client.get(
+      `/api/inventory/v1/groups?name=${encodeURIComponent(name)}`,
+    );
+    const groups = response.data?.results || [];
+    const exactMatch = groups.find(
+      (g: { name: string; id: string }) => g.name === name,
+    );
+    return exactMatch?.id || null;
+  } catch (err) {
+    console.warn(`Failed to get workspace "${name}":`, err);
+    return null;
+  }
+};
+
+/**
+ * Creates a new workspace (group) via API.
+ * Returns the workspace ID.
+ *  @param name - Name for the new workspace
+ */
+export const createWorkspaceViaApi = async (name: string): Promise<string> => {
+  const client = getPlaywrightApiClient();
+  const response = await client.post('/api/inventory/v1/groups', { name });
+  return response.data.id;
+};
+
+/**
+ * Gets or creates a workspace by name.
+ * Returns the workspace ID.
+ *  @param name - Workspace name
+ */
+export const getOrCreateWorkspace = async (name: string): Promise<string> => {
+  const existingId = await getWorkspaceByName(name);
+  if (existingId) {
+    return existingId;
+  }
+  return await createWorkspaceViaApi(name);
+};
+
+/**
+ * Gets a host ID by hostname, with retry logic to wait for system to appear.
+ *  @param hostname   - The hostname to search for
+ *  @param maxRetries - Maximum retry attempts (default 10)
+ *  @param delayMs    - Delay between retries in ms (default 3000)
+ */
+export const getHostIdByHostname = async (
+  hostname: string,
+  maxRetries: number = 10,
+  delayMs: number = 3000,
+): Promise<string> => {
+  const client = getPlaywrightApiClient();
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const response = await client.get(
+        `/api/inventory/v1/hosts?display_name=${encodeURIComponent(hostname)}`,
+      );
+      const hosts = response.data?.results || [];
+      const host = hosts.find(
+        (h: { display_name: string; id: string }) =>
+          h.display_name === hostname,
+      );
+      if (host?.id) {
+        return host.id;
+      }
+    } catch (err) {
+      console.warn(`Attempt ${attempt}: Failed to query host "${hostname}"`);
+    }
+
+    if (attempt < maxRetries) {
+      console.log(
+        `Host "${hostname}" not found, retrying in ${delayMs}ms (${attempt}/${maxRetries})...`,
+      );
+      await new Promise((r) => setTimeout(r, delayMs));
+    }
+  }
+
+  throw new Error(
+    `Host "${hostname}" not found after ${maxRetries} attempts. System may not have been ingested yet.`,
+  );
+};
+
+/**
+ * Adds a host to a workspace (group) via API.
+ *  @param workspaceId - The workspace/group ID
+ *  @param hostId      - The host ID to add
+ */
+export const addHostToWorkspace = async (
+  workspaceId: string,
+  hostId: string,
+): Promise<void> => {
+  const client = getPlaywrightApiClient();
+  await client.post(`/api/inventory/v1/groups/${workspaceId}/hosts`, [hostId]);
+};
