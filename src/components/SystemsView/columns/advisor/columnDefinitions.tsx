@@ -80,5 +80,4 @@ export default [
   importantColumn,
   moderateColumn,
   lowColumn,
-  incidentsColumn,
 ] as const satisfies readonly Column[];
