@@ -9,11 +9,14 @@ import Incidents from './cells/Incidents';
 import Important from './cells/Important';
 import Critical from './cells/Critical';
 
+import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
+
 const recommendationsColumn = {
   title: 'Recommendations',
   key: 'recommendations',
   isShownByDefault: false,
   isShown: false,
+  sortBy: ApiHostViewsGetHostViewsOrderByEnum.Advisorrecommendations,
   renderCell: (system: InventoryViewHost) => (
     <Recommendations key={`recommendations-${system.id}`} system={system} />
   ),
@@ -44,6 +47,7 @@ const incidentsColumn = {
   key: 'incidents',
   isShownByDefault: false,
   isShown: false,
+  sortBy: ApiHostViewsGetHostViewsOrderByEnum.Advisorincidents,
   renderCell: (system: InventoryViewHost) => (
     <Incidents key={`incidents-${system.id}`} system={system} />
   ),
