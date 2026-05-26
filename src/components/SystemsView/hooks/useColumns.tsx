@@ -43,10 +43,9 @@ export const useColumns = ({
         if (isInventoryViewsEnabled) {
           return true;
         }
-        // disable thirdParty columns
-        return !(
-          'appName' in col && Boolean((col as { appName?: string }).appName)
-        );
+
+        const isConsumerAppColumn = 'appName' in col && col.appName;
+        return !isConsumerAppColumn;
       }),
   );
 

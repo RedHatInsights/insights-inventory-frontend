@@ -7,8 +7,8 @@ const installableAdvisoriesColumn = {
   appName: 'patch',
   title: 'Installable Advisories',
   key: 'installable-advisories',
-  isShownByDefault: true,
-  isShown: true,
+  isShownByDefault: false,
+  isShown: false,
   sortBy: 'patch:advisories_rhsa_installable',
   renderCell(system: InventoryViewSystem) {
     const key = `${this.key}-${system.id}`;
@@ -16,7 +16,7 @@ const installableAdvisoriesColumn = {
 
     return value ? <InstallableAdvisories key={key} value={value} /> : 'N/A';
   },
-};
+} satisfies Column;
 
 export default [
   installableAdvisoriesColumn,

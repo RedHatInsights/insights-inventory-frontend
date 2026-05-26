@@ -18,8 +18,15 @@ type SortableColumn = {
   readonly sortBy?: string;
 };
 
+type ConsumerAppColumn = {
+  appName?: 'patch' | 'vulnerability' | 'advisor';
+};
+
 export type Column = Resolve<
-  ColumnManagementModalColumn & RenderableColumn & SortableColumn
+  ColumnManagementModalColumn &
+    RenderableColumn &
+    SortableColumn &
+    ConsumerAppColumn
 >;
 
 /**
