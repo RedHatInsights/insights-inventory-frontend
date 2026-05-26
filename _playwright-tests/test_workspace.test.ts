@@ -18,7 +18,7 @@ import {
   WORKSPACE_NAME_SORT_PREFIX,
 } from './helpers/constants';
 
-test.describe('Workspace CRUD - Details Page', () => {
+test.describe('Workspace CRUD - Details Page test', () => {
   test('User can create, rename, and delete a workspace from Workspace Details page', async ({
     page,
   }) => {
