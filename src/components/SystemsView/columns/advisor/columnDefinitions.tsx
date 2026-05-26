@@ -22,6 +22,37 @@ const recommendationsColumn = {
   ),
 };
 
+const incidentsColumn = {
+  title: 'Incidents',
+  key: 'incidents',
+  isShownByDefault: false,
+  isShown: false,
+  sortBy: ApiHostViewsGetHostViewsOrderByEnum.Advisorincidents,
+  renderCell: (system: InventoryViewHost) => (
+    <Incidents key={`incidents-${system.id}`} system={system} />
+  ),
+};
+
+const criticalColumn = {
+  title: 'Critical',
+  key: 'critical',
+  isShownByDefault: false,
+  isShown: false,
+  renderCell: (system: InventoryViewHost) => (
+    <Critical key={`critical-${system.id}`} system={system} />
+  ),
+};
+
+const importantColumn = {
+  title: 'Important',
+  key: 'important',
+  isShownByDefault: false,
+  isShown: false,
+  renderCell: (system: InventoryViewHost) => (
+    <Important key={`important-${system.id}`} system={system} />
+  ),
+};
+
 const moderateColumn = {
   title: 'Moderate',
   key: 'moderate',
@@ -42,42 +73,12 @@ const lowColumn = {
   ),
 };
 
-const incidentsColumn = {
-  title: 'Incidents',
-  key: 'incidents',
-  isShownByDefault: false,
-  isShown: false,
-  sortBy: ApiHostViewsGetHostViewsOrderByEnum.Advisorincidents,
-  renderCell: (system: InventoryViewHost) => (
-    <Incidents key={`incidents-${system.id}`} system={system} />
-  ),
-};
-
-const importantColumn = {
-  title: 'Important',
-  key: 'important',
-  isShownByDefault: false,
-  isShown: false,
-  renderCell: (system: InventoryViewHost) => (
-    <Important key={`important-${system.id}`} system={system} />
-  ),
-};
-
-const criticalColumn = {
-  title: 'Critical',
-  key: 'critical',
-  isShownByDefault: false,
-  isShown: false,
-  renderCell: (system: InventoryViewHost) => (
-    <Critical key={`critical-${system.id}`} system={system} />
-  ),
-};
-
 export default [
   recommendationsColumn,
+  incidentsColumn,
+  criticalColumn,
+  importantColumn,
   moderateColumn,
   lowColumn,
   incidentsColumn,
-  importantColumn,
-  criticalColumn,
 ] as const satisfies readonly Column[];
