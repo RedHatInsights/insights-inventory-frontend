@@ -37,7 +37,17 @@ export const useColumns = ({
   isInventoryViewsEnabled,
 }: UseColumnParams) => {
   const [columns, setColumns] = useState<Column[]>(() =>
-    initialColumns.map((col) => ({ ...col })),
+    initialColumns
+      .map((col) => ({ ...col }))
+      .filter((col) => {
+        if (isInventoryViewsEnabled) {
+          return true;
+        }
+        // disable thirdParty columns
+        return !(
+          'appName' in col && Boolean((col as { appName?: string }).appName)
+        );
+      }),
   );
 
   const fromSortByToIndex = useCallback(
@@ -110,7 +120,7 @@ export const useColumns = ({
         onSort(undefined, FALLBACK_SORT.sortBy!, FALLBACK_SORT.direction);
       }
     }
-  });
+  }, [sortBy, columns, onSort]);
 
   return {
     columns,
