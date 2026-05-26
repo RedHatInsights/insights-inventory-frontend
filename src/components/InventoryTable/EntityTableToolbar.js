@@ -845,7 +845,7 @@ EntityTableToolbar.defaultProps = {
   hasAccess: true,
   activeFiltersConfig: {},
   hideFilters: {},
-  showNoGroupOption: false,
+  showNoGroupOption: true,
 };
 
 export default EntityTableToolbar;

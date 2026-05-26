@@ -194,7 +194,7 @@ const useGroupsQueryWithFilter = ({
   };
 };
 
-const useGroupFilter = (showNoGroupOption = false) => {
+const useGroupFilter = (showNoGroupOption = true) => {
   const [selectedGroupIds, setSelectedGroupIds] = useState([]);
 
   const { hasAccess } = useConditionalRBAC(
