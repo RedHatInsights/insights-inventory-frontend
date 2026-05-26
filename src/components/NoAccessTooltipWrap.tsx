@@ -1,6 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Tooltip } from '@patternfly/react-core';
+
+interface NoAccessTooltipWrapProps {
+  isEnabled: boolean;
+  tooltipContent: React.ReactNode;
+  children: React.ReactElement;
+  wrapTriggerInSpan?: boolean;
+  triggerSpanProps?: React.HTMLAttributes<HTMLSpanElement>;
+}
 
 /**
  * When `isEnabled` is false, wraps children in a Tooltip explaining missing access.
@@ -13,9 +20,9 @@ const NoAccessTooltipWrap = ({
   isEnabled,
   tooltipContent,
   children,
-  wrapTriggerInSpan,
-  triggerSpanProps,
-}) => {
+  wrapTriggerInSpan = false,
+  triggerSpanProps = {},
+}: NoAccessTooltipWrapProps) => {
   if (isEnabled) {
     return children;
   }
@@ -27,19 +34,6 @@ const NoAccessTooltipWrap = ({
   );
 
   return <Tooltip content={tooltipContent}>{trigger}</Tooltip>;
-};
-
-NoAccessTooltipWrap.propTypes = {
-  isEnabled: PropTypes.bool.isRequired,
-  tooltipContent: PropTypes.node.isRequired,
-  children: PropTypes.node.isRequired,
-  wrapTriggerInSpan: PropTypes.bool,
-  triggerSpanProps: PropTypes.object,
-};
-
-NoAccessTooltipWrap.defaultProps = {
-  wrapTriggerInSpan: false,
-  triggerSpanProps: {},
 };
 
 export default NoAccessTooltipWrap;
