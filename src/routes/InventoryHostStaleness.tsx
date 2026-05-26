@@ -7,17 +7,21 @@ import {
 import InventoryHostStaleness from '../components/InventoryHostStaleness';
 import { useConditionalRBAC } from '../Utilities/hooks/useConditionalRBAC';
 import { GENERAL_HOST_STALENESS_READ_PERMISSION } from '../components/InventoryHostStaleness/constants';
+import { asPermissionList, GENERAL_HOSTS_READ_PERMISSIONS } from '../constants';
 import { Bullseye, PageSection, Spinner } from '@patternfly/react-core';
 import HostStalenessNoAccess from '../components/InventoryHostStaleness/HostStalenessNoAccess';
 import { OutageAlert } from '../components/OutageAlert';
 import { useHostStalenessKesselAccess } from '../Utilities/hooks/useHostStalenessKesselAccess';
 
-const REQUIRED_PERMISSIONS = [GENERAL_HOST_STALENESS_READ_PERMISSION];
+const REQUIRED_READ_PERMISSIONS = [
+  GENERAL_HOST_STALENESS_READ_PERMISSION,
+  ...asPermissionList(GENERAL_HOSTS_READ_PERMISSIONS),
+];
 
 const HostStaleness = () => {
   const chrome = useChrome();
-  const { hasAccess: canReadHostStalenessRbac } = useConditionalRBAC(
-    REQUIRED_PERMISSIONS,
+  const { hasAccess: hasStalenessAndHostsReadRbac } = useConditionalRBAC(
+    REQUIRED_READ_PERMISSIONS,
     true,
   );
   const kesselAccess = useHostStalenessKesselAccess();
@@ -29,10 +33,10 @@ const HostStaleness = () => {
     chrome.hideGlobalFilter(true);
   }, [chrome]);
 
-  const canReadHostStaleness =
+  const canViewStalenessPage =
     kesselAccess.mode === 'kessel'
       ? kesselAccess.canViewPage
-      : canReadHostStalenessRbac;
+      : hasStalenessAndHostsReadRbac;
 
   const kesselEditOverride =
     kesselAccess.mode === 'kessel' ? kesselAccess.canEditStaleness : undefined;
@@ -53,7 +57,7 @@ const HostStaleness = () => {
           <Bullseye>
             <Spinner aria-label="Loading permissions" />
           </Bullseye>
-        ) : canReadHostStaleness ? (
+        ) : canViewStalenessPage ? (
           <InventoryHostStaleness
             kesselCanModifyHostStaleness={kesselEditOverride}
             editDisabledTooltip={editDisabledTooltip}

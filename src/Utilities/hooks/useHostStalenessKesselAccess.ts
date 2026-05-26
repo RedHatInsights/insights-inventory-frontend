@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
-  fetchDefaultWorkspace,
+  fetchRootWorkspace,
   useSelfAccessCheck,
 } from '@project-kessel/react-kessel-access-check';
 import { type BulkSelfAccessCheckNestedRelationsParams } from '@project-kessel/react-kessel-access-check/types';
@@ -25,9 +25,9 @@ export type HostStalenessKesselAccess =
   | {
       mode: 'kessel';
       isLoading: boolean;
-      /** `staleness_staleness_view` + `inventory_host_view` on the Default workspace (`rbac/workspace`). */
+      /** `staleness_staleness_view` + `inventory_host_view` on the Root workspace (`rbac/workspace`). */
       canViewPage: boolean;
-      /** `staleness_staleness_update` + `inventory_host_update` on the Default workspace. */
+      /** `staleness_staleness_update` + `inventory_host_update` on the Root workspace. */
       canEditStaleness: boolean;
       editDisabledTooltip?: string;
     };
@@ -37,7 +37,7 @@ export type HostStalenessKesselAccess =
  *
  * Follows **Fetching Workspace IDs for Access Checks** in
  * [kessel-sdk-browser `react-kessel-access-check` README](https://github.com/project-kessel/kessel-sdk-browser/tree/master/packages/react-kessel-access-check#fetching-workspace-ids-for-access-checks):
- * resolve the Default workspace UUID with {@link fetchDefaultWorkspace}, then use it as `resource.id`
+ * resolve the Root workspace UUID with {@link fetchRootWorkspace}, then use it as `resource.id`
  * with `type: {@link WORKSPACE_RESOURCE_TYPE}` and `reporter: {@link KESSEL_WORKSPACE_REPORTER}`.
  *
  * Permissions are modeled on **`rbac/workspace`** in RedHatInsights/rbac-config `configs/stage/schemas/schema.zed`
@@ -67,7 +67,7 @@ export const useHostStalenessKesselAccess = (): HostStalenessKesselAccess => {
     let cancelled = false;
     setWorkspace((prev) => ({ ...prev, loading: true, error: false }));
 
-    fetchDefaultWorkspace(window.location.origin, undefined, undefined)
+    fetchRootWorkspace(window.location.origin, undefined, undefined)
       .then((ws) => {
         if (cancelled) return;
         if (ws?.id) {
@@ -156,7 +156,7 @@ export const useHostStalenessKesselAccess = (): HostStalenessKesselAccess => {
     const canEditStaleness = stalenessWriteAllowed && hostsWriteAllowed;
     const editDisabledTooltip =
       canViewPage && !canEditStaleness
-        ? 'You can view these settings, but editing requires staleness update and inventory host update permissions on the Default workspace.'
+        ? 'You can view these settings, but editing requires staleness update and inventory host update permissions on the Root workspace.'
         : undefined;
 
     return {

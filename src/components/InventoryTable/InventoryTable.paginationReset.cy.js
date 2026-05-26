@@ -40,6 +40,8 @@ const shorterGroupsFixtures = {
   results: groupsFixtures.results.slice(0, 10),
 };
 
+const firstWorkspaceName = shorterGroupsFixtures.results[0].name;
+
 const setTableInterceptors = () => {
   featureFlagsInterceptors.successful();
   systemProfileInterceptors['operating system, successful empty']();
@@ -127,7 +129,7 @@ describe('InventoryTable - Pagination Reset on Filter Application', () => {
       cy.get('[aria-label="Conditional filter toggle"]').click();
       cy.get(DROPDOWN_ITEM).contains('Workspace').click();
       cy.ouiaId('FilterByGroup').click();
-      cy.ouiaId('FilterByGroupOption').eq(0).click();
+      cy.ouiaId('FilterByGroupOption').contains(firstWorkspaceName).click();
 
       // Verify pagination reset to page 1
       verifyPageInUrl(1);
@@ -176,7 +178,7 @@ describe('InventoryTable - Pagination Reset on Filter Application', () => {
       cy.get('[aria-label="Conditional filter toggle"]').click();
       cy.get(DROPDOWN_ITEM).contains('Workspace').click();
       cy.ouiaId('FilterByGroup').click();
-      cy.ouiaId('FilterByGroupOption').eq(0).click();
+      cy.ouiaId('FilterByGroupOption').contains(firstWorkspaceName).click();
 
       // Verify pagination reset to page 1 again
       verifyPageInUrl(1);

@@ -23,6 +23,8 @@ async function authenticateUser(page: Page, user: UserConfig) {
   await ensureNotInPreview(page);
 }
 
+const isProd = process.env.PROD === 'true';
+
 setup.describe('Setup', () => {
   setup.describe.configure({ retries: 3 });
 
@@ -39,14 +41,16 @@ setup.describe('Setup', () => {
     await authenticateUser(page, admin);
   });
 
-  setup('Ensure RBAC ENV variables exist', async () => {
-    expect(() => throwIfMissingRbacEnvVariables()).not.toThrow();
-  });
-
-  for (const user of getRbacUsersForSetup()) {
-    setup(`Authenticate as ${user.role}`, async ({ page }) => {
-      setup.setTimeout(120_000);
-      await authenticateUser(page, user);
+  if (!isProd) {
+    setup('Ensure RBAC ENV variables exist', async () => {
+      expect(() => throwIfMissingRbacEnvVariables()).not.toThrow();
     });
+
+    for (const user of getRbacUsersForSetup()) {
+      setup(`Authenticate as ${user.role}`, async ({ page }) => {
+        setup.setTimeout(120_000);
+        await authenticateUser(page, user);
+      });
+    }
   }
 });

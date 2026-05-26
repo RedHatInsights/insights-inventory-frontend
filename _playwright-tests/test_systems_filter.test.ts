@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
+import { test } from './helpers/fixtures';
 import { navigateToInventorySystemsFunc } from './helpers/navHelpers';
 import {
   filterSystemsWithConditionalFilter,
@@ -7,7 +8,6 @@ import {
 } from './helpers/filterHelpers';
 import { closePopupsIfExist } from './helpers/loginHelpers';
 import {
-  WORKSPACE_WITH_SYSTEMS,
   BASE_ARCHIVE_TAG_COUNT,
   TAG,
   isSystemsViewEnabled,
@@ -78,7 +78,10 @@ test.describe('Filtering Systems Tests', () => {
     });
   });
 
-  test('User can filter systems by workspace', async ({ page }) => {
+  test('User can filter systems by workspace', async ({
+    page,
+    workspaceWithSystem,
+  }) => {
     /**
      * Metadata:
        - requirements:
@@ -88,24 +91,24 @@ test.describe('Filtering Systems Tests', () => {
     await filterSystemsWithConditionalFilter(
       page,
       'Workspace',
-      WORKSPACE_WITH_SYSTEMS,
+      workspaceWithSystem.workspaceName,
     );
     const workspaceCellWithValue = page
       .locator('td[data-label="Workspace"]', {
-        hasText: WORKSPACE_WITH_SYSTEMS,
+        hasText: workspaceWithSystem.workspaceName,
       })
       .or(
         page.locator(
           'td[data-ouia-component-id^="systems-view-table-td-"][data-ouia-component-id$="-1"]',
           {
-            hasText: WORKSPACE_WITH_SYSTEMS,
+            hasText: workspaceWithSystem.workspaceName,
           },
         ),
       );
     await expect(workspaceCellWithValue.first()).toBeVisible();
     const count = await workspaceCellWithValue.count();
     await expect(workspaceCellWithValue).toHaveText(
-      Array(count).fill(WORKSPACE_WITH_SYSTEMS),
+      Array(count).fill(workspaceWithSystem.workspaceName),
     );
   });
 
@@ -259,8 +262,10 @@ test.describe('Filtering Systems Tests', () => {
       // eslint-disable-next-line playwright/no-conditional-in-test
       if (await closeChipButton.first().isVisible({ timeout: 2000 })) {
         await closeChipButton.first().click();
-        // Wait for table to reload
-        await page.waitForTimeout(1000);
+        // Wait for skeleton table to disappear after chip removal
+        await page
+          .locator('[data-ouia-component-id="SkeletonTable"]')
+          .waitFor({ state: 'hidden', timeout: 10000 });
       }
 
       // Open conditional filter dropdown and select "Last seen"
@@ -279,8 +284,7 @@ test.describe('Filtering Systems Tests', () => {
       await expect(lastSeenToggle).toBeVisible({ timeout: 10000 });
       await lastSeenToggle.click();
 
-      // Wait for dropdown to be ready, then click the first option
-      await page.waitForTimeout(500);
+      // Wait for dropdown listbox to be visible
       const option = page
         .getByRole('option', { name: 'Within the last 24 hours' })
         .first();
@@ -288,8 +292,10 @@ test.describe('Filtering Systems Tests', () => {
       await option.scrollIntoViewIfNeeded();
       await option.click();
 
-      // Wait for table to reload with filter
-      await page.waitForTimeout(1000);
+      // Wait for skeleton table to disappear after filter applied
+      await page
+        .locator('[data-ouia-component-id="SkeletonTable"]')
+        .waitFor({ state: 'hidden', timeout: 10000 });
     });
 
     await test.step('Verify filter chip is displayed', async () => {

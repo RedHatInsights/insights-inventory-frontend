@@ -67,10 +67,25 @@ export const useGroupsTableWorkspaceActionPermissions = ({
   selectedIds,
 }: UseGroupsTableWorkspaceActionPermissionsParams) => {
   const isKesselMigrationEnabled = useKesselMigrationFeatureFlag();
+
+  // Augment groups with selected IDs not on current page to ensure
+  // bulk delete permission checks work across pagination (RHINENG-26284)
+  const groupsWithSelectedIds = useMemo(() => {
+    const currentPageIds = new Set(groups.map((g) => g.id).filter(Boolean));
+    const missingSelectedIds = selectedIds.filter(
+      (id) => !currentPageIds.has(id),
+    );
+    const syntheticGroups = missingSelectedIds.map((id) => ({
+      id,
+      ungrouped: false,
+    }));
+    return [...groups, ...syntheticGroups];
+  }, [groups, selectedIds]);
+
   const {
     workspacePermissionById,
     permissionsLoading: workspacePermissionsLoading,
-  } = useWorkspaceTableRowKesselPermissions(groups);
+  } = useWorkspaceTableRowKesselPermissions(groupsWithSelectedIds);
   const { canCreateWorkspace, createPermissionLoading } =
     useKesselCanCreateWorkspace();
 
