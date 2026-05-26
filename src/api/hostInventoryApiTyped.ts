@@ -27,7 +27,11 @@ import type {
   ApiSystemProfileGetOperatingSystemParams,
   ApiSystemProfileGetOperatingSystemReturnType,
 } from '@redhat-cloud-services/host-inventory-client/ApiSystemProfileGetOperatingSystem';
-import type { ActiveTags } from '@redhat-cloud-services/host-inventory-client';
+import type {
+  ActiveTags,
+  ApiHostViewsGetHostViewsReturnType,
+} from '@redhat-cloud-services/host-inventory-client';
+import { ApiHostViewsGetHostViewsParams } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 
 export type {
   HostOut,
@@ -69,6 +73,14 @@ export const getHostList = async (
   return (await hostInventoryApi().apiHostGetHostList(
     params,
   )) as unknown as ApiHostGetHostListReturnType;
+};
+
+export const getHostViews = async (
+  params: ApiHostViewsGetHostViewsParams = {},
+): Promise<ApiHostViewsGetHostViewsReturnType> => {
+  return (await hostInventoryApi().apiHostViewsGetHostViews(
+    params,
+  )) as unknown as ApiHostViewsGetHostViewsReturnType;
 };
 
 export const getHostTags = async (
