@@ -1,13 +1,5 @@
-import React from 'react';
 import type { Column } from '../allColumnDefinitions';
 import { InventoryViewHost } from '../../hooks/useInventoryViewsQuery';
-
-import Recommendations from './cells/Recommendations';
-import Moderate from './cells/Moderate';
-import Low from './cells/Low';
-import Incidents from './cells/Incidents';
-import Important from './cells/Important';
-import Critical from './cells/Critical';
 
 import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 
@@ -17,9 +9,8 @@ const recommendationsColumn = {
   isShownByDefault: false,
   isShown: false,
   sortBy: ApiHostViewsGetHostViewsOrderByEnum.Advisorrecommendations,
-  renderCell: (system: InventoryViewHost) => (
-    <Recommendations key={`recommendations-${system.id}`} system={system} />
-  ),
+  renderCell: (system: InventoryViewHost) =>
+    system?.app_data?.advisor?.recommendations ?? 'N/A',
 };
 
 const incidentsColumn = {
@@ -28,9 +19,8 @@ const incidentsColumn = {
   isShownByDefault: false,
   isShown: false,
   sortBy: ApiHostViewsGetHostViewsOrderByEnum.Advisorincidents,
-  renderCell: (system: InventoryViewHost) => (
-    <Incidents key={`incidents-${system.id}`} system={system} />
-  ),
+  renderCell: (system: InventoryViewHost) =>
+    system?.app_data?.advisor?.incidents ?? 'N/A',
 };
 
 const criticalColumn = {
@@ -38,9 +28,8 @@ const criticalColumn = {
   key: 'critical',
   isShownByDefault: false,
   isShown: false,
-  renderCell: (system: InventoryViewHost) => (
-    <Critical key={`critical-${system.id}`} system={system} />
-  ),
+  renderCell: (system: InventoryViewHost) =>
+    system?.app_data?.advisor?.critical ?? 'N/A',
 };
 
 const importantColumn = {
@@ -48,9 +37,8 @@ const importantColumn = {
   key: 'important',
   isShownByDefault: false,
   isShown: false,
-  renderCell: (system: InventoryViewHost) => (
-    <Important key={`important-${system.id}`} system={system} />
-  ),
+  renderCell: (system: InventoryViewHost) =>
+    system?.app_data?.advisor?.important ?? 'N/A',
 };
 
 const moderateColumn = {
@@ -58,9 +46,8 @@ const moderateColumn = {
   key: 'moderate',
   isShownByDefault: false,
   isShown: false,
-  renderCell: (system: InventoryViewHost) => (
-    <Moderate key={`moderate-${system.id}`} system={system} />
-  ),
+  renderCell: (system: InventoryViewHost) =>
+    system?.app_data?.advisor?.moderate ?? 'N/A',
 };
 
 const lowColumn = {
@@ -68,9 +55,8 @@ const lowColumn = {
   key: 'low',
   isShownByDefault: false,
   isShown: false,
-  renderCell: (system: InventoryViewHost) => (
-    <Low key={`low-${system.id}`} system={system} />
-  ),
+  renderCell: (system: InventoryViewHost) =>
+    system?.app_data?.advisor?.low ?? 'N/A',
 };
 
 export default [

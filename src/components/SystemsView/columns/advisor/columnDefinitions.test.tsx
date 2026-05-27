@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 import columns from './columnDefinitions';
 import type { InventoryViewHost } from '../../hooks/useInventoryViewsQuery';
@@ -72,9 +72,44 @@ describe('advisor columnDefinitions', () => {
     });
   });
 
-  it.each(columns)('should render a cell for "$key"', (column) => {
+  it.each([
+    { key: 'recommendations', expected: '3' },
+    { key: 'incidents', expected: '4' },
+    { key: 'critical', expected: '6' },
+    { key: 'important', expected: '5' },
+    { key: 'moderate', expected: '2' },
+    { key: 'low', expected: '1' },
+  ])('should render the correct value for "$key"', ({ key, expected }) => {
+    const column = columns.find((c) => c.key === key)!;
     const system = makeSystem();
-    const { container } = render(<>{column.renderCell(system)}</>);
-    expect(container).not.toBeEmptyDOMElement();
+    render(<>{column.renderCell(system)}</>);
+    expect(screen.getByText(expected)).toBeInTheDocument();
   });
+
+  it('should render zero without falling back to N/A', () => {
+    const column = columns[0];
+    const system = {
+      app_data: {
+        advisor: {
+          recommendations: 0,
+          incidents: 0,
+          critical: 0,
+          important: 0,
+          moderate: 0,
+          low: 0,
+        },
+      },
+    } as unknown as InventoryViewHost;
+    render(<>{column.renderCell(system)}</>);
+    expect(screen.getByText('0')).toBeInTheDocument();
+  });
+
+  it.each(columns)(
+    'should render N/A when advisor data is missing for "$key"',
+    (column) => {
+      const system = {} as unknown as InventoryViewHost;
+      render(<>{column.renderCell(system)}</>);
+      expect(screen.getByText('N/A')).toBeInTheDocument();
+    },
+  );
 });
