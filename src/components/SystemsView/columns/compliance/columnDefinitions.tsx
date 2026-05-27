@@ -21,8 +21,14 @@ const policiesColumn = {
   key: 'policies',
   isShownByDefault: false,
   isShown: false,
-  renderCell: (system: InventoryViewHost) =>
-    system?.app_data?.compliance?.policies?.length ?? 'N/A',
+  renderCell: (system: InventoryViewHost) => {
+    const count = system?.app_data?.compliance?.policies?.length;
+    return count != null ? (
+      <a href="./insights/compliance/reports">{count}</a>
+    ) : (
+      'N/A'
+    );
+  },
 };
 
 export default [
