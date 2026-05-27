@@ -2,6 +2,7 @@ import { ColumnManagementModalColumn } from '@patternfly/react-component-groups'
 import inventoryColumns from './inventory/columnDefinitions';
 import { System } from '../hooks/useSystemsQuery';
 import { Resolve } from '../../../types/utility-types';
+import advisorColumns from './advisor/columnDefinitions';
 
 type RenderableColumn = {
   /** Cell content for a single system row in the Systems table. */
@@ -23,6 +24,9 @@ export type Column = Resolve<
  * To add an app: import its `./<appId>/columnDefinitions` default export and append
  * with `...thatAppsColumns` (or insert where the column order should appear).
  */
-const allColumns = [...inventoryColumns] as const satisfies readonly Column[];
+const allColumns = [
+  ...inventoryColumns,
+  ...advisorColumns,
+] as const satisfies readonly Column[];
 
 export default allColumns;
