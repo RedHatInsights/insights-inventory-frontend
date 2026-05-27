@@ -1,5 +1,5 @@
 import type { Column } from '../allColumnDefinitions';
-import { InventoryViewHost } from '../../hooks/useInventoryViewsQuery';
+import { InventoryViewSystem } from '../../hooks/useInventoryViewsQuery';
 
 import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 
@@ -9,7 +9,7 @@ const recommendationsColumn = {
   isShownByDefault: false,
   isShown: false,
   sortBy: ApiHostViewsGetHostViewsOrderByEnum.Advisorrecommendations,
-  renderCell: (system: InventoryViewHost) =>
+  renderCell: (system: InventoryViewSystem) =>
     system?.app_data?.advisor?.recommendations ?? 'N/A',
 };
 
@@ -19,7 +19,7 @@ const incidentsColumn = {
   isShownByDefault: false,
   isShown: false,
   sortBy: ApiHostViewsGetHostViewsOrderByEnum.Advisorincidents,
-  renderCell: (system: InventoryViewHost) =>
+  renderCell: (system: InventoryViewSystem) =>
     system?.app_data?.advisor?.incidents ?? 'N/A',
 };
 
@@ -28,7 +28,7 @@ const criticalColumn = {
   key: 'critical',
   isShownByDefault: false,
   isShown: false,
-  renderCell: (system: InventoryViewHost) =>
+  renderCell: (system: InventoryViewSystem) =>
     system?.app_data?.advisor?.critical ?? 'N/A',
 };
 
@@ -37,7 +37,7 @@ const importantColumn = {
   key: 'important',
   isShownByDefault: false,
   isShown: false,
-  renderCell: (system: InventoryViewHost) =>
+  renderCell: (system: InventoryViewSystem) =>
     system?.app_data?.advisor?.important ?? 'N/A',
 };
 
@@ -46,7 +46,7 @@ const moderateColumn = {
   key: 'moderate',
   isShownByDefault: false,
   isShown: false,
-  renderCell: (system: InventoryViewHost) =>
+  renderCell: (system: InventoryViewSystem) =>
     system?.app_data?.advisor?.moderate ?? 'N/A',
 };
 
@@ -55,7 +55,7 @@ const lowColumn = {
   key: 'low',
   isShownByDefault: false,
   isShown: false,
-  renderCell: (system: InventoryViewHost) =>
+  renderCell: (system: InventoryViewSystem) =>
     system?.app_data?.advisor?.low ?? 'N/A',
 };
 

@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import allColumns from './allColumnDefinitions';
-import { InventoryViewHost } from '../hooks/useInventoryViewsQuery';
+import { InventoryViewSystem } from '../hooks/useInventoryViewsQuery';
 
 const inventoryKeys = ['name', 'workspace', 'tags', 'os', 'last_seen'];
 const nonInventoryColumns = allColumns.filter(
@@ -71,7 +71,7 @@ describe('allColumnDefinitions', () => {
   it.each(nonInventoryColumns)(
     'should render N/A when app data is missing for "$key"',
     (column) => {
-      const system = {} as unknown as InventoryViewHost;
+      const system = {} as unknown as InventoryViewSystem;
       render(<>{column.renderCell(system)}</>);
       expect(screen.getByText('N/A')).toBeInTheDocument();
     },
