@@ -12,8 +12,8 @@ it('shows no groups available message', async () => {
       searchQuery=""
       setSearchQuery={() => {}}
       groups={[]}
-      selectedGroupIds={[]}
-      setSelectedGroupIds={() => {}}
+      selectedGroupNames={[]}
+      setSelectedGroupNames={() => {}}
       isLoading={false}
       isFetchingNextPage={false}
       hasNextPage={false}
@@ -34,9 +34,9 @@ it('shows some groups when available', async () => {
     <SearchableGroupFilter
       searchQuery=""
       setSearchQuery={() => {}}
-      groups={[{ id: 'g1', name: 'group-1' }]}
-      selectedGroupIds={[]}
-      setSelectedGroupIds={() => {}}
+      groups={[{ name: 'group-1' }]}
+      selectedGroupNames={[]}
+      setSelectedGroupNames={() => {}}
       isLoading={false}
       isFetchingNextPage={false}
       hasNextPage={false}
@@ -61,9 +61,9 @@ it('a group can be selected', async () => {
     <SearchableGroupFilter
       searchQuery=""
       setSearchQuery={() => {}}
-      groups={[{ id: 'g1', name: 'group-1' }]}
-      selectedGroupIds={[]}
-      setSelectedGroupIds={setter}
+      groups={[{ name: 'group-1' }]}
+      selectedGroupNames={[]}
+      setSelectedGroupNames={setter}
       isLoading={false}
       isFetchingNextPage={false}
       hasNextPage={false}
@@ -77,7 +77,7 @@ it('a group can be selected', async () => {
     }),
   );
   await userEvent.click(screen.getByText('group-1'));
-  expect(setter).toHaveBeenCalledWith(['g1']);
+  expect(setter).toHaveBeenCalledWith(['group-1']);
 });
 
 it('selected groups are checked', async () => {
@@ -85,12 +85,9 @@ it('selected groups are checked', async () => {
     <SearchableGroupFilter
       searchQuery=""
       setSearchQuery={() => {}}
-      groups={[
-        { id: 'g1', name: 'group-1' },
-        { id: 'g2', name: 'group-2' },
-      ]}
-      selectedGroupIds={['g1']}
-      setSelectedGroupIds={setter}
+      groups={[{ name: 'group-1' }, { name: 'group-2' }]}
+      selectedGroupNames={['group-1']}
+      setSelectedGroupNames={setter}
       isLoading={false}
       isFetchingNextPage={false}
       hasNextPage={false}

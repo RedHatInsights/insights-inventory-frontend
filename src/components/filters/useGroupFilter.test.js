@@ -95,9 +95,9 @@ describe('groups request not yet resolved', () => {
           isFetchingNextPage={false}
           isLoading={true}
           searchQuery=""
-          selectedGroupIds={[]}
+          selectedGroupNames={[]}
           setSearchQuery={[Function]}
-          setSelectedGroupIds={[Function]}
+          setSelectedGroupNames={[Function]}
           showNoGroupOption={false}
         />,
       }
@@ -153,9 +153,9 @@ describe('with some groups available', () => {
           isFetchingNextPage={false}
           isLoading={false}
           searchQuery=""
-          selectedGroupIds={[]}
+          selectedGroupNames={[]}
           setSearchQuery={[Function]}
-          setSelectedGroupIds={[Function]}
+          setSelectedGroupNames={[Function]}
           showNoGroupOption={false}
         />,
       }
@@ -168,21 +168,21 @@ describe('with some groups available', () => {
 
     const [, , , setValue] = result.current;
     act(() => {
-      setValue(['g1']);
+      setValue(['group-1']);
     });
     const [, chips, value] = result.current;
     expect(chips.length).toBe(1);
-    expect(value).toEqual(['g1']);
+    expect(value).toEqual(['group-1']);
     expect(chips).toMatchObject([
       {
         category: 'Workspace',
         chips: [
           {
             name: 'group-1',
-            value: 'g1',
+            value: 'group-1',
           },
         ],
-        type: 'group_id',
+        type: 'group_name',
       },
     ]);
   });
@@ -208,11 +208,10 @@ describe('with some groups available', () => {
          isFetchingNextPage={false}
          isLoading={false}
          searchQuery=""
-         selectedGroupIds={[]}
+         selectedGroupNames={[]}
          setSearchQuery={[Function]}
-         setSelectedGroupIds={[Function]}
+         setSelectedGroupNames={[Function]}
          showNoGroupOption={true}
-         ungroupedWorkspaceId="ungrouped-kessel-id"
        />,
      }
     `);
@@ -238,7 +237,7 @@ describe('with some groups available', () => {
             value: '',
           },
         ],
-        type: 'group_id',
+        type: 'group_name',
       },
     ]);
   });
