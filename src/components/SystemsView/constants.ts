@@ -1,8 +1,7 @@
 import moment from 'moment';
-import { HOST_GROUP_CHIP } from '../../Utilities/constants';
 
 /** URL query key / DataView `filterId` for workspace filter (`GET /hosts?group_id=`). */
-export const SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM = HOST_GROUP_CHIP;
+export const SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM = 'group_id';
 
 /** Display text for the ungrouped hosts workspace in filters and chips. */
 export const UNGROUPED_HOSTS_LABEL = 'Ungrouped hosts';
