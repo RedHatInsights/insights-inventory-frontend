@@ -351,7 +351,11 @@ Navigate to the Actions tab in GitHub and locate the <a href="https://github.com
 <ul>
 <li>HMS_SERVICE: <code>host-inventory</code></li>
 <li>HOST_INVENTORY_FRONTEND: <code>master</code></li>
-<li>FORCE: Use <code>--force</code> only if GitHub CI is failing for an unrelated/known flake.</li>
+<li>FORCE: Use <code>--force</code>. This will skip validation of GitHub check runs on the commit.
+We are not running any tests in these checks and they can fail intermittently, for example
+because of some unrelated Konflux issue. If any relevant check fails and a new image is
+not built or pushed to Quay, the app-interface MR checks won't pass and it won't allow us
+to merge the release MR anyway.</li>
 </ul>
 </li>
 <li>Click Run Pipeline.</li>
