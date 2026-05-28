@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { useSelector } from 'react-redux';
-import { Button, Tooltip } from '@patternfly/react-core';
+import { Button } from '@patternfly/react-core';
 import { PencilAltIcon } from '@patternfly/react-icons';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 
@@ -13,6 +13,7 @@ import {
   NO_MODIFY_HOST_TOOLTIP_MESSAGE,
   REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP,
 } from '../../../constants';
+import NoAccessTooltipWrap from '../../NoAccessTooltipWrap';
 
 const EditButton = ({
   writePermissions,
@@ -56,11 +57,14 @@ const EditButton = ({
     />
   );
 
-  if (!isEnabled) {
-    return <Tooltip content={permissionDeniedTooltip}>{button}</Tooltip>;
-  }
-
-  return button;
+  return (
+    <NoAccessTooltipWrap
+      isEnabled={isEnabled}
+      tooltipContent={permissionDeniedTooltip}
+    >
+      {button}
+    </NoAccessTooltipWrap>
+  );
 };
 
 EditButton.propTypes = {

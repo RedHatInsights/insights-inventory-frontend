@@ -7,6 +7,9 @@ import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 import {
   GENERAL_GROUPS_WRITE_PERMISSION,
   GENERAL_HOSTS_WRITE_PERMISSIONS,
+  NO_MODIFY_HOST_TOOLTIP_MESSAGE,
+  NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE,
+  NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE,
   NO_MOVE_SYSTEM_KESSEL_TOOLTIP_MESSAGE,
 } from '../../constants';
 import type { SystemWithPermissions } from '../../Utilities/hooks/useHostIdsWithKessel';
@@ -38,22 +41,31 @@ const SystemsViewRowActions = ({ system }: RowActionsProps) => {
   const permissions = 'permissions' in system ? system.permissions : undefined;
 
   const hasDelete = permissions?.hasDelete ?? false;
-  const canMoveSystem = permissions?.hasWorkspaceEdit ?? false;
+  const canWorkspaceEdit = permissions?.hasWorkspaceEdit ?? false;
+  const canUpdate = permissions?.hasUpdate ?? false;
+
+  const addToWorkspaceDisabled = !hasGroupsWrite || hasWorkspace(system);
+  const removeFromWorkspaceDisabled = !hasGroupsWrite || !hasWorkspace(system);
 
   const rowActions = isKesselEnabled
     ? [
         {
           title: 'Move system',
           onClick: () => openAddToWorkspaceModal([system]),
-          isDisabled: !canMoveSystem,
-          ...(!canMoveSystem && {
-            tooltipProps: { content: NO_MOVE_SYSTEM_KESSEL_TOOLTIP_MESSAGE },
+          ...(!canWorkspaceEdit && {
+            isAriaDisabled: true,
+            tooltipProps: {
+              content: NO_MOVE_SYSTEM_KESSEL_TOOLTIP_MESSAGE,
+            },
           }),
         },
         {
           title: 'Edit',
           onClick: () => openEditModal([system]),
-          isDisabled: !(permissions?.hasUpdate ?? false),
+          ...(!canUpdate && {
+            isAriaDisabled: true,
+            tooltipProps: { content: NO_MODIFY_HOST_TOOLTIP_MESSAGE },
+          }),
         },
         { isSeparator: true, itemKey: `${system.id}-divider` },
         {
@@ -63,29 +75,60 @@ const SystemsViewRowActions = ({ system }: RowActionsProps) => {
             isDanger: true,
             className: 'pf-v6-u-danger-color-100',
           }),
-          isDisabled: !hasDelete,
+          ...(!hasDelete && {
+            isAriaDisabled: true,
+            tooltipProps: { content: NO_MODIFY_HOST_TOOLTIP_MESSAGE },
+          }),
         },
       ]
     : [
         {
           title: 'Add to workspace',
           onClick: () => openAddToWorkspaceModal([system]),
-          isDisabled: !hasGroupsWrite || hasWorkspace(system),
+          ...(!hasGroupsWrite
+            ? {
+                isAriaDisabled: true,
+                tooltipProps: {
+                  content: NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE,
+                },
+              }
+            : addToWorkspaceDisabled
+              ? { isDisabled: true }
+              : { isDisabled: false }),
         },
         {
           title: 'Remove from workspace',
           onClick: () => openRemoveFromWorkspaceModal([system]),
-          isDisabled: !hasGroupsWrite || !hasWorkspace(system),
+          ...(!hasGroupsWrite
+            ? {
+                isAriaDisabled: true,
+                tooltipProps: {
+                  content: NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE,
+                },
+              }
+            : removeFromWorkspaceDisabled
+              ? { isDisabled: true }
+              : { isDisabled: false }),
         },
         {
           title: 'Edit display name',
           onClick: () => openEditModal([system]),
-          isDisabled: !hasHostsWrite,
+          ...(!hasHostsWrite
+            ? {
+                isAriaDisabled: true,
+                tooltipProps: { content: NO_MODIFY_HOST_TOOLTIP_MESSAGE },
+              }
+            : { isDisabled: false }),
         },
         {
           title: 'Delete from inventory',
           onClick: () => openDeleteModal([system]),
-          isDisabled: !hasHostsWrite,
+          ...(!hasHostsWrite
+            ? {
+                isAriaDisabled: true,
+                tooltipProps: { content: NO_MODIFY_HOST_TOOLTIP_MESSAGE },
+              }
+            : { isDisabled: false }),
         },
       ];
 
