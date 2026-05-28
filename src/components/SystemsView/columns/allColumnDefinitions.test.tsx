@@ -24,8 +24,8 @@ describe('allColumnDefinitions', () => {
       'important',
       'moderate',
       'low',
-      'last_scanned',
       'policies',
+      'last_scanned',
     ]);
   });
 
