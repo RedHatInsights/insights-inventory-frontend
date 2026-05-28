@@ -3,6 +3,7 @@ import inventoryColumns from './inventory/columnDefinitions';
 import { System } from '../hooks/useSystemsQuery';
 import { Resolve } from '../../../types/utility-types';
 import advisorColumns from './advisor/columnDefinitions';
+import malwareColumns from './malware/columnDefinitions';
 
 type RenderableColumn = {
   /** Cell content for a single system row in the Systems table. */
@@ -27,6 +28,7 @@ export type Column = Resolve<
 const allColumns = [
   ...inventoryColumns,
   ...advisorColumns,
+  ...malwareColumns,
 ] as const satisfies readonly Column[];
 
 export default allColumns;
