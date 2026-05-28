@@ -203,7 +203,11 @@ The **Standard Release** method uses the `app-interface-bot`. This is the prefer
 * Configure the following variables:
   * HMS_SERVICE: `host-inventory`
   * HOST_INVENTORY_FRONTEND: `master`
-  * FORCE: Use `--force` only if GitHub CI is failing for an unrelated/known flake.
+  * FORCE: Use `--force`. This will skip validation of GitHub check runs on the commit.
+    We are not running any tests in these checks and they can fail intermittently, for example
+    because of some unrelated Konflux issue. If any relevant check fails and a new image is
+    not built or pushed to Quay, the app-interface MR checks won't pass and it won't allow us
+    to merge the release MR anyway.
 * Click Run Pipeline.
 * Result: The bot will create a MR and post the link in the `#insights-release` Slack channel.
 
