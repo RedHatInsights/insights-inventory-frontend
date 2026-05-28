@@ -11,6 +11,9 @@ import {
 import { SortDirection } from '../SystemsView';
 import { lastSeenKeysToApiParams } from '../utils/lastSeenKeysToApiParams';
 import type { LastSeenCustomRange } from '../DataViewFiltersContext';
+import qs from 'qs';
+import { buildOperatingSystemProfileFilter } from '../utils/operatingSystemSelectOptions';
+import { buildWorkloadsFilter } from '../utils/workloadsFilter';
 
 const serializeSystemTypeForViews = (values: string[]) => {
   const validValues = Object.values(ApiHostViewsGetHostViewsSystemTypeEnum);
@@ -51,6 +54,21 @@ const fetchInventoryViews = async ({
   sortBy,
   direction,
 }: FetchInventoryViewsParams) => {
+  const operatingSystemFilter = buildOperatingSystemProfileFilter(
+    filters.operating_system,
+  );
+  const workloadsFilter = buildWorkloadsFilter(filters.workloads);
+
+  const systemProfileFilter: Record<string, unknown> = {
+    ...(filters?.rhcStatus?.length && {
+      rhc_client_id: filters.rhcStatus,
+    }),
+    ...(operatingSystemFilter && { operating_system: operatingSystemFilter }),
+    ...(workloadsFilter && { workloads: workloadsFilter }),
+  };
+
+  const hasSystemProfileFilter = Object.keys(systemProfileFilter).length > 0;
+
   const lastSeenParams = lastSeenKeysToApiParams(
     filters.last_seen,
     lastSeenCustomRange,
@@ -74,6 +92,29 @@ const fetchInventoryViews = async ({
     }),
     ...(filters?.tags && { tags: filters.tags }),
     ...(lastSeenParams ?? {}),
+    /* Override default dot notation from API client: backend requires bracket notation for nested params (fields, filter) */
+    options: {
+      paramsSerializer: (params) => {
+        return qs.stringify(params, {
+          arrayFormat: 'brackets',
+        });
+      },
+      params: {
+        fields: {
+          system_profile: [
+            'operating_system',
+            'system_update_method',
+            'bootc_status',
+            'host_type',
+          ],
+        },
+        ...(hasSystemProfileFilter && {
+          filter: {
+            system_profile: systemProfileFilter,
+          },
+        }),
+      },
+    },
   };
 
   const { results: hosts, total } = await getHostViews(params);
