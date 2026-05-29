@@ -10,7 +10,7 @@ const Template = ({ value }: TemplateColumnProps) => {
   const templateName = value?.template_name;
   const templateUUID = value?.template_uuid;
 
-  return templateName ? (
+  return templateName && templateUUID ? (
     <InsightsLink
       app="content"
       to={{ pathname: `/templates/${templateUUID}` }}
