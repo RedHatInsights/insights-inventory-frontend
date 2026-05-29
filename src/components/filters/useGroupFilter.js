@@ -100,35 +100,41 @@ const useGroupsQueryWithFilter = ({
     [debounceTime, setDebouncedTerm],
   );
 
-  const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: ['groups', debouncedTerm],
-      queryFn: async ({ pageParam = 1 }) =>
-        getGroups(
-          {
-            ...(remoteSearchEnabled ? { name: debouncedTerm } : {}),
-            ...{ type: 'standard' },
-          },
-          {
-            page: pageParam,
-            per_page: PAGE_SIZE,
-          },
-        ),
-      // When menu opens, ensure at least first page is fetched
-      enabled: hasAccess,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      getNextPageParam: (lastPage, pages) => {
-        const currentCount = pages.reduce(
-          (sum, p) => sum + (p?.results?.length || 0),
-          0,
-        );
-        if (lastPage?.total && currentCount < lastPage.total) {
-          return pages.length + 1;
-        }
-        return undefined;
-      },
-    });
+  const {
+    data,
+    isLoading,
+    isFetching,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['groups', debouncedTerm],
+    queryFn: async ({ pageParam = 1 }) =>
+      getGroups(
+        {
+          ...(remoteSearchEnabled ? { name: debouncedTerm } : {}),
+          ...{ type: 'standard' },
+        },
+        {
+          page: pageParam,
+          per_page: PAGE_SIZE,
+        },
+      ),
+    // When menu opens, ensure at least first page is fetched
+    enabled: hasAccess,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    getNextPageParam: (lastPage, pages) => {
+      const currentCount = pages.reduce(
+        (sum, p) => sum + (p?.results?.length || 0),
+        0,
+      );
+      if (lastPage?.total && currentCount < lastPage.total) {
+        return pages.length + 1;
+      }
+      return undefined;
+    },
+  });
 
   // Capture the total count for the unfiltered dataset (debouncedTerm === initSearchQuery)
   useEffect(() => {
@@ -157,8 +163,24 @@ const useGroupsQueryWithFilter = ({
     remoteSearchEnabled,
   ]);
 
+  // When remote search is enabled, keep debouncedTerm in sync if it was never debounced
+  useEffect(() => {
+    if (remoteSearchEnabled && searchTerm !== debouncedTerm) {
+      setSearchTermDebounced(searchTerm);
+    }
+  }, [remoteSearchEnabled, searchTerm, debouncedTerm, setSearchTermDebounced]);
+
+  const isSearchPending = remoteSearchEnabled && searchTerm !== debouncedTerm;
+  const isSearchLoading =
+    isSearchPending ||
+    (remoteSearchEnabled && Boolean(debouncedTerm) && isFetching && isLoading);
+
   // Collect data from all pages and filter groups based on the search term if remote search is disabled
   const groups = useMemo(() => {
+    if (isSearchLoading) {
+      return [];
+    }
+
     const allData = data?.pages?.flatMap((p) => p?.results || []) || [];
     if (remoteSearchEnabled || !searchTerm) {
       return allData;
@@ -167,7 +189,7 @@ const useGroupsQueryWithFilter = ({
     return allData.filter((group) =>
       String(group.name).toLowerCase().includes(searchTerm.toLowerCase()),
     );
-  }, [data, searchTerm, remoteSearchEnabled]);
+  }, [data, searchTerm, remoteSearchEnabled, isSearchLoading]);
 
   // Set the search term and debounce it if remote search is enabled
   const setSearchQuery = useMemo(() => {
@@ -187,7 +209,7 @@ const useGroupsQueryWithFilter = ({
     hasNextPage,
     isFetchingNextPage,
     remoteSearchEnabled,
-    isLoading,
+    isLoading: isLoading || isSearchLoading,
   };
 };
 

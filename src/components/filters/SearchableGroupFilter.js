@@ -74,7 +74,7 @@ const SearchableGroupFilter = ({
   useEffect(() => {
     let newSelectOptions = [
       ...(searchQuery ? [] : prefixOptions),
-      ...groupOptions,
+      ...(isLoading && searchQuery ? [] : groupOptions),
     ];
 
     setFocusedItemIndex(null);
@@ -83,6 +83,7 @@ const SearchableGroupFilter = ({
     searchQuery,
     prefixOptions,
     groupOptions,
+    isLoading,
     setSelectOptions,
     setFocusedItemIndex,
   ]);

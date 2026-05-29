@@ -407,6 +407,52 @@ describe('filtering', () => {
         screen.getByRole('menuitem', { name: /group-51/ }),
       ).toBeInTheDocument();
     });
+
+    it('does not show stale unfiltered workspaces while remote search is debouncing', async () => {
+      getGroups.mockImplementation((search) => {
+        if (search?.name === 'hell') {
+          return Promise.resolve({
+            total: 2,
+            results: [
+              { id: 'h1', name: 'hello_111', host_count: 0 },
+              { id: 'h2', name: 'hello_adarsh', host_count: 0 },
+            ],
+          });
+        }
+        return Promise.resolve({
+          total: 170,
+          results: [
+            { id: 'dup', name: 'duplicate workspace name', host_count: 0 },
+            { id: 'other', name: 'other workspace', host_count: 1 },
+            ...Array.from({ length: 8 }, (_, i) => ({
+              id: `id-${i}`,
+              name: `group-${i}`,
+              host_count: 0,
+            })),
+          ],
+        });
+      });
+
+      render(<Harness />);
+      await act(async () => await null);
+      await waitForGroupsToBeLoaded();
+
+      await userEvent.click(
+        screen.getByRole('button', { name: /menu toggle/i }),
+      );
+      expect(screen.getByText('duplicate workspace name')).toBeInTheDocument();
+
+      const input = screen.getByPlaceholderText('Filter by workspace');
+      await userEvent.type(input, 'hell');
+
+      await waitForGroupsToBeLoaded({ name: 'hell', type: 'standard' });
+
+      expect(
+        screen.queryByText('duplicate workspace name'),
+      ).not.toBeInTheDocument();
+      expect(screen.getByText('hello_111')).toBeInTheDocument();
+      expect(screen.getByText('hello_adarsh')).toBeInTheDocument();
+    });
   });
 });
 
