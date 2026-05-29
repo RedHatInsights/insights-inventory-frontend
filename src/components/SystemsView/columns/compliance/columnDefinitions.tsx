@@ -5,14 +5,18 @@ import { DateFormat } from '@redhat-cloud-services/frontend-components/DateForma
 import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 
 const lastScannedColumn = {
-  title: 'Last compliance scanned',
-  key: 'last_scanned',
+  title: 'Last compliance scan',
+  key: 'last_compliance_scan',
   isShownByDefault: false,
   isShown: false,
   sortBy: ApiHostViewsGetHostViewsOrderByEnum.CompliancelastScan,
   renderCell: (system: InventoryViewHost) => {
     const lastScan = system?.app_data?.compliance?.last_scan;
-    return lastScan != null ? <DateFormat date={lastScan} /> : 'N/A';
+    return lastScan !== null && lastScan !== undefined ? (
+      <DateFormat date={lastScan} />
+    ) : (
+      'N/A'
+    );
   },
 };
 
@@ -23,7 +27,7 @@ const policiesColumn = {
   isShown: false,
   renderCell: (system: InventoryViewHost) => {
     const count = system?.app_data?.compliance?.policies?.length;
-    return count != null ? (
+    return count !== null && count !== undefined ? (
       <a href="./insights/compliance/reports">{count}</a>
     ) : (
       'N/A'
