@@ -4,7 +4,7 @@ import { InventoryViewHost } from '../../hooks/useInventoryViewsQuery';
 import { DateFormat } from '@redhat-cloud-services/frontend-components/DateFormat';
 import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 
-const lastScannedColumn = {
+const lastComplianceScanColumn = {
   title: 'Last compliance scan',
   key: 'last_compliance_scan',
   isShownByDefault: false,
@@ -37,5 +37,5 @@ const policiesColumn = {
 
 export default [
   policiesColumn,
-  lastScannedColumn,
+  lastComplianceScanColumn,
 ] as const satisfies readonly Column[];
