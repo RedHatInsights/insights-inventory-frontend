@@ -228,7 +228,6 @@ describe('with default parameters', () => {
     describe('groups filter', () => {
       const UNGROUPED_HOSTS_LABEL = 'Ungrouped hosts';
       const firstGroupName = shorterGroupsFixtures.results[0].name;
-      const firstGroupId = shorterGroupsFixtures.results[0].id;
 
       it('options are populated correctly', () => {
         cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
@@ -266,7 +265,7 @@ describe('with default parameters', () => {
         cy.ouiaId('FilterByGroupOption').contains(firstGroupName).click();
         cy.wait('@getHosts')
           .its('request.url')
-          .should('include', `group_id=${firstGroupId}`);
+          .should('include', `group_name=${firstGroupName}`);
       });
     });
 

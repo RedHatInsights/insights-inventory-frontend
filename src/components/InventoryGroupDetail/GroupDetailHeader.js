@@ -7,6 +7,8 @@ import {
   MenuToggle,
   Skeleton,
 } from '@patternfly/react-core';
+import { css } from '@patternfly/react-styles';
+import menuToggleStyles from '@patternfly/react-styles/css/components/MenuToggle/menu-toggle';
 import {
   PageHeader,
   PageHeaderTitle,
@@ -24,6 +26,8 @@ import {
   REQUIRED_PERMISSIONS_TO_READ_GROUP,
 } from '../../constants';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
+import NoAccessTooltipWrap from '../NoAccessTooltipWrap';
+import './GroupDetailHeader.scss';
 
 const defaultWorkspaceAccess = {
   canEdit: undefined,
@@ -123,21 +127,55 @@ const GroupDetailHeader = ({
             popperProps={{
               position: 'right',
             }}
-            toggle={(toggleRef) => (
-              <MenuToggle
-                ref={toggleRef}
-                isExpanded={dropdownOpen}
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                id="group-dropdown-toggle"
-                toggleVariant="secondary"
-                isDisabled={
-                  !canModifyWorkspaceForActions || uninitialized || loading
-                }
-                ouiaId="group-actions-dropdown-toggle"
-              >
-                Actions
-              </MenuToggle>
-            )}
+            toggle={(toggleRef) => {
+              const detailLoading = uninitialized || loading;
+              const actionsTogglePermissionDisabled =
+                !canModifyWorkspaceForActions;
+              const actionsToggleLoadingDisabled = detailLoading;
+              const menuToggle = (
+                <MenuToggle
+                  ref={toggleRef}
+                  isExpanded={dropdownOpen}
+                  onClick={() => {
+                    if (actionsTogglePermissionDisabled) {
+                      return;
+                    }
+                    setDropdownOpen(!dropdownOpen);
+                  }}
+                  id="group-dropdown-toggle"
+                  isDisabled={actionsToggleLoadingDisabled}
+                  className={
+                    actionsTogglePermissionDisabled &&
+                    !actionsToggleLoadingDisabled
+                      ? css(menuToggleStyles.modifiers.disabled)
+                      : undefined
+                  }
+                  {...(actionsTogglePermissionDisabled &&
+                    !actionsToggleLoadingDisabled && {
+                      'aria-disabled': true,
+                    })}
+                  ouiaId="group-actions-dropdown-toggle"
+                >
+                  Actions
+                </MenuToggle>
+              );
+
+              return (
+                <NoAccessTooltipWrap
+                  isEnabled={canModifyWorkspaceForActions}
+                  tooltipContent={noAccessEditTooltip}
+                  wrapTriggerInSpan
+                  triggerSpanProps={{
+                    'data-testid':
+                      'group-detail-header-actions-tooltip-trigger',
+                    className:
+                      'pf-v6-u-display-inline-block ins-c-group-detail-header__actions-tooltip-anchor',
+                  }}
+                >
+                  {menuToggle}
+                </NoAccessTooltipWrap>
+              );
+            }}
           >
             <DropdownList>
               <DropdownItem

@@ -321,18 +321,18 @@ export async function getEntities(
         : Array.isArray(rawHostGroupFilter)
           ? rawHostGroupFilter
           : [rawHostGroupFilter];
-    const nonEmptyGroupIds = hostGroupFilterArr.filter((id) => id !== '');
+    const nonEmptyGroupNames = hostGroupFilterArr.filter((name) => name !== '');
     const filterByUngroupedHosts = hostGroupFilterArr.includes('');
 
-    /** Ungrouped hosts: use group_id (empty value) per API, not group_name. */
-    const groupIdParam =
-      nonEmptyGroupIds.length || filterByUngroupedHosts
-        ? [...nonEmptyGroupIds, ...(filterByUngroupedHosts ? [''] : [])]
+    /** Ungrouped hosts: use group_name (empty value) per API. */
+    const groupNameParam =
+      nonEmptyGroupNames.length || filterByUngroupedHosts
+        ? [...nonEmptyGroupNames, ...(filterByUngroupedHosts ? [''] : [])]
         : [];
 
     return apiGetHostList({
       hostnameOrId: filters.hostnameOrId,
-      ...(groupIdParam.length ? { groupId: groupIdParam } : {}),
+      ...(groupNameParam.length ? { groupName: groupNameParam } : {}),
       perPage,
       page,
       orderBy,

@@ -3,7 +3,6 @@ import {
   Button,
   EmptyState,
   EmptyStateBody,
-  Tooltip,
   EmptyStateFooter,
 } from '@patternfly/react-core';
 import { PlusCircleIcon } from '@patternfly/react-icons';
@@ -11,6 +10,7 @@ import PropTypes from 'prop-types';
 
 import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 import { GENERAL_GROUPS_WRITE_PERMISSION } from '../../constants';
+import NoAccessTooltipWrap from '../NoAccessTooltipWrap';
 
 const REQUIRED_PERMISSIONS = [GENERAL_GROUPS_WRITE_PERMISSION];
 
@@ -31,21 +31,19 @@ const NoGroupsEmptyState = ({ onCreateGroupClick }) => {
         Manage device operations efficiently by creating workspaces
       </EmptyStateBody>
       <EmptyStateFooter>
-        {canModifyGroups ? (
+        <NoAccessTooltipWrap
+          isEnabled={canModifyGroups}
+          tooltipContent="You do not have the necessary permissions to modify workspaces. Contact your organization administrator."
+        >
           <Button
             variant="primary"
-            onClick={onCreateGroupClick}
+            onClick={canModifyGroups ? onCreateGroupClick : undefined}
             ouiaId="CreateGroupButton"
+            {...(!canModifyGroups ? { isAriaDisabled: true } : {})}
           >
             Create workspace
           </Button>
-        ) : (
-          <Tooltip content="You do not have the necessary permissions to modify workspaces. Contact your organization administrator.">
-            <Button variant="primary" isAriaDisabled ouiaId="CreateGroupButton">
-              Create workspace
-            </Button>
-          </Tooltip>
-        )}
+        </NoAccessTooltipWrap>
       </EmptyStateFooter>
     </EmptyState>
   );

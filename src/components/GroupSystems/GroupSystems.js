@@ -160,12 +160,12 @@ const GroupSystems = ({
           getEntities={async (items, config, showTags, defaultGetEntities) =>
             await defaultGetEntities(
               items,
-              // filter systems by workspace id (GET /hosts?group_id=)
+              // filter systems by the group name
               {
                 ...config,
                 filters: {
                   ...config.filters,
-                  hostGroupFilter: [groupId],
+                  hostGroupFilter: [groupName],
                 },
               },
               showTags,
