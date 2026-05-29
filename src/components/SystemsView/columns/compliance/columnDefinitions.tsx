@@ -3,6 +3,7 @@ import type { Column } from '../allColumnDefinitions';
 import { InventoryViewHost } from '../../hooks/useInventoryViewsQuery';
 import { DateFormat } from '@redhat-cloud-services/frontend-components/DateFormat';
 import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
+import { Link } from 'react-router-dom';
 
 const lastComplianceScanColumn = {
   title: 'Last compliance scan',
@@ -28,7 +29,7 @@ const policiesColumn = {
   renderCell: (system: InventoryViewHost) => {
     const count = system?.app_data?.compliance?.policies?.length;
     return count !== null && count !== undefined ? (
-      <a href="./insights/compliance/reports">{count}</a>
+      <Link to="/insights/compliance/reports">{count}</Link>
     ) : (
       'N/A'
     );

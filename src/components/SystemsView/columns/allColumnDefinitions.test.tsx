@@ -25,7 +25,7 @@ describe('allColumnDefinitions', () => {
       'moderate',
       'low',
       'policies',
-      'last_scanned',
+      'last_compliance_scan',
     ]);
   });
 
