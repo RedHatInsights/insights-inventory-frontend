@@ -8,6 +8,7 @@ import {
   SecurityIcon,
 } from '@patternfly/react-icons';
 import { PatchAppData } from '@redhat-cloud-services/host-inventory-client';
+import InsightsLink from '@redhat-cloud-services/frontend-components/InsightsLink';
 
 type AdvisoryCountsTuple = [
   rhea: number,
@@ -50,30 +51,62 @@ const InstallableAdvisories = ({ value }: InstallableAdvisoriesProps) => {
       {allZero && 'No installable advisories'}
       {rhsa !== 0 && (
         <FlexItem spacer={{ default: 'spacerXs' }}>
-          <AdvisoryIcon
-            tooltipText="Security advisories"
-            count={rhsa}
-            Icon={SecurityIcon}
-          />
+          <InsightsLink
+            app="patch"
+            to={{
+              pathname: '/advisories',
+            }}
+            preview={false}
+          >
+            <AdvisoryIcon
+              tooltipText="Security advisories"
+              count={rhsa}
+              Icon={SecurityIcon}
+            />
+          </InsightsLink>
         </FlexItem>
       )}
       {rhba !== 0 && (
         <FlexItem spacer={{ default: 'spacerXs' }}>
-          <AdvisoryIcon tooltipText="Bug fixes" count={rhba} Icon={BugIcon} />
+          <InsightsLink
+            app="patch"
+            to={{
+              pathname: '/advisories',
+            }}
+            preview={false}
+          >
+            <AdvisoryIcon tooltipText="Bug fixes" count={rhba} Icon={BugIcon} />
+          </InsightsLink>
         </FlexItem>
       )}
       {rhea !== 0 && (
         <FlexItem spacer={{ default: 'spacerXs' }}>
-          <AdvisoryIcon
-            tooltipText="Enhancements"
-            count={rhea}
-            Icon={EnhancementIcon}
-          />
+          <InsightsLink
+            app="patch"
+            to={{
+              pathname: '/advisories',
+            }}
+            preview={false}
+          >
+            <AdvisoryIcon
+              tooltipText="Enhancements"
+              count={rhea}
+              Icon={EnhancementIcon}
+            />
+          </InsightsLink>
         </FlexItem>
       )}
       {other !== 0 && (
         <FlexItem spacer={{ default: 'spacerXs' }}>
-          <AdvisoryIcon tooltipText="Other" count={other} Icon={FlagIcon} />
+          <InsightsLink
+            app="patch"
+            to={{
+              pathname: '/advisories',
+            }}
+            preview={false}
+          >
+            <AdvisoryIcon tooltipText="Other" count={other} Icon={FlagIcon} />
+          </InsightsLink>
         </FlexItem>
       )}
     </Flex>

@@ -2,7 +2,18 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import InstallableAdvisories from './InstallableAdvisories';
+import { TestWrapper } from '../../../../../Utilities/TestingUtilities';
 import type { PatchAppData } from '@redhat-cloud-services/host-inventory-client';
+
+const PATCH_ADVISORIES_PATH = '//patch/advisories';
+
+function renderInstallableAdvisories(value: PatchAppData) {
+  return render(
+    <TestWrapper>
+      <InstallableAdvisories value={value} />
+    </TestWrapper>,
+  );
+}
 
 const allZeroPatchAppData = {
   advisories_rhea_installable: 0,
@@ -48,13 +59,13 @@ const mixedCountsPatchAppData = {
 
 describe('InstallableAdvisories cell', () => {
   it('should show No installable advisories when all installable counts are zero', () => {
-    render(<InstallableAdvisories value={allZeroPatchAppData} />);
+    renderInstallableAdvisories(allZeroPatchAppData);
 
     expect(screen.getByText('No installable advisories')).toBeInTheDocument();
   });
 
   it('should render only the security advisory icon and count when rhsa is non-zero', () => {
-    render(<InstallableAdvisories value={securityOnlyPatchAppData} />);
+    renderInstallableAdvisories(securityOnlyPatchAppData);
 
     expect(
       screen.queryByText('No installable advisories'),
@@ -63,7 +74,7 @@ describe('InstallableAdvisories cell', () => {
   });
 
   it('should render only the bug fix advisory icon and count when rhba is non-zero', () => {
-    render(<InstallableAdvisories value={bugfixesOnlyPatchAppData} />);
+    renderInstallableAdvisories(bugfixesOnlyPatchAppData);
 
     expect(
       screen.queryByText('No installable advisories'),
@@ -72,7 +83,7 @@ describe('InstallableAdvisories cell', () => {
   });
 
   it('should render only the enhancement advisory icon and count when rhea is non-zero', () => {
-    render(<InstallableAdvisories value={enhancementsOnlyPatchAppData} />);
+    renderInstallableAdvisories(enhancementsOnlyPatchAppData);
 
     expect(
       screen.queryByText('No installable advisories'),
@@ -81,7 +92,7 @@ describe('InstallableAdvisories cell', () => {
   });
 
   it('should render only the other advisory icon and count when other is non-zero', () => {
-    render(<InstallableAdvisories value={otherOnlyPatchAppData} />);
+    renderInstallableAdvisories(otherOnlyPatchAppData);
 
     expect(
       screen.queryByText('No installable advisories'),
@@ -90,7 +101,7 @@ describe('InstallableAdvisories cell', () => {
   });
 
   it('should render all advisory type counts when each installable count is non-zero', () => {
-    render(<InstallableAdvisories value={mixedCountsPatchAppData} />);
+    renderInstallableAdvisories(mixedCountsPatchAppData);
 
     expect(
       screen.queryByText('No installable advisories'),
@@ -99,5 +110,16 @@ describe('InstallableAdvisories cell', () => {
     expect(screen.getByText('11')).toBeInTheDocument();
     expect(screen.getByText('3')).toBeInTheDocument();
     expect(screen.getByText('9')).toBeInTheDocument();
+  });
+
+  it('should link each advisory type to patch advisories', () => {
+    renderInstallableAdvisories(mixedCountsPatchAppData);
+
+    ['5', '11', '3', '9'].forEach((count) => {
+      expect(screen.getByRole('link', { name: count })).toHaveAttribute(
+        'href',
+        PATCH_ADVISORIES_PATH,
+      );
+    });
   });
 });
