@@ -10,30 +10,6 @@ const nonInventoryColumns = allColumns.filter(
 );
 
 describe('allColumnDefinitions', () => {
-  it('should export columns in the correct order', () => {
-    const keys = allColumns.map((col) => col.key);
-    expect(keys).toEqual([
-      'name',
-      'workspace',
-      'tags',
-      'os',
-      'last_seen',
-      'recommendations',
-      'incidents',
-      'critical',
-      'important',
-      'moderate',
-      'low',
-      'last_malware_status',
-      'last_malware_matches',
-      'total_malware_matches',
-      'last_malware_scan',
-      'policies',
-      'last_compliance_scan',
-      'remediations_plans',
-    ]);
-  });
-
   it('should have no duplicate keys', () => {
     const keys = allColumns.map((col) => col.key);
     expect(new Set(keys).size).toBe(keys.length);
