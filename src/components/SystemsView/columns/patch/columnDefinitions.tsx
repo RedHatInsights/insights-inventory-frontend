@@ -6,7 +6,7 @@ import { InventoryViewSystem } from '../../hooks/useInventoryViewsQuery';
 
 const installableAdvisoriesColumn = {
   appName: 'patch',
-  title: 'Installable Advisories',
+  title: 'Installable advisories',
   key: 'installable-advisories',
   isShownByDefault: false,
   isShown: false,
