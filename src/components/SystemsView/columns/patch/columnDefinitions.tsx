@@ -15,7 +15,15 @@ const installableAdvisoriesColumn = {
     const key = `${this.key}-${system.id}`;
     const value = system?.app_data?.patch;
 
-    return value ? <InstallableAdvisories key={key} value={value} /> : 'N/A';
+    return value ? (
+      <InstallableAdvisories
+        key={key}
+        value={value}
+        systemUUID={system.id ?? ''}
+      />
+    ) : (
+      'N/A'
+    );
   },
 } satisfies Column;
 

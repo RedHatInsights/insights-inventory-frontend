@@ -40,24 +40,23 @@ function patchAppDataToInstallableCounts(
 
 interface InstallableAdvisoriesProps {
   value: PatchAppData;
+  systemUUID: string;
 }
 
-const InstallableAdvisories = ({ value }: InstallableAdvisoriesProps) => {
+const InstallableAdvisories = ({
+  value,
+  systemUUID,
+}: InstallableAdvisoriesProps) => {
   const [rhea, rhba, rhsa, other] = patchAppDataToInstallableCounts(value);
   const allZero = [rhea, rhba, rhsa, other].every((item) => item === 0);
+  const patchSystemLink = { pathname: `/systems/${systemUUID}` };
 
   return (
     <Flex style={{ display: 'inline-flex', flexWrap: 'nowrap' }}>
       {allZero && 'No installable advisories'}
       {rhsa !== 0 && (
         <FlexItem spacer={{ default: 'spacerXs' }}>
-          <InsightsLink
-            app="patch"
-            to={{
-              pathname: '/advisories',
-            }}
-            preview={false}
-          >
+          <InsightsLink app="patch" to={patchSystemLink} preview={false}>
             <AdvisoryIcon
               tooltipText="Security advisories"
               count={rhsa}
@@ -68,26 +67,14 @@ const InstallableAdvisories = ({ value }: InstallableAdvisoriesProps) => {
       )}
       {rhba !== 0 && (
         <FlexItem spacer={{ default: 'spacerXs' }}>
-          <InsightsLink
-            app="patch"
-            to={{
-              pathname: '/advisories',
-            }}
-            preview={false}
-          >
+          <InsightsLink app="patch" to={patchSystemLink} preview={false}>
             <AdvisoryIcon tooltipText="Bug fixes" count={rhba} Icon={BugIcon} />
           </InsightsLink>
         </FlexItem>
       )}
       {rhea !== 0 && (
         <FlexItem spacer={{ default: 'spacerXs' }}>
-          <InsightsLink
-            app="patch"
-            to={{
-              pathname: '/advisories',
-            }}
-            preview={false}
-          >
+          <InsightsLink app="patch" to={patchSystemLink} preview={false}>
             <AdvisoryIcon
               tooltipText="Enhancements"
               count={rhea}
@@ -98,13 +85,7 @@ const InstallableAdvisories = ({ value }: InstallableAdvisoriesProps) => {
       )}
       {other !== 0 && (
         <FlexItem spacer={{ default: 'spacerXs' }}>
-          <InsightsLink
-            app="patch"
-            to={{
-              pathname: '/advisories',
-            }}
-            preview={false}
-          >
+          <InsightsLink app="patch" to={patchSystemLink} preview={false}>
             <AdvisoryIcon tooltipText="Other" count={other} Icon={FlagIcon} />
           </InsightsLink>
         </FlexItem>

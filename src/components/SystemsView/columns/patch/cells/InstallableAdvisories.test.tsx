@@ -5,12 +5,13 @@ import InstallableAdvisories from './InstallableAdvisories';
 import { TestWrapper } from '../../../../../Utilities/TestingUtilities';
 import type { PatchAppData } from '@redhat-cloud-services/host-inventory-client';
 
-const PATCH_ADVISORIES_PATH = '//patch/advisories';
+const SYSTEM_UUID = 'test-system-uuid';
+const PATCH_SYSTEM_PATH = `//patch/systems/${SYSTEM_UUID}`;
 
 function renderInstallableAdvisories(value: PatchAppData) {
   return render(
     <TestWrapper>
-      <InstallableAdvisories value={value} />
+      <InstallableAdvisories value={value} systemUUID={SYSTEM_UUID} />
     </TestWrapper>,
   );
 }
@@ -112,13 +113,13 @@ describe('InstallableAdvisories cell', () => {
     expect(screen.getByText('9')).toBeInTheDocument();
   });
 
-  it('should link each advisory type to patch advisories', () => {
+  it('should link each advisory type to the patch system page', () => {
     renderInstallableAdvisories(mixedCountsPatchAppData);
 
     ['5', '11', '3', '9'].forEach((count) => {
       expect(screen.getByRole('link', { name: count })).toHaveAttribute(
         'href',
-        PATCH_ADVISORIES_PATH,
+        PATCH_SYSTEM_PATH,
       );
     });
   });
