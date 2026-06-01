@@ -327,7 +327,9 @@ export async function getEntities(
     const groupIds = hostGroupFilterArr.map((item) =>
       typeof item === 'object' && item !== null ? item.id : item,
     );
-    const nonEmptyGroupIds = groupIds.filter((id) => id !== '');
+    const nonEmptyGroupIds = groupIds.filter(
+      (id) => typeof id === 'string' && id !== '',
+    );
     const filterByUngroupedHosts = groupIds.includes('');
 
     /** Use groupId parameter (supports unique IDs, fixes duplicate name bug) */

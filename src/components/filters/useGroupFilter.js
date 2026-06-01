@@ -19,18 +19,27 @@ export const groupFilterReducer = (_state, { type, payload }) => ({
   }),
 });
 
+// Normalize legacy string entries to { id, name } objects.
+const normalizeSelectedGroup = (group) => {
+  if (typeof group === 'string') {
+    return group === '' ? { id: '', name: '' } : { id: group, name: group };
+  }
+  return group;
+};
+
 export const buildHostGroupChips = (selectedGroups = []) => {
-  const chips = [...selectedGroups]?.map((group) =>
-    group.id === ''
+  const chips = [...selectedGroups]?.map((group) => {
+    const { id, name } = normalizeSelectedGroup(group);
+    return id === ''
       ? {
           name: 'Ungrouped hosts',
           value: '',
         }
       : {
-          name: group.name, // Display name in chip
-          value: group.id, // Store ID as value
-        },
-  );
+          name, // Display name in chip
+          value: id, // Store ID as value
+        };
+  });
   return chips?.length > 0
     ? [
         {
