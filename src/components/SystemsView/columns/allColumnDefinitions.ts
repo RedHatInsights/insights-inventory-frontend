@@ -4,6 +4,7 @@ import complianceColumns from './compliance/columnDefinitions';
 import { System } from '../hooks/useSystemsQuery';
 import { Resolve } from '../../../types/utility-types';
 import advisorColumns from './advisor/columnDefinitions';
+import remediationPlansColumns from './remediations/columnDefinitions';
 
 type RenderableColumn = {
   /** Cell content for a single system row in the Systems table. */
@@ -29,6 +30,7 @@ const allColumns = [
   ...inventoryColumns,
   ...advisorColumns,
   ...complianceColumns,
+  ...remediationPlansColumns,
 ] as const satisfies readonly Column[];
 
 export default allColumns;

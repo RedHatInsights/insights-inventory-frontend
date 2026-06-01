@@ -26,6 +26,7 @@ describe('allColumnDefinitions', () => {
       'low',
       'policies',
       'last_compliance_scan',
+      'remediations_plans',
     ]);
   });
 
