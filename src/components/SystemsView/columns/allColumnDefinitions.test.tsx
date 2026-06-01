@@ -28,6 +28,8 @@ describe('allColumnDefinitions', () => {
       'last_malware_matches',
       'total_malware_matches',
       'last_malware_scan',
+      'policies',
+      'last_compliance_scan',
     ]);
   });
 

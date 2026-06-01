@@ -1,5 +1,6 @@
 import { ColumnManagementModalColumn } from '@patternfly/react-component-groups';
 import inventoryColumns from './inventory/columnDefinitions';
+import complianceColumns from './compliance/columnDefinitions';
 import { System } from '../hooks/useSystemsQuery';
 import { Resolve } from '../../../types/utility-types';
 import advisorColumns from './advisor/columnDefinitions';
@@ -29,6 +30,7 @@ const allColumns = [
   ...inventoryColumns,
   ...advisorColumns,
   ...malwareColumns,
+  ...complianceColumns,
 ] as const satisfies readonly Column[];
 
 export default allColumns;
