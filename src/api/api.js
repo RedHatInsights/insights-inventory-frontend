@@ -321,18 +321,24 @@ export async function getEntities(
         : Array.isArray(rawHostGroupFilter)
           ? rawHostGroupFilter
           : [rawHostGroupFilter];
-    const nonEmptyGroupNames = hostGroupFilterArr.filter((name) => name !== '');
-    const filterByUngroupedHosts = hostGroupFilterArr.includes('');
 
-    /** Ungrouped hosts: use group_name (empty value) per API. */
-    const groupNameParam =
-      nonEmptyGroupNames.length || filterByUngroupedHosts
-        ? [...nonEmptyGroupNames, ...(filterByUngroupedHosts ? [''] : [])]
+    // Extract IDs from workspace objects (new format: [{ id, name }])
+    // Fall back to string format for backwards compatibility
+    const groupIds = hostGroupFilterArr.map((item) =>
+      typeof item === 'object' && item !== null ? item.id : item,
+    );
+    const nonEmptyGroupIds = groupIds.filter((id) => id !== '');
+    const filterByUngroupedHosts = groupIds.includes('');
+
+    /** Use groupId parameter (supports unique IDs, fixes duplicate name bug) */
+    const groupIdParam =
+      nonEmptyGroupIds.length || filterByUngroupedHosts
+        ? [...nonEmptyGroupIds, ...(filterByUngroupedHosts ? [''] : [])]
         : [];
 
     return apiGetHostList({
       hostnameOrId: filters.hostnameOrId,
-      ...(groupNameParam.length ? { groupName: groupNameParam } : {}),
+      ...(groupIdParam.length ? { groupId: groupIdParam } : {}),
       perPage,
       page,
       orderBy,

@@ -13,7 +13,6 @@ import {
   Spinner,
 } from '@patternfly/react-core';
 
-import xor from 'lodash/xor';
 import PropTypes from 'prop-types';
 
 const VISIBLE_LIMIT = 10;
@@ -56,8 +55,8 @@ const SearchableGroupFilter = ({
 
   const groupOptions = useMemo(() => {
     const g = groups.slice(0, visibleCount);
-    return g.map(({ name, host_count: hostCount }) => ({
-      itemId: name,
+    return g.map(({ id, name, host_count: hostCount }) => ({
+      itemId: id, // Use ID for unique selection (fixes duplicate name bug)
       children: (
         <Flex alignItems={{ default: 'alignItemsCenter' }}>
           <FlexItem>{name}</FlexItem>
@@ -163,7 +162,31 @@ const SearchableGroupFilter = ({
       return;
     }
 
-    setSelectedGroupNames(xor(selectedGroupNames, [itemId]));
+    // Handle ungrouped hosts (empty string ID)
+    if (itemId === '') {
+      const isSelected = selectedGroupNames.some((g) => g.id === '');
+      const newSelection = isSelected
+        ? selectedGroupNames.filter((g) => g.id !== '')
+        : [...selectedGroupNames, { id: '', name: '' }];
+      setSelectedGroupNames(newSelection);
+      return;
+    }
+
+    // Find the workspace object by ID
+    const workspace = groups.find((g) => g.id === itemId);
+
+    // Toggle selection: if already selected (by ID), remove it; otherwise add it
+    const isSelected = selectedGroupNames.some((g) => g.id === itemId);
+    const newSelection = isSelected
+      ? selectedGroupNames.filter((g) => g.id !== itemId)
+      : [
+          ...selectedGroupNames,
+          workspace
+            ? { id: workspace.id, name: workspace.name }
+            : { id: itemId, name: itemId },
+        ];
+
+    setSelectedGroupNames(newSelection);
   };
 
   const onViewMoreClick = () => {
@@ -203,7 +226,7 @@ const SearchableGroupFilter = ({
         id="groups-filter-select"
         ouiaId="Filter by group"
         isOpen={isOpen}
-        selected={selectedGroupNames}
+        selected={selectedGroupNames.map((g) => g.id)}
         onSelect={(event, selection) => onSelect(selection)}
         onOpenChange={() => {
           setIsOpen(false);
@@ -218,7 +241,9 @@ const SearchableGroupFilter = ({
             selectOptions.map((option, index) => (
               <div key={option.itemId || option.children}>
                 <SelectOption
-                  isSelected={selectedGroupNames.includes(option.itemId)}
+                  isSelected={selectedGroupNames.some(
+                    (g) => g.id === option.itemId,
+                  )}
                   key={option.itemId || option.children}
                   isFocused={focusedItemIndex === index}
                   className={option.className}
@@ -264,11 +289,17 @@ SearchableGroupFilter.propTypes = {
   fetchNextPage: PropTypes.func.isRequired,
   groups: PropTypes.arrayOf(
     PropTypes.shape({
+      id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       host_count: PropTypes.number,
     }),
   ).isRequired,
-  selectedGroupNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selectedGroupNames: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
   setSelectedGroupNames: PropTypes.func.isRequired,
   showNoGroupOption: PropTypes.bool,
 };

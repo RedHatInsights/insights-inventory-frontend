@@ -21,14 +21,14 @@ export const groupFilterReducer = (_state, { type, payload }) => ({
 
 export const buildHostGroupChips = (selectedGroups = []) => {
   const chips = [...selectedGroups]?.map((group) =>
-    group === ''
+    group.id === ''
       ? {
           name: 'Ungrouped hosts',
           value: '',
         }
       : {
-          name: group,
-          value: group,
+          name: group.name, // Display name in chip
+          value: group.id, // Store ID as value
         },
   );
   return chips?.length > 0
