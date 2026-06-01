@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import debounce from 'lodash/debounce';
 import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 
@@ -78,6 +78,9 @@ export const buildHostGroupChips = (selectedGroups = []) => {
  *                                               result.hasNextPage {boolean} - Whether there is another page to load.
  *                                               result.isFetchingNextPage {boolean} - True while the next page is loading.
  *                                               result.remoteSearchEnabled {boolean} - True when server-side search should be used (> 2 pages total).
+ *                                               result.isRemoteSearching {boolean} - True while a remote search fetch is in flight for the debounced term.
+ *                                               result.isSearchDebouncing {boolean} - True while the visible search term has not yet been debounced.
+ *                                               result.isLoading {boolean} - True during initial load, debounce, or remote search fetch.
  */
 const useGroupsQueryWithFilter = ({
   hasAccess,
@@ -163,24 +166,12 @@ const useGroupsQueryWithFilter = ({
     remoteSearchEnabled,
   ]);
 
-  // When remote search is enabled, keep debouncedTerm in sync if it was never debounced
-  useEffect(() => {
-    if (remoteSearchEnabled && searchTerm !== debouncedTerm) {
-      setSearchTermDebounced(searchTerm);
-    }
-  }, [remoteSearchEnabled, searchTerm, debouncedTerm, setSearchTermDebounced]);
+  const isSearchDebouncing =
+    remoteSearchEnabled && searchTerm !== debouncedTerm;
+  const isRemoteSearching =
+    remoteSearchEnabled && Boolean(debouncedTerm) && isFetching && isLoading;
 
-  const isSearchPending = remoteSearchEnabled && searchTerm !== debouncedTerm;
-  const isSearchLoading =
-    isSearchPending ||
-    (remoteSearchEnabled && Boolean(debouncedTerm) && isFetching && isLoading);
-
-  // Collect data from all pages and filter groups based on the search term if remote search is disabled
   const groups = useMemo(() => {
-    if (isSearchLoading) {
-      return [];
-    }
-
     const allData = data?.pages?.flatMap((p) => p?.results || []) || [];
     if (remoteSearchEnabled || !searchTerm) {
       return allData;
@@ -189,17 +180,17 @@ const useGroupsQueryWithFilter = ({
     return allData.filter((group) =>
       String(group.name).toLowerCase().includes(searchTerm.toLowerCase()),
     );
-  }, [data, searchTerm, remoteSearchEnabled, isSearchLoading]);
+  }, [data, searchTerm, remoteSearchEnabled]);
 
-  // Set the search term and debounce it if remote search is enabled
-  const setSearchQuery = useMemo(() => {
-    return (term) => {
+  const setSearchQuery = useCallback(
+    (term) => {
       setSearchTerm(term);
       if (remoteSearchEnabled) {
         setSearchTermDebounced(term);
       }
-    };
-  }, [setSearchTerm, setSearchTermDebounced, remoteSearchEnabled]);
+    },
+    [remoteSearchEnabled, setSearchTermDebounced],
+  );
 
   return {
     groups,
@@ -209,7 +200,9 @@ const useGroupsQueryWithFilter = ({
     hasNextPage,
     isFetchingNextPage,
     remoteSearchEnabled,
-    isLoading: isLoading || isSearchLoading,
+    isRemoteSearching,
+    isSearchDebouncing,
+    isLoading: isLoading || isSearchDebouncing || isRemoteSearching,
   };
 };
 
@@ -245,6 +238,9 @@ const useGroupFilter = (showNoGroupOption = true) => {
     setSearchQuery,
     searchQuery,
     isLoading,
+    isRemoteSearching,
+    isSearchDebouncing,
+    remoteSearchEnabled,
   } = useGroupsQueryWithFilter({
     hasAccess,
     debounceTime: INPUT_DEBOUNCE_MS,
@@ -323,6 +319,9 @@ const useGroupFilter = (showNoGroupOption = true) => {
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
             isLoading={isLoading}
+            isRemoteSearching={isRemoteSearching}
+            isSearchDebouncing={isSearchDebouncing}
+            remoteSearchEnabled={remoteSearchEnabled}
             isFetchingNextPage={isFetchingNextPage}
             hasNextPage={hasNextPage}
             fetchNextPage={fetchNextPage}

@@ -21,6 +21,9 @@ const SearchableGroupFilter = ({
   searchQuery,
   setSearchQuery,
   isLoading,
+  isRemoteSearching = false,
+  isSearchDebouncing = false,
+  remoteSearchEnabled = false,
   isFetchingNextPage,
   hasNextPage,
   groups,
@@ -55,7 +58,12 @@ const SearchableGroupFilter = ({
   );
 
   const groupOptions = useMemo(() => {
-    const g = groups.slice(0, visibleCount);
+    const suppressStaleResults =
+      searchQuery &&
+      remoteSearchEnabled &&
+      (isRemoteSearching || isSearchDebouncing);
+    const visibleGroups = suppressStaleResults ? [] : groups;
+    const g = visibleGroups.slice(0, visibleCount);
     return g.map(({ id, name, host_count: hostCount }) => ({
       itemId: id, // Use ID for unique selection (fixes duplicate name bug)
       children: (
@@ -69,12 +77,19 @@ const SearchableGroupFilter = ({
         </Flex>
       ),
     }));
-  }, [groups, visibleCount]);
+  }, [
+    groups,
+    visibleCount,
+    searchQuery,
+    remoteSearchEnabled,
+    isRemoteSearching,
+    isSearchDebouncing,
+  ]);
 
   useEffect(() => {
     let newSelectOptions = [
       ...(searchQuery ? [] : prefixOptions),
-      ...(isLoading && searchQuery ? [] : groupOptions),
+      ...groupOptions,
     ];
 
     setFocusedItemIndex(null);
@@ -83,7 +98,6 @@ const SearchableGroupFilter = ({
     searchQuery,
     prefixOptions,
     groupOptions,
-    isLoading,
     setSelectOptions,
     setFocusedItemIndex,
   ]);
@@ -282,6 +296,9 @@ SearchableGroupFilter.propTypes = {
   searchQuery: PropTypes.string.isRequired,
   setSearchQuery: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  isRemoteSearching: PropTypes.bool,
+  isSearchDebouncing: PropTypes.bool,
+  remoteSearchEnabled: PropTypes.bool,
   isFetchingNextPage: PropTypes.bool.isRequired,
   hasNextPage: PropTypes.bool.isRequired,
   fetchNextPage: PropTypes.func.isRequired,
