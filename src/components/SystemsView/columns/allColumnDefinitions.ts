@@ -4,6 +4,7 @@ import complianceColumns from './compliance/columnDefinitions';
 import { System } from '../hooks/useSystemsQuery';
 import { Resolve } from '../../../types/utility-types';
 import advisorColumns from './advisor/columnDefinitions';
+import remediationPlansColumns from './remediations/columnDefinitions';
 import malwareColumns from './malware/columnDefinitions';
 
 type RenderableColumn = {
@@ -31,6 +32,7 @@ const allColumns = [
   ...advisorColumns,
   ...malwareColumns,
   ...complianceColumns,
+  ...remediationPlansColumns,
 ] as const satisfies readonly Column[];
 
 export default allColumns;
