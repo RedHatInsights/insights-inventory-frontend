@@ -109,3 +109,34 @@ it('selected groups are checked', async () => {
     }),
   ).toBeChecked();
 });
+
+it('ungrouped hosts can be selected by workspace id', async () => {
+  const ungroupedWorkspace = {
+    id: 'ungrouped-ws-id',
+    name: 'Ungrouped hosts',
+    ungrouped: true,
+  };
+  render(
+    <SearchableGroupFilter
+      searchQuery=""
+      setSearchQuery={() => {}}
+      groups={[]}
+      ungroupedWorkspace={ungroupedWorkspace}
+      selectedGroupNames={[]}
+      setSelectedGroupNames={setter}
+      isLoading={false}
+      isFetchingNextPage={false}
+      hasNextPage={false}
+      fetchNextPage={() => {}}
+      showNoGroupOption
+    />,
+  );
+
+  await userEvent.click(
+    screen.getByRole('button', {
+      name: /menu toggle/i,
+    }),
+  );
+  await userEvent.click(screen.getByText('Ungrouped hosts'));
+  expect(setter).toHaveBeenCalledWith([ungroupedWorkspace]);
+});

@@ -9,12 +9,37 @@ import edgeSystemProfile from '../fixtures/edgeSystemProfile.json';
 import hostDetail from '../fixtures/hostDetail.json';
 
 export { hostsFixtures, groupDetailFixtures };
+
+const ungroupedHostsFixtures = {
+  count: 1,
+  page: 1,
+  per_page: 10,
+  total: 1,
+  results: [
+    {
+      name: 'Ungrouped Hosts',
+      id: 'BB2DF02D-9EeF-ABB0-B2D9-cFe21Cef6B88',
+      updated_at: '2019-03-21T23:00:00.0Z',
+      created_at: '2018-03-27T22:00:00.0Z',
+      host_count: 40,
+      ungrouped: true,
+    },
+  ],
+};
+
+const isUngroupedHostsGroupsRequest = (url) =>
+  url.includes('group_type=ungrouped-hosts');
+
 export const groupsInterceptors = {
   'successful with some items': (fixtures = groupsFixtures) =>
     cy
-      .intercept('GET', /\/api\/inventory\/v1\/groups.*/, {
-        statusCode: 200,
-        body: fixtures,
+      .intercept('GET', /\/api\/inventory\/v1\/groups.*/, (req) => {
+        req.reply({
+          statusCode: 200,
+          body: isUngroupedHostsGroupsRequest(req.url)
+            ? ungroupedHostsFixtures
+            : fixtures,
+        });
       })
       .as('getGroups'),
   'successful with some items second page': () =>

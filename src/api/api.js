@@ -322,25 +322,27 @@ export async function getEntities(
           ? rawHostGroupFilter
           : [rawHostGroupFilter];
 
-    // Extract IDs from workspace objects (new format: [{ id, name }])
-    // Fall back to string format for backwards compatibility
-    const groupIds = hostGroupFilterArr.map((item) =>
-      typeof item === 'object' && item !== null ? item.id : item,
+    // Selection uses workspace IDs; host list API filters by group_name.
+    const groupNames = hostGroupFilterArr.map((item) => {
+      if (typeof item === 'object' && item !== null) {
+        return item.ungrouped ? '' : item.name;
+      }
+      return item;
+    });
+    const nonEmptyGroupNames = groupNames.filter(
+      (name) => typeof name === 'string' && name !== '',
     );
-    const nonEmptyGroupIds = groupIds.filter(
-      (id) => typeof id === 'string' && id !== '',
-    );
-    const filterByUngroupedHosts = groupIds.includes('');
+    const filterByUngroupedHosts = groupNames.includes('');
 
-    /** Use groupId parameter (supports unique IDs, fixes duplicate name bug) */
-    const groupIdParam =
-      nonEmptyGroupIds.length || filterByUngroupedHosts
-        ? [...nonEmptyGroupIds, ...(filterByUngroupedHosts ? [''] : [])]
+    /** Ungrouped hosts: use group_name (empty value) per API. */
+    const groupNameParam =
+      nonEmptyGroupNames.length || filterByUngroupedHosts
+        ? [...nonEmptyGroupNames, ...(filterByUngroupedHosts ? [''] : [])]
         : [];
 
     return apiGetHostList({
       hostnameOrId: filters.hostnameOrId,
-      ...(groupIdParam.length ? { groupId: groupIdParam } : {}),
+      ...(groupNameParam.length ? { groupName: groupNameParam } : {}),
       perPage,
       page,
       orderBy,

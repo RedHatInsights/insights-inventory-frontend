@@ -28,6 +28,7 @@ const SearchableGroupFilter = ({
   selectedGroupNames,
   setSelectedGroupNames,
   showNoGroupOption,
+  ungroupedWorkspace,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [focusedItemIndex, setFocusedItemIndex] = useState(null);
@@ -42,15 +43,15 @@ const SearchableGroupFilter = ({
 
   const prefixOptions = useMemo(
     () =>
-      showNoGroupOption
+      showNoGroupOption && ungroupedWorkspace
         ? [
             {
-              itemId: '',
-              children: 'Ungrouped hosts',
+              itemId: ungroupedWorkspace.id,
+              children: ungroupedWorkspace.name,
             },
           ]
         : [],
-    [showNoGroupOption],
+    [showNoGroupOption, ungroupedWorkspace],
   );
 
   const groupOptions = useMemo(() => {
@@ -162,18 +163,10 @@ const SearchableGroupFilter = ({
       return;
     }
 
-    // Handle ungrouped hosts (empty string ID)
-    if (itemId === '') {
-      const isSelected = selectedGroupNames.some((g) => g.id === '');
-      const newSelection = isSelected
-        ? selectedGroupNames.filter((g) => g.id !== '')
-        : [...selectedGroupNames, { id: '', name: '' }];
-      setSelectedGroupNames(newSelection);
-      return;
-    }
-
-    // Find the workspace object by ID
-    const workspace = groups.find((g) => g.id === itemId);
+    const workspace =
+      ungroupedWorkspace?.id === itemId
+        ? ungroupedWorkspace
+        : groups.find((g) => g.id === itemId);
 
     // Toggle selection: if already selected (by ID), remove it; otherwise add it
     const isSelected = selectedGroupNames.some((g) => g.id === itemId);
@@ -182,7 +175,11 @@ const SearchableGroupFilter = ({
       : [
           ...selectedGroupNames,
           workspace
-            ? { id: workspace.id, name: workspace.name }
+            ? {
+                id: workspace.id,
+                name: workspace.name,
+                ...(workspace.ungrouped ? { ungrouped: true } : {}),
+              }
             : { id: itemId, name: itemId },
         ];
 
@@ -251,9 +248,9 @@ const SearchableGroupFilter = ({
                   hasCheckbox
                   {...option}
                 />
-                {showNoGroupOption && !searchQuery && option.itemId === '' && (
-                  <Divider />
-                )}
+                {showNoGroupOption &&
+                  !searchQuery &&
+                  option.itemId === ungroupedWorkspace?.id && <Divider />}
               </div>
             ))
           )}
@@ -302,6 +299,11 @@ SearchableGroupFilter.propTypes = {
   ).isRequired,
   setSelectedGroupNames: PropTypes.func.isRequired,
   showNoGroupOption: PropTypes.bool,
+  ungroupedWorkspace: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    ungrouped: PropTypes.bool,
+  }),
 };
 
 export default SearchableGroupFilter;

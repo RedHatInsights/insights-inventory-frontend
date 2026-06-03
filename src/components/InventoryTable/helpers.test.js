@@ -150,6 +150,18 @@ describe('onDeleteFilter', () => {
     expect(data.length).toBe(1);
     expect(data).toMatchObject(filter);
   });
+
+  it('should delete workspace filter selected by id', () => {
+    const workspaceFilter = [
+      { id: 'ws-1', name: 'Workspace One' },
+      { id: 'ws-2', name: 'Workspace Two' },
+    ];
+    const data = onDeleteFilter(
+      { chips: [{ value: 'ws-1' }] },
+      workspaceFilter,
+    );
+    expect(data).toEqual([{ id: 'ws-2', name: 'Workspace Two' }]);
+  });
 });
 
 describe('onDeleteTag', () => {
