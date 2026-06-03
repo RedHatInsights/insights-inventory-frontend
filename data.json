@@ -3,9 +3,9 @@
   "quarters": {
     "Q2": {
       "quarter": "Q2",
-      "updated": "2026-06-02",
+      "updated": "2026-06-03",
       "stale": {
-        "period": "2026-04-01 to 2026-06-02",
+        "period": "2026-04-01 to 2026-06-03",
         "data": {
           "total": 94,
           "merged": 84,
@@ -13,15 +13,15 @@
           "still_open": 5,
           "bot_closed": 3,
           "median_ttm": 26.7,
-          "median_ttfr": 16.2,
-          "avg_ttfr": 51.1,
-          "pct_reviewed_24h": 65.06,
-          "no_review_24h": 11,
+          "median_ttfr": 16.9,
+          "avg_ttfr": 56.3,
+          "pct_reviewed_24h": 63.52,
+          "no_review_24h": 9,
           "open_15d": 7
         }
       },
       "review": {
-        "period": "2026-04-01 to 2026-06-02",
+        "period": "2026-04-01 to 2026-06-03",
         "data": {
           "total": 94,
           "merged": 84,
@@ -29,10 +29,10 @@
           "still_open": 5,
           "bot_closed": 2,
           "median_ttm": 26.7,
-          "median_ttfr": 16.2,
-          "avg_ttfr": 51.1,
-          "pct_reviewed_24h": 65.06,
-          "no_review_24h": 11,
+          "median_ttfr": 16.9,
+          "avg_ttfr": 56.3,
+          "pct_reviewed_24h": 63.52,
+          "no_review_24h": 9,
           "open_15d": 7
         }
       }
