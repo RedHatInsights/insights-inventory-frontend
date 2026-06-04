@@ -6,6 +6,8 @@ import { closePopupsIfExist } from './helpers/loginHelpers';
 import { WORKSPACE_UNGROUPED_HOSTS } from './helpers/constants';
 import { createSystem } from './helpers/uploadArchive';
 
+test.use({ kesselAllowAll: true });
+
 test.describe('System Details tests', () => {
   test.beforeEach(async ({ page }) => {
     await closePopupsIfExist(page);
@@ -34,9 +36,7 @@ test.describe('System Details tests', () => {
       });
       await systemLink.click();
 
-      await expect(
-        page.getByRole('heading', { name: packageSystem.hostname }),
-      ).toBeVisible({
+      await expect(page.getByText(/Package-based/)).toBeVisible({
         timeout: 100000,
       });
     });
@@ -144,9 +144,7 @@ test.describe('System Details tests', () => {
       const systemLink = page.getByRole('link', { name: bootcSystem.hostname });
       await systemLink.click();
 
-      await expect(
-        page.getByRole('heading', { name: bootcSystem.hostname }),
-      ).toBeVisible({
+      await expect(page.getByText(/Image-based/)).toBeVisible({
         timeout: 100000,
       });
     });

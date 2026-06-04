@@ -39,12 +39,15 @@ export const filterSystemsWithConditionalFilter = async (
 
   // 2. SELECT OPTION
   if (filterName === 'Workspace') {
-    await page.getByRole('textbox', { name: 'Type to filter' }).click();
+    const workspaceFilterInput = page
+      .getByPlaceholder('Filter by workspace')
+      .or(page.getByRole('textbox', { name: 'Type to filter' }));
+    await workspaceFilterInput.click();
     const menuOption = page.locator(
       '[data-ouia-component-id="FilterByGroupOption"]',
     );
     if (!(option === 'Ungrouped hosts')) {
-      await page.getByRole('textbox', { name: 'Type to filter' }).fill(option);
+      await workspaceFilterInput.fill(option);
 
       await expect(menuOption).toHaveCount(1);
     }

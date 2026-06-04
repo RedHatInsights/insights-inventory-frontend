@@ -12,6 +12,8 @@ import {
 import { test } from './helpers/fixtures';
 import { WORKSPACE_UNGROUPED_HOSTS } from './helpers/constants';
 
+test.use({ kesselAllowAll: true });
+
 test('User can filter, search and see details of "Ungrouped Hosts" workspace', async ({
   page,
 }: {

@@ -18,6 +18,8 @@ import {
   WORKSPACE_NAME_SORT_PREFIX,
 } from './helpers/constants';
 
+test.use({ kesselAllowAll: true });
+
 test.describe('Workspace CRUD - Details Page', () => {
   test('User can create, rename, and delete a workspace from Workspace Details page', async ({
     page,

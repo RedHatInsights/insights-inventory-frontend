@@ -2,6 +2,8 @@ import { expect } from '@playwright/test';
 import { navigateToStalenessPageFunc } from './helpers/navHelpers';
 import { test } from './helpers/fixtures';
 import { deleteStaleness } from './helpers/apiHelpers';
+
+test.use({ kesselAllowAll: true });
 import axios from 'axios';
 import { Response } from '@playwright/test';
 

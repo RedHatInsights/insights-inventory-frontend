@@ -27,6 +27,8 @@ const typeError =
 const scalprumError =
   "Scalprum encountered an error! Cannot read properties of undefined (reading 'page')";
 
+test.use({ kesselAllowAll: true });
+
 test.describe('Inventory federated modules check @integration', () => {
   for (const service of systemsPageUrls) {
     test(`Verify Inventory Table in: ${service.name}`, async ({ page }) => {

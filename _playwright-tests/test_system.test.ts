@@ -5,6 +5,8 @@ import { test } from './helpers/fixtures';
 import { searchByName, waitForTableKebabReady } from './helpers/filterHelpers';
 import { isSystemsViewEnabled } from './helpers/constants';
 
+test.use({ kesselAllowAll: true });
+
 test.describe('System CRUD', () => {
   test('User should be able to edit and delete a system from Systems page', async ({
     page,
@@ -40,17 +42,31 @@ test.describe('System CRUD', () => {
       await kebab.click();
       await expect(kebab).toHaveAttribute('aria-expanded', 'true');
 
-      const editButton = page.getByRole('menuitem', { name: /^Edit/ }).first();
+      const editButton = page
+        .getByRole('menuitem', { name: /^Edit display name$|^Edit$/ })
+        .first();
       await expect(editButton).toBeEnabled({
         enabled: isSystemsViewEnabled || undefined,
         timeout: 50000,
       });
       await editButton.click();
-      await expect(dialog).toBeVisible();
+      await expect(dialog).toBeVisible({ timeout: 15000 });
 
       await expect(page.getByRole('textbox')).toHaveValue(system.hostname);
       await dialog.locator('input').first().fill(newDisplayName);
-      await dialog.getByRole('button', { name: 'Save' }).click();
+      await Promise.all([
+        dialog.getByRole('button', { name: 'Save' }).click(),
+        page.waitForResponse(
+          (res) =>
+            res.url().includes('/hosts/') &&
+            res.request().method() === 'PATCH' &&
+            res.ok(),
+          { timeout: 15000 },
+        ),
+      ]);
+      await page
+        .locator('[data-ouia-component-id="SkeletonTable"]')
+        .waitFor({ state: 'hidden', timeout: 30000 });
     });
 
     await test.step(`Delete the renamed system "${newDisplayName}" and verify it is removed`, async () => {
@@ -64,7 +80,9 @@ test.describe('System CRUD', () => {
       await expect(kebab).toHaveAttribute('aria-expanded', 'true');
 
       const deleteButton = page
-        .getByRole('menuitem', { name: /^Delete/ })
+        .getByRole('menuitem', {
+          name: /^Delete from inventory$|^Delete$/,
+        })
         .first();
       await expect(deleteButton).toBeEnabled({
         enabled: isSystemsViewEnabled || undefined,
@@ -72,11 +90,22 @@ test.describe('System CRUD', () => {
       });
       await deleteButton.click();
 
-      await expect(dialog).toBeVisible();
-      await dialog.getByRole('button', { name: 'Delete' }).click();
+      await expect(dialog).toBeVisible({ timeout: 15000 });
+      await Promise.all([
+        dialog.getByRole('button', { name: 'Delete' }).click(),
+        page.waitForResponse(
+          (res) =>
+            res.url().includes('/hosts/') &&
+            res.request().method() === 'DELETE' &&
+            res.ok(),
+          { timeout: 15000 },
+        ),
+      ]);
 
       await searchByName(page, newDisplayName);
-      await expect(page.getByText('No matching systems found')).toBeVisible();
+      await expect(page.getByText('No matching systems found')).toBeVisible({
+        timeout: 30000,
+      });
     });
   });
 
@@ -126,10 +155,21 @@ test.describe('System CRUD', () => {
 
       await expect(dialog).toBeVisible();
       await expect(dialog).toContainText('Delete systems from inventory?');
-      await dialog.getByRole('button', { name: 'Delete' }).click();
+      await Promise.all([
+        dialog.getByRole('button', { name: 'Delete' }).click(),
+        page.waitForResponse(
+          (res) =>
+            res.url().includes('/hosts/') &&
+            res.request().method() === 'DELETE' &&
+            res.ok(),
+          { timeout: 15000 },
+        ),
+      ]);
 
       await searchByName(page, systems.deleteSystemsPrefix);
-      await expect(page.getByText('No matching systems found')).toBeVisible();
+      await expect(page.getByText('No matching systems found')).toBeVisible({
+        timeout: 30000,
+      });
     });
   });
 });

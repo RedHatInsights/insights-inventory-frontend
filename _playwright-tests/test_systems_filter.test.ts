@@ -13,6 +13,8 @@ import {
   isSystemsViewEnabled,
 } from './helpers/constants';
 
+test.use({ kesselAllowAll: true });
+
 test.describe('Filtering Systems Tests', () => {
   const operatingSystemTestCases = [
     { OS: 'RHEL 9.4' },

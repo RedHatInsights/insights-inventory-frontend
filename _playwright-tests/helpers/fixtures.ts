@@ -1,6 +1,10 @@
 import { test as base } from '@playwright/test';
 import fs from 'fs';
 import { closePopupsIfExist } from './loginHelpers';
+import {
+  installKesselCheckSelfBulkAllowAll,
+  uninstallKesselCheckSelfBulkMock,
+} from './kesselAccessRouteMock';
 import { GLOBAL_DATA_PATH, WORKSPACE_WITH_SYSTEMS } from './constants';
 import { System, createSystem } from './uploadArchive';
 import {
@@ -47,10 +51,27 @@ function loadGlobalSystemsData(path: string): SystemsTestData {
 export const test = base.extend<{
   systems: SystemsTestData;
   workspaceWithSystem: WorkspaceWithSystemFixture;
+  /**
+   * When true, stubs Kessel checkselfbulk to ALLOWED_TRUE so admin E2E can edit/delete
+   * hosts and open system details on stage. Must stay false for @rbac tests that assert
+   * denied or limited access.
+   */
+  kesselAllowAll: boolean;
 }>({
-  page: async ({ page }, use) => {
+  kesselAllowAll: false,
+
+  page: async ({ page, kesselAllowAll }, use) => {
+    if (kesselAllowAll) {
+      await installKesselCheckSelfBulkAllowAll(page);
+    }
     await closePopupsIfExist(page);
-    await use(page);
+    try {
+      await use(page);
+    } finally {
+      if (kesselAllowAll) {
+        await uninstallKesselCheckSelfBulkMock(page);
+      }
+    }
   },
 
   systems: async ({}, use) => {

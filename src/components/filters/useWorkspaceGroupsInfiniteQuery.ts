@@ -36,9 +36,20 @@ export function useWorkspaceGroupsInfiniteQuery(
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.per_page * lastPage.page < lastPage.total
-        ? lastPage.page + 1
-        : null,
+    getNextPageParam: (lastPage, pages) => {
+      if (!lastPage) {
+        return undefined;
+      }
+      const currentCount = pages.reduce(
+        (sum, p) => sum + (p?.results?.length || 0),
+        0,
+      );
+      if (typeof lastPage.total === 'number' && currentCount < lastPage.total) {
+        const currentPage =
+          typeof lastPage.page === 'number' ? lastPage.page : pages.length;
+        return currentPage + 1;
+      }
+      return undefined;
+    },
   });
 }
