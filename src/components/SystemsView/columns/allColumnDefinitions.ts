@@ -5,6 +5,7 @@ import patchColumns from './patch/columnDefinitions';
 import { System } from '../hooks/useSystemsQuery';
 import { Resolve } from '../../../types/utility-types';
 import advisorColumns from './advisor/columnDefinitions';
+import vulnerabilityColumns from './vulnerability/columnDefinitions';
 import malwareColumns from './malware/columnDefinitions';
 
 type RenderableColumn = {
@@ -48,6 +49,7 @@ const allColumns = [
   ...inventoryColumns,
   ...patchColumns,
   ...advisorColumns,
+  ...vulnerabilityColumns,
   ...malwareColumns,
   ...complianceColumns,
 ] as const satisfies readonly Column[];
