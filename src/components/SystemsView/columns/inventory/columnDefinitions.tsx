@@ -8,10 +8,12 @@ import Tags from './cells/Tags';
 import { LastSeenColumnHeader } from '../../../../Utilities/LastSeenColumnHeader';
 import { System } from '../../hooks/useSystemsQuery';
 import type { Column } from '../allColumnDefinitions';
+import { DEFAULT_NAME_COLUMN_MIN_WIDTH } from '../../utils/columnMinWidths';
 
 const nameColumn = {
   title: 'Name',
   key: 'name',
+  minWidth: DEFAULT_NAME_COLUMN_MIN_WIDTH,
   isShownByDefault: true,
   isShown: true,
   isUntoggleable: true,
@@ -24,6 +26,7 @@ const nameColumn = {
 const workspaceColumn = {
   title: 'Workspace',
   key: 'workspace',
+  minWidth: '10rem',
   isShownByDefault: true,
   isShown: true,
   sortBy: ApiOrderByEnum.GroupName,
@@ -35,6 +38,7 @@ const workspaceColumn = {
 const tagsColumn = {
   title: 'Tags',
   key: 'tags',
+  minWidth: '6rem',
   isShownByDefault: true,
   isShown: true,
   renderCell: (system: System) => (
@@ -45,6 +49,7 @@ const tagsColumn = {
 const operatingSystemColumn = {
   title: 'OS',
   key: 'os',
+  minWidth: '11rem',
   isShownByDefault: true,
   isShown: true,
   sortBy: ApiOrderByEnum.OperatingSystem,
@@ -56,6 +61,7 @@ const operatingSystemColumn = {
 const lastSeenColumn = {
   title: <LastSeenColumnHeader />,
   key: 'last_seen',
+  minWidth: '9rem',
   isShownByDefault: true,
   isShown: true,
   sortBy: ApiOrderByEnum.LastCheckIn,

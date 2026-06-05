@@ -4,6 +4,7 @@ import { InventoryViewSystem } from '../../hooks/useInventoryViewsQuery';
 const remediationPlansColumn = {
   title: 'Remediation plans',
   key: 'remediations_plans',
+  minWidth: '12rem',
   isShownByDefault: false,
   isShown: false,
   sortBy: 'remediations:remediations_plans',
