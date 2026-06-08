@@ -1,6 +1,7 @@
 import axios, { type AxiosInstance } from 'axios';
 import fs from 'fs';
 import https from 'https';
+import { HttpsProxyAgent } from 'hpagent';
 import path from 'path';
 import * as hostInventoryApi from '../../src/api/hostInventoryApi';
 export { INVENTORY_API_BASE } from '../../src/api/hostInventoryApi';
@@ -34,21 +35,40 @@ function resolvePlaywrightApiToken(): string {
   );
 }
 
+function isValidProxyUrl(url: string | undefined): url is string {
+  if (!url) return false;
+  try {
+    const parsed = new URL(url);
+    return !!parsed.hostname && !!parsed.port;
+  } catch {
+    return false;
+  }
+}
+
 function getPlaywrightApiClient(): AxiosInstance {
   const baseURL = process.env.BASE_URL;
+  const proxyUrl = process.env.PROXY;
   const token = resolvePlaywrightApiToken();
   if (!baseURL) {
     throw new Error('BASE_URL must be set (run setup first).');
   }
+
+  const useProxy = isValidProxyUrl(proxyUrl);
+  const httpsAgent = useProxy
+    ? new HttpsProxyAgent({
+        proxy: proxyUrl,
+        rejectUnauthorized: false,
+      })
+    : new https.Agent({ rejectUnauthorized: false });
+
   return axios.create({
     baseURL,
     headers: {
       Authorization: token,
       'Content-Type': 'application/json',
     },
-    httpsAgent: new https.Agent({
-      rejectUnauthorized: false,
-    }),
+    httpsAgent,
+    proxy: false,
   });
 }
 
