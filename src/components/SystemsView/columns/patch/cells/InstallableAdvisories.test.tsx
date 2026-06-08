@@ -59,7 +59,7 @@ const mixedCountsPatchAppData = {
 } as unknown as PatchAppData;
 
 describe('InstallableAdvisories cell', () => {
-  it('should show No installable advisories when all installable counts are zero', () => {
+  it('should show "No installable advisories" when all installable counts are zero', () => {
     renderInstallableAdvisories(allZeroPatchAppData);
 
     expect(screen.getByText('No installable advisories')).toBeInTheDocument();
