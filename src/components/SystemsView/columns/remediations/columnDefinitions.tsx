@@ -1,5 +1,5 @@
 import type { Column } from '../allColumnDefinitions';
-import { InventoryViewHost } from '../../hooks/useInventoryViewsQuery';
+import { InventoryViewSystem } from '../../hooks/useInventoryViewsQuery';
 
 const remediationPlansColumn = {
   title: 'Remediation plans',
@@ -7,7 +7,7 @@ const remediationPlansColumn = {
   isShownByDefault: false,
   isShown: false,
   sortBy: 'remediations:remediations_plans',
-  renderCell: (system: InventoryViewHost) => {
+  renderCell: (system: InventoryViewSystem) => {
     return system?.app_data?.remediations?.remediations_plans ?? 'N/A';
   },
 };
