@@ -1,6 +1,7 @@
 import { ColumnManagementModalColumn } from '@patternfly/react-component-groups';
 import inventoryColumns from './inventory/columnDefinitions';
 import complianceColumns from './compliance/columnDefinitions';
+import patchColumns from './patch/columnDefinitions';
 import { System } from '../hooks/useSystemsQuery';
 import { Resolve } from '../../../types/utility-types';
 import advisorColumns from './advisor/columnDefinitions';
@@ -17,8 +18,15 @@ type SortableColumn = {
   readonly sortBy?: string;
 };
 
+type ConsumerAppColumn = {
+  appName?: 'patch' | 'vulnerability' | 'advisor';
+};
+
 export type Column = Resolve<
-  ColumnManagementModalColumn & RenderableColumn & SortableColumn
+  ColumnManagementModalColumn &
+    RenderableColumn &
+    SortableColumn &
+    ConsumerAppColumn
 >;
 
 /**
@@ -29,6 +37,7 @@ export type Column = Resolve<
  */
 const allColumns = [
   ...inventoryColumns,
+  ...patchColumns,
   ...advisorColumns,
   ...malwareColumns,
   ...complianceColumns,
