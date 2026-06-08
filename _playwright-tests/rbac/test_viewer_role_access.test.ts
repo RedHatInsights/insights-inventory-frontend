@@ -12,7 +12,7 @@ import {
 
 test.use({ storageState: '.auth/viewer_user.json' });
 
-test.describe('@rbac Viewer:', () => {
+test.describe('Viewer:', { tag: ['@rbac'] }, () => {
   test('Systems page - all actions are disabled', async ({ page }) => {
     await navigateToInventorySystemsFunc(page);
     const nameCell = page

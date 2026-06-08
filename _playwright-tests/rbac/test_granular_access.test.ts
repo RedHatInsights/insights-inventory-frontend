@@ -13,7 +13,7 @@ import {
 
 test.use({ storageState: '.auth/granular_user.json' });
 
-test.describe('@rbac Granular access:', () => {
+test.describe('Granular access:', { tag: ['@rbac'] }, () => {
   test('Systems page - only expected workpsaces are displayed', async ({
     page,
   }) => {

@@ -2,6 +2,7 @@ import { expect, test as setup, type Page } from '@playwright/test';
 import {
   ensureNotInPreview,
   enableSystemsView,
+  enableInventoryViews,
   logInAsRole,
   throwIfMissingAdminEnvVariables,
   throwIfMissingRbacEnvVariables,
@@ -11,11 +12,17 @@ import {
   getRbacUsersForSetup,
   type UserConfig,
 } from './helpers/loginHelpers';
-import { isSystemsViewEnabled } from './helpers/constants';
+import {
+  isSystemsViewEnabled,
+  isInventoryViewsEnabled,
+} from './helpers/constants';
 
 async function authenticateUser(page: Page, user: UserConfig) {
   if (isSystemsViewEnabled) {
     await enableSystemsView(page);
+  }
+  if (isInventoryViewsEnabled) {
+    await enableInventoryViews(page);
   }
   await closePopupsIfExist(page);
   await logInAsRole(page, user);

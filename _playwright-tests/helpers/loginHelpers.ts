@@ -163,6 +163,13 @@ export const disableSystemsView = async (page: Page) => {
   });
 };
 
+export const enableInventoryViews = async (page: Page) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('ui.systems-view', 'true');
+    localStorage.setItem('ui.inventory-views', 'true');
+  });
+};
+
 export const storeStorageStateAndToken = async (
   /** Save state using the specific token variable name from config */
   page: Page,
