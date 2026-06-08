@@ -4,7 +4,7 @@ import { NO_ACCESS_STALENESS, NO_ACCESS_INVENTORY } from './constants';
 
 test.use({ storageState: '.auth/no_access_user.json' });
 
-test.describe('@rbac No access:', () => {
+test.describe('No access:', { tag: ['@rbac'] }, () => {
   test('Systems page - no access is displayed', async ({ page }) => {
     await page.goto('/insights/inventory/', { timeout: 100000 });
 

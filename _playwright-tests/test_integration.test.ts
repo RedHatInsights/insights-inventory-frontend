@@ -27,41 +27,45 @@ const typeError =
 const scalprumError =
   "Scalprum encountered an error! Cannot read properties of undefined (reading 'page')";
 
-test.describe('Inventory federated modules check @integration', () => {
-  for (const service of systemsPageUrls) {
-    test(`Verify Inventory Table in: ${service.name}`, async ({ page }) => {
-      const logs: string[] = [];
+test.describe(
+  'Inventory federated modules check',
+  { tag: ['@integration'] },
+  () => {
+    for (const service of systemsPageUrls) {
+      test(`Verify Inventory Table in: ${service.name}`, async ({ page }) => {
+        const logs: string[] = [];
 
-      // Setup Listener BEFORE navigation
-      page.on('console', (message: ConsoleMessage) => {
-        const text = message.text();
-        const isCriticalError =
-          text.includes(failedLoadComponent) ||
-          text.includes(typeError) ||
-          text.includes(scalprumError);
+        // Setup Listener BEFORE navigation
+        page.on('console', (message: ConsoleMessage) => {
+          const text = message.text();
+          const isCriticalError =
+            text.includes(failedLoadComponent) ||
+            text.includes(typeError) ||
+            text.includes(scalprumError);
 
-        if (message.type() === 'error' && isCriticalError) {
-          logs.push(text);
+          if (message.type() === 'error' && isCriticalError) {
+            logs.push(text);
+          }
+        });
+
+        await page.goto(service.url);
+        // eslint-disable-next-line playwright/no-networkidle
+        await page.waitForLoadState('networkidle');
+
+        expect(
+          logs,
+          `Found ${logs.length} critical console errors on ${service.name}`,
+        ).toHaveLength(0);
+
+        // eslint-disable-next-line playwright/no-conditional-in-test
+        if (service.name === 'Remediation Plan') {
+          const systemsTab = page.getByLabel('SystemsTab');
+          await systemsTab.click({ timeout: 1000 });
         }
+        await expect(
+          page.locator('[data-ouia-component-id="systems-table"]'),
+        ).toBeVisible({ timeout: 10000 });
       });
-
-      await page.goto(service.url);
-      // eslint-disable-next-line playwright/no-networkidle
-      await page.waitForLoadState('networkidle');
-
-      expect(
-        logs,
-        `Found ${logs.length} critical console errors on ${service.name}`,
-      ).toHaveLength(0);
-
-      // eslint-disable-next-line playwright/no-conditional-in-test
-      if (service.name === 'Remediation Plan') {
-        const systemsTab = page.getByLabel('SystemsTab');
-        await systemsTab.click({ timeout: 1000 });
-      }
-      await expect(
-        page.locator('[data-ouia-component-id="systems-table"]'),
-      ).toBeVisible({ timeout: 10000 });
-    });
-  }
-});
+    }
+  },
+);

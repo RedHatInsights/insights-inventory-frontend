@@ -97,6 +97,7 @@ npx playwright install  --with-deps
 * `npx playwright test --grep-invert @integration` - run tests except integration tests
 * `npx playwright test --grep @rbac` - run only E2E RBAC tests
 * `SYSTEMS_VIEW=true npx playwright test` - run the complete playwright test suite with enabled `SystemsView` and `Kessel` components
+* `INVENTORY_VIEWS=true npx playwright test` - run the complete playwright test suite with enabled `Inventory Views` components
 
 For more examples on how to run and debug tests, visit the [official Playwright documentation](https://playwright.dev/docs/running-tests).
 
