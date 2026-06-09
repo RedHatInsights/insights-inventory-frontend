@@ -53,7 +53,7 @@ export const DEFAULT_COLUMNS = [
     title: 'Workspace',
     props: { width: 10 },
 
-    renderFunc: (groups) => groups[0].name,
+    renderFunc: (groups) => groups?.[0]?.name,
     transforms: [fitContent],
   },
   {
