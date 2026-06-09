@@ -26,6 +26,10 @@ webpackConfig.resolve.alias = {
     __dirname,
     './cypressAsyncComponentMock.tsx',
   ),
+  [resolve(
+    __dirname,
+    '../src/components/InventoryTable/WorkspaceSelectorField.tsx',
+  )]: resolve(__dirname, './cypressWorkspaceSelectorFieldMock.tsx'),
 };
 
 module.exports = {

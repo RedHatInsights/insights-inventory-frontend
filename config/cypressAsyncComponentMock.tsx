@@ -1,31 +1,23 @@
-import React from 'react';
-
-type WorkspaceSelection = {
-  workspace?: { id: string; name: string };
-};
+import React, { type ReactNode } from 'react';
 
 type MockAsyncComponentProps = {
-  onSelect?: (item: WorkspaceSelection) => void;
+  fallback?: ReactNode;
+  ErrorComponent?: ReactNode;
+  module?: string;
 };
 
 /**
- * Cypress stub for WorkspaceSelector and other federated UI (see config/setupTests.js).
+ * Generic Cypress stub for federated AsyncComponent usages. Renders the caller's
+ * fallback/ErrorComponent instead of module-specific UI (e.g. WorkspaceSelector).
  */
 export default function MockAsyncComponent({
-  onSelect,
+  fallback,
+  ErrorComponent,
+  module,
 }: MockAsyncComponentProps) {
   return (
-    <div data-testid="workspace-selector">
-      <button
-        type="button"
-        onClick={() =>
-          onSelect?.({
-            workspace: { id: 'ws-123', name: 'Test Workspace' },
-          })
-        }
-      >
-        Select workspace
-      </button>
+    <div data-testid="async-component-mock" data-module={module}>
+      {fallback ?? ErrorComponent ?? null}
     </div>
   );
 }

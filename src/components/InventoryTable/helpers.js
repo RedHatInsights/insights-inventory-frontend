@@ -115,13 +115,13 @@ export const getGroupSystemsBulkActionDisabled = ({
 /**
  * Builds a PatternFly `ActionsColumn` item descriptor for “Move system” (Systems view).
  *
- *  @param   {MoveSystemActionsColumnRow}                                row                     - `{ permissions }` from the system row (see
- *                                                                                               {@link MoveSystemActionsColumnRow})
- *  @param   {import('@patternfly/react-core').MenuItemProps['onClick']} onClick                 - Opens move modal,
- *                                                                                               e.g. `() => openAddToWorkspaceModal([system])`
- *  @param   {boolean}                                                   workspaceActionsAllowed - Page-level gate; Systems view passes `true`
- *  @returns {object}                                                                            ActionsColumn item: `{ title, onClick, isDisabled, tooltipProps? }` where
- *                                                                                               `title` is `MOVE_SYSTEM_MENU_TEXT` and `tooltipProps` is set when disabled
+ *  @param   {MoveSystemActionsColumnRow} row                     - `{ permissions }` from the system row (see
+ *                                                                {@link MoveSystemActionsColumnRow})
+ *  @param   {Function}                   onClick                 - Opens move modal,
+ *                                                                e.g. `() => openAddToWorkspaceModal([system])`
+ *  @param   {boolean}                    workspaceActionsAllowed - Page-level gate; Systems view passes `true`
+ *  @returns {object}                                             ActionsColumn item: `{ title, onClick, isDisabled, tooltipProps? }` where
+ *                                                                `title` is `MOVE_SYSTEM_MENU_TEXT` and `tooltipProps` is set when disabled
  */
 export const buildMoveSystemActionsColumnItem = (
   row,
