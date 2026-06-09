@@ -9,7 +9,6 @@ import OperatingSystemFormatter from '../Utilities/OperatingSystemFormatter';
 import { Tooltip } from '@patternfly/react-core';
 import { verifyCulledReporter } from '../Utilities/sharedFunctions';
 import { fitContent } from '@patternfly/react-table';
-import isEmpty from 'lodash/isEmpty';
 import { LastSeenColumnHeader } from '../Utilities/LastSeenColumnHeader';
 
 export const INVENTORY_COLUMNS = [
@@ -27,12 +26,7 @@ export const INVENTORY_COLUMNS = [
     title: 'Workspace',
     props: { width: 10 },
 
-    renderFunc: (groups) =>
-      isEmpty(groups) ? (
-        <div className="pf-v6-u-disabled-color-200">No workspace</div>
-      ) : (
-        groups[0].name
-      ), // currently, one group at maximum is supported
+    renderFunc: (groups) => groups[0].name,
     transforms: [fitContent],
   },
   {
