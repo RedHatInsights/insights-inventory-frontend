@@ -8,10 +8,8 @@ import {
   REQUIRED_PERMISSION_TO_MODIFY_HOST_IN_GROUP,
 } from '../../../constants';
 import { ActionDropdownItem } from '../../InventoryTable/ActionWithRBAC';
-import {
-  MoveSystemActionDropdownItem,
-  isKesselMoveSystemRowDisabled,
-} from '../../InventoryTable/moveSystemRowAction';
+import { isKesselMoveSystemRowDisabled } from '../../InventoryTable/helpers';
+import { MoveSystemActionDropdownItem } from '../../InventoryTable/MoveSystemActionDropdownItem';
 
 // Build host row actions (edit, delete). Pure builder, no hook deps.
 const buildHostActions = (row, { isKesselEnabled, onEdit, onDelete }) => {

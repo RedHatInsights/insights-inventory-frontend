@@ -5,6 +5,142 @@ import flatten from 'lodash/flatten';
 import TitleColumn from './TitleColumn';
 import { Fragment } from 'react';
 import { Skeleton } from '@patternfly/react-core';
+import {
+  MOVE_SYSTEM_MENU_TEXT,
+  NO_MOVE_SYSTEM_KESSEL_TOOLTIP_MESSAGE,
+} from '../../constants';
+
+/**
+ * Minimal host row shape for move-system disable checks. Callers pass only the permission slice
+ * they need; full host objects from inventory/Systems view are trimmed to this before calling
+ * these helpers.
+ *
+ * Populated by `useHostIdsWithKessel`, which injects `permissions.hasWorkspaceEdit` per host:
+ * - Grouped hosts: `true` when the user has Kessel `workspace` + `edit` on that host's workspace.
+ * - Ungrouped hosts (no `groups[0]`): defaults to `true` when group membership is unknown.
+ *
+ * @typedef {object} MoveSystemActionsColumnRow
+ *  @property {object}  [permissions]                  - Kessel permission flags from `useHostIdsWithKessel`
+ *  @property {boolean} [permissions.hasWorkspaceEdit] - Whether the user may move this host out of
+ *                                                     its current workspace under Kessel RBAC
+ *
+ * @example
+ * // Inventory row after useHostIdsWithKessel
+ * { permissions: { hasWorkspaceEdit: true } }
+ *
+ * @example
+ * // Systems view row action (permissions only)
+ * { permissions: system.permissions }
+ */
+
+/**
+ * Whether the current user may move a host under Kessel RBAC (host-level gate).
+ *
+ *  @param   {MoveSystemActionsColumnRow} row - Host row or `{ permissions }` subset with
+ *                                            `hasWorkspaceEdit` from `useHostIdsWithKessel`
+ *  @returns {boolean}                        `true` when move is permitted for this host; `false` when missing or denied
+ */
+export const hasWorkspaceEdit = (row) =>
+  row.permissions?.hasWorkspaceEdit ?? false;
+
+/**
+ * Whether a single-host “Move system” control should be disabled (Kessel path).
+ *
+ * Disabled when the page-level workspace gate is closed or the host lacks `hasWorkspaceEdit`.
+ *
+ *  @param   {MoveSystemActionsColumnRow} row                     - Host row with `permissions.hasWorkspaceEdit` (see
+ *                                                                {@link MoveSystemActionsColumnRow})
+ *  @param   {boolean}                    workspaceActionsAllowed - Page-level gate: user may perform workspace actions
+ *                                                                on this view. `true` on inventory list and Systems view (no workspace-detail RBAC gate);
+ *                                                                on workspace detail, pass `canModifyWorkspaceForActions` from GroupSystems.
+ *  @returns {boolean}                                            `true` when the move action should be disabled
+ */
+export const isKesselMoveSystemRowDisabled = (row, workspaceActionsAllowed) =>
+  !workspaceActionsAllowed || !hasWorkspaceEdit(row);
+
+/**
+ * Whether bulk “Move systems” should be disabled (Kessel path).
+ *
+ *  @param   {boolean}                      workspaceActionsAllowed - Same page-level gate as
+ *                                                                  {@link isKesselMoveSystemRowDisabled}
+ *  @param   {MoveSystemActionsColumnRow[]} selectedHosts           - Table selection: each entry is a host row
+ *                                                                  (or `{ permissions }` only) with `permissions.hasWorkspaceEdit`. Typically
+ *                                                                  `selectedSystemsList` from GroupSystems bulk toolbar.
+ *  @returns {boolean}                                              `true` when bulk move should be disabled (no selection, gate closed, or any
+ *                                                                  selected host lacks workspace edit)
+ */
+export const isKesselBulkMoveSystemsDisabled = (
+  workspaceActionsAllowed,
+  selectedHosts,
+) =>
+  !workspaceActionsAllowed ||
+  selectedHosts.length === 0 ||
+  selectedHosts.some((host) => !hasWorkspaceEdit(host));
+
+/**
+ * Disabled state for workspace-detail bulk remove (legacy) or bulk move (Kessel).
+ *
+ * Encapsulates GroupSystems toolbar rules so Kessel and legacy paths share one entry point.
+ *
+ *  @param   {object}                       params                         - Bulk action disable inputs from GroupSystems
+ *  @param   {boolean}                      params.isKesselEnabled         - From `useKesselMigrationFeatureFlag()`; picks Kessel
+ *                                                                         bulk-move vs legacy bulk-remove rules
+ *  @param   {boolean}                      params.workspaceActionsAllowed - Page-level workspace modify gate (GroupSystems:
+ *                                                                         `canModifyWorkspaceForActions`)
+ *  @param   {boolean}                      params.ungrouped               - Workspace detail flag: viewing the synthetic “Ungrouped
+ *                                                                         Hosts” workspace; legacy bulk remove stays disabled when `true`
+ *  @param   {number}                       params.selectedCount           - Number of checked rows in the table
+ *  @param   {MoveSystemActionsColumnRow[]} params.selectedHosts           - Selected host rows with
+ *                                                                         `permissions.hasWorkspaceEdit` (GroupSystems: `selectedSystemsList`); used only when
+ *                                                                         `isKesselEnabled` is `true`
+ *  @returns {boolean}                                                     `true` when the bulk toolbar action should be disabled
+ */
+export const getGroupSystemsBulkActionDisabled = ({
+  isKesselEnabled,
+  workspaceActionsAllowed,
+  ungrouped,
+  selectedCount,
+  selectedHosts,
+}) => {
+  if (isKesselEnabled) {
+    return isKesselBulkMoveSystemsDisabled(
+      workspaceActionsAllowed,
+      selectedHosts,
+    );
+  }
+
+  return ungrouped || !workspaceActionsAllowed || selectedCount === 0;
+};
+
+/**
+ * Builds a PatternFly `ActionsColumn` item descriptor for “Move system” (Systems view).
+ *
+ *  @param   {MoveSystemActionsColumnRow}                                row                     - `{ permissions }` from the system row (see
+ *                                                                                               {@link MoveSystemActionsColumnRow})
+ *  @param   {import('@patternfly/react-core').MenuItemProps['onClick']} onClick                 - Opens move modal,
+ *                                                                                               e.g. `() => openAddToWorkspaceModal([system])`
+ *  @param   {boolean}                                                   workspaceActionsAllowed - Page-level gate; Systems view passes `true`
+ *  @returns {object}                                                                            ActionsColumn item: `{ title, onClick, isDisabled, tooltipProps? }` where
+ *                                                                                               `title` is `MOVE_SYSTEM_MENU_TEXT` and `tooltipProps` is set when disabled
+ */
+export const buildMoveSystemActionsColumnItem = (
+  row,
+  onClick,
+  workspaceActionsAllowed,
+) => {
+  const isDisabled = isKesselMoveSystemRowDisabled(
+    row,
+    workspaceActionsAllowed,
+  );
+  return {
+    title: MOVE_SYSTEM_MENU_TEXT,
+    onClick,
+    isDisabled,
+    ...(isDisabled && {
+      tooltipProps: { content: NO_MOVE_SYSTEM_KESSEL_TOOLTIP_MESSAGE },
+    }),
+  };
+};
 
 export const buildCells = (item, columns, extra) => {
   return columns.map(({ key, composed, renderFunc }) => {

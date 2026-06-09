@@ -13,14 +13,18 @@ import {
 } from '../../constants';
 import type { SystemWithPermissions } from '../../Utilities/hooks/useHostIdsWithKessel';
 import { hasWorkspace } from './utils/systemHelpers';
-import {
-  buildMoveSystemActionsColumnItem,
-  type MoveSystemActionsColumnRow,
-} from '../InventoryTable/moveSystemRowAction';
+import { buildMoveSystemActionsColumnItem } from '../InventoryTable/helpers';
 
 interface RowActionsProps {
   system: System | SystemWithPermissions;
 }
+
+/** Row shape for Kessel move disable checks (see `useHostIdsWithKessel` `hasWorkspaceEdit`). */
+type MoveSystemActionsColumnRow = {
+  permissions?: {
+    hasWorkspaceEdit?: boolean;
+  };
+};
 
 const SystemsViewRowActions = ({ system }: RowActionsProps) => {
   const isKesselEnabled = useKesselMigrationFeatureFlag();

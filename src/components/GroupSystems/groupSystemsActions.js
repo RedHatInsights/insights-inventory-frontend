@@ -2,10 +2,10 @@ import React from 'react';
 import { MOVE_SYSTEMS_MENU_TEXT } from '../../constants';
 import { ActionDropdownItem } from '../InventoryTable/ActionWithRBAC';
 import {
-  MoveSystemActionDropdownItem,
   getGroupSystemsBulkActionDisabled,
   isKesselMoveSystemRowDisabled,
-} from '../InventoryTable/moveSystemRowAction';
+} from '../InventoryTable/helpers';
+import { MoveSystemActionDropdownItem } from '../InventoryTable/MoveSystemActionDropdownItem';
 
 export const openModalForSystems = (
   systems,
