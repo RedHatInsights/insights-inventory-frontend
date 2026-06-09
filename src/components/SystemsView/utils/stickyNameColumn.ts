@@ -1,5 +1,4 @@
 import type { TdProps, ThProps } from '@patternfly/react-table';
-import { SYSTEMS_VIEW_COLUMN_MIN_WIDTHS } from './columnMinWidths';
 
 /**
  * Left inset for the Name column so it clears the bulk-select column when both stick.
@@ -7,31 +6,45 @@ import { SYSTEMS_VIEW_COLUMN_MIN_WIDTHS } from './columnMinWidths';
  */
 export const STICKY_NAME_LEFT_OFFSET = 'var(--pf-t--global--spacer--2xl)';
 
-const stickyNameShared: Pick<
+const getStickyNameShared = (
+  minWidth: string,
+): Pick<
   ThProps,
   'isStickyColumn' | 'hasRightBorder' | 'stickyMinWidth' | 'stickyLeftOffset'
-> = {
+> => ({
   isStickyColumn: true,
   hasRightBorder: true,
-  stickyMinWidth: SYSTEMS_VIEW_COLUMN_MIN_WIDTHS.name,
+  stickyMinWidth: minWidth,
   stickyLeftOffset: STICKY_NAME_LEFT_OFFSET,
-};
+});
 
-/** Forwarded through DataView column `props` → composable `Th` (via DataViewTh `thProps`). */
-export const STICKY_NAME_HEADER_PROPS: Pick<
+/**
+ * Forwarded through DataView column `props` → composable `Th` (via DataViewTh `thProps`).
+ *  @param minWidth - CSS min-width for the sticky Name column (from column `minWidth`).
+ *  @returns        Sticky header props for the Name column.
+ */
+export const getStickyNameHeaderProps = (
+  minWidth: string,
+): Pick<
   ThProps,
   'isStickyColumn' | 'hasRightBorder' | 'stickyMinWidth' | 'stickyLeftOffset'
-> = stickyNameShared;
+> => getStickyNameShared(minWidth);
 
-/** Forwarded through DataView body cell `{ props }` → composable `Td`. */
-export const STICKY_NAME_BODY_PROPS: Pick<
+/**
+ * Forwarded through DataView body cell `{ props }` → composable `Td`.
+ *  @param minWidth - CSS min-width for the sticky Name column (from column `minWidth`).
+ *  @returns        Sticky body cell props for the Name column.
+ */
+export const getStickyNameBodyProps = (
+  minWidth: string,
+): Pick<
   TdProps,
   | 'isStickyColumn'
   | 'hasRightBorder'
   | 'stickyMinWidth'
   | 'stickyLeftOffset'
   | 'modifier'
-> = {
-  ...stickyNameShared,
+> => ({
+  ...getStickyNameShared(minWidth),
   modifier: 'nowrap',
-};
+});

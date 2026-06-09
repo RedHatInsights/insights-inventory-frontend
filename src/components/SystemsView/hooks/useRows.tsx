@@ -1,9 +1,12 @@
 import { DataViewTrObject } from '@patternfly/react-data-view';
 import React from 'react';
 import SystemsViewRowActions from '../SystemsViewRowActions';
-import { getSystemsViewColumnMinWidthStyle } from '../utils/columnMinWidths';
+import {
+  getColumnMinWidthStyle,
+  getNameColumnMinWidth,
+} from '../utils/columnMinWidths';
 import { STICKY_ACTIONS_BODY_PROPS } from '../utils/stickyActionsColumn';
-import { STICKY_NAME_BODY_PROPS } from '../utils/stickyNameColumn';
+import { getStickyNameBodyProps } from '../utils/stickyNameColumn';
 import type { SystemWithPermissions } from '../../../Utilities/hooks/useHostIdsWithKessel';
 import type { System } from './useSystemsQuery';
 import { Column } from '../columns/allColumnDefinitions';
@@ -40,14 +43,17 @@ export const useRows = ({
         const cell = col.renderCell(system);
         if (col.key === 'name') {
           if (isInventoryViewsEnabled) {
-            return { cell, props: STICKY_NAME_BODY_PROPS };
+            return {
+              cell,
+              props: getStickyNameBodyProps(getNameColumnMinWidth(col)),
+            };
           }
           return cell;
         }
         if (!isInventoryViewsEnabled) {
           return cell;
         }
-        const minStyle = getSystemsViewColumnMinWidthStyle(col.key);
+        const minStyle = getColumnMinWidthStyle(col);
         return minStyle ? { cell, props: minStyle } : cell;
       });
 

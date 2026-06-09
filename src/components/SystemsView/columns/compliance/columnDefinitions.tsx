@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 const lastComplianceScanColumn = {
   title: 'Last compliance scan',
   key: 'last_compliance_scan',
+  minWidth: '12rem',
   isShownByDefault: false,
   isShown: false,
   sortBy: ApiHostViewsGetHostViewsOrderByEnum.CompliancelastScan,
@@ -24,6 +25,7 @@ const lastComplianceScanColumn = {
 const policiesColumn = {
   title: 'Policies',
   key: 'policies',
+  minWidth: '7rem',
   isShownByDefault: false,
   isShown: false,
   renderCell: (system: InventoryViewSystem) => {

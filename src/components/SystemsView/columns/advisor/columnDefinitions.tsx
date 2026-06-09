@@ -6,6 +6,7 @@ import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host
 const recommendationsColumn = {
   title: 'Recommendations',
   key: 'recommendations',
+  minWidth: '10rem',
   isShownByDefault: false,
   isShown: false,
   sortBy: ApiHostViewsGetHostViewsOrderByEnum.Advisorrecommendations,
@@ -16,6 +17,7 @@ const recommendationsColumn = {
 const incidentsColumn = {
   title: 'Incidents',
   key: 'incidents',
+  minWidth: '7rem',
   isShownByDefault: false,
   isShown: false,
   sortBy: ApiHostViewsGetHostViewsOrderByEnum.Advisorincidents,
@@ -26,6 +28,7 @@ const incidentsColumn = {
 const criticalColumn = {
   title: 'Critical',
   key: 'critical',
+  minWidth: '7rem',
   isShownByDefault: false,
   isShown: false,
   renderCell: (system: InventoryViewSystem) =>
@@ -35,6 +38,7 @@ const criticalColumn = {
 const importantColumn = {
   title: 'Important',
   key: 'important',
+  minWidth: '7rem',
   isShownByDefault: false,
   isShown: false,
   renderCell: (system: InventoryViewSystem) =>
@@ -44,6 +48,7 @@ const importantColumn = {
 const moderateColumn = {
   title: 'Moderate',
   key: 'moderate',
+  minWidth: '7rem',
   isShownByDefault: false,
   isShown: false,
   renderCell: (system: InventoryViewSystem) =>
@@ -53,6 +58,7 @@ const moderateColumn = {
 const lowColumn = {
   title: 'Low',
   key: 'low',
+  minWidth: '6rem',
   isShownByDefault: false,
   isShown: false,
   renderCell: (system: InventoryViewSystem) =>
