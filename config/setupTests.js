@@ -72,38 +72,27 @@ jest.mock('@scalprum/react-core', () => ({
   },
 }));
 
-// Mock AsyncComponent so federated modules render fallback/error stubs in tests.
-// WorkspaceSelector gets an interactive stub; other modules render fallback only.
+// Mock AsyncComponent so components that load federated modules render a test-friendly selector
 jest.mock('@redhat-cloud-services/frontend-components/AsyncComponent', () => {
   const React = require('react');
   return {
     __esModule: true,
     default: function MockAsyncComponent(props) {
-      if (props.module === './modules/WorkspaceSelector') {
-        return React.createElement(
-          'div',
-          { 'data-testid': 'workspace-selector' },
-          React.createElement(
-            'button',
-            {
-              type: 'button',
-              onClick: () =>
-                props.onSelect?.({
-                  workspace: { id: 'ws-123', name: 'Test Workspace' },
-                }),
-            },
-            'Select workspace',
-          ),
-        );
-      }
-
       return React.createElement(
         'div',
-        {
-          'data-testid': 'async-component-mock',
-          'data-module': props.module,
-        },
-        props.fallback ?? props.ErrorComponent ?? null,
+        { 'data-testid': 'workspace-selector' },
+        React.createElement(
+          'button',
+          {
+            type: 'button',
+            onClick: () =>
+              props.onSelect &&
+              props.onSelect({
+                workspace: { id: 'ws-123', name: 'Test Workspace' },
+              }),
+          },
+          'Select workspace',
+        ),
       );
     },
   };

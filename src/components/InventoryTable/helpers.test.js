@@ -344,6 +344,14 @@ describe('move system row action helpers', () => {
       expect(isKesselBulkMoveSystemsDisabled(true, [])).toBe(true);
     });
 
+    it('is disabled when workspace actions are not allowed', () => {
+      expect(
+        isKesselBulkMoveSystemsDisabled(false, [
+          { permissions: { hasWorkspaceEdit: true } },
+        ]),
+      ).toBe(true);
+    });
+
     it('is disabled when any selected host lacks workspace edit', () => {
       expect(
         isKesselBulkMoveSystemsDisabled(true, [
@@ -351,6 +359,15 @@ describe('move system row action helpers', () => {
           { permissions: { hasWorkspaceEdit: false } },
         ]),
       ).toBe(true);
+    });
+
+    it('is enabled when all selected hosts have workspace edit', () => {
+      expect(
+        isKesselBulkMoveSystemsDisabled(true, [
+          { permissions: { hasWorkspaceEdit: true } },
+          { permissions: { hasWorkspaceEdit: true } },
+        ]),
+      ).toBe(false);
     });
   });
 
@@ -377,6 +394,33 @@ describe('move system row action helpers', () => {
           selectedHosts: [{ permissions: { hasWorkspaceEdit: true } }],
         }),
       ).toBe(true);
+    });
+
+    it('enables Kessel bulk move when selection and permissions are valid', () => {
+      expect(
+        getGroupSystemsBulkActionDisabled({
+          isKesselEnabled: true,
+          workspaceActionsAllowed: true,
+          ungrouped: false,
+          selectedCount: 2,
+          selectedHosts: [
+            { permissions: { hasWorkspaceEdit: true } },
+            { permissions: { hasWorkspaceEdit: true } },
+          ],
+        }),
+      ).toBe(false);
+    });
+
+    it('enables legacy bulk remove when workspace is grouped and selected', () => {
+      expect(
+        getGroupSystemsBulkActionDisabled({
+          isKesselEnabled: false,
+          workspaceActionsAllowed: true,
+          ungrouped: false,
+          selectedCount: 1,
+          selectedHosts: [],
+        }),
+      ).toBe(false);
     });
   });
 

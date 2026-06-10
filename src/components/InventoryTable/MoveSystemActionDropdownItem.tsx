@@ -10,13 +10,15 @@ import type { MenuItemProps } from '@patternfly/react-core';
 import { MOVE_SYSTEM_MENU_TEXT } from '../../constants';
 import { ActionDropdownItem } from './ActionWithRBAC';
 
-type ActionRBACProps = Pick<
-  React.ComponentProps<typeof ActionDropdownItem>,
-  | 'requiredPermissions'
-  | 'noAccessTooltip'
-  | 'override'
-  | 'ignoreResourceDefinitions'
-  | 'checkAll'
+type ActionRBACProps = Partial<
+  Pick<
+    React.ComponentProps<typeof ActionDropdownItem>,
+    | 'requiredPermissions'
+    | 'noAccessTooltip'
+    | 'override'
+    | 'ignoreResourceDefinitions'
+    | 'checkAll'
+  >
 >;
 
 export type MoveSystemActionDropdownItemProps = Omit<

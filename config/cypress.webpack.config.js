@@ -19,19 +19,6 @@ const { config: webpackConfig, plugins } = config({
   }),
 });
 
-webpackConfig.resolve.alias = {
-  ...webpackConfig.resolve.alias,
-  '@scalprum/react-core': resolve(__dirname, './cypressScalprumMock.tsx'),
-  '@redhat-cloud-services/frontend-components/AsyncComponent': resolve(
-    __dirname,
-    './cypressAsyncComponentMock.tsx',
-  ),
-  [resolve(
-    __dirname,
-    '../src/components/InventoryTable/WorkspaceSelectorField.tsx',
-  )]: resolve(__dirname, './cypressWorkspaceSelectorFieldMock.tsx'),
-};
-
 module.exports = {
   ...webpackConfig,
   plugins,
