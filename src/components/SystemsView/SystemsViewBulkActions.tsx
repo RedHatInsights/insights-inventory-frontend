@@ -68,7 +68,10 @@ export const SystemsViewBulkActions = ({
             Delete
           </ResponsiveAction>
           {isInventoryViewsEnabled && (
-            <ResponsiveAction onClick={() => openColumnManagementModal()}>
+            <ResponsiveAction
+              isDisabled={activeState !== 'active'}
+              onClick={() => openColumnManagementModal()}
+            >
               Manage columns
             </ResponsiveAction>
           )}
@@ -104,7 +107,10 @@ export const SystemsViewBulkActions = ({
             Remove from workspace
           </ResponsiveAction>
           {isInventoryViewsEnabled && (
-            <ResponsiveAction onClick={() => openColumnManagementModal()}>
+            <ResponsiveAction
+              isDisabled={activeState !== 'active'}
+              onClick={() => openColumnManagementModal()}
+            >
               Manage columns
             </ResponsiveAction>
           )}
