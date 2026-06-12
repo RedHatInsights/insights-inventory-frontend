@@ -2,11 +2,13 @@ import { expect } from '@playwright/test';
 import { navigateToInventorySystemsFunc } from './helpers/navHelpers';
 import { test } from './helpers/fixtures';
 
-test.describe('Inventory Views default columns', () => {
-  test(
-    'User should see only default columns when navigating to Systems page',
-    { tag: ['@inventory-views'] },
-    async ({ page }) => {
+test.describe(
+  'Inventory Views default columns',
+  { tag: ['@inventory-views'] },
+  () => {
+    test('User should see only default columns when navigating to Systems page', async ({
+      page,
+    }) => {
       await test.step('Navigate to Inventory → Systems', async () => {
         await navigateToInventorySystemsFunc(page);
       });
@@ -31,6 +33,6 @@ test.describe('Inventory Views default columns', () => {
           ).toBeVisible({ timeout: 10000 });
         }
       });
-    },
-  );
-});
+    });
+  },
+);
