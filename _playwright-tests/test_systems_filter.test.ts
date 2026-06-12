@@ -13,7 +13,7 @@ import {
   isSystemsViewEnabled,
 } from './helpers/constants';
 
-test.describe('Filtering Systems Tests', () => {
+test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
   const operatingSystemTestCases = [
     { OS: 'RHEL 9.4' },
     { OS: 'CentOS Linux 7.6' },
