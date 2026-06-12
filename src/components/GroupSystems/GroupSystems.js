@@ -1,6 +1,12 @@
 import { TableVariant } from '@patternfly/react-table';
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AddSystemsToGroupModal from '../InventoryGroups/Modals/AddSystemsToGroupModal';
 import InventoryTable from '../InventoryTable/InventoryTable';
@@ -15,7 +21,11 @@ import {
 } from '../../constants';
 import { ActionButton } from '../InventoryTable/ActionWithRBAC';
 import { getBulkActionConfig, getRowActionItem } from './groupSystemsActions';
-import { clearEntitiesAction, setPagination } from '../../store/actions';
+import {
+  clearEntitiesAction,
+  selectEntity,
+  setPagination,
+} from '../../store/actions';
 import { fetchGroupDetail } from '../../store/inventory-actions';
 import { useBulkSelectConfig } from '../../Utilities/hooks/useBulkSelectConfig';
 import difference from 'lodash/difference';
@@ -136,23 +146,41 @@ const GroupSystems = ({
   );
 
   const reloadDataAfterWorkspaceMove = useCallback(() => {
+    dispatch(selectEntity(-1, false));
     dispatch(fetchGroupDetail(groupId));
     inventory.current?.onRefreshData?.({}, false, true);
   }, [dispatch, groupId]);
 
-  const selectedSystemsList = Array.from(selected.values());
+  const selectedSystemsList = useMemo(
+    () => Array.from(selected.values()),
+    [selected],
+  );
   const selectedCount = calculateSelected();
-  const bulkAction = getBulkActionConfig({
-    isKesselEnabled,
-    ungrouped,
-    canModifyWorkspaceForActions,
-    selectedCount,
-    selectedSystemsList,
-    removeLabel,
-    setCurrentSystem,
-    setMoveSystemsToWorkspaceModalOpen,
-    setRemoveHostsFromGroupModalOpen,
-  });
+  const bulkAction = useMemo(
+    () =>
+      getBulkActionConfig({
+        isKesselEnabled,
+        ungrouped,
+        canModifyWorkspaceForActions,
+        selectedCount,
+        selectedSystemsList,
+        removeLabel,
+        setCurrentSystem,
+        setMoveSystemsToWorkspaceModalOpen,
+        setRemoveHostsFromGroupModalOpen,
+      }),
+    [
+      isKesselEnabled,
+      ungrouped,
+      canModifyWorkspaceForActions,
+      selectedCount,
+      selectedSystemsList,
+      removeLabel,
+      setCurrentSystem,
+      setMoveSystemsToWorkspaceModalOpen,
+      setRemoveHostsFromGroupModalOpen,
+    ],
+  );
   const rowActionCommon = {
     isKesselEnabled,
     ungrouped,
