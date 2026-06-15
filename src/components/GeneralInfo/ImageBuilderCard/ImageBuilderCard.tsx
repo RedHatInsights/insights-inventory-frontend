@@ -53,7 +53,7 @@ export const ImageBuilderCard = ({ blueprintId }: ImageBuilderCardProps) => {
 
     const fetchBlueprint = async () => {
       try {
-        const data = await instance.get(
+        const data = await instance.get<BlueprintData, BlueprintData>(
           `/api/image-builder/v1/blueprints/${blueprintId}`,
         );
         if (!cancelled) {
