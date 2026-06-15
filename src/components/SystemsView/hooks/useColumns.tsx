@@ -2,9 +2,12 @@ import React from 'react';
 import { DataViewTh } from '@patternfly/react-data-view';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { OnSort, SortDirection } from '../SystemsView';
-import { getSystemsViewColumnMinWidthStyle } from '../utils/columnMinWidths';
+import {
+  getColumnMinWidthStyle,
+  getNameColumnMinWidth,
+} from '../utils/columnMinWidths';
 import { STICKY_ACTIONS_HEADER_PROPS } from '../utils/stickyActionsColumn';
-import { STICKY_NAME_HEADER_PROPS } from '../utils/stickyNameColumn';
+import { getStickyNameHeaderProps } from '../utils/stickyNameColumn';
 import initialColumns, { type Column } from '../columns/allColumnDefinitions';
 
 export const INITIAL_SORT: {
@@ -37,7 +40,16 @@ export const useColumns = ({
   isInventoryViewsEnabled,
 }: UseColumnParams) => {
   const [columns, setColumns] = useState<Column[]>(() =>
-    initialColumns.map((col) => ({ ...col })),
+    initialColumns
+      .map((col) => ({ ...col }))
+      .filter((col) => {
+        if (isInventoryViewsEnabled) {
+          return true;
+        }
+
+        const isConsumerAppColumn = 'appName' in col && col.appName;
+        return !isConsumerAppColumn;
+      }),
   );
 
   const fromSortByToIndex = useCallback(
@@ -58,10 +70,10 @@ export const useColumns = ({
             props: {
               ...(col.key === 'name'
                 ? isInventoryViewsEnabled
-                  ? STICKY_NAME_HEADER_PROPS
+                  ? getStickyNameHeaderProps(getNameColumnMinWidth(col))
                   : {}
                 : isInventoryViewsEnabled
-                  ? (getSystemsViewColumnMinWidthStyle(col.key) ?? {})
+                  ? (getColumnMinWidthStyle(col) ?? {})
                   : {}),
               ...(col.sortBy && {
                 sort: {
@@ -110,7 +122,7 @@ export const useColumns = ({
         onSort(undefined, FALLBACK_SORT.sortBy!, FALLBACK_SORT.direction);
       }
     }
-  });
+  }, [sortBy, columns, onSort]);
 
   return {
     columns,

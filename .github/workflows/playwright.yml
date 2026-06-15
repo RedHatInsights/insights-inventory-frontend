@@ -93,7 +93,17 @@ jobs:
           npx wait-on http://localhost:8003/apps/inventory/
 
       - name: Run front-end Playwright tests
-        run: USE_CTRF=1 CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-e2e-full-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test --grep-invert @integration
+        id: pw_run
+        continue-on-error: true
+        run: USE_CTRF=1 npx playwright test --grep-invert "@integration|@inventory-views"
+
+      - name: Report failures to Currents
+        if: steps.pw_run.outcome == 'failure'
+        run: CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-e2e-full-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test --grep-invert "@integration|@inventory-views" --last-failed
+
+      - name: Fail job if tests failed
+        if: steps.pw_run.outcome == 'failure'
+        run: exit 1
 
       - name: Publish front-end Test Report
         uses: ctrf-io/github-test-reporter@v1

@@ -35,13 +35,13 @@ function resolvePlaywrightApiToken(): string {
   );
 }
 
-function isValidProxyUrl(url: string | undefined): url is string {
-  if (!url) return false;
+function resolveProxyUrl(raw: string | undefined): string | null {
+  if (!raw) return null;
+  const url = raw.includes('://') ? raw : `http://${raw}`;
   try {
-    const parsed = new URL(url);
-    return !!parsed.hostname && !!parsed.port;
+    return new URL(url).hostname ? url : null;
   } catch {
-    return false;
+    return null;
   }
 }
 
@@ -53,10 +53,11 @@ function getPlaywrightApiClient(): AxiosInstance {
     throw new Error('BASE_URL must be set (run setup first).');
   }
 
-  const useProxy = isValidProxyUrl(proxyUrl);
-  const httpsAgent = useProxy
+  const needsProxy = process.env.INTEGRATION === 'true';
+  const resolvedProxy = needsProxy ? resolveProxyUrl(proxyUrl) : null;
+  const httpsAgent = resolvedProxy
     ? new HttpsProxyAgent({
-        proxy: proxyUrl,
+        proxy: resolvedProxy,
         rejectUnauthorized: false,
       })
     : new https.Agent({ rejectUnauthorized: false });

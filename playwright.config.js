@@ -36,7 +36,7 @@ export default defineConfig({
               },
             ]
           : ['json', { outputFile: 'playwright-ctrf/playwright-ctrf.json' }],
-        ['@currents/playwright'],
+        ...(process.env.CURRENTS_PROJECT_ID ? [['@currents/playwright']] : []),
       ]
     : 'list',
   globalTimeout: 35 * 60 * 1000, // 35 min

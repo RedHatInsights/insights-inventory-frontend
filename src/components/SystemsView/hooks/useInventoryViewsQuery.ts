@@ -34,7 +34,7 @@ type FetchInventoryViewsReturnedValue = Awaited<
  * Host row from `fetchInventoryViews`: host-view API shape plus optional `tags` from
  * `getHostTags`. Not the same as the classic host list `HostOut` type.
  */
-export type InventoryViewHost =
+export type InventoryViewSystem =
   FetchInventoryViewsReturnedValue['results'][number];
 
 interface FetchInventoryViewsParams {

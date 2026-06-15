@@ -1,10 +1,10 @@
 import { ColumnManagementModalColumn } from '@patternfly/react-component-groups';
 import inventoryColumns from './inventory/columnDefinitions';
 import complianceColumns from './compliance/columnDefinitions';
+import patchColumns from './patch/columnDefinitions';
 import { System } from '../hooks/useSystemsQuery';
 import { Resolve } from '../../../types/utility-types';
 import advisorColumns from './advisor/columnDefinitions';
-import remediationPlansColumns from './remediations/columnDefinitions';
 import malwareColumns from './malware/columnDefinitions';
 
 type RenderableColumn = {
@@ -17,8 +17,21 @@ type SortableColumn = {
   readonly sortBy?: string;
 };
 
+type ConsumerAppColumn = {
+  appName?: 'patch' | 'vulnerability' | 'advisor';
+};
+
+type LayoutColumn = {
+  /** CSS min-width when inventory views scroll layout is enabled (e.g. '9rem'). */
+  readonly minWidth?: string;
+};
+
 export type Column = Resolve<
-  ColumnManagementModalColumn & RenderableColumn & SortableColumn
+  ColumnManagementModalColumn &
+    RenderableColumn &
+    SortableColumn &
+    ConsumerAppColumn &
+    LayoutColumn
 >;
 
 /**
@@ -26,13 +39,17 @@ export type Column = Resolve<
  *
  * To add an app: import its `./<appId>/columnDefinitions` default export and append
  * with `...thatAppsColumns` (or insert where the column order should appear).
+ *
+ * `minWidth` is optional on the type. Omitting it lets a column size to content;
+ * the sticky Name column falls back to {@link ../utils/columnMinWidths.DEFAULT_NAME_COLUMN_MIN_WIDTH}.
+ * Columns in `allColumns` should still define `minWidth` for inventory views scroll layout.
  */
 const allColumns = [
   ...inventoryColumns,
+  ...patchColumns,
   ...advisorColumns,
   ...malwareColumns,
   ...complianceColumns,
-  ...remediationPlansColumns,
 ] as const satisfies readonly Column[];
 
 export default allColumns;

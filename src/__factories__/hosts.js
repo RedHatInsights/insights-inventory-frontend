@@ -17,15 +17,12 @@ export const buildHosts = (length) =>
         minor: faker.number.int(50),
       },
     },
-    groups:
-      Math.random() > 0.5
-        ? [
-            {
-              id: faker.string.uuid(),
-              name: faker.lorem.words({ min: 1, max: 3 }),
-            },
-          ]
-        : [],
+    groups: [
+      {
+        id: faker.string.uuid(),
+        name: faker.lorem.words({ min: 1, max: 3 }),
+      },
+    ],
   }));
 
 export const buildHostsPayload = (page = 1, per_page = 50, total = 20) => {

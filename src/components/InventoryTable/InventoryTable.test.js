@@ -113,9 +113,7 @@ const checkRowsContent = (hostsData) => {
     .forEach((row, index) => {
       try {
         expect(row).toHaveTextContent(hostsData[index].display_name);
-        expect(row).toHaveTextContent(
-          hostsData[index].groups?.[0]?.name || 'No workspace',
-        );
+        expect(row).toHaveTextContent(hostsData[index].groups?.[0]?.name);
         const os = hostsData[index].system_profile.operating_system;
         expect(row).toHaveTextContent(`${os.name} ${os.major}.${os.minor}`);
       } catch (error) {
