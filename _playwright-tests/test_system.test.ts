@@ -5,7 +5,7 @@ import { test } from './helpers/fixtures';
 import { searchByName, waitForTableKebabReady } from './helpers/filterHelpers';
 import { isSystemsViewEnabled } from './helpers/constants';
 
-test.describe('System CRUD', () => {
+test.describe('System CRUD', { tag: ['@systems-table'] }, () => {
   test('User should be able to edit and delete a system from Systems page', async ({
     page,
   }) => {
@@ -134,7 +134,7 @@ test.describe('System CRUD', () => {
   });
 });
 
-test.describe('System Export', () => {
+test.describe('System Export', { tag: ['@systems-table'] }, () => {
   test('User should be able to export systems to JSON', async ({ page }) => {
     await test.step('Navigate to Inventory → Systems', async () => {
       await navigateToInventorySystemsFunc(page);
@@ -225,7 +225,7 @@ test.describe('System Export', () => {
   });
 });
 
-test.describe('System Sorting', () => {
+test.describe('System Sorting', { tag: ['@systems-table'] }, () => {
   (['ascending', 'descending'] as const).forEach((order) => {
     test(`User can sort systems by Name column in ${order} order`, async ({
       page,
