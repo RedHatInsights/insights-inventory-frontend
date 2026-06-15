@@ -1,5 +1,4 @@
 import React, {
-  useCallback,
   useContext,
   useMemo,
   useState,
@@ -23,6 +22,7 @@ import {
   FlexItem,
 } from '@patternfly/react-core';
 import xor from 'lodash/xor';
+import { useDebouncedValue } from '../../../Utilities/hooks/useDebouncedValue';
 import { useWorkspaceGroupsInfiniteQuery } from '../../filters/useWorkspaceGroupsInfiniteQuery';
 import { DEBOUNCE_TIMEOUT_MS } from '../../../constants';
 import { UNGROUPED_HOSTS_LABEL } from '../constants';
@@ -50,7 +50,7 @@ export const WorkspaceFilter = ({
 
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const debouncedSearch = useDebouncedValue(search, DEBOUNCE_TIMEOUT_MS);
   const [visibleSize, setVisibleSize] = useState(INITIAL_VISIBLE_SIZE);
   const [focusedOption, setFocusedOption] = useState(0);
 
@@ -96,7 +96,6 @@ export const WorkspaceFilter = ({
   }, [data, debouncedSearch, ungroupedWorkspaceIdHint]);
 
   const visibleOptions = workspaceOptions.slice(0, visibleSize);
-  const debounceTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
   const focusedOptionRef = useRef<HTMLOptionElement>();
 
   const onViewMoreClick = async () => {
@@ -110,28 +109,12 @@ export const WorkspaceFilter = ({
     setFocusedOption(visibleSize);
   };
 
-  const debounceSearch = useCallback((value: string) => {
-    if (debounceTimeoutRef.current) {
-      clearTimeout(debounceTimeoutRef.current);
-    }
-
-    debounceTimeoutRef.current = setTimeout(() => {
-      setDebouncedSearch(value);
-      if (value) {
-        setIsOpen(true);
-      }
-    }, DEBOUNCE_TIMEOUT_MS);
-  }, []);
-
+  // Auto-open when user starts typing (if closed)
   useEffect(() => {
-    debounceSearch(search);
-
-    return () => {
-      if (debounceTimeoutRef.current) {
-        clearTimeout(debounceTimeoutRef.current);
-      }
-    };
-  }, [search, debounceSearch]);
+    if (search && !isOpen) {
+      setIsOpen(true);
+    }
+  }, [search, isOpen]);
 
   useEffect(() => {
     focusedOptionRef.current?.focus();

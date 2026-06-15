@@ -11,6 +11,11 @@ jest.mock('../hooks/useOperatingSystemsQuery', () => ({
   useOperatingSystemsQuery: jest.fn(),
 }));
 
+jest.mock('../../../constants', () => ({
+  ...jest.requireActual('../../../constants'),
+  DEBOUNCE_TIMEOUT_MS: 0,
+}));
+
 /** Shape matches mapOperatingSystemApiResultsToVersionRows input; hook returns `data` as this array. */
 const rhel9Results = [
   { value: { name: 'RHEL', major: 9, minor: 0 } },
@@ -29,11 +34,15 @@ function mockLoadedOperatingSystems(data = rhel9Results) {
   });
 }
 
-async function openOperatingSystemsMenu(
-  user,
-  placeholder = /filter by operating system/i,
-) {
-  await user.click(screen.getByRole('button', { name: placeholder }));
+async function openOperatingSystemsMenu(user) {
+  const toggle = screen.getByRole('button', { expanded: false });
+  await user.click(toggle);
+}
+
+async function typeIntoFilter(user, text) {
+  const input = screen.getByPlaceholderText(/filter by operating system/i);
+  await user.clear(input);
+  await user.type(input, text);
 }
 
 function ControlledOperatingSystemsFilter({
@@ -196,5 +205,69 @@ describe('OperatingSystemsFilter', () => {
     } finally {
       consoleError.mockRestore();
     }
+  });
+
+  it('filters operating systems when user types in the search box', async () => {
+    mockLoadedOperatingSystems([
+      { value: { name: 'RHEL', major: 9, minor: 0 } },
+      { value: { name: 'RHEL', major: 9, minor: 1 } },
+      { value: { name: 'CentOS Linux', major: 8, minor: 0 } },
+    ]);
+    const user = userEvent.setup();
+    render(<OperatingSystemsFilter />);
+    await openOperatingSystemsMenu(user);
+
+    // Initially shows all options
+    expect(
+      screen.getByRole('checkbox', { name: /^RHEL 9$/ }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('checkbox', { name: /^CentOS Linux 8$/ }),
+    ).toBeInTheDocument();
+
+    // Type "RHEL" to filter
+    await typeIntoFilter(user, 'RHEL');
+
+    // CentOS should be filtered out
+    expect(
+      screen.queryByRole('checkbox', { name: /^CentOS Linux 8$/ }),
+    ).not.toBeInTheDocument();
+    // RHEL should still be visible
+    expect(
+      screen.getByRole('checkbox', { name: /^RHEL 9$/ }),
+    ).toBeInTheDocument();
+  });
+
+  it('shows "No matching operating systems" when search yields no results', async () => {
+    mockLoadedOperatingSystems();
+    const user = userEvent.setup();
+    render(<OperatingSystemsFilter />);
+    await openOperatingSystemsMenu(user);
+
+    await typeIntoFilter(user, 'Ubuntu');
+
+    expect(
+      screen.getByText(/no matching operating systems/i),
+    ).toBeInTheDocument();
+  });
+
+  it('clears search when menu is closed', async () => {
+    mockLoadedOperatingSystems();
+    const user = userEvent.setup();
+    render(<OperatingSystemsFilter />);
+
+    await openOperatingSystemsMenu(user);
+    await typeIntoFilter(user, 'RHEL');
+
+    // Close the menu
+    const toggle = screen.getByRole('button', { expanded: true });
+    await user.click(toggle);
+
+    // Reopen
+    await openOperatingSystemsMenu(user);
+
+    // Search input should be cleared
+    const input = screen.getByPlaceholderText(/filter by operating system/i);
+    expect(input).toHaveValue('');
   });
 });
