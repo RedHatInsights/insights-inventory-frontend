@@ -229,7 +229,12 @@ export const createRows = (
 
 export const onDeleteFilter = (deleted, currFilter = []) => {
   const { value: deletedItem } = deleted?.chips?.[0] || {};
-  return currFilter.filter((item) => item !== deletedItem);
+  return currFilter.filter((item) => {
+    if (typeof item === 'object' && item !== null) {
+      return item.id !== deletedItem;
+    }
+    return item !== deletedItem;
+  });
 };
 
 const buildNewCategoryTags = (deleted, category, categoryTags) =>

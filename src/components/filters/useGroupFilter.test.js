@@ -87,38 +87,42 @@ describe('groups request not yet resolved', () => {
 
     const [config] = result.current;
     expect(config.filterValues).toMatchInlineSnapshot(`
-      {
-        "children": <SearchableGroupFilter
-          fetchNextPage={[Function]}
-          groups={[]}
-          hasNextPage={false}
-          isFetchingNextPage={false}
-          isLoading={true}
-          searchQuery=""
-          selectedGroupNames={[]}
-          setSearchQuery={[Function]}
-          setSelectedGroupNames={[Function]}
-          showNoGroupOption={false}
-        />,
-      }
+     {
+       "children": <SearchableGroupFilter
+         fetchNextPage={[Function]}
+         groups={[]}
+         hasNextPage={false}
+         isFetchingNextPage={false}
+         isLoading={true}
+         searchQuery=""
+         selectedGroupNames={[]}
+         setSearchQuery={[Function]}
+         setSelectedGroupNames={[Function]}
+         showNoGroupOption={false}
+         ungroupedWorkspace={null}
+       />,
+     }
     `);
   });
 });
+
+const mockUngroupedHostsGroup = () =>
+  Promise.resolve({
+    total: 1,
+    results: [
+      {
+        id: 'ungrouped-kessel-id',
+        name: 'Ungrouped hosts',
+        ungrouped: true,
+      },
+    ],
+  });
 
 describe('with some groups available', () => {
   beforeAll(() => {
     getGroups.mockImplementation((search) => {
       if (search?.type === 'ungrouped-hosts') {
-        return Promise.resolve({
-          total: 1,
-          results: [
-            {
-              id: 'ungrouped-kessel-id',
-              name: 'Ungrouped hosts',
-              ungrouped: true,
-            },
-          ],
-        });
+        return mockUngroupedHostsGroup();
       }
       return Promise.resolve({
         total: 1,
@@ -138,27 +142,28 @@ describe('with some groups available', () => {
 
     const [config] = result.current;
     expect(config.filterValues).toMatchInlineSnapshot(`
-      {
-        "children": <SearchableGroupFilter
-          fetchNextPage={[Function]}
-          groups={
-            [
-              {
-                "id": "g1",
-                "name": "group-1",
-              },
-            ]
-          }
-          hasNextPage={false}
-          isFetchingNextPage={false}
-          isLoading={false}
-          searchQuery=""
-          selectedGroupNames={[]}
-          setSearchQuery={[Function]}
-          setSelectedGroupNames={[Function]}
-          showNoGroupOption={false}
-        />,
-      }
+     {
+       "children": <SearchableGroupFilter
+         fetchNextPage={[Function]}
+         groups={
+           [
+             {
+               "id": "g1",
+               "name": "group-1",
+             },
+           ]
+         }
+         hasNextPage={false}
+         isFetchingNextPage={false}
+         isLoading={false}
+         searchQuery=""
+         selectedGroupNames={[]}
+         setSearchQuery={[Function]}
+         setSelectedGroupNames={[Function]}
+         showNoGroupOption={false}
+         ungroupedWorkspace={null}
+       />,
+     }
     `);
   });
 
@@ -170,16 +175,21 @@ describe('with some groups available', () => {
     act(() => {
       setValue(['group-1']);
     });
-    const [, chips, value] = result.current;
+
+    await waitFor(() => {
+      const [, , value] = result.current;
+      expect(value).toEqual([{ id: 'g1', name: 'group-1' }]);
+    });
+
+    const [, chips] = result.current;
     expect(chips.length).toBe(1);
-    expect(value).toEqual(['group-1']);
     expect(chips).toMatchObject([
       {
         category: 'Workspace',
         chips: [
           {
             name: 'group-1',
-            value: 'group-1',
+            value: 'g1',
           },
         ],
         type: 'group_name',
@@ -212,29 +222,54 @@ describe('with some groups available', () => {
          setSearchQuery={[Function]}
          setSelectedGroupNames={[Function]}
          showNoGroupOption={true}
+         ungroupedWorkspace={
+           {
+             "id": "ungrouped-kessel-id",
+             "name": "Ungrouped hosts",
+             "ungrouped": true,
+           }
+         }
        />,
      }
     `);
   });
 
-  it('can select no group option', async () => {
-    const { result } = renderWrappedHook();
+  it('can select ungrouped hosts using workspace id', async () => {
+    const { result } = renderWrappedHook(true);
     await waitForGroupsToBeLoaded();
+    await waitFor(() =>
+      expect(getGroups).toHaveBeenCalledWith(
+        { type: 'ungrouped-hosts' },
+        { page: 1, per_page: 10 },
+      ),
+    );
 
     const [, , , setValue] = result.current;
     act(() => {
       setValue(['']);
     });
+
+    await waitFor(() => {
+      const [, , value] = result.current;
+      expect(value).toEqual([
+        {
+          id: 'ungrouped-kessel-id',
+          name: 'Ungrouped hosts',
+          ungrouped: true,
+        },
+      ]);
+    });
+
     const [, chips, value] = result.current;
     expect(chips.length).toBe(1);
-    expect(value).toEqual(['']);
+    expect(value[0].id).toBe('ungrouped-kessel-id');
     expect(chips).toMatchObject([
       {
         category: 'Workspace',
         chips: [
           {
             name: 'Ungrouped hosts',
-            value: '',
+            value: 'ungrouped-kessel-id',
           },
         ],
         type: 'group_name',

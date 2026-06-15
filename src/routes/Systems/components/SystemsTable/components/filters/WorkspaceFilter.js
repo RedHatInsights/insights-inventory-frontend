@@ -161,7 +161,8 @@ const WorkspaceFilter = ({
         selected={selectedWorkspaces}
         onSelect={(_event, value) => {
           if (value === LOADER_ID) return;
-          setSelectedWorkspaces(xor(selectedWorkspaces, [value]));
+          const newSelection = xor(selectedWorkspaces, [value]);
+          setSelectedWorkspaces(newSelection);
         }}
         onOpenChange={() => {
           setIsOpen(false);

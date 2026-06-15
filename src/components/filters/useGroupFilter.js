@@ -7,6 +7,8 @@ import SearchableGroupFilter from './SearchableGroupFilter';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { getGroups } from '../InventoryGroups/utils/api';
 import { GENERAL_GROUPS_READ_PERMISSION } from '../../constants';
+import { useUngroupedWorkspaceId } from '../../hooks/useUngroupedWorkspaceId';
+import { UNGROUPED_HOSTS_LABEL } from '../SystemsView/constants';
 
 const PAGE_SIZE = 10;
 const INPUT_DEBOUNCE_MS = 300;
@@ -19,18 +21,26 @@ export const groupFilterReducer = (_state, { type, payload }) => ({
   }),
 });
 
+/**
+ * Toolbar chips: `name` is shown in the UI; `value` is workspace id (chip delete / keys).
+ *  @param selectedGroups
+ */
+
 export const buildHostGroupChips = (selectedGroups = []) => {
-  const chips = [...selectedGroups]?.map((group) =>
-    group === ''
-      ? {
-          name: 'Ungrouped hosts',
-          value: '',
-        }
-      : {
-          name: group,
-          value: group,
-        },
-  );
+  const chips = selectedGroups.map((group) => {
+    if (typeof group === 'string') {
+      const isUngrouped = group === '' || group === UNGROUPED_HOSTS_LABEL;
+      return {
+        name: isUngrouped ? UNGROUPED_HOSTS_LABEL : group,
+        value: group,
+      };
+    }
+    return {
+      name: group.ungrouped ? UNGROUPED_HOSTS_LABEL : group.name,
+      value: group.id,
+    };
+  });
+
   return chips?.length > 0
     ? [
         {
@@ -184,6 +194,21 @@ const useGroupFilter = (showNoGroupOption = true) => {
     false,
   );
 
+  const { data: ungroupedWorkspaceId } = useUngroupedWorkspaceId(
+    hasAccess && showNoGroupOption,
+  );
+
+  const ungroupedWorkspace = useMemo(() => {
+    if (!ungroupedWorkspaceId) {
+      return null;
+    }
+    return {
+      id: ungroupedWorkspaceId,
+      name: UNGROUPED_HOSTS_LABEL,
+      ungrouped: true,
+    };
+  }, [ungroupedWorkspaceId]);
+
   const {
     groups,
     hasNextPage,
@@ -202,6 +227,58 @@ const useGroupFilter = (showNoGroupOption = true) => {
     [selectedGroupNames],
   );
 
+  const needsHostGroupResolution = useMemo(
+    () =>
+      selectedGroupNames.some((group) => {
+        if (typeof group === 'string') {
+          return true;
+        }
+        if (typeof group === 'object' && group !== null) {
+          if (group.id === '') {
+            return true;
+          }
+          if (
+            group.ungrouped &&
+            ungroupedWorkspace &&
+            group.id !== ungroupedWorkspace.id
+          ) {
+            return true;
+          }
+        }
+        return false;
+      }),
+    [selectedGroupNames, ungroupedWorkspace],
+  );
+
+  // URL/bookmark state uses group_name strings; resolve to { id, name } for dropdown selection.
+  useEffect(() => {
+    if (!needsHostGroupResolution) {
+      return;
+    }
+    if (!groups.length && !ungroupedWorkspace) {
+      return;
+    }
+    setSelectedGroupNames((prev) =>
+      prev.map((group) => {
+        if (typeof group === 'object' && group !== null) {
+          if (group.ungrouped || group.id === '') {
+            return ungroupedWorkspace ?? group;
+          }
+          return group;
+        }
+        if (group === '' || group === UNGROUPED_HOSTS_LABEL) {
+          return (
+            ungroupedWorkspace ?? { id: group, name: group, ungrouped: true }
+          );
+        }
+        const match = groups.find((workspace) => workspace.name === group);
+        return match
+          ? { id: match.id, name: match.name }
+          : { id: group, name: group };
+      }),
+    );
+  }, [groups, ungroupedWorkspace, needsHostGroupResolution]);
+
   return [
     {
       label: 'Workspace',
@@ -217,6 +294,7 @@ const useGroupFilter = (showNoGroupOption = true) => {
             hasNextPage={hasNextPage}
             fetchNextPage={fetchNextPage}
             groups={groups}
+            ungroupedWorkspace={ungroupedWorkspace}
             selectedGroupNames={selectedGroupNames}
             setSelectedGroupNames={setSelectedGroupNames}
             showNoGroupOption={showNoGroupOption}
