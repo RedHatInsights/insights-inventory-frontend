@@ -4,6 +4,7 @@ import { deleteSystemsById } from '../../InventoryTable/utils/api';
 import { getDeleteErrorDescription } from '../../InventoryTable/utils/errorUtils';
 import { type System } from './useSystemsQuery';
 import { useMemo } from 'react';
+import { invalidateSystemsViewQueries } from '../utils/invalidateSystemsViewQueries';
 
 interface UseDeleteSystemsMutationParams {
   systems: System[];
@@ -51,8 +52,7 @@ export const useDeleteSystemsMutation = ({
         dismissable: true,
       });
 
-      // refetch systems
-      await queryClient.invalidateQueries({ queryKey: ['systems'] });
+      await invalidateSystemsViewQueries(queryClient);
     },
     onError: async (error) => {
       onError?.();
@@ -64,8 +64,7 @@ export const useDeleteSystemsMutation = ({
         dismissable: true,
       });
 
-      // refetch systems due to possible partial failures
-      await queryClient.invalidateQueries({ queryKey: ['systems'] });
+      await invalidateSystemsViewQueries(queryClient);
     },
   });
 
