@@ -4,6 +4,7 @@ import { type System } from './useSystemsQuery';
 import { useMemo } from 'react';
 import { patchHostById } from '../../../api/hostInventoryApiTyped';
 import { PatchHostIn } from '@redhat-cloud-services/host-inventory-client';
+import { invalidateSystemsViewQueries } from '../utils/invalidateSystemsViewQueries';
 
 interface usePatchSystemsMutationParams {
   systems: System[];
@@ -61,8 +62,7 @@ export const usePatchSystemsMutation = ({
         dismissable: true,
       });
 
-      // refetch systems
-      await queryClient.invalidateQueries({ queryKey: ['systems'] });
+      await invalidateSystemsViewQueries(queryClient);
     },
     onError: async (error) => {
       onError?.();

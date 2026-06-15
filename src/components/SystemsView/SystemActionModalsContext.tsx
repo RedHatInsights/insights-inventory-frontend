@@ -19,6 +19,7 @@ import { usePatchSystemsMutation } from './hooks/usePatchSystemsMutation';
 import type { System } from './hooks/useSystemsQuery';
 import { AllTagsModal } from './TagsModal/AllTagsModal';
 import { SingleHostTagsModal } from './TagsModal/SingleHostTagsModal';
+import { invalidateSystemsViewQueries } from './utils/invalidateSystemsViewQueries';
 
 type OpenModalFn = (systems: System[]) => void;
 
@@ -99,7 +100,7 @@ export const SystemActionModalsProvider = ({
 
   const reloadData = async () => {
     onSelectionClear?.();
-    await queryClient.invalidateQueries({ queryKey: ['systems'] });
+    await invalidateSystemsViewQueries(queryClient);
   };
 
   const openDeleteModal = useCallback((systems: System[]) => {

@@ -13,6 +13,8 @@ import { buildWorkloadsFilter } from '../utils/workloadsFilter';
 import { lastSeenKeysToApiParams } from '../utils/lastSeenKeysToApiParams';
 import type { LastSeenCustomRange } from '../DataViewFiltersContext';
 
+export const SYSTEMS_QUERY_KEY = 'systems' as const;
+
 const serializeSystemType = (values: string[]) => {
   const validValues = Object.values(ApiHostGetHostListSystemTypeEnum);
 
@@ -148,7 +150,7 @@ export const useSystemsQuery = ({
 }: UseSystemsQueryParams) => {
   const { data, isLoading, isFetching, isError, error } = useQuery({
     queryKey: [
-      'systems',
+      SYSTEMS_QUERY_KEY,
       page,
       perPage,
       filters,
