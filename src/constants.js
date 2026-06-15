@@ -380,6 +380,8 @@ export const STALENESS_WORKSPACE_RELATION_UPDATE = 'staleness_staleness_update';
 /** Inventory hosts in workspace: `inventory_host_view` / `inventory_host_update` on that workspace object. */
 export const HOST_WORKSPACE_RELATION_VIEW = 'inventory_host_view';
 export const HOST_WORKSPACE_RELATION_UPDATE = 'inventory_host_update';
+export const MOVE_SYSTEM_MENU_TEXT = 'Move system';
+export const MOVE_SYSTEMS_MENU_TEXT = 'Move systems';
 export const DEFAULT_DELETE_ERROR_MESSAGE =
   'There was an error processing the request. Please try again.';
 export const NOT_AVAILABLE = 'N/A';

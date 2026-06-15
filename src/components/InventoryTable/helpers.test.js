@@ -2,9 +2,18 @@ import { sortable } from '@patternfly/react-table';
 import { render } from '@testing-library/react';
 import React from 'react';
 import {
+  MOVE_SYSTEM_MENU_TEXT,
+  NO_MOVE_SYSTEM_KESSEL_TOOLTIP_MESSAGE,
+} from '../../constants';
+import {
   buildCells,
+  buildMoveSystemActionsColumnItem,
   createColumns,
   createRows,
+  getGroupSystemsBulkActionDisabled,
+  hasWorkspaceEdit,
+  isKesselBulkMoveSystemsDisabled,
+  isKesselMoveSystemRowDisabled,
   onDeleteFilter,
   onDeleteTag,
 } from './helpers';
@@ -281,6 +290,164 @@ describe('createColumns', () => {
     it('should respect items with 0 length', () => {
       const data = createColumns([{ data: 'something' }], true, ['something']);
       expect(data[0].transforms.length).toBe(0);
+    });
+  });
+});
+
+describe('move system row action helpers', () => {
+  describe('hasWorkspaceEdit', () => {
+    it('returns true when permission is set', () => {
+      expect(
+        hasWorkspaceEdit({ permissions: { hasWorkspaceEdit: true } }),
+      ).toBe(true);
+    });
+
+    it('returns false when permission is missing or false', () => {
+      expect(hasWorkspaceEdit({})).toBe(false);
+      expect(
+        hasWorkspaceEdit({ permissions: { hasWorkspaceEdit: false } }),
+      ).toBe(false);
+    });
+  });
+
+  describe('isKesselMoveSystemRowDisabled', () => {
+    it('is disabled when workspace actions are not allowed', () => {
+      expect(
+        isKesselMoveSystemRowDisabled(
+          { permissions: { hasWorkspaceEdit: true } },
+          false,
+        ),
+      ).toBe(true);
+    });
+
+    it('is disabled when host lacks workspace edit', () => {
+      expect(
+        isKesselMoveSystemRowDisabled(
+          { permissions: { hasWorkspaceEdit: false } },
+          true,
+        ),
+      ).toBe(true);
+    });
+
+    it('is enabled when allowed and host has workspace edit', () => {
+      expect(
+        isKesselMoveSystemRowDisabled(
+          { permissions: { hasWorkspaceEdit: true } },
+          true,
+        ),
+      ).toBe(false);
+    });
+  });
+
+  describe('isKesselBulkMoveSystemsDisabled', () => {
+    it('is disabled when no hosts are selected', () => {
+      expect(isKesselBulkMoveSystemsDisabled(true, [])).toBe(true);
+    });
+
+    it('is disabled when workspace actions are not allowed', () => {
+      expect(
+        isKesselBulkMoveSystemsDisabled(false, [
+          { permissions: { hasWorkspaceEdit: true } },
+        ]),
+      ).toBe(true);
+    });
+
+    it('is disabled when any selected host lacks workspace edit', () => {
+      expect(
+        isKesselBulkMoveSystemsDisabled(true, [
+          { permissions: { hasWorkspaceEdit: true } },
+          { permissions: { hasWorkspaceEdit: false } },
+        ]),
+      ).toBe(true);
+    });
+
+    it('is enabled when all selected hosts have workspace edit', () => {
+      expect(
+        isKesselBulkMoveSystemsDisabled(true, [
+          { permissions: { hasWorkspaceEdit: true } },
+          { permissions: { hasWorkspaceEdit: true } },
+        ]),
+      ).toBe(false);
+    });
+  });
+
+  describe('getGroupSystemsBulkActionDisabled', () => {
+    it('uses Kessel bulk rules when Kessel is enabled', () => {
+      expect(
+        getGroupSystemsBulkActionDisabled({
+          isKesselEnabled: true,
+          workspaceActionsAllowed: true,
+          ungrouped: false,
+          selectedCount: 1,
+          selectedHosts: [{ permissions: { hasWorkspaceEdit: false } }],
+        }),
+      ).toBe(true);
+    });
+
+    it('uses legacy bulk rules when Kessel is disabled', () => {
+      expect(
+        getGroupSystemsBulkActionDisabled({
+          isKesselEnabled: false,
+          workspaceActionsAllowed: true,
+          ungrouped: true,
+          selectedCount: 1,
+          selectedHosts: [{ permissions: { hasWorkspaceEdit: true } }],
+        }),
+      ).toBe(true);
+    });
+
+    it('enables Kessel bulk move when selection and permissions are valid', () => {
+      expect(
+        getGroupSystemsBulkActionDisabled({
+          isKesselEnabled: true,
+          workspaceActionsAllowed: true,
+          ungrouped: false,
+          selectedCount: 2,
+          selectedHosts: [
+            { permissions: { hasWorkspaceEdit: true } },
+            { permissions: { hasWorkspaceEdit: true } },
+          ],
+        }),
+      ).toBe(false);
+    });
+
+    it('enables legacy bulk remove when workspace is grouped and selected', () => {
+      expect(
+        getGroupSystemsBulkActionDisabled({
+          isKesselEnabled: false,
+          workspaceActionsAllowed: true,
+          ungrouped: false,
+          selectedCount: 1,
+          selectedHosts: [],
+        }),
+      ).toBe(false);
+    });
+  });
+
+  describe('buildMoveSystemActionsColumnItem', () => {
+    it('includes tooltip when disabled', () => {
+      const item = buildMoveSystemActionsColumnItem(
+        { permissions: { hasWorkspaceEdit: false } },
+        jest.fn(),
+        true,
+      );
+
+      expect(item.title).toBe(MOVE_SYSTEM_MENU_TEXT);
+      expect(item.isDisabled).toBe(true);
+      expect(item.tooltipProps).toEqual({
+        content: NO_MOVE_SYSTEM_KESSEL_TOOLTIP_MESSAGE,
+      });
+    });
+
+    it('omits tooltip when enabled', () => {
+      const item = buildMoveSystemActionsColumnItem(
+        { permissions: { hasWorkspaceEdit: true } },
+        jest.fn(),
+        true,
+      );
+
+      expect(item.isDisabled).toBe(false);
+      expect(item.tooltipProps).toBeUndefined();
     });
   });
 });
