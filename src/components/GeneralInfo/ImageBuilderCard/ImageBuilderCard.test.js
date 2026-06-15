@@ -13,11 +13,6 @@ jest.mock(
   }),
 );
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({ pathname: 'localhost:3000/example/path' }),
-}));
-
 const BLUEPRINT_ID = 'abc-123-def';
 
 const mockBlueprintResponse = {
