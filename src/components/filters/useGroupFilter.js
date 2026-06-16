@@ -21,10 +21,16 @@ export const groupFilterReducer = (_state, { type, payload }) => ({
   }),
 });
 
-/**
- * Toolbar chips: `name` is shown in the UI; `value` is workspace id (chip delete / keys).
- *  @param selectedGroups
- */
+export const hostGroupFilterToApiValues = (selectedGroups = []) =>
+  selectedGroups.map((group) => {
+    if (typeof group === 'string') {
+      return group === UNGROUPED_HOSTS_LABEL ? '' : group;
+    }
+    if (typeof group === 'object' && group !== null) {
+      return group.ungrouped ? '' : group.name;
+    }
+    return group;
+  });
 
 export const buildHostGroupChips = (selectedGroups = []) => {
   const chips = selectedGroups.map((group) => {
@@ -32,12 +38,12 @@ export const buildHostGroupChips = (selectedGroups = []) => {
       const isUngrouped = group === '' || group === UNGROUPED_HOSTS_LABEL;
       return {
         name: isUngrouped ? UNGROUPED_HOSTS_LABEL : group,
-        value: group,
+        value: isUngrouped ? '' : group,
       };
     }
     return {
       name: group.ungrouped ? UNGROUPED_HOSTS_LABEL : group.name,
-      value: group.id,
+      value: group.ungrouped ? '' : group.name,
     };
   });
 
@@ -227,6 +233,11 @@ const useGroupFilter = (showNoGroupOption = true) => {
     [selectedGroupNames],
   );
 
+  const hostGroupFilterValue = useMemo(
+    () => hostGroupFilterToApiValues(selectedGroupNames),
+    [selectedGroupNames],
+  );
+
   const needsHostGroupResolution = useMemo(
     () =>
       selectedGroupNames.some((group) => {
@@ -303,7 +314,7 @@ const useGroupFilter = (showNoGroupOption = true) => {
       },
     },
     chips,
-    selectedGroupNames,
+    hostGroupFilterValue,
     (groupNames) => setSelectedGroupNames(groupNames || []),
   ];
 };

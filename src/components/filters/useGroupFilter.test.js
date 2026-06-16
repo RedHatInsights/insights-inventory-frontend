@@ -13,7 +13,7 @@ import {
   createTestQueryClient,
   flushPromises,
 } from '../../Utilities/TestingUtilities';
-import useGroupFilter from './useGroupFilter';
+import useGroupFilter, { hostGroupFilterToApiValues } from './useGroupFilter';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { getGroups } from '../InventoryGroups/utils/api';
 
@@ -67,6 +67,24 @@ const waitForGroupsToBeLoaded = async (
       expect(getGroups).toHaveBeenCalledWith(searchParams, pageParams),
     ),
   );
+
+describe('hostGroupFilterToApiValues', () => {
+  it('maps workspace objects to group_name strings', () => {
+    expect(
+      hostGroupFilterToApiValues([
+        { id: 'g1', name: 'group-1' },
+        { id: 'ungrouped-id', name: 'Ungrouped hosts', ungrouped: true },
+      ]),
+    ).toEqual(['group-1', '']);
+  });
+
+  it('passes through legacy string selections', () => {
+    expect(hostGroupFilterToApiValues(['group-1', ''])).toEqual([
+      'group-1',
+      '',
+    ]);
+  });
+});
 
 describe('groups request not yet resolved', () => {
   beforeEach(() => {
@@ -178,7 +196,7 @@ describe('with some groups available', () => {
 
     await waitFor(() => {
       const [, , value] = result.current;
-      expect(value).toEqual([{ id: 'g1', name: 'group-1' }]);
+      expect(value).toEqual(['group-1']);
     });
 
     const [, chips] = result.current;
@@ -189,7 +207,7 @@ describe('with some groups available', () => {
         chips: [
           {
             name: 'group-1',
-            value: 'g1',
+            value: 'group-1',
           },
         ],
         type: 'group_name',
@@ -251,25 +269,19 @@ describe('with some groups available', () => {
 
     await waitFor(() => {
       const [, , value] = result.current;
-      expect(value).toEqual([
-        {
-          id: 'ungrouped-kessel-id',
-          name: 'Ungrouped hosts',
-          ungrouped: true,
-        },
-      ]);
+      expect(value).toEqual(['']);
     });
 
     const [, chips, value] = result.current;
     expect(chips.length).toBe(1);
-    expect(value[0].id).toBe('ungrouped-kessel-id');
+    expect(value).toEqual(['']);
     expect(chips).toMatchObject([
       {
         category: 'Workspace',
         chips: [
           {
             name: 'Ungrouped hosts',
-            value: 'ungrouped-kessel-id',
+            value: '',
           },
         ],
         type: 'group_name',

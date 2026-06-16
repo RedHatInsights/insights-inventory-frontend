@@ -151,16 +151,13 @@ describe('onDeleteFilter', () => {
     expect(data).toMatchObject(filter);
   });
 
-  it('should delete workspace filter selected by id', () => {
-    const workspaceFilter = [
-      { id: 'ws-1', name: 'Workspace One' },
-      { id: 'ws-2', name: 'Workspace Two' },
-    ];
+  it('should delete workspace filter selected by name', () => {
+    const workspaceFilter = ['Workspace One', 'Workspace Two'];
     const data = onDeleteFilter(
-      { chips: [{ value: 'ws-1' }] },
+      { chips: [{ value: 'Workspace One' }] },
       workspaceFilter,
     );
-    expect(data).toEqual([{ id: 'ws-2', name: 'Workspace Two' }]);
+    expect(data).toEqual(['Workspace Two']);
   });
 });
 
