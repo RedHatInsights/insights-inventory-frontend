@@ -1,6 +1,16 @@
 import { expect } from '@playwright/test';
 import { navigateToInventorySystemsFunc } from './helpers/navHelpers';
 import { test } from './helpers/fixtures';
+import { type Locator, type Page } from '@playwright/test';
+import {
+  totalDefaultColumns,
+  defaultInventoryColumns,
+  openManageColumnsModal,
+  advisorColumns,
+  complianceColumns,
+  patchColumns,
+  malwareColumns,
+} from './helpers/columnHelpers';
 
 test.describe(
   'Inventory Views default columns',
@@ -13,67 +23,182 @@ test.describe(
         await navigateToInventorySystemsFunc(page);
       });
 
-      await test.step(`Verify only default columns are displayed`, async () => {
-        // Total columns includes checkbox (first) and per-row actions (last)
-        const totalExpectedColumns = totalDefaultColumns;
+      await test.step(`Verify only default appColumns are displayed`, async () => {
+        // Total appColumns includes checkbox (first) and per-row actions (last)
         const visibleHeaders = page.locator('th').filter({ hasText: /.+/ });
-        await expect(visibleHeaders).toHaveCount(totalExpectedColumns);
+        await expect(visibleHeaders).toHaveCount(totalDefaultColumns);
 
-        for (const columnName of defaultContentColumns) {
+        for (const columnName of defaultInventoryColumns) {
           await expect(
             page.locator('th').filter({ hasText: new RegExp(columnName) }),
           ).toBeVisible({ timeout: 10000 });
         }
       });
-    },
-  );
-});
+    });
+  },
+);
 
 test.describe('Inventory Views application columns', () => {
   test.beforeEach(async ({ page }) => {
     await navigateToInventorySystemsFunc(page);
     // Ensure we're starting with default columns only
-    const totalExpectedColumns = defaultContentColumns.length + 2;
+    const totalExpectedColumns = defaultInventoryColumns.length + 2;
     const visibleHeaders = page.locator('th').filter({ hasText: /.+/ });
     await expect(visibleHeaders).toHaveCount(totalExpectedColumns);
   });
 
-  test(
-    'User can enable Advisor columns via Manage Columns',
-    { tag: ['@inventory-views'] },
-    async ({ page }) => {
-      await test.step(`Open Manage Columns and apply Advisor columns`, async () => {
-        await expect(async () => {
-          await expect(
-            page.locator('[data-ouia-component-id="SkeletonTable"]'),
-          ).toBeHidden();
+  const columnTestCases = [
+    { name: 'Advisor', appColumns: advisorColumns },
+    { name: 'Compliance', appColumns: complianceColumns },
+    { name: 'Patch', appColumns: patchColumns },
+    { name: 'Malware', appColumns: malwareColumns },
+  ];
 
-          const toolbarActionsButton = page.locator(
-            "[data-ouia-component-id='systems-view-toolbar-actions-menu-dropdown-toggle']",
-          );
-          await expect(toolbarActionsButton).toBeVisible();
-          await expect(toolbarActionsButton).toBeEnabled();
-          await toolbarActionsButton.click();
-
-          const manageColumnsButton = page
-            .locator('button')
-            .filter({ hasText: 'Manage columns' });
-          await expect(manageColumnsButton).toBeEnabled();
-          await manageColumnsButton.click();
-        }).toPass({ timeout: 45000 });
-
-        await page.getByLabel('Recommendations').check();
-
-        await page.pause();
-        const visibleHeaders = page.locator('th').filter({ hasText: /.+/ });
-        await expect(visibleHeaders).toHaveCount(totalDefaultColumns);
-
-        for (const columnName of defaultContentColumns) {
-          await expect(
-            page.locator('th').filter({ hasText: new RegExp(columnName) }),
-          ).toBeVisible({ timeout: 10000 });
-        }
-      });
+  const columnSortableTestCases = [
+    {
+      name: 'Advisor',
+      appColumns: [{ name: 'Recommendations' }, { name: 'Incidents' }],
     },
-  );
+    {
+      name: 'Compliance',
+      appColumns: [{ name: 'Last compliance scan' }],
+    },
+    {
+      name: 'Patch',
+      appColumns: [{ name: 'Installable advisories' }],
+    },
+    {
+      name: 'Malware',
+      appColumns: [{ name: 'Last malware scan' }],
+    },
+  ];
+
+  for (const { name, appColumns } of columnTestCases) {
+    test(
+      `User can enable ${name} columns via Manage Columns`,
+      { tag: ['@inventory-views'] },
+      async ({ page }) => {
+        const dialog = page.locator(
+          '[data-ouia-component-id="ColumnManagementModal"]',
+        );
+
+        await test.step(`Open Manage Columns and apply ${name} columns`, async () => {
+          await openManageColumnsModal(page);
+
+          await expect(dialog).toBeVisible();
+
+          for (const columnName of appColumns) {
+            await dialog.getByLabel(columnName).check();
+            await expect(dialog.getByLabel(columnName)).toBeChecked();
+          }
+          // Verify it is applied by checking the "X selected" text in the dialog
+          const selected = dialog.locator(
+            '[data-ouia-component-id="BulkSelect-text"]',
+          );
+          const totalModifiedColumns =
+            defaultInventoryColumns.length + appColumns.length;
+          await expect(selected).toHaveText(`${totalModifiedColumns} selected`);
+        });
+
+        await test.step(`Verify ${name} columns are applied on systems table`, async () => {
+          await dialog.getByRole('button', { name: 'Save' }).click();
+          await expect(dialog).toBeHidden();
+
+          const visibleHeaders = page.locator('th').filter({ hasText: /.+/ });
+          await expect(visibleHeaders).toHaveCount(
+            totalDefaultColumns + appColumns.length,
+          );
+
+          for (const columnName of [
+            ...defaultInventoryColumns,
+            ...appColumns,
+          ]) {
+            await expect(
+              page.locator('th').filter({ hasText: new RegExp(columnName) }),
+            ).toBeVisible({ timeout: 10000 });
+          }
+        });
+      },
+    );
+  }
+
+  for (const { name, appColumns } of columnSortableTestCases) {
+    test(
+      `User can sort by ${name} columns`,
+      { tag: ['@inventory-views'] },
+      async ({ page }) => {
+        const dialog = page.locator(
+          '[data-ouia-component-id="ColumnManagementModal"]',
+        );
+
+        await test.step(`Open Manage Columns and apply ${name} columns`, async () => {
+          await openManageColumnsModal(page);
+
+          await expect(dialog).toBeVisible();
+
+          for (const column of appColumns) {
+            await dialog.getByLabel(column.name).check();
+            await expect(dialog.getByLabel(column.name)).toBeChecked();
+          }
+
+          await dialog.getByRole('button', { name: 'Save' }).click();
+          await expect(dialog).toBeHidden();
+
+          const visibleHeaders = page.locator('th').filter({ hasText: /.+/ });
+          await expect(visibleHeaders).toHaveCount(
+            totalDefaultColumns + appColumns.length,
+          );
+        });
+
+        // Test sorting for each column in the app
+        for (const column of appColumns) {
+          await test.step(`Sort by ${column.name} in ascending order`, async () => {
+            const columnHeader = page
+              .locator('button.pf-v6-c-table__button')
+              .filter({ hasText: new RegExp(`^${column.name}$`) });
+            await expect(columnHeader).toBeVisible();
+
+            // Click until we reach ascending sort (max 3 clicks)
+            for (let attempt = 0; attempt < 3; attempt++) {
+              const currentSort = await columnHeader
+                .locator('..')
+                .getAttribute('aria-sort');
+
+              if (currentSort === 'ascending') {
+                break;
+              }
+
+              await columnHeader.click();
+              await expect(page).toHaveURL(/order_by=|sort=/);
+            }
+
+            // Verify we reached ascending sort
+            await expect(async () => {
+              const finalSort = await columnHeader
+                .locator('..')
+                .getAttribute('aria-sort');
+              expect(finalSort).toBe('ascending');
+            }).toPass({ timeout: 5000 });
+          });
+
+          await test.step(`Sort by ${column.name} in descending order`, async () => {
+            const columnHeader = page
+              .locator('button.pf-v6-c-table__button')
+              .filter({ hasText: new RegExp(`^${column.name}$`) });
+
+            await columnHeader.click();
+            await expect(page).toHaveURL(/order_by=|sort=/);
+
+            // Verify descending sort
+            await expect(async () => {
+              const finalSort = await columnHeader
+                .locator('..')
+                .getAttribute('aria-sort');
+              expect(finalSort).toBe('descending');
+            }).toPass({ timeout: 5000 });
+          });
+        }
+      },
+    );
+  }
 });
