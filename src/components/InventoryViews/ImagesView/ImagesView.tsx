@@ -1,8 +1,7 @@
 import {
   DataView,
   DataViewTable,
-  DataViewTh,
-  DataViewTr,
+  type DataViewTr,
 } from '@patternfly/react-data-view';
 import React from 'react';
 import { useRows } from './hooks/useRows';
@@ -34,7 +33,7 @@ export const ImagesView = () => {
         : 'active';
 
   const columnNames: string[] = ['', 'Image name', 'Hash commits', 'Systems'];
-  const columns: DataViewTh[] = columnNames.map((name) => ({
+  const columns = columnNames.map((name) => ({
     cell: name,
     props: {},
   }));
