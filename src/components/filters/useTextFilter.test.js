@@ -9,6 +9,7 @@ describe('useTextFilter', () => {
     expect(filter).toMatchObject({
       label: 'Name',
       value: 'name-filter',
+      default: true,
     });
     expect(filter.filterValues.value.length).toBe(0);
     expect(filter.filterValues.placeholder).toBe('Filter by name');
