@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import debounce from 'lodash/debounce';
 import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 
@@ -78,6 +78,9 @@ export const buildHostGroupChips = (selectedGroups = []) => {
  *                                               result.hasNextPage {boolean} - Whether there is another page to load.
  *                                               result.isFetchingNextPage {boolean} - True while the next page is loading.
  *                                               result.remoteSearchEnabled {boolean} - True when server-side search should be used (> 2 pages total).
+ *                                               result.isRemoteSearching {boolean} - True while a remote search fetch is in flight for the debounced term.
+ *                                               result.isSearchDebouncing {boolean} - True while the visible search term has not yet been debounced.
+ *                                               result.isLoading {boolean} - True during initial load, debounce, or remote search fetch.
  */
 const useGroupsQueryWithFilter = ({
   hasAccess,
@@ -100,35 +103,41 @@ const useGroupsQueryWithFilter = ({
     [debounceTime, setDebouncedTerm],
   );
 
-  const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: ['groups', debouncedTerm],
-      queryFn: async ({ pageParam = 1 }) =>
-        getGroups(
-          {
-            ...(remoteSearchEnabled ? { name: debouncedTerm } : {}),
-            ...{ type: 'standard' },
-          },
-          {
-            page: pageParam,
-            per_page: PAGE_SIZE,
-          },
-        ),
-      // When menu opens, ensure at least first page is fetched
-      enabled: hasAccess,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      getNextPageParam: (lastPage, pages) => {
-        const currentCount = pages.reduce(
-          (sum, p) => sum + (p?.results?.length || 0),
-          0,
-        );
-        if (lastPage?.total && currentCount < lastPage.total) {
-          return pages.length + 1;
-        }
-        return undefined;
-      },
-    });
+  const {
+    data,
+    isLoading,
+    isFetching,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['groups', debouncedTerm],
+    queryFn: async ({ pageParam = 1 }) =>
+      getGroups(
+        {
+          ...(remoteSearchEnabled ? { name: debouncedTerm } : {}),
+          ...{ type: 'standard' },
+        },
+        {
+          page: pageParam,
+          per_page: PAGE_SIZE,
+        },
+      ),
+    // When menu opens, ensure at least first page is fetched
+    enabled: hasAccess,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    getNextPageParam: (lastPage, pages) => {
+      const currentCount = pages.reduce(
+        (sum, p) => sum + (p?.results?.length || 0),
+        0,
+      );
+      if (lastPage?.total && currentCount < lastPage.total) {
+        return pages.length + 1;
+      }
+      return undefined;
+    },
+  });
 
   // Capture the total count for the unfiltered dataset (debouncedTerm === initSearchQuery)
   useEffect(() => {
@@ -157,7 +166,11 @@ const useGroupsQueryWithFilter = ({
     remoteSearchEnabled,
   ]);
 
-  // Collect data from all pages and filter groups based on the search term if remote search is disabled
+  const isSearchDebouncing =
+    remoteSearchEnabled && searchTerm !== debouncedTerm;
+  const isRemoteSearching =
+    remoteSearchEnabled && Boolean(debouncedTerm) && isFetching && isLoading;
+
   const groups = useMemo(() => {
     const allData = data?.pages?.flatMap((p) => p?.results || []) || [];
     if (remoteSearchEnabled || !searchTerm) {
@@ -169,15 +182,15 @@ const useGroupsQueryWithFilter = ({
     );
   }, [data, searchTerm, remoteSearchEnabled]);
 
-  // Set the search term and debounce it if remote search is enabled
-  const setSearchQuery = useMemo(() => {
-    return (term) => {
+  const setSearchQuery = useCallback(
+    (term) => {
       setSearchTerm(term);
       if (remoteSearchEnabled) {
         setSearchTermDebounced(term);
       }
-    };
-  }, [setSearchTerm, setSearchTermDebounced, remoteSearchEnabled]);
+    },
+    [remoteSearchEnabled, setSearchTermDebounced],
+  );
 
   return {
     groups,
@@ -187,7 +200,9 @@ const useGroupsQueryWithFilter = ({
     hasNextPage,
     isFetchingNextPage,
     remoteSearchEnabled,
-    isLoading,
+    isRemoteSearching,
+    isSearchDebouncing,
+    isLoading: isLoading || isSearchDebouncing || isRemoteSearching,
   };
 };
 
@@ -223,6 +238,9 @@ const useGroupFilter = (showNoGroupOption = true) => {
     setSearchQuery,
     searchQuery,
     isLoading,
+    isRemoteSearching,
+    isSearchDebouncing,
+    remoteSearchEnabled,
   } = useGroupsQueryWithFilter({
     hasAccess,
     debounceTime: INPUT_DEBOUNCE_MS,
@@ -301,6 +319,9 @@ const useGroupFilter = (showNoGroupOption = true) => {
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
             isLoading={isLoading}
+            isRemoteSearching={isRemoteSearching}
+            isSearchDebouncing={isSearchDebouncing}
+            remoteSearchEnabled={remoteSearchEnabled}
             isFetchingNextPage={isFetchingNextPage}
             hasNextPage={hasNextPage}
             fetchNextPage={fetchNextPage}
