@@ -10,6 +10,8 @@ import {
   patchColumns,
   malwareColumns,
   inventoryColumns,
+  validateDataColumnSortOrder,
+  validateSortDirection,
 } from './helpers/columnHelpers';
 
 test.describe(
@@ -166,7 +168,7 @@ test.describe('Inventory Views application columns', () => {
 
         // Test sorting for each column in the app
         for (const column of appColumns) {
-          await test.step(`Sort by ${column.name} in ascending order`, async () => {
+          await test.step(`Sort by ${column.name} in ascending order and validate`, async () => {
             const columnHeader = page
               .locator('button.pf-v6-c-table__button')
               .filter({ hasText: new RegExp(`^${column.name}$`) });
@@ -178,38 +180,27 @@ test.describe('Inventory Views application columns', () => {
                 .locator('..')
                 .getAttribute('aria-sort');
 
+              // eslint-disable-next-line playwright/no-conditional-in-test
               if (currentSort === 'ascending') {
                 break;
               }
 
               await columnHeader.click();
-              await expect(page).toHaveURL(/order_by=|sort=/);
             }
 
-            // Verify we reached ascending sort
-            await expect(async () => {
-              const finalSort = await columnHeader
-                .locator('..')
-                .getAttribute('aria-sort');
-              expect(finalSort).toBe('ascending');
-            }).toPass({ timeout: 5000 });
+            await validateSortDirection(page, columnHeader, 'ascending');
+            await validateDataColumnSortOrder(page, column.name, 'ascending');
           });
 
-          await test.step(`Sort by ${column.name} in descending order`, async () => {
+          await test.step(`Sort by ${column.name} in descending order and validate`, async () => {
             const columnHeader = page
               .locator('button.pf-v6-c-table__button')
               .filter({ hasText: new RegExp(`^${column.name}$`) });
 
             await columnHeader.click();
-            await expect(page).toHaveURL(/order_by=|sort=/);
 
-            // Verify descending sort
-            await expect(async () => {
-              const finalSort = await columnHeader
-                .locator('..')
-                .getAttribute('aria-sort');
-              expect(finalSort).toBe('descending');
-            }).toPass({ timeout: 5000 });
+            await validateSortDirection(page, columnHeader, 'descending');
+            await validateDataColumnSortOrder(page, column.name, 'descending');
           });
         }
       },
