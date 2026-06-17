@@ -1,5 +1,4 @@
 import React from 'react';
-import { DataViewTh } from '@patternfly/react-data-view';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { OnSort, SortDirection } from '../SystemsView';
 import {
@@ -60,7 +59,7 @@ export const useColumns = ({
     [columns],
   );
 
-  const tableHeaderNodes: DataViewTh[] = useMemo(
+  const tableHeaderNodes = useMemo(
     () => [
       ...columns
         .filter((col) => col.isShown)
