@@ -1,7 +1,6 @@
 import { expect } from '@playwright/test';
 import { navigateToInventorySystemsFunc } from './helpers/navHelpers';
 import { test } from './helpers/fixtures';
-import { type Locator, type Page } from '@playwright/test';
 import {
   totalDefaultColumns,
   defaultInventoryColumns,
@@ -10,6 +9,7 @@ import {
   complianceColumns,
   patchColumns,
   malwareColumns,
+  inventoryColumns,
 } from './helpers/columnHelpers';
 
 test.describe(
@@ -42,9 +42,8 @@ test.describe('Inventory Views application columns', () => {
   test.beforeEach(async ({ page }) => {
     await navigateToInventorySystemsFunc(page);
     // Ensure we're starting with default columns only
-    const totalExpectedColumns = defaultInventoryColumns.length + 2;
     const visibleHeaders = page.locator('th').filter({ hasText: /.+/ });
-    await expect(visibleHeaders).toHaveCount(totalExpectedColumns);
+    await expect(visibleHeaders).toHaveCount(totalDefaultColumns);
   });
 
   const columnTestCases = [
@@ -52,6 +51,7 @@ test.describe('Inventory Views application columns', () => {
     { name: 'Compliance', appColumns: complianceColumns },
     { name: 'Patch', appColumns: patchColumns },
     { name: 'Malware', appColumns: malwareColumns },
+    { name: 'Inventory', appColumns: inventoryColumns },
   ];
 
   const columnSortableTestCases = [
@@ -71,6 +71,10 @@ test.describe('Inventory Views application columns', () => {
       name: 'Malware',
       appColumns: [{ name: 'Last malware scan' }],
     },
+    {
+      name: 'Inventory',
+      appColumns: [{ name: 'Status' }],
+    },
   ];
 
   for (const { name, appColumns } of columnTestCases) {
@@ -85,11 +89,11 @@ test.describe('Inventory Views application columns', () => {
         await test.step(`Open Manage Columns and apply ${name} columns`, async () => {
           await openManageColumnsModal(page);
 
-          await expect(dialog).toBeVisible();
-
           for (const columnName of appColumns) {
-            await dialog.getByLabel(columnName).check();
-            await expect(dialog.getByLabel(columnName)).toBeChecked();
+            await dialog.getByLabel(columnName, { exact: true }).check();
+            await expect(
+              dialog.getByLabel(columnName, { exact: true }),
+            ).toBeChecked();
           }
           // Verify it is applied by checking the "X selected" text in the dialog
           const selected = dialog.locator(
@@ -134,20 +138,30 @@ test.describe('Inventory Views application columns', () => {
         await test.step(`Open Manage Columns and apply ${name} columns`, async () => {
           await openManageColumnsModal(page);
 
-          await expect(dialog).toBeVisible();
+          // For Inventory columns, unselect some default columns to reduce table width
+          const columnsToUnselect = ['OS', 'Last seen', 'Tags', 'Workspace'];
+          for (const columnName of columnsToUnselect) {
+            await dialog.getByLabel(columnName, { exact: true }).uncheck();
+            await expect(
+              dialog.getByLabel(columnName, { exact: true }),
+            ).not.toBeChecked();
+          }
 
           for (const column of appColumns) {
-            await dialog.getByLabel(column.name).check();
-            await expect(dialog.getByLabel(column.name)).toBeChecked();
+            await dialog.getByLabel(column.name, { exact: true }).check();
+            await expect(
+              dialog.getByLabel(column.name, { exact: true }),
+            ).toBeChecked();
           }
 
           await dialog.getByRole('button', { name: 'Save' }).click();
           await expect(dialog).toBeHidden();
 
+          const expectedColumnCount =
+            totalDefaultColumns + appColumns.length - 4; // -4 for unselected columns
+
           const visibleHeaders = page.locator('th').filter({ hasText: /.+/ });
-          await expect(visibleHeaders).toHaveCount(
-            totalDefaultColumns + appColumns.length,
-          );
+          await expect(visibleHeaders).toHaveCount(expectedColumnCount);
         });
 
         // Test sorting for each column in the app

@@ -12,6 +12,14 @@ export const defaultInventoryColumns = [
 // Total columns includes checkbox (first) and per-row actions (last)
 export const totalDefaultColumns = defaultInventoryColumns.length + 2;
 
+export const inventoryColumns = [
+  'Created',
+  'Workload',
+  'Status',
+  'Vendor',
+  'Infrastructure',
+];
+
 export const advisorColumns = [
   'Recommendations',
   'Incidents',
@@ -34,6 +42,7 @@ export const malwareColumns = [
 /**
  * Opens the 'Manage columns' modal from the systems view toolbar.
  * Wraps the action in toPass to handle loading skeletons and dropdown rendering.
+ * Verifies the dialog is visible before returning.
  *  @param {Page}   page      - The Playwright page instance.
  *  @param {number} [timeout] - Optional timeout for the toPass block.
  */
@@ -58,5 +67,9 @@ export async function openManageColumnsModal(page: Page, timeout = 45000) {
       .filter({ hasText: 'Manage columns' });
     await expect(manageColumnsButton).toBeEnabled();
     await manageColumnsButton.click();
+
+    // 4. Verify the column management dialog is visible
+    const dialog = page.locator('[role="dialog"]');
+    await expect(dialog).toBeVisible();
   }).toPass({ timeout });
 }
