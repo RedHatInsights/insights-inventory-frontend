@@ -20,7 +20,8 @@
   "include": [
     "src",
     "playwright.config.js",
-    "_playwright-tests/**/*.ts"
+    "_playwright-tests/**/*.ts",
+    "config/cypress*.tsx"
   ],
   "exclude": [
     ".cache",

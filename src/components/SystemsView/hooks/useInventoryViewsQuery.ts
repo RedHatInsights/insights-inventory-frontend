@@ -16,6 +16,8 @@ import { buildOperatingSystemProfileFilter } from '../utils/operatingSystemSelec
 import { buildWorkloadsFilter } from '../utils/workloadsFilter';
 import { Column } from '../columns/allColumnDefinitions';
 
+export const INVENTORY_VIEWS_QUERY_KEY = 'inventory-views' as const;
+
 const serializeSystemTypeForViews = (values: string[]) => {
   const validValues = Object.values(ApiHostViewsGetHostViewsSystemTypeEnum);
 
@@ -177,7 +179,7 @@ export const useInventoryViewsQuery = ({
 }: UseInventoryViewsQueryParams) => {
   const { data, isLoading, isFetching, isError, error } = useQuery({
     queryKey: [
-      'inventory-views',
+      INVENTORY_VIEWS_QUERY_KEY,
       page,
       perPage,
       filters,

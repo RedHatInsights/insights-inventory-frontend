@@ -62,4 +62,20 @@ describe('calculateFilters', () => {
       calculateFilters(searchParams, filters).getAll(WORKLOAD_FILTER_KEY),
     ).toEqual(['sap', 'ansible']);
   });
+
+  it('should append group_name params from workspace object selections', () => {
+    const searchParams = new URLSearchParams();
+    const filters = [
+      {
+        hostGroupFilter: [
+          { id: 'g1', name: 'group-1' },
+          { id: 'ungrouped-id', name: 'Ungrouped hosts', ungrouped: true },
+        ],
+      },
+    ];
+
+    expect(
+      calculateFilters(searchParams, filters).getAll('group_name'),
+    ).toEqual(['group-1', '']);
+  });
 });

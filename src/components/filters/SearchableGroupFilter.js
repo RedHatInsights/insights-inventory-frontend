@@ -13,7 +13,6 @@ import {
   Spinner,
 } from '@patternfly/react-core';
 
-import xor from 'lodash/xor';
 import PropTypes from 'prop-types';
 
 const VISIBLE_LIMIT = 10;
@@ -22,6 +21,9 @@ const SearchableGroupFilter = ({
   searchQuery,
   setSearchQuery,
   isLoading,
+  isRemoteSearching = false,
+  isSearchDebouncing = false,
+  remoteSearchEnabled = false,
   isFetchingNextPage,
   hasNextPage,
   groups,
@@ -29,6 +31,7 @@ const SearchableGroupFilter = ({
   selectedGroupNames,
   setSelectedGroupNames,
   showNoGroupOption,
+  ungroupedWorkspace,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [focusedItemIndex, setFocusedItemIndex] = useState(null);
@@ -43,21 +46,26 @@ const SearchableGroupFilter = ({
 
   const prefixOptions = useMemo(
     () =>
-      showNoGroupOption
+      showNoGroupOption && ungroupedWorkspace
         ? [
             {
-              itemId: '',
-              children: 'Ungrouped hosts',
+              itemId: ungroupedWorkspace.id,
+              children: ungroupedWorkspace.name,
             },
           ]
         : [],
-    [showNoGroupOption],
+    [showNoGroupOption, ungroupedWorkspace],
   );
 
   const groupOptions = useMemo(() => {
-    const g = groups.slice(0, visibleCount);
-    return g.map(({ name, host_count: hostCount }) => ({
-      itemId: name,
+    const suppressStaleResults =
+      searchQuery &&
+      remoteSearchEnabled &&
+      (isRemoteSearching || isSearchDebouncing);
+    const visibleGroups = suppressStaleResults ? [] : groups;
+    const g = visibleGroups.slice(0, visibleCount);
+    return g.map(({ id, name, host_count: hostCount }) => ({
+      itemId: id, // Use ID for unique selection (fixes duplicate name bug)
       children: (
         <Flex alignItems={{ default: 'alignItemsCenter' }}>
           <FlexItem>{name}</FlexItem>
@@ -69,7 +77,14 @@ const SearchableGroupFilter = ({
         </Flex>
       ),
     }));
-  }, [groups, visibleCount]);
+  }, [
+    groups,
+    visibleCount,
+    searchQuery,
+    remoteSearchEnabled,
+    isRemoteSearching,
+    isSearchDebouncing,
+  ]);
 
   useEffect(() => {
     let newSelectOptions = [
@@ -163,7 +178,27 @@ const SearchableGroupFilter = ({
       return;
     }
 
-    setSelectedGroupNames(xor(selectedGroupNames, [itemId]));
+    const workspace =
+      ungroupedWorkspace?.id === itemId
+        ? ungroupedWorkspace
+        : groups.find((g) => g.id === itemId);
+
+    // Toggle selection: if already selected (by ID), remove it; otherwise add it
+    const isSelected = selectedGroupNames.some((g) => g.id === itemId);
+    const newSelection = isSelected
+      ? selectedGroupNames.filter((g) => g.id !== itemId)
+      : [
+          ...selectedGroupNames,
+          workspace
+            ? {
+                id: workspace.id,
+                name: workspace.name,
+                ...(workspace.ungrouped ? { ungrouped: true } : {}),
+              }
+            : { id: itemId, name: itemId },
+        ];
+
+    setSelectedGroupNames(newSelection);
   };
 
   const onViewMoreClick = () => {
@@ -203,7 +238,7 @@ const SearchableGroupFilter = ({
         id="groups-filter-select"
         ouiaId="Filter by group"
         isOpen={isOpen}
-        selected={selectedGroupNames}
+        selected={selectedGroupNames.map((g) => g.id)}
         onSelect={(event, selection) => onSelect(selection)}
         onOpenChange={() => {
           setIsOpen(false);
@@ -218,7 +253,9 @@ const SearchableGroupFilter = ({
             selectOptions.map((option, index) => (
               <div key={option.itemId || option.children}>
                 <SelectOption
-                  isSelected={selectedGroupNames.includes(option.itemId)}
+                  isSelected={selectedGroupNames.some(
+                    (g) => g.id === option.itemId,
+                  )}
                   key={option.itemId || option.children}
                   isFocused={focusedItemIndex === index}
                   className={option.className}
@@ -226,9 +263,9 @@ const SearchableGroupFilter = ({
                   hasCheckbox
                   {...option}
                 />
-                {showNoGroupOption && !searchQuery && option.itemId === '' && (
-                  <Divider />
-                )}
+                {showNoGroupOption &&
+                  !searchQuery &&
+                  option.itemId === ungroupedWorkspace?.id && <Divider />}
               </div>
             ))
           )}
@@ -259,18 +296,32 @@ SearchableGroupFilter.propTypes = {
   searchQuery: PropTypes.string.isRequired,
   setSearchQuery: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  isRemoteSearching: PropTypes.bool,
+  isSearchDebouncing: PropTypes.bool,
+  remoteSearchEnabled: PropTypes.bool,
   isFetchingNextPage: PropTypes.bool.isRequired,
   hasNextPage: PropTypes.bool.isRequired,
   fetchNextPage: PropTypes.func.isRequired,
   groups: PropTypes.arrayOf(
     PropTypes.shape({
+      id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       host_count: PropTypes.number,
     }),
   ).isRequired,
-  selectedGroupNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selectedGroupNames: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
   setSelectedGroupNames: PropTypes.func.isRequired,
   showNoGroupOption: PropTypes.bool,
+  ungroupedWorkspace: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    ungrouped: PropTypes.bool,
+  }),
 };
 
 export default SearchableGroupFilter;

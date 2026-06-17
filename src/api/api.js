@@ -321,8 +321,18 @@ export async function getEntities(
         : Array.isArray(rawHostGroupFilter)
           ? rawHostGroupFilter
           : [rawHostGroupFilter];
-    const nonEmptyGroupNames = hostGroupFilterArr.filter((name) => name !== '');
-    const filterByUngroupedHosts = hostGroupFilterArr.includes('');
+
+    // Selection uses workspace IDs; host list API filters by group_name.
+    const groupNames = hostGroupFilterArr.map((item) => {
+      if (typeof item === 'object' && item !== null) {
+        return item.ungrouped ? '' : item.name;
+      }
+      return item;
+    });
+    const nonEmptyGroupNames = groupNames.filter(
+      (name) => typeof name === 'string' && name !== '',
+    );
+    const filterByUngroupedHosts = groupNames.includes('');
 
     /** Ungrouped hosts: use group_name (empty value) per API. */
     const groupNameParam =

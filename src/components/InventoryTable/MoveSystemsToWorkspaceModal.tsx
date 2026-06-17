@@ -14,9 +14,8 @@ import {
   ModalBody,
   ModalFooter,
   Popover,
-  Spinner,
 } from '@patternfly/react-core';
-import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
+import { WorkspaceSelectorField } from './WorkspaceSelectorField';
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import { addHostListToGroup } from '../../api/hostInventoryApi';
 import InfoTable from '../GeneralInfo/InfoTable/InfoTable';
@@ -219,14 +218,8 @@ const MoveSystemsToWorkspaceModal = ({
             isRequired
             fieldId="simple-form-name-01"
           >
-            <AsyncComponent
-              scope="rbac"
-              module="./modules/WorkspaceSelector"
-              onSelect={(item: { workspace?: { id: string; name: string } }) =>
-                setSelectedWorkspace(item)
-              }
-              menuWidth="500px"
-              fallback={<Spinner size="lg" />}
+            <WorkspaceSelectorField
+              onSelect={(item) => setSelectedWorkspace(item)}
             />
           </FormGroup>
         </Form>

@@ -10,6 +10,7 @@ const GroupSystemsWrapper = ({
   groupId,
   ungrouped,
   workspaceAccess,
+  isKesselEnabled,
 }) => {
   const { uninitialized, loading, data } = useSelector(
     (state) => state.groupDetail,
@@ -26,6 +27,7 @@ const GroupSystemsWrapper = ({
       groupName={groupName}
       ungrouped={ungrouped ?? false}
       workspaceAccess={workspaceAccess}
+      isKesselEnabled={isKesselEnabled}
     />
   ) : (
     <NoSystemsEmptyState
@@ -40,6 +42,7 @@ GroupSystemsWrapper.propTypes = {
   groupName: PropTypes.string.isRequired,
   groupId: PropTypes.string.isRequired,
   ungrouped: PropTypes.bool,
+  isKesselEnabled: PropTypes.bool,
   workspaceAccess: PropTypes.shape({
     canEdit: PropTypes.bool,
     isLoading: PropTypes.bool,

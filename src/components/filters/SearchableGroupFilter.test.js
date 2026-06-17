@@ -34,7 +34,7 @@ it('shows some groups when available', async () => {
     <SearchableGroupFilter
       searchQuery=""
       setSearchQuery={() => {}}
-      groups={[{ name: 'group-1' }]}
+      groups={[{ id: 'group-1', name: 'group-1' }]}
       selectedGroupNames={[]}
       setSelectedGroupNames={() => {}}
       isLoading={false}
@@ -61,7 +61,7 @@ it('a group can be selected', async () => {
     <SearchableGroupFilter
       searchQuery=""
       setSearchQuery={() => {}}
-      groups={[{ name: 'group-1' }]}
+      groups={[{ id: 'group-1', name: 'group-1' }]}
       selectedGroupNames={[]}
       setSelectedGroupNames={setter}
       isLoading={false}
@@ -77,7 +77,7 @@ it('a group can be selected', async () => {
     }),
   );
   await userEvent.click(screen.getByText('group-1'));
-  expect(setter).toHaveBeenCalledWith(['group-1']);
+  expect(setter).toHaveBeenCalledWith([{ id: 'group-1', name: 'group-1' }]);
 });
 
 it('selected groups are checked', async () => {
@@ -85,8 +85,11 @@ it('selected groups are checked', async () => {
     <SearchableGroupFilter
       searchQuery=""
       setSearchQuery={() => {}}
-      groups={[{ name: 'group-1' }, { name: 'group-2' }]}
-      selectedGroupNames={['group-1']}
+      groups={[
+        { id: 'group-1', name: 'group-1' },
+        { id: 'group-2', name: 'group-2' },
+      ]}
+      selectedGroupNames={[{ id: 'group-1', name: 'group-1' }]}
       setSelectedGroupNames={setter}
       isLoading={false}
       isFetchingNextPage={false}
@@ -105,4 +108,35 @@ it('selected groups are checked', async () => {
       name: /group-1/,
     }),
   ).toBeChecked();
+});
+
+it('ungrouped hosts can be selected by workspace id', async () => {
+  const ungroupedWorkspace = {
+    id: 'ungrouped-ws-id',
+    name: 'Ungrouped hosts',
+    ungrouped: true,
+  };
+  render(
+    <SearchableGroupFilter
+      searchQuery=""
+      setSearchQuery={() => {}}
+      groups={[]}
+      ungroupedWorkspace={ungroupedWorkspace}
+      selectedGroupNames={[]}
+      setSelectedGroupNames={setter}
+      isLoading={false}
+      isFetchingNextPage={false}
+      hasNextPage={false}
+      fetchNextPage={() => {}}
+      showNoGroupOption
+    />,
+  );
+
+  await userEvent.click(
+    screen.getByRole('button', {
+      name: /menu toggle/i,
+    }),
+  );
+  await userEvent.click(screen.getByText('Ungrouped hosts'));
+  expect(setter).toHaveBeenCalledWith([ungroupedWorkspace]);
 });
