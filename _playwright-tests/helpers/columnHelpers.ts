@@ -196,19 +196,14 @@ export async function validateDataColumnSortOrder(
 
   // Validate based on column type
   if (config.type === 'status') {
-    validateStatusOrder(
-      columnValues,
-      config.expectedOrder!,
-      direction,
-      columnName,
-    );
+    validateStatusOrder(columnValues, config.expectedOrder!, direction);
   } else if (config.type === 'date') {
-    validateDateOrder(columnValues, direction, columnName);
+    validateDateOrder(columnValues, direction);
   } else if (config.type === 'numeric') {
     if (columnName === 'Installable advisories') {
-      validateInstallableAdvisoriesOrder(columnValues, direction, columnName);
+      validateInstallableAdvisoriesOrder(columnValues, direction);
     } else {
-      validateNumericOrder(columnValues, direction, columnName);
+      validateNumericOrder(columnValues, direction);
     }
   }
 }
@@ -218,13 +213,11 @@ export async function validateDataColumnSortOrder(
  *  @param {string[]} values        - Array of status values from the table.
  *  @param {string[]} expectedOrder - Expected order of status values.
  *  @param {string}   direction     - Sort direction ('ascending' or 'descending').
- *  @param {string}   columnName    - Column name for logging.
  */
 function validateStatusOrder(
   values: string[],
   expectedOrder: string[],
   direction: 'ascending' | 'descending',
-  columnName: string,
 ) {
   const orderToValidate =
     direction === 'descending' ? [...expectedOrder].reverse() : expectedOrder;
@@ -244,14 +237,12 @@ function validateStatusOrder(
 
 /**
  * Validates date column order (ascending = oldest first, descending = newest first).
- *  @param {string[]} values     - Array of date values from the table.
- *  @param {string}   direction  - Sort direction ('ascending' or 'descending').
- *  @param {string}   columnName - Column name for logging.
+ *  @param {string[]} values    - Array of date values from the table.
+ *  @param {string}   direction - Sort direction ('ascending' or 'descending').
  */
 function validateDateOrder(
   values: string[],
   direction: 'ascending' | 'descending',
-  columnName: string,
 ) {
   let previousDays: number | null = null;
 
@@ -279,14 +270,12 @@ function validateDateOrder(
 
 /**
  * Validates numeric column order.
- *  @param {string[]} values     - Array of numeric values from the table.
- *  @param {string}   direction  - Sort direction ('ascending' or 'descending').
- *  @param {string}   columnName - Column name for logging.
+ *  @param {string[]} values    - Array of numeric values from the table.
+ *  @param {string}   direction - Sort direction ('ascending' or 'descending').
  */
 function validateNumericOrder(
   values: string[],
   direction: 'ascending' | 'descending',
-  columnName: string,
 ) {
   let previousValue: number | null = null;
 
@@ -340,14 +329,12 @@ function parseInstallableAdvisories(text: string): number {
 /**
  * Validates Installable advisories column order.
  * This column sorts by RHSA (security advisories) count.
- *  @param {string[]} values     - Array of values from the table.
- *  @param {string}   direction  - Sort direction ('ascending' or 'descending').
- *  @param {string}   columnName - Column name for logging.
+ *  @param {string[]} values    - Array of values from the table.
+ *  @param {string}   direction - Sort direction ('ascending' or 'descending').
  */
 function validateInstallableAdvisoriesOrder(
   values: string[],
   direction: 'ascending' | 'descending',
-  columnName: string,
 ) {
   let previousValue: number | null = null;
 
