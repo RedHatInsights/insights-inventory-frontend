@@ -1,7 +1,8 @@
 import { expect } from '@playwright/test';
 import { type Page, type Locator } from '@playwright/test';
 import { parseLastSeenToDays } from './filterHelpers';
-import { NOT_AVAILABLE } from '../../src/constants';
+
+const NOT_AVAILABLE = 'N/A';
 
 // Default columns from inventory/columnDefinitions.tsx
 export const defaultInventoryColumns = [
@@ -157,8 +158,10 @@ export async function validateDataColumnSortOrder(
     return;
   }
 
-  // Wait for table to update after sort
-  await page.waitForTimeout(1000);
+  // Wait for table to update after sort (skeleton disappears when data is loaded)
+  await expect(
+    page.locator('[data-ouia-component-id="SkeletonTable"]'),
+  ).toBeHidden();
 
   // Find the index of the column
   const headers = await page.locator('th').all();
