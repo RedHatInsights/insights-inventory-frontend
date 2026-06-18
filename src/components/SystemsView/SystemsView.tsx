@@ -23,10 +23,7 @@ import { INITIAL_SORT, useColumns } from './hooks/useColumns';
 import { SetURLSearchParams } from 'react-router-dom';
 import { SystemActionModalsProvider } from './SystemActionModalsContext';
 import { SystemsViewBulkActions } from './SystemsViewBulkActions';
-import {
-  useBulkSelect,
-  type DataViewBulkSelection,
-} from './hooks/useBulkSelect';
+import { useBulkSelect } from './hooks/useBulkSelect';
 import { useRows, type SystemsViewTableRow } from './hooks/useRows';
 import AccessDenied from '../../Utilities/AccessDenied';
 import './SystemsView.scss';
@@ -90,10 +87,10 @@ const SystemsViewInner = ({
     [filters, debouncedName],
   );
 
-  const selection = useDataViewSelection({
+  const selection = useDataViewSelection<SystemsViewTableRow>({
     matchOption: (a, b) => a.id === b.id,
     initialSelected: [],
-  }) as DataViewBulkSelection<SystemsViewTableRow>;
+  });
   const { selected, setSelected } = selection;
 
   const sortSearchParams = useMemo(
