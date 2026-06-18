@@ -1,6 +1,7 @@
 import { expect } from '@playwright/test';
 import { type Page, type Locator } from '@playwright/test';
 import { parseLastSeenToDays } from './filterHelpers';
+import { NOT_AVAILABLE } from '../../src/constants';
 
 // Default columns from inventory/columnDefinitions.tsx
 export const defaultInventoryColumns = [
@@ -106,7 +107,7 @@ type ColumnValidationType = 'status' | 'date' | 'numeric';
 interface ColumnValidationConfig {
   type: ColumnValidationType;
   expectedOrder?: string[]; // For 'status' type
-  ignoreValues?: string[]; // Values to skip (e.g., 'N/A')
+  ignoreValues?: string[]; // Values to skip (e.g., NOT_AVAILABLE)
 }
 
 /**
@@ -119,23 +120,23 @@ const COLUMN_VALIDATIONS: Record<string, ColumnValidationConfig> = {
   },
   'Last malware scan': {
     type: 'date',
-    ignoreValues: ['N/A'],
+    ignoreValues: [NOT_AVAILABLE],
   },
   'Last compliance scan': {
     type: 'date',
-    ignoreValues: ['N/A'],
+    ignoreValues: [NOT_AVAILABLE],
   },
   Recommendations: {
     type: 'numeric',
-    ignoreValues: ['N/A'],
+    ignoreValues: [NOT_AVAILABLE],
   },
   Incidents: {
     type: 'numeric',
-    ignoreValues: ['N/A'],
+    ignoreValues: [NOT_AVAILABLE],
   },
   'Installable advisories': {
     type: 'numeric',
-    ignoreValues: ['N/A'],
+    ignoreValues: [NOT_AVAILABLE],
   },
 };
 
@@ -182,7 +183,7 @@ export async function validateDataColumnSortOrder(
       const cellText = await cells[columnIndex].textContent();
       if (cellText) {
         const trimmedText = cellText.trim();
-        // Skip ignored values like 'N/A'
+        // Skip ignored values like NOT_AVAILABLE
         if (
           !config.ignoreValues ||
           !config.ignoreValues.includes(trimmedText)
