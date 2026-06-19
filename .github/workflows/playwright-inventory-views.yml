@@ -96,11 +96,11 @@ jobs:
       - name: Run front-end Playwright tests
         id: pw_run
         continue-on-error: true
-        run: USE_CTRF=1 npx playwright test --grep "@inventory_views|@systems-table"
+        run: USE_CTRF=1 npx playwright test --grep "@inventory-views|@systems-table"
 
       - name: Report failures to Currents
         if: steps.pw_run.outcome == 'failure'
-        run: CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-e2e-inventory-views-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test --grep "@inventory_views|@systems-table" --last-failed
+        run: CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-e2e-inventory-views-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test --grep "@inventory-views|@systems-table" --last-failed
 
       - name: Fail job if tests failed
         if: steps.pw_run.outcome == 'failure'
