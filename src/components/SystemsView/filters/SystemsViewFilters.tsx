@@ -26,9 +26,7 @@ import {
   HostGroupChipNode,
   useWorkspaceDisplayNames,
 } from '../hooks/useWorkspaceDisplayNames';
-import { ApiHostViewsGetHostViewsStalenessEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 
-type Test = ApiHostViewsGetHostViewsStalenessEnum[];
 export interface InventoryFilters {
   hostname_or_id: string;
   status: ApiHostGetHostListStalenessEnum[];
