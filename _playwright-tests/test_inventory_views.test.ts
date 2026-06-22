@@ -10,6 +10,7 @@ import {
   patchColumns,
   malwareColumns,
   inventoryColumns,
+  vulnerabilityColumns,
   validateDataColumnSortOrder,
   validateSortDirection,
 } from './helpers/columnHelpers';
@@ -54,6 +55,7 @@ test.describe('Inventory Views application columns', () => {
     { name: 'Patch', appColumns: patchColumns },
     { name: 'Malware', appColumns: malwareColumns },
     { name: 'Inventory', appColumns: inventoryColumns },
+    { name: 'Vulnerability', appColumns: vulnerabilityColumns },
   ];
 
   const columnSortableTestCases = [
@@ -76,6 +78,10 @@ test.describe('Inventory Views application columns', () => {
     {
       name: 'Inventory',
       appColumns: [{ name: 'Status' }],
+    },
+    {
+      name: 'Vulnerability',
+      appColumns: [{ name: 'Total CVEs' }, { name: 'Critical CVEs' }],
     },
   ];
 

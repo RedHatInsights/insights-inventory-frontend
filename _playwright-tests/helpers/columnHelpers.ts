@@ -42,6 +42,13 @@ export const malwareColumns = [
   'Last malware scan',
 ];
 
+export const vulnerabilityColumns = [
+  'Total CVEs',
+  'Critical CVEs',
+  'CVEs with security rules',
+  'CVEs with known exploits',
+];
+
 /**
  * Opens the 'Manage columns' modal from the systems view toolbar.
  * Wraps the action in toPass to handle loading skeletons and dropdown rendering.
@@ -136,6 +143,14 @@ const COLUMN_VALIDATIONS: Record<string, ColumnValidationConfig> = {
     ignoreValues: [NOT_AVAILABLE],
   },
   'Installable advisories': {
+    type: 'numeric',
+    ignoreValues: [NOT_AVAILABLE],
+  },
+  'Total CVEs': {
+    type: 'numeric',
+    ignoreValues: [NOT_AVAILABLE],
+  },
+  'Critical CVEs': {
     type: 'numeric',
     ignoreValues: [NOT_AVAILABLE],
   },
