@@ -1,4 +1,4 @@
-import React, { Ref, useId, useMemo, useState } from 'react';
+import React, { Ref, useId, useMemo, useState, useEffect, useRef } from 'react';
 import {
   Checkbox,
   MenuToggle,
@@ -7,10 +7,13 @@ import {
   SelectOption,
   Spinner,
   MenuToggleElement,
+  TextInputGroup,
+  TextInputGroupMain,
 } from '@patternfly/react-core';
 import { css } from '@patternfly/react-styles';
 import menuStyles from '@patternfly/react-styles/css/components/Menu/menu';
 import xor from 'lodash/xor';
+import { useDebouncedValue } from '../../../Utilities/hooks/useDebouncedValue';
 import { useOperatingSystemsQuery } from '../hooks/useOperatingSystemsQuery';
 import {
   buildOperatingSystemSelectGroups,
@@ -19,6 +22,7 @@ import {
   serializeOperatingSystemFilterValue,
 } from '../utils/operatingSystemSelectOptions';
 import { FILTER_DROPDOWN_WIDTH } from '../constants';
+import { DEBOUNCE_TIMEOUT_MS } from '../../../constants';
 
 interface OperatingSystemsFilterProps {
   placeholder?: string;
@@ -73,6 +77,10 @@ export const OperatingSystemsFilter = ({
 }: OperatingSystemsFilterProps) => {
   const idPrefix = useId();
   const [isOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState('');
+  const debouncedSearch = useDebouncedValue(search, DEBOUNCE_TIMEOUT_MS);
+  const textInputRef = useRef<HTMLInputElement>(null);
+
   const { data, isLoading, isError, isFetched } = useOperatingSystemsQuery({
     enabled: isOpen,
   });
@@ -82,18 +90,97 @@ export const OperatingSystemsFilter = ({
     return buildOperatingSystemSelectGroups(rows);
   }, [data]);
 
+  // Filter groups and items based on search text
+  const filteredGroups = useMemo(() => {
+    if (!debouncedSearch.trim()) {
+      return groups;
+    }
+
+    const searchLower = debouncedSearch.toLowerCase();
+
+    return groups
+      .map((group) => {
+        // Check if group label matches search
+        const groupMatches = group.label.toLowerCase().includes(searchLower);
+
+        // Filter items that match search
+        const matchedItems = group.items.filter((item) =>
+          item.label.toLowerCase().includes(searchLower),
+        );
+
+        // Include group if group name matches OR if any items match
+        if (groupMatches || matchedItems.length > 0) {
+          return {
+            ...group,
+            // If group matches, show all items; otherwise show only matched items
+            items: groupMatches ? group.items : matchedItems,
+          };
+        }
+
+        return null;
+      })
+      .filter((group): group is NonNullable<typeof group> => group !== null);
+  }, [groups, debouncedSearch]);
+
+  // Auto-open when user starts typing (if closed)
+  useEffect(() => {
+    if (search && !isOpen) {
+      setIsOpen(true);
+    }
+  }, [search, isOpen]);
+
+  const onToggleClick = () => {
+    // Toggle button should open/close the dropdown
+    if (!isOpen) {
+      setIsOpen(true);
+      textInputRef.current?.focus();
+    } else {
+      setIsOpen(false);
+      // Reset search when closing via toggle
+      setSearch('');
+    }
+  };
+
   const toggle = (toggleRef: Ref<MenuToggleElement>) => (
     <MenuToggle
-      ref={toggleRef}
-      onClick={() => setIsOpen(!isOpen)}
+      variant="typeahead"
+      onClick={onToggleClick}
+      innerRef={toggleRef}
       isExpanded={isOpen}
     >
-      {placeholder ?? 'Filter by operating system'}
+      <TextInputGroup isPlain>
+        <TextInputGroupMain
+          ref={textInputRef}
+          value={search}
+          onClick={(e) => {
+            // Clicks in the input should only open the menu, not toggle it closed
+            e.stopPropagation();
+            setIsOpen(true);
+          }}
+          onChange={(_event, value) => {
+            setSearch(value);
+          }}
+          onFocus={() => {
+            // Open dropdown when input gains focus
+            if (!isOpen) {
+              setIsOpen(true);
+            }
+          }}
+          id={`${idPrefix}-os-filter-typeahead-input`}
+          autoComplete="off"
+          placeholder={placeholder ?? 'Filter by operating system'}
+        />
+      </TextInputGroup>
     </MenuToggle>
   );
 
   const notifyChange = (next: string[]) => {
     onChange?.(undefined, next);
+    // After selection, refocus the input so user can keep typing
+    // Small delay to let the checkbox interaction complete
+    setTimeout(() => {
+      textInputRef.current?.focus();
+    }, 0);
   };
 
   return (
@@ -101,9 +188,17 @@ export const OperatingSystemsFilter = ({
       id="operating-systems-filter-select"
       isOpen={isOpen}
       selected={value}
-      onOpenChange={(open) => setIsOpen(open)}
+      onOpenChange={(open) => {
+        // Don't let PatternFly auto-close when clicking inside the menu
+        // We control the open state explicitly
+        if (!open) {
+          setIsOpen(false);
+          setSearch('');
+        }
+      }}
       toggle={toggle}
       isScrollable
+      shouldFocusFirstItemOnOpen={false}
       popperProps={{
         width: FILTER_DROPDOWN_WIDTH,
       }}
@@ -124,7 +219,16 @@ export const OperatingSystemsFilter = ({
         )}
         {!isLoading &&
           !isError &&
-          groups.map((group, groupIndex) => {
+          isFetched &&
+          filteredGroups.length === 0 &&
+          debouncedSearch && (
+            <SelectOption isDisabled>
+              No matching operating systems
+            </SelectOption>
+          )}
+        {!isLoading &&
+          !isError &&
+          filteredGroups.map((group, groupIndex) => {
             const tokens = buildOsFilterTokens(group);
             const selectedCount = tokens.filter((t) =>
               value.includes(t),
