@@ -30,12 +30,12 @@ export interface BuildHostListParamsInput {
 const buildGroupIdParam = (
   groupIds: string[] | undefined,
 ): Pick<ApiHostGetHostListParams, 'groupId'> | Record<string, never> => {
-  const groupIdParam = [
-    ...(groupIds ?? []).filter((id) => id),
-    ...((groupIds ?? []).includes('') ? [''] : []),
-  ];
+  if (!groupIds?.length) return {};
 
-  return groupIdParam.length ? { groupId: groupIdParam } : {};
+  const hasEmpty = groupIds.includes('');
+  const nonEmpty = groupIds.filter((id) => id !== '');
+
+  return { groupId: hasEmpty ? [...nonEmpty, ''] : nonEmpty };
 };
 
 export const buildHostListParams = ({
