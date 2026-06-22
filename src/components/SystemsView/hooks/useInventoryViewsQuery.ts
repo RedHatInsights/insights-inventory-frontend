@@ -12,8 +12,7 @@ import { SortDirection } from '../SystemsView';
 import { lastSeenKeysToApiParams } from '../utils/lastSeenKeysToApiParams';
 import type { LastSeenCustomRange } from '../DataViewFiltersContext';
 import qs from 'qs';
-import { buildOperatingSystemProfileFilter } from '../utils/operatingSystemSelectOptions';
-import { buildWorkloadsFilter } from '../utils/workloadsFilter';
+import { buildSystemProfileFilters } from '../utils/buildSystemProfileFilters';
 import { Column } from '../columns/allColumnDefinitions';
 
 export const INVENTORY_VIEWS_QUERY_KEY = 'inventory-views' as const;
@@ -63,20 +62,7 @@ const fetchInventoryViews = async ({
   sortBy,
   direction,
 }: FetchInventoryViewsParams) => {
-  const operatingSystemFilter = buildOperatingSystemProfileFilter(
-    filters.operating_system,
-  );
-  const workloadsFilter = buildWorkloadsFilter(filters.workloads);
-
-  const systemProfileFilter: Record<string, unknown> = {
-    ...(filters?.rhcStatus?.length && {
-      rhc_client_id: filters.rhcStatus,
-    }),
-    ...(operatingSystemFilter && { operating_system: operatingSystemFilter }),
-    ...(workloadsFilter && { workloads: workloadsFilter }),
-  };
-
-  const hasSystemProfileFilter = Object.keys(systemProfileFilter).length > 0;
+  const systemProfileFilters = buildSystemProfileFilters(filters);
 
   const lastSeenParams = lastSeenKeysToApiParams(
     filters.last_seen,
@@ -122,9 +108,9 @@ const fetchInventoryViews = async ({
             'workloads',
           ],
         },
-        ...(hasSystemProfileFilter && {
+        ...(systemProfileFilters && {
           filter: {
-            system_profile: systemProfileFilter,
+            system_profile: systemProfileFilters,
           },
         }),
       },

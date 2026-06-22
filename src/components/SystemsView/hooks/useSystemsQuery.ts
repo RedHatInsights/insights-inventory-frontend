@@ -8,8 +8,7 @@ import {
 import qs from 'qs';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import { SortDirection } from '../SystemsView';
-import { buildOperatingSystemProfileFilter } from '../utils/operatingSystemSelectOptions';
-import { buildWorkloadsFilter } from '../utils/workloadsFilter';
+import { buildSystemProfileFilters } from '../utils/buildSystemProfileFilters';
 import { lastSeenKeysToApiParams } from '../utils/lastSeenKeysToApiParams';
 import type { LastSeenCustomRange } from '../DataViewFiltersContext';
 
@@ -45,20 +44,7 @@ const fetchSystems = async ({
   sortBy,
   direction,
 }: FetchSystemsParams) => {
-  const operatingSystemFilter = buildOperatingSystemProfileFilter(
-    filters.operating_system,
-  );
-  const workloadsFilter = buildWorkloadsFilter(filters.workloads);
-
-  const systemProfileFilter: Record<string, unknown> = {
-    ...(filters?.rhcStatus?.length && {
-      rhc_client_id: filters.rhcStatus,
-    }),
-    ...(operatingSystemFilter && { operating_system: operatingSystemFilter }),
-    ...(workloadsFilter && { workloads: workloadsFilter }),
-  };
-
-  const hasSystemProfileFilter = Object.keys(systemProfileFilter).length > 0;
+  const systemProfileFilters = buildSystemProfileFilters(filters);
 
   const lastSeenParams = lastSeenKeysToApiParams(
     filters.last_seen,
@@ -102,9 +88,9 @@ const fetchSystems = async ({
             'host_type',
           ],
         },
-        ...(hasSystemProfileFilter && {
+        ...(systemProfileFilters && {
           filter: {
-            system_profile: systemProfileFilter,
+            system_profile: systemProfileFilters,
           },
         }),
       },
