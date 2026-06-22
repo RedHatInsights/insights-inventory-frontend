@@ -35,8 +35,8 @@ export interface BuildHostViewsParamsInput {
   perPage: number;
   filters: InventoryFilters;
   lastSeenCustomRange: LastSeenCustomRange;
-  sortBy: ApiHostViewsGetHostViewsOrderByEnum | undefined;
-  direction: SortDirection | undefined;
+  sortBy?: ApiHostViewsGetHostViewsOrderByEnum;
+  direction?: SortDirection;
 }
 
 export const buildHostViewsParams = ({
