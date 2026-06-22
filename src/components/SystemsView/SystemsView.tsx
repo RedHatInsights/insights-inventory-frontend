@@ -24,7 +24,10 @@ import { SetURLSearchParams } from 'react-router-dom';
 import { SystemActionModalsProvider } from './SystemActionModalsContext';
 import { SystemsViewBulkActions } from './SystemsViewBulkActions';
 import { useBulkSelect } from './hooks/useBulkSelect';
-import { useRows, type SystemsViewTableRow } from './hooks/useRows';
+import {
+  mapSystemsToRows,
+  type SystemsViewTableRow,
+} from './utils/mapSystemsToRows';
 import AccessDenied from '../../Utilities/AccessDenied';
 import './SystemsView.scss';
 import { InnerScrollContainer, ISortBy } from '@patternfly/react-table';
@@ -151,7 +154,7 @@ const SystemsViewInner = ({
 
   const { hostsWithPermissions } = useHostIdsWithKessel(data);
 
-  const { rows } = useRows({
+  const rows = mapSystemsToRows({
     data: hostsWithPermissions ?? data,
     columns,
     isInventoryViewsEnabled,
