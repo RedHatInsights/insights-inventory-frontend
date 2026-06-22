@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import debounce from 'lodash/debounce';
 import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 
@@ -7,6 +7,8 @@ import SearchableGroupFilter from './SearchableGroupFilter';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { getGroups } from '../InventoryGroups/utils/api';
 import { GENERAL_GROUPS_READ_PERMISSION } from '../../constants';
+import { useUngroupedWorkspaceId } from '../../hooks/useUngroupedWorkspaceId';
+import { UNGROUPED_HOSTS_LABEL } from '../SystemsView/constants';
 
 const PAGE_SIZE = 10;
 const INPUT_DEBOUNCE_MS = 300;
@@ -19,18 +21,32 @@ export const groupFilterReducer = (_state, { type, payload }) => ({
   }),
 });
 
+export const hostGroupFilterToApiValues = (selectedGroups = []) =>
+  selectedGroups.map((group) => {
+    if (typeof group === 'string') {
+      return group === UNGROUPED_HOSTS_LABEL ? '' : group;
+    }
+    if (typeof group === 'object' && group !== null) {
+      return group.ungrouped ? '' : group.name;
+    }
+    return group;
+  });
+
 export const buildHostGroupChips = (selectedGroups = []) => {
-  const chips = [...selectedGroups]?.map((group) =>
-    group === ''
-      ? {
-          name: 'Ungrouped hosts',
-          value: '',
-        }
-      : {
-          name: group,
-          value: group,
-        },
-  );
+  const chips = selectedGroups.map((group) => {
+    if (typeof group === 'string') {
+      const isUngrouped = group === '' || group === UNGROUPED_HOSTS_LABEL;
+      return {
+        name: isUngrouped ? UNGROUPED_HOSTS_LABEL : group,
+        value: isUngrouped ? '' : group,
+      };
+    }
+    return {
+      name: group.ungrouped ? UNGROUPED_HOSTS_LABEL : group.name,
+      value: group.ungrouped ? '' : group.name,
+    };
+  });
+
   return chips?.length > 0
     ? [
         {
@@ -62,6 +78,9 @@ export const buildHostGroupChips = (selectedGroups = []) => {
  *                                               result.hasNextPage {boolean} - Whether there is another page to load.
  *                                               result.isFetchingNextPage {boolean} - True while the next page is loading.
  *                                               result.remoteSearchEnabled {boolean} - True when server-side search should be used (> 2 pages total).
+ *                                               result.isRemoteSearching {boolean} - True while a remote search fetch is in flight for the debounced term.
+ *                                               result.isSearchDebouncing {boolean} - True while the visible search term has not yet been debounced.
+ *                                               result.isLoading {boolean} - True during initial load, debounce, or remote search fetch.
  */
 const useGroupsQueryWithFilter = ({
   hasAccess,
@@ -84,35 +103,41 @@ const useGroupsQueryWithFilter = ({
     [debounceTime, setDebouncedTerm],
   );
 
-  const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: ['groups', debouncedTerm],
-      queryFn: async ({ pageParam = 1 }) =>
-        getGroups(
-          {
-            ...(remoteSearchEnabled ? { name: debouncedTerm } : {}),
-            ...{ type: 'standard' },
-          },
-          {
-            page: pageParam,
-            per_page: PAGE_SIZE,
-          },
-        ),
-      // When menu opens, ensure at least first page is fetched
-      enabled: hasAccess,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      getNextPageParam: (lastPage, pages) => {
-        const currentCount = pages.reduce(
-          (sum, p) => sum + (p?.results?.length || 0),
-          0,
-        );
-        if (lastPage?.total && currentCount < lastPage.total) {
-          return pages.length + 1;
-        }
-        return undefined;
-      },
-    });
+  const {
+    data,
+    isLoading,
+    isFetching,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['groups', debouncedTerm],
+    queryFn: async ({ pageParam = 1 }) =>
+      getGroups(
+        {
+          ...(remoteSearchEnabled ? { name: debouncedTerm } : {}),
+          ...{ type: 'standard' },
+        },
+        {
+          page: pageParam,
+          per_page: PAGE_SIZE,
+        },
+      ),
+    // When menu opens, ensure at least first page is fetched
+    enabled: hasAccess,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    getNextPageParam: (lastPage, pages) => {
+      const currentCount = pages.reduce(
+        (sum, p) => sum + (p?.results?.length || 0),
+        0,
+      );
+      if (lastPage?.total && currentCount < lastPage.total) {
+        return pages.length + 1;
+      }
+      return undefined;
+    },
+  });
 
   // Capture the total count for the unfiltered dataset (debouncedTerm === initSearchQuery)
   useEffect(() => {
@@ -141,7 +166,11 @@ const useGroupsQueryWithFilter = ({
     remoteSearchEnabled,
   ]);
 
-  // Collect data from all pages and filter groups based on the search term if remote search is disabled
+  const isSearchDebouncing =
+    remoteSearchEnabled && searchTerm !== debouncedTerm;
+  const isRemoteSearching =
+    remoteSearchEnabled && Boolean(debouncedTerm) && isFetching && isLoading;
+
   const groups = useMemo(() => {
     const allData = data?.pages?.flatMap((p) => p?.results || []) || [];
     if (remoteSearchEnabled || !searchTerm) {
@@ -153,15 +182,15 @@ const useGroupsQueryWithFilter = ({
     );
   }, [data, searchTerm, remoteSearchEnabled]);
 
-  // Set the search term and debounce it if remote search is enabled
-  const setSearchQuery = useMemo(() => {
-    return (term) => {
+  const setSearchQuery = useCallback(
+    (term) => {
       setSearchTerm(term);
       if (remoteSearchEnabled) {
         setSearchTermDebounced(term);
       }
-    };
-  }, [setSearchTerm, setSearchTermDebounced, remoteSearchEnabled]);
+    },
+    [remoteSearchEnabled, setSearchTermDebounced],
+  );
 
   return {
     groups,
@@ -171,7 +200,9 @@ const useGroupsQueryWithFilter = ({
     hasNextPage,
     isFetchingNextPage,
     remoteSearchEnabled,
-    isLoading,
+    isRemoteSearching,
+    isSearchDebouncing,
+    isLoading: isLoading || isSearchDebouncing || isRemoteSearching,
   };
 };
 
@@ -184,6 +215,21 @@ const useGroupFilter = (showNoGroupOption = true) => {
     false,
   );
 
+  const { data: ungroupedWorkspaceId } = useUngroupedWorkspaceId(
+    hasAccess && showNoGroupOption,
+  );
+
+  const ungroupedWorkspace = useMemo(() => {
+    if (!ungroupedWorkspaceId) {
+      return null;
+    }
+    return {
+      id: ungroupedWorkspaceId,
+      name: UNGROUPED_HOSTS_LABEL,
+      ungrouped: true,
+    };
+  }, [ungroupedWorkspaceId]);
+
   const {
     groups,
     hasNextPage,
@@ -192,6 +238,9 @@ const useGroupFilter = (showNoGroupOption = true) => {
     setSearchQuery,
     searchQuery,
     isLoading,
+    isRemoteSearching,
+    isSearchDebouncing,
+    remoteSearchEnabled,
   } = useGroupsQueryWithFilter({
     hasAccess,
     debounceTime: INPUT_DEBOUNCE_MS,
@@ -201,6 +250,63 @@ const useGroupFilter = (showNoGroupOption = true) => {
     () => buildHostGroupChips(selectedGroupNames),
     [selectedGroupNames],
   );
+
+  const hostGroupFilterValue = useMemo(
+    () => hostGroupFilterToApiValues(selectedGroupNames),
+    [selectedGroupNames],
+  );
+
+  const needsHostGroupResolution = useMemo(
+    () =>
+      selectedGroupNames.some((group) => {
+        if (typeof group === 'string') {
+          return true;
+        }
+        if (typeof group === 'object' && group !== null) {
+          if (group.id === '') {
+            return true;
+          }
+          if (
+            group.ungrouped &&
+            ungroupedWorkspace &&
+            group.id !== ungroupedWorkspace.id
+          ) {
+            return true;
+          }
+        }
+        return false;
+      }),
+    [selectedGroupNames, ungroupedWorkspace],
+  );
+
+  // URL/bookmark state uses group_name strings; resolve to { id, name } for dropdown selection.
+  useEffect(() => {
+    if (!needsHostGroupResolution) {
+      return;
+    }
+    if (!groups.length && !ungroupedWorkspace) {
+      return;
+    }
+    setSelectedGroupNames((prev) =>
+      prev.map((group) => {
+        if (typeof group === 'object' && group !== null) {
+          if (group.ungrouped || group.id === '') {
+            return ungroupedWorkspace ?? group;
+          }
+          return group;
+        }
+        if (group === '' || group === UNGROUPED_HOSTS_LABEL) {
+          return (
+            ungroupedWorkspace ?? { id: group, name: group, ungrouped: true }
+          );
+        }
+        const match = groups.find((workspace) => workspace.name === group);
+        return match
+          ? { id: match.id, name: match.name }
+          : { id: group, name: group };
+      }),
+    );
+  }, [groups, ungroupedWorkspace, needsHostGroupResolution]);
 
   return [
     {
@@ -213,10 +319,14 @@ const useGroupFilter = (showNoGroupOption = true) => {
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
             isLoading={isLoading}
+            isRemoteSearching={isRemoteSearching}
+            isSearchDebouncing={isSearchDebouncing}
+            remoteSearchEnabled={remoteSearchEnabled}
             isFetchingNextPage={isFetchingNextPage}
             hasNextPage={hasNextPage}
             fetchNextPage={fetchNextPage}
             groups={groups}
+            ungroupedWorkspace={ungroupedWorkspace}
             selectedGroupNames={selectedGroupNames}
             setSelectedGroupNames={setSelectedGroupNames}
             showNoGroupOption={showNoGroupOption}
@@ -225,7 +335,7 @@ const useGroupFilter = (showNoGroupOption = true) => {
       },
     },
     chips,
-    selectedGroupNames,
+    hostGroupFilterValue,
     (groupNames) => setSelectedGroupNames(groupNames || []),
   ];
 };

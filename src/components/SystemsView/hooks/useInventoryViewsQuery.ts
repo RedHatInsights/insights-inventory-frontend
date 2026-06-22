@@ -1,8 +1,8 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { getHostTags, getHostViews } from '../../../api/hostInventoryApiTyped';
 import { InventoryFilters } from '../filters/SystemsViewFilters';
-import type { ApiHostViewsGetHostViewsParams } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 import {
+  ApiHostViewsGetHostViewsParams,
   ApiHostViewsGetHostViewsOrderByEnum,
   ApiHostViewsGetHostViewsRegisteredWithEnum,
   ApiHostViewsGetHostViewsStalenessEnum,
@@ -14,6 +14,7 @@ import type { LastSeenCustomRange } from '../DataViewFiltersContext';
 import qs from 'qs';
 import { buildOperatingSystemProfileFilter } from '../utils/operatingSystemSelectOptions';
 import { buildWorkloadsFilter } from '../utils/workloadsFilter';
+import { Column } from '../columns/allColumnDefinitions';
 
 export const INVENTORY_VIEWS_QUERY_KEY = 'inventory-views' as const;
 
@@ -26,6 +27,12 @@ const serializeSystemTypeForViews = (values: string[]) => {
     .filter((val): val is ApiHostViewsGetHostViewsSystemTypeEnum =>
       validValues.includes(val as ApiHostViewsGetHostViewsSystemTypeEnum),
     );
+};
+
+const COLUMN_SORT_BY_TO_API_ORDER_BY: Partial<
+  Record<NonNullable<Column['sortBy']>, ApiHostViewsGetHostViewsOrderByEnum>
+> = {
+  status: ApiHostViewsGetHostViewsOrderByEnum.LastCheckIn,
 };
 
 type FetchInventoryViewsReturnedValue = Awaited<
@@ -79,7 +86,9 @@ const fetchInventoryViews = async ({
   const params: ApiHostViewsGetHostViewsParams = {
     page,
     perPage,
-    ...(sortBy && { orderBy: sortBy }),
+    ...(sortBy && {
+      orderBy: COLUMN_SORT_BY_TO_API_ORDER_BY[sortBy] ?? sortBy,
+    }),
     ...(direction && { orderHow: direction.toUpperCase() }),
     ...(filters?.hostname_or_id && { hostnameOrId: filters.hostname_or_id }),
     ...(filters?.status?.length && {
@@ -108,6 +117,9 @@ const fetchInventoryViews = async ({
             'system_update_method',
             'bootc_status',
             'host_type',
+            'infrastructure_type',
+            'infrastructure_vendor',
+            'workloads',
           ],
         },
         ...(hasSystemProfileFilter && {

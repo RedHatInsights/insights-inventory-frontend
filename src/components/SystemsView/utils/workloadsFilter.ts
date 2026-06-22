@@ -13,6 +13,20 @@ export const WORKLOAD_FILTER_OPTIONS = [
   { label: 'SAP', value: 'sap' },
 ] as const;
 
+type WorkloadFilterValue = (typeof WORKLOAD_FILTER_OPTIONS)[number]['value'];
+
+/** Table column acronyms for keys under `system_profile.workloads`. */
+export const WORKLOAD_ACRONYMS: Record<WorkloadFilterValue, string> = {
+  ansible: 'AAP',
+  crowdstrike: 'CS',
+  ibm_db2: 'DB2',
+  intersystems: 'IS',
+  mssql: 'MSSQL',
+  oracle_db: 'ORACLE',
+  rhel_ai: 'RHEL AI',
+  sap: 'SAP',
+};
+
 /**
  * Nested `filter.system_profile.workloads` fragment for host list API.
  * Each key represents a workload name (e.g., 'sap', 'ansible') and uses a

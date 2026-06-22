@@ -60,9 +60,15 @@ const filterMapper = {
       searchParams.append(UPDATE_METHOD_KEY, item),
     ),
   hostGroupFilter: ({ hostGroupFilter }, searchParams) =>
-    hostGroupFilter?.forEach((item) =>
-      searchParams.append(HOST_GROUP_CHIP, item),
-    ),
+    hostGroupFilter?.forEach((item) => {
+      const groupName =
+        typeof item === 'object' && item !== null
+          ? item.ungrouped
+            ? ''
+            : item.name
+          : item;
+      searchParams.append(HOST_GROUP_CHIP, groupName);
+    }),
   systemTypeFilter: ({ systemTypeFilter }, searchParams) =>
     systemTypeFilter?.forEach((item) =>
       searchParams.append(SYSTEM_TYPE_KEY, item),

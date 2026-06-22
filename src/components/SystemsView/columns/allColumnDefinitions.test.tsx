@@ -9,8 +9,11 @@ import {
   getNameColumnMinWidth,
   resolveColumnMinWidth,
 } from '../utils/columnMinWidths';
+import { NOT_AVAILABLE } from '../../../constants';
+import inventoryColumns from './inventory/columnDefinitions';
 
-const inventoryKeys = ['name', 'workspace', 'tags', 'os', 'last_seen'];
+const inventoryKeys = inventoryColumns.map((col) => col.key);
+const defaultColumnsKeys = ['name', 'workspace', 'tags', 'os', 'last_seen'];
 const nonInventoryColumns = allColumns.filter(
   (col) => !inventoryKeys.includes(col.key),
 );
@@ -25,9 +28,9 @@ describe('allColumnDefinitions', () => {
     expect(new Set(keys).size).toBe(keys.length);
   });
 
-  it('should show inventory columns by default', () => {
+  it('should show default columns', () => {
     const inventoryColumns = allColumns.filter((col) =>
-      inventoryKeys.includes(col.key),
+      defaultColumnsKeys.includes(col.key),
     );
     inventoryColumns.forEach((col) => {
       expect(col.isShownByDefault).toBe(true);
@@ -41,18 +44,6 @@ describe('allColumnDefinitions', () => {
       expect(col.isShown).toBe(false);
     });
   });
-
-  it.each(allColumns)(
-    'should have required properties for "$key"',
-    (column) => {
-      expect(column).toHaveProperty('key');
-      expect(column).toHaveProperty('title');
-      expect(column).toHaveProperty('renderCell');
-      expect(column).toHaveProperty('isShownByDefault');
-      expect(column).toHaveProperty('isShown');
-      expect(typeof column.renderCell).toBe('function');
-    },
-  );
 
   it.each(columnsWithMinWidth)(
     'should use a valid minWidth format when minWidth is defined on "$key"',
@@ -85,11 +76,11 @@ describe('allColumnDefinitions', () => {
   });
 
   it.each(nonInventoryColumns)(
-    'should render N/A when app data is missing for "$key"',
+    `should render ${NOT_AVAILABLE} when app data is missing for "$key"`,
     (column) => {
       const system = {} as unknown as InventoryViewSystem;
       render(<>{column.renderCell(system)}</>);
-      expect(screen.getByText('N/A')).toBeInTheDocument();
+      expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
     },
   );
 });

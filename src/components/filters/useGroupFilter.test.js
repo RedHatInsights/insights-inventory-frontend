@@ -13,7 +13,7 @@ import {
   createTestQueryClient,
   flushPromises,
 } from '../../Utilities/TestingUtilities';
-import useGroupFilter from './useGroupFilter';
+import useGroupFilter, { hostGroupFilterToApiValues } from './useGroupFilter';
 import { usePermissionsWithContext } from '@redhat-cloud-services/frontend-components-utilities/RBACHook';
 import { getGroups } from '../InventoryGroups/utils/api';
 
@@ -68,6 +68,24 @@ const waitForGroupsToBeLoaded = async (
     ),
   );
 
+describe('hostGroupFilterToApiValues', () => {
+  it('maps workspace objects to group_name strings', () => {
+    expect(
+      hostGroupFilterToApiValues([
+        { id: 'g1', name: 'group-1' },
+        { id: 'ungrouped-id', name: 'Ungrouped hosts', ungrouped: true },
+      ]),
+    ).toEqual(['group-1', '']);
+  });
+
+  it('passes through legacy string selections', () => {
+    expect(hostGroupFilterToApiValues(['group-1', ''])).toEqual([
+      'group-1',
+      '',
+    ]);
+  });
+});
+
 describe('groups request not yet resolved', () => {
   beforeEach(() => {
     getGroups.mockImplementation(() => new Promise(() => {})); // keep pending
@@ -87,38 +105,45 @@ describe('groups request not yet resolved', () => {
 
     const [config] = result.current;
     expect(config.filterValues).toMatchInlineSnapshot(`
-      {
-        "children": <SearchableGroupFilter
-          fetchNextPage={[Function]}
-          groups={[]}
-          hasNextPage={false}
-          isFetchingNextPage={false}
-          isLoading={true}
-          searchQuery=""
-          selectedGroupNames={[]}
-          setSearchQuery={[Function]}
-          setSelectedGroupNames={[Function]}
-          showNoGroupOption={false}
-        />,
-      }
+     {
+       "children": <SearchableGroupFilter
+         fetchNextPage={[Function]}
+         groups={[]}
+         hasNextPage={false}
+         isFetchingNextPage={false}
+         isLoading={true}
+         isRemoteSearching={false}
+         isSearchDebouncing={false}
+         remoteSearchEnabled={false}
+         searchQuery=""
+         selectedGroupNames={[]}
+         setSearchQuery={[Function]}
+         setSelectedGroupNames={[Function]}
+         showNoGroupOption={false}
+         ungroupedWorkspace={null}
+       />,
+     }
     `);
   });
 });
+
+const mockUngroupedHostsGroup = () =>
+  Promise.resolve({
+    total: 1,
+    results: [
+      {
+        id: 'ungrouped-kessel-id',
+        name: 'Ungrouped hosts',
+        ungrouped: true,
+      },
+    ],
+  });
 
 describe('with some groups available', () => {
   beforeAll(() => {
     getGroups.mockImplementation((search) => {
       if (search?.type === 'ungrouped-hosts') {
-        return Promise.resolve({
-          total: 1,
-          results: [
-            {
-              id: 'ungrouped-kessel-id',
-              name: 'Ungrouped hosts',
-              ungrouped: true,
-            },
-          ],
-        });
+        return mockUngroupedHostsGroup();
       }
       return Promise.resolve({
         total: 1,
@@ -138,27 +163,31 @@ describe('with some groups available', () => {
 
     const [config] = result.current;
     expect(config.filterValues).toMatchInlineSnapshot(`
-      {
-        "children": <SearchableGroupFilter
-          fetchNextPage={[Function]}
-          groups={
-            [
-              {
-                "id": "g1",
-                "name": "group-1",
-              },
-            ]
-          }
-          hasNextPage={false}
-          isFetchingNextPage={false}
-          isLoading={false}
-          searchQuery=""
-          selectedGroupNames={[]}
-          setSearchQuery={[Function]}
-          setSelectedGroupNames={[Function]}
-          showNoGroupOption={false}
-        />,
-      }
+     {
+       "children": <SearchableGroupFilter
+         fetchNextPage={[Function]}
+         groups={
+           [
+             {
+               "id": "g1",
+               "name": "group-1",
+             },
+           ]
+         }
+         hasNextPage={false}
+         isFetchingNextPage={false}
+         isLoading={false}
+         isRemoteSearching={false}
+         isSearchDebouncing={false}
+         remoteSearchEnabled={false}
+         searchQuery=""
+         selectedGroupNames={[]}
+         setSearchQuery={[Function]}
+         setSelectedGroupNames={[Function]}
+         showNoGroupOption={false}
+         ungroupedWorkspace={null}
+       />,
+     }
     `);
   });
 
@@ -170,9 +199,14 @@ describe('with some groups available', () => {
     act(() => {
       setValue(['group-1']);
     });
-    const [, chips, value] = result.current;
+
+    await waitFor(() => {
+      const [, , value] = result.current;
+      expect(value).toEqual(['group-1']);
+    });
+
+    const [, chips] = result.current;
     expect(chips.length).toBe(1);
-    expect(value).toEqual(['group-1']);
     expect(chips).toMatchObject([
       {
         category: 'Workspace',
@@ -207,24 +241,46 @@ describe('with some groups available', () => {
          hasNextPage={false}
          isFetchingNextPage={false}
          isLoading={false}
+         isRemoteSearching={false}
+         isSearchDebouncing={false}
+         remoteSearchEnabled={false}
          searchQuery=""
          selectedGroupNames={[]}
          setSearchQuery={[Function]}
          setSelectedGroupNames={[Function]}
          showNoGroupOption={true}
+         ungroupedWorkspace={
+           {
+             "id": "ungrouped-kessel-id",
+             "name": "Ungrouped hosts",
+             "ungrouped": true,
+           }
+         }
        />,
      }
     `);
   });
 
-  it('can select no group option', async () => {
-    const { result } = renderWrappedHook();
+  it('can select ungrouped hosts using workspace id', async () => {
+    const { result } = renderWrappedHook(true);
     await waitForGroupsToBeLoaded();
+    await waitFor(() =>
+      expect(getGroups).toHaveBeenCalledWith(
+        { type: 'ungrouped-hosts' },
+        { page: 1, per_page: 10 },
+      ),
+    );
 
     const [, , , setValue] = result.current;
     act(() => {
       setValue(['']);
     });
+
+    await waitFor(() => {
+      const [, , value] = result.current;
+      expect(value).toEqual(['']);
+    });
+
     const [, chips, value] = result.current;
     expect(chips.length).toBe(1);
     expect(value).toEqual(['']);
@@ -359,6 +415,52 @@ describe('filtering', () => {
       expect(
         screen.getByRole('menuitem', { name: /group-51/ }),
       ).toBeInTheDocument();
+    });
+
+    it('does not show stale unfiltered workspaces while remote search is debouncing', async () => {
+      getGroups.mockImplementation((search) => {
+        if (search?.name === 'hell') {
+          return Promise.resolve({
+            total: 2,
+            results: [
+              { id: 'h1', name: 'hello_111', host_count: 0 },
+              { id: 'h2', name: 'hello_adarsh', host_count: 0 },
+            ],
+          });
+        }
+        return Promise.resolve({
+          total: 170,
+          results: [
+            { id: 'dup', name: 'duplicate workspace name', host_count: 0 },
+            { id: 'other', name: 'other workspace', host_count: 1 },
+            ...Array.from({ length: 8 }, (_, i) => ({
+              id: `id-${i}`,
+              name: `group-${i}`,
+              host_count: 0,
+            })),
+          ],
+        });
+      });
+
+      render(<Harness />);
+      await act(async () => await null);
+      await waitForGroupsToBeLoaded();
+
+      await userEvent.click(
+        screen.getByRole('button', { name: /menu toggle/i }),
+      );
+      expect(screen.getByText('duplicate workspace name')).toBeInTheDocument();
+
+      const input = screen.getByPlaceholderText('Filter by workspace');
+      await userEvent.type(input, 'hell');
+
+      await waitForGroupsToBeLoaded({ name: 'hell', type: 'standard' });
+
+      expect(
+        screen.queryByText('duplicate workspace name'),
+      ).not.toBeInTheDocument();
+      expect(screen.getByText('hello_111')).toBeInTheDocument();
+      expect(screen.getByText('hello_adarsh')).toBeInTheDocument();
     });
   });
 });

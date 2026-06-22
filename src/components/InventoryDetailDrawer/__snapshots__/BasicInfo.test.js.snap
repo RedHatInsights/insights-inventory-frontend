@@ -16,7 +16,7 @@ exports[`BasicInfo should render with tags 1`] = `
         >
           <h3
             class="pf-v6-c-title pf-m-xl"
-            data-ouia-component-id="OUIA-Generated-Title-4"
+            data-ouia-component-id="OUIA-Generated-Title-:r3:"
             data-ouia-component-type="PF6/Title"
             data-ouia-safe="true"
           >

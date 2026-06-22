@@ -116,6 +116,33 @@ describe('SystemsViewRowActions', () => {
       expect(addOrMoveItem.getAttribute('aria-disabled')).not.toBe('true');
     });
 
+    it('opens move modal when Move system is clicked', async () => {
+      const useConditionalRBACMock =
+        require('../../Utilities/hooks/useConditionalRBAC')
+          .useConditionalRBAC as jest.Mock;
+      useConditionalRBACMock.mockReturnValue({ hasAccess: true });
+
+      const system = {
+        id: 'host-1',
+        display_name: 'My Host',
+        groups: [],
+        org_id: 'test-org',
+        permissions: {
+          hasWorkspaceEdit: true,
+          hasUpdate: true,
+          hasDelete: true,
+        },
+      };
+
+      renderWithProvider(<SystemsViewRowActions system={system} />);
+      await openKebabMenu();
+
+      await userEvent.click(
+        screen.getByRole('menuitem', { name: /move system/i }),
+      );
+      expect(mockOpenAddToWorkspaceModal).toHaveBeenCalledWith([system]);
+    });
+
     it('disables Move system when permissions are undefined (no edit access)', async () => {
       const system = {
         id: 'host-1',

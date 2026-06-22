@@ -4,11 +4,11 @@ import SystemsViewRowActions from '../SystemsViewRowActions';
 import {
   getColumnMinWidthStyle,
   getNameColumnMinWidth,
-} from '../utils/columnMinWidths';
-import { STICKY_ACTIONS_BODY_PROPS } from '../utils/stickyActionsColumn';
-import { getStickyNameBodyProps } from '../utils/stickyNameColumn';
+} from './columnMinWidths';
+import { STICKY_ACTIONS_BODY_PROPS } from './stickyActionsColumn';
+import { getStickyNameBodyProps } from './stickyNameColumn';
 import type { SystemWithPermissions } from '../../../Utilities/hooks/useHostIdsWithKessel';
-import type { System } from './useSystemsQuery';
+import type { System } from '../hooks/useSystemsQuery';
 import { Column } from '../columns/allColumnDefinitions';
 
 /** DataViewTrObject Extension, `meta` points to associated system objects. */
@@ -16,7 +16,7 @@ export type SystemsViewTableRow = DataViewTrObject & {
   meta: System | SystemWithPermissions;
 };
 
-interface UseRowsParams {
+interface MapSystemsToRowsParams {
   data?: (System | SystemWithPermissions)[];
   columns: Column[];
   /**
@@ -25,15 +25,11 @@ interface UseRowsParams {
   isInventoryViewsEnabled: boolean;
 }
 
-interface UseRowsReturnValue {
-  rows: SystemsViewTableRow[];
-}
-
-export const useRows = ({
+export const mapSystemsToRows = ({
   data,
   columns,
   isInventoryViewsEnabled,
-}: UseRowsParams): UseRowsReturnValue => {
+}: MapSystemsToRowsParams): SystemsViewTableRow[] => {
   const mapSystemToRow = (
     system: System | SystemWithPermissions,
   ): SystemsViewTableRow => {
@@ -74,7 +70,6 @@ export const useRows = ({
       ],
     };
   };
-  const rows = (data ?? []).map(mapSystemToRow);
 
-  return { rows };
+  return (data ?? []).map(mapSystemToRow);
 };

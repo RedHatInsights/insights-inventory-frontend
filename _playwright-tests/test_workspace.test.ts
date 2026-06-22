@@ -371,7 +371,7 @@ test.describe('Workspace System Management', () => {
       await expect(nameCell).toHaveCount(1);
 
       // Since we searched for the exact system name, select the first checkbox in the results
-      const checkbox = dialog.locator('input[name="checkrow0"]');
+      const checkbox = dialog.locator('#select-0');
       await expect(checkbox).toBeVisible();
       await checkbox.check();
       await expect(checkbox).toBeChecked({ timeout: 10000 });
