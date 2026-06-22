@@ -58,8 +58,8 @@ export const buildHostListParams = ({
     ...(sortBy && { orderBy: sortBy }),
     ...(direction && { orderHow: direction.toUpperCase() }),
     ...(filters.hostname_or_id && { hostnameOrId: filters.hostname_or_id }),
-    ...(filters.status && { staleness: filters.status }),
-    ...(filters.source && { registeredWith: filters.source }),
+    ...(filters.status.length > 0 && { staleness: filters.status }),
+    ...(filters.source.length > 0 && { registeredWith: filters.source }),
     ...(filters.system_type && {
       systemType: buildSystemType(
         filters.system_type,

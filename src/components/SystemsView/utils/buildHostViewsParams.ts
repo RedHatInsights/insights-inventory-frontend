@@ -62,7 +62,7 @@ export const buildHostViewsParams = ({
     ...(direction && { orderHow: direction.toUpperCase() }),
     ...(filters.hostname_or_id && { hostnameOrId: filters.hostname_or_id }),
     ...(filters.status?.length && {
-      staleness: filters.status as ApiHostViewsGetHostViewsStalenessEnum[],
+      staleness: filters.status,
     }),
     ...(filters.source?.length && {
       registeredWith:
