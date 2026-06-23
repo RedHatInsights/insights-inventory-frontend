@@ -6,7 +6,7 @@
  * Copied locally for customization; keep in sync with upstream when upgrading PatternFly packages.
  * ListManager is also vendored locally in this folder.
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import type { ModalProps } from '@patternfly/react-core';
 import {
   Button,
@@ -59,6 +59,16 @@ export interface ColumnManagementModalProps<
   enableDragDrop?: boolean;
 }
 
+const getColumnSnapshot = <
+  T extends ColumnManagementModalColumn = ColumnManagementModalColumn,
+>(
+  columns: T[],
+) =>
+  columns.map((column) => ({
+    key: column.key,
+    isShown: column.isShown ?? column.isShownByDefault,
+  }));
+
 export function ColumnManagementModal<
   T extends ColumnManagementModalColumn = ColumnManagementModalColumn,
 >({
@@ -88,6 +98,21 @@ export function ColumnManagementModal<
       })),
     );
   }, [appliedColumns]);
+
+  const hasChanges = useMemo(() => {
+    const applied = getColumnSnapshot(appliedColumns);
+    const current = getColumnSnapshot(currentColumns);
+
+    if (applied.length !== current.length) {
+      return true;
+    }
+
+    return applied.some(
+      (column, index) =>
+        column.key !== current[index].key ||
+        column.isShown !== current[index].isShown,
+    );
+  }, [appliedColumns, currentColumns]);
 
   // Convert ColumnManagementModalColumn to ListManagerItem
   const listManagerItems: ListManagerItem[] = currentColumns.map((column) => ({
@@ -210,6 +235,7 @@ export function ColumnManagementModal<
             <Button
               variant={ButtonVariant.primary}
               onClick={handleSaveClick}
+              isDisabled={!hasChanges}
               ouiaId={`${ouiaId}-save-button`}
             >
               Save
