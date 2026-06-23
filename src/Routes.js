@@ -3,7 +3,6 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import RenderWrapper from './Utilities/Wrapper';
 import useFeatureFlag from './Utilities/useFeatureFlag';
 import useSystemsViewFeatureFlag from './Utilities/useSystemsViewFeatureFlag';
-import useSystemsTableFeatureFlag from './routes/Systems/components/SystemsTable/hooks/useSystemsTableFeatureFlag';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
 import {
@@ -15,7 +14,6 @@ import Redirect from './Utilities/Redirect';
 import { AccountStatContext } from './Contexts';
 
 const InventoryPage = lazy(() => import('./routes/InventoryPage'));
-const Systems = lazy(() => import('./routes/Systems'));
 const InventoryViews = lazy(() => import('./routes/InventoryViews'));
 
 const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
@@ -42,7 +40,6 @@ export const Routes = () => {
   const [hasBootcImages, setHasBootcImages] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const isSystemsTableEnabled = useSystemsTableFeatureFlag();
   const isSystemsViewEnabled = useSystemsViewFeatureFlag();
   const isBifrostEnabled = useFeatureFlag('hbi.ui.bifrost');
   const isLastCheckInEnabled = useFeatureFlag(
@@ -78,8 +75,6 @@ export const Routes = () => {
       path: '/',
       element: isSystemsViewEnabled ? (
         <RenderWrapper cmp={InventoryViews} />
-      ) : isSystemsTableEnabled ? (
-        <Systems />
       ) : (
         <RenderWrapper cmp={InventoryPage} />
       ),

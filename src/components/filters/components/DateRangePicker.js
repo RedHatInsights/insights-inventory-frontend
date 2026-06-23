@@ -5,8 +5,8 @@ import {
   startDateValidator,
   endDateValidator,
   isValidDateRange,
-} from './helpers';
-import { isValidISODateStr } from './helpers';
+  isValidISODateStr,
+} from './dateHelpers';
 
 export const DateRangePicker = ({ dateRange, onDateRangeChange }) => {
   const [startDate, setStartDate] = useState(dateRange?.start);
