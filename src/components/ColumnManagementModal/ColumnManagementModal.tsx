@@ -33,6 +33,8 @@ export interface ColumnManagementModalColumn {
   isShownByDefault: boolean;
   /** The checkbox will be disabled, this is applicable to columns which should not be toggleable by user */
   isUntoggleable?: boolean;
+  /** Optional app identifier displayed alongside the column title. */
+  appName?: string;
 }
 
 /** extends ModalProps */
@@ -94,6 +96,7 @@ export function ColumnManagementModal<
     isSelected: column.isShown,
     isShownByDefault: column.isShownByDefault,
     isUntoggleable: column.isUntoggleable,
+    appName: column.appName,
   }));
 
   const resetToDefault = () => {

@@ -20,6 +20,8 @@ import {
   ActionList,
   ActionListItem,
   ActionListGroup,
+  Flex,
+  FlexItem,
 } from '@patternfly/react-core';
 import {
   DragDropSort,
@@ -42,6 +44,8 @@ export interface ListManagerItem {
   isShownByDefault: boolean;
   /** The checkbox will be disabled, this is applicable to columns which should not be toggleable by user */
   isUntoggleable?: boolean;
+  /** Optional app identifier displayed alongside the column title. */
+  appName?: string;
 }
 
 export interface ListManagerProps {
@@ -159,6 +163,27 @@ const ListManager: FunctionComponent<ListManagerProps> = ({
     />
   );
 
+  const renderColumnLabel = (
+    column: ListManagerItem & { id: string },
+    index: number,
+  ) => (
+    <Flex
+      justifyContent={{ default: 'justifyContentSpaceBetween' }}
+      fullWidth={{ default: 'fullWidth' }}
+    >
+      <FlexItem>
+        <label htmlFor={`${ouiaId}-column-${index}-checkbox`}>
+          {column.title}
+        </label>
+      </FlexItem>
+      {column.appName && (
+        <FlexItem className="pf-v6-u-text-color-subtle">
+          {column.appName.charAt(0).toUpperCase() + column.appName.slice(1)}
+        </FlexItem>
+      )}
+    </Flex>
+  );
+
   const renderColumnCells = (
     column: ListManagerItem & { id: string },
     index: number,
@@ -169,9 +194,7 @@ const ListManager: FunctionComponent<ListManagerProps> = ({
           key={column.key}
           data-ouia-component-id={`${ouiaId}-column-${index}-label`}
         >
-          <label htmlFor={`${ouiaId}-column-${index}-checkbox`}>
-            {column.title}
-          </label>
+          {renderColumnLabel(column, index)}
         </DataListCell>,
       ]}
     />
