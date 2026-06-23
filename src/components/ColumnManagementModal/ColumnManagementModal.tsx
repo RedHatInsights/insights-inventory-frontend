@@ -7,17 +7,19 @@
  * ListManager is also vendored locally in this folder.
  */
 import React, { useEffect, useState } from 'react';
+import type { ModalProps } from '@patternfly/react-core';
 import {
   Button,
+  ButtonVariant,
   Content,
   ContentVariants,
-  ButtonVariant,
-} from '@patternfly/react-core';
-import {
-  ModalProps,
+  Flex,
+  FlexItem,
   Modal,
-  ModalVariant,
-} from '@patternfly/react-core/deprecated';
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+} from '@patternfly/react-core';
 import ListManager, { type ListManagerItem } from '../ListManager/ListManager';
 
 export interface ColumnManagementModalColumn {
@@ -158,38 +160,69 @@ export function ColumnManagementModal<
     onClose({} as KeyboardEvent);
   };
 
+  const handleSaveClick = () => {
+    handleSave(listManagerItems);
+  };
+
   return (
     <Modal
-      title={title}
       onClose={onClose}
       isOpen={isOpen}
-      variant={ModalVariant.small}
-      description={
-        <>
-          <Content component={ContentVariants.p}>{description}</Content>
-          <Button
-            isInline
-            onClick={resetToDefault}
-            variant={ButtonVariant.link}
-            ouiaId={`${ouiaId}-reset-button`}
-          >
-            Reset to default
-          </Button>
-        </>
-      }
+      variant="small"
       ouiaId={ouiaId}
       {...props}
     >
-      <ListManager
-        columns={listManagerItems}
-        ouiaId={ouiaId}
-        onSelect={handleSelect}
-        onSelectAll={handleSelectAll}
-        onOrderChange={handleOrderChange}
-        onSave={handleSave}
-        onCancel={handleCancel}
-        enableDragDrop={enableDragDrop}
+      <ModalHeader
+        title={title}
+        description={
+          <>
+            <Content component={ContentVariants.p}>{description}</Content>
+            <Button
+              isInline
+              onClick={resetToDefault}
+              variant={ButtonVariant.link}
+              ouiaId={`${ouiaId}-reset-button`}
+            >
+              Reset to default
+            </Button>
+          </>
+        }
       />
+      <ModalBody tabIndex={0} aria-label="Column selection list">
+        <ListManager
+          columns={listManagerItems}
+          ouiaId={ouiaId}
+          onSelect={handleSelect}
+          onSelectAll={handleSelectAll}
+          onOrderChange={handleOrderChange}
+          onSave={handleSave}
+          onCancel={handleCancel}
+          enableDragDrop={enableDragDrop}
+          showActions={false}
+        />
+      </ModalBody>
+      <ModalFooter>
+        <Flex>
+          <FlexItem>
+            <Button
+              variant={ButtonVariant.primary}
+              onClick={handleSaveClick}
+              ouiaId={`${ouiaId}-save-button`}
+            >
+              Save
+            </Button>
+          </FlexItem>
+          <FlexItem>
+            <Button
+              variant={ButtonVariant.link}
+              onClick={handleCancel}
+              ouiaId={`${ouiaId}-cancel-button`}
+            >
+              Cancel
+            </Button>
+          </FlexItem>
+        </Flex>
+      </ModalFooter>
     </Modal>
   );
 }

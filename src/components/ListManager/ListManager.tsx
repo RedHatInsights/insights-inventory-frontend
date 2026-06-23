@@ -63,6 +63,8 @@ export interface ListManagerProps {
   enableDragDrop?: boolean;
   /** Custom aria-label for the DataList */
   dataListAriaLabel?: string;
+  /** When false, Save/Cancel actions are omitted (e.g. when rendered in a ModalFooter). */
+  showActions?: boolean;
 }
 
 const ListManager: FunctionComponent<ListManagerProps> = ({
@@ -75,6 +77,7 @@ const ListManager: FunctionComponent<ListManagerProps> = ({
   onCancel,
   enableDragDrop = true,
   dataListAriaLabel = 'Selected columns',
+  showActions = true,
 }: ListManagerProps) => {
   const [currentColumns, setCurrentColumns] = useState(() =>
     columns.map((column) => ({
@@ -251,32 +254,34 @@ const ListManager: FunctionComponent<ListManagerProps> = ({
           ))}
         </DataList>
       )}
-      <ActionList
-        style={{ paddingBlockStart: 'var(--pf-t--global--spacer--md)' }}
-      >
-        <ActionListGroup>
-          <ActionListItem>
-            <Button
-              key="save"
-              variant={ButtonVariant.primary}
-              onClick={handleSave}
-              ouiaId={`${ouiaId}-save-button`}
-            >
-              Save
-            </Button>
-          </ActionListItem>
-          <ActionListItem>
-            <Button
-              key="cancel"
-              variant={ButtonVariant.link}
-              onClick={onCancel}
-              ouiaId={`${ouiaId}-cancel-button`}
-            >
-              Cancel
-            </Button>
-          </ActionListItem>
-        </ActionListGroup>
-      </ActionList>
+      {showActions && (
+        <ActionList
+          style={{ paddingBlockStart: 'var(--pf-t--global--spacer--md)' }}
+        >
+          <ActionListGroup>
+            <ActionListItem>
+              <Button
+                key="save"
+                variant={ButtonVariant.primary}
+                onClick={handleSave}
+                ouiaId={`${ouiaId}-save-button`}
+              >
+                Save
+              </Button>
+            </ActionListItem>
+            <ActionListItem>
+              <Button
+                key="cancel"
+                variant={ButtonVariant.link}
+                onClick={onCancel}
+                ouiaId={`${ouiaId}-cancel-button`}
+              >
+                Cancel
+              </Button>
+            </ActionListItem>
+          </ActionListGroup>
+        </ActionList>
+      )}
     </>
   );
 };
