@@ -1,30 +1,12 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { getHostList, getHostTags } from '../../../api/hostInventoryApiTyped';
 import { InventoryFilters } from '../filters/SystemsViewFilters';
-import {
-  ApiHostGetHostListSystemTypeEnum,
-  type ApiHostGetHostListParams,
-} from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
-import qs from 'qs';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import { SortDirection } from '../SystemsView';
-import { buildOperatingSystemProfileFilter } from '../utils/operatingSystemSelectOptions';
-import { buildWorkloadsFilter } from '../utils/workloadsFilter';
-import { lastSeenKeysToApiParams } from '../utils/lastSeenKeysToApiParams';
+import { buildHostListParams } from '../utils/buildHostListParams';
 import type { LastSeenCustomRange } from '../DataViewFiltersContext';
 
 export const SYSTEMS_QUERY_KEY = 'systems' as const;
-
-const serializeSystemType = (values: string[]) => {
-  const validValues = Object.values(ApiHostGetHostListSystemTypeEnum);
-
-  return values
-    .map((val) => (val === 'image' ? ['bootc', 'edge'] : val))
-    .flat()
-    .filter((val): val is ApiHostGetHostListSystemTypeEnum =>
-      validValues.includes(val as ApiHostGetHostListSystemTypeEnum),
-    );
-};
 
 type FetchSystemsReturnedValue = Awaited<ReturnType<typeof fetchSystems>>;
 export type System = FetchSystemsReturnedValue['results'][number];
@@ -45,71 +27,14 @@ const fetchSystems = async ({
   sortBy,
   direction,
 }: FetchSystemsParams) => {
-  const operatingSystemFilter = buildOperatingSystemProfileFilter(
-    filters.operating_system,
-  );
-  const workloadsFilter = buildWorkloadsFilter(filters.workloads);
-
-  const systemProfileFilter: Record<string, unknown> = {
-    ...(filters?.rhcStatus?.length && {
-      rhc_client_id: filters.rhcStatus,
-    }),
-    ...(operatingSystemFilter && { operating_system: operatingSystemFilter }),
-    ...(workloadsFilter && { workloads: workloadsFilter }),
-  };
-
-  const hasSystemProfileFilter = Object.keys(systemProfileFilter).length > 0;
-
-  const lastSeenParams = lastSeenKeysToApiParams(
-    filters.last_seen,
-    lastSeenCustomRange,
-  );
-
-  const params: ApiHostGetHostListParams = {
+  const params = buildHostListParams({
     page,
     perPage,
-    ...(sortBy && { orderBy: sortBy }),
-    ...(direction && { orderHow: direction.toUpperCase() }),
-    ...(filters?.hostname_or_id && { hostnameOrId: filters.hostname_or_id }),
-    ...(filters?.status && { staleness: filters.status }),
-    ...(filters?.source && { registeredWith: filters.source }),
-    ...(filters?.system_type && {
-      systemType: serializeSystemType(filters.system_type),
-    }),
-    ...(() => {
-      const g = filters?.group_id ?? [];
-      const groupIdParam = [
-        ...g.filter((id) => id),
-        ...(g.includes('') ? [''] : []),
-      ];
-      return groupIdParam.length ? { groupId: groupIdParam } : {};
-    })(),
-    ...(filters?.tags && { tags: filters.tags }),
-    ...(lastSeenParams ?? {}),
-    /* Override default dot notation from API client: backend requires bracket notation for nested params (fields, filter) */
-    options: {
-      paramsSerializer: (params) => {
-        return qs.stringify(params, {
-          arrayFormat: 'brackets',
-        });
-      },
-      params: {
-        fields: {
-          system_profile: [
-            'operating_system',
-            'system_update_method',
-            'bootc_status',
-            'host_type',
-          ],
-        },
-        ...(hasSystemProfileFilter && {
-          filter: {
-            system_profile: systemProfileFilter,
-          },
-        }),
-      },
-    },
-  };
+    filters,
+    lastSeenCustomRange,
+    sortBy,
+    direction,
+  });
 
   const { results: hosts, total } = await getHostList(params);
 
