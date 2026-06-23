@@ -51,7 +51,7 @@ export const ColumnManagementModalProvider = ({
           applyColumns={setColumns}
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
-          // enableDragDrop={true} Disabled due to bug
+          enableDragDrop={true}
           title="Manage columns"
           description="Selected categories will be displayed in the table."
         />
