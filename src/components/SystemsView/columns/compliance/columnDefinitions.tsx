@@ -5,7 +5,10 @@ import { DateFormat } from '@redhat-cloud-services/frontend-components/DateForma
 import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 import { Link } from 'react-router-dom';
 
+const APP_NAME = 'compliance' as const;
+
 const lastComplianceScanColumn = {
+  appName: APP_NAME,
   title: 'Last compliance scan',
   key: 'last_compliance_scan',
   minWidth: '12rem',
@@ -23,6 +26,7 @@ const lastComplianceScanColumn = {
 };
 
 const policiesColumn = {
+  appName: APP_NAME,
   title: 'Policies',
   key: 'policies',
   minWidth: '7rem',

@@ -19,7 +19,14 @@ type SortableColumn = {
 };
 
 type ConsumerAppColumn = {
-  appName?: 'patch' | 'vulnerability' | 'advisor';
+  appName:
+    | 'advisor'
+    | 'compliance'
+    | 'inventory'
+    | 'malware'
+    | 'patch'
+    | 'remediations'
+    | 'vulnerability';
 };
 
 type LayoutColumn = {
