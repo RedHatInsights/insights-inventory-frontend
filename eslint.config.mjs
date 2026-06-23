@@ -7,9 +7,8 @@ import playwright from 'eslint-plugin-playwright';
 import reactHooks from 'eslint-plugin-react-hooks';
 import testingLibrary from 'eslint-plugin-testing-library';
 import { defineConfig, globalIgnores } from 'eslint/config';
-import tseslint from 'typescript-eslint';
 
-/* 
+/*
   To debug eslint config run: npx eslint --inspect-config
 */
 
@@ -35,9 +34,6 @@ export default defineConfig([
       parserOptions: {
         project: './tsconfig.json',
       },
-    },
-    plugins: {
-      '@typescript-eslint': tseslint.plugin,
     },
     rules: {
       'no-unused-vars': 'off',
