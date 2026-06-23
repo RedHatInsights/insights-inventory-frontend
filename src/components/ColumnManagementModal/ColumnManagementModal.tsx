@@ -4,7 +4,7 @@
  * License: MIT (PatternFly / Red Hat)
  *
  * Copied locally for customization; keep in sync with upstream when upgrading PatternFly packages.
- * ListManager remains imported from `@patternfly/react-component-groups`.
+ * ListManager is also vendored locally in this folder.
  */
 import React, { useEffect, useState } from 'react';
 import {
@@ -18,10 +18,7 @@ import {
   Modal,
   ModalVariant,
 } from '@patternfly/react-core/deprecated';
-import {
-  ListManager,
-  type ListManagerItem,
-} from '@patternfly/react-component-groups';
+import ListManager, { type ListManagerItem } from '../ListManager/ListManager';
 
 export interface ColumnManagementModalColumn {
   /** Internal identifier of a column by which table displayed columns are filtered. */
