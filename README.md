@@ -251,7 +251,7 @@ In case they don't match, update this client package to it's latest version by r
 Then, re-install the modules by running this command: `rm -rf node_modules && npm install`
 
 And re-run the application.
-This should solve this issue.
+This should solve this issue
 
 In case these steps did not solve your issue, it is possible that the latest package had not been released yet.
 Please contact the appropriate team to release the package you are using, and go over the described process of updating the client package version again.
