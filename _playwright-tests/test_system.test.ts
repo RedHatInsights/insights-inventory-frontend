@@ -135,6 +135,8 @@ test.describe('System CRUD', { tag: ['@systems-table'] }, () => {
 });
 
 test.describe('System Export', { tag: ['@systems-table'] }, () => {
+  test.describe.configure({ mode: 'serial' });
+
   test('User should be able to export systems to JSON', async ({ page }) => {
     await test.step('Navigate to Inventory → Systems', async () => {
       await navigateToInventorySystemsFunc(page);
