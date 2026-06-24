@@ -47,6 +47,8 @@ export interface ColumnManagementModalProps<
   onClose?: (event: KeyboardEvent | React.MouseEvent) => void;
   /** Current column state */
   appliedColumns: T[];
+  /** Canonical default column order and visibility for "Reset to default" */
+  defaultColumns?: T[];
   /** Invoked with new column state after save button is clicked */
   applyColumns: (newColumns: T[]) => void;
   /* Modal description text */
@@ -77,6 +79,7 @@ export function ColumnManagementModal<
   isOpen = false,
   onClose = () => undefined,
   appliedColumns,
+  defaultColumns,
   applyColumns,
   ouiaId = 'ColumnManagementModal',
   enableDragDrop = false,
@@ -125,12 +128,24 @@ export function ColumnManagementModal<
   }));
 
   const resetToDefault = () => {
-    setCurrentColumns(
-      currentColumns.map((column) => ({
-        ...column,
-        isShown: column.isShownByDefault ?? false,
-      })),
+    const orderSource = defaultColumns ?? appliedColumns;
+    const currentByKey = new Map(
+      currentColumns.map((column) => [column.key, column]),
     );
+
+    const resetColumns: T[] = [];
+
+    for (const defaultColumn of orderSource) {
+      const column = currentByKey.get(defaultColumn.key);
+      if (column) {
+        resetColumns.push({
+          ...column,
+          isShown: defaultColumn.isShownByDefault ?? false,
+        });
+      }
+    }
+
+    setCurrentColumns(resetColumns);
   };
 
   const updateColumns = (items: ListManagerItem[]) => {

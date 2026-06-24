@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { ColumnManagementModal } from '../ColumnManagementModal';
-import { Column } from './columns/allColumnDefinitions';
+import defaultColumns, { Column } from './columns/allColumnDefinitions';
 
 interface SystemsViewColumnManagementContextValue {
   openColumnManagementModal: () => void;
@@ -48,6 +48,7 @@ export const ColumnManagementModalProvider = ({
       {isOpen && (
         <ColumnManagementModal
           appliedColumns={columns}
+          defaultColumns={defaultColumns.map((column) => ({ ...column }))}
           applyColumns={setColumns}
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
