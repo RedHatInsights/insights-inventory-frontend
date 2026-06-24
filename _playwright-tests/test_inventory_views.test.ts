@@ -10,8 +10,10 @@ import {
   patchColumns,
   malwareColumns,
   inventoryColumns,
+  vulnerabilityColumns,
   validateDataColumnSortOrder,
   validateSortDirection,
+  scrollColumnIntoView,
 } from './helpers/columnHelpers';
 
 test.describe(
@@ -54,6 +56,7 @@ test.describe('Inventory Views application columns', () => {
     { name: 'Patch', appColumns: patchColumns },
     { name: 'Malware', appColumns: malwareColumns },
     { name: 'Inventory', appColumns: inventoryColumns },
+    { name: 'Vulnerability', appColumns: vulnerabilityColumns },
   ];
 
   const columnSortableTestCases = [
@@ -76,6 +79,14 @@ test.describe('Inventory Views application columns', () => {
     {
       name: 'Inventory',
       appColumns: [{ name: 'Status' }],
+    },
+    {
+      name: 'Vulnerability',
+      appColumns: [
+        { name: 'Total CVEs' },
+        { name: 'Critical CVEs' },
+        { name: 'Important CVEs' },
+      ],
     },
   ];
 
@@ -174,6 +185,9 @@ test.describe('Inventory Views application columns', () => {
               .filter({ hasText: new RegExp(`^${column.name}$`) });
             await expect(columnHeader).toBeVisible();
 
+            // Scroll table horizontally to bring column into view
+            await scrollColumnIntoView(columnHeader);
+
             // Click until we reach ascending sort (max 3 clicks)
             for (let attempt = 0; attempt < 3; attempt++) {
               const currentSort = await columnHeader
@@ -185,7 +199,15 @@ test.describe('Inventory Views application columns', () => {
                 break;
               }
 
-              await columnHeader.click();
+              // Use JavaScript click to bypass sticky column interference
+              await columnHeader.evaluate((button) =>
+                (button as HTMLElement).click(),
+              );
+
+              // Wait for skeleton table to disappear after sort
+              await expect(
+                page.locator('[data-ouia-component-id="SkeletonTable"]'),
+              ).toBeHidden({ timeout: 10000 });
             }
 
             await validateSortDirection(page, columnHeader, 'ascending');
@@ -197,7 +219,18 @@ test.describe('Inventory Views application columns', () => {
               .locator('button.pf-v6-c-table__button')
               .filter({ hasText: new RegExp(`^${column.name}$`) });
 
-            await columnHeader.click();
+            // Scroll table horizontally to bring column into view
+            await scrollColumnIntoView(columnHeader);
+
+            // Use JavaScript click to bypass sticky column interference
+            await columnHeader.evaluate((button) =>
+              (button as HTMLElement).click(),
+            );
+
+            // Wait for skeleton table to disappear after sort
+            await expect(
+              page.locator('[data-ouia-component-id="SkeletonTable"]'),
+            ).toBeHidden({ timeout: 10000 });
 
             await validateSortDirection(page, columnHeader, 'descending');
             await validateDataColumnSortOrder(page, column.name, 'descending');

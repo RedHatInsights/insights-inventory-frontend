@@ -42,6 +42,14 @@ export const malwareColumns = [
   'Last malware scan',
 ];
 
+export const vulnerabilityColumns = [
+  'Total CVEs',
+  'Important CVEs',
+  'Critical CVEs',
+  'CVEs with security rules',
+  'CVEs with known exploits',
+];
+
 /**
  * Opens the 'Manage columns' modal from the systems view toolbar.
  * Wraps the action in toPass to handle loading skeletons and dropdown rendering.
@@ -75,6 +83,27 @@ export async function openManageColumnsModal(page: Page, timeout = 45000) {
     const dialog = page.locator('[role="dialog"]');
     await expect(dialog).toBeVisible();
   }).toPass({ timeout });
+}
+
+/**
+ * Scrolls the table horizontally to bring a column into view, avoiding sticky column interference.
+ *  @param {Locator} columnHeader - The column header button locator.
+ */
+export async function scrollColumnIntoView(columnHeader: Locator) {
+  await columnHeader.evaluate((button) => {
+    const th = button.closest('th');
+    const scrollContainer = document.querySelector(
+      '.ins-c-systems-view-table-scroll',
+    );
+    if (th && scrollContainer) {
+      const thRect = th.getBoundingClientRect();
+      const containerRect = scrollContainer.getBoundingClientRect();
+      const scrollNeeded = thRect.right - containerRect.right + 100;
+      if (scrollNeeded > 0) {
+        scrollContainer.scrollLeft += scrollNeeded;
+      }
+    }
+  });
 }
 
 /**
@@ -136,6 +165,26 @@ const COLUMN_VALIDATIONS: Record<string, ColumnValidationConfig> = {
     ignoreValues: [NOT_AVAILABLE],
   },
   'Installable advisories': {
+    type: 'numeric',
+    ignoreValues: [NOT_AVAILABLE],
+  },
+  'Total CVEs': {
+    type: 'numeric',
+    ignoreValues: [NOT_AVAILABLE],
+  },
+  'Critical CVEs': {
+    type: 'numeric',
+    ignoreValues: [NOT_AVAILABLE],
+  },
+  'Important CVEs': {
+    type: 'numeric',
+    ignoreValues: [NOT_AVAILABLE],
+  },
+  'CVEs with security rules': {
+    type: 'numeric',
+    ignoreValues: [NOT_AVAILABLE],
+  },
+  'CVEs with known exploits': {
     type: 'numeric',
     ignoreValues: [NOT_AVAILABLE],
   },
