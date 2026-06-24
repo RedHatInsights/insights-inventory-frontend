@@ -46,11 +46,11 @@ export interface ColumnManagementModalProps<
   /** Invoked when modal visibility is changed */
   onClose?: (event: KeyboardEvent | React.MouseEvent) => void;
   /** Current column state */
-  appliedColumns: T[];
+  appliedColumns: readonly T[];
   /** Canonical default column order and visibility for "Reset to default" */
-  defaultColumns?: T[];
+  defaultColumns?: readonly T[];
   /** Invoked with new column state after save button is clicked */
-  applyColumns: (newColumns: T[]) => void;
+  applyColumns: (newColumns: readonly T[]) => void;
   /* Modal description text */
   description?: string;
   /* Modal title text */
@@ -64,7 +64,7 @@ export interface ColumnManagementModalProps<
 const getColumnSnapshot = <
   T extends ColumnManagementModalColumn = ColumnManagementModalColumn,
 >(
-  columns: T[],
+  columns: readonly T[],
 ) =>
   columns.map((column) => ({
     key: column.key,

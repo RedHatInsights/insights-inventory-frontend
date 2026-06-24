@@ -21,8 +21,8 @@ export const useColumnManagementModalContext = () => {
 
 interface ColumnManagementModalProviderProps {
   children: React.ReactNode;
-  columns: Column[];
-  setColumns: React.Dispatch<React.SetStateAction<Column[]>>;
+  columns: readonly Column[];
+  setColumns: React.Dispatch<React.SetStateAction<readonly Column[]>>;
 }
 
 export const ColumnManagementModalProvider = ({
@@ -48,7 +48,7 @@ export const ColumnManagementModalProvider = ({
       {isOpen && (
         <ColumnManagementModal
           appliedColumns={columns}
-          defaultColumns={defaultColumns.map((column) => ({ ...column }))}
+          defaultColumns={defaultColumns}
           applyColumns={setColumns}
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
