@@ -39,16 +39,7 @@ export const useColumns = ({
   isInventoryViewsEnabled,
 }: UseColumnParams) => {
   const [columns, setColumns] = useState<Column[]>(() =>
-    initialColumns
-      .map((col) => ({ ...col }))
-      .filter((col) => {
-        if (isInventoryViewsEnabled) {
-          return true;
-        }
-
-        const isConsumerAppColumn = 'appName' in col && col.appName;
-        return !isConsumerAppColumn;
-      }),
+    initialColumns.map((col) => ({ ...col })),
   );
 
   const fromSortByToIndex = useCallback(
