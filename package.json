@@ -27,7 +27,6 @@
     "@tanstack/react-query": "^5.90.21",
     "@unleash/proxy-client-react": "^5.0.1",
     "awesome-debounce-promise": "^2.1.0",
-    "bastilian-tabletools": "^2.13.0",
     "classnames": "^2.3.1",
     "lodash": "^4.18.0",
     "moment": "^2.29.4",
@@ -64,7 +63,7 @@
       "!src/entry-dev.js"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!(@patternfly/|uuid|p-all|p-map|aggregate-error|indent-string|clean-stack|escape-string-regexp|bastilian-tabletools))"
+      "node_modules/(?!(@patternfly/|uuid|p-all|p-map|aggregate-error|indent-string|clean-stack|escape-string-regexp))"
     ],
     "setupFiles": [
       "<rootDir>/config/setupTests.js"
