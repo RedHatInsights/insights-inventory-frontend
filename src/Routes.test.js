@@ -14,10 +14,6 @@ jest.mock(
   () => () => <span>Zero state</span>,
 );
 jest.mock('./Utilities/Wrapper', () => () => <span>Route component</span>);
-jest.mock(
-  './routes/Systems/components/SystemsTable/hooks/useSystemsTableFeatureFlag',
-  () => () => false,
-);
 
 const TestWrapper = ({ route }) => (
   <MemoryRouter initialEntries={[route]}>
