@@ -53,7 +53,7 @@ export const ColumnManagementModalProvider = ({
           onClose={() => setIsOpen(false)}
           enableDragDrop={true}
           title="Manage columns"
-          description="Selected categories will be displayed in the table."
+          description="Select which columns you would like to see in your Systems table using the checkboxes. Re-order them using the drag and drop."
         />
       )}
     </ColumnManagementModalContext.Provider>
