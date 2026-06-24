@@ -4,7 +4,7 @@ import InstallableAdvisories from './cells/InstallableAdvisories';
 import Template from './cells/Template';
 import { InventoryViewSystem } from '../../hooks/useInventoryViewsQuery';
 
-const APP_NAME = 'patch' as const;
+const APP_NAME = 'content' as const;
 
 const installableAdvisoriesColumn = {
   appName: APP_NAME,

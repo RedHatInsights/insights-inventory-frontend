@@ -1,7 +1,7 @@
 import { ColumnManagementModalColumn } from '@patternfly/react-component-groups';
 import inventoryColumns from './inventory/columnDefinitions';
 import complianceColumns from './compliance/columnDefinitions';
-import patchColumns from './patch/columnDefinitions';
+import patchColumns from './content/columnDefinitions';
 import { System } from '../hooks/useSystemsQuery';
 import { Resolve } from '../../../types/utility-types';
 import advisorColumns from './advisor/columnDefinitions';
@@ -24,7 +24,7 @@ type ConsumerAppColumn = {
     | 'compliance'
     | 'inventory'
     | 'malware'
-    | 'patch'
+    | 'content'
     | 'remediations'
     | 'vulnerability';
 };
