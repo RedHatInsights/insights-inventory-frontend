@@ -48,7 +48,7 @@ export interface ColumnManagementModalProps<
   /** Current column state */
   appliedColumns: readonly T[];
   /** Canonical default column order and visibility for "Reset to default" */
-  defaultColumns?: readonly T[];
+  defaultColumns: readonly T[];
   /** Invoked with new column state after save button is clicked */
   applyColumns: (newColumns: readonly T[]) => void;
   /* Modal description text */
@@ -128,24 +128,12 @@ export function ColumnManagementModal<
   }));
 
   const resetToDefault = () => {
-    const orderSource = defaultColumns ?? appliedColumns;
-    const currentByKey = new Map(
-      currentColumns.map((column) => [column.key, column]),
+    setCurrentColumns(
+      defaultColumns.map((col) => ({
+        ...col,
+        isShown: col.isShownByDefault ?? false,
+      })),
     );
-
-    const resetColumns: T[] = [];
-
-    for (const defaultColumn of orderSource) {
-      const column = currentByKey.get(defaultColumn.key);
-      if (column) {
-        resetColumns.push({
-          ...column,
-          isShown: defaultColumn.isShownByDefault ?? false,
-        });
-      }
-    }
-
-    setCurrentColumns(resetColumns);
   };
 
   const updateColumns = (items: ListManagerItem[]) => {
