@@ -44,6 +44,7 @@ jobs:
             echo "CI=true"
             echo "PROXY=$PROXY"
             echo "STAGE_OFFLINE_TOKEN=$STAGE_OFFLINE_TOKEN"
+            echo "TEST_RUN_ID=full-suite-${{ github.run_id }}-${{ github.run_attempt }}"
           } >> .env
 
           echo ".env file created successfully."
