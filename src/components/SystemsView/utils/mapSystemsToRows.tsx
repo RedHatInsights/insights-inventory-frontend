@@ -18,7 +18,7 @@ export type SystemsViewTableRow = DataViewTrObject & {
 
 interface MapSystemsToRowsParams {
   data?: (System | SystemWithPermissions)[];
-  columns: Column[];
+  columns: readonly Column[];
   /**
    * When true (inventory views feature): sticky Name/actions cells and column min-widths.
    */
