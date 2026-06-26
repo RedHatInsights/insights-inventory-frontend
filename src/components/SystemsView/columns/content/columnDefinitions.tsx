@@ -4,8 +4,10 @@ import InstallableAdvisories from './cells/InstallableAdvisories';
 import Template from './cells/Template';
 import { InventoryViewSystem } from '../../hooks/useInventoryViewsQuery';
 
+const APP_NAME = 'content' as const;
+
 const installableAdvisoriesColumn = {
-  appName: 'patch',
+  appName: APP_NAME,
   title: 'Installable advisories',
   key: 'installable-advisories',
   isShownByDefault: false,
@@ -28,7 +30,7 @@ const installableAdvisoriesColumn = {
 } satisfies Column;
 
 const templateColumn = {
-  appName: 'patch',
+  appName: APP_NAME,
   title: 'Template',
   key: 'template_name',
   isShownByDefault: false,
