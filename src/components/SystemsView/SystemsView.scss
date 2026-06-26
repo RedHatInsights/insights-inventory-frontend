@@ -6,7 +6,13 @@
 }
 
 .ins-c-systems-view-table {
-  .pf-v6-c-table__tr, .pf-v6-c-table__check {
+  // Align all thead cells the same way.
+  thead tr > th {
+    vertical-align: bottom;
+  }
+
+  // Center body cell content (including row-select checkboxes).
+  tbody .pf-v6-c-table__td {
     vertical-align: middle;
   }
 
