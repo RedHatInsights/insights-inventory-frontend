@@ -14,6 +14,9 @@ import {
   validateDataColumnSortOrder,
   validateSortDirection,
   scrollColumnIntoView,
+  scrollTableToPosition,
+  isTableHorizontallyScrollable,
+  isVisibleInViewport,
 } from './helpers/columnHelpers';
 
 test.describe(
@@ -239,4 +242,100 @@ test.describe('Inventory Views application columns', () => {
       },
     );
   }
+
+  test(
+    'Sticky columns remain visible during horizontal scroll',
+    { tag: ['@inventory-views'] },
+    async ({ page }) => {
+      const dialog = page.locator(
+        '[data-ouia-component-id="ColumnManagementModal"]',
+      );
+
+      // Locators for sticky columns - declared once and reused throughout the test
+      const checkboxHeader = page.locator('th').first();
+      const nameHeader = page
+        .locator('th')
+        .filter({ hasText: new RegExp('^Name$') });
+      const actionsHeader = page
+        .locator('th')
+        .filter({ hasText: /Actions/ })
+        .last();
+
+      // Locator for a non-sticky column to verify actual scrolling
+      // Using "OS" which is a default column that should scroll out when we scroll right
+      const nonStickyColumn = page
+        .locator('th')
+        .filter({ hasText: new RegExp('^OS$') });
+
+      await test.step('Enable all columns to create horizontal scroll', async () => {
+        await openManageColumnsModal(page);
+
+        // Enable all available columns to ensure horizontal scrolling
+        const allColumns = [
+          ...advisorColumns,
+          ...complianceColumns,
+          ...patchColumns,
+          ...malwareColumns,
+          ...inventoryColumns,
+          ...vulnerabilityColumns,
+        ];
+
+        for (const columnName of allColumns) {
+          await dialog.getByLabel(columnName, { exact: true }).check();
+        }
+
+        await dialog.getByRole('button', { name: 'Save' }).click();
+        await expect(dialog).toBeHidden();
+
+        // Wait for table to load
+        await expect(
+          page.locator('[data-ouia-component-id="SkeletonTable"]'),
+        ).toBeHidden({ timeout: 10000 });
+      });
+
+      await test.step('Verify table is horizontally scrollable', async () => {
+        const isScrollable = await isTableHorizontallyScrollable(page);
+        expect(isScrollable).toBe(true);
+      });
+
+      await test.step('Scroll right and verify sticky columns remain visible while non-sticky scrolls out', async () => {
+        // Scroll to the middle
+        await scrollTableToPosition(page, 0.5);
+
+        // Non-sticky column should have scrolled out of viewport (proving scroll happened)
+        await expect(nonStickyColumn).toBeVisible(); // Exists in DOM
+        expect(await isVisibleInViewport(nonStickyColumn)).toBe(false); // But not in viewport
+
+        // Sticky columns should still be visible in viewport
+        await expect(checkboxHeader).toBeVisible();
+        expect(await isVisibleInViewport(checkboxHeader)).toBe(true);
+
+        await expect(nameHeader).toBeVisible();
+        expect(await isVisibleInViewport(nameHeader)).toBe(true);
+
+        await expect(actionsHeader).toBeVisible();
+        expect(await isVisibleInViewport(actionsHeader)).toBe(true);
+      });
+
+      await test.step('Scroll to maximum right and verify sticky columns still visible', async () => {
+        // Scroll to the far right
+        await scrollTableToPosition(page, 1);
+
+        // All sticky columns should still be visible in viewport
+        await expect(checkboxHeader).toBeVisible();
+        expect(await isVisibleInViewport(checkboxHeader)).toBe(true);
+
+        await expect(nameHeader).toBeVisible();
+        expect(await isVisibleInViewport(nameHeader)).toBe(true);
+
+        await expect(actionsHeader).toBeVisible();
+        expect(await isVisibleInViewport(actionsHeader)).toBe(true);
+
+        // The left non-sticky column should still be out of viewport
+        // (proving scroll position maintained and didn't reset)
+        await expect(nonStickyColumn).toBeVisible(); // Exists in DOM
+        expect(await isVisibleInViewport(nonStickyColumn)).toBe(false); // But not in viewport
+      });
+    },
+  );
 });

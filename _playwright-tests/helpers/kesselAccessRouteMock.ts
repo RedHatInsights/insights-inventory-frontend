@@ -163,6 +163,7 @@ export async function installKesselCheckSelfBulkDenyView(
  * `inventory_host_view`) and denies **update** relations. Use for Inventory Viewer
  * E2E when stage Kessel policy has not yet migrated those permissions to the Root
  * workspace (RHINENG-25942).
+ *  @param page
  */
 export async function installKesselStalenessViewOnly(
   page: Page,

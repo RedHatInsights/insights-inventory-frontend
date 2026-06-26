@@ -86,6 +86,64 @@ export async function openManageColumnsModal(page: Page, timeout = 45000) {
 }
 
 /**
+ * Checks if the systems table is horizontally scrollable.
+ *  @param   {Page}             page - The Playwright page instance.
+ *  @returns {Promise<boolean>}      - True if the table is scrollable, false otherwise.
+ */
+export async function isTableHorizontallyScrollable(
+  page: Page,
+): Promise<boolean> {
+  return await page.evaluate(() => {
+    const scrollContainer = document.querySelector(
+      '.ins-c-systems-view-table-scroll',
+    );
+    if (!scrollContainer) return false;
+    return scrollContainer.scrollWidth > scrollContainer.clientWidth;
+  });
+}
+
+/**
+ * Checks if an element is actually visible in the viewport (not just in the DOM).
+ *  @param   {Locator}          element - The element locator to check.
+ *  @returns {Promise<boolean>}         - True if the element is visible in the viewport.
+ */
+export async function isVisibleInViewport(element: Locator): Promise<boolean> {
+  return await element.evaluate((el) => {
+    const rect = el.getBoundingClientRect();
+    const scrollContainer = document.querySelector(
+      '.ins-c-systems-view-table-scroll',
+    );
+    if (!scrollContainer) return false;
+
+    const containerRect = scrollContainer.getBoundingClientRect();
+
+    // Check if element is within the visible viewport of the scroll container
+    return (
+      rect.top >= containerRect.top &&
+      rect.left >= containerRect.left &&
+      rect.bottom <= containerRect.bottom &&
+      rect.right <= containerRect.right
+    );
+  });
+}
+
+/**
+ * Scrolls the table horizontally to a specific position.
+ *  @param {Page}   page     - The Playwright page instance.
+ *  @param {number} position - Position to scroll to (0 = left, 0.5 = middle, 1 = right).
+ */
+export async function scrollTableToPosition(page: Page, position: number) {
+  await page.evaluate((pos) => {
+    const scrollContainer = document.querySelector(
+      '.ins-c-systems-view-table-scroll',
+    );
+    if (scrollContainer) {
+      scrollContainer.scrollLeft = scrollContainer.scrollWidth * pos;
+    }
+  }, position);
+}
+
+/**
  * Scrolls the table horizontally to bring a column into view, avoiding sticky column interference.
  *  @param {Locator} columnHeader - The column header button locator.
  */
