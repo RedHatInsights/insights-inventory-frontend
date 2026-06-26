@@ -7,7 +7,7 @@ import {
 } from '../utils/columnMinWidths';
 import { STICKY_ACTIONS_HEADER_PROPS } from '../utils/stickyActionsColumn';
 import { getStickyNameHeaderProps } from '../utils/stickyNameColumn';
-import initialColumns, { type Column } from '../columns/allColumnDefinitions';
+import defaultColumns, { type Column } from '../columns/allColumnDefinitions';
 
 export const INITIAL_SORT: {
   sortBy: Column['sortBy'];
@@ -38,18 +38,7 @@ export const useColumns = ({
   direction,
   isInventoryViewsEnabled,
 }: UseColumnParams) => {
-  const [columns, setColumns] = useState<Column[]>(() =>
-    initialColumns
-      .map((col) => ({ ...col }))
-      .filter((col) => {
-        if (isInventoryViewsEnabled) {
-          return true;
-        }
-
-        const isConsumerAppColumn = 'appName' in col && col.appName;
-        return !isConsumerAppColumn;
-      }),
-  );
+  const [columns, setColumns] = useState<readonly Column[]>(defaultColumns);
 
   const fromSortByToIndex = useCallback(
     (sortBy?: Column['sortBy']) =>
