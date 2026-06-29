@@ -2,6 +2,8 @@ import type { Column } from '../allColumnDefinitions';
 import { InventoryViewSystem } from '../../hooks/useInventoryViewsQuery';
 
 import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
+import CellValue from '../CellValue';
+import React from 'react';
 
 const APP_NAME = 'advisor' as const;
 
@@ -13,8 +15,9 @@ const recommendationsColumn = {
   isShownByDefault: false,
   isShown: false,
   sortBy: ApiHostViewsGetHostViewsOrderByEnum.Advisorrecommendations,
-  renderCell: (system: InventoryViewSystem) =>
-    system?.app_data?.advisor?.recommendations ?? 'N/A',
+  renderCell: (system: InventoryViewSystem) => (
+    <CellValue value={system?.app_data?.advisor?.recommendations} />
+  ),
 };
 
 const incidentsColumn = {
@@ -25,8 +28,9 @@ const incidentsColumn = {
   isShownByDefault: false,
   isShown: false,
   sortBy: ApiHostViewsGetHostViewsOrderByEnum.Advisorincidents,
-  renderCell: (system: InventoryViewSystem) =>
-    system?.app_data?.advisor?.incidents ?? 'N/A',
+  renderCell: (system: InventoryViewSystem) => (
+    <CellValue value={system?.app_data?.advisor?.incidents} />
+  ),
 };
 
 const criticalColumn = {
@@ -36,8 +40,9 @@ const criticalColumn = {
   minWidth: '7rem',
   isShownByDefault: false,
   isShown: false,
-  renderCell: (system: InventoryViewSystem) =>
-    system?.app_data?.advisor?.critical ?? 'N/A',
+  renderCell: (system: InventoryViewSystem) => (
+    <CellValue value={system?.app_data?.advisor?.critical} />
+  ),
 };
 
 const importantColumn = {
@@ -47,8 +52,9 @@ const importantColumn = {
   minWidth: '7rem',
   isShownByDefault: false,
   isShown: false,
-  renderCell: (system: InventoryViewSystem) =>
-    system?.app_data?.advisor?.important ?? 'N/A',
+  renderCell: (system: InventoryViewSystem) => (
+    <CellValue value={system?.app_data?.advisor?.important} />
+  ),
 };
 
 const moderateColumn = {
@@ -58,8 +64,9 @@ const moderateColumn = {
   minWidth: '7rem',
   isShownByDefault: false,
   isShown: false,
-  renderCell: (system: InventoryViewSystem) =>
-    system?.app_data?.advisor?.moderate ?? 'N/A',
+  renderCell: (system: InventoryViewSystem) => (
+    <CellValue value={system?.app_data?.advisor?.moderate} />
+  ),
 };
 
 const lowColumn = {
@@ -69,8 +76,9 @@ const lowColumn = {
   minWidth: '6rem',
   isShownByDefault: false,
   isShown: false,
-  renderCell: (system: InventoryViewSystem) =>
-    system?.app_data?.advisor?.low ?? 'N/A',
+  renderCell: (system: InventoryViewSystem) => (
+    <CellValue value={system?.app_data?.advisor?.low} />
+  ),
 };
 
 export default [
