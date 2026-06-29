@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { t_global_text_color_disabled } from '@patternfly/react-tokens';
 import {
   HOST_GROUP_CHIP,
   RHCD_FILTER_KEY,
@@ -385,3 +386,4 @@ export const MOVE_SYSTEMS_MENU_TEXT = 'Move systems';
 export const DEFAULT_DELETE_ERROR_MESSAGE =
   'There was an error processing the request. Please try again.';
 export const NOT_AVAILABLE = 'N/A';
+export const DISABLED_TEXT_COLOR = t_global_text_color_disabled.var;
