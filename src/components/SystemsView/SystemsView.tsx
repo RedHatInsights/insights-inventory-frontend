@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   DataView,
   useDataViewPagination,
@@ -47,7 +47,9 @@ import { SORT_DIR_URL_PARAM, SORT_URL_PARAM } from './constants';
 import useInventoryViewsFeatureFlag from '../../Utilities/useInventoryViewsFeatureFlag';
 import type { Column } from './columns/allColumnDefinitions';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
-import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
+import { useBootstrapInventoryTableDraft } from './hooks/useBootstrapInventoryTableDraft';
+import { useInventoryOrgId } from './hooks/useInventoryOrgId';
+import { usePersistInventoryTableDraft } from './hooks/usePersistInventoryTableDraft';
 
 export type SortDirection = ISortBy['direction'];
 export type OnSort = (
@@ -56,14 +58,20 @@ export type OnSort = (
   newSortDirection: SortDirection,
 ) => void;
 export type Pagination = ReturnType<typeof useDataViewPagination>;
+import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
+
 interface SystemsViewInnerProps {
   searchParams: URLSearchParams;
   setSearchParams: SetURLSearchParams;
+  orgId: string;
+  isDraftReady: boolean;
 }
 
 const SystemsViewInner = ({
   searchParams,
   setSearchParams,
+  orgId,
+  isDraftReady,
 }: SystemsViewInnerProps) => {
   const { filters, clearAllFilters, lastSeenCustomRange } =
     useDataViewFiltersContext();
@@ -124,6 +132,20 @@ const SystemsViewInner = ({
     onSort,
     direction,
     isInventoryViewsEnabled,
+    orgId,
+    isDraftReady,
+  });
+
+  usePersistInventoryTableDraft({
+    orgId,
+    columns,
+    filters,
+    lastSeenCustomRange,
+    sortBy,
+    direction,
+    page: pagination.page,
+    perPage: pagination.perPage,
+    isReady: isDraftReady,
   });
 
   const sharedQueryArgs = {
@@ -271,6 +293,30 @@ interface SystemsViewProps {
 
 export const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
   const [searchParams, setSearchParams] = useSearchParamsWithFragment();
+  const orgId = useInventoryOrgId();
+  const [isDraftReady, setIsDraftReady] = useState(false);
+  const handleDraftReady = useCallback(() => {
+    setIsDraftReady(true);
+  }, []);
+
+  useBootstrapInventoryTableDraft({
+    orgId,
+    searchParams,
+    setSearchParams,
+    onReady: handleDraftReady,
+  });
+
+  // Fix #1: Timeout fallback - degrade gracefully if bootstrap hangs
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!isDraftReady) {
+        console.warn('Draft bootstrap timeout - rendering without draft state');
+        setIsDraftReady(true);
+      }
+    }, 5000);
+
+    return () => clearTimeout(timeout);
+  }, [isDraftReady]);
 
   if (!hasAccess) {
     return (
@@ -287,14 +333,22 @@ export const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
     );
   }
 
+  if (orgId === undefined || !isDraftReady) {
+    return null;
+  }
+
   return (
     <DataViewFiltersProvider
       searchParams={searchParams}
       setSearchParams={setSearchParams}
+      orgId={orgId}
+      isDraftReady={isDraftReady}
     >
       <SystemsViewInner
         searchParams={searchParams}
         setSearchParams={setSearchParams}
+        orgId={orgId}
+        isDraftReady={isDraftReady}
       />
     </DataViewFiltersProvider>
   );

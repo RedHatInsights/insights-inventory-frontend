@@ -12,24 +12,16 @@ import { normalizeLastSeenFilterValue } from './constants';
 import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 import { GENERAL_GROUPS_READ_PERMISSION } from '../../constants';
 import { useUngroupedWorkspaceId } from '../../hooks/useUngroupedWorkspaceId';
+import { clearInventoryTableDraftFilters } from './utils/inventoryTableDraftStorage';
+import { INITIAL_INVENTORY_FILTERS } from './inventoryFilterDefaults';
+import { useHydrateDraftField } from './hooks/useHydrateDraftField';
 
 export type LastSeenCustomRange = {
   start?: string;
   end?: string;
 } | null;
 
-export const INITIAL_INVENTORY_FILTERS: InventoryFilters = {
-  hostname_or_id: '',
-  status: [],
-  source: [],
-  rhcStatus: [],
-  system_type: [],
-  group_id: [],
-  last_seen: '',
-  tags: [],
-  operating_system: [],
-  workloads: [],
-};
+export { INITIAL_INVENTORY_FILTERS };
 
 export interface DataViewFiltersContextValue {
   filters: InventoryFilters;
@@ -67,12 +59,16 @@ interface DataViewFiltersProviderProps {
   children: React.ReactNode;
   searchParams: SearchParamsTuple[0];
   setSearchParams: SearchParamsTuple[1];
+  orgId?: string;
+  isDraftReady?: boolean;
 }
 
 export const DataViewFiltersProvider = ({
   children,
   searchParams,
   setSearchParams,
+  orgId,
+  isDraftReady = true,
 }: DataViewFiltersProviderProps) => {
   const [lastSeenCustomRange, setLastSeenCustomRange] =
     useState<LastSeenCustomRange>(null);
@@ -111,6 +107,19 @@ export const DataViewFiltersProvider = ({
     }
   }, [rawFilters.last_seen]);
 
+  // Hydrate lastSeenCustomRange from draft storage when user selects 'custom' filter
+  useHydrateDraftField(
+    orgId,
+    isDraftReady,
+    'lastSeenCustomRange',
+    setLastSeenCustomRange,
+    {
+      shouldHydrate: () =>
+        normalizeLastSeenFilterValue(rawFilters.last_seen) === 'custom',
+      extraDeps: [rawFilters.last_seen],
+    },
+  );
+
   useEffect(() => {
     if (!ungroupedWorkspaceId) {
       return;
@@ -126,8 +135,11 @@ export const DataViewFiltersProvider = ({
 
   const clearAllFilters = useCallback(() => {
     setLastSeenCustomRange(null);
+    if (orgId !== undefined) {
+      clearInventoryTableDraftFilters(orgId);
+    }
     hookClearAll();
-  }, [hookClearAll]);
+  }, [hookClearAll, orgId]);
 
   const value = useMemo(
     () => ({

@@ -8,6 +8,12 @@ import {
 import { STICKY_ACTIONS_HEADER_PROPS } from '../utils/stickyActionsColumn';
 import { getStickyNameHeaderProps } from '../utils/stickyNameColumn';
 import defaultColumns, { type Column } from '../columns/allColumnDefinitions';
+import {
+  mergeColumnsWithDraft,
+  toStoredColumnPreferences,
+  saveInventoryTableDraft,
+} from '../utils/inventoryTableDraftStorage';
+import { useHydrateDraftField } from './useHydrateDraftField';
 
 export const INITIAL_SORT: {
   sortBy: Column['sortBy'];
@@ -30,6 +36,8 @@ interface UseColumnParams {
   onSort: OnSort;
   direction: SortDirection;
   isInventoryViewsEnabled: boolean;
+  orgId?: string;
+  isDraftReady?: boolean;
 }
 
 export const useColumns = ({
@@ -37,8 +45,36 @@ export const useColumns = ({
   onSort,
   direction,
   isInventoryViewsEnabled,
+  orgId,
+  isDraftReady = true,
 }: UseColumnParams) => {
-  const [columns, setColumns] = useState<readonly Column[]>(defaultColumns);
+  const [columns, setColumnsState] =
+    useState<readonly Column[]>(defaultColumns);
+
+  // Hydrate columns from draft storage on mount
+  useHydrateDraftField(orgId, isDraftReady, 'columns', (draftColumns) => {
+    if (draftColumns.length) {
+      setColumnsState(mergeColumnsWithDraft(defaultColumns, draftColumns));
+    }
+  });
+
+  const setColumns = useCallback(
+    (value: React.SetStateAction<readonly Column[]>) => {
+      setColumnsState((previousColumns) => {
+        const nextColumns =
+          typeof value === 'function' ? value(previousColumns) : value;
+
+        if (orgId !== undefined) {
+          saveInventoryTableDraft(orgId, {
+            columns: toStoredColumnPreferences(nextColumns),
+          });
+        }
+
+        return nextColumns;
+      });
+    },
+    [orgId],
+  );
 
   const fromSortByToIndex = useCallback(
     (sortBy?: Column['sortBy']) =>
