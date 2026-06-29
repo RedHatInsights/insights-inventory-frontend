@@ -14,20 +14,14 @@ const installableAdvisoriesColumn = {
   isShown: false,
   sortBy: 'patch:advisories_rhsa_installable',
   renderCell(system: InventoryViewSystem) {
-    const key = `${this.key}-${system.id}`;
-    const value = system?.app_data?.patch;
-
-    return value ? (
+    return (
       <InstallableAdvisories
-        key={key}
-        value={value}
-        systemUUID={system.id ?? ''}
+        appData={system?.app_data?.patch}
+        systemId={system.id || ''}
       />
-    ) : (
-      'N/A'
     );
   },
-} satisfies Column;
+};
 
 const templateColumn = {
   appName: APP_NAME,
@@ -36,12 +30,9 @@ const templateColumn = {
   isShownByDefault: false,
   isShown: false,
   renderCell(system: InventoryViewSystem) {
-    const key = `${this.key}-${system.id}`;
-    const value = system?.app_data?.patch;
-
-    return value ? <Template key={key} value={value} /> : 'N/A';
+    return <Template appData={system?.app_data?.patch} />;
   },
-} satisfies Column;
+};
 
 export default [
   installableAdvisoriesColumn,
