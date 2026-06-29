@@ -1,4 +1,6 @@
 import moment from 'moment';
+import type { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
+import type { VulnerabilityCountField } from './columns/types';
 
 /** URL query key / DataView `filterId` for workspace filter (`GET /hosts?group_id=`). */
 export const SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM = 'group_id';
@@ -78,3 +80,51 @@ export const LAST_SEEN_OPTIONS: { label: string; key: LastSeenKey }[] = [
 export const SORT_URL_PARAM = 'sort';
 
 export const SORT_DIR_URL_PARAM = 'sort_dir';
+
+/**
+ * TODO(host-inventory-client): pass field="important_cves" directly once
+ * important_cves is added to VulnerabilityAppData.
+ */
+export const IMPORTANT_CVES_FIELD = 'important_cves' as VulnerabilityCountField;
+
+/**
+ * TODO(host-inventory-client): replace with
+ * ApiHostViewsGetHostViewsOrderByEnum.VulnerabilityimportantCves once the client
+ * enum supports this field.
+ */
+export const IMPORTANT_CVES_SORT_KEY = 'vulnerability:important_cves' as
+  | ApiHostViewsGetHostViewsOrderByEnum
+  | 'vulnerability:important_cves';
+
+/**
+ * TODO(host-inventory-client): replace with
+ * ApiHostViewsGetHostViewsOrderByEnum.VulnerabilitycvesWithSecurityRules once the
+ * client enum supports this field.
+ */
+export const CVES_WITH_SECURITY_RULES_SORT_KEY =
+  'vulnerability:cves_with_security_rules' as
+    | ApiHostViewsGetHostViewsOrderByEnum
+    | 'vulnerability:cves_with_security_rules';
+
+/**
+ * TODO(host-inventory-client): replace with
+ * ApiHostViewsGetHostViewsOrderByEnum.VulnerabilitycvesWithKnownExploits once the
+ * client enum supports this field.
+ */
+export const CVES_WITH_KNOWN_EXPLOITS_SORT_KEY =
+  'vulnerability:cves_with_known_exploits' as
+    | ApiHostViewsGetHostViewsOrderByEnum
+    | 'vulnerability:cves_with_known_exploits';
+
+const ADVISORY_AVAILABLE = 'advisory_available=true';
+const RULE_PRESENCE = 'rule_presence=true';
+const KNOWN_EXPLOIT = 'known_exploit=true';
+
+/** Vulnerability system link query strings keyed by column concern. */
+export const VULNERABILITY_LINK_SEARCH = {
+  totalCves: ADVISORY_AVAILABLE,
+  criticalCves: 'impact=7',
+  importantCves: 'impact=5',
+  cvesWithSecurityRules: `${ADVISORY_AVAILABLE}&${RULE_PRESENCE}`,
+  cvesWithKnownExploits: `${ADVISORY_AVAILABLE}&${KNOWN_EXPLOIT}`,
+} as const;

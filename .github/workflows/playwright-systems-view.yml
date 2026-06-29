@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
@@ -45,6 +45,7 @@ jobs:
             echo "PROXY=$PROXY"
             echo "SYSTEMS_VIEW=true"
             echo "STAGE_OFFLINE_TOKEN=$STAGE_OFFLINE_TOKEN"
+            echo "TEST_RUN_ID=systems-view-${{ github.run_id }}-${{ github.run_attempt }}"
           } >> .env
 
           echo ".env file created successfully."

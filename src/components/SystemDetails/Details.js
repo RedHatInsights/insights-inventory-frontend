@@ -20,6 +20,7 @@ import {
   SatelliteCard,
   getSatelliteTagsFromEntityTags,
 } from '../GeneralInfo/SatelliteCard';
+import { ImageBuilderCard } from '../GeneralInfo/ImageBuilderCard';
 import { Provider } from 'react-redux';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate/useInsightsNavigate';
 import useModalState from './hooks/useModalState';
@@ -35,6 +36,7 @@ const Details = ({
   HardwarePropertiesCardWrapper = HardwarePropertiesCard,
   ConfigurationCardWrapper = ConfigurationCard,
   SatelliteCardWrapper = SatelliteCard,
+  ImageBuilderCardWrapper = ImageBuilderCard,
   CollectionCardWrapper = false,
   navigate,
   entity = {},
@@ -129,6 +131,16 @@ const Details = ({
                   <BiosCardWrapper handleClick={handleModalToggle} />
                 </GridItem>
               )}
+              {ImageBuilderCardWrapper &&
+                entity?.system_profile?.image_builder?.blueprint_id && (
+                  <GridItem>
+                    <ImageBuilderCardWrapper
+                      blueprintId={
+                        entity.system_profile.image_builder.blueprint_id
+                      }
+                    />
+                  </GridItem>
+                )}
               {CollectionCardWrapper && (
                 <GridItem>
                   <CollectionCardWrapper handleClick={handleModalToggle} />
@@ -208,6 +220,10 @@ Details.propTypes = {
     PropTypes.bool,
   ]),
   SatelliteCardWrapper: PropTypes.oneOfType([
+    PropTypes.elementType,
+    PropTypes.bool,
+  ]),
+  ImageBuilderCardWrapper: PropTypes.oneOfType([
     PropTypes.elementType,
     PropTypes.bool,
   ]),

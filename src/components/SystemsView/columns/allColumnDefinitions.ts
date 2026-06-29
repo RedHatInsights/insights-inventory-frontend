@@ -1,10 +1,11 @@
 import { ColumnManagementModalColumn } from '@patternfly/react-component-groups';
 import inventoryColumns from './inventory/columnDefinitions';
 import complianceColumns from './compliance/columnDefinitions';
-import patchColumns from './patch/columnDefinitions';
+import patchColumns from './content/columnDefinitions';
 import { System } from '../hooks/useSystemsQuery';
 import { Resolve } from '../../../types/utility-types';
 import advisorColumns from './advisor/columnDefinitions';
+import vulnerabilityColumns from './vulnerability/columnDefinitions';
 import malwareColumns from './malware/columnDefinitions';
 
 type RenderableColumn = {
@@ -18,7 +19,14 @@ type SortableColumn = {
 };
 
 type ConsumerAppColumn = {
-  appName?: 'patch' | 'vulnerability' | 'advisor';
+  appName:
+    | 'advisor'
+    | 'compliance'
+    | 'inventory'
+    | 'malware'
+    | 'content'
+    | 'remediations'
+    | 'vulnerability';
 };
 
 type LayoutColumn = {
@@ -48,6 +56,7 @@ const allColumns = [
   ...inventoryColumns,
   ...patchColumns,
   ...advisorColumns,
+  ...vulnerabilityColumns,
   ...malwareColumns,
   ...complianceColumns,
 ] as const satisfies readonly Column[];

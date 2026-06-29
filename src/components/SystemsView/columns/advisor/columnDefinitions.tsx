@@ -3,7 +3,10 @@ import { InventoryViewSystem } from '../../hooks/useInventoryViewsQuery';
 
 import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 
+const APP_NAME = 'advisor' as const;
+
 const recommendationsColumn = {
+  appName: APP_NAME,
   title: 'Recommendations',
   key: 'recommendations',
   minWidth: '10rem',
@@ -15,6 +18,7 @@ const recommendationsColumn = {
 };
 
 const incidentsColumn = {
+  appName: APP_NAME,
   title: 'Incidents',
   key: 'incidents',
   minWidth: '7rem',
@@ -26,6 +30,7 @@ const incidentsColumn = {
 };
 
 const criticalColumn = {
+  appName: APP_NAME,
   title: 'Critical',
   key: 'critical',
   minWidth: '7rem',
@@ -36,6 +41,7 @@ const criticalColumn = {
 };
 
 const importantColumn = {
+  appName: APP_NAME,
   title: 'Important',
   key: 'important',
   minWidth: '7rem',
@@ -46,6 +52,7 @@ const importantColumn = {
 };
 
 const moderateColumn = {
+  appName: APP_NAME,
   title: 'Moderate',
   key: 'moderate',
   minWidth: '7rem',
@@ -56,6 +63,7 @@ const moderateColumn = {
 };
 
 const lowColumn = {
+  appName: APP_NAME,
   title: 'Low',
   key: 'low',
   minWidth: '6rem',

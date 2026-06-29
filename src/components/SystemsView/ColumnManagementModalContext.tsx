@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { ColumnManagementModal } from '../ColumnManagementModal';
-import { Column } from './columns/allColumnDefinitions';
+import defaultColumns, { Column } from './columns/allColumnDefinitions';
 
 interface SystemsViewColumnManagementContextValue {
   openColumnManagementModal: () => void;
@@ -21,8 +21,8 @@ export const useColumnManagementModalContext = () => {
 
 interface ColumnManagementModalProviderProps {
   children: React.ReactNode;
-  columns: Column[];
-  setColumns: React.Dispatch<React.SetStateAction<Column[]>>;
+  columns: readonly Column[];
+  setColumns: React.Dispatch<React.SetStateAction<readonly Column[]>>;
 }
 
 export const ColumnManagementModalProvider = ({
@@ -48,12 +48,13 @@ export const ColumnManagementModalProvider = ({
       {isOpen && (
         <ColumnManagementModal
           appliedColumns={columns}
+          defaultColumns={defaultColumns}
           applyColumns={setColumns}
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
-          // enableDragDrop={true} Disabled due to bug
+          enableDragDrop={true}
           title="Manage columns"
-          description="Selected categories will be displayed in the table."
+          description="Select which columns you would like to see in your Systems table using the checkboxes. Re-order them using the drag and drop."
         />
       )}
     </ColumnManagementModalContext.Provider>

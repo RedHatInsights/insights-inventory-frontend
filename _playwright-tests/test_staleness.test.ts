@@ -22,92 +22,100 @@ const isStalenessResponse = async (res: Response) => {
   );
 };
 
-test.afterAll(async () => {
-  try {
-    await deleteStaleness();
-  } catch (err) {
-    if (axios.isAxiosError(err) && err.response?.status === 404) {
-      // staleness already deleted
-    } else {
-      console.error(err);
+test.describe('Staleness Settings', () => {
+  test.describe.configure({ mode: 'serial' });
+
+  test.afterAll(async () => {
+    try {
+      await deleteStaleness();
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.status === 404) {
+        // staleness already deleted
+      } else {
+        console.error(err);
+      }
     }
-  }
-});
-
-test('User can apply custom Staleness setting', async ({ page }) => {
-  await test.step('Navigate to Staleness and Deletion page', async () => {
-    await navigateToStalenessPageFunc(page);
   });
 
-  const editButton = page.locator(
-    '[data-ouia-component-id="edit-staleness-setting"]',
-  );
-  const saveButton = page.getByRole('button', { name: 'Save' });
-  const resetButton = page.getByRole('button', {
-    name: 'Reset to default setting',
+  test('User can apply custom Staleness setting', async ({ page }) => {
+    await test.step('Navigate to Staleness and Deletion page', async () => {
+      await navigateToStalenessPageFunc(page);
+    });
+
+    const editButton = page.locator(
+      '[data-ouia-component-id="edit-staleness-setting"]',
+    );
+    const saveButton = page.getByRole('button', { name: 'Save' });
+    const resetButton = page.getByRole('button', {
+      name: 'Reset to default setting',
+    });
+
+    const freshMenu = page.locator(
+      '[data-ouia-component-id="SystemStalenessDropdown"]',
+    );
+    const staleMenu = page.locator(
+      '[data-ouia-component-id="SystemStaleWarningDropdown"]',
+    );
+    const deletionMenu = page.locator(
+      '[data-ouia-component-id="SystemDeletionDropdown"]',
+    );
+    const dialog = page.locator('[role="dialog"]');
+
+    await test.step('Apply custom staleness setting', async () => {
+      await editButton.click();
+      await expect(editButton).toBeHidden();
+      await expect(saveButton).toBeDisabled();
+      await expect(resetButton).toBeDisabled();
+
+      await freshMenu.click();
+      await page
+        .getByRole('option', { name: customDateSettings.fresh })
+        .click();
+      await staleMenu.click();
+      await page
+        .getByRole('option', { name: customDateSettings.stale })
+        .click();
+      await deletionMenu.click();
+      await page
+        .getByRole('option', { name: customDateSettings.deletion })
+        .click();
+
+      await saveButton.click();
+      await expect(dialog).toBeVisible();
+      await Promise.all([
+        dialog.getByRole('button', { name: 'Update' }).click(),
+        page.waitForResponse(isStalenessResponse),
+      ]);
+    });
+
+    await test.step('Verify new custom setting is applied', async () => {
+      await expect(editButton).toBeVisible();
+      await expect(freshMenu).toHaveText(customDateSettings.fresh);
+      await expect(staleMenu).toHaveText(customDateSettings.stale);
+      await expect(deletionMenu).toHaveText(customDateSettings.deletion);
+    });
+
+    await test.step('Set staleness setting to deafult values', async () => {
+      await editButton.click();
+      await resetButton.click();
+
+      await expect(freshMenu).toHaveText(defaultDateSettings.fresh);
+      await expect(staleMenu).toHaveText(defaultDateSettings.stale);
+      await expect(deletionMenu).toHaveText(defaultDateSettings.deletion);
+
+      await saveButton.click();
+      await expect(dialog).toBeVisible();
+      await Promise.all([
+        dialog.getByRole('button', { name: 'Update' }).click(),
+        page.waitForResponse(isStalenessResponse),
+      ]);
+    });
+
+    await test.step('Verify default setting is applied', async () => {
+      await expect(editButton).toBeVisible();
+      await expect(freshMenu).toHaveText(defaultDateSettings.fresh);
+      await expect(staleMenu).toHaveText(defaultDateSettings.stale);
+      await expect(deletionMenu).toHaveText(defaultDateSettings.deletion);
+    });
   });
-
-  const freshMenu = page.locator(
-    '[data-ouia-component-id="SystemStalenessDropdown"]',
-  );
-  const staleMenu = page.locator(
-    '[data-ouia-component-id="SystemStaleWarningDropdown"]',
-  );
-  const deletionMenu = page.locator(
-    '[data-ouia-component-id="SystemDeletionDropdown"]',
-  );
-  const dialog = page.locator('[role="dialog"]');
-
-  await test.step('Apply custom staleness setting', async () => {
-    await editButton.click();
-    await expect(editButton).toBeHidden();
-    await expect(saveButton).toBeDisabled();
-    await expect(resetButton).toBeDisabled();
-
-    await freshMenu.click();
-    await page.getByRole('option', { name: customDateSettings.fresh }).click();
-    await staleMenu.click();
-    await page.getByRole('option', { name: customDateSettings.stale }).click();
-    await deletionMenu.click();
-    await page
-      .getByRole('option', { name: customDateSettings.deletion })
-      .click();
-
-    await saveButton.click();
-    await expect(dialog).toBeVisible();
-    await Promise.all([
-      dialog.getByRole('button', { name: 'Update' }).click(),
-      page.waitForResponse(isStalenessResponse),
-    ]);
-  });
-
-  await test.step('Verify new custom setting is applied', async () => {
-    await expect(editButton).toBeVisible();
-    await expect(freshMenu).toHaveText(customDateSettings.fresh);
-    await expect(staleMenu).toHaveText(customDateSettings.stale);
-    await expect(deletionMenu).toHaveText(customDateSettings.deletion);
-  });
-
-  await test.step('Set staleness setting to deafult values', async () => {
-    await editButton.click();
-    await resetButton.click();
-
-    await expect(freshMenu).toHaveText(defaultDateSettings.fresh);
-    await expect(staleMenu).toHaveText(defaultDateSettings.stale);
-    await expect(deletionMenu).toHaveText(defaultDateSettings.deletion);
-
-    await saveButton.click();
-    await expect(dialog).toBeVisible();
-    await Promise.all([
-      dialog.getByRole('button', { name: 'Update' }).click(),
-      page.waitForResponse(isStalenessResponse),
-    ]);
-  });
-
-  await test.step('Verify default setting is applied', async () => {
-    await expect(editButton).toBeVisible();
-    await expect(freshMenu).toHaveText(defaultDateSettings.fresh);
-    await expect(staleMenu).toHaveText(defaultDateSettings.stale);
-    await expect(deletionMenu).toHaveText(defaultDateSettings.deletion);
-  });
-});
+}); // Close Staleness Settings describe block

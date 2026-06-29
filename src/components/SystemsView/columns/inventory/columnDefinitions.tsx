@@ -16,7 +16,10 @@ import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
 import { NOT_AVAILABLE } from '../../../../constants';
 import { valueOrNotAvailable } from '../helpers';
 
+const APP_NAME = 'inventory' as const;
+
 const nameColumn = {
+  appName: APP_NAME,
   title: 'Name',
   key: 'name',
   minWidth: DEFAULT_NAME_COLUMN_MIN_WIDTH,
@@ -30,6 +33,7 @@ const nameColumn = {
 };
 
 const workspaceColumn = {
+  appName: APP_NAME,
   title: 'Workspace',
   key: 'workspace',
   minWidth: '10rem',
@@ -42,6 +46,7 @@ const workspaceColumn = {
 };
 
 const tagsColumn = {
+  appName: APP_NAME,
   title: 'Tags',
   key: 'tags',
   minWidth: '6rem',
@@ -53,6 +58,7 @@ const tagsColumn = {
 };
 
 const operatingSystemColumn = {
+  appName: APP_NAME,
   title: 'OS',
   key: 'os',
   minWidth: '11rem',
@@ -65,6 +71,7 @@ const operatingSystemColumn = {
 };
 
 const lastSeenColumn = {
+  appName: APP_NAME,
   title: <LastSeenColumnHeader />,
   key: 'last_seen',
   minWidth: '9rem',
@@ -77,6 +84,7 @@ const lastSeenColumn = {
 };
 
 const statusColumn = {
+  appName: APP_NAME,
   title: 'Status',
   key: 'status',
   minWidth: '9rem',
@@ -89,6 +97,7 @@ const statusColumn = {
 };
 
 const infrastructureColumn = {
+  appName: APP_NAME,
   title: 'Infrastructure',
   key: 'infrastructure',
   isShownByDefault: false,
@@ -103,6 +112,7 @@ const infrastructureColumn = {
 };
 
 const vendorColumn = {
+  appName: APP_NAME,
   title: 'Vendor',
   key: 'vendor',
   isShownByDefault: false,
@@ -117,6 +127,7 @@ const vendorColumn = {
 };
 
 const workloadColumn = {
+  appName: APP_NAME,
   title: 'Workload',
   key: 'workload',
   isShownByDefault: false,
@@ -127,6 +138,7 @@ const workloadColumn = {
 };
 
 const createdColumn = {
+  appName: APP_NAME,
   title: 'Created',
   key: 'created',
   isShownByDefault: false,

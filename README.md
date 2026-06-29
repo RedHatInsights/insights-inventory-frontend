@@ -93,13 +93,23 @@ npx playwright install  --with-deps
 * `npx playwright test` - run the complete playwright test suite
 * `npx playwright test --headed` -  run the complete suite in a vnc-like browser so you can watch its interactions
 * `npx playwright test test_navigation.test.ts` - run a specific test file
-* `npx playwright test test_navigation.test.ts -g "Test name"` - run a specific test by its name
+* `npx playwright test -g "Test name"` - run a specific test by its name
 * `npx playwright test --grep-invert @integration` - run tests except integration tests
 * `npx playwright test --grep @rbac` - run only E2E RBAC tests
 * `SYSTEMS_VIEW=true npx playwright test` - run the complete playwright test suite with enabled `SystemsView` and `Kessel` components
 * `INVENTORY_VIEWS=true npx playwright test` - run the complete playwright test suite with enabled `Inventory Views` components
 
 For more examples on how to run and debug tests, visit the [official Playwright documentation](https://playwright.dev/docs/running-tests).
+
+#### Parallel vs serial tests
+
+Tests run in parallel by default with 4 workers in CI. For tests that modify shared state, use serial mode `test.describe.configure({ mode: 'serial' });`.
+Local testing:
+
+```bash
+# Run with 2 workers locally
+npx playwright test --workers=2
+```
 
 ### Integration Testing: Federated Modules
 
