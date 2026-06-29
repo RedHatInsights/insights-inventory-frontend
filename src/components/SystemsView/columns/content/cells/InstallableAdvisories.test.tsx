@@ -5,13 +5,13 @@ import InstallableAdvisories from './InstallableAdvisories';
 import { TestWrapper } from '../../../../../Utilities/TestingUtilities';
 import type { PatchAppData } from '@redhat-cloud-services/host-inventory-client';
 
-const SYSTEM_UUID = 'test-system-uuid';
-const PATCH_SYSTEM_PATH = `//patch/systems/${SYSTEM_UUID}`;
+const systemId = 'test-system-uuid';
+const PATCH_SYSTEM_PATH = `//patch/systems/${systemId}`;
 
-function renderInstallableAdvisories(value: PatchAppData) {
+function renderInstallableAdvisories(appData: PatchAppData | undefined) {
   return render(
     <TestWrapper>
-      <InstallableAdvisories value={value} systemUUID={SYSTEM_UUID} />
+      <InstallableAdvisories appData={appData} systemId={systemId} />
     </TestWrapper>,
   );
 }
@@ -59,6 +59,12 @@ const mixedCountsPatchAppData = {
 } as unknown as PatchAppData;
 
 describe('InstallableAdvisories cell', () => {
+  it('should show N/A when appData is undefined', () => {
+    renderInstallableAdvisories(undefined);
+
+    expect(screen.getByText('N/A')).toBeInTheDocument();
+  });
+
   it('should show "No installable advisories" when all installable counts are zero', () => {
     renderInstallableAdvisories(allZeroPatchAppData);
 

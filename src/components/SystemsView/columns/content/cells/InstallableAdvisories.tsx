@@ -9,6 +9,7 @@ import {
 } from '@patternfly/react-icons';
 import { PatchAppData } from '@redhat-cloud-services/host-inventory-client';
 import InsightsLink from '@redhat-cloud-services/frontend-components/InsightsLink';
+import CellValue from '../../CellValue';
 
 type AdvisoryCountsTuple = [
   rhea: number,
@@ -39,21 +40,22 @@ function patchAppDataToInstallableCounts(
 }
 
 interface InstallableAdvisoriesProps {
-  value: PatchAppData;
-  systemUUID: string;
+  appData: PatchAppData | undefined;
+  systemId: string;
 }
 
 const InstallableAdvisories = ({
-  value,
-  systemUUID,
+  appData,
+  systemId,
 }: InstallableAdvisoriesProps) => {
-  const [rhea, rhba, rhsa, other] = patchAppDataToInstallableCounts(value);
+  const [rhea, rhba, rhsa, other] = appData
+    ? patchAppDataToInstallableCounts(appData)
+    : [0, 0, 0, 0];
   const allZero = [rhea, rhba, rhsa, other].every((item) => item === 0);
-  const patchSystemLink = { pathname: `/systems/${systemUUID}` };
+  const patchSystemLink = { pathname: `/systems/${systemId}` };
 
-  return (
+  const value = !allZero ? (
     <Flex style={{ display: 'inline-flex', flexWrap: 'nowrap' }}>
-      {allZero && 'No installable advisories'}
       {rhsa !== 0 && (
         <FlexItem spacer={{ default: 'spacerXs' }}>
           <InsightsLink app="patch" to={patchSystemLink} preview={false}>
@@ -91,6 +93,13 @@ const InstallableAdvisories = ({
         </FlexItem>
       )}
     </Flex>
+  ) : null;
+
+  return (
+    <CellValue
+      value={appData ? value : undefined}
+      fallback="No installable advisories"
+    />
   );
 };
 
