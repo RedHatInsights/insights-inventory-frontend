@@ -7,6 +7,7 @@ import { Resolve } from '../../../types/utility-types';
 import advisorColumns from './advisor/columnDefinitions';
 import vulnerabilityColumns from './vulnerability/columnDefinitions';
 import malwareColumns from './malware/columnDefinitions';
+import remediationsColumns from './remediations/columnDefinitions';
 
 type RenderableColumn = {
   /** Cell content for a single system row in the Systems table. */
@@ -59,6 +60,7 @@ const allColumns = [
   ...vulnerabilityColumns,
   ...malwareColumns,
   ...complianceColumns,
+  ...remediationsColumns,
 ] as const satisfies readonly Column[];
 
 export default allColumns;
