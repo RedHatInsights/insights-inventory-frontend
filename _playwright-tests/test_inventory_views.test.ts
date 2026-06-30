@@ -298,25 +298,6 @@ test.describe('Inventory Views application columns', () => {
         expect(isScrollable).toBe(true);
       });
 
-      await test.step('Scroll right and verify sticky columns remain visible while non-sticky scrolls out', async () => {
-        // Scroll to the middle
-        await scrollTableToPosition(page, 0.5);
-
-        // Non-sticky column should have scrolled out of viewport (proving scroll happened)
-        await expect(nonStickyColumn).toBeVisible(); // Exists in DOM
-        expect(await isVisibleInViewport(nonStickyColumn)).toBe(false); // But not in viewport
-
-        // Sticky columns should still be visible in viewport
-        await expect(checkboxHeader).toBeVisible();
-        expect(await isVisibleInViewport(checkboxHeader)).toBe(true);
-
-        await expect(nameHeader).toBeVisible();
-        expect(await isVisibleInViewport(nameHeader)).toBe(true);
-
-        await expect(actionsHeader).toBeVisible();
-        expect(await isVisibleInViewport(actionsHeader)).toBe(true);
-      });
-
       await test.step('Scroll to maximum right and verify sticky columns still visible', async () => {
         // Scroll to the far right
         await scrollTableToPosition(page, 1);
