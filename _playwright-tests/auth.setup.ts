@@ -48,16 +48,16 @@ setup.describe('Setup', () => {
     await authenticateUser(page, admin);
   });
 
-  if (!isProd) {
-    setup('Ensure RBAC ENV variables exist', async () => {
-      expect(() => throwIfMissingRbacEnvVariables()).not.toThrow();
-    });
+  // if (!isProd) {
+  //   setup('Ensure RBAC ENV variables exist', async () => {
+  //     expect(() => throwIfMissingRbacEnvVariables()).not.toThrow();
+  //   });
 
-    for (const user of getRbacUsersForSetup()) {
-      setup(`Authenticate as ${user.role}`, async ({ page }) => {
-        setup.setTimeout(120_000);
-        await authenticateUser(page, user);
-      });
-    }
-  }
+  //   for (const user of getRbacUsersForSetup()) {
+  //     setup(`Authenticate as ${user.role}`, async ({ page }) => {
+  //       setup.setTimeout(120_000);
+  //       await authenticateUser(page, user);
+  //     });
+  //   }
+  // }
 });

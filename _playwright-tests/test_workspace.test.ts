@@ -578,7 +578,6 @@ test.describe('Workspace Navigation', () => {
 });
 
 test.describe('Workspace Sorting', () => {
-  test.fixme(true, 'https://redhat.atlassian.net/browse/RHCLOUD-47941');
   // Define sorting column configurations
   const sortingColumns = [
     {

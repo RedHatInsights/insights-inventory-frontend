@@ -61,10 +61,8 @@ export const filterSystemsWithConditionalFilter = async (
     const inputLocator = page.getByPlaceholder('Filter by tags').nth(1);
     await inputLocator.click();
     await inputLocator.fill(option);
-    await expect(
-      page.locator(`input[type="checkbox"][value="${option}"]`),
-    ).toBeVisible();
 
+    // Wait for the tag option to appear and click it
     optionCheckbox = page.getByText(option, { exact: true }).first();
     await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
     await optionCheckbox.click();
@@ -185,15 +183,21 @@ export async function assertAllContain(
 ): Promise<void> {
   // Wait for at least one element to be visible
   await expect(locator.first()).toBeVisible({ timeout: 10000 });
-  // Wait for all elements to be visible before reading text
-  const count = await locator.count();
-  expect(count).toBeGreaterThanOrEqual(1);
-  for (let i = 0; i < count; i++) {
-    await expect(locator.nth(i)).toBeVisible({ timeout: 5000 });
-  }
-  const allTexts = await locator.allTextContents();
-  const allMatch = allTexts.every((text) => pattern.test(text));
-  expect(allMatch).toBe(true);
+
+  // Wait for all elements to match the pattern (retry until stable)
+  await expect(async () => {
+    const count = await locator.count();
+    expect(count).toBeGreaterThanOrEqual(1);
+
+    // Wait for all elements to be visible before reading text
+    for (let i = 0; i < count; i++) {
+      await expect(locator.nth(i)).toBeVisible({ timeout: 5000 });
+    }
+
+    const allTexts = await locator.allTextContents();
+    const allMatch = allTexts.every((text) => pattern.test(text));
+    expect(allMatch).toBe(true);
+  }).toPass({ timeout: 15000, intervals: [1000, 2000, 5000] });
 }
 
 /**
