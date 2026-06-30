@@ -50,6 +50,15 @@ export const vulnerabilityColumns = [
   'CVEs with known exploits',
 ];
 
+export const allColumns = [
+  ...advisorColumns,
+  ...complianceColumns,
+  ...patchColumns,
+  ...malwareColumns,
+  ...inventoryColumns,
+  ...vulnerabilityColumns,
+];
+
 /**
  * Opens the 'Manage columns' modal from the systems view toolbar.
  * Wraps the action in toPass to handle loading skeletons and dropdown rendering.
