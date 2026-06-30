@@ -16,7 +16,6 @@ import {
   scrollColumnIntoView,
   scrollTableToPosition,
   isTableHorizontallyScrollable,
-  isVisibleInViewport,
   allColumns,
 } from './helpers/columnHelpers';
 
@@ -271,7 +270,7 @@ test.describe('Inventory Views application columns', () => {
       await test.step('Enable all columns via Bulk Select to create horizontal scroll', async () => {
         await openManageColumnsModal(page);
 
-        await page
+        await dialog
           .locator('[data-ouia-component-id="BulkSelect-checkbox"]')
           .check();
         for (const columnName of allColumns) {
@@ -299,14 +298,14 @@ test.describe('Inventory Views application columns', () => {
         await scrollTableToPosition(page, 1);
 
         // All sticky columns should still be visible in viewport
-        expect(await isVisibleInViewport(checkboxHeader)).toBe(true);
-        expect(await isVisibleInViewport(nameHeader)).toBe(true);
-        expect(await isVisibleInViewport(actionsHeader)).toBe(true);
+        await expect(checkboxHeader).toBeInViewport();
+        await expect(nameHeader).toBeInViewport();
+        await expect(actionsHeader).toBeInViewport();
 
         // The left non-sticky column should still be out of viewport
         // (proving scroll position maintained and didn't reset)
         await expect(nonStickyColumn).toBeVisible(); // Exists in DOM
-        expect(await isVisibleInViewport(nonStickyColumn)).toBe(false); // But not in viewport
+        await expect(nonStickyColumn).not.toBeInViewport(); // But not in viewport
       });
     },
   );
