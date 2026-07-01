@@ -50,6 +50,15 @@ export const vulnerabilityColumns = [
   'CVEs with known exploits',
 ];
 
+export const allColumns = [
+  ...advisorColumns,
+  ...complianceColumns,
+  ...patchColumns,
+  ...malwareColumns,
+  ...inventoryColumns,
+  ...vulnerabilityColumns,
+];
+
 /**
  * Opens the 'Manage columns' modal from the systems view toolbar.
  * Wraps the action in toPass to handle loading skeletons and dropdown rendering.
@@ -83,6 +92,39 @@ export async function openManageColumnsModal(page: Page, timeout = 45000) {
     const dialog = page.locator('[role="dialog"]');
     await expect(dialog).toBeVisible();
   }).toPass({ timeout });
+}
+
+/**
+ * Checks if the systems table is horizontally scrollable.
+ *  @param   {Page}             page - The Playwright page instance.
+ *  @returns {Promise<boolean>}      - True if the table is scrollable, false otherwise.
+ */
+export async function isTableHorizontallyScrollable(
+  page: Page,
+): Promise<boolean> {
+  return await page.evaluate(() => {
+    const scrollContainer = document.querySelector(
+      '.ins-c-systems-view-table-scroll',
+    );
+    if (!scrollContainer) return false;
+    return scrollContainer.scrollWidth > scrollContainer.clientWidth;
+  });
+}
+
+/**
+ * Scrolls the table horizontally to a specific position.
+ *  @param {Page}   page     - The Playwright page instance.
+ *  @param {number} position - Position to scroll to (0 = left, 0.5 = middle, 1 = right).
+ */
+export async function scrollTableToPosition(page: Page, position: number) {
+  await page.evaluate((pos) => {
+    const scrollContainer = document.querySelector(
+      '.ins-c-systems-view-table-scroll',
+    );
+    if (scrollContainer) {
+      scrollContainer.scrollLeft = scrollContainer.scrollWidth * pos;
+    }
+  }, position);
 }
 
 /**

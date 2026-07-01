@@ -62,6 +62,8 @@ export const test = base.extend<{
    * Fixture that ensures WORKSPACE_WITH_SYSTEMS exists and has a dedicated
    * system for this test. Each test gets its own unique system to avoid
    * conflicts in parallel execution.
+   *  @param use
+   *  @param testInfo
    */
   workspaceWithSystem: async ({}, use, testInfo) => {
     // Create a unique system for this test
