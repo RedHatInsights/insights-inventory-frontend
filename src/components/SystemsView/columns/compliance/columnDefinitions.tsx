@@ -1,9 +1,9 @@
 import React from 'react';
 import type { Column } from '../allColumnDefinitions';
 import { InventoryViewSystem } from '../../hooks/useInventoryViewsQuery';
-import { DateFormat } from '@redhat-cloud-services/frontend-components/DateFormat';
 import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
-import { Link } from 'react-router-dom';
+import LastComplianceScan from './cells/LastComplianceScan';
+import Policies from './cells/Policies';
 
 const APP_NAME = 'compliance' as const;
 
@@ -15,13 +15,8 @@ const lastComplianceScanColumn = {
   isShownByDefault: false,
   isShown: false,
   sortBy: ApiHostViewsGetHostViewsOrderByEnum.CompliancelastScan,
-  renderCell: (system: InventoryViewSystem) => {
-    const lastScan = system?.app_data?.compliance?.last_scan;
-    return lastScan !== null && lastScan !== undefined ? (
-      <DateFormat date={lastScan} />
-    ) : (
-      'N/A'
-    );
+  renderCell(system: InventoryViewSystem) {
+    return <LastComplianceScan appData={system?.app_data?.compliance} />;
   },
 };
 
@@ -32,13 +27,8 @@ const policiesColumn = {
   minWidth: '7rem',
   isShownByDefault: false,
   isShown: false,
-  renderCell: (system: InventoryViewSystem) => {
-    const count = system?.app_data?.compliance?.policies?.length;
-    return count !== null && count !== undefined ? (
-      <Link to="/insights/compliance/reports">{count}</Link>
-    ) : (
-      'N/A'
-    );
+  renderCell(system: InventoryViewSystem) {
+    return <Policies appData={system?.app_data?.compliance} />;
   },
 };
 

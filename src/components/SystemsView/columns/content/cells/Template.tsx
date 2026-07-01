@@ -1,25 +1,29 @@
 import React from 'react';
-import { PatchAppData } from '@redhat-cloud-services/host-inventory-client';
 import InsightsLink from '@redhat-cloud-services/frontend-components/InsightsLink';
+import CellValue from '../../CellValue';
+import { PatchAppData } from '@redhat-cloud-services/host-inventory-client';
 
 interface TemplateColumnProps {
-  value: PatchAppData;
+  appData: PatchAppData | undefined;
 }
 
-const Template = ({ value }: TemplateColumnProps) => {
-  const templateName = value?.template_name;
-  const templateUUID = value?.template_uuid;
+const Template = ({ appData }: TemplateColumnProps) => {
+  const templateName = appData?.template_name;
+  const templateUUID = appData?.template_uuid;
 
-  return templateName && templateUUID ? (
-    <InsightsLink
-      app="content"
-      to={{ pathname: `/templates/${templateUUID}` }}
-      preview={false}
-    >
-      {templateName}
-    </InsightsLink>
-  ) : (
-    'No template'
+  const value =
+    templateName && templateUUID ? (
+      <InsightsLink
+        app="content"
+        to={{ pathname: `/templates/${templateUUID}` }}
+        preview={false}
+      >
+        {templateName}
+      </InsightsLink>
+    ) : null;
+
+  return (
+    <CellValue value={appData ? value : undefined} fallback="No template" />
   );
 };
 
