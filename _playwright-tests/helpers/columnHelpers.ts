@@ -129,18 +129,18 @@ export async function scrollTableToPosition(page: Page, position: number) {
 
 /**
  * Scrolls the table horizontally to bring a column into view, avoiding sticky column interference.
- *  @param {Locator} columnHeader - The column header button locator.
+ *  @param {Locator} element - The element to scroll into view (column header button or table cell).
  */
-export async function scrollColumnIntoView(columnHeader: Locator) {
-  await columnHeader.evaluate((button) => {
-    const th = button.closest('th');
+export async function scrollColumnIntoView(element: Locator) {
+  await element.evaluate((el) => {
+    const cell = el.closest('th') || el.closest('td');
     const scrollContainer = document.querySelector(
       '.ins-c-systems-view-table-scroll',
     );
-    if (th && scrollContainer) {
-      const thRect = th.getBoundingClientRect();
+    if (cell && scrollContainer) {
+      const cellRect = cell.getBoundingClientRect();
       const containerRect = scrollContainer.getBoundingClientRect();
-      const scrollNeeded = thRect.right - containerRect.right + 100;
+      const scrollNeeded = cellRect.right - containerRect.right + 100;
       if (scrollNeeded > 0) {
         scrollContainer.scrollLeft += scrollNeeded;
       }
