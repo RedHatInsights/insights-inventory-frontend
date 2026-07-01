@@ -1,7 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import type { Column } from '../columns/allColumnDefinitions';
 
-const STORAGE_KEY = 'ui.systems-view.columns';
+const STORAGE_KEY_PREFIX = 'ui.systems-view.columns';
+
+const getUserStorageKey = (accountNumber: string, username: string): string =>
+  `${STORAGE_KEY_PREFIX}.${accountNumber}.${username}`;
 
 type ColumnPref = {
   key: string;
@@ -14,9 +18,9 @@ const getColumnSnapshot = (columns: readonly Column[]): ColumnPref[] =>
     isShown: column.isShown ?? column.isShownByDefault,
   }));
 
-const loadColumnPrefs = (): ColumnPref[] | null => {
+const loadColumnPrefs = (storageKey: string): ColumnPref[] | null => {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(storageKey);
     if (!raw) {
       return null;
     }
@@ -40,10 +44,13 @@ const loadColumnPrefs = (): ColumnPref[] | null => {
   }
 };
 
-const saveColumnPrefs = (columns: readonly Column[]): void => {
+const saveColumnPrefs = (
+  storageKey: string,
+  columns: readonly Column[],
+): void => {
   try {
     localStorage.setItem(
-      STORAGE_KEY,
+      storageKey,
       JSON.stringify(getColumnSnapshot(columns)),
     );
   } catch {
@@ -99,13 +106,53 @@ const mergeColumnPrefs = (
 };
 
 export const usePersistedColumns = (defaultColumns: readonly Column[]) => {
-  const [columns, setColumns] = useState<readonly Column[]>(() =>
-    mergeColumnPrefs(defaultColumns, loadColumnPrefs()),
-  );
+  const chrome = useChrome();
+  const [storageKey, setStorageKey] = useState<string | null>(null);
+  const [columns, setColumns] = useState<readonly Column[]>(defaultColumns);
+  const loadedStorageKeyRef = useRef<string | null>(null);
 
   useEffect(() => {
-    saveColumnPrefs(columns);
-  }, [columns]);
+    let cancelled = false;
+
+    void chrome.auth
+      .getUser()
+      .then((user) => {
+        if (cancelled) {
+          return;
+        }
+
+        const accountNumber = user?.identity?.account_number;
+        const username =
+          user?.identity?.user?.username ?? user?.identity?.user?.email;
+
+        if (!accountNumber || !username) {
+          return;
+        }
+
+        const key = getUserStorageKey(String(accountNumber), String(username));
+
+        if (loadedStorageKeyRef.current === key) {
+          return;
+        }
+
+        loadedStorageKeyRef.current = key;
+        setStorageKey(key);
+        setColumns(mergeColumnPrefs(defaultColumns, loadColumnPrefs(key)));
+      })
+      .catch(() => {
+        // Ignore unavailable user identity (e.g. chromeless mode).
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [chrome, defaultColumns]);
+
+  useEffect(() => {
+    if (storageKey) {
+      saveColumnPrefs(storageKey, columns);
+    }
+  }, [columns, storageKey]);
 
   return { columns, setColumns };
 };

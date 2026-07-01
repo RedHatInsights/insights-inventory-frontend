@@ -92,16 +92,6 @@ export function ColumnManagementModal<
     })),
   );
 
-  // Sync with appliedColumns when they change
-  useEffect(() => {
-    setCurrentColumns(
-      appliedColumns.map((column) => ({
-        ...column,
-        isShown: column.isShown ?? column.isShownByDefault,
-      })),
-    );
-  }, [appliedColumns]);
-
   const hasChanges = useMemo(() => {
     const applied = getColumnSnapshot(appliedColumns);
     const current = getColumnSnapshot(currentColumns);
@@ -116,6 +106,20 @@ export function ColumnManagementModal<
         column.isShown !== current[index].isShown,
     );
   }, [appliedColumns, currentColumns]);
+
+  // Sync with appliedColumns when they change, but not while the user has unsaved edits.
+  useEffect(() => {
+    if (hasChanges) {
+      return;
+    }
+
+    setCurrentColumns(
+      appliedColumns.map((column) => ({
+        ...column,
+        isShown: column.isShown ?? column.isShownByDefault,
+      })),
+    );
+  }, [appliedColumns, hasChanges]);
 
   // Convert ColumnManagementModalColumn to ListManagerItem
   const listManagerItems: ListManagerItem[] = currentColumns.map((column) => ({
