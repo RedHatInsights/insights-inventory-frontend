@@ -14,6 +14,9 @@ import {
   validateDataColumnSortOrder,
   validateSortDirection,
   scrollColumnIntoView,
+  scrollTableToPosition,
+  isTableHorizontallyScrollable,
+  allColumns,
 } from './helpers/columnHelpers';
 
 test.describe(
@@ -239,4 +242,71 @@ test.describe('Inventory Views application columns', () => {
       },
     );
   }
+
+  test(
+    'Sticky columns remain visible during horizontal scroll',
+    { tag: ['@inventory-views'] },
+    async ({ page }) => {
+      const dialog = page.locator(
+        '[data-ouia-component-id="ColumnManagementModal"]',
+      );
+
+      // Locators for sticky columns - declared once and reused throughout the test
+      const checkboxHeader = page.locator('th').first();
+      const nameHeader = page
+        .locator('th')
+        .filter({ hasText: new RegExp('^Name$') });
+      const actionsHeader = page
+        .locator('th')
+        .filter({ hasText: /Actions/ })
+        .last();
+
+      // Locator for a non-sticky column to verify actual scrolling
+      // Using "OS" which is a default column that should scroll out when we scroll right
+      const nonStickyColumn = page
+        .locator('th')
+        .filter({ hasText: new RegExp('^OS$') });
+
+      await test.step('Enable all columns via Bulk Select to create horizontal scroll', async () => {
+        await openManageColumnsModal(page);
+
+        await dialog
+          .locator('[data-ouia-component-id="BulkSelect-checkbox"]')
+          .check();
+        for (const columnName of allColumns) {
+          await expect(
+            dialog.getByLabel(columnName, { exact: true }),
+          ).toBeChecked();
+        }
+
+        await dialog.getByRole('button', { name: 'Save' }).click();
+        await expect(dialog).toBeHidden();
+
+        // Wait for table to load
+        await expect(
+          page.locator('[data-ouia-component-id="SkeletonTable"]'),
+        ).toBeHidden({ timeout: 10000 });
+      });
+
+      await test.step('Verify table is horizontally scrollable', async () => {
+        const isScrollable = await isTableHorizontallyScrollable(page);
+        expect(isScrollable).toBe(true);
+      });
+
+      await test.step('Scroll to maximum right and verify sticky columns still visible', async () => {
+        // Scroll to the far right
+        await scrollTableToPosition(page, 1);
+
+        // All sticky columns should still be visible in viewport
+        await expect(checkboxHeader).toBeInViewport();
+        await expect(nameHeader).toBeInViewport();
+        await expect(actionsHeader).toBeInViewport();
+
+        // The left non-sticky column should still be out of viewport
+        // (proving scroll position maintained and didn't reset)
+        await expect(nonStickyColumn).toBeVisible(); // Exists in DOM
+        await expect(nonStickyColumn).not.toBeInViewport(); // But not in viewport
+      });
+    },
+  );
 });
