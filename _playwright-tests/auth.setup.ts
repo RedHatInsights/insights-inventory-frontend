@@ -3,6 +3,7 @@ import {
   ensureNotInPreview,
   enableSystemsView,
   enableInventoryViews,
+  enableInventoryTable,
   logInAsRole,
   throwIfMissingAdminEnvVariables,
   throwIfMissingRbacEnvVariables,
@@ -23,6 +24,9 @@ async function authenticateUser(page: Page, user: UserConfig) {
   }
   if (isInventoryViewsEnabled) {
     await enableInventoryViews(page);
+  }
+  if (!isSystemsViewEnabled) {
+    await enableInventoryTable(page);
   }
   await closePopupsIfExist(page);
   await logInAsRole(page, user);

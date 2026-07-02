@@ -157,9 +157,10 @@ export const enableSystemsView = async (page: Page) => {
   });
 };
 
-export const disableSystemsView = async (page: Page) => {
+export const enableInventoryTable = async (page: Page) => {
   await page.addInitScript(() => {
     localStorage.setItem('ui.systems-view', 'false');
+    localStorage.setItem('ui.inventory-views', 'false');
   });
 };
 

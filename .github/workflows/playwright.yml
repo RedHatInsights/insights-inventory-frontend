@@ -1,5 +1,9 @@
 name: 'E2E: Full Test Suite'
 
+# Description: Runs Playwright end-to-end tests on every PR
+# - Feature flag: SYSTEMS_VIEW=true (new table component) is enabled to match stage-stable environment
+# - Excludes @integration and @inventory-views tagged tests
+
 on:
   pull_request:
     types: [opened, reopened, synchronize]
@@ -43,6 +47,7 @@ jobs:
             echo "BASE_URL=https://stage.foo.redhat.com:1337"
             echo "CI=true"
             echo "PROXY=$PROXY"
+            echo "SYSTEMS_VIEW=true"
             echo "STAGE_OFFLINE_TOKEN=$STAGE_OFFLINE_TOKEN"
             echo "TEST_RUN_ID=full-suite-${{ github.run_id }}-${{ github.run_attempt }}"
           } >> .env
