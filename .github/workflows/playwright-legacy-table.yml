@@ -51,7 +51,7 @@ jobs:
             echo "BASE_URL=https://stage.foo.redhat.com:1337"
             echo "CI=true"
             echo "PROXY=$PROXY"
-            echo "SYSTEMS_VIEW=false"
+            echo "LEGACY_INVENTORY_TABLE=true"
             echo "STAGE_OFFLINE_TOKEN=$STAGE_OFFLINE_TOKEN"
             echo "TEST_RUN_ID=systems-view-${{ github.run_id }}-${{ github.run_attempt }}"
           } >> .env
