@@ -58,7 +58,7 @@ export const filterSystemsWithConditionalFilter = async (
     // TODO: Implement logic to select the Status filter option.
     // Logic not implemented yet. Test continues without filtering.
   } else if (filterName === 'Tags') {
-    const inputLocator = page.getByPlaceholder('Filter by tags').nth(1);
+    const inputLocator = page.getByPlaceholder('Filter by tags');
     await inputLocator.click();
     await inputLocator.fill(option);
 
