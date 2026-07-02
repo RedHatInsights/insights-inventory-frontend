@@ -1,4 +1,4 @@
-import { NOT_AVAILABLE } from '../../../../../constants';
+import { NOT_AVAILABLE } from '../../CellValue';
 import { InventoryViewSystem } from '../../../hooks/useInventoryViewsQuery';
 import { WORKLOAD_ACRONYMS } from '../../../utils/workloadsFilter';
 

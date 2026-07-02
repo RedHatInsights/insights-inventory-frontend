@@ -13,7 +13,7 @@ import type { Column } from '../allColumnDefinitions';
 import { DEFAULT_NAME_COLUMN_MIN_WIDTH } from '../../utils/columnMinWidths';
 import { InventoryViewSystem } from '../../hooks/useInventoryViewsQuery';
 import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
-import { NOT_AVAILABLE } from '../../../../constants';
+import { NOT_AVAILABLE } from '../CellValue';
 import { valueOrNotAvailable } from '../helpers';
 
 const APP_NAME = 'inventory' as const;

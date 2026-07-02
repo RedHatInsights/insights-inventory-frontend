@@ -4,7 +4,7 @@ import {
   ExclamationCircleIcon,
   ExclamationTriangleIcon,
 } from '@patternfly/react-icons';
-import { NOT_AVAILABLE } from '../../../../../constants';
+import { NOT_AVAILABLE } from '../../CellValue';
 import { System } from '../../../hooks/useSystemsQuery';
 
 export type HostStalenessStatus =

@@ -1,4 +1,4 @@
-import { NOT_AVAILABLE } from '../../../../../constants';
+import { NOT_AVAILABLE } from '../../CellValue';
 import { UNGROUPED_HOSTS_LABEL } from '../../../constants';
 import { System } from '../../../hooks/useSystemsQuery';
 

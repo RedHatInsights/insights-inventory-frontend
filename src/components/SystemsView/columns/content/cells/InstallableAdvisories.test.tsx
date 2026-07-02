@@ -2,6 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import InstallableAdvisories, { NOT_SET } from './InstallableAdvisories';
+import { NOT_AVAILABLE } from '../../CellValue';
 import { TestWrapper } from '../../../../../Utilities/TestingUtilities';
 import type { PatchAppData } from '@redhat-cloud-services/host-inventory-client';
 
@@ -59,10 +60,10 @@ const mixedCountsPatchAppData = {
 } as unknown as PatchAppData;
 
 describe('InstallableAdvisories cell', () => {
-  it('should show -- when appData is undefined', () => {
+  it(`should show ${NOT_AVAILABLE} when appData is undefined`, () => {
     renderInstallableAdvisories(undefined);
 
-    expect(screen.getByText('--')).toBeInTheDocument();
+    expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
   });
 
   it(`should show ${NOT_SET} when all installable counts are zero`, () => {
