@@ -53,7 +53,7 @@ jobs:
             echo "PROXY=$PROXY"
             echo "LEGACY_INVENTORY_TABLE=true"
             echo "STAGE_OFFLINE_TOKEN=$STAGE_OFFLINE_TOKEN"
-            echo "TEST_RUN_ID=systems-view-${{ github.run_id }}-${{ github.run_attempt }}"
+            echo "TEST_RUN_ID=legacy-table-${{ github.run_id }}-${{ github.run_attempt }}"
           } >> .env
 
           echo ".env file created successfully."
