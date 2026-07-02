@@ -25,7 +25,9 @@ test.describe('System Details tests', () => {
     const packageSystem = systems.packageSystems[0];
 
     await test.step("Navigate to system's details page", async () => {
-      const nameCell = page.locator('td[data-label="Name"]');
+      const nameCell = page
+        .locator('[data-ouia-component-id="systems-view-table-td-0-0"]')
+        .or(page.locator('td[data-label="Name"]'));
       await searchByName(page, packageSystem.hostname);
       await expect(nameCell).toHaveCount(1);
 
@@ -137,7 +139,9 @@ test.describe('System Details tests', () => {
     const bootcSystem = systems.bootcSystems[0];
 
     await test.step("Navigate to system's details page", async () => {
-      const nameCell = page.locator('td[data-label="Name"]');
+      const nameCell = page
+        .locator('[data-ouia-component-id="systems-view-table-td-0-0"]')
+        .or(page.locator('td[data-label="Name"]'));
       await searchByName(page, bootcSystem.hostname);
       await expect(nameCell).toHaveCount(1);
 
@@ -181,7 +185,9 @@ test.describe('System Details tests', () => {
     const system = await createSystem();
     const editButtons = page.getByRole('button', { name: 'Edit' });
     const dialog = page.locator('[role="dialog"]');
-    const nameCell = page.locator('td[data-label="Name"]');
+    const nameCell = page
+      .locator('[data-ouia-component-id="systems-view-table-td-0-0"]')
+      .or(page.locator('td[data-label="Name"]'));
     const newDisplayName = `host_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
     const newAnsibleName = `host_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
 

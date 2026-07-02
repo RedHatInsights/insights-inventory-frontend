@@ -1,4 +1,9 @@
-name: 'E2E: Inventory Views'
+name: 'E2E: InventoryViews Tests'
+
+# Description: Tests the InventoryViews feature (matches stage-preview environment)
+# - Feature flag: INVENTORY_VIEWS=true (implies SYSTEMS_VIEW=true)
+# - Runs only: @inventory-views, @systems-table tagged tests
+# - Excludes: @integration
 
 on:
   pull_request:
