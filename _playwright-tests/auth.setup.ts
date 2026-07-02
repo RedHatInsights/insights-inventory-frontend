@@ -3,6 +3,7 @@ import {
   ensureNotInPreview,
   enableSystemsView,
   enableInventoryViews,
+  enableInventoryTable,
   logInAsRole,
   throwIfMissingAdminEnvVariables,
   throwIfMissingRbacEnvVariables,
@@ -15,6 +16,7 @@ import {
 import {
   isSystemsViewEnabled,
   isInventoryViewsEnabled,
+  forceLegacyInventoryTable,
 } from './helpers/constants';
 
 async function authenticateUser(page: Page, user: UserConfig) {
@@ -23,6 +25,9 @@ async function authenticateUser(page: Page, user: UserConfig) {
   }
   if (isInventoryViewsEnabled) {
     await enableInventoryViews(page);
+  }
+  if (forceLegacyInventoryTable) {
+    await enableInventoryTable(page);
   }
   await closePopupsIfExist(page);
   await logInAsRole(page, user);

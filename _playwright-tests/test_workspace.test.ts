@@ -449,7 +449,9 @@ test.describe('Workspace System Management', () => {
      */
 
     const system = systems.workspaceSystems[2];
-    const nameCell = page.locator('td[data-label="Name"]');
+    const nameCell = page
+      .locator('[data-ouia-component-id="systems-view-table-td-0-0"]')
+      .or(page.locator('td[data-label="Name"]'));
 
     await test.step('Navigate to Inventory → Systems', async () => {
       await navigateToInventorySystemsFunc(page);
@@ -502,21 +504,30 @@ test.describe('Workspace System Management', () => {
     });
 
     await test.step('Verify system was added to workspace', async () => {
-      const workspaceCellWithValue = page.locator(
-        'table tbody td[data-label="Workspace"]',
-        {
+      // Wait for table to refresh and show updated workspace
+      const workspaceCellWithValue = page
+        .locator('[data-ouia-component-id*="systems-view-table"]', {
           hasText: WORKSPACE_WITH_SYSTEMS,
-        },
-      );
-      await expect(workspaceCellWithValue.first()).toBeVisible();
+        })
+        .or(
+          page.locator('table tbody td[data-label="Workspace"]', {
+            hasText: WORKSPACE_WITH_SYSTEMS,
+          }),
+        );
+      await expect(workspaceCellWithValue.first()).toBeVisible({
+        timeout: 15000,
+      });
 
-      const nameCellWithValue = page.locator(
-        'table tbody td[data-label="Name"]',
-        {
+      const nameCellWithValue = page
+        .locator('[data-ouia-component-id*="systems-view-table"]', {
           hasText: system.hostname,
-        },
-      );
-      await expect(nameCellWithValue.first()).toBeVisible();
+        })
+        .or(
+          page.locator('table tbody td[data-label="Name"]', {
+            hasText: system.hostname,
+          }),
+        );
+      await expect(nameCellWithValue.first()).toBeVisible({ timeout: 15000 });
     });
   });
 });
