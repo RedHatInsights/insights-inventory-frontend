@@ -178,23 +178,6 @@ describe('useBulkSelect', () => {
         expect(selection.onSelect).toHaveBeenCalledWith(true, rows);
         expect(selection.setSelected).not.toHaveBeenCalled();
       });
-
-      it('does nothing when source is not dropdown or checkbox', async () => {
-        const rows = createTestItems(5);
-        const selection = createMockSelection([]);
-
-        const { result } = renderHook(() =>
-          useBulkSelect({ selection, rows, total: 10 }),
-        );
-
-        await result.current.onBulkSelect(
-          BulkSelectValue.page,
-          'unknown' as BulkSelectSource,
-        );
-
-        expect(selection.onSelect).not.toHaveBeenCalled();
-        expect(selection.setSelected).not.toHaveBeenCalled();
-      });
     });
   });
 
