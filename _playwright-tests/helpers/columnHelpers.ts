@@ -1,6 +1,9 @@
 import { expect } from '@playwright/test';
 import { type Page, type Locator } from '@playwright/test';
 import { parseLastSeenToDays } from './filterHelpers';
+import { columnManagementModal } from './columnManagementModal';
+
+export { columnManagementModal } from './columnManagementModal';
 
 const NOT_AVAILABLE = '--';
 
@@ -59,40 +62,9 @@ export const allColumns = [
   ...vulnerabilityColumns,
 ];
 
-/**
- * Opens the 'Manage columns' modal from the systems view toolbar.
- * Wraps the action in toPass to handle loading skeletons and dropdown rendering.
- * Verifies the dialog is visible before returning.
- *  @param {Page}   page      - The Playwright page instance.
- *  @param {number} [timeout] - Optional timeout for the toPass block.
- */
-export async function openManageColumnsModal(page: Page, timeout = 45000) {
-  await expect(async () => {
-    // 1. Wait for the loading table skeleton to disappear
-    await expect(
-      page.locator('[data-ouia-component-id="SkeletonTable"]'),
-    ).toBeHidden();
-
-    // 2. Locate, verify, and click the toolbar actions dropdown
-    const toolbarActionsButton = page.locator(
-      "[data-ouia-component-id='systems-view-toolbar-actions-menu-dropdown-toggle']",
-    );
-    await expect(toolbarActionsButton).toBeVisible();
-    await expect(toolbarActionsButton).toBeEnabled();
-    await toolbarActionsButton.click();
-
-    // 3. Locate, verify, and click the 'Manage columns' button inside the dropdown
-    const manageColumnsButton = page
-      .locator('button')
-      .filter({ hasText: 'Manage columns' });
-    await expect(manageColumnsButton).toBeEnabled();
-    await manageColumnsButton.click();
-
-    // 4. Verify the column management dialog is visible
-    const dialog = page.locator('[role="dialog"]');
-    await expect(dialog).toBeVisible();
-  }).toPass({ timeout });
-}
+/** @deprecated Use columnManagementModal(page).open() */
+export const openManageColumnsModal = (page: Page, timeout = 45000) =>
+  columnManagementModal(page).open(timeout);
 
 /**
  * Checks if the systems table is horizontally scrollable.
