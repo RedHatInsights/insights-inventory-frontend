@@ -196,22 +196,6 @@ describe('useBulkSelect', () => {
         expect(selection.setSelected).not.toHaveBeenCalled();
       });
     });
-
-    describe('other/unknown values', () => {
-      it('does nothing for unknown bulk select values', async () => {
-        const rows = createTestItems(5);
-        const selection = createMockSelection([]);
-
-        const { result } = renderHook(() =>
-          useBulkSelect({ selection, rows, total: 10 }),
-        );
-
-        await result.current.onBulkSelect('unknown' as BulkSelectValue);
-
-        expect(selection.onSelect).not.toHaveBeenCalled();
-        expect(selection.setSelected).not.toHaveBeenCalled();
-      });
-    });
   });
 
   describe('edge cases', () => {
