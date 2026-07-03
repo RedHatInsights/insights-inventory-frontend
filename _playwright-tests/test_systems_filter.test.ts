@@ -60,7 +60,6 @@ test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
       const resetFiltersButton = page
         .getByRole('button', { name: 'Reset filters' })
         .or(page.getByRole('button', { name: 'Clear filters' }));
-      // eslint-disable-next-line playwright/no-conditional-in-test
       if (await resetFiltersButton.isVisible({ timeout: 100 })) {
         await resetFiltersButton.click();
       }
@@ -219,7 +218,6 @@ test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
       );
 
       // When INVENTORY_VIEWS is enabled, scroll the Tags column into view
-      // eslint-disable-next-line playwright/no-conditional-in-test
       if (isInventoryViewsEnabled) {
         await scrollColumnIntoView(tagButton.first());
       }
@@ -273,7 +271,6 @@ test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
       const closeChipButton = page.locator(
         'button[aria-label^="Close"][aria-label*="days ago"]',
       );
-      // eslint-disable-next-line playwright/no-conditional-in-test
       if (await closeChipButton.first().isVisible({ timeout: 2000 })) {
         await closeChipButton.first().click();
         // Wait for skeleton table to disappear after chip removal

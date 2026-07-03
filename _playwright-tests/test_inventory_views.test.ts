@@ -197,7 +197,6 @@ test.describe('Inventory Views application columns', () => {
                 .locator('..')
                 .getAttribute('aria-sort');
 
-              // eslint-disable-next-line playwright/no-conditional-in-test
               if (currentSort === 'ascending') {
                 break;
               }

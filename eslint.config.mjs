@@ -71,6 +71,7 @@ export default defineConfig([
     rules: {
       ...playwright.configs['flat/recommended'].rules,
       'playwright/prefer-web-first-assertions': 'off',
+      'playwright/no-conditional-in-test': 'off',
     },
   },
   {
