@@ -3,6 +3,7 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import RenderWrapper from './Utilities/Wrapper';
 import useFeatureFlag from './Utilities/useFeatureFlag';
 import useSystemsViewFeatureFlag from './Utilities/useSystemsViewFeatureFlag';
+import useLegacyInventoryTableFeatureFlag from './Utilities/useLegacyInventoryTableFeatureFlag';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
 import {
@@ -45,6 +46,7 @@ export const Routes = () => {
   const isLastCheckInEnabled = useFeatureFlag(
     'hbi.create_last_check_in_update_per_reporter_staleness',
   );
+  const isLegacyInventoryTableEnabled = useLegacyInventoryTableFeatureFlag();
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
@@ -73,11 +75,12 @@ export const Routes = () => {
   let element = useRoutes([
     {
       path: '/',
-      element: isSystemsViewEnabled ? (
-        <RenderWrapper cmp={InventoryViews} />
-      ) : (
-        <RenderWrapper cmp={InventoryPage} />
-      ),
+      element:
+        isSystemsViewEnabled && !isLegacyInventoryTableEnabled ? (
+          <RenderWrapper cmp={InventoryViews} />
+        ) : (
+          <RenderWrapper cmp={InventoryPage} />
+        ),
     },
     { path: '/:inventoryId', element: <InventoryDetail /> },
     { path: '/:inventoryId/:modalId', element: <InventoryDetail /> },
