@@ -199,7 +199,7 @@ describe('useBulkSelect', () => {
   });
 
   describe('edge cases', () => {
-    it('handles empty rows array', () => {
+    it('selects no rows when selection is empty', () => {
       const rows: TestItem[] = [];
       const selection = createMockSelection([]);
 
