@@ -313,7 +313,7 @@ describe('EntityTableToolbar', () => {
         screen.getByRole('button', {
           name: /conditional filter/i,
         }),
-      ).toHaveTextContent('Filter by text');
+      ).toHaveTextContent('Name');
       expect(
         screen.getByRole('menuitem', {
           name: /filter by text/i,

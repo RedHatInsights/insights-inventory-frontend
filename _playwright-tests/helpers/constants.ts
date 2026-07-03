@@ -14,7 +14,7 @@ export const GLOBAL_DATA_PATH = path.resolve(
 
 export const isSystemsViewEnabled = process.env.SYSTEMS_VIEW === 'true';
 export const isInventoryViewsEnabled = process.env.INVENTORY_VIEWS === 'true';
-export const forceLegacyInventoryTable =
+export const isLegacyInventoryTableEnabled =
   process.env.LEGACY_INVENTORY_TABLE === 'true';
 
 // Base archives
