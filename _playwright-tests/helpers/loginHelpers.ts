@@ -163,11 +163,7 @@ export const enableInventoryTable = async (page: Page) => {
     console.log(
       '[Test Setup] Enabling legacy InventoryTable component (test override)',
     );
-    // Test override flag - forces SystemsView hook to return false
     localStorage.setItem('ui.legacy-inventory-table', 'true');
-    // also set these for consistency
-    localStorage.setItem('ui.systems-view', 'false');
-    localStorage.setItem('ui.inventory-views', 'false');
   });
 };
 
