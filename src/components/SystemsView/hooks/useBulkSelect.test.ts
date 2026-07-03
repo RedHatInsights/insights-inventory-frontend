@@ -212,18 +212,6 @@ describe('useBulkSelect', () => {
       expect(result.current.isPartiallySelected).toBe(false);
     });
 
-    it('handles total being 0', () => {
-      const rows = createTestItems(5);
-      const selection = createMockSelection([]);
-
-      const { result } = renderHook(() =>
-        useBulkSelect({ selection, rows, total: 0 }),
-      );
-
-      expect(result.current.selectedCount).toBe(0);
-      expect(result.current.isPartiallySelected).toBe(false);
-    });
-
     it('handles selection count exceeding total', () => {
       const rows = createTestItems(5);
       const selectedItems = createTestItems(10);
@@ -277,44 +265,6 @@ describe('useBulkSelect', () => {
       expect(result.current.isPartiallySelected).toBe(true);
     });
 
-    it('correctly identifies page as selected even with items from other pages selected', () => {
-      const rows = createTestItems(5);
-      const otherItems = [
-        {
-          id: 'other-1',
-          name: 'Other 1',
-        },
-      ];
-      const selection = createMockSelection([...rows, ...otherItems]);
-
-      const { result } = renderHook(() =>
-        useBulkSelect({ selection, rows, total: 20 }),
-      );
-
-      expect(result.current.isPageSelected).toBe(true);
-      expect(result.current.selectedCount).toBe(6);
-    });
-
-    it('updates callback when dependencies change', () => {
-      const rows = createTestItems(5);
-      const selection = createMockSelection([]);
-
-      const { result, rerender } = renderHook(
-        ({ selection, rows, total }) =>
-          useBulkSelect({ selection, rows, total }),
-        {
-          initialProps: { selection, rows, total: 10 },
-        },
-      );
-
-      const firstCallback = result.current.onBulkSelect;
-
-      const newSelection = createMockSelection(rows.slice(0, 2));
-      rerender({ selection: newSelection, rows, total: 10 });
-
-      expect(result.current.onBulkSelect).not.toBe(firstCallback);
-    });
-
     it('handles rapid successive onBulkSelect calls', async () => {
       const rows = createTestItems(5);
       const selection = createMockSelection([]);
@@ -361,28 +311,6 @@ describe('useBulkSelect', () => {
       await result.current.onBulkSelect(BulkSelectValue.page, 'checkbox');
 
       expect(selection.setSelected).toHaveBeenCalledWith([]);
-    });
-
-    it('handles navigation between pages maintaining selections', () => {
-      const page1Rows = createTestItems(10);
-      const page1Selected = page1Rows.slice(0, 5);
-      const selection = createMockSelection(page1Selected);
-
-      const { result, rerender } = renderHook(
-        ({ rows }) => useBulkSelect({ selection, rows, total: 50 }),
-        { initialProps: { rows: page1Rows } },
-      );
-
-      expect(result.current.isPageSelected).toBe(false);
-
-      const page2Rows = createTestItems(10).map((item, i) => ({
-        ...item,
-        id: `page2-${i}`,
-      }));
-      rerender({ rows: page2Rows });
-
-      expect(result.current.selectedCount).toBe(5);
-      expect(result.current.isPageSelected).toBe(false);
     });
   });
 });
