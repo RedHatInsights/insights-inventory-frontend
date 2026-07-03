@@ -18,6 +18,64 @@ export const defaultInventoryColumns = [
 // Total columns includes checkbox (first) and per-row actions (last)
 export const totalDefaultColumns = defaultInventoryColumns.length + 2;
 
+/**
+ * Returns visible inventory column header names in left-to-right table order.
+ */
+export async function getVisibleInventoryColumnOrder(
+  page: Page,
+): Promise<string[]> {
+  const headerTexts = (await page.locator('th').allTextContents()).map((text) =>
+    text.trim(),
+  );
+
+  return headerTexts
+    .map((text, index) => ({
+      index,
+      column: defaultInventoryColumns.find((name) =>
+        new RegExp(name).test(text),
+      ),
+    }))
+    .filter(
+      (item): item is { index: number; column: string } =>
+        item.column !== undefined,
+    )
+    .sort((a, b) => a.index - b.index)
+    .map((item) => item.column);
+}
+
+/**
+ * Asserts a column is hidden and the table has one fewer visible header than default.
+ * Retries via toPass to allow persisted column prefs to load after navigation/reload.
+ */
+export async function expectInventoryColumnHidden(
+  page: Page,
+  columnName: string,
+) {
+  const visibleHeaders = page.locator('th').filter({ hasText: /.+/ });
+  const columnHeader = page
+    .locator('th')
+    .filter({ hasText: new RegExp(`^${columnName}$`) });
+
+  await expect(async () => {
+    await expect(columnHeader).toBeHidden();
+    await expect(visibleHeaders).toHaveCount(totalDefaultColumns - 1);
+  }).toPass({ timeout: 30000 });
+}
+
+/**
+ * Asserts all default inventory columns are visible in the table.
+ */
+export async function expectDefaultInventoryColumnsVisible(page: Page) {
+  const visibleHeaders = page.locator('th').filter({ hasText: /.+/ });
+  await expect(visibleHeaders).toHaveCount(totalDefaultColumns);
+
+  for (const columnName of defaultInventoryColumns) {
+    await expect(
+      page.locator('th').filter({ hasText: new RegExp(columnName) }),
+    ).toBeVisible();
+  }
+}
+
 export const inventoryColumns = [
   'Created',
   'Workload',

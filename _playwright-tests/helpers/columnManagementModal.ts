@@ -2,6 +2,8 @@ import { expect, type Locator, type Page } from '@playwright/test';
 
 const DEFAULT_OUIA_ID = 'ColumnManagementModal';
 
+export type ColumnListEntry = [columnName: string, isEnabled: boolean];
+
 export type ColumnManagementModal = {
   root: Locator;
   saveButton: Locator;
@@ -11,7 +13,11 @@ export type ColumnManagementModal = {
   columnList: Locator;
   bulkSelectCheckbox: Locator;
   selectedCount: Locator;
+  readonly columns: Promise<ColumnListEntry[]>;
   open: (timeout?: number) => Promise<void>;
+  enableColumn: (columnName: string) => Promise<void>;
+  disableColumn: (columnName: string) => Promise<void>;
+  dragColumnTo: (sourceColumn: string, targetColumn: string) => Promise<void>;
 };
 
 /**
@@ -20,7 +26,7 @@ export type ColumnManagementModal = {
  * @example
  * const modal = columnManagementModal(page);
  * await modal.open();
- * await modal.root.getByLabel('Status', { exact: true }).check();
+ * await modal.enableColumn('Status');
  * await modal.saveButton.click();
  * await expect(modal.root).toBeHidden();
  */
@@ -29,6 +35,11 @@ export function columnManagementModal(
   ouiaId: string | number = DEFAULT_OUIA_ID,
 ): ColumnManagementModal {
   const root = page.locator(`[data-ouia-component-id="${ouiaId}"]`);
+  const columnList = page.locator(
+    `[data-ouia-component-id="${ouiaId}-column-list"]`,
+  );
+  const columnCheckbox = (columnName: string) =>
+    root.getByLabel(columnName, { exact: true });
 
   return {
     root,
@@ -42,13 +53,35 @@ export function columnManagementModal(
       `[data-ouia-component-id="${ouiaId}-reset-button"]`,
     ),
     closeButton: root.getByRole('button', { name: 'Close' }),
-    columnList: page.locator(
-      `[data-ouia-component-id="${ouiaId}-column-list"]`,
-    ),
+    columnList,
     bulkSelectCheckbox: root.locator(
       '[data-ouia-component-id="BulkSelect-checkbox"]',
     ),
     selectedCount: root.locator('[data-ouia-component-id="BulkSelect-text"]'),
+
+    /**
+     * Each list item as [columnName, isEnabled] in display order.
+     */
+    get columns(): Promise<ColumnListEntry[]> {
+      return (async () => {
+        const rows = columnList.locator('li');
+        const count = await rows.count();
+        const entries: ColumnListEntry[] = [];
+
+        for (let index = 0; index < count; index++) {
+          const row = rows.nth(index);
+          const columnName = (
+            await row
+              .locator('[data-ouia-component-id$="-label"] label')
+              .textContent()
+          )?.trim();
+          const isEnabled = await row.getByRole('checkbox').isChecked();
+          entries.push([columnName ?? '', isEnabled]);
+        }
+
+        return entries;
+      })();
+    },
 
     /**
      * Opens the modal from the Systems view toolbar overflow menu.
@@ -75,6 +108,41 @@ export function columnManagementModal(
 
         await expect(root).toBeVisible();
       }).toPass({ timeout });
+    },
+
+    /**
+     * Enables a column and verifies its checkbox is checked.
+     */
+    async enableColumn(columnName: string) {
+      const checkbox = columnCheckbox(columnName);
+      await checkbox.check();
+      await expect(checkbox).toBeChecked();
+    },
+
+    /**
+     * Disables a column and verifies its checkbox is unchecked.
+     */
+    async disableColumn(columnName: string) {
+      const checkbox = columnCheckbox(columnName);
+      await checkbox.uncheck();
+      await expect(checkbox).not.toBeChecked();
+    },
+
+    /**
+     * Reorders a column by dragging its handle onto another column's row.
+     */
+    async dragColumnTo(sourceColumn: string, targetColumn: string) {
+      const columnRow = (columnName: string) =>
+        columnCheckbox(columnName).locator('xpath=ancestor::li[1]');
+
+      const source = columnRow(sourceColumn).getByRole('button', {
+        name: 'Drag button',
+      });
+      const target = columnRow(targetColumn);
+
+      await expect(source).toBeVisible();
+      await expect(target).toBeVisible();
+      await source.dragTo(target, { steps: 20 });
     },
   };
 }
