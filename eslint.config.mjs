@@ -71,6 +71,7 @@ export default defineConfig([
     rules: {
       ...playwright.configs['flat/recommended'].rules,
       'playwright/prefer-web-first-assertions': 'off',
+      'playwright/no-conditional-in-test': 'off',
     },
   },
   {
@@ -96,6 +97,19 @@ export default defineConfig([
         },
       ],
       // Add other non-TypeScript specific rules here
+    },
+  },
+  {
+    files: ['_playwright-tests/**'],
+    rules: {
+      'jsdoc/require-param-description': 'off',
+      'jsdoc/require-returns': 'off',
+      'jsdoc/require-returns-description': 'off',
+      'jsdoc/require-param': 'off',
+      'jsdoc/require-description': 'off',
+      'jsdoc/check-param-names': 'off',
+      'jsdoc/check-line-alignment': 'off',
+      'jsdoc/check-tag-names': 'off',
     },
   },
 ]);
