@@ -48,8 +48,7 @@ test.describe('Column Management Modal', { tag: ['@inventory-views'] }, () => {
 
     await modal.disableColumn(columnToDisable);
 
-    await modal.saveButton.click();
-    await expect(modal.root).toBeHidden();
+    await modal.save();
 
     await expectInventoryColumnHidden(page, columnToDisable);
   });
@@ -62,8 +61,7 @@ test.describe('Column Management Modal', { tag: ['@inventory-views'] }, () => {
 
     await modal.disableColumn(columnToDisable);
 
-    await modal.cancelButton.click();
-    await expect(modal.root).toBeHidden();
+    await modal.cancel();
 
     await expectDefaultInventoryColumnsVisible(page);
   });
@@ -76,8 +74,7 @@ test.describe('Column Management Modal', { tag: ['@inventory-views'] }, () => {
 
     await modal.disableColumn(columnToDisable);
 
-    await modal.closeButton.click();
-    await expect(modal.root).toBeHidden();
+    await modal.close();
 
     await expectDefaultInventoryColumnsVisible(page);
   });
@@ -90,8 +87,7 @@ test.describe('Column Management Modal', { tag: ['@inventory-views'] }, () => {
 
     await modal.disableColumn(columnToDisable);
 
-    await modal.saveButton.click();
-    await expect(modal.root).toBeHidden();
+    await modal.save();
 
     await expectInventoryColumnHidden(page, columnToDisable);
 
@@ -151,8 +147,7 @@ test.describe('Column Management Modal', { tag: ['@inventory-views'] }, () => {
     await modal.dragColumnTo(sourceColumn, targetColumn);
 
     await expect(modal.saveButton).toBeEnabled();
-    await modal.saveButton.click();
-    await expect(modal.root).toBeHidden();
+    await modal.save();
 
     expect(await getVisibleInventoryColumnOrder(page)).toEqual(
       reorderedColumnNames,

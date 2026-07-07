@@ -15,6 +15,9 @@ export type ColumnManagementModal = {
   selectedCount: Locator;
   readonly columns: Promise<ColumnListEntry[]>;
   open: (timeout?: number) => Promise<void>;
+  close: () => Promise<void>;
+  save: () => Promise<void>;
+  cancel: () => Promise<void>;
   enableColumn: (columnName: string) => Promise<void>;
   disableColumn: (columnName: string) => Promise<void>;
   dragColumnTo: (sourceColumn: string, targetColumn: string) => Promise<void>;
@@ -27,8 +30,7 @@ export type ColumnManagementModal = {
  * const modal = columnManagementModal(page);
  * await modal.open();
  * await modal.enableColumn('Status');
- * await modal.saveButton.click();
- * await expect(modal.root).toBeHidden();
+ * await modal.save();
  */
 export function columnManagementModal(
   page: Page,
@@ -38,21 +40,25 @@ export function columnManagementModal(
   const columnList = page.locator(
     `[data-ouia-component-id="${ouiaId}-column-list"]`,
   );
+  const saveButton = page.locator(
+    `[data-ouia-component-id="${ouiaId}-save-button"]`,
+  );
+  const cancelButton = page.locator(
+    `[data-ouia-component-id="${ouiaId}-cancel-button"]`,
+  );
+  const resetButton = page.locator(
+    `[data-ouia-component-id="${ouiaId}-reset-button"]`,
+  );
+  const closeButton = root.getByRole('button', { name: 'Close' });
   const columnCheckbox = (columnName: string) =>
     root.getByLabel(columnName, { exact: true });
 
   return {
     root,
-    saveButton: page.locator(
-      `[data-ouia-component-id="${ouiaId}-save-button"]`,
-    ),
-    cancelButton: page.locator(
-      `[data-ouia-component-id="${ouiaId}-cancel-button"]`,
-    ),
-    resetButton: page.locator(
-      `[data-ouia-component-id="${ouiaId}-reset-button"]`,
-    ),
-    closeButton: root.getByRole('button', { name: 'Close' }),
+    saveButton,
+    cancelButton,
+    resetButton,
+    closeButton,
     columnList,
     bulkSelectCheckbox: root.locator(
       '[data-ouia-component-id="BulkSelect-checkbox"]',
@@ -108,6 +114,30 @@ export function columnManagementModal(
 
         await expect(root).toBeVisible();
       }).toPass({ timeout });
+    },
+
+    /**
+     * Closes the modal via the header close button and verifies it is hidden.
+     */
+    async close() {
+      await closeButton.click();
+      await expect(root).toBeHidden();
+    },
+
+    /**
+     * Saves column changes and verifies the modal is hidden.
+     */
+    async save() {
+      await saveButton.click();
+      await expect(root).toBeHidden();
+    },
+
+    /**
+     * Cancels column changes and verifies the modal is hidden.
+     */
+    async cancel() {
+      await cancelButton.click();
+      await expect(root).toBeHidden();
     },
 
     /**
