@@ -12,6 +12,7 @@ import {
   TAG,
   isSystemsViewEnabled,
   isInventoryViewsEnabled,
+  isLegacyInventoryTableEnabled,
 } from './helpers/constants';
 import { scrollColumnIntoView } from './helpers/columnHelpers';
 
@@ -201,7 +202,9 @@ test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
 
     await test.step('Verify Tags Modal has expected tag', async () => {
       // TODO: Remove when RHINENG-22581 is fixed
-      const inputLocator = page.getByPlaceholder('Filter by tags').nth(1);
+      const inputLocator = isLegacyInventoryTableEnabled
+        ? page.getByPlaceholder('Filter by tags').nth(1)
+        : page.getByPlaceholder('Filter by tags');
       await inputLocator.fill('');
 
       // get name of system we check the tags to verify tags modal title
@@ -213,9 +216,7 @@ test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
       const expectedSystemName = await nameCell.innerText();
 
       // open Tags modal
-      const tagButton = page.locator(
-        '[data-ouia-component-id="TagCount-text"]',
-      );
+      const tagButton = page.locator('[data-ouia-component-id="TagCount"]');
 
       // When INVENTORY_VIEWS is enabled, scroll the Tags column into view
       if (isInventoryViewsEnabled) {

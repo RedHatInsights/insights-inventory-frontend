@@ -83,8 +83,8 @@ test.describe('Granular access:', { tag: ['@rbac'] }, () => {
       await expect(secondWorkspace).toBeVisible({ timeout: 100000 });
 
       const rows = page
-        .locator('[data-ouia-component-id="systems-view-table-td-0-1"]')
-        .or(page.locator('td[data-label="Workspace"]'));
+        .locator('[data-ouia-component-id="systems-view-table-td-0-0"]')
+        .or(page.locator('td[data-label="Name"]'));
       await expect(rows.first()).toBeVisible({ timeout: 20000 });
       // Currenlty default workspace is displayed as well,
       // so we expect 3 rows in total (2 workspaces + default workspace)

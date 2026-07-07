@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { type Locator, type Page } from '@playwright/test';
+import { isLegacyInventoryTableEnabled } from './constants';
 
 const SKELETON_TABLE = '[data-ouia-component-id="SkeletonTable"]';
 
@@ -58,7 +59,9 @@ export const filterSystemsWithConditionalFilter = async (
     // TODO: Implement logic to select the Status filter option.
     // Logic not implemented yet. Test continues without filtering.
   } else if (filterName === 'Tags') {
-    const inputLocator = page.getByPlaceholder('Filter by tags');
+    const inputLocator = isLegacyInventoryTableEnabled
+      ? page.getByPlaceholder('Filter by tags').nth(1)
+      : page.getByPlaceholder('Filter by tags');
     await inputLocator.click();
     await inputLocator.fill(option);
 
