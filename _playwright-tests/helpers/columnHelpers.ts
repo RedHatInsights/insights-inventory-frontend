@@ -2,7 +2,7 @@ import { expect } from '@playwright/test';
 import { type Page, type Locator } from '@playwright/test';
 import { parseLastSeenToDays } from './filterHelpers';
 
-const NOT_AVAILABLE = 'N/A';
+const NOT_AVAILABLE = '--';
 
 // Default columns from inventory/columnDefinitions.tsx
 export const defaultInventoryColumns = [

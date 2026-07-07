@@ -1,6 +1,5 @@
 import moment from 'moment';
 import type { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
-import type { VulnerabilityCountField } from './columns/types';
 
 /** URL query key / DataView `filterId` for workspace filter (`GET /hosts?group_id=`). */
 export const SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM = 'group_id';
@@ -80,12 +79,6 @@ export const LAST_SEEN_OPTIONS: { label: string; key: LastSeenKey }[] = [
 export const SORT_URL_PARAM = 'sort';
 
 export const SORT_DIR_URL_PARAM = 'sort_dir';
-
-/**
- * TODO(host-inventory-client): pass field="important_cves" directly once
- * important_cves is added to VulnerabilityAppData.
- */
-export const IMPORTANT_CVES_FIELD = 'important_cves' as VulnerabilityCountField;
 
 /**
  * TODO(host-inventory-client): replace with
