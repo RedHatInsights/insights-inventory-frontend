@@ -62,20 +62,6 @@ export async function expectInventoryColumnHidden(
   }).toPass({ timeout: 30000 });
 }
 
-/**
- * Asserts all default inventory columns are visible in the table.
- */
-export async function expectDefaultInventoryColumnsVisible(page: Page) {
-  const visibleHeaders = page.locator('th').filter({ hasText: /.+/ });
-  await expect(visibleHeaders).toHaveCount(totalDefaultColumns);
-
-  for (const columnName of defaultInventoryColumns) {
-    await expect(
-      page.locator('th').filter({ hasText: new RegExp(columnName) }),
-    ).toBeVisible();
-  }
-}
-
 export const inventoryColumns = [
   'Created',
   'Workload',
