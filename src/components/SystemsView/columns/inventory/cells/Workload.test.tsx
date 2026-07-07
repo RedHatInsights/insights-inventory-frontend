@@ -2,6 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import Workload from './Workload';
+import { NOT_AVAILABLE } from '../../CellValue';
 import type { InventoryViewSystem } from '../../../hooks/useInventoryViewsQuery';
 
 const SYSTEM_ID = 'test-system-id';
@@ -35,13 +36,13 @@ describe('Workload cell', () => {
     expect(screen.getByText('AAP, SAP')).toBeInTheDocument();
   });
 
-  it('should show N/A when no workloads are present', () => {
+  it(`should show ${NOT_AVAILABLE} when no workloads are present`, () => {
     const { rerender } = render(<Workload system={systemWithEmptyWorkloads} />);
 
-    expect(screen.getByText('N/A')).toBeInTheDocument();
+    expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
 
     rerender(<Workload system={systemWithoutWorkloads} />);
 
-    expect(screen.getByText('N/A')).toBeInTheDocument();
+    expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
   });
 });

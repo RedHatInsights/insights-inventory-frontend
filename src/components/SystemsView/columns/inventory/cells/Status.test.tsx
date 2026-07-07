@@ -4,7 +4,7 @@ import React from 'react';
 import Status, { getHostStalenessStatus } from './Status';
 import { TestWrapper } from '../../../../../Utilities/TestingUtilities';
 import type { System } from '../../../hooks/useSystemsQuery';
-import { NOT_AVAILABLE } from '../../../../../constants';
+import { NOT_AVAILABLE } from '../../CellValue';
 
 const NOW = new Date('2024-06-15T12:00:00.000Z');
 
@@ -101,13 +101,13 @@ describe('Status cell', () => {
     expect(screen.getByRole('img', { hidden: true })).toBeInTheDocument();
   });
 
-  it('renders N/A when staleness cannot be determined', () => {
+  it(`renders ${NOT_AVAILABLE} when staleness cannot be determined`, () => {
     render(
       <TestWrapper>
         <Status system={unknownSystem} />
       </TestWrapper>,
     );
 
-    expect(screen.getByText('N/A')).toBeInTheDocument();
+    expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
   });
 });
