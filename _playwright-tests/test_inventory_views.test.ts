@@ -104,23 +104,17 @@ test.describe('Inventory Views application columns', () => {
           await modal.open();
 
           for (const columnName of appColumns) {
-            await modal.root.getByLabel(columnName, { exact: true }).check();
-            await expect(
-              modal.root.getByLabel(columnName, { exact: true }),
-            ).toBeChecked();
+            await modal.enableColumn(columnName);
           }
-          // Verify it is applied by checking the "X selected" text in the dialog
-          const selected = modal.root.locator(
-            '[data-ouia-component-id="BulkSelect-text"]',
-          );
           const totalModifiedColumns =
             defaultInventoryColumns.length + appColumns.length;
-          await expect(selected).toHaveText(`${totalModifiedColumns} selected`);
+          await expect(modal.selectedCount).toHaveText(
+            `${totalModifiedColumns} selected`,
+          );
         });
 
         await test.step(`Verify ${name} columns are applied on systems table`, async () => {
-          await modal.saveButton.click();
-          await expect(modal.root).toBeHidden();
+          await modal.save();
 
           const visibleHeaders = page.locator('th').filter({ hasText: /.+/ });
           await expect(visibleHeaders).toHaveCount(
@@ -153,21 +147,14 @@ test.describe('Inventory Views application columns', () => {
           // For Inventory columns, unselect some default columns to reduce table width
           const columnsToUnselect = ['OS', 'Last seen', 'Tags', 'Workspace'];
           for (const columnName of columnsToUnselect) {
-            await modal.root.getByLabel(columnName, { exact: true }).uncheck();
-            await expect(
-              modal.root.getByLabel(columnName, { exact: true }),
-            ).not.toBeChecked();
+            await modal.disableColumn(columnName);
           }
 
           for (const column of appColumns) {
-            await modal.root.getByLabel(column.name, { exact: true }).check();
-            await expect(
-              modal.root.getByLabel(column.name, { exact: true }),
-            ).toBeChecked();
+            await modal.enableColumn(column.name);
           }
 
-          await modal.saveButton.click();
-          await expect(modal.root).toBeHidden();
+          await modal.save();
 
           const expectedColumnCount =
             totalDefaultColumns + appColumns.length - 4; // -4 for unselected columns
@@ -263,17 +250,13 @@ test.describe('Inventory Views application columns', () => {
       await test.step('Enable all columns via Bulk Select to create horizontal scroll', async () => {
         await modal.open();
 
-        await modal.root
-          .locator('[data-ouia-component-id="BulkSelect-checkbox"]')
-          .check();
+        await modal.bulkSelectCheckbox.check();
+        const columns = Object.fromEntries(await modal.columns);
         for (const columnName of allColumns) {
-          await expect(
-            modal.root.getByLabel(columnName, { exact: true }),
-          ).toBeChecked();
+          expect(columns[columnName]).toBe(true);
         }
 
-        await modal.saveButton.click();
-        await expect(modal.root).toBeHidden();
+        await modal.save();
 
         // Wait for table to load
         await expect(
