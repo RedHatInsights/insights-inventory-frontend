@@ -57,7 +57,6 @@ test.describe(
           `Found ${logs.length} critical console errors on ${service.name}`,
         ).toHaveLength(0);
 
-        // eslint-disable-next-line playwright/no-conditional-in-test
         if (service.name === 'Remediation Plan') {
           const systemsTab = page.getByLabel('SystemsTab');
           await systemsTab.click({ timeout: 1000 });
