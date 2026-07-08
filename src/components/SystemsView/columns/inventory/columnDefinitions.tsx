@@ -7,6 +7,7 @@ import OperatingSystem from './cells/OperatingSystem';
 import Status from './cells/Status';
 import Tags from './cells/Tags';
 import Workload from './cells/Workload';
+import Vendor from './cells/Vendor';
 import Created from './cells/Created';
 import { LastSeenColumnHeader } from '../../../../Utilities/LastSeenColumnHeader';
 import { System } from '../../hooks/useSystemsQuery';
@@ -116,13 +117,9 @@ const vendorColumn = {
   key: 'vendor',
   isShownByDefault: false,
   isShown: false,
-  renderCell(system: InventoryViewSystem) {
-    return (
-      <span key={`${this.key}-${system.id}`}>
-        {valueOrNotAvailable(system?.system_profile?.infrastructure_vendor)}
-      </span>
-    );
-  },
+  renderCell: (system: InventoryViewSystem) => (
+    <Vendor value={system.system_profile?.infrastructure_vendor} />
+  ),
 };
 
 const workloadColumn = {
