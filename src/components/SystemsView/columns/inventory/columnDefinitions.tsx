@@ -7,13 +7,12 @@ import OperatingSystem from './cells/OperatingSystem';
 import Status from './cells/Status';
 import Tags from './cells/Tags';
 import Workload from './cells/Workload';
+import Created from './cells/Created';
 import { LastSeenColumnHeader } from '../../../../Utilities/LastSeenColumnHeader';
 import { System } from '../../hooks/useSystemsQuery';
 import type { Column } from '../allColumnDefinitions';
 import { DEFAULT_NAME_COLUMN_MIN_WIDTH } from '../../utils/columnMinWidths';
 import { InventoryViewSystem } from '../../hooks/useInventoryViewsQuery';
-import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
-import { NOT_AVAILABLE } from '../CellValue';
 import { valueOrNotAvailable } from '../helpers';
 
 const APP_NAME = 'inventory' as const;
@@ -143,14 +142,9 @@ const createdColumn = {
   key: 'created',
   isShownByDefault: false,
   isShown: false,
-  renderCell(system: InventoryViewSystem) {
-    const value = system?.created;
-    return value ? (
-      <DateFormat key={`${this.key}-${system.id}`} date={value} />
-    ) : (
-      NOT_AVAILABLE
-    );
-  },
+  renderCell: (system: InventoryViewSystem) => (
+    <Created value={system?.created} />
+  ),
 };
 
 export default [
