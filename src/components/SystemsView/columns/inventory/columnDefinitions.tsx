@@ -131,9 +131,9 @@ const workloadColumn = {
   key: 'workload',
   isShownByDefault: false,
   isShown: false,
-  renderCell(system: InventoryViewSystem) {
-    return <Workload key={`${this.key}-${system.id}`} system={system} />;
-  },
+  renderCell: (system: InventoryViewSystem) => (
+    <Workload value={system.system_profile?.workloads} />
+  ),
 };
 
 const createdColumn = {

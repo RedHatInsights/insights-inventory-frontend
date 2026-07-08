@@ -1,47 +1,28 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
+import type { SystemProfileWorkloads } from '@redhat-cloud-services/host-inventory-client';
 import Workload from './Workload';
 import { NOT_AVAILABLE } from '../../CellValue';
-import type { InventoryViewSystem } from '../../../hooks/useInventoryViewsQuery';
 
-const SYSTEM_ID = 'test-system-id';
-
-const systemWithWorkloads = {
-  id: SYSTEM_ID,
-  system_profile: {
-    workloads: {
-      sap: { sids: ['PRD'] },
-      ansible: { controller_version: '4.0' },
-    },
-  },
-} as unknown as InventoryViewSystem;
-
-const systemWithEmptyWorkloads = {
-  id: SYSTEM_ID,
-  system_profile: {
-    workloads: {},
-  },
-} as unknown as InventoryViewSystem;
-
-const systemWithoutWorkloads = {
-  id: SYSTEM_ID,
-  system_profile: {},
-} as unknown as InventoryViewSystem;
+const workloadsWithValues: SystemProfileWorkloads = {
+  sap: { sids: new Set(['PRD']) },
+  ansible: { controller_version: '4.0' },
+};
 
 describe('Workload cell', () => {
   it('should show comma-separated workload acronyms for present keys', () => {
-    render(<Workload system={systemWithWorkloads} />);
+    render(<Workload value={workloadsWithValues} />);
 
     expect(screen.getByText('AAP, SAP')).toBeInTheDocument();
   });
 
   it(`should show ${NOT_AVAILABLE} when no workloads are present`, () => {
-    const { rerender } = render(<Workload system={systemWithEmptyWorkloads} />);
+    const { rerender } = render(<Workload value={{}} />);
 
     expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
 
-    rerender(<Workload system={systemWithoutWorkloads} />);
+    rerender(<Workload value={undefined} />);
 
     expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
   });
