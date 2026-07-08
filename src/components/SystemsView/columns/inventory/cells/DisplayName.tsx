@@ -1,29 +1,53 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import InsightsLink from '@redhat-cloud-services/frontend-components/InsightsLink';
 import { ConversionPopover } from '../../../../InventoryTable/ConversionPopover/ConversionPopover';
 import { Flex, FlexItem, Icon, Popover } from '@patternfly/react-core';
 import { BundleIcon } from '@patternfly/react-icons';
 import FontAwesomeImageIcon from '../../../../FontAwesomeImageIcon';
+import CellValue from '../../CellValue';
 import type { System } from '../../../hooks/useSystemsQuery';
 
-const isImageBasedSystem = (system: System) =>
-  system?.system_profile?.bootc_status?.booted?.image_digest ||
-  system?.system_profile?.host_type === 'edge';
+export type DisplayNameValue = Pick<
+  System,
+  'id' | 'display_name' | 'system_profile'
+>;
 
-const isCentosLinuxSystem = (system: System) =>
-  system?.system_profile?.operating_system?.name === 'CentOS Linux';
+const isImageBasedSystem = (value: DisplayNameValue) =>
+  value.system_profile?.bootc_status?.booted?.image_digest ||
+  value.system_profile?.host_type === 'edge';
+
+const isCentosLinuxSystem = (value: DisplayNameValue) =>
+  value.system_profile?.operating_system?.name === 'CentOS Linux';
 
 interface DisplayNameProps {
-  system: System;
+  value: DisplayNameValue;
 }
 
-const DisplayName = ({ system }: DisplayNameProps) => {
-  return (
+const DisplayName = ({ value }: DisplayNameProps) => {
+  if (value.display_name === null || value.display_name === undefined) {
+    return (
+      <CellValue
+        type="notAvailable"
+        reason="Display name data is not available for this system"
+      />
+    );
+  }
+
+  const displayNameContent =
+    value.id !== null && value.id !== undefined ? (
+      <InsightsLink app="inventory" to={value.id} preview={false}>
+        {value.display_name}
+      </InsightsLink>
+    ) : (
+      value.display_name
+    );
+
+  const displayNameValue = (
     <div className="ins-composed-col sentry-mask data-hj-suppress">
       <div key="data">
         <Flex gap={{ default: 'gapSm' }}>
           <FlexItem>
-            {isImageBasedSystem(system) ? (
+            {isImageBasedSystem(value) ? (
               <Popover
                 triggerAction="hover"
                 headerContent="Image-based system"
@@ -63,16 +87,16 @@ const DisplayName = ({ system }: DisplayNameProps) => {
               </Popover>
             )}
           </FlexItem>
+          <FlexItem>{displayNameContent}</FlexItem>
           <FlexItem>
-            <Link to={system.id || ''}>{system.display_name}</Link>
-          </FlexItem>
-          <FlexItem>
-            {isCentosLinuxSystem(system) && <ConversionPopover />}
+            {isCentosLinuxSystem(value) && <ConversionPopover />}
           </FlexItem>
         </Flex>
       </div>
     </div>
   );
+
+  return <CellValue type="present" value={displayNameValue} />;
 };
 
 export default DisplayName;

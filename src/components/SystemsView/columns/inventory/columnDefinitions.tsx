@@ -28,7 +28,13 @@ const nameColumn = {
   isUntoggleable: true,
   sortBy: ApiOrderByEnum.DisplayName,
   renderCell: (system: System) => (
-    <DisplayName key={`name-${system.id}`} system={system} />
+    <DisplayName
+      value={{
+        id: system.id,
+        display_name: system.display_name,
+        system_profile: system.system_profile,
+      }}
+    />
   ),
 };
 
