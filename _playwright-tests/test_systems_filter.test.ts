@@ -135,9 +135,13 @@ test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
     expect(await filterChipGroup.count()).toBeGreaterThanOrEqual(1);
 
     // OS version should contain expected major version of OS
-    const columnVersionOS = page.locator(
-      'span[aria-label="Formatted OS version"]',
-    );
+    const columnVersionOS = page
+      .locator('td[data-label="OS"]')
+      .or(
+        page.locator(
+          'td[data-ouia-component-id^="systems-view-table-td-"][data-ouia-component-id$="-3"]',
+        ),
+      );
     await assertAllContain(columnVersionOS, pattern);
   });
 
@@ -163,9 +167,10 @@ test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
         const columnVersionOS = page
           .locator('td[data-label="OS"]', { hasText: testData.OS })
           .or(
-            page.locator('span[aria-label="Formatted OS version"]', {
-              hasText: testData.OS,
-            }),
+            page.locator(
+              'td[data-ouia-component-id^="systems-view-table-td-"][data-ouia-component-id$="-3"]',
+              { hasText: testData.OS },
+            ),
           );
         await expect(columnVersionOS.first()).toBeVisible();
         const count = await columnVersionOS.count();
