@@ -40,8 +40,8 @@ const workspaceColumn = {
   isShownByDefault: true,
   isShown: true,
   sortBy: ApiOrderByEnum.GroupName,
-  renderCell: (system: System) => (
-    <Workspace key={`workspace-${system.id}`} system={system} />
+  renderCell: (system: InventoryViewSystem) => (
+    <Workspace value={system.groups} />
   ),
 };
 
