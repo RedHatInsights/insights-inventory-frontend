@@ -91,8 +91,14 @@ const statusColumn = {
   isShownByDefault: false,
   isShown: false,
   sortBy: 'status',
-  renderCell: (system: System) => (
-    <Status key={`status-${system.id}`} system={system} />
+  renderCell: (system: InventoryViewSystem) => (
+    <Status
+      value={{
+        stale_timestamp: system.stale_timestamp,
+        stale_warning_timestamp: system.stale_warning_timestamp,
+        culled_timestamp: system.culled_timestamp,
+      }}
+    />
   ),
 };
 
