@@ -52,8 +52,8 @@ const tagsColumn = {
   minWidth: '6rem',
   isShownByDefault: true,
   isShown: true,
-  renderCell: (system: System) => (
-    <Tags key={`tags-${system.id}`} system={system} />
+  renderCell: (system: InventoryViewSystem) => (
+    <Tags value={system.tags} system={system} />
   ),
 };
 
