@@ -1,14 +1,8 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Grid,
-  GridItem,
-  Modal,
-  ModalHeader,
-  ModalBody,
-} from '@patternfly/react-core';
+import { Grid, GridItem } from '@patternfly/react-core';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
-import InfoTable from '../GeneralInfo/InfoTable';
+import SystemDetailsModal from './SystemDetailsModal';
 import '../GeneralInfo/system-details.scss';
 import { OperatingSystemCard } from '../GeneralInfo/OperatingSystemCard';
 import { BiosCard } from '../GeneralInfo/BiosCard';
@@ -157,24 +151,14 @@ const Details = ({
               )}
             </Grid>
           </GridItem>
-          <Modal
-            aria-label={`${modalTitle || ''} modal`}
-            isOpen={isModalOpen}
-            onClose={() => handleModalToggle()}
-            className="ins-c-inventory__detail--dialog"
-            variant={modalVariant}
-          >
-            <ModalHeader title={modalTitle || ''} />
-            <ModalBody>
-              <InfoTable
-                cells={modalData.cells}
-                rows={modalData.rows}
-                expandable={modalData.expandable}
-                onSort={onSort}
-                filters={modalData.filters}
-              />
-            </ModalBody>
-          </Modal>
+          <SystemDetailsModal
+            isModalOpen={isModalOpen}
+            modalTitle={modalTitle}
+            modalVariant={modalVariant}
+            modalData={modalData}
+            onSort={onSort}
+            handleModalToggle={handleModalToggle}
+          />
         </Grid>
       </div>
     </Wrapper>
