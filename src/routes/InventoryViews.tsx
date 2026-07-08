@@ -26,7 +26,7 @@ const InventoryViews = ({ hasAccess }: InventoryViewsProps) => {
 
   useEffect(() => {
     chrome?.hideGlobalFilter?.(true);
-  }, []);
+  }, [chrome]);
 
   return (
     <>
