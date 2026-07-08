@@ -1,10 +1,10 @@
 import { expect } from '@playwright/test';
 import { navigateToInventorySystemsFunc } from './helpers/navHelpers';
 import { test } from './helpers/fixtures';
+import { columnManagementModal } from './helpers/columnManagementModal';
 import {
   totalDefaultColumns,
   defaultInventoryColumns,
-  openManageColumnsModal,
   advisorColumns,
   complianceColumns,
   patchColumns,
@@ -98,31 +98,23 @@ test.describe('Inventory Views application columns', () => {
       `User can enable ${name} columns via Manage Columns`,
       { tag: ['@inventory-views'] },
       async ({ page }) => {
-        const dialog = page.locator(
-          '[data-ouia-component-id="ColumnManagementModal"]',
-        );
+        const modal = columnManagementModal(page);
 
         await test.step(`Open Manage Columns and apply ${name} columns`, async () => {
-          await openManageColumnsModal(page);
+          await modal.open();
 
           for (const columnName of appColumns) {
-            await dialog.getByLabel(columnName, { exact: true }).check();
-            await expect(
-              dialog.getByLabel(columnName, { exact: true }),
-            ).toBeChecked();
+            await modal.enableColumn(columnName);
           }
-          // Verify it is applied by checking the "X selected" text in the dialog
-          const selected = dialog.locator(
-            '[data-ouia-component-id="BulkSelect-text"]',
-          );
           const totalModifiedColumns =
             defaultInventoryColumns.length + appColumns.length;
-          await expect(selected).toHaveText(`${totalModifiedColumns} selected`);
+          await expect(modal.selectedCount).toHaveText(
+            `${totalModifiedColumns} selected`,
+          );
         });
 
         await test.step(`Verify ${name} columns are applied on systems table`, async () => {
-          await dialog.getByRole('button', { name: 'Save' }).click();
-          await expect(dialog).toBeHidden();
+          await modal.save();
 
           const visibleHeaders = page.locator('th').filter({ hasText: /.+/ });
           await expect(visibleHeaders).toHaveCount(
@@ -147,31 +139,22 @@ test.describe('Inventory Views application columns', () => {
       `User can sort by ${name} columns`,
       { tag: ['@inventory-views'] },
       async ({ page }) => {
-        const dialog = page.locator(
-          '[data-ouia-component-id="ColumnManagementModal"]',
-        );
+        const modal = columnManagementModal(page);
 
         await test.step(`Open Manage Columns and apply ${name} columns`, async () => {
-          await openManageColumnsModal(page);
+          await modal.open();
 
           // For Inventory columns, unselect some default columns to reduce table width
           const columnsToUnselect = ['OS', 'Last seen', 'Tags', 'Workspace'];
           for (const columnName of columnsToUnselect) {
-            await dialog.getByLabel(columnName, { exact: true }).uncheck();
-            await expect(
-              dialog.getByLabel(columnName, { exact: true }),
-            ).not.toBeChecked();
+            await modal.disableColumn(columnName);
           }
 
           for (const column of appColumns) {
-            await dialog.getByLabel(column.name, { exact: true }).check();
-            await expect(
-              dialog.getByLabel(column.name, { exact: true }),
-            ).toBeChecked();
+            await modal.enableColumn(column.name);
           }
 
-          await dialog.getByRole('button', { name: 'Save' }).click();
-          await expect(dialog).toBeHidden();
+          await modal.save();
 
           const expectedColumnCount =
             totalDefaultColumns + appColumns.length - 4; // -4 for unselected columns
@@ -246,9 +229,7 @@ test.describe('Inventory Views application columns', () => {
     'Sticky columns remain visible during horizontal scroll',
     { tag: ['@inventory-views'] },
     async ({ page }) => {
-      const dialog = page.locator(
-        '[data-ouia-component-id="ColumnManagementModal"]',
-      );
+      const modal = columnManagementModal(page);
 
       // Locators for sticky columns - declared once and reused throughout the test
       const checkboxHeader = page.locator('th').first();
@@ -267,19 +248,15 @@ test.describe('Inventory Views application columns', () => {
         .filter({ hasText: new RegExp('^OS$') });
 
       await test.step('Enable all columns via Bulk Select to create horizontal scroll', async () => {
-        await openManageColumnsModal(page);
+        await modal.open();
 
-        await dialog
-          .locator('[data-ouia-component-id="BulkSelect-checkbox"]')
-          .check();
+        await modal.bulkSelectCheckbox.check();
+        const columns = Object.fromEntries(await modal.columns);
         for (const columnName of allColumns) {
-          await expect(
-            dialog.getByLabel(columnName, { exact: true }),
-          ).toBeChecked();
+          expect(columns[columnName]).toBe(true);
         }
 
-        await dialog.getByRole('button', { name: 'Save' }).click();
-        await expect(dialog).toBeHidden();
+        await modal.save();
 
         // Wait for table to load
         await expect(
