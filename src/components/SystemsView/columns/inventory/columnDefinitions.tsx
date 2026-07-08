@@ -8,13 +8,13 @@ import Status from './cells/Status';
 import Tags from './cells/Tags';
 import Workload from './cells/Workload';
 import Vendor from './cells/Vendor';
+import Infrastructure from './cells/Infrastructure';
 import Created from './cells/Created';
 import { LastSeenColumnHeader } from '../../../../Utilities/LastSeenColumnHeader';
 import { System } from '../../hooks/useSystemsQuery';
 import type { Column } from '../allColumnDefinitions';
 import { DEFAULT_NAME_COLUMN_MIN_WIDTH } from '../../utils/columnMinWidths';
 import { InventoryViewSystem } from '../../hooks/useInventoryViewsQuery';
-import { valueOrNotAvailable } from '../helpers';
 
 const APP_NAME = 'inventory' as const;
 
@@ -102,13 +102,9 @@ const infrastructureColumn = {
   key: 'infrastructure',
   isShownByDefault: false,
   isShown: false,
-  renderCell(system: InventoryViewSystem) {
-    return (
-      <span key={`${this.key}-${system.id}`}>
-        {valueOrNotAvailable(system?.system_profile?.infrastructure_type)}
-      </span>
-    );
-  },
+  renderCell: (system: InventoryViewSystem) => (
+    <Infrastructure value={system.system_profile?.infrastructure_type} />
+  ),
 };
 
 const vendorColumn = {
