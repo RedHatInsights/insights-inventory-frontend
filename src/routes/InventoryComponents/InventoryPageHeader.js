@@ -16,7 +16,6 @@ import {
   PageHeaderTitle,
 } from '@redhat-cloud-services/frontend-components/PageHeader';
 import { DesktopIcon } from '@patternfly/react-icons';
-import useFeatureFlag from '../../Utilities/useFeatureFlag';
 import FontAwesomeImageIcon from '../../components/FontAwesomeImageIcon';
 import { AccountStatContext } from '../../Contexts';
 import { pageContents } from './InventoryPageContents';
@@ -62,7 +61,6 @@ const InventoryContentToggle = ({ changeMainContent, mainContent }) => (
 );
 
 const InventoryPageHeader = (toggleProps) => {
-  const isBifrostEnabled = useFeatureFlag('hbi.ui.bifrost');
   const { hasBootcImages } = useContext(AccountStatContext);
   return (
     <PageHeader className="pf-m-light">
@@ -79,7 +77,6 @@ const InventoryPageHeader = (toggleProps) => {
           </Flex>
         }
         actionsContent={
-          isBifrostEnabled &&
           hasBootcImages && <InventoryContentToggle {...toggleProps} />
         }
       />
