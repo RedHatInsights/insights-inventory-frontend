@@ -65,8 +65,8 @@ const operatingSystemColumn = {
   isShownByDefault: true,
   isShown: true,
   sortBy: ApiOrderByEnum.OperatingSystem,
-  renderCell: (system: System) => (
-    <OperatingSystem key={`os-${system.id}`} system={system} />
+  renderCell: (system: InventoryViewSystem) => (
+    <OperatingSystem value={system.system_profile?.operating_system} />
   ),
 };
 
