@@ -3,7 +3,7 @@ import { expect } from '@playwright/test';
 import {
   NO_ACCESS_STALENESS,
   NO_ACCESS_INVENTORY,
-  NO_ACCESS_WORKPSACES,
+  NO_ACCESS_WORKSPACES,
 } from './constants';
 
 test.use({ storageState: '.auth/no_access_user.json' });
@@ -28,7 +28,7 @@ test.describe('No access:', { tag: ['@rbac'] }, () => {
     await expect(emptyState).toBeVisible({ timeout: 100000 });
 
     const heading = page.getByRole('heading', { level: 5 }).first();
-    await expect(heading).toContainText(NO_ACCESS_WORKPSACES);
+    await expect(heading).toContainText(NO_ACCESS_WORKSPACES);
   });
 
   test('Staleness and Deletion page - no access is displayed', async ({
