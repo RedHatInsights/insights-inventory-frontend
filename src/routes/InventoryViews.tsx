@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Flex, FlexItem, PageSection } from '@patternfly/react-core';
 import SystemsView from '../components/SystemsView';
 import {
@@ -24,12 +24,8 @@ const InventoryViews = ({ hasAccess }: InventoryViewsProps) => {
   const { hasBootcImages } = useContext(AccountStatContext);
   const chrome = useChrome();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     chrome?.hideGlobalFilter?.(true);
-
-    return () => {
-      chrome?.hideGlobalFilter?.(false);
-    };
   }, [chrome]);
 
   return (
