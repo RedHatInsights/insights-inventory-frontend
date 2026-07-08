@@ -8,6 +8,11 @@ const TEST_ACCOUNT_NUMBER = '1234567';
 const TEST_USERNAME = 'inventory-columns-test-user';
 const STORAGE_KEY = `ui.systems-view.columns.${TEST_ACCOUNT_NUMBER}.${TEST_USERNAME}`;
 
+jest.mock('../../../Utilities/useInventoryViewsFeatureFlag', () => ({
+  __esModule: true,
+  default: () => true,
+}));
+
 jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({
   __esModule: true,
   default: () => ({

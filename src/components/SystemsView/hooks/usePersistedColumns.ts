@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
+import useInventoryViewsFeatureFlag from '../../../Utilities/useInventoryViewsFeatureFlag';
 import type { Column } from '../columns/allColumnDefinitions';
 
 const STORAGE_KEY_PREFIX = 'ui.systems-view.columns';
@@ -106,12 +107,20 @@ const mergeColumnPrefs = (
 };
 
 export const usePersistedColumns = (defaultColumns: readonly Column[]) => {
+  const shouldPersist = useInventoryViewsFeatureFlag();
   const chrome = useChrome();
   const [storageKey, setStorageKey] = useState<string | null>(null);
   const [columns, setColumns] = useState<readonly Column[]>(defaultColumns);
   const loadedStorageKeyRef = useRef<string | null>(null);
 
   useEffect(() => {
+    if (!shouldPersist) {
+      loadedStorageKeyRef.current = null;
+      setStorageKey(null);
+      setColumns(defaultColumns);
+      return;
+    }
+
     let cancelled = false;
 
     void chrome.auth
@@ -146,13 +155,13 @@ export const usePersistedColumns = (defaultColumns: readonly Column[]) => {
     return () => {
       cancelled = true;
     };
-  }, [chrome, defaultColumns]);
+  }, [chrome, defaultColumns, shouldPersist]);
 
   useEffect(() => {
-    if (storageKey) {
+    if (storageKey && shouldPersist) {
       saveColumnPrefs(storageKey, columns);
     }
-  }, [columns, storageKey]);
+  }, [columns, storageKey, shouldPersist]);
 
   return { columns, setColumns };
 };
