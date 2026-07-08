@@ -78,8 +78,16 @@ const lastSeenColumn = {
   isShownByDefault: true,
   isShown: true,
   sortBy: ApiOrderByEnum.LastCheckIn,
-  renderCell: (system: System) => (
-    <LastSeen key={`lastseen-${system.id}`} system={system} />
+  renderCell: (system: InventoryViewSystem) => (
+    <LastSeen
+      value={{
+        last_check_in: system.last_check_in,
+        culled_timestamp: system.culled_timestamp,
+        stale_warning_timestamp: system.stale_warning_timestamp,
+        stale_timestamp: system.stale_timestamp,
+        per_reporter_staleness: system.per_reporter_staleness,
+      }}
+    />
   ),
 };
 

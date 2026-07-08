@@ -1,72 +1,52 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import LastSeen from './LastSeen';
+import LastSeen, { type LastSeenValue } from './LastSeen';
 import { TestWrapper } from '../../../../../Utilities/TestingUtilities';
-import type { System } from '../../../hooks/useSystemsQuery';
+import { NOT_AVAILABLE } from '../../CellValue';
 
 const LONG_AGO_LAST_SEEN = '2020-01-01T00:00:00.000Z';
 
-const SYSTEM_ID = 'test-system-id';
+function renderLastSeen(value: LastSeenValue) {
+  return render(
+    <TestWrapper>
+      <LastSeen value={value} />
+    </TestWrapper>,
+  );
+}
 
-const systemWithLongAgoLastCheckIn = {
-  id: SYSTEM_ID,
+const lastSeenValue: LastSeenValue = {
   last_check_in: LONG_AGO_LAST_SEEN,
-} as unknown as System;
-
-const systemWithUndefinedLastCheckIn = {
-  id: SYSTEM_ID,
-  last_check_in: undefined,
-} as unknown as System;
-
-const systemWithNullLastCheckIn = {
-  id: SYSTEM_ID,
-  last_check_in: null,
-} as unknown as System;
-
-const systemWithEmptyPerReporterStaleness = {
-  id: SYSTEM_ID,
-  last_check_in: LONG_AGO_LAST_SEEN,
-  per_reporter_staleness: {},
-} as unknown as System;
+  culled_timestamp: undefined,
+  stale_warning_timestamp: undefined,
+  stale_timestamp: undefined,
+  per_reporter_staleness: undefined,
+};
 
 describe('LastSeen cell', () => {
   it('should render a relative last seen label for last_check_in', () => {
-    render(
-      <TestWrapper>
-        <LastSeen system={systemWithLongAgoLastCheckIn} />
-      </TestWrapper>,
-    );
+    renderLastSeen(lastSeenValue);
 
     expect(screen.getAllByText(/\d+ years ago/).length).toBeGreaterThan(0);
   });
 
-  it('should show Invalid date when last_check_in is undefined', () => {
-    render(
-      <TestWrapper>
-        <LastSeen system={systemWithUndefinedLastCheckIn} />
-      </TestWrapper>,
-    );
+  it(`should show ${NOT_AVAILABLE} when last_check_in is undefined`, () => {
+    renderLastSeen({ ...lastSeenValue, last_check_in: undefined });
 
-    expect(screen.getAllByText('Invalid date').length).toBeGreaterThan(0);
+    expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
   });
 
-  it('should show Invalid date when last_check_in is null', () => {
-    render(
-      <TestWrapper>
-        <LastSeen system={systemWithNullLastCheckIn} />
-      </TestWrapper>,
-    );
+  it(`should show ${NOT_AVAILABLE} when last_check_in is null`, () => {
+    renderLastSeen({ ...lastSeenValue, last_check_in: null });
 
-    expect(screen.getAllByText('Invalid date').length).toBeGreaterThan(0);
+    expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
   });
 
   it('should show the disconnected indicator when puptoo is missing from per_reporter_staleness', () => {
-    render(
-      <TestWrapper>
-        <LastSeen system={systemWithEmptyPerReporterStaleness} />
-      </TestWrapper>,
-    );
+    renderLastSeen({
+      ...lastSeenValue,
+      per_reporter_staleness: {},
+    });
 
     expect(
       screen.getByLabelText(/disconnected indicator/i),

@@ -4,27 +4,46 @@ import { DateFormat } from '@redhat-cloud-services/frontend-components/DateForma
 import { verifyCulledReporter } from '../../../../../Utilities/sharedFunctions';
 import InsightsDisconnected from '../../../../../Utilities/InsightsDisconnected';
 import { REPORTER_PUPTOO } from '../../../../../Utilities/constants';
+import CellValue from '../../CellValue';
 import { System } from '../../../hooks/useSystemsQuery';
 
 type CullingDate = string | number | Date;
 
 const DEFAULT_CULLING_DATE: CullingDate = new Date(0);
 
+export type LastSeenValue = Pick<
+  System,
+  | 'culled_timestamp'
+  | 'stale_warning_timestamp'
+  | 'stale_timestamp'
+  | 'per_reporter_staleness'
+> & {
+  last_check_in?: string | null;
+};
+
 interface LastSeenProps {
-  system: System;
+  value: LastSeenValue;
 }
 
-const LastSeen = ({ system }: LastSeenProps) => {
-  const updated = system.last_check_in;
-  const culled = system.culled_timestamp;
-  const staleWarn = system.stale_warning_timestamp;
-  const stale = system.stale_timestamp;
-  const perReporterStaleness = system.per_reporter_staleness;
+const LastSeen = ({ value }: LastSeenProps) => {
+  const {
+    last_check_in: updated,
+    culled_timestamp: culled,
+    stale_warning_timestamp: staleWarn,
+    stale_timestamp: stale,
+    per_reporter_staleness: perReporterStaleness,
+  } = value;
 
-  const displayDate: string | number | Date =
-    updated === undefined || updated === null ? '' : updated;
+  if (updated === undefined || updated === null) {
+    return (
+      <CellValue
+        type="notAvailable"
+        reason="Last seen date is not available for this system"
+      />
+    );
+  }
 
-  return (
+  const presentValue = (
     <CullingInformation
       className=""
       content=""
@@ -35,7 +54,7 @@ const LastSeen = ({ system }: LastSeenProps) => {
       render={({ msg }) => (
         <React.Fragment>
           <DateFormat
-            date={displayDate}
+            date={updated}
             extraTitle={
               <React.Fragment>
                 <div>{msg}</div>
@@ -50,10 +69,12 @@ const LastSeen = ({ system }: LastSeenProps) => {
       )}
     >
       <span>
-        <DateFormat date={displayDate} />
+        <DateFormat date={updated} />
       </span>
     </CullingInformation>
   );
+
+  return <CellValue type="present" value={presentValue} />;
 };
 
 export default LastSeen;
