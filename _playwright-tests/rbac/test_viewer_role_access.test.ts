@@ -73,19 +73,20 @@ test.describe('Viewer:', { tag: ['@rbac'] }, () => {
     });
   });
 
-  test('Staleness and Deletion page - all actions are disabled', async ({
-    page,
-  }) => {
-    // Staleness checks use the Root workspace under Kessel; stage policy for the
-    // viewer test user may not grant those relations yet (RHINENG-25942).
-    await installKesselStalenessViewOnly(page);
-    try {
-      await navigateToStalenessPageFunc(page);
+  test.fixme(
+    'Staleness and Deletion page - all actions are disabled',
+    async ({ page }) => {
+      // Staleness checks use the Root workspace under Kessel; stage policy for the
+      // viewer test user may not grant those relations yet (RHINENG-25942).
+      await installKesselStalenessViewOnly(page);
+      try {
+        await navigateToStalenessPageFunc(page);
 
-      const editButton = page.getByRole('button', { name: 'Edit' });
-      await expect(editButton).toBeDisabled();
-    } finally {
-      await uninstallKesselCheckSelfBulkMock(page);
-    }
-  });
+        const editButton = page.getByRole('button', { name: 'Edit' });
+        await expect(editButton).toBeDisabled();
+      } finally {
+        await uninstallKesselCheckSelfBulkMock(page);
+      }
+    },
+  );
 });

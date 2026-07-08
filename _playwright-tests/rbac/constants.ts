@@ -6,3 +6,4 @@ export const GRANULAR_WORKPSACE_RW = 'RBAC_testing_read';
 export const NO_ACCESS_INVENTORY =
   'This application requires Inventory permissions';
 export const NO_ACCESS_STALENESS = 'Access permissions needed';
+export const NO_ACCESS_WORKPSACES = 'Workspace access permissions needed';
