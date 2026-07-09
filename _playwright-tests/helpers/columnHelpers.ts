@@ -1,6 +1,9 @@
 import { expect } from '@playwright/test';
 import { type Page, type Locator } from '@playwright/test';
 import { parseLastSeenToDays } from './filterHelpers';
+import { columnManagementModal } from './columnManagementModal';
+
+export { columnManagementModal } from './columnManagementModal';
 
 const NOT_AVAILABLE = '--';
 
@@ -14,6 +17,50 @@ export const defaultInventoryColumns = [
 ];
 // Total columns includes checkbox (first) and per-row actions (last)
 export const totalDefaultColumns = defaultInventoryColumns.length + 2;
+
+/**
+ * Returns visible inventory column header names in left-to-right table order.
+ */
+export async function getVisibleInventoryColumnOrder(
+  page: Page,
+): Promise<string[]> {
+  const headerTexts = (await page.locator('th').allTextContents()).map((text) =>
+    text.trim(),
+  );
+
+  return headerTexts
+    .map((text, index) => ({
+      index,
+      column: defaultInventoryColumns.find((name) =>
+        new RegExp(name).test(text),
+      ),
+    }))
+    .filter(
+      (item): item is { index: number; column: string } =>
+        item.column !== undefined,
+    )
+    .sort((a, b) => a.index - b.index)
+    .map((item) => item.column);
+}
+
+/**
+ * Asserts a column is hidden and the table has one fewer visible header than default.
+ * Retries via toPass to allow persisted column prefs to load after navigation/reload.
+ */
+export async function expectInventoryColumnHidden(
+  page: Page,
+  columnName: string,
+) {
+  const visibleHeaders = page.locator('th').filter({ hasText: /.+/ });
+  const columnHeader = page
+    .locator('th')
+    .filter({ hasText: new RegExp(`^${columnName}$`) });
+
+  await expect(async () => {
+    await expect(columnHeader).toBeHidden();
+    await expect(visibleHeaders).toHaveCount(totalDefaultColumns - 1);
+  }).toPass({ timeout: 30000 });
+}
 
 export const inventoryColumns = [
   'Created',
@@ -59,40 +106,9 @@ export const allColumns = [
   ...vulnerabilityColumns,
 ];
 
-/**
- * Opens the 'Manage columns' modal from the systems view toolbar.
- * Wraps the action in toPass to handle loading skeletons and dropdown rendering.
- * Verifies the dialog is visible before returning.
- *  @param {Page}   page      - The Playwright page instance.
- *  @param {number} [timeout] - Optional timeout for the toPass block.
- */
-export async function openManageColumnsModal(page: Page, timeout = 45000) {
-  await expect(async () => {
-    // 1. Wait for the loading table skeleton to disappear
-    await expect(
-      page.locator('[data-ouia-component-id="SkeletonTable"]'),
-    ).toBeHidden();
-
-    // 2. Locate, verify, and click the toolbar actions dropdown
-    const toolbarActionsButton = page.locator(
-      "[data-ouia-component-id='systems-view-toolbar-actions-menu-dropdown-toggle']",
-    );
-    await expect(toolbarActionsButton).toBeVisible();
-    await expect(toolbarActionsButton).toBeEnabled();
-    await toolbarActionsButton.click();
-
-    // 3. Locate, verify, and click the 'Manage columns' button inside the dropdown
-    const manageColumnsButton = page
-      .locator('button')
-      .filter({ hasText: 'Manage columns' });
-    await expect(manageColumnsButton).toBeEnabled();
-    await manageColumnsButton.click();
-
-    // 4. Verify the column management dialog is visible
-    const dialog = page.locator('[role="dialog"]');
-    await expect(dialog).toBeVisible();
-  }).toPass({ timeout });
-}
+/** @deprecated Use columnManagementModal(page).open() */
+export const openManageColumnsModal = (page: Page, timeout = 45000) =>
+  columnManagementModal(page).open(timeout);
 
 /**
  * Checks if the systems table is horizontally scrollable.

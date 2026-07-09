@@ -86,9 +86,7 @@ test.describe('Granular access:', { tag: ['@rbac'] }, () => {
         .locator('[data-ouia-component-id="systems-view-table-td-0-0"]')
         .or(page.locator('td[data-label="Name"]'));
       await expect(rows.first()).toBeVisible({ timeout: 20000 });
-      // Currenlty default workspace is displayed as well,
-      // so we expect 3 rows in total (2 workspaces + default workspace)
-      await expect(rows).toHaveCount(3);
+      await expect(rows).toHaveCount(2);
     });
   });
 

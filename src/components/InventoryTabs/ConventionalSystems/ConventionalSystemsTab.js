@@ -255,7 +255,6 @@ const ConventionalSystemsTab = ({
     isKesselEnabled,
   );
 
-  const isBootcEnabled = useFeatureFlag('hbi.ui.bifrost');
   const { hasBootcImages } = useContext(AccountStatContext);
 
   const isLastCheckInEnabled = useFeatureFlag(
@@ -315,7 +314,7 @@ const ConventionalSystemsTab = ({
   return (
     <Fragment>
       <InventoryTableCmp
-        showSystemTypeFilter={isBootcEnabled && hasBootcImages}
+        showSystemTypeFilter={hasBootcImages}
         hasAccess={hasAccess}
         isRbacEnabled
         customFilters={{ filters, globalFilter }}
