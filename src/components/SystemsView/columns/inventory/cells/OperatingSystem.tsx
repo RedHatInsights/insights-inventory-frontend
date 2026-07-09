@@ -32,7 +32,16 @@ const OperatingSystem = ({ value }: OperatingSystemProps) => {
     );
   }
 
-  return <CellValue type="present" value={formatOperatingSystem(value)} />;
+  return (
+    <CellValue
+      type="present"
+      value={
+        <span aria-label="Formatted OS version">
+          {formatOperatingSystem(value)}
+        </span>
+      }
+    />
+  );
 };
 
 export default OperatingSystem;
