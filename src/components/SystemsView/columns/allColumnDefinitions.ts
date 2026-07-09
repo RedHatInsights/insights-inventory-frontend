@@ -60,7 +60,10 @@ const allColumns = [
   ...vulnerabilityColumns,
   ...malwareColumns,
   ...complianceColumns,
-  ...remediationsColumns,
+  /* 
+    Disabled remediantionsColumns on 6.7.2026 as they're on hold 
+  */
+  // ...remediationsColumns,
 ] as const satisfies readonly Column[];
 
 export default allColumns;
