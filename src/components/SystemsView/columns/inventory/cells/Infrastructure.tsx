@@ -1,12 +1,14 @@
 import React from 'react';
 import CellValue from '../../CellValue';
 
+type TemporaryInfrastructureValue = string | undefined;
+
 interface InfrastructureProps {
-  value: string | null | undefined;
+  value: TemporaryInfrastructureValue;
 }
 
 const Infrastructure = ({ value }: InfrastructureProps) => {
-  if (value == null || value === '') {
+  if (value === undefined || value === '') {
     return (
       <CellValue
         type="notAvailable"

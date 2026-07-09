@@ -23,7 +23,7 @@ const formatOperatingSystem = (
 };
 
 const OperatingSystem = ({ value }: OperatingSystemProps) => {
-  if (value == null || value.name == null) {
+  if (value === undefined) {
     return (
       <CellValue
         type="notAvailable"

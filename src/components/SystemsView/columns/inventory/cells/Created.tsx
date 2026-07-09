@@ -1,13 +1,14 @@
 import React from 'react';
 import { DateFormat } from '@redhat-cloud-services/frontend-components/DateFormat';
 import CellValue from '../../CellValue';
+import { System } from '../../../hooks/useSystemsQuery';
 
 interface CreatedProps {
-  value: string | null | undefined;
+  value: System['created'];
 }
 
 const Created = ({ value }: CreatedProps) => {
-  if (value === null || value === undefined) {
+  if (value === undefined) {
     return (
       <CellValue
         type="notAvailable"

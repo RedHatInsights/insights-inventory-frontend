@@ -1,9 +1,9 @@
 import React from 'react';
 import CellValue from '../../CellValue';
-import type { GroupOut } from '@redhat-cloud-services/host-inventory-client';
+import { System } from '../../../hooks/useSystemsQuery';
 
 interface WorkspaceProps {
-  value: GroupOut[] | undefined;
+  value: System['groups'] | undefined;
 }
 
 const Workspace = ({ value }: WorkspaceProps) => {

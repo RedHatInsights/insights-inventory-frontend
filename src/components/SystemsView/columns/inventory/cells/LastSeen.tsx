@@ -17,10 +17,8 @@ export type LastSeenValue = Pick<
   | 'stale_warning_timestamp'
   | 'stale_timestamp'
   | 'per_reporter_staleness'
-> & {
-  last_check_in?: string | null;
-};
-
+  | 'last_check_in'
+>;
 interface LastSeenProps {
   value: LastSeenValue;
 }

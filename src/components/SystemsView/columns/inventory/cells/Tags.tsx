@@ -1,12 +1,11 @@
 import React from 'react';
 import { TagCount } from '@redhat-cloud-services/frontend-components/TagCount';
-import type { StructuredTag } from '@redhat-cloud-services/host-inventory-client';
 import { useSystemActionModalsContext } from '../../../SystemActionModalsContext';
 import { System } from '../../../hooks/useSystemsQuery';
 import CellValue from '../../CellValue';
 
 interface TagsProps {
-  value: StructuredTag[] | undefined;
+  value: System['tags'];
   system: System;
 }
 

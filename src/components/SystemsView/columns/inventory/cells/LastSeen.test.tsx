@@ -36,12 +36,6 @@ describe('LastSeen cell', () => {
     expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
   });
 
-  it(`should show ${NOT_AVAILABLE} when last_check_in is null`, () => {
-    renderLastSeen({ ...lastSeenValue, last_check_in: null });
-
-    expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
-  });
-
   it('should show the disconnected indicator when puptoo is missing from per_reporter_staleness', () => {
     renderLastSeen({
       ...lastSeenValue,

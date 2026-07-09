@@ -43,11 +43,7 @@ describe('OperatingSystem cell', () => {
   });
 
   it(`should show ${NOT_AVAILABLE} when operating system data is missing`, () => {
-    const { rerender } = render(<OperatingSystem value={undefined} />);
-
-    expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
-
-    rerender(<OperatingSystem value={{ name: null } as never} />);
+    render(<OperatingSystem value={undefined} />);
 
     expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
   });

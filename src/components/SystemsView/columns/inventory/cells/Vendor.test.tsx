@@ -16,10 +16,6 @@ describe('Vendor cell', () => {
 
     expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
 
-    rerender(<Vendor value={null} />);
-
-    expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
-
     rerender(<Vendor value="" />);
 
     expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();

@@ -16,10 +16,6 @@ describe('Infrastructure cell', () => {
 
     expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
 
-    rerender(<Infrastructure value={null} />);
-
-    expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
-
     rerender(<Infrastructure value="" />);
 
     expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();

@@ -5,7 +5,7 @@ import Created from './Created';
 import { TestWrapper } from '../../../../../Utilities/TestingUtilities';
 import { NOT_AVAILABLE } from '../../CellValue';
 
-function renderCreated(value: string | null | undefined) {
+function renderCreated(value: string | undefined) {
   return render(
     <TestWrapper>
       <Created value={value} />
@@ -18,12 +18,6 @@ const LONG_AGO_CREATED = '2020-01-01T00:00:00.000Z';
 describe('Created cell', () => {
   it(`should show ${NOT_AVAILABLE} when value is undefined`, () => {
     renderCreated(undefined);
-
-    expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
-  });
-
-  it(`should show ${NOT_AVAILABLE} when value is null`, () => {
-    renderCreated(null);
 
     expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
   });

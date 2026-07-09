@@ -1,12 +1,14 @@
 import React from 'react';
 import CellValue from '../../CellValue';
 
+type TemporaryVendorValue = string | undefined;
+
 interface VendorProps {
-  value: string | null | undefined;
+  value: TemporaryVendorValue;
 }
 
 const Vendor = ({ value }: VendorProps) => {
-  if (value == null || value === '') {
+  if (value === undefined || value === '') {
     return (
       <CellValue
         type="notAvailable"
