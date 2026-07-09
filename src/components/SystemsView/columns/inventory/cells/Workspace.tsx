@@ -18,10 +18,6 @@ const Workspace = ({ value }: WorkspaceProps) => {
     );
   }
 
-  if (firstGroup.ungrouped) {
-    return <CellValue type="notSet" value={firstGroup.name} />;
-  }
-
   return <CellValue type="present" value={firstGroup.name} />;
 };
 
