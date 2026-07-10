@@ -11,7 +11,7 @@ import {
   KESSEL_REPORTER,
   KESSEL_WORKSPACE_REPORTER,
 } from '../../constants';
-import { System } from '../../components/SystemsView/hooks/useSystemsQuery';
+import { System } from '../../components/InventoryViews/hooks/useHostsQuery';
 
 interface HostPermissions {
   hasUpdate: boolean;

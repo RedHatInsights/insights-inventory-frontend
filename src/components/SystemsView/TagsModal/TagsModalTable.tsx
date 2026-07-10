@@ -13,7 +13,7 @@ import {
   Spinner,
 } from '@patternfly/react-core';
 import { BulkSelect } from '../../BulkSelect';
-import { System } from '../hooks/useSystemsQuery';
+import { System } from '../../InventoryViews/hooks/useHostsQuery';
 import { INITIAL_PAGE, PER_PAGE } from '../../../constants';
 import { NO_HEADER } from '../../InventoryViews/constants';
 import NoEntitiesFound from '../../InventoryTable/NoEntitiesFound';

@@ -2,7 +2,7 @@ import { isDataViewTdObject } from '@patternfly/react-data-view';
 import { expect, jest } from '@jest/globals';
 import React from 'react';
 import type { Column } from '../columns/allColumnDefinitions';
-import type { System } from '../hooks/useSystemsQuery';
+import type { System } from '../../InventoryViews/hooks/useHostsQuery';
 import { DEFAULT_NAME_COLUMN_MIN_WIDTH } from './columnMinWidths';
 import { mapSystemsToRows } from './mapSystemsToRows';
 import { STICKY_ACTIONS_BODY_PROPS } from './stickyActionsColumn';

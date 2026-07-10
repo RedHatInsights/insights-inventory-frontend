@@ -1,7 +1,7 @@
 import React from 'react';
 import { TagCount } from '@redhat-cloud-services/frontend-components/TagCount';
 import { useSystemActionModalsContext } from '../../../SystemActionModalsContext';
-import { System } from '../../../hooks/useSystemsQuery';
+import { System } from '../../../../InventoryViews/hooks/useHostsQuery';
 import CellValue from '../../CellValue';
 
 interface TagsProps {

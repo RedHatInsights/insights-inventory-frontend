@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Column } from '../allColumnDefinitions';
-import { InventoryViewSystem } from '../../hooks/useInventoryViewsQuery';
+import { InventoryViewSystem } from '../../../InventoryViews/hooks/useInventoryViewsQuery';
 import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 import AdvisorCount from './cells/AdvisorCount';
 

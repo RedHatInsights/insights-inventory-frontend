@@ -1,13 +1,14 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
-import { type System } from './useSystemsQuery';
+import { type System } from '../../InventoryViews/hooks/useHostsQuery';
 import { useMemo } from 'react';
 import { patchHostById } from '../../../api/hostInventoryApiTyped';
 import { PatchHostIn } from '@redhat-cloud-services/host-inventory-client';
-import { invalidateSystemsViewQueries } from '../utils/invalidateSystemsViewQueries';
+import type { OnInvalidate } from '../SystemActionModalsContext';
 
 interface usePatchSystemsMutationParams {
   systems: System[];
+  onInvalidate: OnInvalidate;
   onSuccess?: () => void;
   onError?: () => void;
   onMutate?: () => void;
@@ -21,12 +22,12 @@ const getDisplayName = (systems: System[]): string => {
 
 export const usePatchSystemsMutation = ({
   systems,
+  onInvalidate,
   onSuccess,
   onError,
   onMutate,
 }: usePatchSystemsMutationParams) => {
   const addNotification = useAddNotification();
-  const queryClient = useQueryClient();
 
   const displayName = useMemo(() => getDisplayName(systems), [systems]);
 
@@ -62,7 +63,7 @@ export const usePatchSystemsMutation = ({
         dismissable: true,
       });
 
-      await invalidateSystemsViewQueries(queryClient);
+      await onInvalidate();
     },
     onError: async (error) => {
       onError?.();

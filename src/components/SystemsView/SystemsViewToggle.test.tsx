@@ -4,7 +4,7 @@ import { expect, jest } from '@jest/globals';
 import SystemsViewToggle from './SystemsViewToggle';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
-import { View } from '../../routes/InventoryViews';
+import { View } from '../../routes/SystemsPage';
 
 const setView = jest.fn();
 

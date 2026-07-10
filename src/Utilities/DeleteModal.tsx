@@ -13,7 +13,7 @@ import {
   Stack,
   StackItem,
 } from '@patternfly/react-core';
-import { System } from '../components/SystemsView/hooks/useSystemsQuery';
+import { System } from '../components/InventoryViews/hooks/useHostsQuery';
 
 export interface DeleteModalProps {
   handleModalToggle?: (open: boolean) => void;
