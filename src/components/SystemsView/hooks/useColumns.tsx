@@ -42,10 +42,14 @@ export const useColumns = ({
   const { columns, setColumns } = usePersistedColumns(defaultColumns);
 
   const fromSortByToIndex = useCallback(
-    (sortBy?: Column['sortBy']) =>
-      columns
+    (sortBy?: Column['sortBy']): number | undefined => {
+      const index = columns
         .filter((col) => col.isShown)
-        .findIndex((col) => col.sortBy === sortBy),
+        .findIndex((col) => col.sortBy === sortBy);
+      // Return undefined (no active column) rather than -1 so PatternFly does not
+      // receive an out-of-bounds index while the fallback useEffect fires.
+      return index === -1 ? undefined : index;
+    },
     [columns],
   );
 

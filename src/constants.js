@@ -180,8 +180,12 @@ export const getSearchParams = (searchParams) => {
   const systemTypeFilter = searchParams.getAll('system_type');
   const workloadFilter = searchParams.getAll(WORKLOAD_FILTER_KEY);
   const rawSort = searchParams.get('sort');
+  const rawSortKey = rawSort?.startsWith('-') ? rawSort.slice(1) : rawSort;
+  // Cross-app sort keys contain ':' and are only
+  // valid in the Preview/SystemsView + ui.inventory-views mode. Ignore them here so the
+  // legacy table does not send an invalid order_by to the /hosts API.
   const sortBy = {
-    key: rawSort?.startsWith('-') ? rawSort.slice(1) : rawSort,
+    key: rawSortKey?.includes(':') ? null : rawSortKey,
     direction: rawSort?.startsWith('-') ? 'desc' : 'asc',
   };
 
