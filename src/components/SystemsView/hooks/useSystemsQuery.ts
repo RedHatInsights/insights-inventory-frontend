@@ -73,6 +73,11 @@ export const useSystemsQuery = ({
   direction,
   enabled = true,
 }: UseSystemsQueryParams) => {
+  // Cross-app sort keys (e.g. 'vulnerability:total_cves') are not valid for the /hosts
+  // API. This can happen during the render between ui.inventory-views being toggled off
+  // and the useColumns useEffect resetting the URL to a valid sort key.
+  const validSortBy = sortBy?.includes(':') ? undefined : sortBy;
+
   const { data, isLoading, isFetching, isError, error } = useQuery({
     queryKey: [
       SYSTEMS_QUERY_KEY,
@@ -80,7 +85,7 @@ export const useSystemsQuery = ({
       perPage,
       filters,
       lastSeenCustomRange,
-      sortBy,
+      validSortBy,
       direction,
     ],
     queryFn: async () => {
@@ -89,7 +94,7 @@ export const useSystemsQuery = ({
         perPage,
         filters,
         lastSeenCustomRange,
-        sortBy,
+        sortBy: validSortBy,
         direction,
       });
     },
