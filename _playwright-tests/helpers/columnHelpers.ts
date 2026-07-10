@@ -153,13 +153,43 @@ export async function scrollColumnIntoView(element: Locator) {
     const scrollContainer = document.querySelector(
       '.ins-c-systems-view-table-scroll',
     );
-    if (cell && scrollContainer) {
-      const cellRect = cell.getBoundingClientRect();
-      const containerRect = scrollContainer.getBoundingClientRect();
-      const scrollNeeded = cellRect.right - containerRect.right + 100;
-      if (scrollNeeded > 0) {
-        scrollContainer.scrollLeft += scrollNeeded;
-      }
+    if (!cell || !scrollContainer) return;
+
+    const containerRect = scrollContainer.getBoundingClientRect();
+
+    // Effective left boundary: right edge of the sticky-left border column (Name column).
+    // Without this, scrolling right can push the target cell behind the sticky Name column.
+    const stickyLeftCell = scrollContainer.querySelector(
+      '.pf-v6-c-table__sticky-cell.pf-m-border-right',
+    );
+    const leftBound = stickyLeftCell
+      ? stickyLeftCell.getBoundingClientRect().right
+      : containerRect.left;
+
+    // Effective right boundary: left edge of the sticky-right action column.
+    const stickyRightCell = scrollContainer.querySelector(
+      '.pf-v6-c-table__action.pf-v6-c-table__sticky-cell',
+    );
+    const rightBound = stickyRightCell
+      ? stickyRightCell.getBoundingClientRect().left
+      : containerRect.right;
+
+    const MARGIN = 20;
+
+    // Step 1: scroll right if cell's right edge overflows the effective right boundary.
+    const rightOverflow =
+      cell.getBoundingClientRect().right - rightBound + MARGIN;
+    if (rightOverflow > 0) {
+      scrollContainer.scrollLeft += rightOverflow;
+    }
+
+    // Step 2: after the potential right-scroll, check if the cell's left edge is still
+    // hidden behind the sticky left column. getBoundingClientRect() forces a reflow so
+    // the value reflects the updated scrollLeft.
+    const leftUnderflow =
+      leftBound - cell.getBoundingClientRect().left + MARGIN;
+    if (leftUnderflow > 0) {
+      scrollContainer.scrollLeft -= leftUnderflow;
     }
   });
 }

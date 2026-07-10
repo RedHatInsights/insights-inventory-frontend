@@ -16,7 +16,7 @@ type PresentCellValueProps = {
 type NotSetCellValueProps = {
   type: 'notSet';
   /** Visible placeholder No __ */
-  value: string;
+  value: React.ReactNode;
 };
 
 /** Column applies, but data is missing for this system. */

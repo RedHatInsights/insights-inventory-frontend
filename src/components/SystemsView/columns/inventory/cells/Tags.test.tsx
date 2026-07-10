@@ -2,9 +2,11 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
+import type { StructuredTag } from '@redhat-cloud-services/host-inventory-client';
 import Tags from './Tags';
 import { SystemActionModalsContext } from '../../../SystemActionModalsContext';
 import type { System } from '../../../hooks/useSystemsQuery';
+import { NOT_AVAILABLE } from '../../CellValue';
 
 const SYSTEM_ID = 'test-system-id';
 
@@ -18,10 +20,10 @@ const mockContextValue = {
   openTagsModal: mockOpenTagsModal,
 };
 
-function renderTags(system: System) {
+function renderTags(value: StructuredTag[] | undefined, system: System) {
   return render(
     <SystemActionModalsContext.Provider value={mockContextValue}>
-      <Tags system={system} />
+      <Tags value={value} system={system} />
     </SystemActionModalsContext.Provider>,
   );
 }
@@ -45,26 +47,22 @@ describe('Tags cell', () => {
     jest.clearAllMocks();
   });
 
-  it('should show tag count from system.tags length', () => {
-    renderTags(systemWithTags);
+  it('should show tag count from value length', () => {
+    renderTags(systemWithTags.tags, systemWithTags);
 
     expect(
       screen.getByRole('button', { name: /tag count/i }),
     ).toHaveTextContent('1');
   });
 
-  it('should show zero when tags are missing or empty', () => {
-    const { rerender } = renderTags(systemWithoutTags);
+  it(`should show ${NOT_AVAILABLE} when tag data is missing`, () => {
+    renderTags(undefined, systemWithoutTags);
 
-    expect(
-      screen.getByRole('button', { name: /tag count/i }),
-    ).toHaveTextContent('0');
+    expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
+  });
 
-    rerender(
-      <SystemActionModalsContext.Provider value={mockContextValue}>
-        <Tags system={systemWithEmptyTags} />
-      </SystemActionModalsContext.Provider>,
-    );
+  it('should show zero when tags are empty', () => {
+    renderTags([], systemWithEmptyTags);
 
     expect(
       screen.getByRole('button', { name: /tag count/i }),
@@ -73,7 +71,7 @@ describe('Tags cell', () => {
 
   it('should call openTagsModal with the system when tag count is clicked', async () => {
     const user = userEvent.setup();
-    renderTags(systemWithTags);
+    renderTags(systemWithTags.tags, systemWithTags);
 
     await user.click(screen.getByRole('button', { name: /tag count/i }));
 

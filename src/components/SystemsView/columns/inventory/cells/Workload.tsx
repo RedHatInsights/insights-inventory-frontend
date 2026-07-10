@@ -1,31 +1,38 @@
-import { NOT_AVAILABLE } from '../../CellValue';
-import { InventoryViewSystem } from '../../../hooks/useInventoryViewsQuery';
+import React from 'react';
+import type { SystemProfileWorkloads } from '@redhat-cloud-services/host-inventory-client';
+import CellValue from '../../CellValue';
 import { WORKLOAD_ACRONYMS } from '../../../utils/workloadsFilter';
 
 interface WorkloadProps {
-  system: InventoryViewSystem;
+  value: SystemProfileWorkloads | undefined;
 }
 
-const Workload = ({ system }: WorkloadProps) => {
-  const workloads = system.system_profile?.workloads as
-    | Record<string, unknown>
-    | undefined;
-
-  if (!workloads) {
-    return NOT_AVAILABLE;
+const Workload = ({ value }: WorkloadProps) => {
+  if (value === undefined) {
+    return (
+      <CellValue
+        type="notAvailable"
+        reason="Workload data is not available for this system"
+      />
+    );
   }
 
-  const acronyms = Object.keys(workloads)
-    .filter((key) => workloads[key] != null)
-    .map((key) => WORKLOAD_ACRONYMS[key as keyof typeof WORKLOAD_ACRONYMS])
+  const acronyms = (Object.keys(value) as Array<keyof SystemProfileWorkloads>)
+    .filter((key) => value[key] != null)
+    .map((key) => WORKLOAD_ACRONYMS[key])
     .filter((acronym): acronym is string => acronym != null)
     .sort();
 
   if (acronyms.length === 0) {
-    return NOT_AVAILABLE;
+    return (
+      <CellValue
+        type="notAvailable"
+        reason="No workloads are present for this system"
+      />
+    );
   }
 
-  return acronyms.join(', ');
+  return <CellValue type="present" value={acronyms.join(', ')} />;
 };
 
 export default Workload;

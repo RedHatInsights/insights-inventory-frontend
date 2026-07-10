@@ -1,72 +1,50 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
+import type { SystemProfileOperatingSystem } from '@redhat-cloud-services/host-inventory-client';
 import OperatingSystem from './OperatingSystem';
-import type { System } from '../../../hooks/useSystemsQuery';
+import { NOT_AVAILABLE } from '../../CellValue';
 
-const SYSTEM_ID = 'test-system-id';
+const rhelOs: SystemProfileOperatingSystem = {
+  name: 'RHEL',
+  major: 8,
+  minor: 10,
+};
 
-const systemWithRhelOs = {
-  id: SYSTEM_ID,
-  system_profile: {
-    operating_system: {
-      name: 'RHEL',
-      major: 8,
-      minor: 10,
-    },
-  },
-} as unknown as System;
-
-const systemWithCentosOs = {
-  id: SYSTEM_ID,
-  system_profile: {
-    operating_system: {
-      name: 'CentOS Linux',
-      major: 7,
-      minor: 4,
-    },
-  },
-} as unknown as System;
-
-const systemWithoutProfile = {
-  id: SYSTEM_ID,
-} as unknown as System;
-
-const systemWithProfileButNoOs = {
-  id: SYSTEM_ID,
-  system_profile: {},
-} as unknown as System;
+const centosOs: SystemProfileOperatingSystem = {
+  name: 'CentOS Linux',
+  major: 7,
+  minor: 4,
+};
 
 describe('OperatingSystem cell', () => {
-  it('should show OS version from system_profile.operating_system', () => {
-    render(<OperatingSystem system={systemWithRhelOs} />);
+  it('should show OS version for RHEL', () => {
+    render(<OperatingSystem value={rhelOs} />);
 
-    expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
-      'RHEL 8.10',
-    );
+    expect(screen.getByText('RHEL 8.10')).toBeInTheDocument();
   });
 
-  it('should show CentOS Linux OS version from system_profile.operating_system', () => {
-    render(<OperatingSystem system={systemWithCentosOs} />);
+  it('should show OS version for CentOS Linux', () => {
+    render(<OperatingSystem value={centosOs} />);
 
-    expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
-      'CentOS Linux 7.4',
-    );
+    expect(screen.getByText('CentOS Linux 7.4')).toBeInTheDocument();
   });
 
-  it('should show Not available when operating system data is missing', () => {
-    const { rerender } = render(
-      <OperatingSystem system={systemWithoutProfile} />,
-    );
+  it('should show OS name without version for other operating systems', () => {
+    const centosStream = {
+      name: 'CentOS Stream',
+      major: 7,
+      minor: 4,
+    } as unknown as SystemProfileOperatingSystem;
 
-    expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
-      'Not available',
-    );
+    render(<OperatingSystem value={centosStream} />);
 
-    rerender(<OperatingSystem system={systemWithProfileButNoOs} />);
+    expect(screen.getByText('CentOS Stream')).toBeInTheDocument();
+  });
 
-    expect(screen.getByLabelText('Formatted OS version')).toHaveTextContent(
-      'Not available',
-    );
+  it(`should show ${NOT_AVAILABLE} when operating system data is missing`, () => {
+    render(<OperatingSystem value={undefined} />);
+
+    expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
   });
 });
