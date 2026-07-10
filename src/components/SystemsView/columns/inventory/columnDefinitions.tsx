@@ -7,14 +7,14 @@ import OperatingSystem from './cells/OperatingSystem';
 import Status from './cells/Status';
 import Tags from './cells/Tags';
 import Workload from './cells/Workload';
+import Vendor from './cells/Vendor';
+import Infrastructure from './cells/Infrastructure';
+import Created from './cells/Created';
 import { LastSeenColumnHeader } from '../../../../Utilities/LastSeenColumnHeader';
 import { System } from '../../hooks/useSystemsQuery';
 import type { Column } from '../allColumnDefinitions';
 import { DEFAULT_NAME_COLUMN_MIN_WIDTH } from '../../utils/columnMinWidths';
 import { InventoryViewSystem } from '../../hooks/useInventoryViewsQuery';
-import DateFormat from '@redhat-cloud-services/frontend-components/DateFormat';
-import { NOT_AVAILABLE } from '../CellValue';
-import { valueOrNotAvailable } from '../helpers';
 
 const APP_NAME = 'inventory' as const;
 
@@ -28,7 +28,13 @@ const nameColumn = {
   isUntoggleable: true,
   sortBy: ApiOrderByEnum.DisplayName,
   renderCell: (system: System) => (
-    <DisplayName key={`name-${system.id}`} system={system} />
+    <DisplayName
+      value={{
+        id: system.id,
+        display_name: system.display_name,
+        system_profile: system.system_profile,
+      }}
+    />
   ),
 };
 
@@ -40,8 +46,8 @@ const workspaceColumn = {
   isShownByDefault: true,
   isShown: true,
   sortBy: ApiOrderByEnum.GroupName,
-  renderCell: (system: System) => (
-    <Workspace key={`workspace-${system.id}`} system={system} />
+  renderCell: (system: InventoryViewSystem) => (
+    <Workspace value={system.groups} />
   ),
 };
 
@@ -52,8 +58,8 @@ const tagsColumn = {
   minWidth: '6rem',
   isShownByDefault: true,
   isShown: true,
-  renderCell: (system: System) => (
-    <Tags key={`tags-${system.id}`} system={system} />
+  renderCell: (system: InventoryViewSystem) => (
+    <Tags value={system.tags} system={system} />
   ),
 };
 
@@ -65,8 +71,8 @@ const operatingSystemColumn = {
   isShownByDefault: true,
   isShown: true,
   sortBy: ApiOrderByEnum.OperatingSystem,
-  renderCell: (system: System) => (
-    <OperatingSystem key={`os-${system.id}`} system={system} />
+  renderCell: (system: InventoryViewSystem) => (
+    <OperatingSystem value={system.system_profile?.operating_system} />
   ),
 };
 
@@ -78,8 +84,16 @@ const lastSeenColumn = {
   isShownByDefault: true,
   isShown: true,
   sortBy: ApiOrderByEnum.LastCheckIn,
-  renderCell: (system: System) => (
-    <LastSeen key={`lastseen-${system.id}`} system={system} />
+  renderCell: (system: InventoryViewSystem) => (
+    <LastSeen
+      value={{
+        last_check_in: system.last_check_in,
+        culled_timestamp: system.culled_timestamp,
+        stale_warning_timestamp: system.stale_warning_timestamp,
+        stale_timestamp: system.stale_timestamp,
+        per_reporter_staleness: system.per_reporter_staleness,
+      }}
+    />
   ),
 };
 
@@ -91,8 +105,14 @@ const statusColumn = {
   isShownByDefault: false,
   isShown: false,
   sortBy: 'status',
-  renderCell: (system: System) => (
-    <Status key={`status-${system.id}`} system={system} />
+  renderCell: (system: InventoryViewSystem) => (
+    <Status
+      value={{
+        stale_timestamp: system.stale_timestamp,
+        stale_warning_timestamp: system.stale_warning_timestamp,
+        culled_timestamp: system.culled_timestamp,
+      }}
+    />
   ),
 };
 
@@ -102,13 +122,9 @@ const infrastructureColumn = {
   key: 'infrastructure',
   isShownByDefault: false,
   isShown: false,
-  renderCell(system: InventoryViewSystem) {
-    return (
-      <span key={`${this.key}-${system.id}`}>
-        {valueOrNotAvailable(system?.system_profile?.infrastructure_type)}
-      </span>
-    );
-  },
+  renderCell: (system: InventoryViewSystem) => (
+    <Infrastructure value={system.system_profile?.infrastructure_type} />
+  ),
 };
 
 const vendorColumn = {
@@ -117,13 +133,9 @@ const vendorColumn = {
   key: 'vendor',
   isShownByDefault: false,
   isShown: false,
-  renderCell(system: InventoryViewSystem) {
-    return (
-      <span key={`${this.key}-${system.id}`}>
-        {valueOrNotAvailable(system?.system_profile?.infrastructure_vendor)}
-      </span>
-    );
-  },
+  renderCell: (system: InventoryViewSystem) => (
+    <Vendor value={system.system_profile?.infrastructure_vendor} />
+  ),
 };
 
 const workloadColumn = {
@@ -132,9 +144,9 @@ const workloadColumn = {
   key: 'workload',
   isShownByDefault: false,
   isShown: false,
-  renderCell(system: InventoryViewSystem) {
-    return <Workload key={`${this.key}-${system.id}`} system={system} />;
-  },
+  renderCell: (system: InventoryViewSystem) => (
+    <Workload value={system.system_profile?.workloads} />
+  ),
 };
 
 const createdColumn = {
@@ -143,14 +155,9 @@ const createdColumn = {
   key: 'created',
   isShownByDefault: false,
   isShown: false,
-  renderCell(system: InventoryViewSystem) {
-    const value = system?.created;
-    return value ? (
-      <DateFormat key={`${this.key}-${system.id}`} date={value} />
-    ) : (
-      NOT_AVAILABLE
-    );
-  },
+  renderCell: (system: InventoryViewSystem) => (
+    <Created value={system?.created} />
+  ),
 };
 
 export default [

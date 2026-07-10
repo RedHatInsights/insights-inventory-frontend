@@ -3,9 +3,9 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import DisplayName from './DisplayName';
+import DisplayName, { type DisplayNameValue } from './DisplayName';
+import { NOT_AVAILABLE } from '../../CellValue';
 import { TestWrapper } from '../../../../../Utilities/TestingUtilities';
-import type { System } from '../../../hooks/useSystemsQuery';
 import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
 
 jest.mock(
@@ -23,7 +23,7 @@ const packageBasedSystem = {
   id: TEST_SYSTEM_ID,
   display_name: TEST_DISPLAY_NAME,
   system_profile: {},
-} as System;
+} satisfies DisplayNameValue;
 
 const imageBasedSystemBootcDigest = {
   id: TEST_SYSTEM_ID,
@@ -33,7 +33,7 @@ const imageBasedSystemBootcDigest = {
       booted: { image_digest: 'sha256:abc123' },
     },
   },
-} as System;
+} satisfies DisplayNameValue;
 
 const imageBasedSystemEdge = {
   id: TEST_SYSTEM_ID,
@@ -41,15 +41,15 @@ const imageBasedSystemEdge = {
   system_profile: {
     host_type: 'edge',
   },
-} as System;
+} satisfies DisplayNameValue;
 
 const centosSystem = {
   id: TEST_SYSTEM_ID,
   display_name: TEST_DISPLAY_NAME,
   system_profile: {
-    operating_system: { name: 'CentOS Linux' },
+    operating_system: { name: 'CentOS Linux', major: 7, minor: 4 },
   },
-} as System;
+} satisfies DisplayNameValue;
 
 function LocationProbe() {
   const { pathname } = useLocation();
@@ -64,7 +64,7 @@ describe('DisplayName cell', () => {
   it('should show the display name link', () => {
     render(
       <TestWrapper>
-        <DisplayName system={packageBasedSystem} />
+        <DisplayName value={packageBasedSystem} />
       </TestWrapper>,
     );
 
@@ -76,7 +76,7 @@ describe('DisplayName cell', () => {
   it('should show the package-based system icon', () => {
     render(
       <TestWrapper>
-        <DisplayName system={packageBasedSystem} />
+        <DisplayName value={packageBasedSystem} />
       </TestWrapper>,
     );
 
@@ -87,7 +87,7 @@ describe('DisplayName cell', () => {
   it('should show the image-based system icon when booted with a bootc image digest', () => {
     render(
       <TestWrapper>
-        <DisplayName system={imageBasedSystemBootcDigest} />
+        <DisplayName value={imageBasedSystemBootcDigest} />
       </TestWrapper>,
     );
 
@@ -100,7 +100,7 @@ describe('DisplayName cell', () => {
   it('should show the image-based system icon when host type is edge', () => {
     render(
       <TestWrapper>
-        <DisplayName system={imageBasedSystemEdge} />
+        <DisplayName value={imageBasedSystemEdge} />
       </TestWrapper>,
     );
 
@@ -113,7 +113,7 @@ describe('DisplayName cell', () => {
   it('should show ConversionPopover when operating system is CentOS Linux', () => {
     render(
       <TestWrapper>
-        <DisplayName system={centosSystem} />
+        <DisplayName value={centosSystem} />
       </TestWrapper>,
     );
 
@@ -126,7 +126,7 @@ describe('DisplayName cell', () => {
     render(
       <TestWrapper>
         <>
-          <DisplayName system={packageBasedSystem} />
+          <DisplayName value={packageBasedSystem} />
           <LocationProbe />
         </>
       </TestWrapper>,
@@ -139,5 +139,54 @@ describe('DisplayName cell', () => {
     expect(screen.getByTestId('current-pathname')).toHaveTextContent(
       `/${TEST_SYSTEM_ID}`,
     );
+  });
+
+  it(`should show ${NOT_AVAILABLE} when display name is missing`, () => {
+    const { rerender } = render(
+      <TestWrapper>
+        <DisplayName
+          value={{
+            id: TEST_SYSTEM_ID,
+            system_profile: {},
+          }}
+        />
+      </TestWrapper>,
+    );
+
+    expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
+
+    rerender(
+      <TestWrapper>
+        <DisplayName
+          value={
+            {
+              id: TEST_SYSTEM_ID,
+              display_name: null,
+              system_profile: {},
+            } as unknown as DisplayNameValue
+          }
+        />
+      </TestWrapper>,
+    );
+
+    expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
+  });
+
+  it('should show display name as text when id is missing', () => {
+    render(
+      <TestWrapper>
+        <DisplayName
+          value={{
+            display_name: TEST_DISPLAY_NAME,
+            system_profile: {},
+          }}
+        />
+      </TestWrapper>,
+    );
+
+    expect(screen.getByText(TEST_DISPLAY_NAME)).toBeInTheDocument();
+    expect(
+      screen.queryByRole('link', { name: TEST_DISPLAY_NAME }),
+    ).not.toBeInTheDocument();
   });
 });
