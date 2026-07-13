@@ -14,11 +14,13 @@ describe('getLegacyInventorySortKey', () => {
   });
 
   it('rejects cross-app sort keys', () => {
-    expect(getLegacyInventorySortKey('vulnerability:total_cves')).toBeNull();
+    expect(
+      getLegacyInventorySortKey('vulnerability:total_cves'),
+    ).toBeUndefined();
   });
 
   it('rejects SystemsView-only status sort', () => {
-    expect(getLegacyInventorySortKey('status')).toBeNull();
+    expect(getLegacyInventorySortKey('status')).toBeUndefined();
   });
 });
 

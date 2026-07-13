@@ -148,14 +148,14 @@ export const LEGACY_INVENTORY_INVALID_SORT_KEYS = ['status'];
 
 export const getLegacyInventorySortKey = (rawSortKey) => {
   if (!rawSortKey) {
-    return null;
+    return undefined;
   }
 
   if (
     rawSortKey.includes(':') ||
     LEGACY_INVENTORY_INVALID_SORT_KEYS.includes(rawSortKey)
   ) {
-    return null;
+    return undefined;
   }
 
   return rawSortKey;
