@@ -447,7 +447,11 @@ test.describe('Workspace System Management', () => {
      * - requirements: inv-groups-add-hosts
      * - importance: high
      */
-
+    // eslint-disable-next-line playwright/no-skipped-test
+    test.skip(
+      process.env.PROD === 'true',
+      'Case is intended for non-prod environments only - Kessel feature',
+    );
     const system = systems.workspaceSystems[2];
     const nameCell = page
       .locator('[data-ouia-component-id="systems-view-table-td-0-0"]')
