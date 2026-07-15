@@ -1,7 +1,6 @@
 import {
   ApiHostViewsGetHostViewsOrderByEnum,
   ApiHostViewsGetHostViewsRegisteredWithEnum,
-  ApiHostViewsGetHostViewsStalenessEnum,
   ApiHostViewsGetHostViewsSystemTypeEnum,
   type ApiHostViewsGetHostViewsParams,
 } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
@@ -13,6 +12,7 @@ import { buildSystemProfileFilters } from './buildSystemProfileFilters';
 import { buildHostQueryOptions } from './buildHostListOptions';
 import { lastSeenKeysToApiParams } from './lastSeenKeysToApiParams';
 import { buildSystemType } from './buildSystemType';
+import { buildGroupIdParam } from './buildGroupIdParam';
 
 const HOST_VIEWS_SYSTEM_PROFILE_FIELDS = [
   'operating_system',
@@ -52,6 +52,7 @@ export const buildHostViewsParams = ({
     filters.last_seen,
     lastSeenCustomRange,
   );
+  const { groupId } = buildGroupIdParam(filters.group_id);
 
   return {
     page,
@@ -74,6 +75,7 @@ export const buildHostViewsParams = ({
         Object.values(ApiHostViewsGetHostViewsSystemTypeEnum),
       ),
     }),
+    ...(groupId && { workspaceId: groupId }),
     ...(filters.tags && { tags: filters.tags }),
     ...(lastSeenParams ?? {}),
     options: buildHostQueryOptions(

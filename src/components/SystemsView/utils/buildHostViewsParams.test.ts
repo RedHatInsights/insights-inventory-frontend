@@ -169,12 +169,20 @@ describe('buildHostViewsParams', () => {
   });
 
   describe('group_id', () => {
-    it('does not set groupId', () => {
+    it('sets workspaceId and preserves empty string for ungrouped hosts', () => {
       const params = buildParams({
-        filters: { group_id: ['workspace-1'] },
+        filters: { group_id: ['workspace-1', '', 'workspace-2'] },
       });
 
-      expect(params).not.toHaveProperty('groupId');
+      expect(params.workspaceId).toEqual(['workspace-1', 'workspace-2', '']);
+    });
+
+    it('omits workspaceId when group_id is empty', () => {
+      const params = buildParams({
+        filters: { group_id: [] },
+      });
+
+      expect(params.workspaceId).toBeUndefined();
     });
   });
 
