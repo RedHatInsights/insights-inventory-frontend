@@ -143,6 +143,24 @@ export const extraShape = PropTypes.shape({
   onClick: PropTypes.func,
 });
 
+/** Sort URL keys valid in SystemsView but not as legacy InventoryTable / /hosts order_by. */
+export const LEGACY_INVENTORY_INVALID_SORT_KEYS = ['status'];
+
+export const getLegacyInventorySortKey = (rawSortKey) => {
+  if (!rawSortKey) {
+    return undefined;
+  }
+
+  if (
+    rawSortKey.includes(':') ||
+    LEGACY_INVENTORY_INVALID_SORT_KEYS.includes(rawSortKey)
+  ) {
+    return undefined;
+  }
+
+  return rawSortKey;
+};
+
 export const getSearchParams = (searchParams) => {
   const status = searchParams.getAll('status');
   const source = searchParams.getAll('source');
@@ -181,11 +199,11 @@ export const getSearchParams = (searchParams) => {
   const workloadFilter = searchParams.getAll(WORKLOAD_FILTER_KEY);
   const rawSort = searchParams.get('sort');
   const rawSortKey = rawSort?.startsWith('-') ? rawSort.slice(1) : rawSort;
-  // Cross-app sort keys contain ':' and are only
-  // valid in the Preview/SystemsView + ui.inventory-views mode. Ignore them here so the
+  // Cross-app sort keys contain ':' and SystemsView-only keys (e.g. status) are only
+  // valid in Preview/SystemsView + ui.inventory-views mode. Ignore them here so the
   // legacy table does not send an invalid order_by to the /hosts API.
   const sortBy = {
-    key: rawSortKey?.includes(':') ? null : rawSortKey,
+    key: getLegacyInventorySortKey(rawSortKey),
     direction: rawSort?.startsWith('-') ? 'desc' : 'asc',
   };
 

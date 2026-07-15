@@ -62,7 +62,14 @@ global.insights = {
 };
 
 // Make lodash/debounce synchronous in tests to avoid act() timing warnings
-jest.mock('lodash/debounce', () => jest.fn((fn) => fn));
+jest.mock('lodash/debounce', () =>
+  jest.fn((fn) => {
+    const wrapped = (...args) => fn(...args);
+    wrapped.cancel = jest.fn();
+    wrapped.flush = jest.fn();
+    return wrapped;
+  }),
+);
 
 // Mock Scalprum so AsyncComponent (and other federated modules) do not throw in tests
 jest.mock('@scalprum/react-core', () => ({
