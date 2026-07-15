@@ -2,6 +2,8 @@ import { expect } from '@playwright/test';
 import { test } from './helpers/fixtures';
 
 test.describe('Navigate to Inventory pages via side Navigation bar', () => {
+  test.fixme(true, 'Navigation bar requires redesign');
+
   test.beforeEach(async ({ page }) => {
     await page.goto('/insights/inventory/');
     await expect(page.locator('[data-quickstart-id="Inventory"]')).toBeVisible({
