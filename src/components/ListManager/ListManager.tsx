@@ -22,6 +22,7 @@ import {
   ActionListGroup,
   Flex,
   FlexItem,
+  Tooltip,
 } from '@patternfly/react-core';
 import {
   DragDropSort,
@@ -32,6 +33,11 @@ import {
   BulkSelect,
   type BulkSelectValue,
 } from '@patternfly/react-component-groups';
+import { LockIcon } from '@patternfly/react-icons';
+import {
+  DISABLED_TEXT_COLOR,
+  noServicePermissionTooltip,
+} from '../../constants';
 
 export interface ListManagerItem {
   /** Internal identifier of a column by which table displayed columns are filtered. */
@@ -46,6 +52,8 @@ export interface ListManagerItem {
   isUntoggleable?: boolean;
   /** Optional app identifier displayed alongside the column title. */
   appName?: string;
+  /** When true, the column is gated by a per-service RBAC permission the user lacks. */
+  isPermissionLocked?: boolean;
 }
 
 export interface ListManagerProps {
@@ -175,6 +183,25 @@ const ListManager: FunctionComponent<ListManagerProps> = ({
         <label htmlFor={`${ouiaId}-column-${index}-checkbox`}>
           {column.title}
         </label>
+        {column.isPermissionLocked && (
+          <Tooltip
+            content={noServicePermissionTooltip(
+              (column.appName ?? 'service').charAt(0).toUpperCase() +
+                (column.appName ?? 'service').slice(1),
+            )}
+            position="top"
+          >
+            <span
+              aria-label={noServicePermissionTooltip(
+                (column.appName ?? 'service').charAt(0).toUpperCase() +
+                  (column.appName ?? 'service').slice(1),
+              )}
+              style={{ marginInlineStart: 'var(--pf-t--global--spacer--sm)' }}
+            >
+              <LockIcon style={{ color: DISABLED_TEXT_COLOR }} />
+            </span>
+          </Tooltip>
+        )}
       </FlexItem>
       {column.appName && (
         <FlexItem className="pf-v6-u-text-color-subtle">
