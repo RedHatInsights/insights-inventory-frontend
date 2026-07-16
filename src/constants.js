@@ -311,6 +311,8 @@ export const NO_MODIFY_HOST_KESSEL_TOOLTIP_MESSAGE =
   'You do not have permission to edit this host. Contact your organization administrator.';
 export const NO_MANAGE_USER_ACCESS_TOOLTIP_MESSAGE =
   'You must be an organization administrator to modify User Access configuration.';
+export const noServicePermissionTooltip = (serviceName) =>
+  `You do not have the necessary ${serviceName} permissions to view this data. Contact your organization administrator to request ${serviceName} read access.`;
 const REMEDIATIONS_DISPLAY = 'Automation Toolkit > Remediations';
 const REMEDIATIONS_LINK = (
   <InsightsLink aria-label="rhc-remediations-link" to={'/'} app="remediations">
