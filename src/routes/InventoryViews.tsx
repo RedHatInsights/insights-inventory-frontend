@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Flex, FlexItem, PageSection } from '@patternfly/react-core';
 import SystemsView from '../components/SystemsView';
 import {
@@ -10,6 +10,7 @@ import { OutageAlert } from '../components/OutageAlert';
 import SystemsViewToggle from '../components/SystemsView/SystemsViewToggle';
 import { AccountStatContext } from '../Contexts';
 import { ImagesView } from '../components/InventoryViews/ImagesView/ImagesView';
+import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import './inventory.scss';
 
 interface InventoryViewsProps {
@@ -21,6 +22,11 @@ export type View = 'systems' | 'images';
 const InventoryViews = ({ hasAccess }: InventoryViewsProps) => {
   const [view, setView] = useState<View>('systems');
   const { hasBootcImages } = useContext(AccountStatContext);
+  const chrome = useChrome();
+
+  useEffect(() => {
+    chrome?.hideGlobalFilter?.(true);
+  }, [chrome]);
 
   return (
     <>

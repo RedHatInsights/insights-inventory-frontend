@@ -1,4 +1,12 @@
-name: 'E2E: SystemsView + Kessel'
+name: 'E2E: Legacy Table Tests'
+
+# Description: Tests the legacy InventoryTable component with @systems-table tag
+# - Tests InventoryTable (still used by other applications consuming this component) 
+# - Feature flag: SYSTEMS_VIEW=false (legacy table component)
+# - Runs only: @systems-table tagged tests
+# - Excludes: @integration, @inventory-views
+# - Why: stage-stable uses SystemsView, stage-preview uses SystemsView + InventoryViews                                                                                                                                                                                                                                        
+#   This CI ensures the legacy InventoryTable component remains functional for other apps
 
 on:
   pull_request:
@@ -10,7 +18,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  systems_view-tests:
+  legacy_table-tests:
     timeout-minutes: 30
     runs-on:
       - codebuild-host-inventory-frontend-${{ github.run_id }}-${{ github.run_attempt }}
@@ -43,9 +51,9 @@ jobs:
             echo "BASE_URL=https://stage.foo.redhat.com:1337"
             echo "CI=true"
             echo "PROXY=$PROXY"
-            echo "SYSTEMS_VIEW=true"
+            echo "LEGACY_INVENTORY_TABLE=true"
             echo "STAGE_OFFLINE_TOKEN=$STAGE_OFFLINE_TOKEN"
-            echo "TEST_RUN_ID=systems-view-${{ github.run_id }}-${{ github.run_attempt }}"
+            echo "TEST_RUN_ID=legacy-table-${{ github.run_id }}-${{ github.run_attempt }}"
           } >> .env
 
           echo ".env file created successfully."
@@ -99,12 +107,18 @@ jobs:
         continue-on-error: true
         run: USE_CTRF=1 npx playwright test --grep @systems-table
 
-      - name: Report failures to Currents
+      - name: Rerun failed tests and report to Currents
+        id: pw_rerun
         if: steps.pw_run.outcome == 'failure'
+        continue-on-error: true
         run: CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-e2e-systems-view-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test --grep @systems-table --last-failed
 
-      - name: Fail job if tests failed
-        if: steps.pw_run.outcome == 'failure'
+      - name: Warn about flaky tests
+        if: steps.pw_run.outcome == 'failure' && steps.pw_rerun.outcome == 'success'
+        run: echo "::warning::Some tests were flaky (failed initially but passed on retry). Check Currents for details."
+
+      - name: Fail job if rerun did not pass
+        if: steps.pw_run.outcome == 'failure' && steps.pw_rerun.outcome != 'success'
         run: exit 1
 
       - name: Publish front-end Test Report

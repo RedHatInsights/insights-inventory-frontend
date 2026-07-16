@@ -11,7 +11,10 @@ import {
   BASE_ARCHIVE_TAG_COUNT,
   TAG,
   isSystemsViewEnabled,
+  isInventoryViewsEnabled,
+  isLegacyInventoryTableEnabled,
 } from './helpers/constants';
+import { scrollColumnIntoView } from './helpers/columnHelpers';
 
 test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
   const operatingSystemTestCases = [
@@ -58,7 +61,6 @@ test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
       const resetFiltersButton = page
         .getByRole('button', { name: 'Reset filters' })
         .or(page.getByRole('button', { name: 'Clear filters' }));
-      // eslint-disable-next-line playwright/no-conditional-in-test
       if (await resetFiltersButton.isVisible({ timeout: 100 })) {
         await resetFiltersButton.click();
       }
@@ -112,7 +114,7 @@ test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
     );
   });
 
-  test.skip('User can filter systems by OS major version option', async ({
+  test('User can filter systems by OS major version option', async ({
     page,
   }) => {
     /**
@@ -133,9 +135,13 @@ test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
     expect(await filterChipGroup.count()).toBeGreaterThanOrEqual(1);
 
     // OS version should contain expected major version of OS
-    const columnVersionOS = page.locator(
-      'span[aria-label="Formatted OS version"]',
-    );
+    const columnVersionOS = page
+      .locator('td[data-label="OS"]')
+      .or(
+        page.locator(
+          'td[data-ouia-component-id^="systems-view-table-td-"][data-ouia-component-id$="-3"]',
+        ),
+      );
     await assertAllContain(columnVersionOS, pattern);
   });
 
@@ -161,9 +167,10 @@ test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
         const columnVersionOS = page
           .locator('td[data-label="OS"]', { hasText: testData.OS })
           .or(
-            page.locator('span[aria-label="Formatted OS version"]', {
-              hasText: testData.OS,
-            }),
+            page.locator(
+              'td[data-ouia-component-id^="systems-view-table-td-"][data-ouia-component-id$="-3"]',
+              { hasText: testData.OS },
+            ),
           );
         await expect(columnVersionOS.first()).toBeVisible();
         const count = await columnVersionOS.count();
@@ -181,8 +188,6 @@ test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
        - inv-hosts-filter-by-tags
        - importance: critical
      */
-    test.fixme(true, 'https://issues.redhat.com/browse/RHINENG-23546');
-
     const tagOption = `${TAG.name}=${TAG.value}`;
 
     await test.step('Filter systems by tag', async () => {
@@ -196,24 +201,33 @@ test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
       await expect(tagsRows.first()).toBeVisible();
       const count = await tagsRows.count();
       await expect(tagsRows).toHaveText(
-        Array(count).fill(BASE_ARCHIVE_TAG_COUNT),
+        Array(count).fill(String(BASE_ARCHIVE_TAG_COUNT)),
       );
     });
 
     await test.step('Verify Tags Modal has expected tag', async () => {
       // TODO: Remove when RHINENG-22581 is fixed
-      const inputLocator = page.getByPlaceholder('Filter by tags').nth(1);
+      const inputLocator = isLegacyInventoryTableEnabled
+        ? page.getByPlaceholder('Filter by tags').nth(1)
+        : page.getByPlaceholder('Filter by tags');
       await inputLocator.fill('');
 
       // get name of system we check the tags to verify tags modal title
-      const nameCell = page.locator('td[data-label="Name"]').first();
+      const nameCell = page
+        .locator('[data-ouia-component-id="systems-view-table-td-0-0"]')
+        .or(page.locator('td[data-label="Name"]'))
+        .first();
       await nameCell.waitFor({ state: 'visible' });
       const expectedSystemName = await nameCell.innerText();
 
       // open Tags modal
-      const tagButton = page.locator(
-        '[data-ouia-component-id="TagCount-text"]',
-      );
+      const tagButton = page.locator('[data-ouia-component-id="TagCount"]');
+
+      // When INVENTORY_VIEWS is enabled, scroll the Tags column into view
+      if (isInventoryViewsEnabled) {
+        await scrollColumnIntoView(tagButton.first());
+      }
+
       await tagButton.first().click();
       const dialog = page.locator('[role="dialog"]');
       // Title of the modal should be the name + tags count of clicked system
@@ -226,15 +240,19 @@ test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
       // search for expected tag
       const inputLocatorDialog = page.getByPlaceholder('Filter tags');
       await inputLocatorDialog.fill(TAG.value);
-      await expect(dialog.locator('td[data-label="Name"]')).toHaveText(
-        TAG.name,
-      );
-      await expect(dialog.locator('td[data-label="Value"]')).toHaveText(
-        TAG.value,
-      );
-      await expect(dialog.locator('td[data-label="Tag source"]')).toHaveText(
-        TAG.tagSource,
-      );
+      await expect(
+        dialog.locator('td[data-label="Name"]').or(dialog.locator('td').nth(0)),
+      ).toHaveText(TAG.name);
+      await expect(
+        dialog
+          .locator('td[data-label="Value"]')
+          .or(dialog.locator('td').nth(1)),
+      ).toHaveText(TAG.value);
+      await expect(
+        dialog
+          .locator('td[data-label="Tag source"]')
+          .or(dialog.locator('td').nth(2)),
+      ).toHaveText(TAG.tagSource);
     });
   });
 
@@ -259,7 +277,6 @@ test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
       const closeChipButton = page.locator(
         'button[aria-label^="Close"][aria-label*="days ago"]',
       );
-      // eslint-disable-next-line playwright/no-conditional-in-test
       if (await closeChipButton.first().isVisible({ timeout: 2000 })) {
         await closeChipButton.first().click();
         // Wait for skeleton table to disappear after chip removal

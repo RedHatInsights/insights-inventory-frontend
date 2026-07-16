@@ -62,6 +62,7 @@ jobs:
             echo "INTEGRATION=true"
             echo "PROD=true"
             echo "BASE_URL=$PROD_BASE_URL"
+            echo "LEGACY_INVENTORY_TABLE=true"
             echo "PROXY=$RH_PROXY_URL"
             echo "PROD_OFFLINE_TOKEN=$PROD_OFFLINE_TOKEN"
           } >> .env 2>/dev/null

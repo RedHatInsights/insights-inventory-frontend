@@ -1,5 +1,6 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { getHostList, getHostTags } from '../../../api/hostInventoryApiTyped';
+import { getLegacyInventorySortKey } from '../../../constants';
 import { InventoryFilters } from '../filters/SystemsViewFilters';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import { SortDirection } from '../SystemsView';
@@ -73,6 +74,13 @@ export const useSystemsQuery = ({
   direction,
   enabled = true,
 }: UseSystemsQueryParams) => {
+  // Cross-app and SystemsView-only sort keys are not valid for the /hosts API. This can
+  // happen during the render between ui.inventory-views being toggled off and the
+  // useColumns useEffect resetting the URL to a valid sort key.
+  const validSortBy = getLegacyInventorySortKey(sortBy) as
+    | ApiOrderByEnum
+    | undefined;
+
   const { data, isLoading, isFetching, isError, error } = useQuery({
     queryKey: [
       SYSTEMS_QUERY_KEY,
@@ -80,7 +88,7 @@ export const useSystemsQuery = ({
       perPage,
       filters,
       lastSeenCustomRange,
-      sortBy,
+      validSortBy,
       direction,
     ],
     queryFn: async () => {
@@ -89,7 +97,7 @@ export const useSystemsQuery = ({
         perPage,
         filters,
         lastSeenCustomRange,
-        sortBy,
+        sortBy: validSortBy,
         direction,
       });
     },

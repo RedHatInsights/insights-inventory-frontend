@@ -1,5 +1,5 @@
 import './EntityTableToolbar.scss';
-import React, { Fragment, useEffect, useReducer } from 'react';
+import React, { Fragment, useEffect, useMemo, useReducer, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -245,22 +245,6 @@ const EntityTableToolbar = ({
     systemTypeValue,
     setSystemTypeValue,
   ] = useSystemTypeFilter(reducer);
-  /**
-   * Debounced function for fetching all tags.
-   */
-  const debounceGetAllTags = debounce((config, options) => {
-    if (showTags && !hasItems && hasAccess) {
-      dispatch(
-        fetchAllTags(
-          config,
-          {
-            ...options?.paginationhideFilters,
-          },
-          getTags,
-        ),
-      );
-    }
-  }, 800);
 
   const enabledFilters = {
     name: !(hideFilters.all && hideFilters.name !== false) && !hideFilters.name,
@@ -327,10 +311,52 @@ const EntityTableToolbar = ({
     }
   };
 
+  const updateDataRef = useRef(updateData);
+  updateDataRef.current = updateData;
+
   /**
-   * Debounced `updateData` function.
+   * Debounced `updateData` function
    */
-  const debouncedRefresh = debounce((config) => updateData(config), 800);
+  const debouncedRefresh = useMemo(
+    () => debounce((config) => updateDataRef.current(config), 800),
+    [],
+  );
+
+  const getAllTags = (config, options) => {
+    if (showTags && !hasItems && hasAccess) {
+      dispatch(
+        fetchAllTags(
+          config,
+          {
+            ...options?.paginationhideFilters,
+          },
+          getTags,
+        ),
+      );
+    }
+  };
+
+  const getAllTagsRef = useRef(getAllTags);
+  getAllTagsRef.current = getAllTags;
+
+  /**
+   * Debounced function for fetching all tags.
+   */
+  const debounceGetAllTags = useMemo(
+    () =>
+      debounce(
+        (config, options) => getAllTagsRef.current(config, options),
+        800,
+      ),
+    [],
+  );
+
+  useEffect(() => {
+    return () => {
+      debouncedRefresh.cancel();
+      debounceGetAllTags.cancel();
+    };
+  }, [debouncedRefresh, debounceGetAllTags]);
 
   /**
    * Component did mount effect to calculate actual filters from redux.

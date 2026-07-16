@@ -4,26 +4,24 @@ import {
   ExclamationCircleIcon,
   ExclamationTriangleIcon,
 } from '@patternfly/react-icons';
-import { NOT_AVAILABLE } from '../../../../../constants';
+import CellValue from '../../CellValue';
 import { System } from '../../../hooks/useSystemsQuery';
 
-export type HostStalenessStatus =
-  | 'Fresh'
-  | 'Stale'
-  | 'Stale warning'
-  | typeof NOT_AVAILABLE;
+export type HostStalenessStatus = 'Fresh' | 'Stale' | 'Stale warning';
+
+export type StatusTimestamps = Pick<
+  System,
+  'stale_timestamp' | 'stale_warning_timestamp' | 'culled_timestamp'
+>;
 
 export const getHostStalenessStatus = (
-  system: Pick<
-    System,
-    'stale_timestamp' | 'stale_warning_timestamp' | 'culled_timestamp'
-  >,
+  value: StatusTimestamps,
   now: Date = new Date(),
-): HostStalenessStatus => {
-  const { stale_timestamp, stale_warning_timestamp, culled_timestamp } = system;
+): HostStalenessStatus | null => {
+  const { stale_timestamp, stale_warning_timestamp, culled_timestamp } = value;
 
   if (!stale_timestamp) {
-    return NOT_AVAILABLE;
+    return null;
   }
 
   const nowMs = now.getTime();
@@ -51,43 +49,56 @@ export const getHostStalenessStatus = (
     return 'Stale warning';
   }
 
-  return NOT_AVAILABLE;
+  return null;
 };
 
 interface StatusProps {
-  system: System;
+  value: StatusTimestamps;
 }
 
-const Status = ({ system }: StatusProps) => {
-  const status = getHostStalenessStatus(system);
+const staleStatus = (
+  <span className="pf-v6-u-display-inline-flex pf-v6-u-align-items-center">
+    <Icon status="warning" className="pf-v6-u-mr-xs">
+      <ExclamationTriangleIcon />
+    </Icon>
+    <span className="pf-v6-u-text-color-status-warning pf-v6-u-font-weight-bold">
+      Stale
+    </span>
+  </span>
+);
+
+const staleWarningStatus = (
+  <span className="pf-v6-u-display-inline-flex pf-v6-u-align-items-center">
+    <Icon status="danger" className="pf-v6-u-mr-xs">
+      <ExclamationCircleIcon />
+    </Icon>
+    <span className="pf-v6-u-text-color-status-danger pf-v6-u-font-weight-bold">
+      Stale warning
+    </span>
+  </span>
+);
+
+const Status = ({ value }: StatusProps) => {
+  const status = getHostStalenessStatus(value);
+
+  if (status === null) {
+    return (
+      <CellValue
+        type="notAvailable"
+        reason="Status data is not available for this system"
+      />
+    );
+  }
 
   if (status === 'Stale') {
-    return (
-      <span className="pf-v6-u-display-inline-flex pf-v6-u-align-items-center">
-        <Icon status="warning" className="pf-v6-u-mr-xs">
-          <ExclamationTriangleIcon />
-        </Icon>
-        <span className="pf-v6-u-text-color-status-warning pf-v6-u-font-weight-bold">
-          Stale
-        </span>
-      </span>
-    );
+    return <CellValue type="present" value={staleStatus} />;
   }
 
   if (status === 'Stale warning') {
-    return (
-      <span className="pf-v6-u-display-inline-flex pf-v6-u-align-items-center">
-        <Icon status="danger" className="pf-v6-u-mr-xs">
-          <ExclamationCircleIcon />
-        </Icon>
-        <span className="pf-v6-u-text-color-status-danger pf-v6-u-font-weight-bold">
-          Stale warning
-        </span>
-      </span>
-    );
+    return <CellValue type="present" value={staleWarningStatus} />;
   }
 
-  return status;
+  return <CellValue type="present" value="Fresh" />;
 };
 
 export default Status;

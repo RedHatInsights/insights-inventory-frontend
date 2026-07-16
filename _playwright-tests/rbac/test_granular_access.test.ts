@@ -82,7 +82,9 @@ test.describe('Granular access:', { tag: ['@rbac'] }, () => {
       });
       await expect(secondWorkspace).toBeVisible({ timeout: 100000 });
 
-      const rows = page.locator('td[data-label="Name"]');
+      const rows = page
+        .locator('[data-ouia-component-id="systems-view-table-td-0-0"]')
+        .or(page.locator('td[data-label="Name"]'));
       await expect(rows.first()).toBeVisible({ timeout: 20000 });
       await expect(rows).toHaveCount(2);
     });

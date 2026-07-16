@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { t_global_text_color_disabled } from '@patternfly/react-tokens';
 import {
   HOST_GROUP_CHIP,
   RHCD_FILTER_KEY,
@@ -142,6 +143,24 @@ export const extraShape = PropTypes.shape({
   onClick: PropTypes.func,
 });
 
+/** Sort URL keys valid in SystemsView but not as legacy InventoryTable / /hosts order_by. */
+export const LEGACY_INVENTORY_INVALID_SORT_KEYS = ['status'];
+
+export const getLegacyInventorySortKey = (rawSortKey) => {
+  if (!rawSortKey) {
+    return undefined;
+  }
+
+  if (
+    rawSortKey.includes(':') ||
+    LEGACY_INVENTORY_INVALID_SORT_KEYS.includes(rawSortKey)
+  ) {
+    return undefined;
+  }
+
+  return rawSortKey;
+};
+
 export const getSearchParams = (searchParams) => {
   const status = searchParams.getAll('status');
   const source = searchParams.getAll('source');
@@ -179,8 +198,12 @@ export const getSearchParams = (searchParams) => {
   const systemTypeFilter = searchParams.getAll('system_type');
   const workloadFilter = searchParams.getAll(WORKLOAD_FILTER_KEY);
   const rawSort = searchParams.get('sort');
+  const rawSortKey = rawSort?.startsWith('-') ? rawSort.slice(1) : rawSort;
+  // Cross-app sort keys contain ':' and SystemsView-only keys (e.g. status) are only
+  // valid in Preview/SystemsView + ui.inventory-views mode. Ignore them here so the
+  // legacy table does not send an invalid order_by to the /hosts API.
   const sortBy = {
-    key: rawSort?.startsWith('-') ? rawSort.slice(1) : rawSort,
+    key: getLegacyInventorySortKey(rawSortKey),
     direction: rawSort?.startsWith('-') ? 'desc' : 'asc',
   };
 
@@ -384,4 +407,4 @@ export const MOVE_SYSTEM_MENU_TEXT = 'Move system';
 export const MOVE_SYSTEMS_MENU_TEXT = 'Move systems';
 export const DEFAULT_DELETE_ERROR_MESSAGE =
   'There was an error processing the request. Please try again.';
-export const NOT_AVAILABLE = 'N/A';
+export const DISABLED_TEXT_COLOR = t_global_text_color_disabled.var;

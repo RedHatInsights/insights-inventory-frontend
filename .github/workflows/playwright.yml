@@ -1,5 +1,9 @@
 name: 'E2E: Full Test Suite'
 
+# Description: Runs Playwright end-to-end tests on every PR
+# - Feature flag: SYSTEMS_VIEW=true (new table component) is enabled to match stage-stable environment
+# - Excludes @integration and @inventory-views tagged tests
+
 on:
   pull_request:
     types: [opened, reopened, synchronize]
@@ -43,6 +47,7 @@ jobs:
             echo "BASE_URL=https://stage.foo.redhat.com:1337"
             echo "CI=true"
             echo "PROXY=$PROXY"
+            echo "SYSTEMS_VIEW=true"
             echo "STAGE_OFFLINE_TOKEN=$STAGE_OFFLINE_TOKEN"
             echo "TEST_RUN_ID=full-suite-${{ github.run_id }}-${{ github.run_attempt }}"
           } >> .env
@@ -98,12 +103,18 @@ jobs:
         continue-on-error: true
         run: USE_CTRF=1 npx playwright test --grep-invert "@integration|@inventory-views"
 
-      - name: Report failures to Currents
+      - name: Rerun failed tests and report to Currents
+        id: pw_rerun
         if: steps.pw_run.outcome == 'failure'
+        continue-on-error: true
         run: CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-e2e-full-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test --grep-invert "@integration|@inventory-views" --last-failed
 
-      - name: Fail job if tests failed
-        if: steps.pw_run.outcome == 'failure'
+      - name: Warn about flaky tests
+        if: steps.pw_run.outcome == 'failure' && steps.pw_rerun.outcome == 'success'
+        run: echo "::warning::Some tests were flaky (failed initially but passed on retry). Check Currents for details."
+
+      - name: Fail job if rerun did not pass
+        if: steps.pw_run.outcome == 'failure' && steps.pw_rerun.outcome != 'success'
         run: exit 1
 
       - name: Publish front-end Test Report

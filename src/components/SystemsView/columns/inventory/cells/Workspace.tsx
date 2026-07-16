@@ -1,22 +1,24 @@
-import { NOT_AVAILABLE } from '../../../../../constants';
-import { UNGROUPED_HOSTS_LABEL } from '../../../constants';
+import React from 'react';
+import CellValue from '../../CellValue';
 import { System } from '../../../hooks/useSystemsQuery';
 
 interface WorkspaceProps {
-  system: System;
+  value: System['groups'] | undefined;
 }
 
-const Workspace = ({ system }: WorkspaceProps) => {
-  const [firstGroup] = system.groups ?? [];
+const Workspace = ({ value }: WorkspaceProps) => {
+  const [firstGroup] = value ?? [];
 
   if (firstGroup === undefined) {
-    return NOT_AVAILABLE;
+    return (
+      <CellValue
+        type="notAvailable"
+        reason="Workspace data is not available for this system"
+      />
+    );
   }
 
-  return (
-    firstGroup.name ??
-    (firstGroup.ungrouped ? UNGROUPED_HOSTS_LABEL : NOT_AVAILABLE)
-  );
+  return <CellValue type="present" value={firstGroup.name} />;
 };
 
 export default Workspace;

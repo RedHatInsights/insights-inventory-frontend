@@ -10,6 +10,7 @@ import { buildSystemProfileFilters } from './buildSystemProfileFilters';
 import { buildHostQueryOptions } from './buildHostListOptions';
 import { lastSeenKeysToApiParams } from './lastSeenKeysToApiParams';
 import { buildSystemType } from './buildSystemType';
+import { buildGroupIdParam } from './buildGroupIdParam';
 
 const HOST_LIST_SYSTEM_PROFILE_FIELDS = [
   'operating_system',
@@ -26,17 +27,6 @@ export interface BuildHostListParamsInput {
   sortBy?: ApiHostGetHostListOrderByEnum;
   direction?: SortDirection;
 }
-
-const buildGroupIdParam = (
-  groupIds: string[] | undefined,
-): Pick<ApiHostGetHostListParams, 'groupId'> | Record<string, never> => {
-  if (!groupIds?.length) return {};
-
-  const hasEmpty = groupIds.includes('');
-  const nonEmpty = groupIds.filter((id) => id !== '');
-
-  return { groupId: hasEmpty ? [...nonEmpty, ''] : nonEmpty };
-};
 
 export const buildHostListParams = ({
   page,

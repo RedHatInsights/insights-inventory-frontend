@@ -1,56 +1,66 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import Status, { getHostStalenessStatus } from './Status';
+import Status, {
+  getHostStalenessStatus,
+  type StatusTimestamps,
+} from './Status';
 import { TestWrapper } from '../../../../../Utilities/TestingUtilities';
-import type { System } from '../../../hooks/useSystemsQuery';
-import { NOT_AVAILABLE } from '../../../../../constants';
+import { NOT_AVAILABLE } from '../../CellValue';
 
 const NOW = new Date('2024-06-15T12:00:00.000Z');
 
-const freshSystem = {
-  id: 'fresh-system',
+const freshValue: StatusTimestamps = {
   stale_timestamp: '2024-07-01T00:00:00.000Z',
   stale_warning_timestamp: '2024-08-01T00:00:00.000Z',
   culled_timestamp: '2024-09-01T00:00:00.000Z',
-} as System;
+};
 
-const staleSystem = {
-  id: 'stale-system',
+const staleValue: StatusTimestamps = {
   stale_timestamp: '2024-06-01T00:00:00.000Z',
   stale_warning_timestamp: '2024-07-01T00:00:00.000Z',
   culled_timestamp: '2024-08-01T00:00:00.000Z',
-} as System;
+};
 
-const staleWarningSystem = {
-  id: 'stale-warning-system',
+const staleWarningValue: StatusTimestamps = {
   stale_timestamp: '2024-05-01T00:00:00.000Z',
   stale_warning_timestamp: '2024-06-01T00:00:00.000Z',
   culled_timestamp: '2024-08-01T00:00:00.000Z',
-} as System;
+};
 
-const unknownSystem = {
-  id: 'unknown-system',
+const unknownValue: StatusTimestamps = {
   stale_timestamp: null,
-} as System;
+  stale_warning_timestamp: undefined,
+  culled_timestamp: undefined,
+};
+
+const culledValue: StatusTimestamps = {
+  stale_timestamp: '2024-01-01T00:00:00.000Z',
+  stale_warning_timestamp: '2024-02-01T00:00:00.000Z',
+  culled_timestamp: '2024-03-01T00:00:00.000Z',
+};
 
 describe('getHostStalenessStatus', () => {
   it('returns Fresh when the current time is before stale_timestamp', () => {
-    expect(getHostStalenessStatus(freshSystem, NOW)).toBe('Fresh');
+    expect(getHostStalenessStatus(freshValue, NOW)).toBe('Fresh');
   });
 
   it('returns Stale when the current time is past stale_timestamp but before stale_warning_timestamp', () => {
-    expect(getHostStalenessStatus(staleSystem, NOW)).toBe('Stale');
+    expect(getHostStalenessStatus(staleValue, NOW)).toBe('Stale');
   });
 
   it('returns Stale warning when the current time is past stale_warning_timestamp but before culled_timestamp', () => {
-    expect(getHostStalenessStatus(staleWarningSystem, NOW)).toBe(
+    expect(getHostStalenessStatus(staleWarningValue, NOW)).toBe(
       'Stale warning',
     );
   });
 
-  it(`returns ${NOT_AVAILABLE} when stale_timestamp is missing`, () => {
-    expect(getHostStalenessStatus(unknownSystem, NOW)).toBe(NOT_AVAILABLE);
+  it('returns null when stale_timestamp is missing', () => {
+    expect(getHostStalenessStatus(unknownValue, NOW)).toBeNull();
+  });
+
+  it('returns null when all staleness timestamps are in the past', () => {
+    expect(getHostStalenessStatus(culledValue, NOW)).toBeNull();
   });
 });
 
@@ -67,7 +77,7 @@ describe('Status cell', () => {
   it('renders plain Fresh text without an icon', () => {
     render(
       <TestWrapper>
-        <Status system={freshSystem} />
+        <Status value={freshValue} />
       </TestWrapper>,
     );
 
@@ -78,7 +88,7 @@ describe('Status cell', () => {
   it('renders Stale with a warning icon and warning text color', () => {
     render(
       <TestWrapper>
-        <Status system={staleSystem} />
+        <Status value={staleValue} />
       </TestWrapper>,
     );
 
@@ -91,7 +101,7 @@ describe('Status cell', () => {
   it('renders Stale warning with a danger icon and danger text color', () => {
     render(
       <TestWrapper>
-        <Status system={staleWarningSystem} />
+        <Status value={staleWarningValue} />
       </TestWrapper>,
     );
 
@@ -101,13 +111,13 @@ describe('Status cell', () => {
     expect(screen.getByRole('img', { hidden: true })).toBeInTheDocument();
   });
 
-  it('renders N/A when staleness cannot be determined', () => {
+  it(`renders ${NOT_AVAILABLE} when staleness cannot be determined`, () => {
     render(
       <TestWrapper>
-        <Status system={unknownSystem} />
+        <Status value={unknownValue} />
       </TestWrapper>,
     );
 
-    expect(screen.getByText('N/A')).toBeInTheDocument();
+    expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
   });
 });

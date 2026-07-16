@@ -1,8 +1,11 @@
 import { expect } from '@playwright/test';
 import { type Page, type Locator } from '@playwright/test';
 import { parseLastSeenToDays } from './filterHelpers';
+import { columnManagementModal } from './columnManagementModal';
 
-const NOT_AVAILABLE = 'N/A';
+export { columnManagementModal } from './columnManagementModal';
+
+const NOT_AVAILABLE = '--';
 
 // Default columns from inventory/columnDefinitions.tsx
 export const defaultInventoryColumns = [
@@ -14,6 +17,50 @@ export const defaultInventoryColumns = [
 ];
 // Total columns includes checkbox (first) and per-row actions (last)
 export const totalDefaultColumns = defaultInventoryColumns.length + 2;
+
+/**
+ * Returns visible inventory column header names in left-to-right table order.
+ */
+export async function getVisibleInventoryColumnOrder(
+  page: Page,
+): Promise<string[]> {
+  const headerTexts = (await page.locator('th').allTextContents()).map((text) =>
+    text.trim(),
+  );
+
+  return headerTexts
+    .map((text, index) => ({
+      index,
+      column: defaultInventoryColumns.find((name) =>
+        new RegExp(name).test(text),
+      ),
+    }))
+    .filter(
+      (item): item is { index: number; column: string } =>
+        item.column !== undefined,
+    )
+    .sort((a, b) => a.index - b.index)
+    .map((item) => item.column);
+}
+
+/**
+ * Asserts a column is hidden and the table has one fewer visible header than default.
+ * Retries via toPass to allow persisted column prefs to load after navigation/reload.
+ */
+export async function expectInventoryColumnHidden(
+  page: Page,
+  columnName: string,
+) {
+  const visibleHeaders = page.locator('th').filter({ hasText: /.+/ });
+  const columnHeader = page
+    .locator('th')
+    .filter({ hasText: new RegExp(`^${columnName}$`) });
+
+  await expect(async () => {
+    await expect(columnHeader).toBeHidden();
+    await expect(visibleHeaders).toHaveCount(totalDefaultColumns - 1);
+  }).toPass({ timeout: 30000 });
+}
 
 export const inventoryColumns = [
   'Created',
@@ -50,58 +97,99 @@ export const vulnerabilityColumns = [
   'CVEs with known exploits',
 ];
 
+export const allColumns = [
+  ...advisorColumns,
+  ...complianceColumns,
+  ...patchColumns,
+  ...malwareColumns,
+  ...inventoryColumns,
+  ...vulnerabilityColumns,
+];
+
+/** @deprecated Use columnManagementModal(page).open() */
+export const openManageColumnsModal = (page: Page, timeout = 45000) =>
+  columnManagementModal(page).open(timeout);
+
 /**
- * Opens the 'Manage columns' modal from the systems view toolbar.
- * Wraps the action in toPass to handle loading skeletons and dropdown rendering.
- * Verifies the dialog is visible before returning.
- *  @param {Page}   page      - The Playwright page instance.
- *  @param {number} [timeout] - Optional timeout for the toPass block.
+ * Checks if the systems table is horizontally scrollable.
+ *  @param   {Page}             page - The Playwright page instance.
+ *  @returns {Promise<boolean>}      - True if the table is scrollable, false otherwise.
  */
-export async function openManageColumnsModal(page: Page, timeout = 45000) {
-  await expect(async () => {
-    // 1. Wait for the loading table skeleton to disappear
-    await expect(
-      page.locator('[data-ouia-component-id="SkeletonTable"]'),
-    ).toBeHidden();
-
-    // 2. Locate, verify, and click the toolbar actions dropdown
-    const toolbarActionsButton = page.locator(
-      "[data-ouia-component-id='systems-view-toolbar-actions-menu-dropdown-toggle']",
+export async function isTableHorizontallyScrollable(
+  page: Page,
+): Promise<boolean> {
+  return await page.evaluate(() => {
+    const scrollContainer = document.querySelector(
+      '.ins-c-systems-view-table-scroll',
     );
-    await expect(toolbarActionsButton).toBeVisible();
-    await expect(toolbarActionsButton).toBeEnabled();
-    await toolbarActionsButton.click();
+    if (!scrollContainer) return false;
+    return scrollContainer.scrollWidth > scrollContainer.clientWidth;
+  });
+}
 
-    // 3. Locate, verify, and click the 'Manage columns' button inside the dropdown
-    const manageColumnsButton = page
-      .locator('button')
-      .filter({ hasText: 'Manage columns' });
-    await expect(manageColumnsButton).toBeEnabled();
-    await manageColumnsButton.click();
-
-    // 4. Verify the column management dialog is visible
-    const dialog = page.locator('[role="dialog"]');
-    await expect(dialog).toBeVisible();
-  }).toPass({ timeout });
+/**
+ * Scrolls the table horizontally to a specific position.
+ *  @param {Page}   page     - The Playwright page instance.
+ *  @param {number} position - Position to scroll to (0 = left, 0.5 = middle, 1 = right).
+ */
+export async function scrollTableToPosition(page: Page, position: number) {
+  await page.evaluate((pos) => {
+    const scrollContainer = document.querySelector(
+      '.ins-c-systems-view-table-scroll',
+    );
+    if (scrollContainer) {
+      scrollContainer.scrollLeft = scrollContainer.scrollWidth * pos;
+    }
+  }, position);
 }
 
 /**
  * Scrolls the table horizontally to bring a column into view, avoiding sticky column interference.
- *  @param {Locator} columnHeader - The column header button locator.
+ *  @param {Locator} element - The element to scroll into view (column header button or table cell).
  */
-export async function scrollColumnIntoView(columnHeader: Locator) {
-  await columnHeader.evaluate((button) => {
-    const th = button.closest('th');
+export async function scrollColumnIntoView(element: Locator) {
+  await element.evaluate((el) => {
+    const cell = el.closest('th') || el.closest('td');
     const scrollContainer = document.querySelector(
       '.ins-c-systems-view-table-scroll',
     );
-    if (th && scrollContainer) {
-      const thRect = th.getBoundingClientRect();
-      const containerRect = scrollContainer.getBoundingClientRect();
-      const scrollNeeded = thRect.right - containerRect.right + 100;
-      if (scrollNeeded > 0) {
-        scrollContainer.scrollLeft += scrollNeeded;
-      }
+    if (!cell || !scrollContainer) return;
+
+    const containerRect = scrollContainer.getBoundingClientRect();
+
+    // Effective left boundary: right edge of the sticky-left border column (Name column).
+    // Without this, scrolling right can push the target cell behind the sticky Name column.
+    const stickyLeftCell = scrollContainer.querySelector(
+      '.pf-v6-c-table__sticky-cell.pf-m-border-right',
+    );
+    const leftBound = stickyLeftCell
+      ? stickyLeftCell.getBoundingClientRect().right
+      : containerRect.left;
+
+    // Effective right boundary: left edge of the sticky-right action column.
+    const stickyRightCell = scrollContainer.querySelector(
+      '.pf-v6-c-table__action.pf-v6-c-table__sticky-cell',
+    );
+    const rightBound = stickyRightCell
+      ? stickyRightCell.getBoundingClientRect().left
+      : containerRect.right;
+
+    const MARGIN = 20;
+
+    // Step 1: scroll right if cell's right edge overflows the effective right boundary.
+    const rightOverflow =
+      cell.getBoundingClientRect().right - rightBound + MARGIN;
+    if (rightOverflow > 0) {
+      scrollContainer.scrollLeft += rightOverflow;
+    }
+
+    // Step 2: after the potential right-scroll, check if the cell's left edge is still
+    // hidden behind the sticky left column. getBoundingClientRect() forces a reflow so
+    // the value reflects the updated scrollLeft.
+    const leftUnderflow =
+      leftBound - cell.getBoundingClientRect().left + MARGIN;
+    if (leftUnderflow > 0) {
+      scrollContainer.scrollLeft -= leftUnderflow;
     }
   });
 }

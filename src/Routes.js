@@ -3,6 +3,7 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import RenderWrapper from './Utilities/Wrapper';
 import useFeatureFlag from './Utilities/useFeatureFlag';
 import useSystemsViewFeatureFlag from './Utilities/useSystemsViewFeatureFlag';
+import useLegacyInventoryTableFeatureFlag from './Utilities/useLegacyInventoryTableFeatureFlag';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import ErrorState from '@redhat-cloud-services/frontend-components/ErrorState';
 import {
@@ -41,23 +42,18 @@ export const Routes = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const isSystemsViewEnabled = useSystemsViewFeatureFlag();
-  const isBifrostEnabled = useFeatureFlag('hbi.ui.bifrost');
   const isLastCheckInEnabled = useFeatureFlag(
     'hbi.create_last_check_in_update_per_reporter_staleness',
   );
+  const isLegacyInventoryTableEnabled = useLegacyInventoryTableFeatureFlag();
 
-  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    // zero state check
     (async () => {
       try {
         const hasConventionalSystems = await inventoryHasConventionalSystems();
         setHasSystems(hasConventionalSystems);
-
-        if (isBifrostEnabled) {
-          const hasBootc = await inventoryHasBootcImages();
-          setHasBootcImages(hasBootc);
-        }
+        const hasBootc = await inventoryHasBootcImages();
+        setHasBootcImages(hasBootc);
         setIsLoading(false);
       } catch (error) {
         console.error(error);
@@ -68,16 +64,16 @@ export const Routes = () => {
       }
     })();
   }, []);
-  /* eslint-enable react-hooks/exhaustive-deps */
 
   let element = useRoutes([
     {
       path: '/',
-      element: isSystemsViewEnabled ? (
-        <RenderWrapper cmp={InventoryViews} />
-      ) : (
-        <RenderWrapper cmp={InventoryPage} />
-      ),
+      element:
+        isSystemsViewEnabled && !isLegacyInventoryTableEnabled ? (
+          <RenderWrapper cmp={InventoryViews} />
+        ) : (
+          <RenderWrapper cmp={InventoryPage} />
+        ),
     },
     { path: '/:inventoryId', element: <InventoryDetail /> },
     { path: '/:inventoryId/:modalId', element: <InventoryDetail /> },

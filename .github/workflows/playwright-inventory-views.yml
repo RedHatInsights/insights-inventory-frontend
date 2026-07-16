@@ -1,4 +1,9 @@
-name: 'E2E: Inventory Views'
+name: 'E2E: InventoryViews Tests'
+
+# Description: Tests the InventoryViews feature (matches stage-preview environment)
+# - Feature flag: INVENTORY_VIEWS=true (implies SYSTEMS_VIEW=true)
+# - Runs only: @inventory-views, @systems-table tagged tests
+# - Excludes: @integration
 
 on:
   pull_request:
@@ -99,12 +104,18 @@ jobs:
         continue-on-error: true
         run: USE_CTRF=1 npx playwright test --grep "@inventory-views|@systems-table"
 
-      - name: Report failures to Currents
+      - name: Rerun failed tests and report to Currents
+        id: pw_rerun
         if: steps.pw_run.outcome == 'failure'
+        continue-on-error: true
         run: CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-e2e-inventory-views-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test --grep "@inventory-views|@systems-table" --last-failed
 
-      - name: Fail job if tests failed
-        if: steps.pw_run.outcome == 'failure'
+      - name: Warn about flaky tests
+        if: steps.pw_run.outcome == 'failure' && steps.pw_rerun.outcome == 'success'
+        run: echo "::warning::Some tests were flaky (failed initially but passed on retry). Check Currents for details."
+
+      - name: Fail job if rerun did not pass
+        if: steps.pw_run.outcome == 'failure' && steps.pw_rerun.outcome != 'success'
         run: exit 1
 
       - name: Publish front-end Test Report

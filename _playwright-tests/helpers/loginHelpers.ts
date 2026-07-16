@@ -153,18 +153,23 @@ export const closeCookieBanner = async (page: Page) => {
 
 export const enableSystemsView = async (page: Page) => {
   await page.addInitScript(() => {
+    console.log('[Test Setup] Enabling SystemsView component');
     localStorage.setItem('ui.systems-view', 'true');
   });
 };
 
-export const disableSystemsView = async (page: Page) => {
+export const enableInventoryTable = async (page: Page) => {
   await page.addInitScript(() => {
-    localStorage.setItem('ui.systems-view', 'false');
+    console.log(
+      '[Test Setup] Enabling legacy InventoryTable component (test override)',
+    );
+    localStorage.setItem('ui.legacy-inventory-table', 'true');
   });
 };
 
 export const enableInventoryViews = async (page: Page) => {
   await page.addInitScript(() => {
+    console.log('[Test Setup] Enabling InventoryViews feature');
     localStorage.setItem('ui.systems-view', 'true');
     localStorage.setItem('ui.inventory-views', 'true');
   });

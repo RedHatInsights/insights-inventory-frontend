@@ -1,11 +1,28 @@
 import {
   filterRows,
   generateFilters,
+  getLegacyInventorySortKey,
   isDate,
   onDeleteFilter,
   prepareRows,
   tagsMapper,
 } from './constants';
+
+describe('getLegacyInventorySortKey', () => {
+  it('returns legacy sort keys unchanged', () => {
+    expect(getLegacyInventorySortKey('display_name')).toBe('display_name');
+  });
+
+  it('rejects cross-app sort keys', () => {
+    expect(
+      getLegacyInventorySortKey('vulnerability:total_cves'),
+    ).toBeUndefined();
+  });
+
+  it('rejects SystemsView-only status sort', () => {
+    expect(getLegacyInventorySortKey('status')).toBeUndefined();
+  });
+});
 
 describe('tagsMapper', () => {
   it('maps URL tags to object', () => {

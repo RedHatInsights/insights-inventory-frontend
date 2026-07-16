@@ -9,6 +9,7 @@ import {
 } from '@patternfly/react-icons';
 import { PatchAppData } from '@redhat-cloud-services/host-inventory-client';
 import InsightsLink from '@redhat-cloud-services/frontend-components/InsightsLink';
+import CellValue from '../../CellValue';
 
 type AdvisoryCountsTuple = [
   rhea: number,
@@ -16,6 +17,10 @@ type AdvisoryCountsTuple = [
   rhsa: number,
   other: number,
 ];
+
+const PATCH_DATA_NOT_AVAILABLE =
+  'Patch data has not been collected for this system';
+export const NOT_SET = 'No installable advisories';
 
 /**
  * Maps patch `app_data.patch` advisory fields into counts for installable advisories.
@@ -39,58 +44,78 @@ function patchAppDataToInstallableCounts(
 }
 
 interface InstallableAdvisoriesProps {
-  value: PatchAppData;
-  systemUUID: string;
+  appData: PatchAppData | undefined;
+  systemId: string;
 }
 
 const InstallableAdvisories = ({
-  value,
-  systemUUID,
+  appData,
+  systemId,
 }: InstallableAdvisoriesProps) => {
-  const [rhea, rhba, rhsa, other] = patchAppDataToInstallableCounts(value);
+  if (!appData) {
+    return <CellValue type="notAvailable" reason={PATCH_DATA_NOT_AVAILABLE} />;
+  }
+
+  const [rhea, rhba, rhsa, other] = patchAppDataToInstallableCounts(appData);
   const allZero = [rhea, rhba, rhsa, other].every((item) => item === 0);
-  const patchSystemLink = { pathname: `/systems/${systemUUID}` };
+  const patchSystemLink = { pathname: `/systems/${systemId}` };
+
+  if (allZero) {
+    return <CellValue type="notSet" value={NOT_SET} />;
+  }
 
   return (
-    <Flex style={{ display: 'inline-flex', flexWrap: 'nowrap' }}>
-      {allZero && 'No installable advisories'}
-      {rhsa !== 0 && (
-        <FlexItem spacer={{ default: 'spacerXs' }}>
-          <InsightsLink app="patch" to={patchSystemLink} preview={false}>
-            <AdvisoryIcon
-              tooltipText="Security advisories"
-              count={rhsa}
-              Icon={SecurityIcon}
-            />
-          </InsightsLink>
-        </FlexItem>
-      )}
-      {rhba !== 0 && (
-        <FlexItem spacer={{ default: 'spacerXs' }}>
-          <InsightsLink app="patch" to={patchSystemLink} preview={false}>
-            <AdvisoryIcon tooltipText="Bug fixes" count={rhba} Icon={BugIcon} />
-          </InsightsLink>
-        </FlexItem>
-      )}
-      {rhea !== 0 && (
-        <FlexItem spacer={{ default: 'spacerXs' }}>
-          <InsightsLink app="patch" to={patchSystemLink} preview={false}>
-            <AdvisoryIcon
-              tooltipText="Enhancements"
-              count={rhea}
-              Icon={EnhancementIcon}
-            />
-          </InsightsLink>
-        </FlexItem>
-      )}
-      {other !== 0 && (
-        <FlexItem spacer={{ default: 'spacerXs' }}>
-          <InsightsLink app="patch" to={patchSystemLink} preview={false}>
-            <AdvisoryIcon tooltipText="Other" count={other} Icon={FlagIcon} />
-          </InsightsLink>
-        </FlexItem>
-      )}
-    </Flex>
+    <CellValue
+      type="present"
+      value={
+        <Flex style={{ display: 'inline-flex', flexWrap: 'nowrap' }}>
+          {rhsa !== 0 && (
+            <FlexItem spacer={{ default: 'spacerXs' }}>
+              <InsightsLink app="patch" to={patchSystemLink} preview={false}>
+                <AdvisoryIcon
+                  tooltipText="Security advisories"
+                  count={rhsa}
+                  Icon={SecurityIcon}
+                />
+              </InsightsLink>
+            </FlexItem>
+          )}
+          {rhba !== 0 && (
+            <FlexItem spacer={{ default: 'spacerXs' }}>
+              <InsightsLink app="patch" to={patchSystemLink} preview={false}>
+                <AdvisoryIcon
+                  tooltipText="Bug fixes"
+                  count={rhba}
+                  Icon={BugIcon}
+                />
+              </InsightsLink>
+            </FlexItem>
+          )}
+          {rhea !== 0 && (
+            <FlexItem spacer={{ default: 'spacerXs' }}>
+              <InsightsLink app="patch" to={patchSystemLink} preview={false}>
+                <AdvisoryIcon
+                  tooltipText="Enhancements"
+                  count={rhea}
+                  Icon={EnhancementIcon}
+                />
+              </InsightsLink>
+            </FlexItem>
+          )}
+          {other !== 0 && (
+            <FlexItem spacer={{ default: 'spacerXs' }}>
+              <InsightsLink app="patch" to={patchSystemLink} preview={false}>
+                <AdvisoryIcon
+                  tooltipText="Other"
+                  count={other}
+                  Icon={FlagIcon}
+                />
+              </InsightsLink>
+            </FlexItem>
+          )}
+        </Flex>
+      }
+    />
   );
 };
 

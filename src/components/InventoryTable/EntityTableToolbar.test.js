@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import debounce from 'lodash/debounce';
 import React from 'react';
@@ -28,6 +28,13 @@ jest.mock('../../Utilities/hooks/useFetchOperatingSystems');
 jest.mock('../../Utilities/hooks/useFetchBatched');
 
 jest.mock('@redhat-cloud-services/frontend-components-utilities/interceptors');
+
+const syncDebounce = (fn) => {
+  const wrapped = (...args) => fn(...args);
+  wrapped.cancel = jest.fn();
+  wrapped.flush = jest.fn();
+  return wrapped;
+};
 
 const expectDefaultFiltersVisible = async () => {
   const DEFAULT_FILTERS = [
@@ -313,7 +320,7 @@ describe('EntityTableToolbar', () => {
         screen.getByRole('button', {
           name: /conditional filter/i,
         }),
-      ).toHaveTextContent('Filter by text');
+      ).toHaveTextContent('Name');
       expect(
         screen.getByRole('menuitem', {
           name: /filter by text/i,
@@ -583,7 +590,7 @@ describe('EntityTableToolbar', () => {
 
     describe('delete filter', () => {
       it('should dispatch action on delete filter', async () => {
-        debounce.mockImplementation((fn) => fn);
+        debounce.mockImplementation(syncDebounce);
 
         const store = mockStore(stateWithActiveFilter);
         render(
@@ -615,7 +622,7 @@ describe('EntityTableToolbar', () => {
       });
 
       it('should remove textual filter', async () => {
-        debounce.mockImplementation((fn) => fn);
+        debounce.mockImplementation(syncDebounce);
         onRefreshData.mockClear();
         const store = mockStore({
           entities: {
@@ -655,7 +662,7 @@ describe('EntityTableToolbar', () => {
         });
       });
       it('should remove tag filter', async () => {
-        debounce.mockImplementation((fn) => fn);
+        debounce.mockImplementation(syncDebounce);
         onRefreshData.mockClear();
         const store = mockStore({
           entities: {
@@ -772,7 +779,7 @@ describe('EntityTableToolbar', () => {
     });
 
     it('trim leading/trailling whitespace ', async () => {
-      debounce.mockImplementation((fn) => fn);
+      debounce.mockImplementation(syncDebounce);
       const store = mockStore(initialState);
       render(
         <TestWrapper store={store}>
@@ -798,6 +805,119 @@ describe('EntityTableToolbar', () => {
         {},
         { filter: 'some-value', value: 'hostname_or_id' },
       ]);
+    });
+
+    it('debounces name filter refresh to a single onRefreshData call while typing', async () => {
+      jest.useFakeTimers();
+
+      try {
+        const store = mockStore(initialState);
+        render(
+          <TestWrapper store={store}>
+            <EntityTableToolbar
+              hideFilters={{ all: true, name: false, group: true }}
+              page={1}
+              total={500}
+              perPage={50}
+              onRefreshData={onRefreshData}
+              loaded
+            />
+          </TestWrapper>,
+        );
+
+        await act(async () => {
+          jest.advanceTimersByTime(800);
+        });
+        onRefreshData.mockClear();
+
+        const nameInput = screen.getByRole('textbox', {
+          name: /text input/i,
+        });
+
+        fireEvent.input(nameInput, { target: { value: 'a' } });
+        fireEvent.input(nameInput, { target: { value: 'ab' } });
+        fireEvent.input(nameInput, { target: { value: 'abc' } });
+
+        expect(onRefreshData).not.toHaveBeenCalled();
+
+        await act(async () => {
+          jest.advanceTimersByTime(800);
+        });
+
+        expect(onRefreshData).toHaveBeenCalledTimes(1);
+        expect(onRefreshData).toHaveBeenCalledWith(
+          expect.objectContaining({
+            page: 1,
+            perPage: 50,
+            filters: expect.arrayContaining([
+              expect.objectContaining({
+                value: 'hostname_or_id',
+                filter: 'abc',
+              }),
+            ]),
+            options: {
+              axios: undefined,
+            },
+          }),
+        );
+      } finally {
+        jest.useRealTimers();
+      }
+    });
+
+    it('debounces tag filter search to a single fetchAllTags call while typing', async () => {
+      jest.useFakeTimers();
+      const getTags = jest.fn().mockResolvedValue({
+        results: [],
+        total: 0,
+        page: 1,
+        per_page: 10,
+      });
+
+      try {
+        const store = mockStore({
+          entities: {
+            ...initialState.entities,
+            allTagsLoaded: true,
+          },
+        });
+        render(
+          <TestWrapper store={store}>
+            <EntityTableToolbar
+              showTags
+              getTags={getTags}
+              hideFilters={{ all: true, tags: false }}
+              page={1}
+              total={500}
+              perPage={50}
+              onRefreshData={onRefreshData}
+              loaded
+            />
+          </TestWrapper>,
+        );
+
+        await act(async () => {
+          jest.advanceTimersByTime(800);
+        });
+        getTags.mockClear();
+
+        const tagsSearchInput = screen.getByPlaceholderText('Filter by tags');
+
+        fireEvent.change(tagsSearchInput, { target: { value: 'a' } });
+        fireEvent.change(tagsSearchInput, { target: { value: 'ab' } });
+        fireEvent.change(tagsSearchInput, { target: { value: 'abc' } });
+
+        expect(getTags).not.toHaveBeenCalled();
+
+        await act(async () => {
+          jest.advanceTimersByTime(800);
+        });
+
+        expect(getTags).toHaveBeenCalledTimes(1);
+        expect(getTags).toHaveBeenCalledWith('abc', {});
+      } finally {
+        jest.useRealTimers();
+      }
     });
   });
 

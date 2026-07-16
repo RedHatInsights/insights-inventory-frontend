@@ -63,7 +63,6 @@ const fetchInventoryViews = async ({
   return { results, total };
 };
 
-/* `InventoryFilters.group_id` is ignored until workspace filtering exists on this endpoint. */
 export interface UseInventoryViewsQueryParams {
   page: number;
   perPage: number;

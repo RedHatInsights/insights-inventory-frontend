@@ -9,7 +9,7 @@ import {
   getNameColumnMinWidth,
   resolveColumnMinWidth,
 } from '../utils/columnMinWidths';
-import { NOT_AVAILABLE } from '../../../constants';
+import { NOT_AVAILABLE } from './CellValue';
 import inventoryColumns from './inventory/columnDefinitions';
 
 const inventoryKeys = inventoryColumns.map((col) => col.key);
