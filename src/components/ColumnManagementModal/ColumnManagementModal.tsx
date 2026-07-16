@@ -35,6 +35,8 @@ export interface ColumnManagementModalColumn {
   isUntoggleable?: boolean;
   /** Optional app identifier displayed alongside the column title. */
   appName?: string;
+  /** When true, the column is gated by a per-service RBAC permission the user lacks. */
+  isPermissionLocked?: boolean;
 }
 
 /** extends ModalProps */
@@ -129,6 +131,7 @@ export function ColumnManagementModal<
     isShownByDefault: column.isShownByDefault,
     isUntoggleable: column.isUntoggleable,
     appName: column.appName,
+    isPermissionLocked: column.isPermissionLocked,
   }));
 
   const resetToDefault = () => {
