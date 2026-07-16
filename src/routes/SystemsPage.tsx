@@ -14,6 +14,7 @@ import './inventory.scss';
 import InventoryViews from '../components/InventoryViews/InventoryViews';
 import AccessDenied from '../Utilities/AccessDenied';
 import useInventoryViewsFeatureFlag from '../Utilities/useInventoryViewsFeatureFlag';
+
 import InventoryHosts from '../components/InventoryViews/InventoryHosts';
 
 interface SystemsPageProps {
