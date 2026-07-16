@@ -190,13 +190,14 @@ const SystemsViewInner = ({
 
   const isInventoryViewsEnabled = useInventoryViewsFeatureFlag();
 
-  const { columns, setColumns, tableHeaderNodes } = useColumns({
-    defaultColumns: resolvedDefaultColumns,
-    sortBy,
-    onSort,
-    direction,
-    isInventoryViewsEnabled,
-  });
+  const { columns, annotatedDefaults, setColumns, tableHeaderNodes } =
+    useColumns({
+      defaultColumns: resolvedDefaultColumns,
+      sortBy,
+      onSort,
+      direction,
+      isInventoryViewsEnabled,
+    });
 
   const { hostsWithPermissions } = useHostIdsWithKessel(data);
 
@@ -261,8 +262,8 @@ const SystemsViewInner = ({
     >
       <ColumnManagementModalProvider
         columns={columns}
+        defaultColumns={annotatedDefaults}
         setColumns={setColumns}
-        defaultColumns={resolvedDefaultColumns}
       >
         <DataView selection={selection} activeState={activeState}>
           <PageSection hasBodyWrapper={false}>
