@@ -119,12 +119,13 @@ const SystemsViewInner = ({
 
   const isInventoryViewsEnabled = useInventoryViewsFeatureFlag();
 
-  const { columns, setColumns, tableHeaderNodes } = useColumns({
-    sortBy,
-    onSort,
-    direction,
-    isInventoryViewsEnabled,
-  });
+  const { columns, annotatedDefaults, setColumns, tableHeaderNodes } =
+    useColumns({
+      sortBy,
+      onSort,
+      direction,
+      isInventoryViewsEnabled,
+    });
 
   const sharedQueryArgs = {
     page: pagination.page,
@@ -219,7 +220,11 @@ const SystemsViewInner = ({
 
   return (
     <SystemActionModalsProvider onSelectionClear={() => setSelected([])}>
-      <ColumnManagementModalProvider columns={columns} setColumns={setColumns}>
+      <ColumnManagementModalProvider
+        columns={columns}
+        defaultColumns={annotatedDefaults}
+        setColumns={setColumns}
+      >
         <DataView selection={selection} activeState={activeState}>
           <PageSection hasBodyWrapper={false}>
             <DataViewToolbar

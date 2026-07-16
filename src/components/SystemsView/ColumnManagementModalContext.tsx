@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { ColumnManagementModal } from '../ColumnManagementModal';
-import defaultColumns, { Column } from './columns/allColumnDefinitions';
+import { Column } from './columns/allColumnDefinitions';
 
 interface SystemsViewColumnManagementContextValue {
   openColumnManagementModal: () => void;
@@ -22,12 +22,14 @@ export const useColumnManagementModalContext = () => {
 interface ColumnManagementModalProviderProps {
   children: React.ReactNode;
   columns: readonly Column[];
+  defaultColumns: readonly Column[];
   setColumns: React.Dispatch<React.SetStateAction<readonly Column[]>>;
 }
 
 export const ColumnManagementModalProvider = ({
   children,
   columns,
+  defaultColumns,
   setColumns,
 }: ColumnManagementModalProviderProps) => {
   const [isOpen, setIsOpen] = useState(false);
