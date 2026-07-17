@@ -46,9 +46,13 @@ const fetchInventoryViews = async ({
     direction,
   });
 
-  const { results: hosts, total } = await getHostViews(params);
+  const response = await getHostViews(params);
+  const { results: hosts, total } = response;
+  const deniedServices: string[] =
+    ((response as unknown as Record<string, unknown>)
+      .denied_services as string[]) ?? [];
 
-  if (total === 0) return { results: [], total };
+  if (total === 0) return { results: [], total, deniedServices };
 
   const { results: hostsTags = {} } = await getHostTags({
     hostIdList: hosts
@@ -61,7 +65,7 @@ const fetchInventoryViews = async ({
     ...(host.id && hostsTags[host.id] ? { tags: hostsTags[host.id] } : {}),
   }));
 
-  return { results, total };
+  return { results, total, deniedServices };
 };
 
 export interface UseInventoryViewsQueryParams extends SystemsViewFetchParams {
@@ -106,6 +110,7 @@ export const useInventoryViewsQuery = ({
   return {
     data: data?.results,
     total: data?.total,
+    deniedServices: data?.deniedServices ?? [],
     isLoading,
     isFetching,
     isError,
