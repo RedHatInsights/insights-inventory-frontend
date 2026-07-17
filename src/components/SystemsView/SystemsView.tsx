@@ -119,14 +119,6 @@ const SystemsViewInner = ({
 
   const isInventoryViewsEnabled = useInventoryViewsFeatureFlag();
 
-  const { columns, annotatedDefaults, setColumns, tableHeaderNodes } =
-    useColumns({
-      sortBy,
-      onSort,
-      direction,
-      isInventoryViewsEnabled,
-    });
-
   const sharedQueryArgs = {
     page: pagination.page,
     perPage: pagination.perPage,
@@ -146,6 +138,15 @@ const SystemsViewInner = ({
     sortBy: sortBy as ApiHostViewsGetHostViewsOrderByEnum | undefined,
     enabled: isInventoryViewsEnabled,
   });
+
+  const { columns, annotatedDefaults, setColumns, tableHeaderNodes } =
+    useColumns({
+      sortBy,
+      onSort,
+      direction,
+      isInventoryViewsEnabled,
+      deniedServices: inventoryViewsQueryResult.deniedServices,
+    });
 
   const activeResult = isInventoryViewsEnabled
     ? inventoryViewsQueryResult
