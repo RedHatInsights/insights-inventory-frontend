@@ -9,7 +9,6 @@ import { STICKY_ACTIONS_HEADER_PROPS } from '../utils/stickyActionsColumn';
 import { getStickyNameHeaderProps } from '../utils/stickyNameColumn';
 import { type Column } from '../columns/allColumnDefinitions';
 import { usePersistedColumns } from './usePersistedColumns';
-import { useAppServicePermissions } from '../../../Utilities/hooks/useAppServicePermissions';
 
 export const INITIAL_SORT: {
   sortBy: Column['sortBy'];
@@ -33,6 +32,7 @@ interface UseColumnParams {
   onSort: OnSort;
   direction: SortDirection;
   isInventoryViewsEnabled: boolean;
+  deniedServices: string[];
 }
 
 export const useColumns = ({
@@ -41,22 +41,19 @@ export const useColumns = ({
   onSort,
   direction,
   isInventoryViewsEnabled,
+  deniedServices,
 }: UseColumnParams) => {
   const { columns: persistedColumns, setColumns } =
     usePersistedColumns(defaultColumns);
-  const { permissions } = useAppServicePermissions();
 
   const annotatePermissions = useCallback(
     (cols: readonly Column[]): readonly Column[] =>
       cols.map((col) => ({
         ...col,
         isPermissionLocked:
-          col.appName !== 'inventory' &&
-          permissions !== null &&
-          col.appName in permissions &&
-          permissions[col.appName as keyof typeof permissions] === false,
+          col.appName !== 'inventory' && deniedServices.includes(col.appName),
       })),
-    [permissions],
+    [deniedServices],
   );
 
   const columns: readonly Column[] = useMemo(

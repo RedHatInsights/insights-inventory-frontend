@@ -65,6 +65,7 @@ export type Pagination = ReturnType<typeof useDataViewPagination>;
 export type SystemsViewDataQueryResult = {
   data: System[] | undefined;
   total: number | undefined;
+  deniedServices?: string[];
   isLoading: boolean;
   isFetching: boolean;
   isError: boolean;
@@ -170,7 +171,7 @@ const SystemsViewInner = ({
     ],
   );
 
-  const { data, total, isLoading, isFetching, isError } =
+  const { data, total, deniedServices, isLoading, isFetching, isError } =
     useDataQuery(fetchParams);
   const activeState = deriveActiveState({
     data,
@@ -188,6 +189,7 @@ const SystemsViewInner = ({
       onSort,
       direction,
       isInventoryViewsEnabled,
+      deniedServices: deniedServices ?? [],
     });
 
   const { hostsWithPermissions } = useHostIdsWithKessel(data);
