@@ -4,7 +4,7 @@ import { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 import { SortDirection } from '../../SystemsView/SystemsView';
 import type { LastSeenCustomRange } from '../../SystemsView/DataViewFiltersContext';
-import { buildHostViewsParams } from '../../SystemsView/utils/buildHostViewsParams';
+import { buildHostViewsParams } from '../utils/buildHostViewsParams';
 import type { SystemsViewFetchParams } from './useHostsQuery';
 
 export const INVENTORY_VIEWS_QUERY_KEY = 'inventory-views' as const;

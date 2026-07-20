@@ -1,25 +1,25 @@
 import { expect } from '@jest/globals';
 import {
-  ApiHostGetHostListOrderByEnum,
-  ApiHostGetHostListStalenessEnum,
-  ApiHostGetHostListSystemTypeEnum,
-} from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
-import { INITIAL_INVENTORY_FILTERS } from '../DataViewFiltersContext';
-import type { InventoryFilters } from '../filters/SystemsViewFilters';
-import type { BuildHostListParamsInput } from './buildHostListParams';
-import { buildHostListParams } from './buildHostListParams';
+  ApiHostViewsGetHostViewsOrderByEnum,
+  ApiHostViewsGetHostViewsStalenessEnum,
+  ApiHostViewsGetHostViewsSystemTypeEnum,
+} from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
+import { INITIAL_INVENTORY_FILTERS } from '../../SystemsView/DataViewFiltersContext';
+import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
+import type { BuildHostViewsParamsInput } from './buildHostViewsParams';
+import { buildHostViewsParams } from './buildHostViewsParams';
 import { hostQueryParamsSerializer } from './buildHostListOptions';
 
 const NOT_NIL = { is: 'not_nil' as const };
 
 const buildParams = (
-  overrides: Omit<Partial<BuildHostListParamsInput>, 'filters'> & {
+  overrides: Omit<Partial<BuildHostViewsParamsInput>, 'filters'> & {
     filters?: Partial<InventoryFilters>;
   } = {},
 ) => {
   const { filters: filterOverrides, ...rest } = overrides;
 
-  return buildHostListParams({
+  return buildHostViewsParams({
     page: 1,
     perPage: 20,
     filters: {
@@ -27,24 +27,36 @@ const buildParams = (
       ...filterOverrides,
     },
     lastSeenCustomRange: null,
+    sortBy: undefined,
+    direction: undefined,
     ...rest,
   });
 };
 
-describe('buildHostListParams', () => {
+describe('buildHostViewsParams', () => {
   describe('pagination', () => {
     it('sets page and perPage', () => {
-      const params = buildParams({ page: 2, perPage: 50 });
+      const params = buildParams({ page: 3, perPage: 40 });
 
-      expect(params.page).toBe(2);
-      expect(params.perPage).toBe(50);
+      expect(params.page).toBe(3);
+      expect(params.perPage).toBe(40);
     });
   });
 
   describe('sortBy', () => {
-    it('sets orderBy when sortBy is provided', () => {
+    it('remaps status column sort to last_check_in', () => {
       const params = buildParams({
-        sortBy: ApiHostGetHostListOrderByEnum.DisplayName,
+        sortBy: 'status' as ApiHostViewsGetHostViewsOrderByEnum,
+      });
+
+      expect(params.orderBy).toBe(
+        ApiHostViewsGetHostViewsOrderByEnum.LastCheckIn,
+      );
+    });
+
+    it('passes through API orderBy values that do not need remapping', () => {
+      const params = buildParams({
+        sortBy: ApiHostViewsGetHostViewsOrderByEnum.DisplayName,
       });
 
       expect(params.orderBy).toBe('display_name');
@@ -59,9 +71,9 @@ describe('buildHostListParams', () => {
 
   describe('direction', () => {
     it('sets orderHow from direction', () => {
-      const params = buildParams({ direction: 'desc' });
+      const params = buildParams({ direction: 'asc' });
 
-      expect(params.orderHow).toBe('DESC');
+      expect(params.orderHow).toBe('ASC');
     });
 
     it('omits orderHow when direction is undefined', () => {
@@ -92,10 +104,18 @@ describe('buildHostListParams', () => {
   describe('status', () => {
     it('sets staleness from the status filter', () => {
       const params = buildParams({
-        filters: { status: [ApiHostGetHostListStalenessEnum.Fresh] },
+        filters: { status: [ApiHostViewsGetHostViewsStalenessEnum.Stale] },
       });
 
-      expect(params.staleness).toEqual(['fresh']);
+      expect(params.staleness).toEqual(['stale']);
+    });
+
+    it('omits staleness when the status filter is empty', () => {
+      const params = buildParams({
+        filters: { status: [] },
+      });
+
+      expect(params.staleness).toBeUndefined();
     });
   });
 
@@ -107,47 +127,62 @@ describe('buildHostListParams', () => {
 
       expect(params.registeredWith).toEqual(['insights']);
     });
+
+    it('omits registeredWith when the source filter is empty', () => {
+      const params = buildParams({
+        filters: { source: [] },
+      });
+
+      expect(params.registeredWith).toBeUndefined();
+    });
   });
 
   describe('system_type', () => {
     it('expands image to bootc and edge', () => {
       const params = buildParams({
-        filters: { system_type: ['image', 'conventional'] },
+        filters: { system_type: ['image'] },
       });
 
       expect(params.systemType).toEqual([
-        ApiHostGetHostListSystemTypeEnum.Bootc,
-        ApiHostGetHostListSystemTypeEnum.Edge,
-        ApiHostGetHostListSystemTypeEnum.Conventional,
+        ApiHostViewsGetHostViewsSystemTypeEnum.Bootc,
+        ApiHostViewsGetHostViewsSystemTypeEnum.Edge,
       ]);
     });
-  });
 
-  describe('group_id', () => {
-    it('sets groupId and preserves empty string for ungrouped hosts', () => {
+    it('omits systemType when the system_type filter is empty', () => {
       const params = buildParams({
-        filters: { group_id: ['workspace-1', '', 'workspace-2'] },
+        filters: { system_type: [] },
       });
 
-      expect(params.groupId).toEqual(['workspace-1', 'workspace-2', '']);
-    });
-
-    it('omits groupId when group_id is empty', () => {
-      const params = buildParams({
-        filters: { group_id: [] },
-      });
-
-      expect(params.groupId).toBeUndefined();
+      expect(params.systemType).toBeUndefined();
     });
   });
 
   describe('tags', () => {
     it('sets tags from the tags filter', () => {
       const params = buildParams({
-        filters: { tags: ['namespace/key=value'] },
+        filters: { tags: ['env/prod'] },
       });
 
-      expect(params.tags).toEqual(['namespace/key=value']);
+      expect(params.tags).toEqual(['env/prod']);
+    });
+  });
+
+  describe('group_id', () => {
+    it('sets workspaceId and preserves empty string for ungrouped hosts', () => {
+      const params = buildParams({
+        filters: { group_id: ['workspace-1', '', 'workspace-2'] },
+      });
+
+      expect(params.workspaceId).toEqual(['workspace-1', 'workspace-2', '']);
+    });
+
+    it('omits workspaceId when group_id is empty', () => {
+      const params = buildParams({
+        filters: { group_id: [] },
+      });
+
+      expect(params.workspaceId).toBeUndefined();
     });
   });
 
@@ -167,7 +202,7 @@ describe('buildHostListParams', () => {
   });
 
   describe('options.params.fields', () => {
-    it('requests host list system profile fields', () => {
+    it('requests host-view system profile fields', () => {
       const params = buildParams();
 
       expect(params.options?.params?.fields).toEqual({
@@ -176,6 +211,9 @@ describe('buildHostListParams', () => {
           'system_update_method',
           'bootc_status',
           'host_type',
+          'infrastructure_type',
+          'infrastructure_vendor',
+          'workloads',
         ],
       });
     });
@@ -185,20 +223,14 @@ describe('buildHostListParams', () => {
     it('nests system profile filters when toolbar profile filters are set', () => {
       const params = buildParams({
         filters: {
-          rhcStatus: ['connected'],
-          operating_system: ['RHEL9.0'],
-          workloads: ['sap'],
+          workloads: ['ansible'],
         },
       });
 
       expect(params.options?.params?.filter).toEqual({
         system_profile: {
-          rhc_client_id: ['connected'],
-          operating_system: {
-            RHEL: { version: { eq: ['9.0'] } },
-          },
           workloads: {
-            sap: NOT_NIL,
+            ansible: NOT_NIL,
           },
         },
       });
@@ -219,12 +251,10 @@ describe('buildHostListParams', () => {
       expect(
         decodeURIComponent(
           hostQueryParamsSerializer({
-            filter: {
-              system_profile: { workloads: { sap: { is: 'not_nil' } } },
-            },
+            fields: { system_profile: ['host_type'] },
           }),
         ),
-      ).toBe('filter[system_profile][workloads][sap][is]=not_nil');
+      ).toBe('fields[system_profile][]=host_type');
     });
   });
 });

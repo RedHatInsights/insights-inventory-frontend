@@ -6,7 +6,7 @@ import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-s
 import type { ISortBy } from '@patternfly/react-table';
 import type { Column } from '../../SystemsView/columns/allColumnDefinitions';
 import { SortDirection } from '../../SystemsView/SystemsView';
-import { buildHostListParams } from '../../SystemsView/utils/buildHostListParams';
+import { buildHostListParams } from '../utils/buildHostListParams';
 import type { LastSeenCustomRange } from '../../SystemsView/DataViewFiltersContext';
 
 export const HOSTS_QUERY_KEY = 'hosts' as const;

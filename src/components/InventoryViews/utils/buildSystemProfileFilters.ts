@@ -1,12 +1,12 @@
-import type { InventoryFilters } from '../filters/SystemsViewFilters';
+import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import {
   buildOperatingSystemProfileFilter,
   type OperatingSystemProfileFilter,
-} from './operatingSystemSelectOptions';
+} from '../../SystemsView/utils/operatingSystemSelectOptions';
 import {
   buildWorkloadsFilter,
   type WorkloadsPresenceFilter,
-} from './workloadsFilter';
+} from '../../SystemsView/utils/workloadsFilter';
 
 export type SystemProfileFilterInput = Pick<
   InventoryFilters,
