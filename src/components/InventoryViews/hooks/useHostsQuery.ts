@@ -1,18 +1,29 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { getHostList, getHostTags } from '../../../api/hostInventoryApiTyped';
 import { getLegacyInventorySortKey } from '../../../constants';
-import { InventoryFilters } from '../filters/SystemsViewFilters';
+import { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
-import { SortDirection } from '../SystemsView';
+import type { ISortBy } from '@patternfly/react-table';
+import type { Column } from '../../SystemsView/columns/allColumnDefinitions';
+import { SortDirection } from '../../SystemsView/SystemsView';
 import { buildHostListParams } from '../utils/buildHostListParams';
-import type { LastSeenCustomRange } from '../DataViewFiltersContext';
+import type { LastSeenCustomRange } from '../../SystemsView/DataViewFiltersContext';
 
-export const SYSTEMS_QUERY_KEY = 'systems' as const;
+export const HOSTS_QUERY_KEY = 'hosts' as const;
 
-type FetchSystemsReturnedValue = Awaited<ReturnType<typeof fetchSystems>>;
-export type System = FetchSystemsReturnedValue['results'][number];
+export type SystemsViewFetchParams = {
+  page: number;
+  perPage: number;
+  filters: InventoryFilters;
+  lastSeenCustomRange: LastSeenCustomRange;
+  sortBy: Column['sortBy'];
+  direction: ISortBy['direction'] | undefined;
+};
 
-interface FetchSystemsParams {
+type FetchHostsReturnedValue = Awaited<ReturnType<typeof fetchHosts>>;
+export type System = FetchHostsReturnedValue['results'][number];
+
+interface FetchHostsParams {
   page: number;
   perPage: number;
   filters: InventoryFilters;
@@ -20,14 +31,14 @@ interface FetchSystemsParams {
   sortBy: ApiOrderByEnum | undefined;
   direction: SortDirection | undefined;
 }
-const fetchSystems = async ({
+const fetchHosts = async ({
   page,
   perPage,
   filters,
   lastSeenCustomRange,
   sortBy,
   direction,
-}: FetchSystemsParams) => {
+}: FetchHostsParams) => {
   const params = buildHostListParams({
     page,
     perPage,
@@ -55,17 +66,11 @@ const fetchSystems = async ({
   return { results, total };
 };
 
-interface UseSystemsQueryParams {
-  page: number;
-  perPage: number;
-  filters: InventoryFilters;
-  lastSeenCustomRange: LastSeenCustomRange;
-  sortBy: ApiOrderByEnum | undefined;
-  direction: SortDirection | undefined;
+export interface UseHostsQueryParams extends SystemsViewFetchParams {
   /** When false, the query is not run (e.g. when user has no access). Default true. */
   enabled?: boolean;
 }
-export const useSystemsQuery = ({
+export const useHostsQuery = ({
   page,
   perPage,
   filters,
@@ -73,7 +78,7 @@ export const useSystemsQuery = ({
   sortBy,
   direction,
   enabled = true,
-}: UseSystemsQueryParams) => {
+}: UseHostsQueryParams) => {
   // Cross-app and SystemsView-only sort keys are not valid for the /hosts API. This can
   // happen during the render between ui.inventory-views being toggled off and the
   // useColumns useEffect resetting the URL to a valid sort key.
@@ -83,7 +88,7 @@ export const useSystemsQuery = ({
 
   const { data, isLoading, isFetching, isError, error } = useQuery({
     queryKey: [
-      SYSTEMS_QUERY_KEY,
+      HOSTS_QUERY_KEY,
       page,
       perPage,
       filters,
@@ -92,7 +97,7 @@ export const useSystemsQuery = ({
       direction,
     ],
     queryFn: async () => {
-      return await fetchSystems({
+      return await fetchHosts({
         page,
         perPage,
         filters,

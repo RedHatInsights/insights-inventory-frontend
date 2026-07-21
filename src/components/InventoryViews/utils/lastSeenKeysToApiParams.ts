@@ -1,6 +1,9 @@
 import type { ApiHostGetHostListParams } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
-import type { LastSeenCustomRange } from '../DataViewFiltersContext';
-import { resolveLastSeenBounds, type LastSeenKey } from '../constants';
+import type { LastSeenCustomRange } from '../../SystemsView/DataViewFiltersContext';
+import {
+  resolveLastSeenBounds,
+  type LastSeenKey,
+} from '../../SystemsView/constants';
 
 /**
  * Maps toolbar last-seen key (+ in-memory custom range) to host list API params.

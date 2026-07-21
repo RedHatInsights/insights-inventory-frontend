@@ -15,7 +15,7 @@ import Redirect from './Utilities/Redirect';
 import { AccountStatContext } from './Contexts';
 
 const InventoryPage = lazy(() => import('./routes/InventoryPage'));
-const InventoryViews = lazy(() => import('./routes/InventoryViews'));
+const SystemsPage = lazy(() => import('./routes/SystemsPage'));
 
 const InventoryDetail = lazy(() => import('./routes/InventoryDetail'));
 const InventoryHostStaleness = lazy(
@@ -70,7 +70,7 @@ export const Routes = () => {
       path: '/',
       element:
         isSystemsViewEnabled && !isLegacyInventoryTableEnabled ? (
-          <RenderWrapper cmp={InventoryViews} />
+          <RenderWrapper cmp={SystemsPage} />
         ) : (
           <RenderWrapper cmp={InventoryPage} />
         ),

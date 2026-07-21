@@ -9,8 +9,6 @@ import { useDataViewSelection } from '@patternfly/react-data-view/dist/dynamic/H
 import { PageSection, Pagination } from '@patternfly/react-core';
 import { DataViewToolbar } from '@patternfly/react-data-view/dist/dynamic/DataViewToolbar';
 import { BulkSelect } from '../BulkSelect';
-import { useInventoryViewsQuery } from './hooks/useInventoryViewsQuery';
-import { useSystemsQuery } from './hooks/useSystemsQuery';
 import { useHostIdsWithKessel } from '../../Utilities/hooks/useHostIdsWithKessel';
 import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorState';
 import SkeletonTable from '@patternfly/react-component-groups/dist/dynamic/SkeletonTable';
@@ -28,7 +26,6 @@ import {
   mapSystemsToRows,
   type SystemsViewTableRow,
 } from './utils/mapSystemsToRows';
-import AccessDenied from '../../Utilities/AccessDenied';
 import './SystemsView.scss';
 import { InnerScrollContainer, ISortBy } from '@patternfly/react-table';
 import { ColumnManagementModalProvider } from './ColumnManagementModalContext';
@@ -46,8 +43,12 @@ import { normalizeLegacySortSearchParams } from './utils/normalizeLegacySortSear
 import { SORT_DIR_URL_PARAM, SORT_URL_PARAM } from './constants';
 import useInventoryViewsFeatureFlag from '../../Utilities/useInventoryViewsFeatureFlag';
 import type { Column } from './columns/allColumnDefinitions';
-import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
-import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
+import type {
+  System,
+  SystemsViewFetchParams,
+} from '../InventoryViews/hooks/useHostsQuery';
+import { deriveActiveState } from './utils/deriveActiveState';
+import type { OnInvalidate } from './SystemActionModalsContext';
 
 export type SortDirection = ISortBy['direction'];
 export type OnSort = (
@@ -56,14 +57,36 @@ export type OnSort = (
   newSortDirection: SortDirection,
 ) => void;
 export type Pagination = ReturnType<typeof useDataViewPagination>;
+
+export type SystemsViewDataQueryResult = {
+  data: System[] | undefined;
+  total: number | undefined;
+  isLoading: boolean;
+  isFetching: boolean;
+  isError: boolean;
+};
+
+export type UseSystemsViewDataQuery = (
+  params: SystemsViewFetchParams,
+) => SystemsViewDataQueryResult;
+
+export type SystemsViewProps = {
+  useDataQuery: UseSystemsViewDataQuery;
+  onInvalidate: OnInvalidate;
+};
+
 interface SystemsViewInnerProps {
   searchParams: URLSearchParams;
   setSearchParams: SetURLSearchParams;
+  useDataQuery: UseSystemsViewDataQuery;
+  onInvalidate: OnInvalidate;
 }
 
 const SystemsViewInner = ({
   searchParams,
   setSearchParams,
+  useDataQuery,
+  onInvalidate,
 }: SystemsViewInnerProps) => {
   const { filters, clearAllFilters, lastSeenCustomRange } =
     useDataViewFiltersContext();
@@ -117,6 +140,34 @@ const SystemsViewInner = ({
   const sortBy = sort?.sortBy as Column['sortBy'];
   const { direction, onSort } = sort;
 
+  const fetchParams = useMemo(
+    (): SystemsViewFetchParams => ({
+      page: pagination.page,
+      perPage: pagination.perPage,
+      filters: queryFilters,
+      lastSeenCustomRange,
+      sortBy,
+      direction,
+    }),
+    [
+      pagination.page,
+      pagination.perPage,
+      queryFilters,
+      lastSeenCustomRange,
+      sortBy,
+      direction,
+    ],
+  );
+
+  const { data, total, isLoading, isFetching, isError } =
+    useDataQuery(fetchParams);
+  const activeState = deriveActiveState({
+    data,
+    isLoading,
+    isFetching,
+    isError,
+  });
+
   const isInventoryViewsEnabled = useInventoryViewsFeatureFlag();
 
   const { columns, setColumns, tableHeaderNodes } = useColumns({
@@ -125,32 +176,6 @@ const SystemsViewInner = ({
     direction,
     isInventoryViewsEnabled,
   });
-
-  const sharedQueryArgs = {
-    page: pagination.page,
-    perPage: pagination.perPage,
-    filters: queryFilters,
-    lastSeenCustomRange,
-    direction,
-  };
-
-  const systemsQueryResult = useSystemsQuery({
-    ...sharedQueryArgs,
-    sortBy: sortBy as ApiOrderByEnum | undefined,
-    enabled: !isInventoryViewsEnabled,
-  });
-
-  const inventoryViewsQueryResult = useInventoryViewsQuery({
-    ...sharedQueryArgs,
-    sortBy: sortBy as ApiHostViewsGetHostViewsOrderByEnum | undefined,
-    enabled: isInventoryViewsEnabled,
-  });
-
-  const activeResult = isInventoryViewsEnabled
-    ? inventoryViewsQueryResult
-    : systemsQueryResult;
-
-  const { data, total, isLoading, isFetching, isError } = activeResult;
 
   const { hostsWithPermissions } = useHostIdsWithKessel(data);
 
@@ -161,15 +186,6 @@ const SystemsViewInner = ({
   });
 
   const selectedSystems = selected.map((row) => row.meta);
-
-  const activeState =
-    isLoading || isFetching
-      ? 'loading'
-      : isError
-        ? 'error'
-        : data?.length === 0
-          ? 'empty'
-          : 'active';
 
   const { isPageSelected, isPartiallySelected, onBulkSelect } = useBulkSelect({
     selection,
@@ -218,7 +234,10 @@ const SystemsViewInner = ({
   );
 
   return (
-    <SystemActionModalsProvider onSelectionClear={() => setSelected([])}>
+    <SystemActionModalsProvider
+      onInvalidate={onInvalidate}
+      onSelectionClear={() => setSelected([])}
+    >
       <ColumnManagementModalProvider columns={columns} setColumns={setColumns}>
         <DataView selection={selection} activeState={activeState}>
           <PageSection hasBodyWrapper={false}>
@@ -265,27 +284,11 @@ const SystemsViewInner = ({
   );
 };
 
-interface SystemsViewProps {
-  hasAccess?: boolean;
-}
-
-export const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
+export const SystemsView = ({
+  useDataQuery,
+  onInvalidate,
+}: SystemsViewProps) => {
   const [searchParams, setSearchParams] = useSearchParamsWithFragment();
-
-  if (!hasAccess) {
-    return (
-      <AccessDenied
-        title="This application requires Inventory permissions"
-        description={
-          <div>
-            To view the content of this page, you must be granted a minimum of
-            inventory permissions from your Organization Administrator.
-          </div>
-        }
-        requiredPermission="inventory:*:read"
-      />
-    );
-  }
 
   return (
     <DataViewFiltersProvider
@@ -295,6 +298,8 @@ export const SystemsView = ({ hasAccess = true }: SystemsViewProps) => {
       <SystemsViewInner
         searchParams={searchParams}
         setSearchParams={setSearchParams}
+        useDataQuery={useDataQuery}
+        onInvalidate={onInvalidate}
       />
     </DataViewFiltersProvider>
   );

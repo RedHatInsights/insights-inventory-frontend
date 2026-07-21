@@ -2,7 +2,7 @@ import { Column } from '../allColumnDefinitions';
 import React from 'react';
 import InstallableAdvisories from './cells/InstallableAdvisories';
 import Template from './cells/Template';
-import { InventoryViewSystem } from '../../hooks/useInventoryViewsQuery';
+import { InventoryViewSystem } from '../../../InventoryViews/hooks/useInventoryViewsQuery';
 
 const APP_NAME = 'content' as const;
 

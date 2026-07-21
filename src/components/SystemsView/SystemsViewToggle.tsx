@@ -10,7 +10,7 @@ import {
 } from '@patternfly/react-core';
 import { DesktopIcon } from '@patternfly/react-icons';
 import FontAwesomeImageIcon from '../FontAwesomeImageIcon';
-import { View } from '../../routes/InventoryViews';
+import { View } from '../../routes/SystemsPage';
 
 interface SystemsViewToggleProps {
   view: View;

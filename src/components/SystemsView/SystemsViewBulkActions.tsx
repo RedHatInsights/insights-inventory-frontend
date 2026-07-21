@@ -4,7 +4,7 @@ import {
   ResponsiveActions,
 } from '@patternfly/react-component-groups';
 import { SystemsViewExport } from './SystemsViewExport';
-import type { System } from './hooks/useSystemsQuery';
+import type { System } from '../InventoryViews/hooks/useHostsQuery';
 import { useSystemActionModalsContext } from './SystemActionModalsContext';
 import { useColumnManagementModalContext } from './ColumnManagementModalContext';
 import { useKesselMigrationFeatureFlag } from '../../Utilities/hooks/useKesselMigrationFeatureFlag';

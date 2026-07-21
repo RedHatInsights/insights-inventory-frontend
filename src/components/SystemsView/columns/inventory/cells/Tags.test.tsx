@@ -5,7 +5,7 @@ import React from 'react';
 import type { StructuredTag } from '@redhat-cloud-services/host-inventory-client';
 import Tags from './Tags';
 import { SystemActionModalsContext } from '../../../SystemActionModalsContext';
-import type { System } from '../../../hooks/useSystemsQuery';
+import type { System } from '../../../../InventoryViews/hooks/useHostsQuery';
 import { NOT_AVAILABLE } from '../../CellValue';
 
 const SYSTEM_ID = 'test-system-id';

@@ -1,4 +1,4 @@
-import type { System } from '../hooks/useSystemsQuery';
+import type { System } from '../../InventoryViews/hooks/useHostsQuery';
 
 export const hasWorkspace = (system: System): boolean => {
   const ungrouped = system?.groups?.[0]?.ungrouped;

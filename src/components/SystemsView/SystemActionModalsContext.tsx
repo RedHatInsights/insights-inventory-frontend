@@ -5,7 +5,6 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import DeleteModal from '../../Utilities/DeleteModal';
 import AddSelectedHostsToGroupModal from '../InventoryGroups/Modals/AddSelectedHostsToGroupModal';
@@ -16,10 +15,10 @@ import TextInputModal from '../GeneralInfo/TextInputModal/TextInputModal';
 import { useKesselMigrationFeatureFlag } from '../../Utilities/hooks/useKesselMigrationFeatureFlag';
 import { useDeleteSystemsMutation } from './hooks/useDeleteSystemsMutation';
 import { usePatchSystemsMutation } from './hooks/usePatchSystemsMutation';
-import type { System } from './hooks/useSystemsQuery';
+import type { System } from '../InventoryViews/hooks/useHostsQuery';
 import { AllTagsModal } from './TagsModal/AllTagsModal';
 import { SingleHostTagsModal } from './TagsModal/SingleHostTagsModal';
-import { invalidateSystemsViewQueries } from './utils/invalidateSystemsViewQueries';
+export type OnInvalidate = () => void | Promise<void>;
 
 type OpenModalFn = (systems: System[]) => void;
 
@@ -58,14 +57,15 @@ export const useSystemActionModalsContext = () => {
 
 interface SystemActionModalsProviderProps {
   children: React.ReactNode;
+  onInvalidate: OnInvalidate;
   onSelectionClear?: () => void;
 }
 
 export const SystemActionModalsProvider = ({
   children,
+  onInvalidate,
   onSelectionClear,
 }: SystemActionModalsProviderProps) => {
-  const queryClient = useQueryClient();
   const isKesselEnabled = useKesselMigrationFeatureFlag();
   const [systemsForAction, setSystemsForAction] = useState<System[]>([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -80,6 +80,7 @@ export const SystemActionModalsProvider = ({
 
   const { onDeleteConfirm } = useDeleteSystemsMutation({
     systems: systemsForAction,
+    onInvalidate,
     onSuccess: () => {
       onSelectionClear?.();
     },
@@ -90,6 +91,7 @@ export const SystemActionModalsProvider = ({
 
   const { onPatchConfirm } = usePatchSystemsMutation({
     systems: systemsForAction,
+    onInvalidate,
     onSuccess: () => {
       onSelectionClear?.();
     },
@@ -100,7 +102,7 @@ export const SystemActionModalsProvider = ({
 
   const reloadData = async () => {
     onSelectionClear?.();
-    await invalidateSystemsViewQueries(queryClient);
+    await onInvalidate();
   };
 
   const openDeleteModal = useCallback((systems: System[]) => {

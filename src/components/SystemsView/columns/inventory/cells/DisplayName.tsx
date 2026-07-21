@@ -5,7 +5,7 @@ import { Flex, FlexItem, Icon, Popover } from '@patternfly/react-core';
 import { BundleIcon } from '@patternfly/react-icons';
 import FontAwesomeImageIcon from '../../../../FontAwesomeImageIcon';
 import CellValue from '../../CellValue';
-import type { System } from '../../../hooks/useSystemsQuery';
+import type { System } from '../../../../InventoryViews/hooks/useHostsQuery';
 
 export type DisplayNameValue = Pick<
   System,

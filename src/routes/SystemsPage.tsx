@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Flex, FlexItem, PageSection } from '@patternfly/react-core';
-import SystemsView from '../components/SystemsView';
 import {
   PageHeader,
   PageHeaderTitle,
@@ -12,21 +11,41 @@ import { AccountStatContext } from '../Contexts';
 import { ImagesView } from '../components/InventoryViews/ImagesView/ImagesView';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import './inventory.scss';
+import InventoryViews from '../components/InventoryViews/InventoryViews';
+import AccessDenied from '../Utilities/AccessDenied';
+import useInventoryViewsFeatureFlag from '../Utilities/useInventoryViewsFeatureFlag';
+import InventoryHosts from '../components/InventoryViews/InventoryHosts';
 
-interface InventoryViewsProps {
+interface SystemsPageProps {
   hasAccess?: boolean;
 }
 
 export type View = 'systems' | 'images';
 
-const InventoryViews = ({ hasAccess }: InventoryViewsProps) => {
+const InventoryViewsPage = ({ hasAccess = true }: SystemsPageProps) => {
   const [view, setView] = useState<View>('systems');
   const { hasBootcImages } = useContext(AccountStatContext);
   const chrome = useChrome();
+  const isInventoryViewsEnabled = useInventoryViewsFeatureFlag();
 
   useEffect(() => {
     chrome?.hideGlobalFilter?.(true);
   }, [chrome]);
+
+  if (!hasAccess) {
+    return (
+      <AccessDenied
+        title="This application requires Inventory permissions"
+        description={
+          <div>
+            To view the content of this page, you must be granted a minimum of
+            inventory permissions from your Organization Administrator.
+          </div>
+        }
+        requiredPermission="inventory:*:read"
+      />
+    );
+  }
 
   return (
     <>
@@ -53,7 +72,11 @@ const InventoryViews = ({ hasAccess }: InventoryViewsProps) => {
       </PageHeader>
       <PageSection hasBodyWrapper={false}>
         {view === 'systems' ? (
-          <SystemsView hasAccess={hasAccess} />
+          isInventoryViewsEnabled ? (
+            <InventoryViews />
+          ) : (
+            <InventoryHosts />
+          )
         ) : (
           <ImagesView />
         )}
@@ -62,4 +85,4 @@ const InventoryViews = ({ hasAccess }: InventoryViewsProps) => {
   );
 };
 
-export default InventoryViews;
+export default InventoryViewsPage;

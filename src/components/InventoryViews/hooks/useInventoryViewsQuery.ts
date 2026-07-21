@@ -1,10 +1,11 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { getHostTags, getHostViews } from '../../../api/hostInventoryApiTyped';
-import { InventoryFilters } from '../filters/SystemsViewFilters';
+import { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
-import { SortDirection } from '../SystemsView';
-import type { LastSeenCustomRange } from '../DataViewFiltersContext';
+import { SortDirection } from '../../SystemsView/SystemsView';
+import type { LastSeenCustomRange } from '../../SystemsView/DataViewFiltersContext';
 import { buildHostViewsParams } from '../utils/buildHostViewsParams';
+import type { SystemsViewFetchParams } from './useHostsQuery';
 
 export const INVENTORY_VIEWS_QUERY_KEY = 'inventory-views' as const;
 
@@ -63,13 +64,7 @@ const fetchInventoryViews = async ({
   return { results, total };
 };
 
-export interface UseInventoryViewsQueryParams {
-  page: number;
-  perPage: number;
-  filters: InventoryFilters;
-  lastSeenCustomRange: LastSeenCustomRange;
-  sortBy: ApiHostViewsGetHostViewsOrderByEnum | undefined;
-  direction: SortDirection | undefined;
+export interface UseInventoryViewsQueryParams extends SystemsViewFetchParams {
   /** When false, the query is not run (e.g. when user has no access). Default true. */
   enabled?: boolean;
 }
@@ -99,7 +94,7 @@ export const useInventoryViewsQuery = ({
         perPage,
         filters,
         lastSeenCustomRange,
-        sortBy,
+        sortBy: sortBy as ApiHostViewsGetHostViewsOrderByEnum | undefined,
         direction,
       });
     },

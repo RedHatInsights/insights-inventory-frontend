@@ -1,13 +1,14 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import { deleteSystemsById } from '../../InventoryTable/utils/api';
 import { getDeleteErrorDescription } from '../../InventoryTable/utils/errorUtils';
-import { type System } from './useSystemsQuery';
+import { type System } from '../../InventoryViews/hooks/useHostsQuery';
 import { useMemo } from 'react';
-import { invalidateSystemsViewQueries } from '../utils/invalidateSystemsViewQueries';
+import type { OnInvalidate } from '../SystemActionModalsContext';
 
 interface UseDeleteSystemsMutationParams {
   systems: System[];
+  onInvalidate: OnInvalidate;
   onSuccess?: () => void;
   onError?: () => void;
   onMutate?: () => void;
@@ -21,12 +22,12 @@ const getDisplayName = (systems: System[]): string => {
 
 export const useDeleteSystemsMutation = ({
   systems,
+  onInvalidate,
   onSuccess,
   onError,
   onMutate,
 }: UseDeleteSystemsMutationParams) => {
   const addNotification = useAddNotification();
-  const queryClient = useQueryClient();
 
   const displayName = useMemo(() => getDisplayName(systems), [systems]);
 
@@ -52,7 +53,7 @@ export const useDeleteSystemsMutation = ({
         dismissable: true,
       });
 
-      await invalidateSystemsViewQueries(queryClient);
+      await onInvalidate();
     },
     onError: async (error) => {
       onError?.();
@@ -64,7 +65,7 @@ export const useDeleteSystemsMutation = ({
         dismissable: true,
       });
 
-      await invalidateSystemsViewQueries(queryClient);
+      await onInvalidate();
     },
   });
 

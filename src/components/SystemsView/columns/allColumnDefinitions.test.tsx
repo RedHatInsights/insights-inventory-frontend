@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import allColumns, { type Column } from './allColumnDefinitions';
-import { InventoryViewSystem } from '../hooks/useInventoryViewsQuery';
+import { InventoryViewSystem } from '../../InventoryViews/hooks/useInventoryViewsQuery';
 import {
   DEFAULT_NAME_COLUMN_MIN_WIDTH,
   getColumnMinWidthStyle,

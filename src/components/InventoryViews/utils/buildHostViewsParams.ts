@@ -4,10 +4,10 @@ import {
   ApiHostViewsGetHostViewsSystemTypeEnum,
   type ApiHostViewsGetHostViewsParams,
 } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
-import type { Column } from '../columns/allColumnDefinitions';
-import type { InventoryFilters } from '../filters/SystemsViewFilters';
-import type { LastSeenCustomRange } from '../DataViewFiltersContext';
-import type { SortDirection } from '../SystemsView';
+import type { Column } from '../../SystemsView/columns/allColumnDefinitions';
+import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
+import type { LastSeenCustomRange } from '../../SystemsView/DataViewFiltersContext';
+import type { SortDirection } from '../../SystemsView/SystemsView';
 import { buildSystemProfileFilters } from './buildSystemProfileFilters';
 import { buildHostQueryOptions } from './buildHostListOptions';
 import { lastSeenKeysToApiParams } from './lastSeenKeysToApiParams';

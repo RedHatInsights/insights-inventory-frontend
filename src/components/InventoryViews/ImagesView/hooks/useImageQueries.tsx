@@ -11,7 +11,7 @@ import type {
 } from '@redhat-cloud-services/host-inventory-client';
 import { useQueries } from '@tanstack/react-query';
 import { INITIAL_PAGE } from '../../constants';
-import { System } from '../../../SystemsView/hooks/useSystemsQuery';
+import { System } from '../../hooks/useHostsQuery';
 import { PER_PAGE_MAX } from '../../../../constants';
 
 export type BootcSystem = System & {
