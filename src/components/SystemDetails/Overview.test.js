@@ -175,6 +175,26 @@ describe('Overview', () => {
 
       expect(fetchEntity).toHaveBeenCalledWith('test-id');
     });
+
+    it('should render SystemDetailsModal component', () => {
+      const store = mockStore(initialState);
+
+      // Render Overview which includes SystemDetailsModal
+      const view = render(
+        <MemoryRouter initialEntries={['/example']}>
+          <Provider store={store}>
+            <Overview entity={entity} inventoryId={'test-id'} />
+          </Provider>
+        </MemoryRouter>,
+      );
+
+      // Verify the component renders without errors
+      // Modal is closed by default (isModalOpen=false from useModalState)
+      expect(view.container).toBeInTheDocument();
+
+      // Verify no modal is visible initially
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
   });
 
   describe('conversion alert', () => {

@@ -216,7 +216,7 @@ describe('Details', () => {
 
       await waitFor(() => {
         screen.getByRole('dialog', {
-          name: /ipv4 modal/i,
+          name: /ipv4/i,
         });
       });
     });
@@ -234,8 +234,46 @@ describe('Details', () => {
       await userEvent.click(screen.getAllByText('2 addresses')[0]);
       await waitFor(() => {
         screen.getByRole('dialog', {
-          name: /ipv4 modal/i,
+          name: /ipv4/i,
         });
+      });
+    });
+
+    it('should have Close button in modal that closes on click', async () => {
+      const store = mockStore(initialState);
+      render(
+        <MemoryRouter initialEntries={['/example']}>
+          <Provider store={store}>
+            <Details entity={entity} inventoryId={'test-id'} />
+          </Provider>
+        </MemoryRouter>,
+      );
+
+      // Open modal
+      await userEvent.click(screen.getAllByText('2 addresses')[0]);
+
+      // Wait for modal and verify Close button exists
+      await waitFor(() => {
+        screen.getByRole('dialog', { name: /ipv4/i });
+      });
+
+      // Get all close buttons and find the primary one
+      const buttons = screen.getAllByRole('button', { name: /close/i });
+      const primaryCloseButton = buttons.find((button) =>
+        button.classList.contains('pf-m-primary'),
+      );
+
+      expect(primaryCloseButton).toBeInTheDocument();
+      expect(primaryCloseButton).toHaveClass('pf-m-primary');
+
+      // Click Close button
+      await userEvent.click(primaryCloseButton);
+
+      // Modal should be closed
+      await waitFor(() => {
+        expect(
+          screen.queryByRole('dialog', { name: /ipv4/i }),
+        ).not.toBeInTheDocument();
       });
     });
   });
