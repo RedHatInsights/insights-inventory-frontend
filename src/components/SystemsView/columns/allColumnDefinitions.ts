@@ -1,4 +1,4 @@
-import { ColumnManagementModalColumn } from '@patternfly/react-component-groups';
+import { ColumnManagementModalColumn } from '../../ColumnManagementModal/ColumnManagementModal';
 import inventoryColumns from './inventory/columnDefinitions';
 import complianceColumns from './compliance/columnDefinitions';
 import patchColumns from './content/columnDefinitions';

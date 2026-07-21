@@ -1,6 +1,10 @@
 import React from 'react';
 import { Tooltip } from '@patternfly/react-core';
-import { DISABLED_TEXT_COLOR } from '../../../constants';
+import { LockIcon } from '@patternfly/react-icons';
+import {
+  DISABLED_TEXT_COLOR,
+  noServicePermissionTooltip,
+} from '../../../constants';
 
 export const NOT_APPLICABLE = 'N/A';
 export const NOT_AVAILABLE = '--';
@@ -35,11 +39,19 @@ type NotApplicableCellValueProps = {
   reason: string;
 };
 
+/** User lacks the RBAC permission required for this service's data. */
+type NoPermissionCellValueProps = {
+  type: 'noPermission';
+  /** Lowercase service name (e.g. "vulnerability"). */
+  serviceName: string;
+};
+
 type CellValueProps =
   | PresentCellValueProps
   | NotSetCellValueProps
   | NotAvailableCellValueProps
-  | NotApplicableCellValueProps;
+  | NotApplicableCellValueProps
+  | NoPermissionCellValueProps;
 
 const notApplicableLabel = (reason: string) => `Not applicable. ${reason}`;
 const notAvailableLabel = (reason: string, value?: string) =>
@@ -76,6 +88,28 @@ const CellValue = (props: CellValueProps) => {
           </span>
         </Tooltip>
       );
+
+    case 'noPermission': {
+      const name =
+        props.serviceName.charAt(0).toUpperCase() + props.serviceName.slice(1);
+      const label = noServicePermissionTooltip(name);
+      return (
+        <Tooltip content={label}>
+          <span
+            aria-label={label}
+            style={{
+              color: DISABLED_TEXT_COLOR,
+              display: 'flex',
+              justifyContent: 'center',
+              width: '100%',
+              cursor: 'default',
+            }}
+          >
+            <LockIcon />
+          </span>
+        </Tooltip>
+      );
+    }
   }
 };
 

@@ -31,6 +31,7 @@ interface UseColumnParams {
   onSort: OnSort;
   direction: SortDirection;
   isInventoryViewsEnabled: boolean;
+  deniedServices: string[];
 }
 
 export const useColumns = ({
@@ -38,8 +39,30 @@ export const useColumns = ({
   onSort,
   direction,
   isInventoryViewsEnabled,
+  deniedServices,
 }: UseColumnParams) => {
-  const { columns, setColumns } = usePersistedColumns(defaultColumns);
+  const { columns: persistedColumns, setColumns } =
+    usePersistedColumns(defaultColumns);
+
+  const annotatePermissions = useCallback(
+    (cols: readonly Column[]): readonly Column[] =>
+      cols.map((col) => ({
+        ...col,
+        isPermissionLocked:
+          col.appName !== 'inventory' && deniedServices.includes(col.appName),
+      })),
+    [deniedServices],
+  );
+
+  const columns: readonly Column[] = useMemo(
+    () => annotatePermissions(persistedColumns),
+    [persistedColumns, annotatePermissions],
+  );
+
+  const annotatedDefaults: readonly Column[] = useMemo(
+    () => annotatePermissions(defaultColumns),
+    [annotatePermissions],
+  );
 
   const fromSortByToIndex = useCallback(
     (sortBy?: Column['sortBy']): number | undefined => {
@@ -68,23 +91,24 @@ export const useColumns = ({
                 : isInventoryViewsEnabled
                   ? (getColumnMinWidthStyle(col) ?? {})
                   : {}),
-              ...(col.sortBy && {
-                sort: {
-                  sortBy: { index: fromSortByToIndex(sortBy), direction },
-                  onSort: (
-                    _event:
-                      | React.MouseEvent
-                      | React.KeyboardEvent
-                      | MouseEvent
-                      | undefined,
-                    _columnIndex: number,
-                    newDirection: SortDirection,
-                  ) => {
-                    onSort(undefined, col.sortBy!, newDirection);
+              ...(col.sortBy &&
+                !col.isPermissionLocked && {
+                  sort: {
+                    sortBy: { index: fromSortByToIndex(sortBy), direction },
+                    onSort: (
+                      _event:
+                        | React.MouseEvent
+                        | React.KeyboardEvent
+                        | MouseEvent
+                        | undefined,
+                      _columnIndex: number,
+                      newDirection: SortDirection,
+                    ) => {
+                      onSort(undefined, col.sortBy!, newDirection);
+                    },
+                    columnIndex: index,
                   },
-                  columnIndex: index,
-                },
-              }),
+                }),
             },
           };
         }),
@@ -108,7 +132,8 @@ export const useColumns = ({
   useEffect(() => {
     if (sortBy) {
       const isSortColumnVisible = columns.some(
-        (col) => col.sortBy === sortBy && col.isShown,
+        (col) =>
+          col.sortBy === sortBy && col.isShown && !col.isPermissionLocked,
       );
 
       if (!isSortColumnVisible) {
@@ -119,6 +144,7 @@ export const useColumns = ({
 
   return {
     columns,
+    annotatedDefaults,
     setColumns,
     tableHeaderNodes,
   };
