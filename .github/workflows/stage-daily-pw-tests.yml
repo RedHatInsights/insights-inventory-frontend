@@ -93,7 +93,7 @@ jobs:
           retention-days: 10
 
       - name: Notify Slack on failure
-        uses: slackapi/slack-github-action@v3.0.3
+        uses: slackapi/slack-github-action@v3.0.5
         if: ${{ failure() && inputs.dry_run != true && !cancelled() }}
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
