@@ -1,33 +1,34 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import { createViewApi } from '../../../api/inventoryViewsApi';
 
-/**
- * Hook for creating a new inventory view
- *
- * @example
- * const createView = useCreateViewMutation();
- * createView.mutate({
- *   name: "My Custom View",
- *   configuration: { columns: [...], sort: {...} }
- * });
- */
 export const useCreateViewMutation = () => {
   const queryClient = useQueryClient();
+  const addNotification = useAddNotification();
 
   return useMutation({
     mutationFn: createViewApi,
     onSuccess: (newView) => {
-      console.log('[CREATE SUCCESS] New view created:', newView);
+      addNotification({
+        variant: 'success',
+        title: `View "${newView.name}" created successfully`,
+        dismissable: true,
+      });
 
       // TODO: Invalidate views list query when RHINENG-28462 is complete
       // queryClient.invalidateQueries({ queryKey: ['views'] });
-
-      // TODO: Add success toast notification (e.g. "View created successfully")
     },
     onError: (error) => {
-      console.error('[CREATE ERROR] Failed to create view:', error);
-
-      // TODO: Add error toast notification (e.g. "Failed to create view")
+      console.error(error);
+      addNotification({
+        variant: 'danger',
+        title: 'Failed to create view',
+        description:
+          error instanceof Error
+            ? error.message
+            : 'An unexpected error occurred.',
+        dismissable: true,
+      });
     },
   });
 };

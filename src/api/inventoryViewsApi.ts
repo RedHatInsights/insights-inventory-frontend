@@ -7,10 +7,11 @@ import type {
   ViewIn,
   ViewOut,
   ViewPatch,
+  ViewsListOut,
 } from '@redhat-cloud-services/host-inventory-client/types';
 
 // Re-export for convenience — consumers can import from this file
-export type { ViewConfiguration, ViewIn, ViewOut, ViewPatch };
+export type { ViewConfiguration, ViewIn, ViewOut, ViewPatch, ViewsListOut };
 
 // Type aliases mapping to our domain terminology
 export type CreateViewRequest = ViewIn;
@@ -20,6 +21,31 @@ export type InventoryView = ViewOut;
 // ============================================================================
 // DUMMY API FUNCTIONS (Replace with real API calls)
 // ============================================================================
+
+/**
+ * DUMMY: List all inventory views visible to the requesting user
+ *
+ * Real implementation (RHINENG-28461):
+ * - GET /api/inventory/v1/views
+ * - RBAC: @access(KesselResourceTypes.VIEWS.view)
+ * - Returns system views, user's own views, and org-wide views
+ * - Each view includes computed is_owner boolean
+ */
+export const listViewsApi = async (): Promise<ViewsListOut> => {
+  console.log('[DUMMY API] Listing views');
+
+  // Simulate API delay
+  await new Promise((resolve) => setTimeout(resolve, 300));
+
+  // Return mock response matching paginated API structure
+  return {
+    count: 0,
+    page: 1,
+    per_page: 50,
+    total: 0,
+    results: [],
+  };
+};
 
 /**
  * DUMMY: Create a new inventory view
