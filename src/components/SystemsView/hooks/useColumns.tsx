@@ -7,7 +7,7 @@ import {
 } from '../utils/columnMinWidths';
 import { STICKY_ACTIONS_HEADER_PROPS } from '../utils/stickyActionsColumn';
 import { getStickyNameHeaderProps } from '../utils/stickyNameColumn';
-import defaultColumns, { type Column } from '../columns/allColumnDefinitions';
+import { type Column } from '../columns/allColumnDefinitions';
 import { usePersistedColumns } from './usePersistedColumns';
 
 export const INITIAL_SORT: {
@@ -27,6 +27,7 @@ const FALLBACK_SORT: {
 };
 
 interface UseColumnParams {
+  defaultColumns: readonly Column[];
   sortBy: Column['sortBy'];
   onSort: OnSort;
   direction: SortDirection;
@@ -34,6 +35,7 @@ interface UseColumnParams {
 }
 
 export const useColumns = ({
+  defaultColumns,
   sortBy,
   onSort,
   direction,
