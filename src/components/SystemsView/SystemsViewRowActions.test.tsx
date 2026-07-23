@@ -43,9 +43,7 @@ describe('SystemsViewRowActions', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     const useFeatureFlag = require('../../Utilities/useFeatureFlag').default;
-    useFeatureFlag.mockImplementation(
-      (key: string) => key === 'hbi.rbac-v2',
-    );
+    useFeatureFlag.mockImplementation((key: string) => key === 'hbi.rbac-v2');
     const useConditionalRBACMock =
       require('../../Utilities/hooks/useConditionalRBAC')
         .useConditionalRBAC as jest.Mock;
