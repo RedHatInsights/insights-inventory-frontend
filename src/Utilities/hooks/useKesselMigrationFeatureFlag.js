@@ -1,6 +1,6 @@
 import useFeatureFlag from '../useFeatureFlag';
 
 export const useKesselMigrationFeatureFlag = () => {
-  const isFlagEnabled = useFeatureFlag('platform.rbac.workspaces');
+  const isFlagEnabled = useFeatureFlag('hbi.rbac-v2');
   return isFlagEnabled || false;
 };
