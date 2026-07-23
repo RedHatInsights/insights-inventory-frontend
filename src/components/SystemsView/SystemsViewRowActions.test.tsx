@@ -30,7 +30,7 @@ function renderWithProvider(ui: React.ReactElement) {
 
 jest.mock('../../Utilities/useFeatureFlag', () => ({
   __esModule: true,
-  default: jest.fn((key: string) => key === 'platform.rbac.workspaces'),
+  default: jest.fn((key: string) => key === 'hbi.rbac-v2'),
 }));
 
 jest.mock('../../Utilities/hooks/useConditionalRBAC', () => ({
@@ -44,7 +44,7 @@ describe('SystemsViewRowActions', () => {
     jest.clearAllMocks();
     const useFeatureFlag = require('../../Utilities/useFeatureFlag').default;
     useFeatureFlag.mockImplementation(
-      (key: string) => key === 'platform.rbac.workspaces',
+      (key: string) => key === 'hbi.rbac-v2',
     );
     const useConditionalRBACMock =
       require('../../Utilities/hooks/useConditionalRBAC')
