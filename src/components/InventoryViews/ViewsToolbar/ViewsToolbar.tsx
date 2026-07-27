@@ -11,6 +11,7 @@ export interface ViewsToolbarProps {
   viewsList?: ViewOut[];
   onSaveAs: () => void;
   onRename: () => void;
+  onDelete: () => void;
 }
 
 export const ViewsToolbar = ({
@@ -20,6 +21,7 @@ export const ViewsToolbar = ({
   viewsList,
   onSaveAs,
   onRename,
+  onDelete,
 }: ViewsToolbarProps) => {
   return (
     <Flex
@@ -36,6 +38,7 @@ export const ViewsToolbar = ({
           isSystemView={isSystemView}
           onSaveAs={onSaveAs}
           onRename={onRename}
+          onDelete={onDelete}
         />
       </FlexItem>
     </Flex>
