@@ -10,7 +10,6 @@ import { getStickyNameBodyProps } from './stickyNameColumn';
 import type { SystemWithPermissions } from '../../../Utilities/hooks/useHostIdsWithKessel';
 import type { System } from '../../InventoryViews/hooks/useHostsQuery';
 import { Column } from '../columns/allColumnDefinitions';
-import CellValue from '../columns/CellValue';
 
 /** DataViewTrObject Extension, `meta` points to associated system objects. */
 export type SystemsViewTableRow = DataViewTrObject & {
@@ -37,11 +36,7 @@ export const mapSystemsToRows = ({
     const selectableColumnCells = columns
       .filter((col) => col.isShown)
       .map((col) => {
-        const cell = col.isPermissionLocked ? (
-          <CellValue type="noPermission" serviceName={col.appName} />
-        ) : (
-          col.renderCell(system)
-        );
+        const cell = col.renderCell(system);
         if (col.key === 'name') {
           if (isInventoryViewsEnabled) {
             return {

@@ -1,4 +1,4 @@
-import { ColumnManagementModalColumn } from '../../ColumnManagementModal/ColumnManagementModal';
+import { ColumnManagementModalColumn } from '@patternfly/react-component-groups';
 import inventoryColumns from './inventory/columnDefinitions';
 import complianceColumns from './compliance/columnDefinitions';
 import patchColumns from './content/columnDefinitions';
@@ -35,12 +35,17 @@ type LayoutColumn = {
   readonly minWidth?: string;
 };
 
+type PermissionGatedColumn = {
+  isPermissionLocked?: boolean;
+};
+
 export type Column = Resolve<
   ColumnManagementModalColumn &
     RenderableColumn &
     SortableColumn &
     ConsumerAppColumn &
-    LayoutColumn
+    LayoutColumn &
+    PermissionGatedColumn
 >;
 
 /**
