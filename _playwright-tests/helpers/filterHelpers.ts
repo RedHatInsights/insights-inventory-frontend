@@ -154,6 +154,9 @@ export const searchByName = async (page: Page, name: string): Promise<void> => {
   await page.reload({ waitUntil: 'networkidle' });
   await expect(searchInput).toBeVisible({ timeout: 30000 });
   await searchInput.fill(name);
+  const skeleton = page.locator(SKELETON_TABLE);
+  await skeleton.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
+  await skeleton.waitFor({ state: 'hidden', timeout: 30000 });
 };
 
 export const waitForTableKebabReady = async (
