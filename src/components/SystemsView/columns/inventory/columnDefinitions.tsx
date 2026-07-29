@@ -23,8 +23,8 @@ const nameColumn = {
   title: 'Name',
   key: 'name',
   minWidth: DEFAULT_NAME_COLUMN_MIN_WIDTH,
-  isShownByDefault: true,
-  isShown: true,
+  isShownByDefault: false,
+  isShown: false,
   isUntoggleable: true,
   sortBy: ApiOrderByEnum.DisplayName,
   renderCell: (system: System) => (
@@ -43,8 +43,8 @@ const workspaceColumn = {
   title: 'Workspace',
   key: 'workspace',
   minWidth: '10rem',
-  isShownByDefault: true,
-  isShown: true,
+  isShownByDefault: false,
+  isShown: false,
   sortBy: ApiOrderByEnum.GroupName,
   renderCell: (system: InventoryViewSystem) => (
     <Workspace value={system.groups} />
@@ -56,8 +56,8 @@ const tagsColumn = {
   title: 'Tags',
   key: 'tags',
   minWidth: '6rem',
-  isShownByDefault: true,
-  isShown: true,
+  isShownByDefault: false,
+  isShown: false,
   renderCell: (system: InventoryViewSystem) => (
     <Tags value={system.tags} system={system} />
   ),
@@ -68,8 +68,8 @@ const operatingSystemColumn = {
   title: 'OS',
   key: 'os',
   minWidth: '11rem',
-  isShownByDefault: true,
-  isShown: true,
+  isShownByDefault: false,
+  isShown: false,
   sortBy: ApiOrderByEnum.OperatingSystem,
   renderCell: (system: InventoryViewSystem) => (
     <OperatingSystem value={system.system_profile?.operating_system} />
@@ -81,8 +81,8 @@ const lastSeenColumn = {
   title: <LastSeenColumnHeader />,
   key: 'last_seen',
   minWidth: '9rem',
-  isShownByDefault: true,
-  isShown: true,
+  isShownByDefault: false,
+  isShown: false,
   sortBy: ApiOrderByEnum.LastCheckIn,
   renderCell: (system: InventoryViewSystem) => (
     <LastSeen

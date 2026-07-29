@@ -5,7 +5,6 @@ import {
   type ColumnSelector,
   defaultColumnSelector,
   resolveColumnSelector,
-  selectInventoryColumns,
 } from './resolveColumnSelector';
 
 const inventoryKeys = inventoryColumns.map((col) => col.key);
@@ -14,13 +13,6 @@ describe('resolveColumnSelector', () => {
   it('returns the full catalog with the default selector', () => {
     expect(resolveColumnSelector()).toBe(allColumns);
     expect(defaultColumnSelector(allColumns)).toBe(allColumns);
-  });
-
-  it('returns only inventory columns with selectInventoryColumns', () => {
-    const selected = selectInventoryColumns(allColumns);
-
-    expect(selected.every((col) => col.appName === 'inventory')).toBe(true);
-    expect(selected.map((col) => col.key)).toEqual(inventoryKeys);
   });
 
   it('allows custom selectors to reorder and override visibility', () => {

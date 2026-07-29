@@ -13,7 +13,6 @@ import { NOT_AVAILABLE } from './CellValue';
 import inventoryColumns from './inventory/columnDefinitions';
 
 const inventoryKeys = inventoryColumns.map((col) => col.key);
-const defaultColumnsKeys = ['name', 'workspace', 'tags', 'os', 'last_seen'];
 const nonInventoryColumns = allColumns.filter(
   (col) => !inventoryKeys.includes(col.key),
 );
@@ -28,18 +27,8 @@ describe('allColumnDefinitions', () => {
     expect(new Set(keys).size).toBe(keys.length);
   });
 
-  it('should show default columns', () => {
-    const inventoryColumns = allColumns.filter((col) =>
-      defaultColumnsKeys.includes(col.key),
-    );
-    inventoryColumns.forEach((col) => {
-      expect(col.isShownByDefault).toBe(true);
-      expect(col.isShown).toBe(true);
-    });
-  });
-
-  it('should not show non-inventory columns by default', () => {
-    nonInventoryColumns.forEach((col) => {
+  it('should hide all catalog columns by default', () => {
+    allColumns.forEach((col) => {
       expect(col.isShownByDefault).toBe(false);
       expect(col.isShown).toBe(false);
     });
