@@ -16,6 +16,8 @@ export const isSystemsViewEnabled = process.env.SYSTEMS_VIEW === 'true';
 export const isInventoryViewsEnabled = process.env.INVENTORY_VIEWS === 'true';
 export const isLegacyInventoryTableEnabled =
   process.env.LEGACY_INVENTORY_TABLE === 'true';
+export const isInventoryViewsRbacEnabled =
+  process.env.INVENTORY_VIEWS_RBAC === 'true';
 
 // Base archives
 export const CENTOS_ARCHIVE = 'centos79.tar.gz';
