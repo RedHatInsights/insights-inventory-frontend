@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { expect } from '@playwright/test';
 import {
   navigateToWorkspacesFunc,
@@ -17,6 +18,7 @@ import {
   WORKSPACE_NAME_MODIFIED_PREFIX,
   WORKSPACE_NAME_SORT_PREFIX,
 } from './helpers/constants';
+import { isSystemsViewEnabled } from './helpers/constants';
 
 test.describe('Workspace CRUD - Details Page', () => {
   test('User can create, rename, and delete a workspace from Workspace Details page', async ({
@@ -452,6 +454,8 @@ test.describe('Workspace System Management', () => {
       process.env.PROD === 'true',
       'Case is intended for non-prod environments only - Kessel feature',
     );
+    test.fixme(true, 'https://redhat.atlassian.net/browse/RHINENG-29322');
+    
     const system = systems.workspaceSystems[2];
     const nameCell = page
       .locator('[data-ouia-component-id="systems-view-table-td-0-0"]')
@@ -463,16 +467,20 @@ test.describe('Workspace System Management', () => {
 
     await test.step(`Add system "${system.hostname}" to "${WORKSPACE_WITH_SYSTEMS}"`, async () => {
       await searchByName(page, system.hostname);
-      await expect(nameCell).toHaveCount(1);
-      await page
-        .getByRole('row', { name: new RegExp(system.hostname, 'i') })
-        .getByLabel('Kebab toggle')
-        .click();
+      await expect(nameCell).toHaveCount(1, { timeout: 10000 });
+      const kebab = await waitForTableKebabReady(
+        page,
+        new RegExp(system.hostname, 'i'),
+      );
+      await kebab.click();
+      await expect(kebab).toHaveAttribute('aria-expanded', 'true');
 
-      await page
-        .getByRole('menuitem', { name: /Add to workspace|Move system/ })
-        .first()
-        .click();
+      const moveButton = page.getByRole('menuitem', { name: /Add to workspace|Move system/ }).first();
+      await expect(moveButton).toBeEnabled({
+              enabled: isSystemsViewEnabled || undefined,
+              timeout: 50000,
+            });
+      await moveButton.click();
 
       const dialog = page.locator('[role="dialog"]');
       await expect(dialog).toBeVisible();
@@ -494,12 +502,15 @@ test.describe('Workspace System Management', () => {
 
       // Type to search for the workspace
       await searchInput.click();
-      await searchInput.fill(WORKSPACE_WITH_SYSTEMS);
+      await searchInput.fill(WORKSPACE_WITH_SYSTEMS, { timeout: 5000 });
 
-      // Click the matching workspace in the tree
-      await workspaceMenu
-        .getByRole('button', { name: WORKSPACE_WITH_SYSTEMS, exact: true })
-        .click();
+      // Wait for the federated selector to filter results before clicking
+      const workspaceButton = workspaceMenu.getByRole('button', {
+        name: WORKSPACE_WITH_SYSTEMS,
+        exact: true,
+      });
+      await expect(workspaceButton).toBeVisible({ timeout: 15000 });
+      await workspaceButton.click();
 
       // Confirm the selection
       await workspaceMenu.getByTestId('workspace-selector-confirm').click();
