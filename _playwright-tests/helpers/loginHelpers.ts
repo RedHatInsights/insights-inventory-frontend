@@ -175,6 +175,13 @@ export const enableInventoryViews = async (page: Page) => {
   });
 };
 
+export const enableInventoryViewsRbac = async (page: Page) => {
+  await page.addInitScript(() => {
+    console.log('[Test Setup] Enabling Inventory Views RBAC feature');
+    localStorage.setItem('hbi.inventory-views-rbac', 'true');
+  });
+};
+
 export const storeStorageStateAndToken = async (
   /** Save state using the specific token variable name from config */
   page: Page,
