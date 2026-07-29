@@ -6,8 +6,15 @@ import { SortDirection } from '../../SystemsView/SystemsView';
 import type { LastSeenCustomRange } from '../../SystemsView/DataViewFiltersContext';
 import { buildHostViewsParams } from '../utils/buildHostViewsParams';
 import type { SystemsViewFetchParams } from './useHostsQuery';
+import useInventoryViewsRbacFeatureFlag from '../../../Utilities/useInventoryViewsRbacFeatureFlag';
 
 export const INVENTORY_VIEWS_QUERY_KEY = 'inventory-views' as const;
+
+const EMPTY_SERVICES: string[] = [];
+
+const BACKEND_SERVICE_TO_APP_NAME: Record<string, string> = {
+  patch: 'content',
+};
 
 type FetchInventoryViewsReturnedValue = Awaited<
   ReturnType<typeof fetchInventoryViews>
@@ -48,9 +55,12 @@ const fetchInventoryViews = async ({
 
   const response = await getHostViews(params);
   const { results: hosts, total } = response;
-  const deniedServices: string[] =
-    ((response as unknown as Record<string, unknown>)
-      .denied_services as string[]) ?? [];
+  // TODO: Remove cast when API spec includes denied_services in HostViewsResponse
+  const rawDenied = (response as unknown as Record<string, unknown>)
+    .denied_services;
+  const deniedServices: string[] = (
+    Array.isArray(rawDenied) ? rawDenied : []
+  ).map((s: string) => BACKEND_SERVICE_TO_APP_NAME[s] ?? s);
 
   if (total === 0) return { results: [], total, deniedServices };
 
@@ -82,6 +92,8 @@ export const useInventoryViewsQuery = ({
   direction,
   enabled = true,
 }: UseInventoryViewsQueryParams) => {
+  const isInventoryViewsRbacEnabled = useInventoryViewsRbacFeatureFlag();
+
   const { data, isLoading, isFetching, isError, error } = useQuery({
     queryKey: [
       INVENTORY_VIEWS_QUERY_KEY,
@@ -110,7 +122,9 @@ export const useInventoryViewsQuery = ({
   return {
     data: data?.results,
     total: data?.total,
-    deniedServices: data?.deniedServices ?? [],
+    deniedServices: isInventoryViewsRbacEnabled
+      ? (data?.deniedServices ?? EMPTY_SERVICES)
+      : EMPTY_SERVICES,
     isLoading,
     isFetching,
     isError,
