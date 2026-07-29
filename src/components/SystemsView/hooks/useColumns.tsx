@@ -8,6 +8,7 @@ import {
 import { STICKY_ACTIONS_HEADER_PROPS } from '../utils/stickyActionsColumn';
 import { getStickyNameHeaderProps } from '../utils/stickyNameColumn';
 import { type Column } from '../columns/allColumnDefinitions';
+import CellValue from '../columns/CellValue';
 
 export const INITIAL_SORT: {
   sortBy: Column['sortBy'];
@@ -46,11 +47,17 @@ export const useColumns = ({
 
   const annotatePermissions = useCallback(
     (cols: readonly Column[]): readonly Column[] =>
-      cols.map((col) => ({
-        ...col,
-        isPermissionLocked:
-          col.appName !== 'inventory' && deniedServices.includes(col.appName),
-      })),
+      cols.map((col) => {
+        const isLocked =
+          col.appName !== 'inventory' && deniedServices.includes(col.appName);
+        return {
+          ...col,
+          isPermissionLocked: isLocked,
+          renderCell: isLocked
+            ? () => <CellValue type="noPermission" serviceName={col.appName} />
+            : col.renderCell,
+        };
+      }),
     [deniedServices],
   );
 
