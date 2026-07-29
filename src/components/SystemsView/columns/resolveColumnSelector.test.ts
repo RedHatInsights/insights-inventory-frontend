@@ -10,9 +10,9 @@ import {
 const inventoryKeys = inventoryColumns.map((col) => col.key);
 
 describe('resolveColumnSelector', () => {
-  it('returns the full catalog with the default selector', () => {
-    expect(resolveColumnSelector()).toBe(allColumns);
-    expect(defaultColumnSelector(allColumns)).toBe(allColumns);
+  it('returns no columns with the default selector', () => {
+    expect(resolveColumnSelector()).toEqual([]);
+    expect(defaultColumnSelector(allColumns)).toEqual([]);
   });
 
   it('allows custom selectors to reorder and override visibility', () => {

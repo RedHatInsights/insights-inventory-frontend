@@ -27,10 +27,10 @@ describe('allColumnDefinitions', () => {
     expect(new Set(keys).size).toBe(keys.length);
   });
 
-  it('should hide all catalog columns by default', () => {
+  it('should show all catalog columns by default', () => {
     allColumns.forEach((col) => {
-      expect(col.isShownByDefault).toBe(false);
-      expect(col.isShown).toBe(false);
+      expect(col.isShownByDefault).toBe(true);
+      expect(col.isShown).toBe(true);
     });
   });
 

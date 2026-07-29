@@ -23,8 +23,8 @@ const nameColumn = {
   title: 'Name',
   key: 'name',
   minWidth: DEFAULT_NAME_COLUMN_MIN_WIDTH,
-  isShownByDefault: false,
-  isShown: false,
+  isShownByDefault: true,
+  isShown: true,
   isUntoggleable: true,
   sortBy: ApiOrderByEnum.DisplayName,
   renderCell: (system: System) => (
@@ -43,8 +43,8 @@ const workspaceColumn = {
   title: 'Workspace',
   key: 'workspace',
   minWidth: '10rem',
-  isShownByDefault: false,
-  isShown: false,
+  isShownByDefault: true,
+  isShown: true,
   sortBy: ApiOrderByEnum.GroupName,
   renderCell: (system: InventoryViewSystem) => (
     <Workspace value={system.groups} />
@@ -56,8 +56,8 @@ const tagsColumn = {
   title: 'Tags',
   key: 'tags',
   minWidth: '6rem',
-  isShownByDefault: false,
-  isShown: false,
+  isShownByDefault: true,
+  isShown: true,
   renderCell: (system: InventoryViewSystem) => (
     <Tags value={system.tags} system={system} />
   ),
@@ -68,8 +68,8 @@ const operatingSystemColumn = {
   title: 'OS',
   key: 'os',
   minWidth: '11rem',
-  isShownByDefault: false,
-  isShown: false,
+  isShownByDefault: true,
+  isShown: true,
   sortBy: ApiOrderByEnum.OperatingSystem,
   renderCell: (system: InventoryViewSystem) => (
     <OperatingSystem value={system.system_profile?.operating_system} />
@@ -81,8 +81,8 @@ const lastSeenColumn = {
   title: <LastSeenColumnHeader />,
   key: 'last_seen',
   minWidth: '9rem',
-  isShownByDefault: false,
-  isShown: false,
+  isShownByDefault: true,
+  isShown: true,
   sortBy: ApiOrderByEnum.LastCheckIn,
   renderCell: (system: InventoryViewSystem) => (
     <LastSeen
@@ -102,8 +102,8 @@ const statusColumn = {
   title: 'Status',
   key: 'status',
   minWidth: '9rem',
-  isShownByDefault: false,
-  isShown: false,
+  isShownByDefault: true,
+  isShown: true,
   sortBy: 'status',
   renderCell: (system: InventoryViewSystem) => (
     <Status
@@ -120,8 +120,8 @@ const infrastructureColumn = {
   appName: APP_NAME,
   title: 'Infrastructure',
   key: 'infrastructure',
-  isShownByDefault: false,
-  isShown: false,
+  isShownByDefault: true,
+  isShown: true,
   renderCell: (system: InventoryViewSystem) => (
     <Infrastructure value={system.system_profile?.infrastructure_type} />
   ),
@@ -131,8 +131,8 @@ const vendorColumn = {
   appName: APP_NAME,
   title: 'Vendor',
   key: 'vendor',
-  isShownByDefault: false,
-  isShown: false,
+  isShownByDefault: true,
+  isShown: true,
   renderCell: (system: InventoryViewSystem) => (
     <Vendor value={system.system_profile?.infrastructure_vendor} />
   ),
@@ -142,8 +142,8 @@ const workloadColumn = {
   appName: APP_NAME,
   title: 'Workload',
   key: 'workload',
-  isShownByDefault: false,
-  isShown: false,
+  isShownByDefault: true,
+  isShown: true,
   renderCell: (system: InventoryViewSystem) => (
     <Workload value={system.system_profile?.workloads} />
   ),
@@ -153,8 +153,8 @@ const createdColumn = {
   appName: APP_NAME,
   title: 'Created',
   key: 'created',
-  isShownByDefault: false,
-  isShown: false,
+  isShownByDefault: true,
+  isShown: true,
   renderCell: (system: InventoryViewSystem) => (
     <Created value={system?.created} />
   ),
