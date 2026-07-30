@@ -10,6 +10,7 @@ import useInventoryViewsPrivateFeatureFlag from '../../Utilities/useInventoryVie
 import ViewsToolbar from './ViewsToolbar/ViewsToolbar';
 import ViewSaveAsModal from './Modals/ViewSaveAsModal';
 import type { ViewConfiguration } from '../../api/inventoryViewsApi';
+import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
 
 const InventoryViews = () => {
   const [isViewSaveAsModalOpen, setIsViewSaveAsModalOpen] = useState(false);
@@ -55,6 +56,7 @@ const InventoryViews = () => {
         </>
       )}
       <SystemsView
+        columns={selectLegacyInventoryColumns}
         useDataQuery={useInventoryViewsQuery}
         onInvalidate={() =>
           queryClient.invalidateQueries({

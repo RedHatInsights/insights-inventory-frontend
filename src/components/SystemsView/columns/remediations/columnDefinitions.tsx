@@ -11,8 +11,8 @@ const remediationPlansColumn = {
   title: 'Remediation plans',
   key: 'remediations_plans',
   minWidth: '12rem',
-  isShownByDefault: false,
-  isShown: false,
+  isShownByDefault: true,
+  isShown: true,
   sortBy: ApiHostViewsGetHostViewsOrderByEnum.RemediationsremediationsPlans,
   renderCell: (system: InventoryViewSystem) => (
     <RemediationPlans appData={system?.app_data?.remediations} />

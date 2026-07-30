@@ -10,8 +10,8 @@ const installableAdvisoriesColumn = {
   appName: APP_NAME,
   title: 'Installable advisories',
   key: 'installable-advisories',
-  isShownByDefault: false,
-  isShown: false,
+  isShownByDefault: true,
+  isShown: true,
   sortBy: 'patch:advisories_rhsa_installable',
   renderCell(system: InventoryViewSystem) {
     return (
@@ -27,8 +27,8 @@ const templateColumn = {
   appName: APP_NAME,
   title: 'Template',
   key: 'template_name',
-  isShownByDefault: false,
-  isShown: false,
+  isShownByDefault: true,
+  isShown: true,
   renderCell(system: InventoryViewSystem) {
     return <Template appData={system?.app_data?.patch} />;
   },

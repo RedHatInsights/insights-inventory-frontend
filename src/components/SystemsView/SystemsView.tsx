@@ -49,6 +49,10 @@ import type {
 } from '../InventoryViews/hooks/useHostsQuery';
 import { deriveActiveState } from './utils/deriveActiveState';
 import type { OnInvalidate } from './SystemActionModalsContext';
+import {
+  resolveColumnSelector,
+  type ColumnSelector,
+} from './columns/resolveColumnSelector';
 
 export type SortDirection = ISortBy['direction'];
 export type OnSort = (
@@ -73,6 +77,11 @@ export type UseSystemsViewDataQuery = (
 export type SystemsViewProps = {
   useDataQuery: UseSystemsViewDataQuery;
   onInvalidate: OnInvalidate;
+  /**
+   * Selects which columns are available in this view from the full catalog.
+   * Stable reference for selectors required! don't define them inline in JSX.
+   */
+  columns?: ColumnSelector;
 };
 
 interface SystemsViewInnerProps {
@@ -80,6 +89,7 @@ interface SystemsViewInnerProps {
   setSearchParams: SetURLSearchParams;
   useDataQuery: UseSystemsViewDataQuery;
   onInvalidate: OnInvalidate;
+  resolvedDefaultColumns: readonly Column[];
 }
 
 const SystemsViewInner = ({
@@ -87,6 +97,7 @@ const SystemsViewInner = ({
   setSearchParams,
   useDataQuery,
   onInvalidate,
+  resolvedDefaultColumns,
 }: SystemsViewInnerProps) => {
   const { filters, clearAllFilters, lastSeenCustomRange } =
     useDataViewFiltersContext();
@@ -171,6 +182,7 @@ const SystemsViewInner = ({
   const isInventoryViewsEnabled = useInventoryViewsFeatureFlag();
 
   const { columns, setColumns, tableHeaderNodes } = useColumns({
+    defaultColumns: resolvedDefaultColumns,
     sortBy,
     onSort,
     direction,
@@ -238,7 +250,11 @@ const SystemsViewInner = ({
       onInvalidate={onInvalidate}
       onSelectionClear={() => setSelected([])}
     >
-      <ColumnManagementModalProvider columns={columns} setColumns={setColumns}>
+      <ColumnManagementModalProvider
+        columns={columns}
+        setColumns={setColumns}
+        defaultColumns={resolvedDefaultColumns}
+      >
         <DataView selection={selection} activeState={activeState}>
           <PageSection hasBodyWrapper={false}>
             <DataViewToolbar
@@ -287,8 +303,13 @@ const SystemsViewInner = ({
 export const SystemsView = ({
   useDataQuery,
   onInvalidate,
+  columns,
 }: SystemsViewProps) => {
   const [searchParams, setSearchParams] = useSearchParamsWithFragment();
+  const resolvedDefaultColumns = useMemo(
+    () => resolveColumnSelector(columns),
+    [columns],
+  );
 
   return (
     <DataViewFiltersProvider
@@ -300,6 +321,7 @@ export const SystemsView = ({
         setSearchParams={setSearchParams}
         useDataQuery={useDataQuery}
         onInvalidate={onInvalidate}
+        resolvedDefaultColumns={resolvedDefaultColumns}
       />
     </DataViewFiltersProvider>
   );
