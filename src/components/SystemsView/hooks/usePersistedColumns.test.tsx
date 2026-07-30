@@ -55,6 +55,21 @@ const defaultColumns = [
   createTestColumn('os', true),
 ] as const;
 
+const getDefaultsId = (columns: readonly Column[]) =>
+  columns
+    .map((column) => `${column.key}:${column.isShownByDefault}`)
+    .sort()
+    .join('|');
+
+const persistedColumnPrefs = (
+  columns: readonly Column[],
+  prefs: { key: string; isShown: boolean }[],
+) =>
+  JSON.stringify({
+    defaultsId: getDefaultsId(columns),
+    columns: prefs,
+  });
+
 describe('usePersistedColumns', () => {
   beforeEach(() => {
     localStorage.clear();
@@ -63,10 +78,11 @@ describe('usePersistedColumns', () => {
   it('loads column preferences from localStorage for the signed-in user', async () => {
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify([
+      persistedColumnPrefs(defaultColumns, [
         { key: 'os', isShown: true },
         { key: 'name', isShown: false },
         { key: 'workspace', isShown: true },
+        { key: 'tags', isShown: false },
       ]),
     );
 
@@ -98,6 +114,60 @@ describe('usePersistedColumns', () => {
     });
   });
 
+  it('clears stored prefs when selector default visibility changes', async () => {
+    const previousDefaults = defaultColumns;
+    const nextDefaults = [
+      createTestColumn('name', true),
+      createTestColumn('workspace', true),
+      createTestColumn('tags', true),
+      createTestColumn('os', true),
+    ] as const;
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      persistedColumnPrefs(previousDefaults, [
+        { key: 'name', isShown: false },
+        { key: 'workspace', isShown: true },
+        { key: 'tags', isShown: false },
+        { key: 'os', isShown: true },
+      ]),
+    );
+
+    const { result } = renderHook(() => usePersistedColumns(nextDefaults));
+
+    await waitFor(() => {
+      expect(result.current.columns.map((column) => column.key)).toEqual([
+        'name',
+        'workspace',
+        'tags',
+        'os',
+      ]);
+    });
+
+    expect(
+      result.current.columns.find((column) => column.key === 'name'),
+    ).toMatchObject({
+      isShown: true,
+    });
+    expect(
+      result.current.columns.find((column) => column.key === 'tags'),
+    ).toMatchObject({
+      isShown: true,
+    });
+
+    await waitFor(() => {
+      expect(JSON.parse(localStorage.getItem(STORAGE_KEY)!)).toEqual({
+        defaultsId: getDefaultsId(nextDefaults),
+        columns: [
+          { key: 'name', isShown: true },
+          { key: 'workspace', isShown: true },
+          { key: 'tags', isShown: true },
+          { key: 'os', isShown: true },
+        ],
+      });
+    });
+  });
+
   it('saves column preferences to localStorage when columns change', async () => {
     const { result } = renderHook(() => usePersistedColumns(defaultColumns));
 
@@ -120,12 +190,15 @@ describe('usePersistedColumns', () => {
     });
 
     await waitFor(() => {
-      expect(JSON.parse(localStorage.getItem(STORAGE_KEY)!)).toEqual([
-        { key: 'tags', isShown: false },
-        { key: 'name', isShown: true },
-        { key: 'workspace', isShown: false },
-        { key: 'os', isShown: true },
-      ]);
+      expect(JSON.parse(localStorage.getItem(STORAGE_KEY)!)).toEqual({
+        defaultsId: getDefaultsId(defaultColumns),
+        columns: [
+          { key: 'tags', isShown: false },
+          { key: 'name', isShown: true },
+          { key: 'workspace', isShown: false },
+          { key: 'os', isShown: true },
+        ],
+      });
     });
   });
 });

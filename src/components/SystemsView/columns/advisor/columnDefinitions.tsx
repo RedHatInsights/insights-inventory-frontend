@@ -11,8 +11,8 @@ const recommendationsColumn = {
   title: 'Recommendations',
   key: 'recommendations',
   minWidth: '10rem',
-  isShownByDefault: false,
-  isShown: false,
+  isShownByDefault: true,
+  isShown: true,
   sortBy: ApiHostViewsGetHostViewsOrderByEnum.Advisorrecommendations,
   renderCell: (system: InventoryViewSystem) => (
     <AdvisorCount
@@ -27,8 +27,8 @@ const incidentsColumn = {
   title: 'Incidents',
   key: 'incidents',
   minWidth: '7rem',
-  isShownByDefault: false,
-  isShown: false,
+  isShownByDefault: true,
+  isShown: true,
   sortBy: ApiHostViewsGetHostViewsOrderByEnum.Advisorincidents,
   renderCell: (system: InventoryViewSystem) => (
     <AdvisorCount appData={system?.app_data?.advisor} countField="incidents" />
@@ -40,8 +40,8 @@ const criticalColumn = {
   title: 'Critical',
   key: 'critical',
   minWidth: '7rem',
-  isShownByDefault: false,
-  isShown: false,
+  isShownByDefault: true,
+  isShown: true,
   renderCell: (system: InventoryViewSystem) => (
     <AdvisorCount appData={system?.app_data?.advisor} countField="critical" />
   ),
@@ -52,8 +52,8 @@ const importantColumn = {
   title: 'Important',
   key: 'important',
   minWidth: '7rem',
-  isShownByDefault: false,
-  isShown: false,
+  isShownByDefault: true,
+  isShown: true,
   renderCell: (system: InventoryViewSystem) => (
     <AdvisorCount appData={system?.app_data?.advisor} countField="important" />
   ),
@@ -64,8 +64,8 @@ const moderateColumn = {
   title: 'Moderate',
   key: 'moderate',
   minWidth: '7rem',
-  isShownByDefault: false,
-  isShown: false,
+  isShownByDefault: true,
+  isShown: true,
   renderCell: (system: InventoryViewSystem) => (
     <AdvisorCount appData={system?.app_data?.advisor} countField="moderate" />
   ),
@@ -76,8 +76,8 @@ const lowColumn = {
   title: 'Low',
   key: 'low',
   minWidth: '6rem',
-  isShownByDefault: false,
-  isShown: false,
+  isShownByDefault: true,
+  isShown: true,
   renderCell: (system: InventoryViewSystem) => (
     <AdvisorCount appData={system?.app_data?.advisor} countField="low" />
   ),
