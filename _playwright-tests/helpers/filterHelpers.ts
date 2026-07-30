@@ -151,7 +151,7 @@ export const expectAllRowsHaveText = async (
  */
 export const searchByName = async (page: Page, name: string): Promise<void> => {
   const searchInput = page.locator('input[placeholder="Filter by name"]');
-  await page.reload({ waitUntil: 'networkidle' });
+  await page.reload({ waitUntil: 'load' });
   await expect(searchInput).toBeVisible({ timeout: 30000 });
   await searchInput.fill(name);
   const skeleton = page.locator(SKELETON_TABLE);
