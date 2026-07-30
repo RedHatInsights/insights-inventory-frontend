@@ -449,13 +449,6 @@ test.describe('Workspace System Management', () => {
      * - requirements: inv-groups-add-hosts
      * - importance: high
      */
-    // eslint-disable-next-line playwright/no-skipped-test
-    test.skip(
-      process.env.PROD === 'true',
-      'Case is intended for non-prod environments only - Kessel feature',
-    );
-    test.fixme(true, 'https://redhat.atlassian.net/browse/RHINENG-29322');
-    
     const system = systems.workspaceSystems[2];
     const nameCell = page
       .locator('[data-ouia-component-id="systems-view-table-td-0-0"]')
