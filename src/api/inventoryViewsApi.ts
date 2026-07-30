@@ -19,6 +19,67 @@ export type UpdateViewRequest = ViewPatch;
 export type InventoryView = ViewOut;
 
 // ============================================================================
+// MOCK DATA (Replace with real API when available)
+// ============================================================================
+
+export const ALL_SYSTEMS_VIEW_ID = 'all-systems';
+
+export const MOCK_VIEWS: ViewOut[] = [
+  {
+    id: ALL_SYSTEMS_VIEW_ID,
+    name: 'All systems',
+    description: 'Default view showing all inventory systems',
+    is_system_view: true,
+    org_id: 'org-123',
+    org_wide: true,
+    configuration: { columns: [] },
+    created_by: 'system',
+    created_at: '2026-01-01T00:00:00Z',
+    updated_at: '2026-01-01T00:00:00Z',
+    is_owner: false,
+  },
+  {
+    id: 'view-production',
+    name: 'Production view',
+    description: 'Production environment systems',
+    is_system_view: false,
+    org_id: 'org-123',
+    org_wide: false,
+    configuration: { columns: [] },
+    created_by: 'current-user',
+    created_at: '2026-06-15T10:00:00Z',
+    updated_at: '2026-07-20T14:30:00Z',
+    is_owner: true,
+  },
+  {
+    id: 'view-rhel9-staging',
+    name: 'RHEL 9 staging',
+    description: 'RHEL 9 systems in staging environment',
+    is_system_view: false,
+    org_id: 'org-123',
+    org_wide: false,
+    configuration: { columns: [] },
+    created_by: 'current-user',
+    created_at: '2026-07-01T09:00:00Z',
+    updated_at: '2026-07-25T11:00:00Z',
+    is_owner: true,
+  },
+  {
+    id: 'view-security',
+    name: 'Security overview',
+    description: 'Systems with security-related advisories',
+    is_system_view: true,
+    org_id: 'org-123',
+    org_wide: true,
+    configuration: { columns: [] },
+    created_by: 'system',
+    created_at: '2026-01-01T00:00:00Z',
+    updated_at: '2026-01-01T00:00:00Z',
+    is_owner: false,
+  },
+];
+
+// ============================================================================
 // DUMMY API FUNCTIONS (Replace with real API calls)
 // ============================================================================
 
@@ -37,13 +98,12 @@ export const listViewsApi = async (): Promise<ViewsListOut> => {
   // Simulate API delay
   await new Promise((resolve) => setTimeout(resolve, 300));
 
-  // Return mock response matching paginated API structure
   return {
-    count: 0,
+    count: MOCK_VIEWS.length,
     page: 1,
     per_page: 50,
-    total: 0,
-    results: [],
+    total: MOCK_VIEWS.length,
+    results: MOCK_VIEWS,
   };
 };
 
