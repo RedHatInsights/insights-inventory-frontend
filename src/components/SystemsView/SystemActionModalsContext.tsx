@@ -12,7 +12,6 @@ import RemoveHostsFromGroupModal from '../InventoryGroups/Modals/RemoveHostsFrom
 import MoveSystemsToWorkspaceModal from '../InventoryTable/MoveSystemsToWorkspaceModal';
 import type { SystemForWorkspace } from '../InventoryTable/MoveSystemsToWorkspaceModal';
 import TextInputModal from '../GeneralInfo/TextInputModal/TextInputModal';
-import { useKesselMigrationFeatureFlag } from '../../Utilities/hooks/useKesselMigrationFeatureFlag';
 import { useDeleteSystemsMutation } from './hooks/useDeleteSystemsMutation';
 import { usePatchSystemsMutation } from './hooks/usePatchSystemsMutation';
 import type { System } from '../InventoryViews/hooks/useHostsQuery';
@@ -34,6 +33,7 @@ export type OpenTagsModalFn = (
 interface SystemActionModalsContextValue {
   openDeleteModal: OpenModalFn;
   openAddToWorkspaceModal: OpenModalFn;
+  openMoveSystemsToWorkspaceModal: OpenModalFn;
   openRemoveFromWorkspaceModal: OpenModalFn;
   openEditModal: OpenModalFn;
   openTagsModal: OpenTagsModalFn;
@@ -66,7 +66,6 @@ export const SystemActionModalsProvider = ({
   onInvalidate,
   onSelectionClear,
 }: SystemActionModalsProviderProps) => {
-  const isKesselEnabled = useKesselMigrationFeatureFlag();
   const [systemsForAction, setSystemsForAction] = useState<System[]>([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
@@ -110,17 +109,15 @@ export const SystemActionModalsProvider = ({
     setIsDeleteModalOpen(true);
   }, []);
 
-  const openAddToWorkspaceModal = useCallback(
-    (systems: System[]) => {
-      setSystemsForAction(systems);
-      if (isKesselEnabled) {
-        setMoveSystemsToWorkspaceModalOpen(true);
-      } else {
-        setAddHostGroupModalOpen(true);
-      }
-    },
-    [isKesselEnabled],
-  );
+  const openAddToWorkspaceModal = useCallback((systems: System[]) => {
+    setSystemsForAction(systems);
+    setAddHostGroupModalOpen(true);
+  }, []);
+
+  const openMoveSystemsToWorkspaceModal = useCallback((systems: System[]) => {
+    setSystemsForAction(systems);
+    setMoveSystemsToWorkspaceModalOpen(true);
+  }, []);
 
   const openRemoveFromWorkspaceModal = useCallback((systems: System[]) => {
     setSystemsForAction(systems);
@@ -150,6 +147,7 @@ export const SystemActionModalsProvider = ({
     () => ({
       openDeleteModal,
       openAddToWorkspaceModal,
+      openMoveSystemsToWorkspaceModal,
       openRemoveFromWorkspaceModal,
       openEditModal,
       openTagsModal,
@@ -157,6 +155,7 @@ export const SystemActionModalsProvider = ({
     [
       openDeleteModal,
       openAddToWorkspaceModal,
+      openMoveSystemsToWorkspaceModal,
       openRemoveFromWorkspaceModal,
       openEditModal,
       openTagsModal,
