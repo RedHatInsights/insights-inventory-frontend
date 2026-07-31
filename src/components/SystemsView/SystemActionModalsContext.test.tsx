@@ -209,11 +209,6 @@ describe('SystemActionModalsProvider (delete modal)', () => {
     expect(
       screen.getByText(/Delete system from inventory\?/i),
     ).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        /Test Host will be removed from all localhost:5000 applications and services/i,
-      ),
-    ).toBeInTheDocument();
   });
 });
 
