@@ -9,7 +9,8 @@ export interface ViewsToolbarProps {
   currentViewId?: string | null;
   isSystemView?: boolean;
   viewsList?: ViewOut[];
-  onSaveAs?: () => void;
+  onSaveAs: () => void;
+  onRename: () => void;
 }
 
 export const ViewsToolbar = ({
@@ -18,6 +19,7 @@ export const ViewsToolbar = ({
   isSystemView = true,
   viewsList,
   onSaveAs,
+  onRename,
 }: ViewsToolbarProps) => {
   return (
     <Flex
@@ -33,6 +35,7 @@ export const ViewsToolbar = ({
           currentViewId={currentViewId}
           isSystemView={isSystemView}
           onSaveAs={onSaveAs}
+          onRename={onRename}
         />
       </FlexItem>
     </Flex>

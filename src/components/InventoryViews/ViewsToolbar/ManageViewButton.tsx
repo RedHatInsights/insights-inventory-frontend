@@ -13,13 +13,16 @@ export interface ManageViewButtonProps {
   /** Whether current view is a system view (non-editable) */
   isSystemView?: boolean;
   /** Callback when Save As is clicked */
-  onSaveAs?: () => void;
+  onSaveAs: () => void;
+  /** Callback when Rename is clicked */
+  onRename: () => void;
 }
 
 export const ManageViewButton = ({
   currentViewId,
   isSystemView = true,
   onSaveAs,
+  onRename,
 }: ManageViewButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -50,6 +53,9 @@ export const ManageViewButton = ({
       <DropdownList>
         <DropdownItem key="save-as" onClick={onSaveAs}>
           Save as
+        </DropdownItem>
+        <DropdownItem key="rename" onClick={onRename} isDisabled={isSystemView}>
+          Rename
         </DropdownItem>
       </DropdownList>
     </Dropdown>
