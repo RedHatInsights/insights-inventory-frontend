@@ -147,4 +147,18 @@ describe('SystemsView', () => {
       screen.queryByRole('cell', { name: 'Test Host' }),
     ).not.toBeInTheDocument();
   });
+
+  it('shows an empty state when the query succeeds with no systems', () => {
+    mockUseDataQuery.mockImplementation(() => ({
+      data: [],
+      total: 0,
+      isLoading: false,
+      isFetching: false,
+      isError: false,
+    }));
+
+    renderSystemsView();
+
+    expect(screen.getByText(/No matching systems found/i)).toBeInTheDocument();
+  });
 });
