@@ -55,12 +55,9 @@ const fetchInventoryViews = async ({
 
   const response = await getHostViews(params);
   const { results: hosts, total } = response;
-  // TODO: Remove cast when API spec includes denied_services in HostViewsResponse
-  const rawDenied = (response as unknown as Record<string, unknown>)
-    .denied_services;
-  const deniedServices: string[] = (
-    Array.isArray(rawDenied) ? rawDenied : []
-  ).map((s: string) => BACKEND_SERVICE_TO_APP_NAME[s] ?? s);
+  const deniedServices: string[] = (response.denied_services ?? []).map(
+    (s) => BACKEND_SERVICE_TO_APP_NAME[s] ?? s,
+  );
 
   if (total === 0) return { results: [], total, deniedServices };
 
