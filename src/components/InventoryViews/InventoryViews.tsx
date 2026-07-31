@@ -10,6 +10,7 @@ import useInventoryViewsPrivateFeatureFlag from '../../Utilities/useInventoryVie
 import ViewsToolbar from './ViewsToolbar/ViewsToolbar';
 import ViewSaveAsModal from './Modals/ViewSaveAsModal';
 import ViewRenameModal from './Modals/ViewRenameModal';
+import ViewDeleteModal from './Modals/ViewDeleteModal';
 import type { ViewConfiguration } from '../../api/inventoryViewsApi';
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
 
@@ -17,10 +18,8 @@ const STATIC_ACTIVE_VIEW_ID = 'view-production';
 
 const InventoryViews = () => {
   const [isViewSaveAsModalOpen, setIsViewSaveAsModalOpen] = useState(false);
-  const [viewToRename, setViewToRename] = useState<{
-    id: string;
-    name: string;
-  } | null>(null);
+  const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const queryClient = useQueryClient();
   const isInventoryViewsPrivateEnabled = useInventoryViewsPrivateFeatureFlag();
   const { data: viewsData } = useViewsQuery();
@@ -40,18 +39,23 @@ const InventoryViews = () => {
     // TODO: Navigate to the new view or refresh view list
   };
 
-  // Open Rename modal
   const handleRename = () => {
-    // TODO: Replace STATIC_ACTIVE_VIEW_ID with dynamic view selection (RHINENG-28357)
-    if (STATIC_ACTIVE_VIEW_ID && activeView?.name) {
-      setViewToRename({ id: STATIC_ACTIVE_VIEW_ID, name: activeView.name });
-    }
+    setIsRenameModalOpen(true);
   };
 
-  // Handle successful view rename
   const handleRenameSuccess = (viewId: string, viewName: string) => {
     console.log('View renamed successfully:', { viewId, viewName });
-    setViewToRename(null);
+    setIsRenameModalOpen(false);
+  };
+
+  const handleDelete = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleDeleteSuccess = (viewId: string) => {
+    console.log('View deleted successfully:', { viewId });
+    setIsDeleteModalOpen(false);
+    // TODO: Switch to "All systems" default view if deleted view was active
   };
 
   // Get current table configuration
@@ -73,6 +77,7 @@ const InventoryViews = () => {
             isSystemView={isSystemView}
             onSaveAs={handleSaveAs}
             onRename={handleRename}
+            onDelete={handleDelete}
           />
           <ViewSaveAsModal
             isOpen={isViewSaveAsModalOpen}
@@ -81,14 +86,23 @@ const InventoryViews = () => {
             viewsList={viewsList}
             onSuccess={handleSaveAsSuccess}
           />
-          {viewToRename && (
+          {activeView && (
             <ViewRenameModal
-              isOpen={!!viewToRename}
-              onClose={() => setViewToRename(null)}
-              viewId={viewToRename.id}
-              currentName={viewToRename.name}
+              isOpen={isRenameModalOpen}
+              onClose={() => setIsRenameModalOpen(false)}
+              viewId={activeView.id}
+              currentName={activeView.name}
               viewsList={viewsList}
               onSuccess={handleRenameSuccess}
+            />
+          )}
+          {activeView && (
+            <ViewDeleteModal
+              isOpen={isDeleteModalOpen}
+              onClose={() => setIsDeleteModalOpen(false)}
+              viewId={activeView.id}
+              viewName={activeView.name}
+              onSuccess={handleDeleteSuccess}
             />
           )}
         </>
