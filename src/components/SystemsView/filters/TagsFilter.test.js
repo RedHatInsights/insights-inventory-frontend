@@ -22,6 +22,7 @@ function renderTagsFilter(props = {}) {
       value={{
         openDeleteModal: jest.fn(),
         openAddToWorkspaceModal: jest.fn(),
+        openMoveSystemsToWorkspaceModal: jest.fn(),
         openRemoveFromWorkspaceModal: jest.fn(),
         openEditModal: jest.fn(),
         openTagsModal: mockOpenTagsModal,

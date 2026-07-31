@@ -8,6 +8,7 @@ import { SystemActionModalsContext } from './SystemActionModalsContext';
 
 const mockOpenDeleteModal = jest.fn();
 const mockOpenAddToWorkspaceModal = jest.fn();
+const mockOpenMoveSystemsToWorkspaceModal = jest.fn();
 const mockOpenRemoveFromWorkspaceModal = jest.fn();
 const mockOpenEditModal = jest.fn();
 const mockOpenTagsModal = jest.fn();
@@ -15,6 +16,7 @@ const mockOpenTagsModal = jest.fn();
 const mockContextValue = {
   openDeleteModal: mockOpenDeleteModal,
   openAddToWorkspaceModal: mockOpenAddToWorkspaceModal,
+  openMoveSystemsToWorkspaceModal: mockOpenMoveSystemsToWorkspaceModal,
   openRemoveFromWorkspaceModal: mockOpenRemoveFromWorkspaceModal,
   openEditModal: mockOpenEditModal,
   openTagsModal: mockOpenTagsModal,
@@ -138,7 +140,9 @@ describe('SystemsViewRowActions', () => {
       await userEvent.click(
         screen.getByRole('menuitem', { name: /move system/i }),
       );
-      expect(mockOpenAddToWorkspaceModal).toHaveBeenCalledWith([system]);
+      expect(mockOpenMoveSystemsToWorkspaceModal).toHaveBeenCalledWith([
+        system,
+      ]);
     });
 
     it('disables Move system when permissions are undefined (no edit access)', async () => {
