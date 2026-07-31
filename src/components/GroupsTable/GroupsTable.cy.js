@@ -33,6 +33,7 @@ import {
   MENU,
   MENU_ITEM,
   MENU_TOGGLE,
+  PT_BULK_SELECT,
   PT_BULK_SELECT_CHECKBOX,
   MODAL_CONTENT,
   PAGINATION_CURRENT,
@@ -295,9 +296,7 @@ describe('selection and bulk selection', () => {
   });
 
   it('can select all in dropdown toggle', () => {
-    cy.get('.pf-v6-c-toolbar__group.pf-m-filter-group')
-      .find(MENU_TOGGLE)
-      .click();
+    cy.get(`${PT_BULK_SELECT} .pf-v6-c-menu-toggle__toggle-icon`).click();
     cy.get(DROPDOWN_ITEM).contains('Select all').click();
     checkSelectedNumber(fixtures.total);
   });
@@ -311,10 +310,7 @@ describe('selection and bulk selection', () => {
 
   it.skip('can select none', () => {
     selectRowN(1);
-    cy.get('.pf-v6-c-toolbar__group.pf-m-filter-group')
-      .get('MENU_TOGGLE')
-      .find('pf-v6-c-menu-toggle__toggle-icon')
-      .click();
+    cy.get(`${PT_BULK_SELECT} .pf-v6-c-menu-toggle__toggle-icon`).click();
     cy.get(DROPDOWN_ITEM).contains('Select none').click();
     checkSelectedNumber(0);
   });
