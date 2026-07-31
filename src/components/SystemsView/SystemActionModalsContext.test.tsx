@@ -23,10 +23,6 @@ jest.mock('./hooks/usePatchSystemsMutation', () => ({
   })),
 }));
 
-jest.mock('../../Utilities/hooks/useKesselMigrationFeatureFlag', () => ({
-  useKesselMigrationFeatureFlag: jest.fn(() => false),
-}));
-
 const testSystem = {
   id: 'host-1',
   display_name: 'Test Host',

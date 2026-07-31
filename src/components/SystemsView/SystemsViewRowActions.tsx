@@ -41,6 +41,7 @@ const SystemsViewRowActions = ({ system }: RowActionsProps) => {
   const {
     openDeleteModal,
     openAddToWorkspaceModal,
+    openMoveSystemsToWorkspaceModal,
     openRemoveFromWorkspaceModal,
     openEditModal,
   } = useSystemActionModalsContext();
@@ -59,7 +60,7 @@ const SystemsViewRowActions = ({ system }: RowActionsProps) => {
     ? [
         buildMoveSystemActionsColumnItem(
           moveSystemRow,
-          () => openAddToWorkspaceModal([system]),
+          () => openMoveSystemsToWorkspaceModal([system]),
           true,
         ),
         {
