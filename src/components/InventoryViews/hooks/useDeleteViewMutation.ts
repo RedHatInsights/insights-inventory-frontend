@@ -1,30 +1,34 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import { deleteViewApi } from '../../../api/inventoryViewsApi';
 
-/**
- * Hook for deleting an inventory view
- *
- * @example
- * const deleteView = useDeleteViewMutation();
- * deleteView.mutate("view-123");
- */
 export const useDeleteViewMutation = () => {
   const queryClient = useQueryClient();
+  const addNotification = useAddNotification();
 
   return useMutation({
     mutationFn: deleteViewApi,
-    onSuccess: (_, deletedId) => {
-      console.log('[DELETE SUCCESS] View deleted:', deletedId);
+    onSuccess: () => {
+      addNotification({
+        variant: 'success',
+        title: 'View deleted successfully',
+        dismissable: true,
+      });
 
       // TODO: Invalidate views list when RHINENG-28462 is complete
       // queryClient.invalidateQueries({ queryKey: ['views'] });
-
-      // TODO: Add success toast notification (e.g. "View deleted successfully")
     },
     onError: (error) => {
-      console.error('[DELETE ERROR] Failed to delete view:', error);
-
-      // TODO: Add error toast notification (e.g. "Failed to delete view")
+      console.error(error);
+      addNotification({
+        variant: 'danger',
+        title: 'Failed to delete view',
+        description:
+          error instanceof Error
+            ? error.message
+            : 'An unexpected error occurred.',
+        dismissable: true,
+      });
     },
   });
 };
