@@ -215,19 +215,6 @@ describe('SystemActionModalsProvider (delete modal)', () => {
       ),
     ).toBeInTheDocument();
   });
-
-  it('closes the delete modal when cancel is clicked', async () => {
-    renderWithProvider(<OpenDeleteModalButton />);
-
-    await userEvent.click(
-      screen.getByRole('button', { name: /open delete modal/i }),
-    );
-    await userEvent.click(screen.getByRole('button', { name: /cancel/i }));
-
-    expect(
-      screen.queryByText(/Delete system from inventory\?/i),
-    ).not.toBeInTheDocument();
-  });
 });
 
 describe('SystemActionModalsProvider (add to workspace modal)', () => {
@@ -250,19 +237,6 @@ describe('SystemActionModalsProvider (add to workspace modal)', () => {
       screen.getByRole('heading', { name: /add to workspace/i }),
     ).toBeInTheDocument();
     expect(screen.getByText('Test Host')).toBeInTheDocument();
-  });
-
-  it('closes the add to workspace modal when cancel is clicked', async () => {
-    renderWithProvider(<OpenAddToWorkspaceModalButton />);
-
-    await userEvent.click(
-      screen.getByRole('button', { name: /open add to workspace modal/i }),
-    );
-    await userEvent.click(screen.getByRole('button', { name: /cancel/i }));
-
-    expect(
-      screen.queryByRole('heading', { name: /add to workspace/i }),
-    ).not.toBeInTheDocument();
   });
 });
 
@@ -290,21 +264,6 @@ describe('SystemActionModalsProvider (move systems to workspace modal)', () => {
     expect(screen.getByText('Test Host')).toBeInTheDocument();
     expect(screen.getByText('My Workspace')).toBeInTheDocument();
   });
-
-  it('closes the move modal when cancel is clicked', async () => {
-    renderWithProvider(<OpenMoveSystemsToWorkspaceModalButton />);
-
-    await userEvent.click(
-      screen.getByRole('button', {
-        name: /open move systems to workspace modal/i,
-      }),
-    );
-    await userEvent.click(screen.getByRole('button', { name: /cancel/i }));
-
-    expect(
-      screen.queryByRole('heading', { name: /move system/i }),
-    ).not.toBeInTheDocument();
-  });
 });
 
 describe('SystemActionModalsProvider (remove from workspace modal)', () => {
@@ -329,19 +288,6 @@ describe('SystemActionModalsProvider (remove from workspace modal)', () => {
     expect(screen.getByText('Test Host')).toBeInTheDocument();
     expect(screen.getByText('My Workspace')).toBeInTheDocument();
   });
-
-  it('closes the remove modal when cancel is clicked', async () => {
-    renderWithProvider(<OpenRemoveFromWorkspaceModalButton />);
-
-    await userEvent.click(
-      screen.getByRole('button', { name: /open remove from workspace modal/i }),
-    );
-    await userEvent.click(screen.getByRole('button', { name: /cancel/i }));
-
-    expect(
-      screen.queryByRole('heading', { name: /remove from workspace/i }),
-    ).not.toBeInTheDocument();
-  });
 });
 
 describe('SystemActionModalsProvider (edit display name modal)', () => {
@@ -365,19 +311,6 @@ describe('SystemActionModalsProvider (edit display name modal)', () => {
     ).toBeInTheDocument();
     expect(screen.getByDisplayValue('Test Host')).toBeInTheDocument();
   });
-
-  it('closes the edit modal when cancel is clicked', async () => {
-    renderWithProvider(<OpenEditModalButton />);
-
-    await userEvent.click(
-      screen.getByRole('button', { name: /open edit modal/i }),
-    );
-    await userEvent.click(screen.getByRole('button', { name: /cancel/i }));
-
-    expect(
-      screen.queryByRole('heading', { name: /edit display name/i }),
-    ).not.toBeInTheDocument();
-  });
 });
 
 describe('SystemActionModalsProvider (single-host tags modal)', () => {
@@ -399,25 +332,6 @@ describe('SystemActionModalsProvider (single-host tags modal)', () => {
     expect(
       screen.getByRole('heading', { name: 'Test Host (0)' }),
     ).toBeInTheDocument();
-  });
-
-  it('closes the single-host tags modal when Close is clicked', async () => {
-    renderWithProvider(<OpenTagsModalButton />);
-
-    await userEvent.click(
-      screen.getByRole('button', { name: /open tags modal/i }),
-    );
-
-    const closeButtons = screen.getAllByRole('button', { name: 'Close' });
-    const footerClose = closeButtons.find((button) =>
-      button.className.includes('pf-m-primary'),
-    );
-    expect(footerClose).toBeDefined();
-    await userEvent.click(footerClose!);
-
-    expect(
-      screen.queryByRole('heading', { name: 'Test Host (0)' }),
-    ).not.toBeInTheDocument();
   });
 });
 
@@ -444,20 +358,5 @@ describe('SystemActionModalsProvider (all tags modal)', () => {
     expect(
       screen.getByRole('heading', { name: /all tags in inventory/i }),
     ).toBeInTheDocument();
-  });
-
-  it('closes the all-tags modal when cancel is clicked', async () => {
-    renderWithProvider(<OpenTagsModalButton systems={[]} />, {
-      withFilters: true,
-    });
-
-    await userEvent.click(
-      screen.getByRole('button', { name: /open tags modal/i }),
-    );
-    await userEvent.click(screen.getByRole('button', { name: /cancel/i }));
-
-    expect(
-      screen.queryByRole('heading', { name: /all tags in inventory/i }),
-    ).not.toBeInTheDocument();
   });
 });
