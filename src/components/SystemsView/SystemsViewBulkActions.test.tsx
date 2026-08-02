@@ -4,32 +4,40 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { expect, jest } from '@jest/globals';
 import { SystemActionModalsContext } from './SystemActionModalsContext';
-import {
-  GENERAL_GROUPS_WRITE_PERMISSION,
-  GENERAL_HOSTS_WRITE_PERMISSIONS,
-} from '../../constants';
 import type { System } from '../InventoryViews/hooks/useHostsQuery';
+import {
+  createSystem,
+  expectMenuItemDisabled,
+  mockOpenAddToWorkspaceModal,
+  mockOpenDeleteModal,
+  mockOpenMoveSystemsToWorkspaceModal,
+  mockOpenRemoveFromWorkspaceModal,
+  mockSystemActionModalsContextValue,
+  mockUseKesselMigrationFeatureFlag,
+  resetSystemsViewActionsTestState,
+  setConditionalRBAC,
+  testWorkspaceGroup,
+} from './__fixtures__/systemsViewActionsTestHelpers';
 
-const mockOpenDeleteModal = jest.fn();
-const mockOpenAddToWorkspaceModal = jest.fn();
-const mockOpenMoveSystemsToWorkspaceModal = jest.fn();
-const mockOpenRemoveFromWorkspaceModal = jest.fn();
 const mockOpenColumnManagementModal = jest.fn();
-
-const mockContextValue = {
-  openDeleteModal: mockOpenDeleteModal,
-  openAddToWorkspaceModal: mockOpenAddToWorkspaceModal,
-  openMoveSystemsToWorkspaceModal: mockOpenMoveSystemsToWorkspaceModal,
-  openRemoveFromWorkspaceModal: mockOpenRemoveFromWorkspaceModal,
-  openEditModal: jest.fn(),
-  openTagsModal: jest.fn(),
-};
 
 jest.mock('./ColumnManagementModalContext', () => ({
   useColumnManagementModalContext: () => ({
     openColumnManagementModal: mockOpenColumnManagementModal,
   }),
 }));
+
+jest.mock('./SystemsViewExport', () => ({
+  SystemsViewExport: () => null,
+}));
+
+jest.mock('../../Utilities/useInventoryViewsFeatureFlag', () => ({
+  __esModule: true,
+  default: () => false,
+}));
+
+const { SystemsViewBulkActions } =
+  require('./SystemsViewBulkActions') as typeof import('./SystemsViewBulkActions');
 
 function renderBulkActions({
   selectedSystems = [createSystem()],
@@ -39,62 +47,15 @@ function renderBulkActions({
   activeState?: string;
 } = {}) {
   return render(
-    <SystemActionModalsContext.Provider value={mockContextValue}>
+    <SystemActionModalsContext.Provider
+      value={mockSystemActionModalsContextValue}
+    >
       <SystemsViewBulkActions
         selectedSystems={selectedSystems}
         activeState={activeState}
       />
     </SystemActionModalsContext.Provider>,
   );
-}
-
-jest.mock('./SystemsViewExport', () => ({
-  SystemsViewExport: () => null,
-}));
-
-const mockUseKesselMigrationFeatureFlag = jest.fn();
-
-jest.mock('../../Utilities/hooks/useKesselMigrationFeatureFlag', () => ({
-  useKesselMigrationFeatureFlag: () => mockUseKesselMigrationFeatureFlag(),
-}));
-
-jest.mock('../../Utilities/useInventoryViewsFeatureFlag', () => ({
-  __esModule: true,
-  default: () => false,
-}));
-
-jest.mock('../../Utilities/hooks/useConditionalRBAC', () => ({
-  useConditionalRBAC: jest.fn(() => ({ hasAccess: false })),
-}));
-
-const { SystemsViewBulkActions } =
-  require('./SystemsViewBulkActions') as typeof import('./SystemsViewBulkActions');
-
-const baseTestSystem = {
-  id: 'host-1',
-  display_name: 'My Host',
-  groups: [] as System['groups'],
-  org_id: 'test-org',
-};
-
-function createSystem(systemOverrides: Partial<System> = {}): System {
-  return { ...baseTestSystem, ...systemOverrides };
-}
-
-function setConditionalRBAC(hasGroupsWrite: boolean, hasHostsWrite: boolean) {
-  const useConditionalRBACMock =
-    require('../../Utilities/hooks/useConditionalRBAC')
-      .useConditionalRBAC as jest.Mock;
-  useConditionalRBACMock.mockImplementation((...args: unknown[]) => {
-    const permissions = args[0] as string[];
-    if (permissions.includes(GENERAL_GROUPS_WRITE_PERMISSION)) {
-      return { hasAccess: hasGroupsWrite };
-    }
-    if (permissions.includes(GENERAL_HOSTS_WRITE_PERMISSIONS)) {
-      return { hasAccess: hasHostsWrite };
-    }
-    return { hasAccess: false };
-  });
 }
 
 function getActionsOverflowMenuButton() {
@@ -105,25 +66,10 @@ async function openActionsOverflowMenu() {
   await userEvent.click(getActionsOverflowMenuButton());
 }
 
-function expectOverflowMenuItemDisabled(name: string | RegExp) {
-  const item = screen.getByRole('menuitem', { name });
-  expect(item).toBeInTheDocument();
-  expect(
-    item.hasAttribute('aria-disabled') ||
-      item.hasAttribute('disabled') ||
-      item.className.includes('disabled'),
-  ).toBe(true);
-}
-
 describe('SystemsViewBulkActions', () => {
   beforeEach(() => {
-    mockOpenDeleteModal.mockClear();
-    mockOpenAddToWorkspaceModal.mockClear();
-    mockOpenMoveSystemsToWorkspaceModal.mockClear();
-    mockOpenRemoveFromWorkspaceModal.mockClear();
+    resetSystemsViewActionsTestState();
     mockOpenColumnManagementModal.mockClear();
-    setConditionalRBAC(false, false);
-    mockUseKesselMigrationFeatureFlag.mockReturnValue(false);
   });
 
   describe('when Kessel migration is enabled', () => {
@@ -251,7 +197,7 @@ describe('SystemsViewBulkActions', () => {
 
         const selectedSystems = [
           createSystem({
-            groups: [{ id: 'g1', name: 'Workspace A', ungrouped: false }],
+            groups: [testWorkspaceGroup],
           }),
         ];
 
@@ -259,7 +205,7 @@ describe('SystemsViewBulkActions', () => {
 
         await openActionsOverflowMenu();
 
-        expectOverflowMenuItemDisabled('Add to workspace');
+        expectMenuItemDisabled('Add to workspace');
       });
 
       it('is disabled when no systems are selected', () => {
@@ -277,7 +223,7 @@ describe('SystemsViewBulkActions', () => {
 
         const selectedSystems = [
           createSystem({
-            groups: [{ id: 'g1', name: 'Workspace A', ungrouped: false }],
+            groups: [testWorkspaceGroup],
           }),
         ];
 
@@ -297,7 +243,7 @@ describe('SystemsViewBulkActions', () => {
 
         const selectedSystems = [
           createSystem({
-            groups: [{ id: 'g1', name: 'Workspace A', ungrouped: false }],
+            groups: [testWorkspaceGroup],
           }),
         ];
 
@@ -315,7 +261,7 @@ describe('SystemsViewBulkActions', () => {
 
         await openActionsOverflowMenu();
 
-        expectOverflowMenuItemDisabled('Remove from workspace');
+        expectMenuItemDisabled('Remove from workspace');
       });
 
       it('is disabled when no systems are selected', () => {

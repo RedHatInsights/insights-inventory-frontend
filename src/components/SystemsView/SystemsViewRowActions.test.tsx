@@ -2,100 +2,37 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { expect, jest } from '@jest/globals';
+import { expect } from '@jest/globals';
 import { SystemActionModalsContext } from './SystemActionModalsContext';
-import type { SystemWithPermissions } from '../../Utilities/hooks/useHostIdsWithKessel';
+import { MOVE_SYSTEM_MENU_TEXT } from '../../constants';
 import {
-  GENERAL_GROUPS_WRITE_PERMISSION,
-  GENERAL_HOSTS_WRITE_PERMISSIONS,
-  MOVE_SYSTEM_MENU_TEXT,
-} from '../../constants';
-import type { System } from '../InventoryViews/hooks/useHostsQuery';
-
-const mockOpenDeleteModal = jest.fn();
-const mockOpenAddToWorkspaceModal = jest.fn();
-const mockOpenMoveSystemsToWorkspaceModal = jest.fn();
-const mockOpenRemoveFromWorkspaceModal = jest.fn();
-const mockOpenEditModal = jest.fn();
-const mockOpenTagsModal = jest.fn();
-
-const mockContextValue = {
-  openDeleteModal: mockOpenDeleteModal,
-  openAddToWorkspaceModal: mockOpenAddToWorkspaceModal,
-  openMoveSystemsToWorkspaceModal: mockOpenMoveSystemsToWorkspaceModal,
-  openRemoveFromWorkspaceModal: mockOpenRemoveFromWorkspaceModal,
-  openEditModal: mockOpenEditModal,
-  openTagsModal: mockOpenTagsModal,
-};
+  createSystem,
+  createSystemWithPermissions,
+  expectMenuItemDisabled,
+  mockOpenAddToWorkspaceModal,
+  mockOpenDeleteModal,
+  mockOpenEditModal,
+  mockOpenMoveSystemsToWorkspaceModal,
+  mockOpenRemoveFromWorkspaceModal,
+  mockSystemActionModalsContextValue,
+  mockUseKesselMigrationFeatureFlag,
+  resetSystemsViewActionsTestState,
+  setConditionalRBAC,
+  testWorkspaceGroup,
+} from './__fixtures__/systemsViewActionsTestHelpers';
 
 function renderWithProvider(ui: React.ReactElement) {
   return render(
-    <SystemActionModalsContext.Provider value={mockContextValue}>
+    <SystemActionModalsContext.Provider
+      value={mockSystemActionModalsContextValue}
+    >
       {ui}
     </SystemActionModalsContext.Provider>,
   );
 }
 
-const mockUseKesselMigrationFeatureFlag = jest.fn();
-
-jest.mock('../../Utilities/hooks/useKesselMigrationFeatureFlag', () => ({
-  useKesselMigrationFeatureFlag: () => mockUseKesselMigrationFeatureFlag(),
-}));
-
-jest.mock('../../Utilities/hooks/useConditionalRBAC', () => ({
-  useConditionalRBAC: jest.fn(() => ({ hasAccess: false })),
-}));
-
 const SystemsViewRowActions = require('./SystemsViewRowActions')
   .default as typeof import('./SystemsViewRowActions').default;
-
-const baseTestSystem = {
-  id: 'host-1',
-  display_name: 'My Host',
-  groups: [] as System['groups'],
-  org_id: 'test-org',
-};
-
-function createSystemWithPermissions(
-  permissions: SystemWithPermissions['permissions'],
-  systemOverrides: Partial<System> = {},
-): SystemWithPermissions {
-  return {
-    ...baseTestSystem,
-    ...systemOverrides,
-    permissions,
-  } as unknown as SystemWithPermissions;
-}
-
-function createSystem(systemOverrides: Partial<System> = {}): System {
-  return { ...baseTestSystem, ...systemOverrides };
-}
-
-function setConditionalRBAC(hasGroupsWrite: boolean, hasHostsWrite: boolean) {
-  const useConditionalRBACMock =
-    require('../../Utilities/hooks/useConditionalRBAC')
-      .useConditionalRBAC as jest.Mock;
-  useConditionalRBACMock.mockImplementation((...args: unknown[]) => {
-    const permissions = args[0] as string[];
-    if (permissions.includes(GENERAL_GROUPS_WRITE_PERMISSION)) {
-      return { hasAccess: hasGroupsWrite };
-    }
-    if (permissions.includes(GENERAL_HOSTS_WRITE_PERMISSIONS)) {
-      return { hasAccess: hasHostsWrite };
-    }
-    return { hasAccess: false };
-  });
-}
-
-function expectMenuItemDisabled(name: string | RegExp) {
-  const item = screen.getByRole('menuitem', { name });
-  expect(item).toBeInTheDocument();
-  expect(
-    item.hasAttribute('aria-disabled') ||
-      item.hasAttribute('disabled') ||
-      item.className.includes('disabled'),
-  ).toBe(true);
-}
 
 function expectMoveMenuItemDisabled() {
   expectMenuItemDisabled(MOVE_SYSTEM_MENU_TEXT);
@@ -103,14 +40,7 @@ function expectMoveMenuItemDisabled() {
 
 describe('SystemsViewRowActions', () => {
   beforeEach(() => {
-    mockOpenDeleteModal.mockClear();
-    mockOpenAddToWorkspaceModal.mockClear();
-    mockOpenMoveSystemsToWorkspaceModal.mockClear();
-    mockOpenRemoveFromWorkspaceModal.mockClear();
-    mockOpenEditModal.mockClear();
-    mockOpenTagsModal.mockClear();
-    setConditionalRBAC(false, false);
-    mockUseKesselMigrationFeatureFlag.mockReturnValue(false);
+    resetSystemsViewActionsTestState();
   });
 
   async function openKebabMenu() {
@@ -233,7 +163,7 @@ describe('SystemsViewRowActions', () => {
         setConditionalRBAC(true, false);
 
         const system = createSystem({
-          groups: [{ id: 'g1', name: 'Workspace A', ungrouped: false }],
+          groups: [testWorkspaceGroup],
         });
 
         renderWithProvider(<SystemsViewRowActions system={system} />);
@@ -248,7 +178,7 @@ describe('SystemsViewRowActions', () => {
         setConditionalRBAC(true, false);
 
         const system = createSystem({
-          groups: [{ id: 'g1', name: 'Workspace A', ungrouped: false }],
+          groups: [testWorkspaceGroup],
         });
 
         renderWithProvider(<SystemsViewRowActions system={system} />);
@@ -264,7 +194,7 @@ describe('SystemsViewRowActions', () => {
         setConditionalRBAC(false, false);
 
         const system = createSystem({
-          groups: [{ id: 'g1', name: 'Workspace A', ungrouped: false }],
+          groups: [testWorkspaceGroup],
         });
 
         renderWithProvider(<SystemsViewRowActions system={system} />);
