@@ -157,6 +157,7 @@ export const workloadOptions = [
   { label: 'Oracle DB', value: 'oracle_db' },
   { label: 'RHEL AI', value: 'rhel_ai' },
   { label: 'SAP', value: 'sap' },
+  { label: 'Satellite', value: 'satellite' },
 ];
 
 /** Maps workload filter keys to system_profile.workloads.* API filter shapes (presence). */
@@ -169,6 +170,7 @@ export const WORKLOAD_API_MAP = {
   oracle_db: { is: 'not_nil' },
   intersystems: { is: 'not_nil' },
   rhel_ai: { is: 'not_nil' },
+  satellite: { is: 'not_nil' },
 };
 
 export function filterToGroup(filter = [], valuesKey = 'values') {
