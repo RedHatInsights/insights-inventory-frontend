@@ -107,6 +107,69 @@ describe('SystemsViewRowActions', () => {
         expectMoveMenuItemDisabled();
       });
     });
+
+    describe('Edit display name', () => {
+      it('opens edit modal when clicked', async () => {
+        const system = createSystemWithPermissions({
+          hasWorkspaceEdit: true,
+          hasUpdate: true,
+          hasDelete: true,
+        });
+
+        renderWithProvider(<SystemsViewRowActions system={system} />);
+        await openKebabMenu();
+
+        await userEvent.click(screen.getByRole('menuitem', { name: 'Edit' }));
+        expect(mockOpenEditModal).toHaveBeenCalledWith([system]);
+      });
+
+      it('is disabled when missing update permission', async () => {
+        const system = createSystemWithPermissions({
+          hasWorkspaceEdit: true,
+          hasUpdate: false,
+          hasDelete: true,
+        });
+
+        renderWithProvider(<SystemsViewRowActions system={system} />);
+        await openKebabMenu();
+
+        expect(screen.getByRole('menuitem', { name: 'Edit' })).toHaveAttribute(
+          'aria-disabled',
+          'true',
+        );
+      });
+    });
+
+    describe('Delete from inventory', () => {
+      it('opens delete modal when clicked', async () => {
+        const system = createSystemWithPermissions({
+          hasWorkspaceEdit: true,
+          hasUpdate: true,
+          hasDelete: true,
+        });
+
+        renderWithProvider(<SystemsViewRowActions system={system} />);
+        await openKebabMenu();
+
+        await userEvent.click(screen.getByRole('menuitem', { name: 'Delete' }));
+        expect(mockOpenDeleteModal).toHaveBeenCalledWith([system]);
+      });
+
+      it('is disabled when missing delete permission', async () => {
+        const system = createSystemWithPermissions({
+          hasWorkspaceEdit: true,
+          hasUpdate: true,
+          hasDelete: false,
+        });
+
+        renderWithProvider(<SystemsViewRowActions system={system} />);
+        await openKebabMenu();
+
+        expect(
+          screen.getByRole('menuitem', { name: 'Delete' }),
+        ).toHaveAttribute('aria-disabled', 'true');
+      });
+    });
   });
 
   describe('when Kessel migration is disabled', () => {
