@@ -113,7 +113,7 @@ describe('SystemsViewBulkActions', () => {
         expect(screen.getByRole('button', { name: 'Move' })).toBeDisabled();
       });
 
-      it('is disabled when the table is not in the active state', () => {
+      it('is disabled when the table is is in the loading state', () => {
         renderBulkActions({ activeState: 'loading' });
 
         expect(screen.getByRole('button', { name: 'Move' })).toBeDisabled();
@@ -136,8 +136,8 @@ describe('SystemsViewBulkActions', () => {
         expect(screen.getByRole('button', { name: 'Delete' })).toBeDisabled();
       });
 
-      it('is disabled when the table is not in the active state', () => {
-        renderBulkActions({ activeState: 'empty' });
+      it('is disabled when the table is in the loading state', () => {
+        renderBulkActions({ activeState: 'loading' });
 
         expect(screen.getByRole('button', { name: 'Delete' })).toBeDisabled();
       });
@@ -215,6 +215,14 @@ describe('SystemsViewBulkActions', () => {
 
         expect(getActionsOverflowMenuButton()).toBeDisabled();
       });
+
+      it('is disabled when the table is in the loading state', () => {
+        setConditionalRBAC(true, true);
+
+        renderBulkActions({ activeState: 'loading' });
+
+        expect(getActionsOverflowMenuButton()).toBeDisabled();
+      });
     });
 
     describe('Remove from workspace', () => {
@@ -271,6 +279,20 @@ describe('SystemsViewBulkActions', () => {
 
         expect(getActionsOverflowMenuButton()).toBeDisabled();
       });
+
+      it('is disabled when the table is in the loading state', () => {
+        setConditionalRBAC(true, true);
+
+        const selectedSystems = [
+          createSystem({
+            groups: [testWorkspaceGroup],
+          }),
+        ];
+
+        renderBulkActions({ selectedSystems, activeState: 'loading' });
+
+        expect(getActionsOverflowMenuButton()).toBeDisabled();
+      });
     });
 
     describe('Delete', () => {
@@ -297,6 +319,14 @@ describe('SystemsViewBulkActions', () => {
         setConditionalRBAC(false, true);
 
         renderBulkActions({ selectedSystems: [] });
+
+        expect(screen.getByRole('button', { name: 'Delete' })).toBeDisabled();
+      });
+
+      it('is disabled when the table is in the loading state', () => {
+        setConditionalRBAC(false, true);
+
+        renderBulkActions({ activeState: 'loading' });
 
         expect(screen.getByRole('button', { name: 'Delete' })).toBeDisabled();
       });
