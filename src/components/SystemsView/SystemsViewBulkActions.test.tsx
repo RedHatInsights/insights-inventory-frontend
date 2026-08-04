@@ -7,7 +7,6 @@ import { SystemActionModalsContext } from './SystemActionModalsContext';
 import type { System } from '../InventoryViews/hooks/useHostsQuery';
 import {
   createSystem,
-  expectMenuItemDisabled,
   mockOpenAddToWorkspaceModal,
   mockOpenDeleteModal,
   mockOpenMoveSystemsToWorkspaceModal,
@@ -192,20 +191,20 @@ describe('SystemsViewBulkActions', () => {
         expect(getActionsOverflowMenuButton()).toBeDisabled();
       });
 
-      it('is disabled when any selected host is already in a workspace', async () => {
+      it('is disabled when any selected host is already in a workspace', () => {
         setConditionalRBAC(true, true);
 
         const selectedSystems = [
           createSystem({
+            id: 'host-in-workspace',
             groups: [testWorkspaceGroup],
           }),
+          createSystem({ id: 'host-not-in-workspace' }),
         ];
 
         renderBulkActions({ selectedSystems });
 
-        await openActionsOverflowMenu();
-
-        expectMenuItemDisabled('Add to workspace');
+        expect(getActionsOverflowMenuButton()).toBeDisabled();
       });
 
       it('is disabled when no systems are selected', () => {
@@ -260,16 +259,20 @@ describe('SystemsViewBulkActions', () => {
         expect(getActionsOverflowMenuButton()).toBeDisabled();
       });
 
-      it('is disabled when any selected host is not in a workspace', async () => {
+      it('is disabled when any selected host is not in a workspace', () => {
         setConditionalRBAC(true, true);
 
-        const selectedSystems = [createSystem()];
+        const selectedSystems = [
+          createSystem({
+            id: 'host-in-workspace',
+            groups: [testWorkspaceGroup],
+          }),
+          createSystem({ id: 'host-not-in-workspace' }),
+        ];
 
         renderBulkActions({ selectedSystems });
 
-        await openActionsOverflowMenu();
-
-        expectMenuItemDisabled('Remove from workspace');
+        expect(getActionsOverflowMenuButton()).toBeDisabled();
       });
 
       it('is disabled when no systems are selected', () => {
