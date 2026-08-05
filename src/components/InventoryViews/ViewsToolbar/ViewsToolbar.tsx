@@ -2,13 +2,16 @@ import React from 'react';
 import { Flex, FlexItem } from '@patternfly/react-core';
 import type { ViewOut } from '../../../api/inventoryViewsApi';
 import { ManageViewButton } from './ManageViewButton';
+import ViewSelector from './ViewSelector';
 import './ViewsToolbar.scss';
 
 export interface ViewsToolbarProps {
   className?: string;
+  activeViewId: string;
   currentViewId?: string | null;
   isSystemView?: boolean;
   viewsList?: ViewOut[];
+  onSelectView: (viewId: string) => void;
   onSaveAs: () => void;
   onRename: () => void;
   onDelete: () => void;
@@ -16,9 +19,11 @@ export interface ViewsToolbarProps {
 
 export const ViewsToolbar = ({
   className,
+  activeViewId,
   currentViewId,
   isSystemView = true,
-  viewsList,
+  viewsList = [],
+  onSelectView,
   onSaveAs,
   onRename,
   onDelete,
@@ -31,6 +36,13 @@ export const ViewsToolbar = ({
     >
       <FlexItem>
         <div>View: </div>
+      </FlexItem>
+      <FlexItem>
+        <ViewSelector
+          views={viewsList}
+          activeViewId={activeViewId}
+          onSelectView={onSelectView}
+        />
       </FlexItem>
       <FlexItem>
         <ManageViewButton
