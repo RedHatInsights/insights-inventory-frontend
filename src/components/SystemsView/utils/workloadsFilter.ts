@@ -1,3 +1,5 @@
+import type { SystemProfileWorkloads } from '@redhat-cloud-services/host-inventory-client';
+
 /**
  * Toolbar workload filter options. `value` is the key under `system_profile.workloads`
  * (see system_profile.spec.yaml → SystemProfile.properties.workloads.properties).
@@ -10,13 +12,12 @@ export const WORKLOAD_FILTER_OPTIONS = [
   { label: 'Microsoft SQL', value: 'mssql' },
   { label: 'Oracle DB', value: 'oracle_db' },
   { label: 'RHEL AI', value: 'rhel_ai' },
+  { label: 'Satellite', value: 'satellite' },
   { label: 'SAP', value: 'sap' },
 ] as const;
 
-type WorkloadFilterValue = (typeof WORKLOAD_FILTER_OPTIONS)[number]['value'];
-
 /** Table column acronyms for keys under `system_profile.workloads`. */
-export const WORKLOAD_ACRONYMS: Record<WorkloadFilterValue, string> = {
+export const WORKLOAD_ACRONYMS: Record<string, string> = {
   ansible: 'AAP',
   crowdstrike: 'CS',
   ibm_db2: 'DB2',
@@ -24,6 +25,7 @@ export const WORKLOAD_ACRONYMS: Record<WorkloadFilterValue, string> = {
   mssql: 'MSSQL',
   oracle_db: 'ORACLE',
   rhel_ai: 'RHEL AI',
+  satellite: 'Satellite',
   sap: 'SAP',
 };
 
