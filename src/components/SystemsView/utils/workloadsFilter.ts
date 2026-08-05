@@ -14,7 +14,6 @@ export const WORKLOAD_FILTER_OPTIONS = [
   { label: 'RHEL AI', value: 'rhel_ai' },
   { label: 'Satellite', value: 'satellite' },
   { label: 'SAP', value: 'sap' },
-  { label: 'Satellite', value: 'satellite' },
 ] as const;
 
 /** Table column acronyms for keys under `system_profile.workloads`. */
@@ -28,7 +27,6 @@ export const WORKLOAD_ACRONYMS: Record<string, string> = {
   rhel_ai: 'RHEL AI',
   satellite: 'Satellite',
   sap: 'SAP',
-  satellite: 'Satellite',
 };
 
 /**
