@@ -11,20 +11,22 @@ import ViewsToolbar from './ViewsToolbar/ViewsToolbar';
 import ViewSaveAsModal from './Modals/ViewSaveAsModal';
 import ViewRenameModal from './Modals/ViewRenameModal';
 import ViewDeleteModal from './Modals/ViewDeleteModal';
-import type { ViewConfiguration } from '../../api/inventoryViewsApi';
+import {
+  ALL_SYSTEMS_VIEW_ID,
+  type ViewConfiguration,
+} from '../../api/inventoryViewsApi';
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
-
-const STATIC_ACTIVE_VIEW_ID = 'view-production';
 
 const InventoryViews = () => {
   const [isViewSaveAsModalOpen, setIsViewSaveAsModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [activeViewId, setActiveViewId] = useState(ALL_SYSTEMS_VIEW_ID);
   const queryClient = useQueryClient();
   const isInventoryViewsPrivateEnabled = useInventoryViewsPrivateFeatureFlag();
   const { data: viewsData } = useViewsQuery();
   const viewsList = viewsData?.results ?? [];
-  const activeView = viewsList.find((v) => v.id === STATIC_ACTIVE_VIEW_ID);
+  const activeView = viewsList.find((v) => v.id === activeViewId);
   const isSystemView = activeView?.is_system_view ?? true;
 
   // Open Save As modal
@@ -74,7 +76,9 @@ const InventoryViews = () => {
         <>
           <ViewsToolbar
             viewsList={viewsList}
+            activeViewId={activeViewId}
             isSystemView={isSystemView}
+            onSelectView={setActiveViewId}
             onSaveAs={handleSaveAs}
             onRename={handleRename}
             onDelete={handleDelete}
