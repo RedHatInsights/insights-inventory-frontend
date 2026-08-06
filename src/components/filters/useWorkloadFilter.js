@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { WORKLOAD_FILTER_KEY, workloadOptions } from '../../Utilities/index';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
 
 export const workloadFilterState = { workloadFilter: [] };
 export const WORKLOAD_FILTER = 'WORKLOAD_FILTER';
@@ -13,12 +14,19 @@ export const useWorkloadFilter = (
   [state, dispatch] = [workloadFilterState],
 ) => {
   let [workloadStateValue, setStateValue] = useState([]);
+  const isSatelliteWorkloadEnabled = useFeatureFlag(
+    'hbi.ui.workload_filter_satellite',
+  );
 
   const workloadValue = dispatch ? state.workloadFilter : workloadStateValue;
 
   const setValue = dispatch
     ? (newValue) => dispatch({ type: WORKLOAD_FILTER, payload: newValue })
     : setStateValue;
+
+  const activeOptions = isSatelliteWorkloadEnabled
+    ? workloadOptions
+    : workloadOptions.filter(({ value }) => value !== 'satellite');
 
   const filter = {
     label: 'Workload',
@@ -27,7 +35,7 @@ export const useWorkloadFilter = (
     filterValues: {
       value: workloadValue,
       onChange: (_e, value) => setValue(value),
-      items: workloadOptions,
+      items: activeOptions,
       placeholder: 'Filter by workload',
     },
   };
@@ -38,7 +46,7 @@ export const useWorkloadFilter = (
           {
             category: 'Workload',
             type: WORKLOAD_FILTER_KEY,
-            chips: workloadOptions
+            chips: activeOptions
               .filter(({ value }) => workloadValue.includes(value))
               .map(({ label, value }) => ({ name: label, value })),
           },

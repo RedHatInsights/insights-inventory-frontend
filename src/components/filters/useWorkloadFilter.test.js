@@ -1,6 +1,10 @@
 import { act, renderHook } from '@testing-library/react';
 import { WORKLOAD_FILTER_KEY, workloadOptions } from '../../Utilities';
 import { useWorkloadFilter } from './useWorkloadFilter';
+import useFeatureFlag from '../../Utilities/useFeatureFlag';
+
+jest.mock('../../Utilities/useFeatureFlag');
+useFeatureFlag.mockReturnValue(true);
 
 describe('useWorkloadFilter', () => {
   it('should create filter', () => {
