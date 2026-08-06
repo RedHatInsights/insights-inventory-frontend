@@ -1,6 +1,13 @@
 import { APIFactory } from '@redhat-cloud-services/javascript-clients-shared';
 import axiosInstance from '@redhat-cloud-services/frontend-components-utilities/interceptors';
-import * as clientExports from '@redhat-cloud-services/host-inventory-client';
+import {
+  apiViewsGetViewsList,
+  apiViewsGetViewById,
+  apiViewsCreateView,
+  apiViewsUpdateView,
+  apiViewsDeleteView,
+  apiViewsCloneView,
+} from '@redhat-cloud-services/host-inventory-client';
 import type { AxiosInstance } from 'axios';
 import type {
   ApiViewsGetViewsListParams,
@@ -31,20 +38,14 @@ export const ALL_SYSTEMS_VIEW_ID = 'all-systems';
 
 const INVENTORY_API_BASE = '/api/inventory/v1';
 
-type FunctionProperties<T> = {
-  [K in keyof T]: T[K] extends Function ? K : never;
-}[keyof T];
-
-type ApiEndpoints = Pick<
-  typeof clientExports,
-  FunctionProperties<typeof clientExports>
->;
-
-const endpoints = Object.fromEntries(
-  Object.entries(clientExports).filter(
-    ([, value]) => typeof value === 'function',
-  ),
-) as ApiEndpoints;
+const endpoints = {
+  apiViewsGetViewsList,
+  apiViewsGetViewById,
+  apiViewsCreateView,
+  apiViewsUpdateView,
+  apiViewsDeleteView,
+  apiViewsCloneView,
+};
 
 const inventoryApi = (axios: AxiosInstance = axiosInstance) =>
   APIFactory(INVENTORY_API_BASE, endpoints, { axios });

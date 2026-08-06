@@ -15,8 +15,7 @@ export const useDeleteViewMutation = () => {
         dismissable: true,
       });
 
-      // TODO: Invalidate views list when RHINENG-28462 is complete
-      // queryClient.invalidateQueries({ queryKey: ['views'] });
+      void queryClient.invalidateQueries({ queryKey: ['views'] });
     },
     onError: (error) => {
       console.error(error);
