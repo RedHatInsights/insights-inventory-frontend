@@ -1,7 +1,18 @@
-// ============================================================================
-// TYPE IMPORTS (from @redhat-cloud-services/host-inventory-client)
-// ============================================================================
-
+import { APIFactory } from '@redhat-cloud-services/javascript-clients-shared';
+import axiosInstance from '@redhat-cloud-services/frontend-components-utilities/interceptors';
+import * as clientExports from '@redhat-cloud-services/host-inventory-client';
+import type { AxiosInstance } from 'axios';
+import type {
+  ApiViewsGetViewsListParams,
+  ApiViewsGetViewsListReturnType,
+} from '@redhat-cloud-services/host-inventory-client/ApiViewsGetViewsList';
+import type {
+  ApiViewsGetViewByIdParams,
+  ApiViewsGetViewByIdReturnType,
+} from '@redhat-cloud-services/host-inventory-client/ApiViewsGetViewById';
+import type { ApiViewsCreateViewReturnType } from '@redhat-cloud-services/host-inventory-client/ApiViewsCreateView';
+import type { ApiViewsUpdateViewReturnType } from '@redhat-cloud-services/host-inventory-client/ApiViewsUpdateView';
+import type { ApiViewsCloneViewReturnType } from '@redhat-cloud-services/host-inventory-client/ApiViewsCloneView';
 import type {
   ViewConfiguration,
   ViewIn,
@@ -10,187 +21,83 @@ import type {
   ViewsListOut,
 } from '@redhat-cloud-services/host-inventory-client/types';
 
-// Re-export for convenience — consumers can import from this file
 export type { ViewConfiguration, ViewIn, ViewOut, ViewPatch, ViewsListOut };
 
-// Type aliases mapping to our domain terminology
 export type CreateViewRequest = ViewIn;
 export type UpdateViewRequest = ViewPatch;
 export type InventoryView = ViewOut;
 
-// ============================================================================
-// MOCK DATA (Replace with real API when available)
-// ============================================================================
-
 export const ALL_SYSTEMS_VIEW_ID = 'all-systems';
 
-export const MOCK_VIEWS: ViewOut[] = [
-  {
-    id: ALL_SYSTEMS_VIEW_ID,
-    name: 'All systems',
-    description: 'Default view showing all inventory systems',
-    is_system_view: true,
-    org_id: 'org-123',
-    org_wide: true,
-    configuration: { columns: [] },
-    created_by: 'system',
-    created_at: '2026-01-01T00:00:00Z',
-    updated_at: '2026-01-01T00:00:00Z',
-    is_owner: false,
-  },
-  {
-    id: 'view-production',
-    name: 'Production view',
-    description: 'Production environment systems',
-    is_system_view: false,
-    org_id: 'org-123',
-    org_wide: false,
-    configuration: { columns: [] },
-    created_by: 'current-user',
-    created_at: '2026-06-15T10:00:00Z',
-    updated_at: '2026-07-20T14:30:00Z',
-    is_owner: true,
-  },
-  {
-    id: 'view-rhel9-staging',
-    name: 'RHEL 9 staging',
-    description: 'RHEL 9 systems in staging environment',
-    is_system_view: false,
-    org_id: 'org-123',
-    org_wide: false,
-    configuration: { columns: [] },
-    created_by: 'current-user',
-    created_at: '2026-07-01T09:00:00Z',
-    updated_at: '2026-07-25T11:00:00Z',
-    is_owner: true,
-  },
-  {
-    id: 'view-security',
-    name: 'Security overview',
-    description: 'Systems with security-related advisories',
-    is_system_view: true,
-    org_id: 'org-123',
-    org_wide: true,
-    configuration: { columns: [] },
-    created_by: 'system',
-    created_at: '2026-01-01T00:00:00Z',
-    updated_at: '2026-01-01T00:00:00Z',
-    is_owner: false,
-  },
-];
+const INVENTORY_API_BASE = '/api/inventory/v1';
 
-// ============================================================================
-// DUMMY API FUNCTIONS (Replace with real API calls)
-// ============================================================================
+type FunctionProperties<T> = {
+  [K in keyof T]: T[K] extends Function ? K : never;
+}[keyof T];
 
-/**
- * DUMMY: List all inventory views visible to the requesting user
- *
- * Real implementation (RHINENG-28461):
- * - GET /api/inventory/v1/views
- * - RBAC: @access(KesselResourceTypes.VIEWS.view)
- * - Returns system views, user's own views, and org-wide views
- * - Each view includes computed is_owner boolean
- */
-export const listViewsApi = async (): Promise<ViewsListOut> => {
-  console.log('[DUMMY API] Listing views');
+type ApiEndpoints = Pick<
+  typeof clientExports,
+  FunctionProperties<typeof clientExports>
+>;
 
-  // Simulate API delay
-  await new Promise((resolve) => setTimeout(resolve, 300));
+const endpoints = Object.fromEntries(
+  Object.entries(clientExports).filter(
+    ([, value]) => typeof value === 'function',
+  ),
+) as ApiEndpoints;
 
-  return {
-    count: MOCK_VIEWS.length,
-    page: 1,
-    per_page: 50,
-    total: MOCK_VIEWS.length,
-    results: MOCK_VIEWS,
+const inventoryApi = (axios: AxiosInstance = axiosInstance) =>
+  APIFactory(INVENTORY_API_BASE, endpoints, { axios });
+
+export const listViewsApi =
+  async (): Promise<ApiViewsGetViewsListReturnType> => {
+    return (await inventoryApi().apiViewsGetViewsList(
+      {},
+    )) as unknown as ApiViewsGetViewsListReturnType;
   };
+
+export const getViewsApi = async (
+  params: ApiViewsGetViewsListParams = {},
+): Promise<ApiViewsGetViewsListReturnType> => {
+  return (await inventoryApi().apiViewsGetViewsList(
+    params,
+  )) as unknown as ApiViewsGetViewsListReturnType;
 };
 
-/**
- * DUMMY: Create a new inventory view
- *
- * Real implementation (RHINENG-28461):
- * - POST /api/inventory/v1/views
- * - RBAC: @access(KesselResourceTypes.VIEWS.create)
- * - Backend sets org_id and created_by from Identity Header
- *  @param data
- */
+export const getViewApi = async (
+  params: ApiViewsGetViewByIdParams,
+): Promise<ApiViewsGetViewByIdReturnType> => {
+  return (await inventoryApi().apiViewsGetViewById(
+    params,
+  )) as unknown as ApiViewsGetViewByIdReturnType;
+};
+
 export const createViewApi = async (
   data: CreateViewRequest,
-): Promise<InventoryView> => {
-  console.log('[DUMMY API] Creating view:', data);
-
-  // Simulate API delay
-  await new Promise((resolve) => setTimeout(resolve, 500));
-
-  // Return mock response matching V2 API structure
-  return {
-    id: `view-${Date.now()}`,
-    org_id: 'org-123', // Would come from Identity Header
-    name: data.name,
-    description: data.description || '',
-    is_system_view: false,
-    configuration: data.configuration,
-    org_wide: data.org_wide || false,
-    created_by: 'current-user', // Would come from Identity Header
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    is_owner: true,
-  };
+): Promise<ApiViewsCreateViewReturnType> => {
+  return (await inventoryApi().apiViewsCreateView({
+    viewIn: data,
+  })) as unknown as ApiViewsCreateViewReturnType;
 };
 
-/**
- * DUMMY: Update an existing inventory view
- *
- * Real implementation (RHINENG-28461):
- * - PUT /api/inventory/v1/views/{id}
- * - RBAC: @access(KesselResourceTypes.VIEWS.update, id_param="view_id")
- * - Ownership check: created_by must match requester
- * - Immutability check: is_system_view must be FALSE
- *  @param id
- *  @param data
- */
 export const updateViewApi = async (
   id: string,
   data: UpdateViewRequest,
-): Promise<InventoryView> => {
-  console.log('[DUMMY API] Updating view:', id, data);
-
-  // Simulate API delay
-  await new Promise((resolve) => setTimeout(resolve, 500));
-
-  // Return mock response
-  return {
-    id,
-    org_id: 'org-123',
-    name: data.name || 'Updated View',
-    description: data.description || '',
-    is_system_view: false,
-    configuration: data.configuration || { columns: [] },
-    org_wide: data.org_wide || false,
-    created_by: 'current-user',
-    created_at: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
-    updated_at: new Date().toISOString(),
-    is_owner: true,
-  };
+): Promise<ApiViewsUpdateViewReturnType> => {
+  return (await inventoryApi().apiViewsUpdateView({
+    viewId: id,
+    viewPatch: data,
+  })) as unknown as ApiViewsUpdateViewReturnType;
 };
 
-/**
- * DUMMY: Delete an inventory view
- *
- * Real implementation (RHINENG-28461):
- * - DELETE /api/inventory/v1/views/{id}
- * - RBAC: @access(KesselResourceTypes.VIEWS.delete, id_param="view_id")
- * - Ownership check: created_by must match requester
- * - Immutability check: is_system_view must be FALSE
- *  @param id
- */
 export const deleteViewApi = async (id: string): Promise<void> => {
-  console.log('[DUMMY API] Deleting view:', id);
+  await inventoryApi().apiViewsDeleteView({ viewId: id });
+};
 
-  // Simulate API delay
-  await new Promise((resolve) => setTimeout(resolve, 500));
-
-  // No return value for DELETE
+export const cloneViewApi = async (
+  id: string,
+): Promise<ApiViewsCloneViewReturnType> => {
+  return (await inventoryApi().apiViewsCloneView({
+    viewId: id,
+  })) as unknown as ApiViewsCloneViewReturnType;
 };

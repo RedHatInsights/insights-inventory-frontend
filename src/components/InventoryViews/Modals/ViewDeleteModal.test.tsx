@@ -5,6 +5,10 @@ import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ViewDeleteModal from './ViewDeleteModal';
 
+jest.mock('../../../api/inventoryViewsApi', () => ({
+  deleteViewApi: jest.fn().mockResolvedValue(undefined),
+}));
+
 jest.mock(
   '@redhat-cloud-services/frontend-components-notifications/hooks',
   () => ({
