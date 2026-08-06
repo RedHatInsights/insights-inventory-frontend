@@ -16,6 +16,8 @@ export interface ManageViewButtonProps {
   onSaveAs: () => void;
   /** Callback when Rename is clicked */
   onRename: () => void;
+  /** Callback when Delete is clicked */
+  onDelete: () => void;
 }
 
 export const ManageViewButton = ({
@@ -23,6 +25,7 @@ export const ManageViewButton = ({
   isSystemView = true,
   onSaveAs,
   onRename,
+  onDelete,
 }: ManageViewButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -56,6 +59,9 @@ export const ManageViewButton = ({
         </DropdownItem>
         <DropdownItem key="rename" onClick={onRename} isDisabled={isSystemView}>
           Rename
+        </DropdownItem>
+        <DropdownItem key="delete" onClick={onDelete} isDisabled={isSystemView}>
+          Delete
         </DropdownItem>
       </DropdownList>
     </Dropdown>

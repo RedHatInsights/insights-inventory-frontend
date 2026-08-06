@@ -40,6 +40,7 @@ export const SystemsViewBulkActions = ({
   const {
     openDeleteModal,
     openAddToWorkspaceModal,
+    openMoveSystemsToWorkspaceModal,
     openRemoveFromWorkspaceModal,
   } = useSystemActionModalsContext();
   const { openColumnManagementModal } = useColumnManagementModalContext();
@@ -53,7 +54,7 @@ export const SystemsViewBulkActions = ({
         <ResponsiveActions ouiaId="systems-view-toolbar-actions">
           <ResponsiveAction
             isPersistent
-            onClick={() => openAddToWorkspaceModal(selectedSystems)}
+            onClick={() => openMoveSystemsToWorkspaceModal(selectedSystems)}
             isDisabled={moveDisabled}
           >
             Move

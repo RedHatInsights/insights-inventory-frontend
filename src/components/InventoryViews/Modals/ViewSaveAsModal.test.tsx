@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -32,8 +33,8 @@ const createTestQueryClient = () =>
 
 const mockConfiguration: ViewConfiguration = {
   columns: [
-    { key: 'display_name', visible: true },
-    { key: 'os', visible: true },
+    { key: 'display_name' },
+    { key: 'os' },
   ],
   sort: {
     key: 'display_name',

@@ -139,6 +139,20 @@ export const workloadConfigs = (handleClick, workloadsData) => [
       );
     },
   },
+  {
+    type: 'satellite',
+    title: 'Satellite',
+    onClick: () =>
+      handleClick(
+        'Satellite',
+        workloadsDataMapper({
+          data: [workloadsData.satellite],
+          fieldKeys: ['type', 'version'],
+          columnTitles: ['Type', 'Version'],
+        }),
+      ),
+    target: 'satellite',
+  },
 ];
 
 export const workloadsTypesKeys = [
@@ -150,4 +164,5 @@ export const workloadsTypesKeys = [
   'oracle_db',
   'rhel_ai',
   'sap',
+  'satellite',
 ];

@@ -2,52 +2,45 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import SystemsViewRowActions from './SystemsViewRowActions';
-import { expect, jest } from '@jest/globals';
+import { expect } from '@jest/globals';
 import { SystemActionModalsContext } from './SystemActionModalsContext';
-
-const mockOpenDeleteModal = jest.fn();
-const mockOpenAddToWorkspaceModal = jest.fn();
-const mockOpenRemoveFromWorkspaceModal = jest.fn();
-const mockOpenEditModal = jest.fn();
-const mockOpenTagsModal = jest.fn();
-
-const mockContextValue = {
-  openDeleteModal: mockOpenDeleteModal,
-  openAddToWorkspaceModal: mockOpenAddToWorkspaceModal,
-  openRemoveFromWorkspaceModal: mockOpenRemoveFromWorkspaceModal,
-  openEditModal: mockOpenEditModal,
-  openTagsModal: mockOpenTagsModal,
-};
+import { MOVE_SYSTEM_MENU_TEXT } from '../../constants';
+import {
+  createSystem,
+  createSystemWithPermissions,
+  expectMenuItemDisabled,
+  mockOpenAddToWorkspaceModal,
+  mockOpenDeleteModal,
+  mockOpenEditModal,
+  mockOpenMoveSystemsToWorkspaceModal,
+  mockOpenRemoveFromWorkspaceModal,
+  mockSystemActionModalsContextValue,
+  mockUseKesselMigrationFeatureFlag,
+  resetSystemsViewActionsTestState,
+  setConditionalRBAC,
+  testWorkspaceGroup,
+} from './__fixtures__/systemsViewActionsTestHelpers';
 
 function renderWithProvider(ui: React.ReactElement) {
   return render(
-    <SystemActionModalsContext.Provider value={mockContextValue}>
+    <SystemActionModalsContext.Provider
+      value={mockSystemActionModalsContextValue}
+    >
       {ui}
     </SystemActionModalsContext.Provider>,
   );
 }
 
-jest.mock('../../Utilities/useFeatureFlag', () => ({
-  __esModule: true,
-  default: jest.fn((key: string) => key === 'hbi.rbac-v2'),
-}));
+const SystemsViewRowActions = require('./SystemsViewRowActions')
+  .default as typeof import('./SystemsViewRowActions').default;
 
-jest.mock('../../Utilities/hooks/useConditionalRBAC', () => ({
-  useConditionalRBAC: jest.fn(() => ({ hasAccess: false })),
-}));
-
-// No mock for @patternfly/react-table - test via DOM (open kebab and check menu items)
+function expectMoveMenuItemDisabled() {
+  expectMenuItemDisabled(MOVE_SYSTEM_MENU_TEXT);
+}
 
 describe('SystemsViewRowActions', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
-    const useFeatureFlag = require('../../Utilities/useFeatureFlag').default;
-    useFeatureFlag.mockImplementation((key: string) => key === 'hbi.rbac-v2');
-    const useConditionalRBACMock =
-      require('../../Utilities/hooks/useConditionalRBAC')
-        .useConditionalRBAC as jest.Mock;
-    useConditionalRBACMock.mockReturnValue({ hasAccess: false });
+    resetSystemsViewActionsTestState();
   });
 
   async function openKebabMenu() {
@@ -56,116 +49,293 @@ describe('SystemsViewRowActions', () => {
     );
   }
 
-  describe('Move system (Kessel enabled)', () => {
-    it('disables Move system when user does not have workspace edit permission', async () => {
-      const system = {
-        id: 'host-1',
-        display_name: 'My Host',
-        groups: [],
-        org_id: 'test-org',
-        permissions: {
-          hasWorkspaceEdit: false,
-          hasUpdate: true,
-          hasDelete: true,
-        },
-      };
+  describe('when Kessel migration is enabled', () => {
+    beforeEach(() => {
+      mockUseKesselMigrationFeatureFlag.mockReturnValue(true);
+    });
+
+    it('shows Move system and hides legacy workspace menu items', async () => {
+      const system = createSystemWithPermissions({
+        hasWorkspaceEdit: true,
+        hasUpdate: true,
+        hasDelete: true,
+      });
 
       renderWithProvider(<SystemsViewRowActions system={system} />);
       await openKebabMenu();
 
-      const addOrMoveItem = screen.getByRole('menuitem', {
-        name: /move system|add to workspace/i,
-      });
-      expect(addOrMoveItem).toBeInTheDocument();
-      // PatternFly disables via class or aria; ensure it's not clickable when no permission
       expect(
-        addOrMoveItem.hasAttribute('aria-disabled') ||
-          addOrMoveItem.hasAttribute('disabled') ||
-          addOrMoveItem.className.includes('disabled'),
-      ).toBe(true);
+        screen.getByRole('menuitem', { name: MOVE_SYSTEM_MENU_TEXT }),
+      ).toBeInTheDocument();
+      expect(
+        screen.queryByRole('menuitem', { name: 'Add to workspace' }),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole('menuitem', { name: 'Remove from workspace' }),
+      ).not.toBeInTheDocument();
     });
 
-    it('enables Move system when user has workspace edit permission', async () => {
-      const useConditionalRBACMock =
-        require('../../Utilities/hooks/useConditionalRBAC')
-          .useConditionalRBAC as jest.Mock;
-      useConditionalRBACMock.mockReturnValue({ hasAccess: true });
-
-      const system = {
-        id: 'host-1',
-        display_name: 'My Host',
-        groups: [],
-        org_id: 'test-org',
-        permissions: {
+    describe('Move system', () => {
+      it('opens move modal when clicked', async () => {
+        const system = createSystemWithPermissions({
           hasWorkspaceEdit: true,
           hasUpdate: true,
           hasDelete: true,
-        },
-      };
+        });
 
-      renderWithProvider(<SystemsViewRowActions system={system} />);
-      await openKebabMenu();
+        renderWithProvider(<SystemsViewRowActions system={system} />);
+        await openKebabMenu();
 
-      const addOrMoveItem = screen.getByRole('menuitem', {
-        name: /move system|add to workspace/i,
+        await userEvent.click(
+          screen.getByRole('menuitem', { name: MOVE_SYSTEM_MENU_TEXT }),
+        );
+        expect(mockOpenMoveSystemsToWorkspaceModal).toHaveBeenCalledWith([
+          system,
+        ]);
       });
-      expect(addOrMoveItem).toBeInTheDocument();
-      // When enabled, item should not be aria-disabled (PF may still set disabled on the element)
-      expect(addOrMoveItem.getAttribute('aria-disabled')).not.toBe('true');
+
+      it('is disabled when missing workspace edit permission', async () => {
+        const system = createSystemWithPermissions({
+          hasWorkspaceEdit: false,
+          hasUpdate: true,
+          hasDelete: true,
+        });
+
+        renderWithProvider(<SystemsViewRowActions system={system} />);
+        await openKebabMenu();
+
+        expectMoveMenuItemDisabled();
+      });
     });
 
-    it('opens move modal when Move system is clicked', async () => {
-      const useConditionalRBACMock =
-        require('../../Utilities/hooks/useConditionalRBAC')
-          .useConditionalRBAC as jest.Mock;
-      useConditionalRBACMock.mockReturnValue({ hasAccess: true });
-
-      const system = {
-        id: 'host-1',
-        display_name: 'My Host',
-        groups: [],
-        org_id: 'test-org',
-        permissions: {
+    describe('Edit display name', () => {
+      it('opens edit modal when clicked', async () => {
+        const system = createSystemWithPermissions({
           hasWorkspaceEdit: true,
           hasUpdate: true,
           hasDelete: true,
-        },
-      };
+        });
 
-      renderWithProvider(<SystemsViewRowActions system={system} />);
-      await openKebabMenu();
+        renderWithProvider(<SystemsViewRowActions system={system} />);
+        await openKebabMenu();
 
-      await userEvent.click(
-        screen.getByRole('menuitem', { name: /move system/i }),
-      );
-      expect(mockOpenAddToWorkspaceModal).toHaveBeenCalledWith([system]);
-    });
+        await userEvent.click(screen.getByRole('menuitem', { name: 'Edit' }));
+        expect(mockOpenEditModal).toHaveBeenCalledWith([system]);
+      });
 
-    it('disables Move system when permissions are undefined (no edit access)', async () => {
-      const system = {
-        id: 'host-1',
-        display_name: 'My Host',
-        groups: [],
-        org_id: 'test-org',
-        permissions: {
-          hasWorkspaceEdit: false,
+      it('is disabled when missing update permission', async () => {
+        const system = createSystemWithPermissions({
+          hasWorkspaceEdit: true,
           hasUpdate: false,
+          hasDelete: true,
+        });
+
+        renderWithProvider(<SystemsViewRowActions system={system} />);
+        await openKebabMenu();
+
+        expect(screen.getByRole('menuitem', { name: 'Edit' })).toHaveAttribute(
+          'aria-disabled',
+          'true',
+        );
+      });
+    });
+
+    describe('Delete from inventory', () => {
+      it('opens delete modal when clicked', async () => {
+        const system = createSystemWithPermissions({
+          hasWorkspaceEdit: true,
+          hasUpdate: true,
+          hasDelete: true,
+        });
+
+        renderWithProvider(<SystemsViewRowActions system={system} />);
+        await openKebabMenu();
+
+        await userEvent.click(screen.getByRole('menuitem', { name: 'Delete' }));
+        expect(mockOpenDeleteModal).toHaveBeenCalledWith([system]);
+      });
+
+      it('is disabled when missing delete permission', async () => {
+        const system = createSystemWithPermissions({
+          hasWorkspaceEdit: true,
+          hasUpdate: true,
           hasDelete: false,
-        },
-      };
+        });
+
+        renderWithProvider(<SystemsViewRowActions system={system} />);
+        await openKebabMenu();
+
+        expect(
+          screen.getByRole('menuitem', { name: 'Delete' }),
+        ).toHaveAttribute('aria-disabled', 'true');
+      });
+    });
+  });
+
+  describe('when Kessel migration is disabled', () => {
+    beforeEach(() => {
+      mockUseKesselMigrationFeatureFlag.mockReturnValue(false);
+    });
+
+    it('shows Add and Remove from workspace and hides Move system', async () => {
+      const system = createSystem();
 
       renderWithProvider(<SystemsViewRowActions system={system} />);
       await openKebabMenu();
 
-      const addOrMoveItem = screen.getByRole('menuitem', {
-        name: /move system|add to workspace/i,
-      });
-      expect(addOrMoveItem).toBeInTheDocument();
       expect(
-        addOrMoveItem.hasAttribute('aria-disabled') ||
-          addOrMoveItem.hasAttribute('disabled') ||
-          addOrMoveItem.className.includes('disabled'),
-      ).toBe(true);
+        screen.getByRole('menuitem', { name: 'Add to workspace' }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole('menuitem', { name: 'Remove from workspace' }),
+      ).toBeInTheDocument();
+      expect(
+        screen.queryByRole('menuitem', { name: MOVE_SYSTEM_MENU_TEXT }),
+      ).not.toBeInTheDocument();
+    });
+
+    describe('Add to workspace', () => {
+      it('opens add to workspace modal when clicked', async () => {
+        setConditionalRBAC(true, false);
+
+        const system = createSystem();
+
+        renderWithProvider(<SystemsViewRowActions system={system} />);
+        await openKebabMenu();
+
+        await userEvent.click(
+          screen.getByRole('menuitem', { name: 'Add to workspace' }),
+        );
+        expect(mockOpenAddToWorkspaceModal).toHaveBeenCalledWith([system]);
+      });
+
+      it('is disabled when user lacks groups write permission', async () => {
+        setConditionalRBAC(false, false);
+
+        const system = createSystem();
+
+        renderWithProvider(<SystemsViewRowActions system={system} />);
+        await openKebabMenu();
+
+        expect(
+          screen.getByRole('menuitem', { name: 'Add to workspace' }),
+        ).toHaveAttribute('aria-disabled', 'true');
+      });
+
+      it('is disabled when the host is already in a workspace', async () => {
+        setConditionalRBAC(true, false);
+
+        const system = createSystem({
+          groups: [testWorkspaceGroup],
+        });
+
+        renderWithProvider(<SystemsViewRowActions system={system} />);
+        await openKebabMenu();
+
+        expectMenuItemDisabled('Add to workspace');
+      });
+    });
+
+    describe('Remove from workspace', () => {
+      it('opens remove from workspace modal when clicked', async () => {
+        setConditionalRBAC(true, false);
+
+        const system = createSystem({
+          groups: [testWorkspaceGroup],
+        });
+
+        renderWithProvider(<SystemsViewRowActions system={system} />);
+        await openKebabMenu();
+
+        await userEvent.click(
+          screen.getByRole('menuitem', { name: 'Remove from workspace' }),
+        );
+        expect(mockOpenRemoveFromWorkspaceModal).toHaveBeenCalledWith([system]);
+      });
+
+      it('is disabled when user lacks groups write permission', async () => {
+        setConditionalRBAC(false, false);
+
+        const system = createSystem({
+          groups: [testWorkspaceGroup],
+        });
+
+        renderWithProvider(<SystemsViewRowActions system={system} />);
+        await openKebabMenu();
+
+        expect(
+          screen.getByRole('menuitem', { name: 'Remove from workspace' }),
+        ).toHaveAttribute('aria-disabled', 'true');
+      });
+
+      it('is disabled when the host is not in a workspace', async () => {
+        setConditionalRBAC(true, false);
+
+        const system = createSystem();
+
+        renderWithProvider(<SystemsViewRowActions system={system} />);
+        await openKebabMenu();
+
+        expectMenuItemDisabled('Remove from workspace');
+      });
+    });
+
+    describe('Edit display name', () => {
+      it('opens edit modal when clicked', async () => {
+        setConditionalRBAC(false, true);
+
+        const system = createSystem();
+
+        renderWithProvider(<SystemsViewRowActions system={system} />);
+        await openKebabMenu();
+
+        await userEvent.click(
+          screen.getByRole('menuitem', { name: 'Edit display name' }),
+        );
+        expect(mockOpenEditModal).toHaveBeenCalledWith([system]);
+      });
+
+      it('is disabled when user lacks hosts write permission', async () => {
+        setConditionalRBAC(false, false);
+
+        const system = createSystem();
+
+        renderWithProvider(<SystemsViewRowActions system={system} />);
+        await openKebabMenu();
+
+        expect(
+          screen.getByRole('menuitem', { name: 'Edit display name' }),
+        ).toHaveAttribute('aria-disabled', 'true');
+      });
+    });
+
+    describe('Delete from inventory', () => {
+      it('opens delete modal when clicked', async () => {
+        setConditionalRBAC(false, true);
+
+        const system = createSystem();
+
+        renderWithProvider(<SystemsViewRowActions system={system} />);
+        await openKebabMenu();
+
+        await userEvent.click(
+          screen.getByRole('menuitem', { name: 'Delete from inventory' }),
+        );
+        expect(mockOpenDeleteModal).toHaveBeenCalledWith([system]);
+      });
+
+      it('is disabled when user lacks hosts write permission', async () => {
+        setConditionalRBAC(false, false);
+
+        const system = createSystem();
+
+        renderWithProvider(<SystemsViewRowActions system={system} />);
+        await openKebabMenu();
+
+        expect(
+          screen.getByRole('menuitem', { name: 'Delete from inventory' }),
+        ).toHaveAttribute('aria-disabled', 'true');
+      });
     });
   });
 });
