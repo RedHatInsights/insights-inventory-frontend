@@ -49,14 +49,7 @@ const endpoints = Object.fromEntries(
 const inventoryApi = (axios: AxiosInstance = axiosInstance) =>
   APIFactory(INVENTORY_API_BASE, endpoints, { axios });
 
-export const listViewsApi =
-  async (): Promise<ApiViewsGetViewsListReturnType> => {
-    return (await inventoryApi().apiViewsGetViewsList(
-      {},
-    )) as unknown as ApiViewsGetViewsListReturnType;
-  };
-
-export const getViewsApi = async (
+export const listViewsApi = async (
   params: ApiViewsGetViewsListParams = {},
 ): Promise<ApiViewsGetViewsListReturnType> => {
   return (await inventoryApi().apiViewsGetViewsList(
