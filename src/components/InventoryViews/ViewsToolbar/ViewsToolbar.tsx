@@ -1,10 +1,13 @@
 import React from 'react';
 import {
+  Button,
   PageSection,
   Toolbar,
   ToolbarContent,
   ToolbarItem,
+  Tooltip,
 } from '@patternfly/react-core';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { css } from '@patternfly/react-styles';
 import type { ViewOut } from '../../../api/inventoryViewsApi';
 import { ManageViewButton } from './ManageViewButton';
@@ -41,8 +44,19 @@ export const ViewsToolbar = ({
     >
       <Toolbar ouiaId="views-toolbar">
         <ToolbarContent>
-          <ToolbarItem variant="label" alignSelf="center">
-            View:
+          <ToolbarItem
+            variant="label"
+            alignSelf="center"
+            gap={{ default: 'gapNone' }}
+          >
+            View
+            <Tooltip content="Select a Systems View">
+              <Button
+                variant="plain"
+                icon={<OutlinedQuestionCircleIcon />}
+                aria-label="View"
+              />
+            </Tooltip>
           </ToolbarItem>
           <ToolbarItem>
             <ViewSelector
