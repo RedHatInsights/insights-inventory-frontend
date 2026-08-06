@@ -1,10 +1,7 @@
-/**
- * Views Toolbar Styles
- */
-
 .ins-c-views-toolbar {
-  padding: var(--pf-v6-global--spacer--md) 0;
-
-  // Align toolbar items properly
-  align-items: center;
+  // Keep page-section horizontal inset; sit flush above SystemsView's PageSection.
+  --pf-v6-c-page__main-section--PaddingBlockEnd: 0;
+  margin-block-end: calc(
+    -1 * var(--pf-v6-c-page__main-section--PaddingBlockStart)
+  );
 }
