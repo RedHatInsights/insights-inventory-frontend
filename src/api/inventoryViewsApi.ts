@@ -27,6 +27,7 @@ import type {
   ViewPatch,
   ViewsListOut,
 } from '@redhat-cloud-services/host-inventory-client/types';
+import { INVENTORY_API_BASE } from '../config';
 
 export type { ViewConfiguration, ViewIn, ViewOut, ViewPatch, ViewsListOut };
 
@@ -35,8 +36,6 @@ export type UpdateViewRequest = ViewPatch;
 export type InventoryView = ViewOut;
 
 export const ALL_SYSTEMS_VIEW_ID = 'all-systems';
-
-const INVENTORY_API_BASE = '/api/inventory/v1';
 
 const endpoints = {
   apiViewsGetViewsList,
