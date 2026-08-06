@@ -6,7 +6,6 @@ import {
   apiViewsCreateView,
   apiViewsUpdateView,
   apiViewsDeleteView,
-  apiViewsCloneView,
 } from '@redhat-cloud-services/host-inventory-client';
 import type { AxiosInstance } from 'axios';
 import type {
@@ -19,7 +18,6 @@ import type {
 } from '@redhat-cloud-services/host-inventory-client/ApiViewsGetViewById';
 import type { ApiViewsCreateViewReturnType } from '@redhat-cloud-services/host-inventory-client/ApiViewsCreateView';
 import type { ApiViewsUpdateViewReturnType } from '@redhat-cloud-services/host-inventory-client/ApiViewsUpdateView';
-import type { ApiViewsCloneViewReturnType } from '@redhat-cloud-services/host-inventory-client/ApiViewsCloneView';
 import type {
   ViewConfiguration,
   ViewIn,
@@ -43,7 +41,6 @@ const endpoints = {
   apiViewsCreateView,
   apiViewsUpdateView,
   apiViewsDeleteView,
-  apiViewsCloneView,
 };
 
 const inventoryApi = (axios: AxiosInstance = axiosInstance) =>
@@ -85,12 +82,4 @@ export const updateViewApi = async (
 
 export const deleteViewApi = async (id: string): Promise<void> => {
   await inventoryApi().apiViewsDeleteView({ viewId: id });
-};
-
-export const cloneViewApi = async (
-  id: string,
-): Promise<ApiViewsCloneViewReturnType> => {
-  return (await inventoryApi().apiViewsCloneView({
-    viewId: id,
-  })) as unknown as ApiViewsCloneViewReturnType;
 };
