@@ -39,7 +39,7 @@ export type {
   // Add other types you need from the client package
 } from '@redhat-cloud-services/host-inventory-client';
 
-const INVENTORY_API_BASE = '/api/inventory/v1';
+import { INVENTORY_API_BASE } from '../config';
 
 type FunctionProperties<T> = {
   [K in keyof T]: T[K] extends Function ? K : never;

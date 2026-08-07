@@ -17,9 +17,10 @@ export const useUpdateViewMutation = () => {
         dismissable: true,
       });
 
-      // TODO: Invalidate specific view + views list when RHINENG-28462 is complete
-      // queryClient.invalidateQueries({ queryKey: ['views'] });
-      // queryClient.invalidateQueries({ queryKey: ['view', updatedView.id] });
+      void queryClient.invalidateQueries({ queryKey: ['views'] });
+      void queryClient.invalidateQueries({
+        queryKey: ['view', updatedView.id],
+      });
     },
     onError: (error) => {
       console.error(error);
