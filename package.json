@@ -63,7 +63,7 @@
       "!src/entry-dev.js"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!(@patternfly/|uuid|p-all|p-map|aggregate-error|indent-string|clean-stack|escape-string-regexp))"
+      "node_modules/(?!(@patternfly/|uuid|p-all|p-map|aggregate-error|indent-string|clean-stack|escape-string-regexp|sanitize-html|htmlparser2|entities|domelementtype|domhandler|dom-serializer|domutils))"
     ],
     "setupFiles": [
       "<rootDir>/config/setupTests.js"
