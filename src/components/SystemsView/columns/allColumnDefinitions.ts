@@ -35,12 +35,17 @@ type LayoutColumn = {
   readonly minWidth?: string;
 };
 
+type PermissionGatedColumn = {
+  isPermissionLocked?: boolean;
+};
+
 export type Column = Resolve<
   ColumnManagementModalColumn &
     RenderableColumn &
     SortableColumn &
     ConsumerAppColumn &
-    LayoutColumn
+    LayoutColumn &
+    PermissionGatedColumn
 >;
 
 /**

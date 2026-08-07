@@ -6,8 +6,15 @@ import { SortDirection } from '../../SystemsView/SystemsView';
 import type { LastSeenCustomRange } from '../../SystemsView/DataViewFiltersContext';
 import { buildHostViewsParams } from '../utils/buildHostViewsParams';
 import type { SystemsViewFetchParams } from './useHostsQuery';
+import useInventoryViewsRbacFeatureFlag from '../../../Utilities/useInventoryViewsRbacFeatureFlag';
 
 export const INVENTORY_VIEWS_QUERY_KEY = 'inventory-views' as const;
+
+const EMPTY_SERVICES: string[] = [];
+
+const BACKEND_SERVICE_TO_APP_NAME: Record<string, string> = {
+  patch: 'content',
+};
 
 type FetchInventoryViewsReturnedValue = Awaited<
   ReturnType<typeof fetchInventoryViews>
@@ -46,9 +53,13 @@ const fetchInventoryViews = async ({
     direction,
   });
 
-  const { results: hosts, total } = await getHostViews(params);
+  const response = await getHostViews(params);
+  const { results: hosts, total } = response;
+  const deniedServices: string[] = (response.denied_services ?? []).map(
+    (s) => BACKEND_SERVICE_TO_APP_NAME[s] ?? s,
+  );
 
-  if (total === 0) return { results: [], total };
+  if (total === 0) return { results: [], total, deniedServices };
 
   const { results: hostsTags = {} } = await getHostTags({
     hostIdList: hosts
@@ -61,7 +72,7 @@ const fetchInventoryViews = async ({
     ...(host.id && hostsTags[host.id] ? { tags: hostsTags[host.id] } : {}),
   }));
 
-  return { results, total };
+  return { results, total, deniedServices };
 };
 
 export interface UseInventoryViewsQueryParams extends SystemsViewFetchParams {
@@ -78,6 +89,8 @@ export const useInventoryViewsQuery = ({
   direction,
   enabled = true,
 }: UseInventoryViewsQueryParams) => {
+  const isInventoryViewsRbacEnabled = useInventoryViewsRbacFeatureFlag();
+
   const { data, isLoading, isFetching, isError, error } = useQuery({
     queryKey: [
       INVENTORY_VIEWS_QUERY_KEY,
@@ -106,6 +119,9 @@ export const useInventoryViewsQuery = ({
   return {
     data: data?.results,
     total: data?.total,
+    deniedServices: isInventoryViewsRbacEnabled
+      ? (data?.deniedServices ?? EMPTY_SERVICES)
+      : EMPTY_SERVICES,
     isLoading,
     isFetching,
     isError,

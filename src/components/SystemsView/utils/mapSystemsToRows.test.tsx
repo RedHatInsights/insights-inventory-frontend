@@ -196,4 +196,25 @@ describe('mapSystemsToRows', () => {
       }
     });
   });
+
+  describe('permission-locked columns', () => {
+    it('calls renderCell for all columns including locked ones', () => {
+      const renderCell = jest.fn<Column['renderCell']>(() => 'lock icon');
+
+      mapSystemsToRows({
+        data: [mockSystem],
+        columns: [
+          createColumn({
+            key: 'total_cves',
+            appName: 'vulnerability',
+            isPermissionLocked: true,
+            renderCell,
+          }),
+        ],
+        isInventoryViewsEnabled: false,
+      });
+
+      expect(renderCell).toHaveBeenCalledWith(mockSystem);
+    });
+  });
 });
