@@ -10,7 +10,7 @@ const APP_NAME = 'compliance' as const;
 const lastComplianceScanColumn = {
   appName: APP_NAME,
   title: 'Last compliance scan',
-  key: 'last_compliance_scan',
+  key: ApiHostViewsGetHostViewsOrderByEnum.CompliancelastScan,
   minWidth: '12rem',
   isShownByDefault: true,
   isShown: true,
@@ -23,10 +23,11 @@ const lastComplianceScanColumn = {
 const policiesColumn = {
   appName: APP_NAME,
   title: 'Policies',
-  key: 'policies',
+  key: ApiHostViewsGetHostViewsOrderByEnum.CompliancepoliciesCount,
   minWidth: '7rem',
   isShownByDefault: true,
   isShown: true,
+  sortBy: ApiHostViewsGetHostViewsOrderByEnum.CompliancepoliciesCount,
   renderCell: (system: InventoryViewSystem) => (
     <Policies appData={system?.app_data?.compliance} />
   ),

@@ -35,7 +35,7 @@ describe('mapSystemsToRows', () => {
   it('returns an empty array when data is undefined or empty', () => {
     const columns = [
       createColumn({
-        key: 'name',
+        key: 'display_name',
         renderCell: () => 'Name',
       }),
     ];
@@ -57,7 +57,7 @@ describe('mapSystemsToRows', () => {
       data: [mockSystem],
       columns: [
         createColumn({
-          key: 'name',
+          key: 'display_name',
           renderCell: () => 'Name',
         }),
       ],
@@ -84,7 +84,7 @@ describe('mapSystemsToRows', () => {
       data: [mockSystem],
       columns: [
         createColumn({
-          key: 'name',
+          key: 'display_name',
           renderCell: renderShownCell,
         }),
         createColumn({
@@ -106,12 +106,12 @@ describe('mapSystemsToRows', () => {
         data: [mockSystem],
         columns: [
           createColumn({
-            key: 'name',
+            key: 'display_name',
             minWidth: '12rem',
             renderCell: () => 'Name',
           }),
           createColumn({
-            key: 'workspace',
+            key: 'group_name',
             minWidth: '9rem',
             renderCell: () => 'Workspace',
           }),
@@ -137,7 +137,7 @@ describe('mapSystemsToRows', () => {
         data: [mockSystem],
         columns: [
           createColumn({
-            key: 'name',
+            key: 'display_name',
             minWidth: '12rem',
             renderCell: () => 'Name',
           }),
@@ -158,7 +158,7 @@ describe('mapSystemsToRows', () => {
         data: [mockSystem],
         columns: [
           createColumn({
-            key: 'name',
+            key: 'display_name',
             renderCell: () => 'Name',
           }),
         ],
@@ -180,7 +180,7 @@ describe('mapSystemsToRows', () => {
         data: [mockSystem],
         columns: [
           createColumn({
-            key: 'name',
+            key: 'display_name',
             renderCell: () => 'Name',
           }),
         ],

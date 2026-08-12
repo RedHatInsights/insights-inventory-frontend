@@ -35,6 +35,16 @@ export type InventoryView = ViewOut;
 
 export const ALL_SYSTEMS_VIEW_ID = 'all-systems';
 
+export const ALL_SYSTEMS_CONFIGURATION: ViewConfiguration = {
+  columns: [
+    { key: 'display_name' },
+    { key: 'group_name' },
+    { key: 'tags' },
+    { key: 'operating_system' },
+    { key: 'last_check_in' },
+  ],
+};
+
 const endpoints = {
   apiViewsGetViewsList,
   apiViewsGetViewById,

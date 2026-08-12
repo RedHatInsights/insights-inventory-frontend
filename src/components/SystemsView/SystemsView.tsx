@@ -87,6 +87,8 @@ export type SystemsViewProps = {
    */
   columns?: ColumnSelector;
   defaultFilters?: Partial<InventoryFilters>;
+  initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
+  initialFilters?: Partial<InventoryFilters>;
 };
 
 interface SystemsViewInnerProps {
@@ -95,6 +97,7 @@ interface SystemsViewInnerProps {
   useDataQuery: UseSystemsViewDataQuery;
   onInvalidate: OnInvalidate;
   resolvedDefaultColumns: readonly Column[];
+  initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
 }
 
 const SystemsViewInner = ({
@@ -103,6 +106,7 @@ const SystemsViewInner = ({
   useDataQuery,
   onInvalidate,
   resolvedDefaultColumns,
+  initialSort,
 }: SystemsViewInnerProps) => {
   const { filters, clearAllFilters, hasDefaultFilters, lastSeenCustomRange } =
     useDataViewFiltersContext();
@@ -145,7 +149,7 @@ const SystemsViewInner = ({
   );
 
   const sort = useDataViewSort({
-    initialSort: INITIAL_SORT,
+    initialSort: initialSort ?? INITIAL_SORT,
     defaultDirection: 'asc',
     searchParams: sortSearchParams,
     setSearchParams,
@@ -324,6 +328,8 @@ export const SystemsView = ({
   onInvalidate,
   columns,
   defaultFilters,
+  initialSort,
+  initialFilters,
 }: SystemsViewProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const resolvedDefaultColumns = useMemo(
@@ -336,6 +342,7 @@ export const SystemsView = ({
       searchParams={searchParams}
       setSearchParams={setSearchParams}
       defaultFilters={defaultFilters}
+      initialFilters={initialFilters}
     >
       <SystemsViewInner
         searchParams={searchParams}
@@ -343,6 +350,7 @@ export const SystemsView = ({
         useDataQuery={useDataQuery}
         onInvalidate={onInvalidate}
         resolvedDefaultColumns={resolvedDefaultColumns}
+        initialSort={initialSort}
       />
     </DataViewFiltersProvider>
   );

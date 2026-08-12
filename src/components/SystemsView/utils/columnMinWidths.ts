@@ -13,7 +13,7 @@ export function resolveColumnMinWidth(
   if (col.minWidth) {
     return col.minWidth;
   }
-  if (col.key === 'name') {
+  if (col.key === 'display_name') {
     return DEFAULT_NAME_COLUMN_MIN_WIDTH;
   }
   return undefined;

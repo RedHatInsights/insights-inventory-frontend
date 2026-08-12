@@ -69,6 +69,7 @@ interface DataViewFiltersProviderProps {
   searchParams: SearchParamsTuple[0];
   setSearchParams: SearchParamsTuple[1];
   defaultFilters?: Partial<InventoryFilters>;
+  initialFilters?: Partial<InventoryFilters>;
 }
 
 export const DataViewFiltersProvider = ({
@@ -76,6 +77,7 @@ export const DataViewFiltersProvider = ({
   searchParams,
   setSearchParams,
   defaultFilters,
+  initialFilters,
 }: DataViewFiltersProviderProps) => {
   const [lastSeenCustomRange, setLastSeenCustomRange] =
     useState<LastSeenCustomRange>(null);
@@ -95,7 +97,9 @@ export const DataViewFiltersProvider = ({
     onSetFilters,
     clearAllFilters: hookClearAll,
   } = useDataViewFilters<InventoryFilters>({
-    initialFilters: INITIAL_INVENTORY_FILTERS,
+    initialFilters: initialFilters
+      ? { ...INITIAL_INVENTORY_FILTERS, ...initialFilters }
+      : INITIAL_INVENTORY_FILTERS,
     searchParams,
     setSearchParams,
   });
