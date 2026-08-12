@@ -115,7 +115,7 @@ const SystemsViewInner = ({
     setSearchParams,
   });
 
-  useResetPage(filters, pagination, lastSeenCustomRange);
+  useResetPage(filters, setSearchParams, lastSeenCustomRange);
 
   const debouncedName = useDebouncedValue(
     filters.hostname_or_id,
