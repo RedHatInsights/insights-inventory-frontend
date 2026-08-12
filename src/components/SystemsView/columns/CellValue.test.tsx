@@ -27,12 +27,12 @@ describe('CellValue', () => {
 
   describe('noPermission', () => {
     it('renders a lock icon', () => {
-      render(<CellValue type="noPermission" serviceName="vulnerability" />);
+      render(<CellValue type="noPermission" appName="vulnerability" />);
       expect(screen.getByRole('img', { hidden: true })).toBeInTheDocument();
     });
 
     it('has an accessible label with the service name', () => {
-      render(<CellValue type="noPermission" serviceName="vulnerability" />);
+      render(<CellValue type="noPermission" appName="vulnerability" />);
       expect(
         screen.getByLabelText(
           'You do not have the necessary Vulnerability permissions to view this data. Contact your organization administrator to request Vulnerability read access.',
@@ -41,7 +41,7 @@ describe('CellValue', () => {
     });
 
     it('capitalizes the service name in the label', () => {
-      render(<CellValue type="noPermission" serviceName="advisor" />);
+      render(<CellValue type="noPermission" appName="advisor" />);
       expect(
         screen.getByLabelText(
           'You do not have the necessary Advisor permissions to view this data. Contact your organization administrator to request Advisor read access.',

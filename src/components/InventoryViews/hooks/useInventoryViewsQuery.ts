@@ -6,7 +6,7 @@ import { SortDirection } from '../../SystemsView/SystemsView';
 import type { LastSeenCustomRange } from '../../SystemsView/DataViewFiltersContext';
 import { buildHostViewsParams } from '../utils/buildHostViewsParams';
 import type { SystemsViewFetchParams } from './useHostsQuery';
-import useInventoryViewsRbacFeatureFlag from '../../../Utilities/useInventoryViewsRbacFeatureFlag';
+import useInventoryViewsColumnsRbacFeatureFlag from '../../../Utilities/useInventoryViewsColumnsRbacFeatureFlag';
 
 export const INVENTORY_VIEWS_QUERY_KEY = 'inventory-views' as const;
 
@@ -89,7 +89,7 @@ export const useInventoryViewsQuery = ({
   direction,
   enabled = true,
 }: UseInventoryViewsQueryParams) => {
-  const isInventoryViewsRbacEnabled = useInventoryViewsRbacFeatureFlag();
+  const isInventoryViewsRbacEnabled = useInventoryViewsColumnsRbacFeatureFlag();
 
   const { data, isLoading, isFetching, isError, error } = useQuery({
     queryKey: [

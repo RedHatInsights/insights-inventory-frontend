@@ -1,6 +1,6 @@
 import useFeatureFlag from './useFeatureFlag';
 
-const useInventoryViewsRbacFeatureFlag = () => {
+const useInventoryViewsColumnsRbacFeatureFlag = () => {
   const hasUnleashFlag = useFeatureFlag('hbi.inventory-views-rbac');
   const hasLocalFlag =
     localStorage.getItem('hbi.inventory-views-rbac') === 'true';
@@ -8,4 +8,4 @@ const useInventoryViewsRbacFeatureFlag = () => {
   return hasUnleashFlag || hasLocalFlag;
 };
 
-export default useInventoryViewsRbacFeatureFlag;
+export default useInventoryViewsColumnsRbacFeatureFlag;

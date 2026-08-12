@@ -42,8 +42,8 @@ type NotApplicableCellValueProps = {
 /** User lacks the RBAC permission required for this service's data. */
 type NoPermissionCellValueProps = {
   type: 'noPermission';
-  /** Lowercase service name (e.g. "vulnerability"). */
-  serviceName: string;
+  /** Lowercase app name (e.g. "vulnerability"). */
+  appName: string;
 };
 
 type CellValueProps =
@@ -91,7 +91,7 @@ const CellValue = (props: CellValueProps) => {
 
     case 'noPermission': {
       const name =
-        props.serviceName.charAt(0).toUpperCase() + props.serviceName.slice(1);
+        props.appName.charAt(0).toUpperCase() + props.appName.slice(1);
       const label = noServicePermissionTooltip(name);
       return (
         <Tooltip content={label}>

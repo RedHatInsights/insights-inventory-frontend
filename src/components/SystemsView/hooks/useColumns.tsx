@@ -54,7 +54,7 @@ export const useColumns = ({
           ...col,
           isPermissionLocked: isLocked,
           renderCell: isLocked
-            ? () => <CellValue type="noPermission" serviceName={col.appName} />
+            ? () => <CellValue type="noPermission" appName={col.appName} />
             : col.renderCell,
         };
       }),
