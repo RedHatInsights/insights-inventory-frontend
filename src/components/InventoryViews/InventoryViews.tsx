@@ -5,6 +5,7 @@ import {
   INVENTORY_VIEWS_QUERY_KEY,
   useInventoryViewsQuery,
 } from './hooks/useInventoryViewsQuery';
+import { useAnsibleWorkloadDefault } from './hooks/useAnsibleWorkloadDefault';
 import { useViewsQuery } from './hooks/useViewsQuery';
 import useInventoryViewsPrivateFeatureFlag from '../../Utilities/useInventoryViewsPrivateFeatureFlag';
 import ViewsToolbar from './ViewsToolbar/ViewsToolbar';
@@ -18,6 +19,7 @@ import {
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
 
 const InventoryViews = () => {
+  const { isReady, defaultFilters } = useAnsibleWorkloadDefault();
   const [isViewSaveAsModalOpen, setIsViewSaveAsModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -70,6 +72,10 @@ const InventoryViews = () => {
     };
   };
 
+  if (!isReady) {
+    return null;
+  }
+
   return (
     <>
       {isInventoryViewsPrivateEnabled && (
@@ -114,6 +120,7 @@ const InventoryViews = () => {
       <SystemsView
         columns={selectLegacyInventoryColumns}
         useDataQuery={useInventoryViewsQuery}
+        defaultFilters={defaultFilters}
         onInvalidate={() =>
           queryClient.invalidateQueries({
             queryKey: [INVENTORY_VIEWS_QUERY_KEY],
