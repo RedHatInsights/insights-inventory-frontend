@@ -2,10 +2,15 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { getHostTags, getHostViews } from '../../../api/hostInventoryApiTyped';
 import { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
-import { SortDirection } from '../../SystemsView/SystemsView';
-import type { LastSeenCustomRange } from '../../SystemsView/DataViewFiltersContext';
+import type {
+  SortDirection,
+  SystemsViewFetchParams,
+} from '../../SystemsView/types';
+import {
+  useDataViewFiltersContext,
+  type LastSeenCustomRange,
+} from '../../SystemsView/DataViewFiltersContext';
 import { buildHostViewsParams } from '../utils/buildHostViewsParams';
-import type { SystemsViewFetchParams } from './useHostsQuery';
 import useInventoryViewsColumnsRbacFeatureFlag from '../../../Utilities/useInventoryViewsColumnsRbacFeatureFlag';
 
 export const INVENTORY_VIEWS_QUERY_KEY = 'inventory-views' as const;
@@ -75,22 +80,23 @@ const fetchInventoryViews = async ({
   return { results, total, deniedServices };
 };
 
-export interface UseInventoryViewsQueryParams extends SystemsViewFetchParams {
-  /** When false, the query is not run (e.g. when user has no access). Default true. */
-  enabled?: boolean;
-}
+export type UseInventoryViewsQueryParams =
+  SystemsViewFetchParams<InventoryFilters> & {
+    /** When false, the query is not run (e.g. when user has no access). Default true. */
+    enabled?: boolean;
+  };
 
 export const useInventoryViewsQuery = ({
   page,
   perPage,
   filters,
-  lastSeenCustomRange,
   sortBy,
   direction,
   enabled = true,
 }: UseInventoryViewsQueryParams) => {
   const isInventoryViewsRbacEnabled = useInventoryViewsColumnsRbacFeatureFlag();
 
+  const { lastSeenCustomRange } = useDataViewFiltersContext();
   const { data, isLoading, isFetching, isError, error } = useQuery({
     queryKey: [
       INVENTORY_VIEWS_QUERY_KEY,

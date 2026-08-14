@@ -32,7 +32,7 @@ import {
   type SystemsViewTableRow,
 } from './utils/mapSystemsToRows';
 import './SystemsView.scss';
-import { InnerScrollContainer, ISortBy } from '@patternfly/react-table';
+import { InnerScrollContainer } from '@patternfly/react-table';
 import { ColumnManagementModalProvider } from './ColumnManagementModalContext';
 import {
   DataViewFiltersProvider,
@@ -47,10 +47,8 @@ import { normalizeLegacySortSearchParams } from './utils/normalizeLegacySortSear
 import { SORT_DIR_URL_PARAM, SORT_URL_PARAM } from './constants';
 import useInventoryViewsFeatureFlag from '../../Utilities/useInventoryViewsFeatureFlag';
 import type { Column } from './columns/allColumnDefinitions';
-import type {
-  System,
-  SystemsViewFetchParams,
-} from '../InventoryViews/hooks/useHostsQuery';
+import type { System } from '../InventoryViews/hooks/useHostsQuery';
+import type { SortDirection, SystemsViewFetchParams } from './types';
 import { deriveActiveState } from './utils/deriveActiveState';
 import type { OnInvalidate } from './SystemActionModalsContext';
 import {
@@ -58,7 +56,7 @@ import {
   type ColumnSelector,
 } from './columns/resolveColumnSelector';
 
-export type SortDirection = ISortBy['direction'];
+export type { SortDirection } from './types';
 export type OnSort = (
   _event: React.MouseEvent | React.KeyboardEvent | MouseEvent | undefined,
   newSortBy: string,
@@ -76,7 +74,7 @@ export type SystemsViewDataQueryResult = {
 };
 
 export type UseSystemsViewDataQuery = (
-  params: SystemsViewFetchParams,
+  params: SystemsViewFetchParams<InventoryFilters>,
 ) => SystemsViewDataQueryResult;
 
 export type SystemsViewProps = {
@@ -165,22 +163,14 @@ const SystemsViewInner = ({
   const { direction, onSort } = sort;
 
   const fetchParams = useMemo(
-    (): SystemsViewFetchParams => ({
+    (): SystemsViewFetchParams<InventoryFilters> => ({
       page: pagination.page,
       perPage: pagination.perPage,
       filters: queryFilters,
-      lastSeenCustomRange,
       sortBy,
       direction,
     }),
-    [
-      pagination.page,
-      pagination.perPage,
-      queryFilters,
-      lastSeenCustomRange,
-      sortBy,
-      direction,
-    ],
+    [pagination.page, pagination.perPage, queryFilters, sortBy, direction],
   );
 
   const { data, total, deniedServices, isLoading, isFetching, isError } =

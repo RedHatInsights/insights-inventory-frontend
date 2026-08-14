@@ -3,22 +3,17 @@ import { getHostList, getHostTags } from '../../../api/hostInventoryApiTyped';
 import { getLegacyInventorySortKey } from '../../../constants';
 import { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
-import type { ISortBy } from '@patternfly/react-table';
-import type { Column } from '../../SystemsView/columns/allColumnDefinitions';
-import { SortDirection } from '../../SystemsView/SystemsView';
+import type {
+  SortDirection,
+  SystemsViewFetchParams,
+} from '../../SystemsView/types';
 import { buildHostListParams } from '../utils/buildHostListParams';
-import type { LastSeenCustomRange } from '../../SystemsView/DataViewFiltersContext';
+import {
+  useDataViewFiltersContext,
+  type LastSeenCustomRange,
+} from '../../SystemsView/DataViewFiltersContext';
 
 export const HOSTS_QUERY_KEY = 'hosts' as const;
-
-export type SystemsViewFetchParams = {
-  page: number;
-  perPage: number;
-  filters: InventoryFilters;
-  lastSeenCustomRange: LastSeenCustomRange;
-  sortBy: Column['sortBy'];
-  direction: ISortBy['direction'] | undefined;
-};
 
 type FetchHostsReturnedValue = Awaited<ReturnType<typeof fetchHosts>>;
 export type System = FetchHostsReturnedValue['results'][number];
@@ -66,19 +61,19 @@ const fetchHosts = async ({
   return { results, total };
 };
 
-export interface UseHostsQueryParams extends SystemsViewFetchParams {
+export type UseHostsQueryParams = SystemsViewFetchParams<InventoryFilters> & {
   /** When false, the query is not run (e.g. when user has no access). Default true. */
   enabled?: boolean;
-}
+};
 export const useHostsQuery = ({
   page,
   perPage,
   filters,
-  lastSeenCustomRange,
   sortBy,
   direction,
   enabled = true,
 }: UseHostsQueryParams) => {
+  const { lastSeenCustomRange } = useDataViewFiltersContext();
   // Cross-app and SystemsView-only sort keys are not valid for the /hosts API. This can
   // happen during the render between ui.inventory-views being toggled off and the
   // useColumns useEffect resetting the URL to a valid sort key.
