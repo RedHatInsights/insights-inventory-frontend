@@ -172,6 +172,7 @@ function renderWithProvider(
         filters: { ...INITIAL_INVENTORY_FILTERS },
         onSetFilters,
         clearAllFilters: jest.fn(),
+        hasDefaultFilters: false,
         lastSeenCustomRange: null,
         setLastSeenCustomRange: jest.fn(),
         ungroupedWorkspaceId: undefined,

@@ -35,6 +35,7 @@ export interface DataViewFiltersContextValue {
   filters: InventoryFilters;
   onSetFilters: (_: Partial<InventoryFilters>) => void;
   clearAllFilters: () => void;
+  hasDefaultFilters: boolean;
   lastSeenCustomRange: LastSeenCustomRange;
   setLastSeenCustomRange: React.Dispatch<
     React.SetStateAction<LastSeenCustomRange>
@@ -67,12 +68,14 @@ interface DataViewFiltersProviderProps {
   children: React.ReactNode;
   searchParams: SearchParamsTuple[0];
   setSearchParams: SearchParamsTuple[1];
+  defaultFilters?: Partial<InventoryFilters>;
 }
 
 export const DataViewFiltersProvider = ({
   children,
   searchParams,
   setSearchParams,
+  defaultFilters,
 }: DataViewFiltersProviderProps) => {
   const [lastSeenCustomRange, setLastSeenCustomRange] =
     useState<LastSeenCustomRange>(null);
@@ -126,14 +129,21 @@ export const DataViewFiltersProvider = ({
 
   const clearAllFilters = useCallback(() => {
     setLastSeenCustomRange(null);
-    hookClearAll();
-  }, [hookClearAll]);
+    if (defaultFilters) {
+      onSetFilters({ ...INITIAL_INVENTORY_FILTERS, ...defaultFilters });
+    } else {
+      hookClearAll();
+    }
+  }, [hookClearAll, defaultFilters, onSetFilters]);
+
+  const hasDefaultFilters = Boolean(defaultFilters);
 
   const value = useMemo(
     () => ({
       filters,
       onSetFilters,
       clearAllFilters,
+      hasDefaultFilters,
       lastSeenCustomRange,
       setLastSeenCustomRange,
       ungroupedWorkspaceId,
@@ -142,6 +152,7 @@ export const DataViewFiltersProvider = ({
       filters,
       onSetFilters,
       clearAllFilters,
+      hasDefaultFilters,
       lastSeenCustomRange,
       setLastSeenCustomRange,
       ungroupedWorkspaceId,
