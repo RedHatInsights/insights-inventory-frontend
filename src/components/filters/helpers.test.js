@@ -41,6 +41,18 @@ describe('toOsFilterGroups', () => {
     expect(toOsFilterGroups(operatingSystems, true)).toMatchSnapshot();
   });
 
+  it('produces groups where label equals value', () => {
+    const operatingSystems = [
+      ...buildOperatingSystems(3, { osName: 'RHEL', major: 8 }),
+      ...buildOperatingSystems(3, { osName: 'CentOS Linux', major: 7 }),
+    ];
+    const groups = toOsFilterGroups(operatingSystems, true);
+
+    groups.forEach((group) => {
+      expect(group.label).toEqual(group.value);
+    });
+  });
+
   it('returns os versions ordered descending', () => {
     const operatingSystems = [
       ...buildOperatingSystems(5, { osName: 'RHEL', major: 7 }),

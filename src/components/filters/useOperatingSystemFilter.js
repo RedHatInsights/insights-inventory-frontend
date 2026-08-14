@@ -35,15 +35,44 @@ export const useOperatingSystemFilter = (
   );
 
   const groups = toOsFilterGroups(operatingSystems, operatingSystemsLoaded);
+
+  const setOsValue = useCallback(
+    (payload) =>
+      dispatch
+        ? dispatch({ type: OPERATING_SYSTEM_FILTER, payload })
+        : setStateValue(payload),
+    [dispatch],
+  );
+
   const setValue = useCallback(
     (newSelection) => {
       const fullSelection = appendGroupSelection(newSelection, groups);
-
-      return dispatch
-        ? dispatch({ type: OPERATING_SYSTEM_FILTER, payload: fullSelection })
-        : setStateValue(fullSelection);
+      setOsValue(fullSelection);
     },
-    [groups, dispatch],
+    [groups, setOsValue],
+  );
+
+  const handleMajorVersionToggle = useCallback(
+    (groupValue) => {
+      const wasFullySelected =
+        operatingSystemsValue[groupValue]?.[groupValue] === true;
+
+      if (wasFullySelected) {
+        const { [groupValue]: _, ...rest } = operatingSystemsValue;
+        setOsValue(rest);
+      } else {
+        const groupItems =
+          groups.find((g) => g.value === groupValue)?.items || [];
+        setOsValue({
+          ...operatingSystemsValue,
+          [groupValue]: {
+            [groupValue]: true,
+            ...Object.fromEntries(groupItems.map(({ value }) => [value, true])),
+          },
+        });
+      }
+    },
+    [operatingSystemsValue, groups, setOsValue],
   );
 
   const filter = {
@@ -53,7 +82,13 @@ export const useOperatingSystemFilter = (
     filterValues: {
       selected: operatingSystemsValue,
       groups,
-      onChange: (_e, newSelection) => setValue(newSelection),
+      onChange: (_e, newSelection, _group, _item, groupValue, itemValue) => {
+        if (groupValue && itemValue === groupValue) {
+          handleMajorVersionToggle(groupValue);
+        } else {
+          setValue(newSelection);
+        }
+      },
     },
   };
 
