@@ -27,6 +27,9 @@ spec:
     value: _playwright-tests/Dockerfile
   - name: path-context
     value: .
+  # Internal test-only image, never released to registry.redhat.io, so no source image needed.
+  - name: build-source-image
+    value: "false"
   pipelineSpec:
     description: |
       This pipeline is ideal for building container images from a Containerfile while maintaining trust after pipeline customization.
@@ -540,6 +543,17 @@ spec:
       optional: true
     - name: netrc
       optional: true
+  taskRunSpecs:
+  - pipelineTaskName: build-container
+    stepSpecs:
+    - name: prepare-sboms
+      computeResources:
+        requests:
+          cpu: 100m
+          memory: 512Mi
+        limits:
+          cpu: 200m
+          memory: 1Gi
   taskRunTemplate:
     serviceAccountName: build-pipeline-inventory-playwright-tests
   workspaces:
