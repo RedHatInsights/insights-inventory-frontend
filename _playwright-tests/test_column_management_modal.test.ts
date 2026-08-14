@@ -16,7 +16,7 @@ test.describe('Column Management Modal', { tag: ['@inventory-views'] }, () => {
     await expect(visibleHeaders).toHaveCount(totalDefaultColumns);
   });
 
-  test('column changes persist after page reload', async ({ page }) => {
+  test('column changes apply after saving', async ({ page }) => {
     const columnToDisable = 'Tags';
     const modal = columnManagementModal(page);
 
@@ -25,13 +25,6 @@ test.describe('Column Management Modal', { tag: ['@inventory-views'] }, () => {
     await modal.disableColumn(columnToDisable);
 
     await modal.save();
-
-    await expectInventoryColumnHidden(page, columnToDisable);
-
-    await page.reload({ waitUntil: 'load' });
-    await expect(
-      page.locator('[data-ouia-component-id="SkeletonTable"]'),
-    ).toBeHidden();
 
     await expectInventoryColumnHidden(page, columnToDisable);
   });

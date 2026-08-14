@@ -37,7 +37,7 @@ export const mapSystemsToRows = ({
       .filter((col) => col.isShown)
       .map((col) => {
         const cell = col.renderCell(system);
-        if (col.key === 'name') {
+        if (col.key === 'display_name') {
           if (isInventoryViewsEnabled) {
             return {
               cell,

@@ -58,7 +58,7 @@ jest.mock('../../Utilities/useFeatureFlag', () => ({
 }));
 
 const selectNameColumn: ColumnSelector = (allColumns) =>
-  allColumns.filter((column) => column.key === 'name');
+  allColumns.filter((column) => column.key === 'display_name');
 
 const renderSystemsView = () =>
   render(

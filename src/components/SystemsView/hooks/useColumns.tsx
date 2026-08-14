@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { OnSort, SortDirection } from '../SystemsView';
 import {
   getColumnMinWidthStyle,
@@ -8,7 +8,6 @@ import {
 import { STICKY_ACTIONS_HEADER_PROPS } from '../utils/stickyActionsColumn';
 import { getStickyNameHeaderProps } from '../utils/stickyNameColumn';
 import { type Column } from '../columns/allColumnDefinitions';
-import { usePersistedColumns } from './usePersistedColumns';
 
 export const INITIAL_SORT: {
   sortBy: Column['sortBy'];
@@ -41,7 +40,7 @@ export const useColumns = ({
   direction,
   isInventoryViewsEnabled,
 }: UseColumnParams) => {
-  const { columns, setColumns } = usePersistedColumns(defaultColumns);
+  const [columns, setColumns] = useState<readonly Column[]>(defaultColumns);
 
   const fromSortByToIndex = useCallback(
     (sortBy?: Column['sortBy']): number | undefined => {
@@ -63,7 +62,7 @@ export const useColumns = ({
           return {
             cell: col.title,
             props: {
-              ...(col.key === 'name'
+              ...(col.key === 'display_name'
                 ? isInventoryViewsEnabled
                   ? getStickyNameHeaderProps(getNameColumnMinWidth(col))
                   : {}
