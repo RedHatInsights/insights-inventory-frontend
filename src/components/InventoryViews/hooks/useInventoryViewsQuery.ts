@@ -3,13 +3,10 @@ import { getHostTags, getHostViews } from '../../../api/hostInventoryApiTyped';
 import { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 import type {
+  LastSeenCustomRange,
   SortDirection,
   SystemsViewFetchParams,
 } from '../../SystemsView/types';
-import {
-  useDataViewFiltersContext,
-  type LastSeenCustomRange,
-} from '../../SystemsView/DataViewFiltersContext';
 import { buildHostViewsParams } from '../utils/buildHostViewsParams';
 import useInventoryViewsColumnsRbacFeatureFlag from '../../../Utilities/useInventoryViewsColumnsRbacFeatureFlag';
 
@@ -92,11 +89,11 @@ export const useInventoryViewsQuery = ({
   filters,
   sortBy,
   direction,
+  lastSeenCustomRange,
   enabled = true,
 }: UseInventoryViewsQueryParams) => {
   const isInventoryViewsRbacEnabled = useInventoryViewsColumnsRbacFeatureFlag();
 
-  const { lastSeenCustomRange } = useDataViewFiltersContext();
   const { data, isLoading, isFetching, isError, error } = useQuery({
     queryKey: [
       INVENTORY_VIEWS_QUERY_KEY,

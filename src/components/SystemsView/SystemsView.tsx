@@ -169,8 +169,16 @@ const SystemsViewInner = ({
       filters: queryFilters,
       sortBy,
       direction,
+      lastSeenCustomRange,
     }),
-    [pagination.page, pagination.perPage, queryFilters, sortBy, direction],
+    [
+      pagination.page,
+      pagination.perPage,
+      queryFilters,
+      sortBy,
+      direction,
+      lastSeenCustomRange,
+    ],
   );
 
   const { data, total, deniedServices, isLoading, isFetching, isError } =

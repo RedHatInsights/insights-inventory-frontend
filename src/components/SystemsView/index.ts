@@ -4,7 +4,11 @@ export type {
   UseSystemsViewDataQuery,
   SystemsViewDataQueryResult,
 } from './SystemsView';
-export type { SystemsViewFetchParams, SortDirection } from './types';
+export type {
+  SystemsViewFetchParams,
+  SortDirection,
+  LastSeenCustomRange,
+} from './types';
 export type { OnInvalidate } from './SystemActionModalsContext';
 export type { SystemsViewActiveState } from './utils/deriveActiveState';
 export type { Column } from './columns/allColumnDefinitions';

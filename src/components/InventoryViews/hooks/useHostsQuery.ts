@@ -4,14 +4,11 @@ import { getLegacyInventorySortKey } from '../../../constants';
 import { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import type {
+  LastSeenCustomRange,
   SortDirection,
   SystemsViewFetchParams,
 } from '../../SystemsView/types';
 import { buildHostListParams } from '../utils/buildHostListParams';
-import {
-  useDataViewFiltersContext,
-  type LastSeenCustomRange,
-} from '../../SystemsView/DataViewFiltersContext';
 
 export const HOSTS_QUERY_KEY = 'hosts' as const;
 
@@ -71,9 +68,9 @@ export const useHostsQuery = ({
   filters,
   sortBy,
   direction,
+  lastSeenCustomRange,
   enabled = true,
 }: UseHostsQueryParams) => {
-  const { lastSeenCustomRange } = useDataViewFiltersContext();
   // Cross-app and SystemsView-only sort keys are not valid for the /hosts API. This can
   // happen during the render between ui.inventory-views being toggled off and the
   // useColumns useEffect resetting the URL to a valid sort key.
