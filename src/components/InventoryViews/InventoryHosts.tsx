@@ -1,6 +1,6 @@
 import React from 'react';
 import SystemsView from '../SystemsView/SystemsView';
-import { hostsQueryOptions } from './hooks/useHostsQuery';
+import { hostsQueryOptions } from './hostsQueryOptions';
 import { useAnsibleWorkloadDefault } from './hooks/useAnsibleWorkloadDefault';
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
 

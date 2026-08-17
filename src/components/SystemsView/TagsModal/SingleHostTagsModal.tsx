@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { BaseTagsModal } from './BaseTagsModal';
 import TagsModalTable from './TagsModalTable';
-import type { System } from '../../InventoryViews/hooks/useHostsQuery';
+import type { System } from '../../InventoryViews/hostsQueryOptions';
 
 export interface SingleHostTagsModalProps {
   isOpen: boolean;

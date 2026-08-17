@@ -1,14 +1,14 @@
 import { queryOptions, type QueryKey } from '@tanstack/react-query';
-import { getHostList, getHostTags } from '../../../api/hostInventoryApiTyped';
-import { getLegacyInventorySortKey } from '../../../constants';
-import { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
+import { getHostList, getHostTags } from '../../api/hostInventoryApiTyped';
+import { getLegacyInventorySortKey } from '../../constants';
+import { InventoryFilters } from '../SystemsView/filters/SystemsViewFilters';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import type {
   LastSeenCustomRange,
   SortDirection,
   SystemsViewFetchParams,
-} from '../../SystemsView/types';
-import { buildHostListParams } from '../utils/buildHostListParams';
+} from '../SystemsView/types';
+import { buildHostListParams } from './utils/buildHostListParams';
 
 export const HOSTS_QUERY_KEY = 'hosts' as const;
 

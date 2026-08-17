@@ -1,13 +1,13 @@
 import { queryOptions, type QueryKey } from '@tanstack/react-query';
-import { getHostTags, getHostViews } from '../../../api/hostInventoryApiTyped';
-import { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
+import { getHostTags, getHostViews } from '../../api/hostInventoryApiTyped';
+import { InventoryFilters } from '../SystemsView/filters/SystemsViewFilters';
 import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 import type {
   LastSeenCustomRange,
   SortDirection,
   SystemsViewFetchParams,
-} from '../../SystemsView/types';
-import { buildHostViewsParams } from '../utils/buildHostViewsParams';
+} from '../SystemsView/types';
+import { buildHostViewsParams } from './utils/buildHostViewsParams';
 
 export const INVENTORY_VIEWS_QUERY_KEY = 'inventory-views' as const;
 

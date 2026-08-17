@@ -8,7 +8,7 @@ import {
   type SystemsViewQueryOptionsFn,
 } from './SystemsView';
 import type { ColumnSelector } from './columns/resolveColumnSelector';
-import type { System } from '../InventoryViews/hooks/useHostsQuery';
+import type { System } from '../InventoryViews/hostsQueryOptions';
 import {
   createTestQueryClient,
   TestWrapper,

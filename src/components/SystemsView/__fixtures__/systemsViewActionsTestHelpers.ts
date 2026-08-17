@@ -5,7 +5,7 @@ import {
   GENERAL_HOSTS_WRITE_PERMISSIONS,
 } from '../../../constants';
 import type { SystemWithPermissions } from '../../../Utilities/hooks/useHostIdsWithKessel';
-import type { System } from '../../InventoryViews/hooks/useHostsQuery';
+import type { System } from '../../InventoryViews/hostsQueryOptions';
 
 export const mockUseKesselMigrationFeatureFlag = jest.fn();
 

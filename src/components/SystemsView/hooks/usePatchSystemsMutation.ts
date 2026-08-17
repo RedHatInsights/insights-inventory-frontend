@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
-import { type System } from '../../InventoryViews/hooks/useHostsQuery';
+import { type System } from '../../InventoryViews/hostsQueryOptions';
 import { useMemo } from 'react';
 import { patchHostById } from '../../../api/hostInventoryApiTyped';
 import { PatchHostIn } from '@redhat-cloud-services/host-inventory-client';

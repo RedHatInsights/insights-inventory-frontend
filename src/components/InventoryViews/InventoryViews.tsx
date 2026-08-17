@@ -3,7 +3,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import SystemsView from '../SystemsView/SystemsView';
 import type { SortDirection } from '../SystemsView/SystemsView';
-import { inventoryViewsQueryOptions } from './hooks/useInventoryViewsQuery';
+import { inventoryViewsQueryOptions } from './inventoryViewsQueryOptions';
 import { useAnsibleWorkloadDefault } from './hooks/useAnsibleWorkloadDefault';
 import { useViewsQuery } from './hooks/useViewsQuery';
 import useInventoryViewsPrivateFeatureFlag from '../../Utilities/useInventoryViewsPrivateFeatureFlag';

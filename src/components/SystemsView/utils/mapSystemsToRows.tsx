@@ -8,7 +8,7 @@ import {
 import { STICKY_ACTIONS_BODY_PROPS } from './stickyActionsColumn';
 import { getStickyNameBodyProps } from './stickyNameColumn';
 import type { SystemWithPermissions } from '../../../Utilities/hooks/useHostIdsWithKessel';
-import type { System } from '../../InventoryViews/hooks/useHostsQuery';
+import type { System } from '../../InventoryViews/hostsQueryOptions';
 import { Column } from '../columns/allColumnDefinitions';
 
 /** DataViewTrObject Extension, `meta` points to associated system objects. */

@@ -58,7 +58,7 @@ import {
 } from './constants';
 import useInventoryViewsFeatureFlag from '../../Utilities/useInventoryViewsFeatureFlag';
 import type { Column } from './columns/allColumnDefinitions';
-import type { System } from '../InventoryViews/hooks/useHostsQuery';
+import type { System } from '../InventoryViews/hostsQueryOptions';
 import type { SortDirection, SystemsViewFetchParams } from './types';
 import { deriveActiveState } from './utils/deriveActiveState';
 import {
