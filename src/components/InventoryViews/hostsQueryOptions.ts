@@ -3,44 +3,21 @@ import { getHostList, getHostTags } from '../../api/hostInventoryApiTyped';
 import { getLegacyInventorySortKey } from '../../constants';
 import { InventoryFilters } from '../SystemsView/filters/SystemsViewFilters';
 import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
-import type {
-  LastSeenCustomRange,
-  SortDirection,
-  SystemsViewFetchParams,
-} from '../SystemsView/types';
-import { buildHostListParams } from './utils/buildHostListParams';
+import type { SystemsViewFetchParams } from '../SystemsView/types';
+import {
+  buildHostListParams,
+  type BuildHostListParamsInput,
+} from './utils/buildHostListParams';
 
 export const HOSTS_QUERY_KEY = 'hosts' as const;
 
 type FetchHostsReturnedValue = Awaited<ReturnType<typeof fetchHosts>>;
 export type System = FetchHostsReturnedValue['results'][number];
 
-interface FetchHostsParams {
-  page: number;
-  perPage: number;
-  filters: InventoryFilters;
-  lastSeenCustomRange: LastSeenCustomRange;
-  sortBy: ApiOrderByEnum | undefined;
-  direction: SortDirection | undefined;
-}
-const fetchHosts = async ({
-  page,
-  perPage,
-  filters,
-  lastSeenCustomRange,
-  sortBy,
-  direction,
-}: FetchHostsParams) => {
-  const params = buildHostListParams({
-    page,
-    perPage,
-    filters,
-    lastSeenCustomRange,
-    sortBy,
-    direction,
-  });
+const fetchHosts = async (params: BuildHostListParamsInput) => {
+  const fetchParams = buildHostListParams(params);
 
-  const { results: hosts, total } = await getHostList(params);
+  const { results: hosts, total } = await getHostList(fetchParams);
 
   if (total === 0) return { results: [], total };
 
