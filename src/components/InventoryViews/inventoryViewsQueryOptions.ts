@@ -1,13 +1,12 @@
 import { queryOptions, type QueryKey } from '@tanstack/react-query';
 import { getHostTags, getHostViews } from '../../api/hostInventoryApiTyped';
 import { InventoryFilters } from '../SystemsView/filters/SystemsViewFilters';
-import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
-import type {
-  LastSeenCustomRange,
-  SortDirection,
-  SystemsViewFetchParams,
-} from '../SystemsView/types';
-import { buildHostViewsParams } from './utils/buildHostViewsParams';
+import { ApiHostViewsGetHostViewsOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
+import type { SystemsViewFetchParams } from '../SystemsView/types';
+import {
+  buildHostViewsParams,
+  type BuildHostViewsParamsInput,
+} from './utils/buildHostViewsParams';
 
 export const INVENTORY_VIEWS_QUERY_KEY = 'inventory-views' as const;
 
@@ -26,33 +25,10 @@ type FetchInventoryViewsReturnedValue = Awaited<
 export type InventoryViewSystem =
   FetchInventoryViewsReturnedValue['results'][number];
 
-interface FetchInventoryViewsParams {
-  page: number;
-  perPage: number;
-  filters: InventoryFilters;
-  lastSeenCustomRange: LastSeenCustomRange;
-  sortBy: ApiHostViewsGetHostViewsOrderByEnum | undefined;
-  direction: SortDirection | undefined;
-}
+const fetchInventoryViews = async (params: BuildHostViewsParamsInput) => {
+  const fetchParams = buildHostViewsParams(params);
 
-const fetchInventoryViews = async ({
-  page,
-  perPage,
-  filters,
-  lastSeenCustomRange,
-  sortBy,
-  direction,
-}: FetchInventoryViewsParams) => {
-  const params = buildHostViewsParams({
-    page,
-    perPage,
-    filters,
-    lastSeenCustomRange,
-    sortBy,
-    direction,
-  });
-
-  const response = await getHostViews(params);
+  const response = await getHostViews(fetchParams);
   const { results: hosts, total } = response;
   const deniedServices: string[] = (response.denied_services ?? []).map(
     (s) => BACKEND_SERVICE_TO_APP_NAME[s] ?? s,
@@ -85,9 +61,7 @@ export const inventoryViewsQueryOptions = (
         perPage: params.perPage,
         filters: params.filters,
         lastSeenCustomRange: params.lastSeenCustomRange,
-        sortBy: params.sortBy as
-          | ApiHostViewsGetHostViewsOrderByEnum
-          | undefined,
+        sortBy: params.sortBy as ApiOrderByEnum | undefined,
         direction: params.direction,
       }),
   });
