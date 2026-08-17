@@ -1,11 +1,10 @@
 export { default } from './SystemsView';
-export type {
-  SystemsViewProps,
-  SystemsViewQueryOptionsFn,
-  SystemsViewQueryData,
-} from './SystemsView';
+export type { SystemsViewProps } from './SystemsView';
 export type {
   SystemsViewFetchParams,
+  SystemsViewItem,
+  SystemsViewQueryData,
+  SystemsViewFetchData,
   SortDirection,
   LastSeenCustomRange,
 } from './types';

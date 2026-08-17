@@ -3,8 +3,6 @@ import {
   keepPreviousData,
   useQuery,
   useQueryClient,
-  type QueryKey,
-  type UseQueryOptions,
 } from '@tanstack/react-query';
 import {
   DataView,
@@ -59,7 +57,12 @@ import {
 import useInventoryViewsFeatureFlag from '../../Utilities/useInventoryViewsFeatureFlag';
 import type { Column } from './columns/allColumnDefinitions';
 import type { System } from '../InventoryViews/hostsQueryOptions';
-import type { SortDirection, SystemsViewFetchParams } from './types';
+import type {
+  SortDirection,
+  SystemsViewFetchData,
+  SystemsViewFetchParams,
+  SystemsViewItem,
+} from './types';
 import { deriveActiveState } from './utils/deriveActiveState';
 import {
   resolveColumnSelector,
@@ -68,6 +71,11 @@ import {
 import useInventoryViewsColumnsRbacFeatureFlag from '../../Utilities/useInventoryViewsColumnsRbacFeatureFlag';
 
 export type { SortDirection } from './types';
+export type {
+  SystemsViewItem,
+  SystemsViewQueryData,
+  SystemsViewFetchData,
+} from './types';
 export type OnSort = (
   _event: React.MouseEvent | React.KeyboardEvent | MouseEvent | undefined,
   newSortBy: string,
@@ -75,57 +83,48 @@ export type OnSort = (
 ) => void;
 export type Pagination = ReturnType<typeof useDataViewPagination>;
 
-export type SystemsViewQueryData = {
-  results: System[];
-  total: number;
-  deniedServices?: string[];
-};
+export type SystemsViewProps<TItem extends SystemsViewItem = SystemsViewItem> =
+  {
+    /**
+     * Unique & stable queryKey prefix (`'hosts'`, `'inventory-views'`). SystemsView keys the
+     * inner query as `[queryKeyPrefix, fetchParams]` and invalidates by this prefix after mutations.
+     */
+    queryKeyPrefix: string;
+    /**
+     * Fetches the data for table. Receives table state for pagination, sorting, and
+     * filtering, and should use those values to fetch from backend.
+     */
+    fetchData: SystemsViewFetchData<TItem, InventoryFilters>;
+    /**
+     * Selects which columns are available in this view from the full catalog.
+     * Stable reference for selectors required! don't define them inline in JSX.
+     */
+    columns?: ColumnSelector;
+    defaultFilters?: Partial<InventoryFilters>;
+    initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
+    initialFilters?: Partial<InventoryFilters>;
+    onColumnsChange?: (columns: readonly Column[]) => void;
+  };
 
-/**
- * Pure function that turns table fetch params into TanStack Query options.
- * Pass a named factory (or inline function), not a React hook.
- * `queryKey` must be a non-empty array whose first element is a stable prefix
- * used to invalidate every page after mutations (`'hosts'`, `'inventory-views'`).
- */
-export type SystemsViewQueryOptionsFn = (
-  params: SystemsViewFetchParams<InventoryFilters>,
-) => UseQueryOptions<
-  SystemsViewQueryData,
-  Error,
-  SystemsViewQueryData,
-  QueryKey
->;
-
-export type SystemsViewProps = {
-  queryOptions: SystemsViewQueryOptionsFn;
-  /**
-   * Selects which columns are available in this view from the full catalog.
-   * Stable reference for selectors required! don't define them inline in JSX.
-   */
-  columns?: ColumnSelector;
-  defaultFilters?: Partial<InventoryFilters>;
-  initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
-  initialFilters?: Partial<InventoryFilters>;
-  onColumnsChange?: (columns: readonly Column[]) => void;
-};
-
-interface SystemsViewInnerProps {
+interface SystemsViewInnerProps<TItem extends SystemsViewItem> {
   searchParams: URLSearchParams;
   setSearchParams: SetURLSearchParams;
-  queryOptions: SystemsViewQueryOptionsFn;
+  queryKeyPrefix: string;
+  fetchData: SystemsViewFetchData<TItem, InventoryFilters>;
   resolvedDefaultColumns: readonly Column[];
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   onColumnsChange?: (columns: readonly Column[]) => void;
 }
 
-const SystemsViewInner = ({
+function SystemsViewInner<TItem extends SystemsViewItem>({
   searchParams,
   setSearchParams,
-  queryOptions,
+  queryKeyPrefix,
+  fetchData,
   resolvedDefaultColumns,
   initialSort,
   onColumnsChange,
-}: SystemsViewInnerProps) => {
+}: SystemsViewInnerProps<TItem>) {
   const queryClient = useQueryClient();
   const { filters, clearAllFilters, hasDefaultFilters, lastSeenCustomRange } =
     useDataViewFiltersContext();
@@ -152,7 +151,7 @@ const SystemsViewInner = ({
     [filters, debouncedName],
   );
 
-  const selection = useDataViewSelection<SystemsViewTableRow>({
+  const selection = useDataViewSelection<SystemsViewTableRow<TItem>>({
     matchOption: (a, b) => a.id === b.id,
     initialSelected: [],
   });
@@ -198,11 +197,11 @@ const SystemsViewInner = ({
     ],
   );
 
-  const options = queryOptions(fetchParams);
   const { data, isLoading, isFetching, isError } = useQuery({
+    queryKey: [queryKeyPrefix, fetchParams],
+    queryFn: () => fetchData(fetchParams),
     placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
-    ...queryOptions(fetchParams),
   });
   const rowsData = data?.results;
   const total = data?.total;
@@ -211,11 +210,7 @@ const SystemsViewInner = ({
     ? (data?.deniedServices ?? EMPTY_SERVICES)
     : EMPTY_SERVICES;
 
-  const queryKeyPrefix = options.queryKey?.[0];
   const onInvalidate = useCallback(() => {
-    if (queryKeyPrefix === undefined) {
-      return;
-    }
     return queryClient.invalidateQueries({ queryKey: [queryKeyPrefix] });
   }, [queryClient, queryKeyPrefix]);
 
@@ -251,10 +246,14 @@ const SystemsViewInner = ({
     [setColumns, onColumnsChange],
   );
 
-  const { hostsWithPermissions } = useHostIdsWithKessel(rowsData);
+  // FIXME remove type casting
+  const { hostsWithPermissions } = useHostIdsWithKessel(
+    rowsData as unknown as System[] | undefined,
+  );
 
+  // FIXME remove type casting
   const rows = mapSystemsToRows({
-    data: hostsWithPermissions ?? rowsData,
+    data: (hostsWithPermissions ?? rowsData) as unknown as TItem[] | undefined,
     columns,
     isInventoryViewsEnabled,
   });
@@ -350,7 +349,8 @@ const SystemsViewInner = ({
               filters={<SystemsViewFilters />}
               actions={
                 <SystemsViewBulkActions
-                  selectedSystems={selectedSystems}
+                  // FIXME remove type casting
+                  selectedSystems={selectedSystems as unknown as System[]}
                   activeState={activeState}
                 />
               }
@@ -374,16 +374,17 @@ const SystemsViewInner = ({
       </ColumnManagementModalProvider>
     </SystemActionModalsProvider>
   );
-};
+}
 
-export const SystemsView = ({
-  queryOptions,
+export function SystemsView<TItem extends SystemsViewItem = SystemsViewItem>({
+  queryKeyPrefix,
+  fetchData,
   columns,
   defaultFilters,
   initialSort,
   initialFilters,
   onColumnsChange,
-}: SystemsViewProps) => {
+}: SystemsViewProps<TItem>) {
   const [searchParams, setSearchParams] = useSearchParams();
   const resolvedDefaultColumns = useMemo(
     () => resolveColumnSelector(columns),
@@ -400,13 +401,14 @@ export const SystemsView = ({
       <SystemsViewInner
         searchParams={searchParams}
         setSearchParams={setSearchParams}
-        queryOptions={queryOptions}
+        queryKeyPrefix={queryKeyPrefix}
+        fetchData={fetchData}
         resolvedDefaultColumns={resolvedDefaultColumns}
         initialSort={initialSort}
         onColumnsChange={onColumnsChange}
       />
     </DataViewFiltersProvider>
   );
-};
+}
 
 export default SystemsView;

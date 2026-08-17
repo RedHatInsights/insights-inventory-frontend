@@ -2,11 +2,9 @@ import '@testing-library/jest-dom';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { expect, jest } from '@jest/globals';
 import React from 'react';
-import {
-  SystemsView,
-  type SystemsViewQueryData,
-  type SystemsViewQueryOptionsFn,
-} from './SystemsView';
+import { SystemsView, type SystemsViewQueryData } from './SystemsView';
+import type { SystemsViewFetchData } from './types';
+import type { InventoryFilters } from './filters/SystemsViewFilters';
 import type { ColumnSelector } from './columns/resolveColumnSelector';
 import type { System } from '../InventoryViews/hostsQueryOptions';
 import {
@@ -21,7 +19,7 @@ const mockSystem = {
   display_name: 'Test Host',
 } as System;
 
-const successData: SystemsViewQueryData = {
+const successData: SystemsViewQueryData<System> = {
   results: [mockSystem],
   total: 1,
 };
@@ -65,21 +63,17 @@ jest.mock('../../Utilities/useFeatureFlag', () => ({
 const selectNameColumn: ColumnSelector = (allColumns) =>
   allColumns.filter((column) => column.key === 'display_name');
 
-const createQueryOptions = (
-  queryFn: () => Promise<SystemsViewQueryData>,
-): SystemsViewQueryOptionsFn =>
-  jest.fn((params) => ({
-    queryKey: [TEST_QUERY_KEY, params],
-    queryFn,
-  }));
-
 const renderSystemsView = (
-  queryOptions: SystemsViewQueryOptionsFn,
+  fetchData: SystemsViewFetchData<System, InventoryFilters>,
   client = createTestQueryClient(),
 ) =>
   render(
     <TestWrapper client={client}>
-      <SystemsView queryOptions={queryOptions} columns={selectNameColumn} />
+      <SystemsView
+        queryKeyPrefix={TEST_QUERY_KEY}
+        fetchData={fetchData}
+        columns={selectNameColumn}
+      />
     </TestWrapper>,
   );
 
@@ -90,7 +84,7 @@ describe('SystemsView', () => {
   });
 
   it('renders a column when the columns selector includes it', async () => {
-    renderSystemsView(createQueryOptions(() => Promise.resolve(successData)));
+    renderSystemsView(() => Promise.resolve(successData));
 
     expect(
       await screen.findByRole('columnheader', { name: 'Name' }),
@@ -98,18 +92,20 @@ describe('SystemsView', () => {
   });
 
   it('passes lastSeenCustomRange in fetch params', async () => {
-    const queryOptions = createQueryOptions(() => Promise.resolve(successData));
-    renderSystemsView(queryOptions);
+    const fetchData = jest.fn<SystemsViewFetchData<System, InventoryFilters>>(
+      () => Promise.resolve(successData),
+    );
+    renderSystemsView(fetchData);
 
     await screen.findByRole('columnheader', { name: 'Name' });
 
-    expect(queryOptions).toHaveBeenCalledWith(
+    expect(fetchData).toHaveBeenCalledWith(
       expect.objectContaining({ lastSeenCustomRange: null }),
     );
   });
 
   it('shows a loading state when the query is pending', () => {
-    renderSystemsView(createQueryOptions(() => new Promise(() => {})));
+    renderSystemsView(() => new Promise(() => {}));
 
     expect(
       screen.getByRole('checkbox', { name: 'Select row 0' }),
@@ -119,18 +115,13 @@ describe('SystemsView', () => {
 
   it('shows a loading state while a refetch is in flight', async () => {
     let hangNextFetch = false;
-    const queryFn = jest.fn<() => Promise<SystemsViewQueryData>>(() =>
-      hangNextFetch ? new Promise(() => {}) : Promise.resolve(successData),
+    const fetchData = jest.fn<SystemsViewFetchData<System, InventoryFilters>>(
+      () =>
+        hangNextFetch ? new Promise(() => {}) : Promise.resolve(successData),
     );
     const client = createTestQueryClient();
 
-    renderSystemsView(
-      () => ({
-        queryKey: [TEST_QUERY_KEY],
-        queryFn,
-      }),
-      client,
-    );
+    renderSystemsView(fetchData, client);
 
     expect(await screen.findByText('Test Host')).toBeInTheDocument();
 
@@ -148,9 +139,7 @@ describe('SystemsView', () => {
   });
 
   it('shows an error state when the query fails', async () => {
-    renderSystemsView(
-      createQueryOptions(() => Promise.reject(new Error('failed to load'))),
-    );
+    renderSystemsView(() => Promise.reject(new Error('failed to load')));
 
     expect(await screen.findByText(/Unable to load data/i)).toBeInTheDocument();
     expect(screen.getByText(/error retrieving data/i)).toBeInTheDocument();
@@ -158,9 +147,7 @@ describe('SystemsView', () => {
   });
 
   it('shows an empty state when the query succeeds with no systems', async () => {
-    renderSystemsView(
-      createQueryOptions(() => Promise.resolve({ results: [], total: 0 })),
-    );
+    renderSystemsView(() => Promise.resolve({ results: [], total: 0 }));
 
     expect(
       await screen.findByText(/No matching systems found/i),

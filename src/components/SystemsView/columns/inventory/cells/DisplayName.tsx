@@ -9,8 +9,10 @@ import type { System } from '../../../../InventoryViews/hostsQueryOptions';
 
 export type DisplayNameValue = Pick<
   System,
-  'id' | 'display_name' | 'system_profile'
->;
+  'display_name' | 'system_profile'
+> & {
+  id?: string;
+};
 
 const isImageBasedSystem = (value: DisplayNameValue) =>
   value.system_profile?.bootc_status?.booted?.image_digest ||

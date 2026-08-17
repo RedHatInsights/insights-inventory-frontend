@@ -17,3 +17,22 @@ export type SystemsViewFetchParams<
   filters: TFilters;
   lastSeenCustomRange: LastSeenCustomRange;
 };
+
+export type SystemsViewItem = {
+  id: string;
+};
+
+export type SystemsViewQueryData<
+  TItem extends SystemsViewItem = SystemsViewItem,
+> = {
+  results: TItem[];
+  total: number;
+  deniedServices?: string[];
+};
+
+export type SystemsViewFetchData<
+  TItem extends SystemsViewItem = SystemsViewItem,
+  TFilters extends Record<string, unknown> = Record<string, unknown>,
+> = (
+  params: SystemsViewFetchParams<TFilters>,
+) => Promise<SystemsViewQueryData<TItem>>;

@@ -3,7 +3,10 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import SystemsView from '../SystemsView/SystemsView';
 import type { SortDirection } from '../SystemsView/SystemsView';
-import { inventoryViewsQueryOptions } from './inventoryViewsQueryOptions';
+import {
+  fetchInventoryViews,
+  INVENTORY_VIEWS_QUERY_KEY,
+} from './inventoryViewsQueryOptions';
 import { useAnsibleWorkloadDefault } from './hooks/useAnsibleWorkloadDefault';
 import { useViewsQuery } from './hooks/useViewsQuery';
 import useInventoryViewsPrivateFeatureFlag from '../../Utilities/useInventoryViewsPrivateFeatureFlag';
@@ -230,7 +233,8 @@ const InventoryViews = () => {
         initialSort={initialSort}
         initialFilters={initialFilters}
         onColumnsChange={handleColumnsChange}
-        queryOptions={inventoryViewsQueryOptions}
+        queryKeyPrefix={INVENTORY_VIEWS_QUERY_KEY}
+        fetchData={fetchInventoryViews}
         defaultFilters={defaultFilters}
       />
     </>
