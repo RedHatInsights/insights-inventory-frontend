@@ -7,12 +7,12 @@ import {
 // Custom column selector that includes inventory + app-data columns for testing
 const selectTestColumns = (allColumns) => {
   const columnsToShow = [
-    'name',
-    'os',
-    'last_seen',
-    'recommendations', // advisor
-    'total_cves', // vulnerability
-    'policies', // compliance
+    'display_name',
+    'operating_system',
+    'last_check_in',
+    'advisor:recommendations',
+    'vulnerability:total_cves',
+    'compliance:policies_count',
   ];
   const showKeys = new Set(columnsToShow);
 
