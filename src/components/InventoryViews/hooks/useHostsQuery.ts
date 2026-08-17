@@ -1,4 +1,4 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { queryOptions, type QueryKey } from '@tanstack/react-query';
 import { getHostList, getHostTags } from '../../../api/hostInventoryApiTyped';
 import { getLegacyInventorySortKey } from '../../../constants';
 import { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
@@ -58,57 +58,26 @@ const fetchHosts = async ({
   return { results, total };
 };
 
-export type UseHostsQueryParams = SystemsViewFetchParams<InventoryFilters> & {
-  /** When false, the query is not run (e.g. when user has no access). Default true. */
-  enabled?: boolean;
-};
-export const useHostsQuery = ({
-  page,
-  perPage,
-  filters,
-  sortBy,
-  direction,
-  lastSeenCustomRange,
-  enabled = true,
-}: UseHostsQueryParams) => {
+export const hostsQueryOptions = (
+  params: SystemsViewFetchParams<InventoryFilters>,
+) => {
   // Cross-app and SystemsView-only sort keys are not valid for the /hosts API. This can
   // happen during the render between ui.inventory-views being toggled off and the
   // useColumns useEffect resetting the URL to a valid sort key.
-  const validSortBy = getLegacyInventorySortKey(sortBy) as
+  const validSortBy = getLegacyInventorySortKey(params.sortBy) as
     | ApiOrderByEnum
     | undefined;
 
-  const { data, isLoading, isFetching, isError, error } = useQuery({
-    queryKey: [
-      HOSTS_QUERY_KEY,
-      page,
-      perPage,
-      filters,
-      lastSeenCustomRange,
-      validSortBy,
-      direction,
-    ],
-    queryFn: async () => {
-      return await fetchHosts({
-        page,
-        perPage,
-        filters,
-        lastSeenCustomRange,
+  return queryOptions({
+    queryKey: [HOSTS_QUERY_KEY, params] as QueryKey,
+    queryFn: () =>
+      fetchHosts({
+        page: params.page,
+        perPage: params.perPage,
+        filters: params.filters,
+        lastSeenCustomRange: params.lastSeenCustomRange,
         sortBy: validSortBy,
-        direction,
-      });
-    },
-    placeholderData: keepPreviousData,
-    refetchOnWindowFocus: false,
-    enabled,
+        direction: params.direction,
+      }),
   });
-
-  return {
-    data: data?.results,
-    total: data?.total,
-    isLoading,
-    isFetching,
-    isError,
-    error,
-  };
 };

@@ -1,4 +1,4 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { queryOptions, type QueryKey } from '@tanstack/react-query';
 import { getHostTags, getHostViews } from '../../../api/hostInventoryApiTyped';
 import { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
@@ -8,11 +8,8 @@ import type {
   SystemsViewFetchParams,
 } from '../../SystemsView/types';
 import { buildHostViewsParams } from '../utils/buildHostViewsParams';
-import useInventoryViewsColumnsRbacFeatureFlag from '../../../Utilities/useInventoryViewsColumnsRbacFeatureFlag';
 
 export const INVENTORY_VIEWS_QUERY_KEY = 'inventory-views' as const;
-
-const EMPTY_SERVICES: string[] = [];
 
 const BACKEND_SERVICE_TO_APP_NAME: Record<string, string> = {
   patch: 'content',
@@ -77,57 +74,20 @@ const fetchInventoryViews = async ({
   return { results, total, deniedServices };
 };
 
-export type UseInventoryViewsQueryParams =
-  SystemsViewFetchParams<InventoryFilters> & {
-    /** When false, the query is not run (e.g. when user has no access). Default true. */
-    enabled?: boolean;
-  };
-
-export const useInventoryViewsQuery = ({
-  page,
-  perPage,
-  filters,
-  sortBy,
-  direction,
-  lastSeenCustomRange,
-  enabled = true,
-}: UseInventoryViewsQueryParams) => {
-  const isInventoryViewsRbacEnabled = useInventoryViewsColumnsRbacFeatureFlag();
-
-  const { data, isLoading, isFetching, isError, error } = useQuery({
-    queryKey: [
-      INVENTORY_VIEWS_QUERY_KEY,
-      page,
-      perPage,
-      filters,
-      lastSeenCustomRange,
-      sortBy,
-      direction,
-    ],
-    queryFn: async () => {
-      return await fetchInventoryViews({
-        page,
-        perPage,
-        filters,
-        lastSeenCustomRange,
-        sortBy: sortBy as ApiHostViewsGetHostViewsOrderByEnum | undefined,
-        direction,
-      });
-    },
-    placeholderData: keepPreviousData,
-    refetchOnWindowFocus: false,
-    enabled,
+export const inventoryViewsQueryOptions = (
+  params: SystemsViewFetchParams<InventoryFilters>,
+) =>
+  queryOptions({
+    queryKey: [INVENTORY_VIEWS_QUERY_KEY, params] as QueryKey,
+    queryFn: () =>
+      fetchInventoryViews({
+        page: params.page,
+        perPage: params.perPage,
+        filters: params.filters,
+        lastSeenCustomRange: params.lastSeenCustomRange,
+        sortBy: params.sortBy as
+          | ApiHostViewsGetHostViewsOrderByEnum
+          | undefined,
+        direction: params.direction,
+      }),
   });
-
-  return {
-    data: data?.results,
-    total: data?.total,
-    deniedServices: isInventoryViewsRbacEnabled
-      ? (data?.deniedServices ?? EMPTY_SERVICES)
-      : EMPTY_SERVICES,
-    isLoading,
-    isFetching,
-    isError,
-    error,
-  };
-};

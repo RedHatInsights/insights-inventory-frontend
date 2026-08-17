@@ -1,8 +1,8 @@
 export { default } from './SystemsView';
 export type {
   SystemsViewProps,
-  UseSystemsViewDataQuery,
-  SystemsViewDataQueryResult,
+  SystemsViewQueryOptionsFn,
+  SystemsViewQueryData,
 } from './SystemsView';
 export type {
   SystemsViewFetchParams,

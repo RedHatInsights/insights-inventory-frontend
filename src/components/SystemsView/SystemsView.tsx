@@ -1,5 +1,12 @@
 import React, { useCallback, useMemo } from 'react';
 import {
+  keepPreviousData,
+  useQuery,
+  useQueryClient,
+  type QueryKey,
+  type UseQueryOptions,
+} from '@tanstack/react-query';
+import {
   DataView,
   useDataViewPagination,
   useDataViewSort,
@@ -44,17 +51,21 @@ import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
 import { PER_PAGE } from '../../constants';
 import { DEBOUNCE_TIMEOUT_MS } from '../../constants';
 import { normalizeLegacySortSearchParams } from './utils/normalizeLegacySortSearchParams';
-import { SORT_DIR_URL_PARAM, SORT_URL_PARAM } from './constants';
+import {
+  EMPTY_SERVICES,
+  SORT_DIR_URL_PARAM,
+  SORT_URL_PARAM,
+} from './constants';
 import useInventoryViewsFeatureFlag from '../../Utilities/useInventoryViewsFeatureFlag';
 import type { Column } from './columns/allColumnDefinitions';
 import type { System } from '../InventoryViews/hooks/useHostsQuery';
 import type { SortDirection, SystemsViewFetchParams } from './types';
 import { deriveActiveState } from './utils/deriveActiveState';
-import type { OnInvalidate } from './SystemActionModalsContext';
 import {
   resolveColumnSelector,
   type ColumnSelector,
 } from './columns/resolveColumnSelector';
+import useInventoryViewsColumnsRbacFeatureFlag from '../../Utilities/useInventoryViewsColumnsRbacFeatureFlag';
 
 export type { SortDirection } from './types';
 export type OnSort = (
@@ -64,22 +75,29 @@ export type OnSort = (
 ) => void;
 export type Pagination = ReturnType<typeof useDataViewPagination>;
 
-export type SystemsViewDataQueryResult = {
-  data: System[] | undefined;
-  total: number | undefined;
+export type SystemsViewQueryData = {
+  results: System[];
+  total: number;
   deniedServices?: string[];
-  isLoading: boolean;
-  isFetching: boolean;
-  isError: boolean;
 };
 
-export type UseSystemsViewDataQuery = (
+/**
+ * Pure function that turns table fetch params into TanStack Query options.
+ * Pass a named factory (or inline function), not a React hook.
+ * `queryKey` must be a non-empty array whose first element is a stable prefix
+ * used to invalidate every page after mutations (`'hosts'`, `'inventory-views'`).
+ */
+export type SystemsViewQueryOptionsFn = (
   params: SystemsViewFetchParams<InventoryFilters>,
-) => SystemsViewDataQueryResult;
+) => UseQueryOptions<
+  SystemsViewQueryData,
+  Error,
+  SystemsViewQueryData,
+  QueryKey
+>;
 
 export type SystemsViewProps = {
-  useDataQuery: UseSystemsViewDataQuery;
-  onInvalidate: OnInvalidate;
+  queryOptions: SystemsViewQueryOptionsFn;
   /**
    * Selects which columns are available in this view from the full catalog.
    * Stable reference for selectors required! don't define them inline in JSX.
@@ -94,8 +112,7 @@ export type SystemsViewProps = {
 interface SystemsViewInnerProps {
   searchParams: URLSearchParams;
   setSearchParams: SetURLSearchParams;
-  useDataQuery: UseSystemsViewDataQuery;
-  onInvalidate: OnInvalidate;
+  queryOptions: SystemsViewQueryOptionsFn;
   resolvedDefaultColumns: readonly Column[];
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   onColumnsChange?: (columns: readonly Column[]) => void;
@@ -104,12 +121,12 @@ interface SystemsViewInnerProps {
 const SystemsViewInner = ({
   searchParams,
   setSearchParams,
-  useDataQuery,
-  onInvalidate,
+  queryOptions,
   resolvedDefaultColumns,
   initialSort,
   onColumnsChange,
 }: SystemsViewInnerProps) => {
+  const queryClient = useQueryClient();
   const { filters, clearAllFilters, hasDefaultFilters, lastSeenCustomRange } =
     useDataViewFiltersContext();
 
@@ -181,10 +198,29 @@ const SystemsViewInner = ({
     ],
   );
 
-  const { data, total, deniedServices, isLoading, isFetching, isError } =
-    useDataQuery(fetchParams);
+  const options = queryOptions(fetchParams);
+  const { data, isLoading, isFetching, isError } = useQuery({
+    placeholderData: keepPreviousData,
+    refetchOnWindowFocus: false,
+    ...queryOptions(fetchParams),
+  });
+  const rowsData = data?.results;
+  const total = data?.total;
+  const isInventoryViewsRbacEnabled = useInventoryViewsColumnsRbacFeatureFlag();
+  const deniedServices = isInventoryViewsRbacEnabled
+    ? (data?.deniedServices ?? EMPTY_SERVICES)
+    : EMPTY_SERVICES;
+
+  const queryKeyPrefix = options.queryKey?.[0];
+  const onInvalidate = useCallback(() => {
+    if (queryKeyPrefix === undefined) {
+      return;
+    }
+    return queryClient.invalidateQueries({ queryKey: [queryKeyPrefix] });
+  }, [queryClient, queryKeyPrefix]);
+
   const activeState = deriveActiveState({
-    data,
+    data: rowsData,
     isLoading,
     isFetching,
     isError,
@@ -215,10 +251,10 @@ const SystemsViewInner = ({
     [setColumns, onColumnsChange],
   );
 
-  const { hostsWithPermissions } = useHostIdsWithKessel(data);
+  const { hostsWithPermissions } = useHostIdsWithKessel(rowsData);
 
   const rows = mapSystemsToRows({
-    data: hostsWithPermissions ?? data,
+    data: hostsWithPermissions ?? rowsData,
     columns,
     isInventoryViewsEnabled,
   });
@@ -341,8 +377,7 @@ const SystemsViewInner = ({
 };
 
 export const SystemsView = ({
-  useDataQuery,
-  onInvalidate,
+  queryOptions,
   columns,
   defaultFilters,
   initialSort,
@@ -365,8 +400,7 @@ export const SystemsView = ({
       <SystemsViewInner
         searchParams={searchParams}
         setSearchParams={setSearchParams}
-        useDataQuery={useDataQuery}
-        onInvalidate={onInvalidate}
+        queryOptions={queryOptions}
         resolvedDefaultColumns={resolvedDefaultColumns}
         initialSort={initialSort}
         onColumnsChange={onColumnsChange}
