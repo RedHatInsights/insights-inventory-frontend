@@ -69,6 +69,7 @@ export type Pagination = ReturnType<typeof useDataViewPagination>;
 export type SystemsViewDataQueryResult = {
   data: System[] | undefined;
   total: number | undefined;
+  deniedServices?: string[];
   isLoading: boolean;
   isFetching: boolean;
   isError: boolean;
@@ -179,7 +180,7 @@ const SystemsViewInner = ({
     ],
   );
 
-  const { data, total, isLoading, isFetching, isError } =
+  const { data, total, deniedServices, isLoading, isFetching, isError } =
     useDataQuery(fetchParams);
   const activeState = deriveActiveState({
     data,
@@ -190,13 +191,15 @@ const SystemsViewInner = ({
 
   const isInventoryViewsEnabled = useInventoryViewsFeatureFlag();
 
-  const { columns, setColumns, tableHeaderNodes } = useColumns({
-    defaultColumns: resolvedDefaultColumns,
-    sortBy,
-    onSort,
-    direction,
-    isInventoryViewsEnabled,
-  });
+  const { columns, annotatedDefaults, setColumns, tableHeaderNodes } =
+    useColumns({
+      defaultColumns: resolvedDefaultColumns,
+      sortBy,
+      onSort,
+      direction,
+      isInventoryViewsEnabled,
+      deniedServices: deniedServices ?? [],
+    });
 
   const { hostsWithPermissions } = useHostIdsWithKessel(data);
 
@@ -261,8 +264,8 @@ const SystemsViewInner = ({
     >
       <ColumnManagementModalProvider
         columns={columns}
+        defaultColumns={annotatedDefaults}
         setColumns={setColumns}
-        defaultColumns={resolvedDefaultColumns}
       >
         <DataView selection={selection} activeState={activeState}>
           <PageSection hasBodyWrapper={false}>
