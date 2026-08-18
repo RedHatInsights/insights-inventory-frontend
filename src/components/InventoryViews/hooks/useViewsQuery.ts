@@ -11,6 +11,6 @@ import { listViewsApi } from '../../../api/inventoryViewsApi';
 export const useViewsQuery = () => {
   return useQuery({
     queryKey: ['views'],
-    queryFn: listViewsApi,
+    queryFn: () => listViewsApi(),
   });
 };

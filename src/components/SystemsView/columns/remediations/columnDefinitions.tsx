@@ -9,7 +9,7 @@ const APP_NAME = 'remediations' as const;
 const remediationPlansColumn = {
   appName: APP_NAME,
   title: 'Remediation plans',
-  key: 'remediations_plans',
+  key: ApiHostViewsGetHostViewsOrderByEnum.RemediationsremediationsPlans,
   minWidth: '12rem',
   isShownByDefault: true,
   isShown: true,

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Flex, FlexItem, PageSection } from '@patternfly/react-core';
+import { Flex, FlexItem } from '@patternfly/react-core';
 import {
   PageHeader,
   PageHeaderTitle,
@@ -71,17 +71,15 @@ const InventoryViewsPage = ({ hasAccess = true }: SystemsPageProps) => {
         />
         <OutageAlert />
       </PageHeader>
-      <PageSection hasBodyWrapper={false}>
-        {view === 'systems' ? (
-          isInventoryViewsEnabled ? (
-            <InventoryViews />
-          ) : (
-            <InventoryHosts />
-          )
+      {view === 'systems' ? (
+        isInventoryViewsEnabled ? (
+          <InventoryViews />
         ) : (
-          <ImagesView />
-        )}
-      </PageSection>
+          <InventoryHosts />
+        )
+      ) : (
+        <ImagesView />
+      )}
     </>
   );
 };

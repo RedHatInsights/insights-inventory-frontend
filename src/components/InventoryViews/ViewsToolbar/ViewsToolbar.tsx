@@ -1,5 +1,14 @@
 import React from 'react';
-import { Flex, FlexItem } from '@patternfly/react-core';
+import {
+  Button,
+  PageSection,
+  Toolbar,
+  ToolbarContent,
+  ToolbarItem,
+  Tooltip,
+} from '@patternfly/react-core';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
+import { css } from '@patternfly/react-styles';
 import type { ViewOut } from '../../../api/inventoryViewsApi';
 import { ManageViewButton } from './ManageViewButton';
 import ViewSelector from './ViewSelector';
@@ -29,31 +38,45 @@ export const ViewsToolbar = ({
   onDelete,
 }: ViewsToolbarProps) => {
   return (
-    <Flex
-      className={`ins-c-views-toolbar ${className || ''}`}
-      spaceItems={{ default: 'spaceItemsMd' }}
-      alignItems={{ default: 'alignItemsCenter' }}
+    <PageSection
+      className={css('ins-c-views-toolbar', className)}
+      hasBodyWrapper={false}
     >
-      <FlexItem>
-        <div>View: </div>
-      </FlexItem>
-      <FlexItem>
-        <ViewSelector
-          views={viewsList}
-          activeViewId={activeViewId}
-          onSelectView={onSelectView}
-        />
-      </FlexItem>
-      <FlexItem>
-        <ManageViewButton
-          currentViewId={currentViewId}
-          isSystemView={isSystemView}
-          onSaveAs={onSaveAs}
-          onRename={onRename}
-          onDelete={onDelete}
-        />
-      </FlexItem>
-    </Flex>
+      <Toolbar ouiaId="views-toolbar">
+        <ToolbarContent>
+          <ToolbarItem
+            variant="label"
+            alignSelf="center"
+            gap={{ default: 'gapNone' }}
+          >
+            View
+            <Tooltip content="Select a Systems View">
+              <Button
+                variant="plain"
+                icon={<OutlinedQuestionCircleIcon />}
+                aria-label="View"
+              />
+            </Tooltip>
+          </ToolbarItem>
+          <ToolbarItem>
+            <ViewSelector
+              views={viewsList}
+              activeViewId={activeViewId}
+              onSelectView={onSelectView}
+            />
+          </ToolbarItem>
+          <ToolbarItem>
+            <ManageViewButton
+              currentViewId={currentViewId}
+              isSystemView={isSystemView}
+              onSaveAs={onSaveAs}
+              onRename={onRename}
+              onDelete={onDelete}
+            />
+          </ToolbarItem>
+        </ToolbarContent>
+      </Toolbar>
+    </PageSection>
   );
 };
 

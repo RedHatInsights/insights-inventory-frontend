@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { OnSort, SortDirection } from '../SystemsView';
 import {
   getColumnMinWidthStyle,
@@ -8,7 +8,7 @@ import {
 import { STICKY_ACTIONS_HEADER_PROPS } from '../utils/stickyActionsColumn';
 import { getStickyNameHeaderProps } from '../utils/stickyNameColumn';
 import { type Column } from '../columns/allColumnDefinitions';
-import { usePersistedColumns } from './usePersistedColumns';
+import CellValue from '../columns/CellValue';
 
 export const INITIAL_SORT: {
   sortBy: Column['sortBy'];
@@ -32,6 +32,7 @@ interface UseColumnParams {
   onSort: OnSort;
   direction: SortDirection;
   isInventoryViewsEnabled: boolean;
+  deniedServices: string[];
 }
 
 export const useColumns = ({
@@ -40,8 +41,35 @@ export const useColumns = ({
   onSort,
   direction,
   isInventoryViewsEnabled,
+  deniedServices,
 }: UseColumnParams) => {
-  const { columns, setColumns } = usePersistedColumns(defaultColumns);
+  const [rawColumns, setColumns] = useState<readonly Column[]>(defaultColumns);
+
+  const annotatePermissions = useCallback(
+    (cols: readonly Column[]): readonly Column[] =>
+      cols.map((col) => {
+        const isLocked =
+          col.appName !== 'inventory' && deniedServices.includes(col.appName);
+        return {
+          ...col,
+          isPermissionLocked: isLocked,
+          renderCell: isLocked
+            ? () => <CellValue type="noPermission" appName={col.appName} />
+            : col.renderCell,
+        };
+      }),
+    [deniedServices],
+  );
+
+  const columns: readonly Column[] = useMemo(
+    () => annotatePermissions(rawColumns),
+    [rawColumns, annotatePermissions],
+  );
+
+  const annotatedDefaults: readonly Column[] = useMemo(
+    () => annotatePermissions(defaultColumns),
+    [annotatePermissions, defaultColumns],
+  );
 
   const fromSortByToIndex = useCallback(
     (sortBy?: Column['sortBy']): number | undefined => {
@@ -63,30 +91,31 @@ export const useColumns = ({
           return {
             cell: col.title,
             props: {
-              ...(col.key === 'name'
+              ...(col.key === 'display_name'
                 ? isInventoryViewsEnabled
                   ? getStickyNameHeaderProps(getNameColumnMinWidth(col))
                   : {}
                 : isInventoryViewsEnabled
                   ? (getColumnMinWidthStyle(col) ?? {})
                   : {}),
-              ...(col.sortBy && {
-                sort: {
-                  sortBy: { index: fromSortByToIndex(sortBy), direction },
-                  onSort: (
-                    _event:
-                      | React.MouseEvent
-                      | React.KeyboardEvent
-                      | MouseEvent
-                      | undefined,
-                    _columnIndex: number,
-                    newDirection: SortDirection,
-                  ) => {
-                    onSort(undefined, col.sortBy!, newDirection);
+              ...(col.sortBy &&
+                !col.isPermissionLocked && {
+                  sort: {
+                    sortBy: { index: fromSortByToIndex(sortBy), direction },
+                    onSort: (
+                      _event:
+                        | React.MouseEvent
+                        | React.KeyboardEvent
+                        | MouseEvent
+                        | undefined,
+                      _columnIndex: number,
+                      newDirection: SortDirection,
+                    ) => {
+                      onSort(undefined, col.sortBy!, newDirection);
+                    },
+                    columnIndex: index,
                   },
-                  columnIndex: index,
-                },
-              }),
+                }),
             },
           };
         }),
@@ -110,7 +139,8 @@ export const useColumns = ({
   useEffect(() => {
     if (sortBy) {
       const isSortColumnVisible = columns.some(
-        (col) => col.sortBy === sortBy && col.isShown,
+        (col) =>
+          col.sortBy === sortBy && col.isShown && !col.isPermissionLocked,
       );
 
       if (!isSortColumnVisible) {
@@ -121,6 +151,7 @@ export const useColumns = ({
 
   return {
     columns,
+    annotatedDefaults,
     setColumns,
     tableHeaderNodes,
   };

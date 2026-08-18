@@ -7,6 +7,21 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ViewSaveAsModal from './ViewSaveAsModal';
 import type { ViewConfiguration } from '../../../api/inventoryViewsApi';
 
+jest.mock('../../../api/inventoryViewsApi', () => ({
+  createViewApi: jest.fn().mockResolvedValue({
+    id: 'new-view-123',
+    name: 'My Custom View',
+    org_id: 'org-123',
+    configuration: { columns: [] },
+    is_system_view: false,
+    org_wide: false,
+    is_owner: true,
+    created_by: 'current-user',
+    created_at: '2026-01-01T00:00:00Z',
+    updated_at: '2026-01-01T00:00:00Z',
+  }),
+}));
+
 jest.mock(
   '@redhat-cloud-services/frontend-components-notifications/hooks',
   () => ({

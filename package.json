@@ -9,7 +9,7 @@
   "dependencies": {
     "@data-driven-forms/pf4-component-mapper": "^4.1.1",
     "@data-driven-forms/react-form-renderer": "^4.1.1",
-    "@patternfly/patternfly": "^6.6.0",
+    "@patternfly/patternfly": "^6.6.1",
     "@patternfly/react-component-groups": "^6.5.0",
     "@patternfly/react-core": "^6.6.0",
     "@patternfly/react-data-view": "^6.5.0",
@@ -36,7 +36,7 @@
     "react-dom": "^18.3.1",
     "react-intl": "^7.1.14",
     "react-redux": "^9.2.0",
-    "react-router-dom": "^6.30.3",
+    "react-router-dom": "^6.30.4",
     "redux": "^5.0.1",
     "redux-logger": "^3.0.6",
     "redux-promise-middleware": "^6.2.0",
@@ -63,7 +63,7 @@
       "!src/entry-dev.js"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!(@patternfly/|uuid|p-all|p-map|aggregate-error|indent-string|clean-stack|escape-string-regexp))"
+      "node_modules/(?!(@patternfly/|uuid|p-all|p-map|aggregate-error|indent-string|clean-stack|escape-string-regexp|sanitize-html|htmlparser2|entities|domelementtype|domhandler|dom-serializer|domutils))"
     ],
     "setupFiles": [
       "<rootDir>/config/setupTests.js"

@@ -1,5 +1,8 @@
 import type { ViewOut } from '../../../../api/inventoryViewsApi';
-import { ALL_SYSTEMS_VIEW_ID } from '../../../../api/inventoryViewsApi';
+import {
+  ALL_SYSTEMS_VIEW_ID,
+  ALL_SYSTEMS_CONFIGURATION,
+} from '../../../../api/inventoryViewsApi';
 
 export const MOCK_VIEWS: ViewOut[] = [
   {
@@ -9,7 +12,7 @@ export const MOCK_VIEWS: ViewOut[] = [
     is_system_view: true,
     org_id: 'org-123',
     org_wide: true,
-    configuration: { columns: [] },
+    configuration: ALL_SYSTEMS_CONFIGURATION,
     created_by: 'system',
     created_at: '2026-01-01T00:00:00Z',
     updated_at: '2026-01-01T00:00:00Z',
@@ -22,7 +25,18 @@ export const MOCK_VIEWS: ViewOut[] = [
     is_system_view: false,
     org_id: 'org-123',
     org_wide: false,
-    configuration: { columns: [] },
+    configuration: {
+      columns: [
+        { key: 'display_name' },
+        { key: 'group_name' },
+        { key: 'operating_system' },
+        { key: 'last_check_in' },
+        { key: 'advisor:recommendations' },
+        { key: 'vulnerability:total_cves' },
+      ],
+      sort: { key: 'display_name', direction: 'asc' },
+      filters: {},
+    },
     created_by: 'current-user',
     created_at: '2026-06-15T10:00:00Z',
     updated_at: '2026-07-20T14:30:00Z',
@@ -35,7 +49,17 @@ export const MOCK_VIEWS: ViewOut[] = [
     is_system_view: false,
     org_id: 'org-123',
     org_wide: false,
-    configuration: { columns: [] },
+    configuration: {
+      columns: [
+        { key: 'display_name' },
+        { key: 'operating_system' },
+        { key: 'last_check_in' },
+        { key: 'patch:advisories_rhsa_installable' },
+        { key: 'advisor:recommendations' },
+      ],
+      sort: { key: 'patch:advisories_rhsa_installable', direction: 'desc' },
+      filters: {},
+    },
     created_by: 'current-user',
     created_at: '2026-07-01T09:00:00Z',
     updated_at: '2026-07-25T11:00:00Z',
@@ -48,7 +72,21 @@ export const MOCK_VIEWS: ViewOut[] = [
     is_system_view: true,
     org_id: 'org-123',
     org_wide: true,
-    configuration: { columns: [] },
+    configuration: {
+      columns: [
+        { key: 'display_name' },
+        { key: 'operating_system' },
+        { key: 'last_check_in' },
+        { key: 'vulnerability:total_cves' },
+        { key: 'vulnerability:critical_cves' },
+        { key: 'vulnerability:important_cves' },
+        { key: 'vulnerability:cves_with_known_exploits' },
+        { key: 'advisor:recommendations' },
+        { key: 'advisor:incidents' },
+        { key: 'compliance:last_scan' },
+      ],
+      sort: { key: 'vulnerability:critical_cves', direction: 'desc' },
+    },
     created_by: 'system',
     created_at: '2026-01-01T00:00:00Z',
     updated_at: '2026-01-01T00:00:00Z',

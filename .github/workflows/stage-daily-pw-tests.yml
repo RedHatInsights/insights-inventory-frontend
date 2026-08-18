@@ -2,7 +2,7 @@ name: 'Stage: Daily Frontend Suite'
 
 on:
   schedule:
-    - cron: '0 4 * * *' # This cron expression runs the action every 24 hours at 04:00 UTC
+    - cron: '0 4 * * 1-5' # Weekdays (Mon-Fri) at 04:00 UTC
   workflow_dispatch:
     inputs:
       dry_run:

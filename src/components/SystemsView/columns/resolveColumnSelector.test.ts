@@ -19,14 +19,17 @@ describe('resolveColumnSelector', () => {
     const customSelector: ColumnSelector = (all) => {
       const byKey = Object.fromEntries(all.map((col) => [col.key, col]));
       return [
-        { ...byKey.os, isShown: true, isShownByDefault: true },
-        { ...byKey.name, isShown: true, isShownByDefault: true },
+        { ...byKey['operating_system'], isShown: true, isShownByDefault: true },
+        { ...byKey['display_name'], isShown: true, isShownByDefault: true },
       ];
     };
 
     const selected = resolveColumnSelector(customSelector);
 
-    expect(selected.map((col) => col.key)).toEqual(['os', 'name']);
+    expect(selected.map((col) => col.key)).toEqual([
+      'operating_system',
+      'display_name',
+    ]);
     expect(selected.every((col) => col.isShown)).toBe(true);
   });
 });

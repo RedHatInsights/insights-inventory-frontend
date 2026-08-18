@@ -5,6 +5,21 @@ import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ViewRenameModal from './ViewRenameModal';
 
+jest.mock('../../../api/inventoryViewsApi', () => ({
+  updateViewApi: jest.fn().mockResolvedValue({
+    id: 'view-123',
+    name: 'Renamed View',
+    org_id: 'org-123',
+    configuration: { columns: [] },
+    is_system_view: false,
+    org_wide: false,
+    is_owner: true,
+    created_by: 'current-user',
+    created_at: '2026-01-01T00:00:00Z',
+    updated_at: '2026-01-01T00:00:00Z',
+  }),
+}));
+
 jest.mock(
   '@redhat-cloud-services/frontend-components-notifications/hooks',
   () => ({
