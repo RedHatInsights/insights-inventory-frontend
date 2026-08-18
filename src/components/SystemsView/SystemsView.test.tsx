@@ -2,9 +2,11 @@ import '@testing-library/jest-dom';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { expect, jest } from '@jest/globals';
 import React from 'react';
-import { SystemsView, type SystemsViewQueryData } from './SystemsView';
-import type { SystemsViewFetchData } from './types';
-import type { InventoryFilters } from './filters/SystemsViewFilters';
+import {
+  SystemsView,
+  type SystemsViewFetchData,
+  type SystemsViewQueryData,
+} from './SystemsView';
 import type { ColumnSelector } from './columns/resolveColumnSelector';
 import type { System } from '../InventoryViews/hostsQueryOptions';
 import {
@@ -19,7 +21,7 @@ const mockSystem = {
   display_name: 'Test Host',
 } as System;
 
-const successData: SystemsViewQueryData<System> = {
+const successData: SystemsViewQueryData = {
   results: [mockSystem],
   total: 1,
 };
@@ -64,7 +66,7 @@ const selectNameColumn: ColumnSelector = (allColumns) =>
   allColumns.filter((column) => column.key === 'display_name');
 
 const renderSystemsView = (
-  fetchData: SystemsViewFetchData<System, InventoryFilters>,
+  fetchData: SystemsViewFetchData,
   client = createTestQueryClient(),
 ) =>
   render(
@@ -92,8 +94,8 @@ describe('SystemsView', () => {
   });
 
   it('passes lastSeenCustomRange in fetch params', async () => {
-    const fetchData = jest.fn<SystemsViewFetchData<System, InventoryFilters>>(
-      () => Promise.resolve(successData),
+    const fetchData = jest.fn<SystemsViewFetchData>(() =>
+      Promise.resolve(successData),
     );
     renderSystemsView(fetchData);
 
@@ -115,9 +117,8 @@ describe('SystemsView', () => {
 
   it('shows a loading state while a refetch is in flight', async () => {
     let hangNextFetch = false;
-    const fetchData = jest.fn<SystemsViewFetchData<System, InventoryFilters>>(
-      () =>
-        hangNextFetch ? new Promise(() => {}) : Promise.resolve(successData),
+    const fetchData = jest.fn<SystemsViewFetchData>(() =>
+      hangNextFetch ? new Promise(() => {}) : Promise.resolve(successData),
     );
     const client = createTestQueryClient();
 

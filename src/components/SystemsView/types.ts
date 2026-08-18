@@ -22,17 +22,8 @@ export type SystemsViewItem = {
   id: string;
 };
 
-export type SystemsViewQueryData<
-  TItem extends SystemsViewItem = SystemsViewItem,
-> = {
-  results: TItem[];
+export type SystemsViewQueryData = {
+  results: SystemsViewItem[];
   total: number;
   deniedServices?: string[];
 };
-
-export type SystemsViewFetchData<
-  TItem extends SystemsViewItem = SystemsViewItem,
-  TFilters extends Record<string, unknown> = Record<string, unknown>,
-> = (
-  params: SystemsViewFetchParams<TFilters>,
-) => Promise<SystemsViewQueryData<TItem>>;
