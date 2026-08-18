@@ -6,7 +6,12 @@ import {
 } from '@patternfly/react-data-view';
 import { DataViewTable } from '@patternfly/react-data-view/dist/dynamic/DataViewTable';
 import { useDataViewSelection } from '@patternfly/react-data-view/dist/dynamic/Hooks';
-import { PageSection, Pagination } from '@patternfly/react-core';
+import {
+  Button,
+  PageSection,
+  Pagination,
+  ToolbarItem,
+} from '@patternfly/react-core';
 import { DataViewToolbar } from '@patternfly/react-data-view/dist/dynamic/DataViewToolbar';
 import { BulkSelect } from '../BulkSelect';
 import { useHostIdsWithKessel } from '../../Utilities/hooks/useHostIdsWithKessel';
@@ -18,7 +23,7 @@ import {
   SystemsViewFilters,
 } from './filters/SystemsViewFilters';
 import { INITIAL_SORT, useColumns } from './hooks/useColumns';
-import { SetURLSearchParams } from 'react-router-dom';
+import { SetURLSearchParams, useSearchParams } from 'react-router-dom';
 import { SystemActionModalsProvider } from './SystemActionModalsContext';
 import { SystemsViewBulkActions } from './SystemsViewBulkActions';
 import { useBulkSelect } from './hooks/useBulkSelect';
@@ -34,7 +39,6 @@ import {
   useDataViewFiltersContext,
 } from './DataViewFiltersContext';
 import { useDebouncedValue } from '../../Utilities/hooks/useDebouncedValue';
-import { useSearchParamsWithFragment } from './hooks/useSearchParamsWithFragment';
 import { useResetPage } from './hooks/useResetPage';
 import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
 import { PER_PAGE } from '../../constants';
@@ -65,6 +69,7 @@ export type Pagination = ReturnType<typeof useDataViewPagination>;
 export type SystemsViewDataQueryResult = {
   data: System[] | undefined;
   total: number | undefined;
+  deniedServices?: string[];
   isLoading: boolean;
   isFetching: boolean;
   isError: boolean;
@@ -82,6 +87,9 @@ export type SystemsViewProps = {
    * Stable reference for selectors required! don't define them inline in JSX.
    */
   columns?: ColumnSelector;
+  defaultFilters?: Partial<InventoryFilters>;
+  initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
+  initialFilters?: Partial<InventoryFilters>;
 };
 
 interface SystemsViewInnerProps {
@@ -90,6 +98,7 @@ interface SystemsViewInnerProps {
   useDataQuery: UseSystemsViewDataQuery;
   onInvalidate: OnInvalidate;
   resolvedDefaultColumns: readonly Column[];
+  initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
 }
 
 const SystemsViewInner = ({
@@ -98,8 +107,9 @@ const SystemsViewInner = ({
   useDataQuery,
   onInvalidate,
   resolvedDefaultColumns,
+  initialSort,
 }: SystemsViewInnerProps) => {
-  const { filters, clearAllFilters, lastSeenCustomRange } =
+  const { filters, clearAllFilters, hasDefaultFilters, lastSeenCustomRange } =
     useDataViewFiltersContext();
 
   const pagination = useDataViewPagination({
@@ -110,7 +120,7 @@ const SystemsViewInner = ({
     setSearchParams,
   });
 
-  useResetPage(filters, pagination, lastSeenCustomRange);
+  useResetPage(filters, setSearchParams, lastSeenCustomRange);
 
   const debouncedName = useDebouncedValue(
     filters.hostname_or_id,
@@ -140,7 +150,7 @@ const SystemsViewInner = ({
   );
 
   const sort = useDataViewSort({
-    initialSort: INITIAL_SORT,
+    initialSort: initialSort ?? INITIAL_SORT,
     defaultDirection: 'asc',
     searchParams: sortSearchParams,
     setSearchParams,
@@ -170,7 +180,7 @@ const SystemsViewInner = ({
     ],
   );
 
-  const { data, total, isLoading, isFetching, isError } =
+  const { data, total, deniedServices, isLoading, isFetching, isError } =
     useDataQuery(fetchParams);
   const activeState = deriveActiveState({
     data,
@@ -181,13 +191,15 @@ const SystemsViewInner = ({
 
   const isInventoryViewsEnabled = useInventoryViewsFeatureFlag();
 
-  const { columns, setColumns, tableHeaderNodes } = useColumns({
-    defaultColumns: resolvedDefaultColumns,
-    sortBy,
-    onSort,
-    direction,
-    isInventoryViewsEnabled,
-  });
+  const { columns, annotatedDefaults, setColumns, tableHeaderNodes } =
+    useColumns({
+      defaultColumns: resolvedDefaultColumns,
+      sortBy,
+      onSort,
+      direction,
+      isInventoryViewsEnabled,
+      deniedServices: deniedServices ?? [],
+    });
 
   const { hostsWithPermissions } = useHostIdsWithKessel(data);
 
@@ -252,14 +264,28 @@ const SystemsViewInner = ({
     >
       <ColumnManagementModalProvider
         columns={columns}
+        defaultColumns={annotatedDefaults}
         setColumns={setColumns}
-        defaultColumns={resolvedDefaultColumns}
       >
         <DataView selection={selection} activeState={activeState}>
           <PageSection hasBodyWrapper={false}>
             <DataViewToolbar
               ouiaId="systems-view-header"
               clearAllFilters={clearAllFilters}
+              customLabelGroupContent={
+                hasDefaultFilters ? (
+                  <ToolbarItem>
+                    <Button
+                      ouiaId="systems-view-header-reset-filters"
+                      variant="link"
+                      onClick={clearAllFilters}
+                      isInline
+                    >
+                      Reset filters
+                    </Button>
+                  </ToolbarItem>
+                ) : undefined
+              }
               bulkSelect={
                 <BulkSelect
                   pageCount={rows.length}
@@ -304,8 +330,11 @@ export const SystemsView = ({
   useDataQuery,
   onInvalidate,
   columns,
+  defaultFilters,
+  initialSort,
+  initialFilters,
 }: SystemsViewProps) => {
-  const [searchParams, setSearchParams] = useSearchParamsWithFragment();
+  const [searchParams, setSearchParams] = useSearchParams();
   const resolvedDefaultColumns = useMemo(
     () => resolveColumnSelector(columns),
     [columns],
@@ -315,6 +344,8 @@ export const SystemsView = ({
     <DataViewFiltersProvider
       searchParams={searchParams}
       setSearchParams={setSearchParams}
+      defaultFilters={defaultFilters}
+      initialFilters={initialFilters}
     >
       <SystemsViewInner
         searchParams={searchParams}
@@ -322,6 +353,7 @@ export const SystemsView = ({
         useDataQuery={useDataQuery}
         onInvalidate={onInvalidate}
         resolvedDefaultColumns={resolvedDefaultColumns}
+        initialSort={initialSort}
       />
     </DataViewFiltersProvider>
   );

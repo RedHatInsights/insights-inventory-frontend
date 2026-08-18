@@ -2,11 +2,11 @@ import type { ColumnSelector } from '../SystemsView/columns/resolveColumnSelecto
 
 /** Default visible column keys for Inventory Views (not stored on catalog columns). */
 export const COLS_SHOWN_BY_DEFAULT = [
-  'name',
-  'workspace',
+  'display_name',
+  'group_name',
   'tags',
-  'os',
-  'last_seen',
+  'operating_system',
+  'last_check_in',
 ] as const;
 
 const defaultShownKeys = new Set<string>(COLS_SHOWN_BY_DEFAULT);

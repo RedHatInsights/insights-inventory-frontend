@@ -57,7 +57,7 @@ describe('allColumnDefinitions', () => {
     });
 
     it('falls back for the Name column when minWidth is omitted', () => {
-      expect(resolveColumnMinWidth({ key: 'name' })).toBe(
+      expect(resolveColumnMinWidth({ key: 'display_name' })).toBe(
         DEFAULT_NAME_COLUMN_MIN_WIDTH,
       );
       expect(getNameColumnMinWidth({})).toBe(DEFAULT_NAME_COLUMN_MIN_WIDTH);

@@ -1,28 +1,23 @@
-import { useDataViewPagination } from '@patternfly/react-data-view';
 import { useEffect, useMemo, useRef } from 'react';
+import type { SetURLSearchParams } from 'react-router-dom';
 import type { InventoryFilters } from '../filters/SystemsViewFilters';
 import { INITIAL_PAGE } from '../../InventoryViews/constants';
 
-type DataViewPagination = ReturnType<typeof useDataViewPagination>;
-
 /**
  * Resets DataView pagination to the first page whenever `filters` meaningfully
- * change, after the initial mount. Runs in an effect so URL updates from the
- * filter hook and pagination hook do not race in the same event handler.
+ * change, after the initial mount.
  *
  *  @param filters             - Filter state; compared via JSON serialization between runs.
- *  @param pagination          - Return value of `useDataViewPagination`.
+ *  @param setSearchParams     - React-router setSearchParams for setting page=1 in the URL.
  *  @param additionalSignature - Optional extra value merged into the serialized signature (e.g. last-seen custom range).
  */
 export const useResetPage = (
   filters: InventoryFilters,
-  pagination: DataViewPagination,
+  setSearchParams: SetURLSearchParams,
   additionalSignature?: unknown,
 ) => {
-  /* `pagination.onSetPage` is a new function each render;
-  The ref holds the latest version so we can use it in Effect. */
-  const onSetPageRef = useRef(pagination.onSetPage);
-  onSetPageRef.current = pagination.onSetPage;
+  const setSearchParamsRef = useRef(setSearchParams);
+  setSearchParamsRef.current = setSearchParams;
 
   const filtersSignature = useMemo(
     () => JSON.stringify({ filters, additionalSignature }),
@@ -35,6 +30,11 @@ export const useResetPage = (
       isInitialRun.current = false;
       return;
     }
-    onSetPageRef.current(undefined, INITIAL_PAGE);
+
+    // The filter hook's navigate() already ran (synchronous
+    // history.pushState), so window.location.search is up-to-date.
+    const correctParams = new URLSearchParams(window.location.search);
+    correctParams.set('page', String(INITIAL_PAGE));
+    setSearchParamsRef.current(correctParams, { replace: true });
   }, [filtersSignature]);
 };

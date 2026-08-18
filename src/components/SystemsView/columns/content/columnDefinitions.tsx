@@ -3,16 +3,17 @@ import React from 'react';
 import InstallableAdvisories from './cells/InstallableAdvisories';
 import Template from './cells/Template';
 import { InventoryViewSystem } from '../../../InventoryViews/hooks/useInventoryViewsQuery';
+import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 
 const APP_NAME = 'content' as const;
 
 const installableAdvisoriesColumn = {
   appName: APP_NAME,
   title: 'Installable advisories',
-  key: 'installable-advisories',
+  key: ApiHostViewsGetHostViewsOrderByEnum.PatchadvisoriesRhsaInstallable,
   isShownByDefault: true,
   isShown: true,
-  sortBy: 'patch:advisories_rhsa_installable',
+  sortBy: ApiHostViewsGetHostViewsOrderByEnum.PatchadvisoriesRhsaInstallable,
   renderCell(system: InventoryViewSystem) {
     return (
       <InstallableAdvisories
@@ -26,9 +27,10 @@ const installableAdvisoriesColumn = {
 const templateColumn = {
   appName: APP_NAME,
   title: 'Template',
-  key: 'template_name',
+  key: ApiHostViewsGetHostViewsOrderByEnum.PatchtemplateName,
   isShownByDefault: true,
   isShown: true,
+  sortBy: ApiHostViewsGetHostViewsOrderByEnum.PatchtemplateName,
   renderCell(system: InventoryViewSystem) {
     return <Template appData={system?.app_data?.patch} />;
   },

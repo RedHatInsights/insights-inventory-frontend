@@ -9,7 +9,7 @@ const APP_NAME = 'advisor' as const;
 const recommendationsColumn = {
   appName: APP_NAME,
   title: 'Recommendations',
-  key: 'recommendations',
+  key: ApiHostViewsGetHostViewsOrderByEnum.Advisorrecommendations,
   minWidth: '10rem',
   isShownByDefault: true,
   isShown: true,
@@ -25,7 +25,7 @@ const recommendationsColumn = {
 const incidentsColumn = {
   appName: APP_NAME,
   title: 'Incidents',
-  key: 'incidents',
+  key: ApiHostViewsGetHostViewsOrderByEnum.Advisorincidents,
   minWidth: '7rem',
   isShownByDefault: true,
   isShown: true,
@@ -38,10 +38,11 @@ const incidentsColumn = {
 const criticalColumn = {
   appName: APP_NAME,
   title: 'Critical',
-  key: 'critical',
+  key: ApiHostViewsGetHostViewsOrderByEnum.Advisorcritical,
   minWidth: '7rem',
   isShownByDefault: true,
   isShown: true,
+  sortBy: ApiHostViewsGetHostViewsOrderByEnum.Advisorcritical,
   renderCell: (system: InventoryViewSystem) => (
     <AdvisorCount appData={system?.app_data?.advisor} countField="critical" />
   ),
@@ -50,10 +51,11 @@ const criticalColumn = {
 const importantColumn = {
   appName: APP_NAME,
   title: 'Important',
-  key: 'important',
+  key: ApiHostViewsGetHostViewsOrderByEnum.Advisorimportant,
   minWidth: '7rem',
   isShownByDefault: true,
   isShown: true,
+  sortBy: ApiHostViewsGetHostViewsOrderByEnum.Advisorimportant,
   renderCell: (system: InventoryViewSystem) => (
     <AdvisorCount appData={system?.app_data?.advisor} countField="important" />
   ),
@@ -62,10 +64,11 @@ const importantColumn = {
 const moderateColumn = {
   appName: APP_NAME,
   title: 'Moderate',
-  key: 'moderate',
+  key: ApiHostViewsGetHostViewsOrderByEnum.Advisormoderate,
   minWidth: '7rem',
   isShownByDefault: true,
   isShown: true,
+  sortBy: ApiHostViewsGetHostViewsOrderByEnum.Advisormoderate,
   renderCell: (system: InventoryViewSystem) => (
     <AdvisorCount appData={system?.app_data?.advisor} countField="moderate" />
   ),
@@ -74,10 +77,11 @@ const moderateColumn = {
 const lowColumn = {
   appName: APP_NAME,
   title: 'Low',
-  key: 'low',
+  key: ApiHostViewsGetHostViewsOrderByEnum.Advisorlow,
   minWidth: '6rem',
   isShownByDefault: true,
   isShown: true,
+  sortBy: ApiHostViewsGetHostViewsOrderByEnum.Advisorlow,
   renderCell: (system: InventoryViewSystem) => (
     <AdvisorCount appData={system?.app_data?.advisor} countField="low" />
   ),

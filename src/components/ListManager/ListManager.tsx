@@ -22,6 +22,7 @@ import {
   ActionListGroup,
   Flex,
   FlexItem,
+  Tooltip,
 } from '@patternfly/react-core';
 import {
   DragDropSort,
@@ -32,6 +33,11 @@ import {
   BulkSelect,
   type BulkSelectValue,
 } from '@patternfly/react-component-groups';
+import { LockIcon } from '@patternfly/react-icons';
+import {
+  DISABLED_TEXT_COLOR,
+  noServicePermissionTooltip,
+} from '../../constants';
 
 export interface ListManagerItem {
   /** Internal identifier of a column by which table displayed columns are filtered. */
@@ -46,6 +52,8 @@ export interface ListManagerItem {
   isUntoggleable?: boolean;
   /** Optional app identifier displayed alongside the column title. */
   appName?: string;
+  /** When true, the column is gated by a per-service RBAC permission the user lacks. */
+  isPermissionLocked?: boolean;
 }
 
 export interface ListManagerProps {
@@ -166,23 +174,44 @@ const ListManager: FunctionComponent<ListManagerProps> = ({
   const renderColumnLabel = (
     column: ListManagerItem & { id: string },
     index: number,
-  ) => (
-    <Flex
-      justifyContent={{ default: 'justifyContentSpaceBetween' }}
-      fullWidth={{ default: 'fullWidth' }}
-    >
-      <FlexItem>
-        <label htmlFor={`${ouiaId}-column-${index}-checkbox`}>
-          {column.title}
-        </label>
-      </FlexItem>
-      {column.appName && (
-        <FlexItem className="pf-v6-u-text-color-subtle">
-          {column.appName.charAt(0).toUpperCase() + column.appName.slice(1)}
+  ) => {
+    const capitalizedApp =
+      (column.appName ?? 'service').charAt(0).toUpperCase() +
+      (column.appName ?? 'service').slice(1);
+    const permissionLabel = column.isPermissionLocked
+      ? noServicePermissionTooltip(capitalizedApp)
+      : undefined;
+
+    return (
+      <Flex
+        justifyContent={{ default: 'justifyContentSpaceBetween' }}
+        fullWidth={{ default: 'fullWidth' }}
+      >
+        <FlexItem>
+          <label htmlFor={`${ouiaId}-column-${index}-checkbox`}>
+            {column.title}
+          </label>
+          {permissionLabel && (
+            <Tooltip content={permissionLabel} position="top">
+              <span
+                aria-label={permissionLabel}
+                style={{
+                  marginInlineStart: 'var(--pf-t--global--spacer--sm)',
+                }}
+              >
+                <LockIcon style={{ color: DISABLED_TEXT_COLOR }} />
+              </span>
+            </Tooltip>
+          )}
         </FlexItem>
-      )}
-    </Flex>
-  );
+        {column.appName && (
+          <FlexItem className="pf-v6-u-text-color-subtle">
+            {capitalizedApp}
+          </FlexItem>
+        )}
+      </Flex>
+    );
+  };
 
   const renderColumnCells = (
     column: ListManagerItem & { id: string },

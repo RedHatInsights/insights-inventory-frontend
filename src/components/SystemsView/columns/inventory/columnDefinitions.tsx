@@ -21,7 +21,7 @@ const APP_NAME = 'inventory' as const;
 const nameColumn = {
   appName: APP_NAME,
   title: 'Name',
-  key: 'name',
+  key: ApiOrderByEnum.DisplayName,
   minWidth: DEFAULT_NAME_COLUMN_MIN_WIDTH,
   isShownByDefault: true,
   isShown: true,
@@ -41,7 +41,7 @@ const nameColumn = {
 const workspaceColumn = {
   appName: APP_NAME,
   title: 'Workspace',
-  key: 'workspace',
+  key: ApiOrderByEnum.GroupName,
   minWidth: '10rem',
   isShownByDefault: true,
   isShown: true,
@@ -66,7 +66,7 @@ const tagsColumn = {
 const operatingSystemColumn = {
   appName: APP_NAME,
   title: 'OS',
-  key: 'os',
+  key: ApiOrderByEnum.OperatingSystem,
   minWidth: '11rem',
   isShownByDefault: true,
   isShown: true,
@@ -79,7 +79,7 @@ const operatingSystemColumn = {
 const lastSeenColumn = {
   appName: APP_NAME,
   title: <LastSeenColumnHeader />,
-  key: 'last_seen',
+  key: ApiOrderByEnum.LastCheckIn,
   minWidth: '9rem',
   isShownByDefault: true,
   isShown: true,
