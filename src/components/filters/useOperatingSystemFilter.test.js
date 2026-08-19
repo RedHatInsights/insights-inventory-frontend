@@ -44,6 +44,14 @@ describe('useOperatingSystemFilter', () => {
       expect(config.filterValues.groups.length).toBe(5);
       expect(config.label).toBe('Operating system'); // should be all caps
       expect(config.type).toBe('group');
+      expect(
+        config.filterValues.groups.find((g) => g.value === 'RHEL-8'),
+      ).toEqual(
+        expect.objectContaining({
+          label: 'RHEL 8',
+          value: 'RHEL-8',
+        }),
+      );
     });
 
     it('should return correct chips array, current value and value setter', () => {

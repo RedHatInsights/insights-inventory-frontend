@@ -44,7 +44,7 @@ export const containsSpecialChars = (str) => {
 
 const filterGroup = (groupName, groupKey) => ({
   groupSelectable: true,
-  label: groupKey,
+  label: groupName,
   value: groupKey,
   type: 'checkbox',
   items: [],
