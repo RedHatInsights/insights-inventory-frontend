@@ -24,6 +24,9 @@ export interface ViewsToolbarProps {
   onSaveAs: () => void;
   onRename: () => void;
   onDelete: () => void;
+  onFetchNextViewsPage?: () => Promise<unknown>;
+  hasNextViewsPage?: boolean;
+  isFetchingNextViewsPage?: boolean;
 }
 
 export const ViewsToolbar = ({
@@ -36,6 +39,9 @@ export const ViewsToolbar = ({
   onSaveAs,
   onRename,
   onDelete,
+  onFetchNextViewsPage,
+  hasNextViewsPage,
+  isFetchingNextViewsPage,
 }: ViewsToolbarProps) => {
   return (
     <PageSection
@@ -63,6 +69,9 @@ export const ViewsToolbar = ({
               views={viewsList}
               activeViewId={activeViewId}
               onSelectView={onSelectView}
+              onFetchNextPage={onFetchNextViewsPage}
+              hasNextPage={hasNextViewsPage}
+              isFetchingNextPage={isFetchingNextViewsPage}
             />
           </ToolbarItem>
           <ToolbarItem>
