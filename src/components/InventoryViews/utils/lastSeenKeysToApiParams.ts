@@ -1,5 +1,5 @@
 import type { ApiHostGetHostListParams } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
-import type { LastSeenCustomRange } from '../../SystemsView/DataViewFiltersContext';
+import type { LastSeenCustomRange } from '../../SystemsView/types';
 import {
   resolveLastSeenBounds,
   type LastSeenKey,

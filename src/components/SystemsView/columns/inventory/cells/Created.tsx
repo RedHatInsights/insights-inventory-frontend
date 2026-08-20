@@ -1,7 +1,7 @@
 import React from 'react';
 import { DateFormat } from '@redhat-cloud-services/frontend-components/DateFormat';
 import CellValue from '../../CellValue';
-import { System } from '../../../../InventoryViews/hooks/useHostsQuery';
+import { System } from '../../../../InventoryViews/hostsQueryOptions';
 
 interface CreatedProps {
   value: System['created'];

@@ -1,6 +1,6 @@
 import React from 'react';
 import CellValue from '../../CellValue';
-import { System } from '../../../../InventoryViews/hooks/useHostsQuery';
+import { System } from '../../../../InventoryViews/hostsQueryOptions';
 
 interface WorkspaceProps {
   value: System['groups'] | undefined;

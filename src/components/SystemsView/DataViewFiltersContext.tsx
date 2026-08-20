@@ -12,11 +12,9 @@ import { normalizeLastSeenFilterValue } from './constants';
 import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 import { GENERAL_GROUPS_READ_PERMISSION } from '../../constants';
 import { useUngroupedWorkspaceId } from '../../hooks/useUngroupedWorkspaceId';
+import type { LastSeenCustomRange } from './types';
 
-export type LastSeenCustomRange = {
-  start?: string;
-  end?: string;
-} | null;
+export type { LastSeenCustomRange } from './types';
 
 export const INITIAL_INVENTORY_FILTERS: InventoryFilters = {
   hostname_or_id: '',

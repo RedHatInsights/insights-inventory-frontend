@@ -5,7 +5,7 @@ import {
   ExclamationTriangleIcon,
 } from '@patternfly/react-icons';
 import CellValue from '../../CellValue';
-import { System } from '../../../../InventoryViews/hooks/useHostsQuery';
+import { System } from '../../../../InventoryViews/hostsQueryOptions';
 
 export type HostStalenessStatus = 'Fresh' | 'Stale' | 'Stale warning';
 

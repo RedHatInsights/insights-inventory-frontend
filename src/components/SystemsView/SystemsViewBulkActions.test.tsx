@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { expect, jest } from '@jest/globals';
 import { SystemActionModalsContext } from './SystemActionModalsContext';
-import type { System } from '../InventoryViews/hooks/useHostsQuery';
+import type { System } from '../InventoryViews/hostsQueryOptions';
 import {
   createSystem,
   mockOpenAddToWorkspaceModal,

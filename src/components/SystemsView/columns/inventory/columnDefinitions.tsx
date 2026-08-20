@@ -11,10 +11,10 @@ import Vendor from './cells/Vendor';
 import Infrastructure from './cells/Infrastructure';
 import Created from './cells/Created';
 import { LastSeenColumnHeader } from '../../../../Utilities/LastSeenColumnHeader';
-import { System } from '../../../InventoryViews/hooks/useHostsQuery';
+import { System } from '../../../InventoryViews/hostsQueryOptions';
 import type { Column } from '../allColumnDefinitions';
 import { DEFAULT_NAME_COLUMN_MIN_WIDTH } from '../../utils/columnMinWidths';
-import { InventoryViewSystem } from '../../../InventoryViews/hooks/useInventoryViewsQuery';
+import { InventoryViewSystem } from '../../../InventoryViews/inventoryViewsQueryOptions';
 
 const APP_NAME = 'inventory' as const;
 

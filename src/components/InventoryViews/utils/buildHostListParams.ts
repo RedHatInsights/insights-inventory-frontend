@@ -4,7 +4,7 @@ import {
   ApiHostGetHostListOrderByEnum,
 } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
-import type { LastSeenCustomRange } from '../../SystemsView/DataViewFiltersContext';
+import type { LastSeenCustomRange } from '../../SystemsView/types';
 import type { SortDirection } from '../../SystemsView/SystemsView';
 import { buildSystemProfileFilters } from './buildSystemProfileFilters';
 import { buildHostQueryOptions } from './buildHostListOptions';
