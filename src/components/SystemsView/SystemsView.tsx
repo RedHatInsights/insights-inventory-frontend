@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import {
   DataView,
   useDataViewPagination,
@@ -216,6 +216,10 @@ const SystemsViewInner = ({
     },
     [setColumns, onColumnsChange],
   );
+
+  useEffect(() => {
+    onColumnsChange?.(columns);
+  }, [columns, onColumnsChange]);
 
   const { hostsWithPermissions } = useHostIdsWithKessel(data);
 

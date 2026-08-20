@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import SystemsView from '../SystemsView/SystemsView';
 import type { SortDirection } from '../SystemsView/SystemsView';
@@ -20,13 +20,19 @@ import {
   type ViewConfiguration,
 } from '../../api/inventoryViewsApi';
 import { createViewColumnSelector } from './createViewColumnSelector';
+import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
 import { SORT_URL_PARAM, SORT_DIR_URL_PARAM } from '../SystemsView/constants';
 import { INITIAL_SORT } from '../SystemsView/hooks/useColumns';
+import type { InventoryFilters } from '../SystemsView/filters/SystemsViewFilters';
 import type { Column } from '../SystemsView/columns/allColumnDefinitions';
 import {
   buildViewConfigFilters,
   parseViewConfigFilters,
 } from './utils/viewConfigFilters';
+import {
+  useViewDirtyState,
+  FILTER_PARAM_KEYS,
+} from './hooks/useViewDirtyState';
 
 const filtersToSearchParams = (
   filters?: Partial<Record<string, string | string[]>>,
@@ -96,24 +102,33 @@ const InventoryViews = () => {
   const isInventoryViewsPrivateEnabled = useInventoryViewsPrivateFeatureFlag();
   const { data: viewsData } = useViewsQuery();
   const viewsList = viewsData?.results ?? [];
-  const activeView = useMemo(
-    () => viewsList.find((v) => v.id === activeViewId),
-    [viewsList, activeViewId],
-  );
+  const activeView = viewsList.find((v) => v.id === activeViewId);
+  const isSystemView = activeView?.is_system_view ?? true;
+  const viewsLoaded = !!viewsData;
 
-  const viewConfiguration =
-    activeView?.configuration ?? ALL_SYSTEMS_CONFIGURATION;
-
-  const [currentColumns, setCurrentColumns] =
-    useState<ViewConfiguration['columns']>();
+  const baselineColumnsRef = useRef<readonly Column[]>();
+  const [currentColumns, setCurrentColumns] = useState<readonly Column[]>();
 
   const handleColumnsChange = useCallback((columns: readonly Column[]) => {
-    setCurrentColumns(normalizeViewColumns(columns));
+    if (!baselineColumnsRef.current) {
+      baselineColumnsRef.current = columns;
+    }
+    setCurrentColumns(columns);
   }, []);
 
+  // Synchronous render-time reset: useEffect would fire after child effects,
+  // causing onColumnsChange to run before the baseline clears.
+  const prevViewKeyRef = useRef(`${activeViewId}-${viewsLoaded}`);
+  const viewKey = `${activeViewId}-${viewsLoaded}`;
+  if (viewKey !== prevViewKeyRef.current) {
+    prevViewKeyRef.current = viewKey;
+    baselineColumnsRef.current = undefined;
+  }
+
   const columnSelector = useMemo(
-    () => createViewColumnSelector(viewConfiguration)!,
-    [viewConfiguration],
+    () => createViewColumnSelector(activeView?.configuration),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- recompute when view switches or views data loads
+    [activeViewId, viewsLoaded],
   );
 
   const initialSort = useMemo(() => {
@@ -123,12 +138,24 @@ const InventoryViews = () => {
       sortBy: sort.key,
       direction: (sort.direction ?? 'asc') as SortDirection,
     };
-  }, [activeView?.configuration?.sort]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- derive from view config on switch or data load
+  }, [activeViewId, viewsLoaded]);
 
-  const initialFilters = useMemo(
-    () => parseViewConfigFilters(activeView?.configuration?.filters),
-    [activeView?.configuration?.filters],
-  );
+  const initialFilters = useMemo(() => {
+    const filters = activeView?.configuration?.filters;
+    if (!filters || Object.keys(filters).length === 0) return undefined;
+    return filters as unknown as Partial<InventoryFilters>;
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- derive from view config on switch or data load
+  }, [activeViewId, viewsLoaded]);
+
+  const isViewDirty = useViewDirtyState({
+    activeViewId,
+    savedConfiguration: activeView?.configuration,
+    searchParams,
+    initialFilters,
+    baselineColumns: baselineColumnsRef.current,
+    currentColumns,
+  });
 
   const handleSelectView = useCallback(
     (viewId: string) => {
@@ -173,7 +200,9 @@ const InventoryViews = () => {
   const getCurrentConfiguration = (): ViewConfiguration => {
     const sort = getSortFromSearchParams(searchParams);
     const filters = getFiltersFromSearchParams(searchParams);
-    const columns = currentColumns ?? activeView?.configuration?.columns ?? [];
+    const columns = currentColumns
+      ? normalizeViewColumns(currentColumns)
+      : activeView?.configuration?.columns ?? [];
 
     return {
       columns,
@@ -193,7 +222,8 @@ const InventoryViews = () => {
           <ViewsToolbar
             viewsList={viewsList}
             activeViewId={activeViewId}
-            isSystemView={activeView?.is_system_view ?? true}
+            isSystemView={isSystemView}
+            isViewDirty={isViewDirty}
             onSelectView={handleSelectView}
             onSaveAs={handleSaveAs}
             onRename={handleRename}
@@ -228,8 +258,8 @@ const InventoryViews = () => {
         </>
       )}
       <SystemsView
-        key={activeViewId}
-        columns={columnSelector}
+        key={`${activeViewId}-${viewsLoaded}`}
+        columns={columnSelector ?? selectLegacyInventoryColumns}
         initialSort={initialSort}
         initialFilters={initialFilters}
         onColumnsChange={handleColumnsChange}

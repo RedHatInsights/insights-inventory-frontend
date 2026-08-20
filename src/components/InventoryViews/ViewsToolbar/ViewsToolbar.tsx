@@ -19,6 +19,7 @@ export interface ViewsToolbarProps {
   activeViewId: string;
   currentViewId?: string | null;
   isSystemView?: boolean;
+  isViewDirty?: boolean;
   viewsList?: ViewOut[];
   onSelectView: (viewId: string) => void;
   onSaveAs: () => void;
@@ -31,6 +32,7 @@ export const ViewsToolbar = ({
   activeViewId,
   currentViewId,
   isSystemView = true,
+  isViewDirty = false,
   viewsList = [],
   onSelectView,
   onSaveAs,
@@ -69,6 +71,7 @@ export const ViewsToolbar = ({
             <ManageViewButton
               currentViewId={currentViewId}
               isSystemView={isSystemView}
+              isViewDirty={isViewDirty}
               onSaveAs={onSaveAs}
               onRename={onRename}
               onDelete={onDelete}
