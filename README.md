@@ -13,9 +13,9 @@ It is based on the [insights-frontend-starter-app](git@github.com:RedHatInsights
 - [Testing](#testing)
   - [Unit testing](#unit-testing)
   - [E2E testing: Playwright](#e2e-testing-playwright)
-    - [First time setup](#first-time-setup)
-    - [Running Playwright tests](#running-playwright-tests)
-  - [Integration Testing: Federated Modules](#integration-testing-federated-modules)
+    - [Local Setup](#local-setup)
+    - [Running Tests](#running-tests)
+    - [CI Workflows](#ci-workflows)
 - [Commit conventions](#commit-conventions)
 - [Testing federated modules with another application](#testing-federated-modules-with-another-application)
 - [Mocking Inventory API](#mocking-inventory-api)
@@ -47,74 +47,82 @@ It is based on the [insights-frontend-starter-app](git@github.com:RedHatInsights
 
 ## Testing
 
-Before running functional tests, ensure your code is type-safe. You can run `npm run type-check` to verify this.
-
 ### Unit testing
 
-We use Jest with React Testing Library to write unit tests. For larger pieces of code or components, we utilize Cypress. For testing commands shortcuts (like `npm run test`, `npm run test:ct`, etc.), take a look at the package.json file which lists available scripts.
+- **Jest + React Testing Library** for unit tests
+- **Cypress** for component tests
+- Run `npm run verify:local` before opening a PR (runs tests + linters)
+- [Husky](https://typicode.github.io/husky/) hooks run lint checks on every commit
 
-Before opening a pull request, you can run `npm run verify:local` to make sure your changes pass automated tests (Jest and Cypress) and linter (both JS and CSS linters). We also execute [husky](https://typicode.github.io/husky/) hooks with every commit to make sure the changes pass basic lint checks.
+See `package.json` for all available test scripts (`npm run test`, `npm run test:ct`, etc.).
 
 ### E2E testing: Playwright
 
-The E2E tests are located in the [_playwright-tests/](_playwright-tests/) directory. `playwright.config.js` is playwright configuration file - it serves as the "brain" for an automated testing suite, defining how, where, and with what settings your browser tests should run. All the helpers live in the [helpers](playwright/helpers/) directory.
+E2E tests live in [_playwright-tests/](_playwright-tests/). See the [Playwright README](_playwright-tests/README.md) for detailed test configuration (tags, predefined workspaces, RBAC tests).
 
-#### First time setup
+#### Local Setup
 
-1. Copy the example env file (`playwright_example.env`) and create a file named `.env`. For local development only the `BASE_URL` - `https://stage.foo.redhat.com:1337` is required, which is already set in the example config.
-You also need to set the following variables in the `.env` file:
-   - `PLAYWRIGHT_USER` and `PLAYWRIGHT_PASSWORD` — Stage testing account credentials (used for browser login).
-   - `STAGE_OFFLINE_TOKEN` — A shared offline token for the `qe-ui-inventory` stage account, used to authenticate archive uploads to the Ingress API.
-   - `PROXY` — Corporate proxy (e.g., `squid.corp.redhat.com:3128`) if running directly against stage.
+1. Create `.env` from `playwright_example.env`:
+   ```
+   PLAYWRIGHT_USER=<stage-credentials>
+   PLAYWRIGHT_PASSWORD=<stage-credentials>
+   STAGE_OFFLINE_TOKEN=<qe-ui-inventory-token>
+   PROXY=squid.corp.redhat.com:3128  # if running against stage directly
+   BASE_URL=https://stage.foo.redhat.com:1337
+   ```
 
 2. Install the test runner:
-```bash
-npm install --save-dev @playwright/test
-```
+   ```bash
+   npm install --save-dev @playwright/test
+   ```
 
 3. Install Playwright browsers and dependencies:
-```bash
-npx playwright install
-```
+   ```bash
+   npx playwright install
+   ```
+   If using any OS other than Fedora/RHEL (i.e., Mac, Ubuntu Linux):
+   ```bash
+   npx playwright install --with-deps
+   ```
 
-OR
-
-If using any OS other than Fedora/RHEL (i.e., Mac, Ubuntu Linux):
-```bash
-npx playwright install  --with-deps
-```
-
-#### Running Playwright tests
-
-1. Start the local development stage server by running: `npm run start:stage`
-
-
-2. Use the following commands to execute the Playwright test suite: 
-* `npx playwright test` - run the complete playwright test suite
-* `npx playwright test --headed` -  run the complete suite in a vnc-like browser so you can watch its interactions
-* `npx playwright test test_navigation.test.ts` - run a specific test file
-* `npx playwright test -g "Test name"` - run a specific test by its name
-* `npx playwright test --grep-invert @integration` - run tests except integration tests
-* `npx playwright test --grep @rbac` - run only E2E RBAC tests
-* `SYSTEMS_VIEW=true npx playwright test` - run the complete playwright test suite with enabled `SystemsView` and `Kessel` components
-* `INVENTORY_VIEWS=true npx playwright test` - run the complete playwright test suite with enabled `Inventory Views` components
-
-For more examples on how to run and debug tests, visit the [official Playwright documentation](https://playwright.dev/docs/running-tests).
-
-#### Parallel vs serial tests
-
-Tests run in parallel by default with 4 workers in CI. For tests that modify shared state, use serial mode `test.describe.configure({ mode: 'serial' });`.
-Local testing:
+#### Running Tests
 
 ```bash
-# Run with 2 workers locally
-npx playwright test --workers=2
+# Start dev server first
+npm run start:stage
+
+# Run tests
+npx playwright test                              # all tests
+npx playwright test --headed                     # watch in browser
+npx playwright test test_navigation.test.ts     # specific file
+npx playwright test --grep @rbac                 # by tag
+npx playwright test --grep-invert @integration   # exclude tag
+
+# With feature flags
+SYSTEMS_VIEW=true npx playwright test
+INVENTORY_VIEWS=true npx playwright test
 ```
 
-### Integration Testing: Federated Modules
+#### CI Workflows
 
-Integration tests ensure our federated modules work correctly within Lightspeed applications at runtime. Run these whenever you modify components shared across services to prevent breaking downstream consumers:
-`npx playwright test --grep @integration`
+Every PR runs **3 E2E workflows in parallel**:
+
+| Workflow | Feature Flag | What it tests |
+|----------|--------------|---------------|
+| **Full Test Suite** | `SYSTEMS_VIEW=true` | Stage-stable (default user experience) |
+| **InventoryViews Tests** | `INVENTORY_VIEWS=true` | Stage-preview with InventoryViews feature |
+| **Legacy Table Tests** | `LEGACY_INVENTORY_TABLE=true` | Legacy `InventoryTable` federated module |
+
+**Why 3 workflows?**
+1. **Full Test Suite** — Default experience with `SystemsView`
+2. **InventoryViews Tests** — Preview environment with upcoming `InventoryViews` feature
+3. **Legacy Table Tests** — `InventoryTable` is consumed by ~10 downstream apps (Advisor, Patch, Vulnerability, etc.) and must remain functional
+
+Additional workflows:
+- **Stage: Daily Frontend Suite** — Daily at 04:00 UTC, catches backend regressions
+- **Prod Post-Release Sanity** — Manual trigger after releases
+
+Both notify the `#hbi-frontend` Slack on failure.
 
 ## Commit conventions
 
