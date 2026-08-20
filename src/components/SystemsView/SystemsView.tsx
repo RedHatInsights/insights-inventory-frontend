@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
   DataView,
   useDataViewPagination,
@@ -90,6 +90,7 @@ export type SystemsViewProps = {
   defaultFilters?: Partial<InventoryFilters>;
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   initialFilters?: Partial<InventoryFilters>;
+  onColumnsChange?: (columns: readonly Column[]) => void;
 };
 
 interface SystemsViewInnerProps {
@@ -99,6 +100,7 @@ interface SystemsViewInnerProps {
   onInvalidate: OnInvalidate;
   resolvedDefaultColumns: readonly Column[];
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
+  onColumnsChange?: (columns: readonly Column[]) => void;
 }
 
 const SystemsViewInner = ({
@@ -108,6 +110,7 @@ const SystemsViewInner = ({
   onInvalidate,
   resolvedDefaultColumns,
   initialSort,
+  onColumnsChange,
 }: SystemsViewInnerProps) => {
   const { filters, clearAllFilters, hasDefaultFilters, lastSeenCustomRange } =
     useDataViewFiltersContext();
@@ -201,6 +204,19 @@ const SystemsViewInner = ({
       deniedServices: deniedServices ?? [],
     });
 
+  // Wrapper to call both setColumns and onColumnsChange when user applies columns in modal.
+  // Note: ColumnManagementModal always calls this with direct column array, never with updater function.
+  const handleApplyColumns = useCallback(
+    (newColumns: React.SetStateAction<readonly Column[]>) => {
+      setColumns(newColumns);
+      // Only notify parent when columns are directly provided (modal always does this)
+      if (typeof newColumns !== 'function') {
+        onColumnsChange?.(newColumns);
+      }
+    },
+    [setColumns, onColumnsChange],
+  );
+
   const { hostsWithPermissions } = useHostIdsWithKessel(data);
 
   const rows = mapSystemsToRows({
@@ -265,7 +281,7 @@ const SystemsViewInner = ({
       <ColumnManagementModalProvider
         columns={columns}
         defaultColumns={annotatedDefaults}
-        setColumns={setColumns}
+        setColumns={handleApplyColumns}
       >
         <DataView selection={selection} activeState={activeState}>
           <PageSection hasBodyWrapper={false}>
@@ -333,6 +349,7 @@ export const SystemsView = ({
   defaultFilters,
   initialSort,
   initialFilters,
+  onColumnsChange,
 }: SystemsViewProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const resolvedDefaultColumns = useMemo(
@@ -354,6 +371,7 @@ export const SystemsView = ({
         onInvalidate={onInvalidate}
         resolvedDefaultColumns={resolvedDefaultColumns}
         initialSort={initialSort}
+        onColumnsChange={onColumnsChange}
       />
     </DataViewFiltersProvider>
   );

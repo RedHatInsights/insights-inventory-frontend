@@ -20,7 +20,13 @@ import {
   type ViewConfiguration,
 } from '../../api/inventoryViewsApi';
 import { createViewColumnSelector } from './createViewColumnSelector';
-import { parseViewConfigFilters } from './utils/viewConfigFilters';
+import { SORT_URL_PARAM, SORT_DIR_URL_PARAM } from '../SystemsView/constants';
+import { INITIAL_SORT } from '../SystemsView/hooks/useColumns';
+import type { Column } from '../SystemsView/columns/allColumnDefinitions';
+import {
+  buildViewConfigFilters,
+  parseViewConfigFilters,
+} from './utils/viewConfigFilters';
 
 const filtersToSearchParams = (
   filters?: Partial<Record<string, string | string[]>>,
@@ -38,6 +44,46 @@ const filtersToSearchParams = (
   }
   return params;
 };
+
+const getSortFromSearchParams = (
+  searchParams: URLSearchParams,
+): ViewConfiguration['sort'] => {
+  const key =
+    searchParams.get(SORT_URL_PARAM) ?? INITIAL_SORT.sortBy ?? 'last_check_in';
+
+  const direction =
+    (searchParams.get(SORT_DIR_URL_PARAM) as 'asc' | 'desc') ??
+    INITIAL_SORT.direction;
+
+  return { key, direction };
+};
+
+const getFiltersFromSearchParams = (
+  searchParams: URLSearchParams,
+): ViewConfiguration['filters'] | undefined => {
+  return buildViewConfigFilters({
+    operating_system: searchParams.getAll('operating_system'),
+    workloads: searchParams.getAll('workloads'),
+    rhcStatus: searchParams.getAll('rhcStatus'),
+    system_type: searchParams.getAll('system_type'),
+  });
+};
+
+// TODO: Once backend accepts 'tags' column in view configuration API,
+// update this function to not filter out columns without sortBy.
+// Current issue: Tags column has no sortBy field and gets filtered out,
+// so it cannot be saved to custom views. Backend currently rejects 'tags'
+// as invalid column key (see validation error listing valid keys).
+// Future fix: Change filter to use c.key instead of c.sortBy
+const normalizeViewColumns = (
+  columns: readonly Column[],
+): ViewConfiguration['columns'] =>
+  columns
+    .filter(
+      (c): c is Column & { sortBy: string } =>
+        c.isShown === true && typeof c.sortBy === 'string',
+    )
+    .map((c) => ({ key: c.sortBy }));
 
 const InventoryViews = () => {
   const { isReady, defaultFilters } = useAnsibleWorkloadDefault();
@@ -65,6 +111,13 @@ const InventoryViews = () => {
 
   const viewConfiguration =
     activeView?.configuration ?? ALL_SYSTEMS_CONFIGURATION;
+
+  const [currentColumns, setCurrentColumns] =
+    useState<ViewConfiguration['columns']>();
+
+  const handleColumnsChange = useCallback((columns: readonly Column[]) => {
+    setCurrentColumns(normalizeViewColumns(columns));
+  }, []);
 
   const columnSelector = useMemo(
     () => createViewColumnSelector(viewConfiguration)!,
@@ -125,12 +178,15 @@ const InventoryViews = () => {
     }
   };
 
-  // TODO: Replace with actual table state when available
   const getCurrentConfiguration = (): ViewConfiguration => {
+    const sort = getSortFromSearchParams(searchParams);
+    const filters = getFiltersFromSearchParams(searchParams);
+    const columns = currentColumns ?? activeView?.configuration?.columns ?? [];
+
     return {
-      columns: [],
-      sort: { key: 'display_name', direction: 'asc' },
-      filters: {},
+      columns,
+      sort,
+      ...(filters && { filters }),
     };
   };
 
@@ -187,6 +243,7 @@ const InventoryViews = () => {
         columns={columnSelector}
         initialSort={initialSort}
         initialFilters={initialFilters}
+        onColumnsChange={handleColumnsChange}
         useDataQuery={useInventoryViewsQuery}
         defaultFilters={defaultFilters}
         onInvalidate={() =>

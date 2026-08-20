@@ -44,6 +44,14 @@ describe('useOperatingSystemFilter', () => {
       expect(config.filterValues.groups.length).toBe(5);
       expect(config.label).toBe('Operating system'); // should be all caps
       expect(config.type).toBe('group');
+      expect(
+        config.filterValues.groups.find((g) => g.value === 'RHEL-8'),
+      ).toEqual(
+        expect.objectContaining({
+          label: 'RHEL 8',
+          value: 'RHEL-8',
+        }),
+      );
     });
 
     it('should return correct chips array, current value and value setter', () => {
@@ -69,6 +77,121 @@ describe('useOperatingSystemFilter', () => {
         },
       });
       expect(chipsUpdated).toMatchSnapshot();
+    });
+  });
+
+  describe('major version selection', () => {
+    it('should select all minor versions when clicking a major version', () => {
+      const { result } = renderHook(() =>
+        useOperatingSystemFilter(undefined, [], true, true),
+      );
+      const [config] = result.current;
+      const groups = config.filterValues.groups;
+      const rhel8Group = groups.find((g) => g.value === 'RHEL-8');
+
+      act(() => {
+        config.filterValues.onChange(
+          {},
+          {},
+          undefined,
+          undefined,
+          'RHEL-8',
+          'RHEL-8',
+        );
+      });
+
+      const [, , value] = result.current;
+      expect(value['RHEL-8']).toBeDefined();
+      expect(value['RHEL-8']['RHEL-8']).toBe(true);
+      rhel8Group.items.forEach(({ value: itemVal }) => {
+        expect(value['RHEL-8'][itemVal]).toBe(true);
+      });
+    });
+
+    it('should deselect entire group when clicking an already fully-selected major version', () => {
+      const { result } = renderHook(() =>
+        useOperatingSystemFilter(undefined, [], true, true),
+      );
+
+      act(() => {
+        result.current[0].filterValues.onChange(
+          {},
+          {},
+          undefined,
+          undefined,
+          'RHEL-8',
+          'RHEL-8',
+        );
+      });
+
+      act(() => {
+        result.current[0].filterValues.onChange(
+          {},
+          {},
+          undefined,
+          undefined,
+          'RHEL-8',
+          'RHEL-8',
+        );
+      });
+
+      const [, , value] = result.current;
+      expect(value['RHEL-8']).toBeUndefined();
+    });
+
+    it('should delegate to setValue for minor version clicks', () => {
+      const { result } = renderHook(() =>
+        useOperatingSystemFilter(undefined, [], true, true),
+      );
+
+      act(() => {
+        result.current[0].filterValues.onChange(
+          {},
+          { 'RHEL-8': { 'RHEL-8-8.5': true } },
+          undefined,
+          undefined,
+          'RHEL-8',
+          'RHEL-8-8.5',
+        );
+      });
+
+      const [, , value] = result.current;
+      expect(value['RHEL-8']).toBeDefined();
+      expect(value['RHEL-8']['RHEL-8-8.5']).toBe(true);
+      expect(value['RHEL-8']['RHEL-8']).toEqual(null);
+    });
+
+    it('should preserve other groups when toggling a major version', () => {
+      const { result } = renderHook(() =>
+        useOperatingSystemFilter(undefined, [], true, true),
+      );
+
+      act(() => {
+        result.current[0].filterValues.onChange(
+          {},
+          { 'RHEL-7': { 'RHEL-7-7.3': true } },
+          undefined,
+          undefined,
+          'RHEL-7',
+          'RHEL-7-7.3',
+        );
+      });
+
+      act(() => {
+        result.current[0].filterValues.onChange(
+          {},
+          {},
+          undefined,
+          undefined,
+          'RHEL-8',
+          'RHEL-8',
+        );
+      });
+
+      const [, , value] = result.current;
+      expect(value['RHEL-7']).toBeDefined();
+      expect(value['RHEL-8']).toBeDefined();
+      expect(value['RHEL-8']['RHEL-8']).toBe(true);
     });
   });
 
