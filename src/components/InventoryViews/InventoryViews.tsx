@@ -24,7 +24,6 @@ import { createViewColumnSelector } from './createViewColumnSelector';
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
 import { SORT_URL_PARAM, SORT_DIR_URL_PARAM } from '../SystemsView/constants';
 import { INITIAL_SORT } from '../SystemsView/hooks/useColumns';
-import type { InventoryFilters } from '../SystemsView/filters/SystemsViewFilters';
 import type { Column } from '../SystemsView/columns/allColumnDefinitions';
 import {
   buildViewConfigFilters,
@@ -144,12 +143,11 @@ const InventoryViews = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- derive from view config on switch or data load
   }, [activeViewId, viewsLoaded]);
 
-  const initialFilters = useMemo(() => {
-    const filters = activeView?.configuration?.filters;
-    if (!filters || Object.keys(filters).length === 0) return undefined;
-    return filters as unknown as Partial<InventoryFilters>;
+  const initialFilters = useMemo(
+    () => parseViewConfigFilters(activeView?.configuration?.filters),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- derive from view config on switch or data load
-  }, [activeViewId, viewsLoaded]);
+    [activeViewId, viewsLoaded],
+  );
 
   const isViewDirty = useViewDirtyState({
     activeViewId,
