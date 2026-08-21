@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -33,6 +34,7 @@ import {
   useViewDirtyState,
   FILTER_PARAM_KEYS,
 } from './hooks/useViewDirtyState';
+import { useUpdateViewMutation } from './hooks/useUpdateViewMutation';
 
 const filtersToSearchParams = (
   filters?: Partial<Record<string, string | string[]>>,
@@ -99,6 +101,7 @@ const InventoryViews = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [activeViewId, setActiveViewId] = useState(ALL_SYSTEMS_VIEW_ID);
   const queryClient = useQueryClient();
+  const updateView = useUpdateViewMutation();
   const isInventoryViewsPrivateEnabled = useInventoryViewsPrivateFeatureFlag();
   const { data: viewsData } = useViewsQuery();
   const viewsList = viewsData?.results ?? [];
@@ -152,7 +155,6 @@ const InventoryViews = () => {
     activeViewId,
     savedConfiguration: activeView?.configuration,
     searchParams,
-    initialFilters,
     baselineColumns: baselineColumnsRef.current,
     currentColumns,
   });
@@ -169,6 +171,21 @@ const InventoryViews = () => {
 
   const handleSaveAs = () => {
     setIsViewSaveAsModalOpen(true);
+  };
+
+  const handleSave = () => {
+    if (!activeView) return;
+    updateView.mutate(
+      {
+        id: activeView.id,
+        data: { configuration: getCurrentConfiguration() },
+      },
+      {
+        onSuccess: () => {
+          baselineColumnsRef.current = currentColumns;
+        },
+      },
+    );
   };
 
   const handleSaveAsSuccess = async (viewId: string, viewName: string) => {
@@ -224,10 +241,12 @@ const InventoryViews = () => {
             activeViewId={activeViewId}
             isSystemView={isSystemView}
             isViewDirty={isViewDirty}
+            isOwner={activeView?.is_owner ?? false}
             onSelectView={handleSelectView}
             onSaveAs={handleSaveAs}
             onRename={handleRename}
             onDelete={handleDelete}
+            onSave={handleSave}
           />
           <ViewSaveAsModal
             isOpen={isViewSaveAsModalOpen}

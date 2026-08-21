@@ -20,11 +20,13 @@ export interface ViewsToolbarProps {
   currentViewId?: string | null;
   isSystemView?: boolean;
   isViewDirty?: boolean;
+  isOwner?: boolean;
   viewsList?: ViewOut[];
   onSelectView: (viewId: string) => void;
   onSaveAs: () => void;
   onRename: () => void;
   onDelete: () => void;
+  onSave?: () => void;
 }
 
 export const ViewsToolbar = ({
@@ -33,11 +35,13 @@ export const ViewsToolbar = ({
   currentViewId,
   isSystemView = true,
   isViewDirty = false,
+  isOwner = false,
   viewsList = [],
   onSelectView,
   onSaveAs,
   onRename,
   onDelete,
+  onSave,
 }: ViewsToolbarProps) => {
   return (
     <PageSection
@@ -72,9 +76,11 @@ export const ViewsToolbar = ({
               currentViewId={currentViewId}
               isSystemView={isSystemView}
               isViewDirty={isViewDirty}
+              isOwner={isOwner}
               onSaveAs={onSaveAs}
               onRename={onRename}
               onDelete={onDelete}
+              onSave={onSave}
             />
           </ToolbarItem>
         </ToolbarContent>

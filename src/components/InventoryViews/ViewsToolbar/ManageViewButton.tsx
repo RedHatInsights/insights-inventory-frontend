@@ -15,21 +15,26 @@ export interface ManageViewButtonProps {
   isSystemView?: boolean;
   /** Whether the view is dirty */
   isViewDirty?: boolean;
+  isOwner?: boolean;
   /** Callback when Save As is clicked */
   onSaveAs: () => void;
   /** Callback when Rename is clicked */
   onRename: () => void;
   /** Callback when Delete is clicked */
   onDelete: () => void;
+  /** Callback when Save is clicked */
+  onSave?: () => void;
 }
 
 export const ManageViewButton = ({
   currentViewId,
   isSystemView = true,
   isViewDirty = false,
+  isOwner = false,
   onSaveAs,
   onRename,
   onDelete,
+  onSave,
 }: ManageViewButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -41,13 +46,13 @@ export const ManageViewButton = ({
     setIsOpen(false);
   };
 
-  console.log(isViewDirty, 'isViewDirty test');
-
   // Determine the primary action based on view type and dirty state
   const primaryAction = isViewDirty
     ? isSystemView
-      ? { label: 'Save as', onClick: onSaveAs } // System view → Save as new view
-      : { label: 'Save', onClick: onSaveAs } // Custom view → Save changes (TODO: implement onSave)
+      ? null // System views (incl. All systems) have no view to overwrite
+      : isOwner
+        ? { label: 'Save', onClick: onSave } // Custom view → Save changes
+        : null
     : null;
 
   return (
@@ -97,6 +102,13 @@ export const ManageViewButton = ({
         </DropdownItem>
         <DropdownItem key="delete" onClick={onDelete} isDisabled={isSystemView}>
           Delete
+        </DropdownItem>
+        <DropdownItem
+          key="save"
+          onClick={onSave}
+          isDisabled={!isViewDirty || isSystemView || !isOwner}
+        >
+          Save
         </DropdownItem>
       </DropdownList>
     </Dropdown>
