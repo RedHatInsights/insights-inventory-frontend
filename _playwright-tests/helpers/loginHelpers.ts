@@ -172,6 +172,7 @@ export const enableInventoryViews = async (page: Page) => {
     console.log('[Test Setup] Enabling InventoryViews feature');
     localStorage.setItem('ui.systems-view', 'true');
     localStorage.setItem('ui.inventory-views', 'true');
+    localStorage.setItem('ui.inventory-views-private', 'true');
   });
 };
 

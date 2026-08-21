@@ -83,6 +83,7 @@ export const ManageViewButton = ({
             onClick={onToggle}
             isExpanded={isOpen}
             aria-label="Manage view actions"
+            data-testid="manage-view-toggle"
             splitButtonItems={[
               <MenuToggleAction
                 key="primary-action"
@@ -99,6 +100,7 @@ export const ManageViewButton = ({
             onClick={onToggle}
             isExpanded={isOpen}
             aria-label="Manage view actions"
+            data-testid="manage-view-toggle"
             splitButtonItems={[
               <MenuToggleAction key="manage-view" onClick={onToggle}>
                 Manage view
