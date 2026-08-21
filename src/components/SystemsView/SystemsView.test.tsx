@@ -21,7 +21,7 @@ const mockSystem = {
   display_name: 'Test Host',
 } as System;
 
-const successData: SystemsViewQueryData = {
+const successData: SystemsViewQueryData<System> = {
   results: [mockSystem],
   total: 1,
 };
@@ -66,7 +66,7 @@ const selectNameColumn: ColumnSelector = (allColumns) =>
   allColumns.filter((column) => column.key === 'display_name');
 
 const renderSystemsView = (
-  fetchData: SystemsViewFetchData,
+  fetchData: SystemsViewFetchData<System>,
   client = createTestQueryClient(),
 ) =>
   render(
@@ -94,7 +94,7 @@ describe('SystemsView', () => {
   });
 
   it('passes lastSeenCustomRange in fetch params', async () => {
-    const fetchData = jest.fn<SystemsViewFetchData>(() =>
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(() =>
       Promise.resolve(successData),
     );
     renderSystemsView(fetchData);
@@ -117,7 +117,7 @@ describe('SystemsView', () => {
 
   it('shows a loading state while a refetch is in flight', async () => {
     let hangNextFetch = false;
-    const fetchData = jest.fn<SystemsViewFetchData>(() =>
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(() =>
       hangNextFetch ? new Promise(() => {}) : Promise.resolve(successData),
     );
     const client = createTestQueryClient();

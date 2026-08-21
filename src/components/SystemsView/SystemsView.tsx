@@ -60,6 +60,7 @@ import type { System } from '../InventoryViews/hostsQueryOptions';
 import type {
   SortDirection,
   SystemsViewFetchParams,
+  SystemsViewItem,
   SystemsViewQueryData,
 } from './types';
 import { deriveActiveState } from './utils/deriveActiveState';
@@ -71,9 +72,9 @@ import useInventoryViewsColumnsRbacFeatureFlag from '../../Utilities/useInventor
 
 export type { SortDirection } from './types';
 export type { SystemsViewItem, SystemsViewQueryData } from './types';
-export type SystemsViewFetchData = (
+export type SystemsViewFetchData<TItem extends SystemsViewItem> = (
   params: SystemsViewFetchParams<InventoryFilters>,
-) => Promise<SystemsViewQueryData>;
+) => Promise<SystemsViewQueryData<TItem>>;
 export type OnSort = (
   _event: React.MouseEvent | React.KeyboardEvent | MouseEvent | undefined,
   newSortBy: string,
@@ -81,7 +82,7 @@ export type OnSort = (
 ) => void;
 export type Pagination = ReturnType<typeof useDataViewPagination>;
 
-export type SystemsViewProps = {
+export type SystemsViewProps<TItem extends SystemsViewItem> = {
   /**
    * Unique & stable queryKey prefix (`'hosts'`, `'inventory-views'`). SystemsView keys the
    * inner query as `[queryKeyPrefix, fetchParams]` and invalidates by this prefix after mutations.
@@ -91,7 +92,7 @@ export type SystemsViewProps = {
    * Fetches the data for table. Receives table state for pagination, sorting, and
    * filtering, and should use those values to fetch from backend.
    */
-  fetchData: SystemsViewFetchData;
+  fetchData: SystemsViewFetchData<TItem>;
   /**
    * Selects which columns are available in this view from the full catalog.
    * Stable reference for selectors required! don't define them inline in JSX.
@@ -103,17 +104,17 @@ export type SystemsViewProps = {
   onColumnsChange?: (columns: readonly Column[]) => void;
 };
 
-interface SystemsViewInnerProps {
+interface SystemsViewInnerProps<TItem extends SystemsViewItem> {
   searchParams: URLSearchParams;
   setSearchParams: SetURLSearchParams;
   queryKeyPrefix: string;
-  fetchData: SystemsViewFetchData;
+  fetchData: SystemsViewFetchData<TItem>;
   resolvedDefaultColumns: readonly Column[];
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   onColumnsChange?: (columns: readonly Column[]) => void;
 }
 
-function SystemsViewInner({
+function SystemsViewInner<TItem extends SystemsViewItem>({
   searchParams,
   setSearchParams,
   queryKeyPrefix,
@@ -121,7 +122,7 @@ function SystemsViewInner({
   resolvedDefaultColumns,
   initialSort,
   onColumnsChange,
-}: SystemsViewInnerProps) {
+}: SystemsViewInnerProps<TItem>) {
   const queryClient = useQueryClient();
   const { filters, clearAllFilters, hasDefaultFilters, lastSeenCustomRange } =
     useDataViewFiltersContext();
@@ -372,7 +373,7 @@ function SystemsViewInner({
   );
 }
 
-export function SystemsView({
+export function SystemsView<TItem extends SystemsViewItem>({
   queryKeyPrefix,
   fetchData,
   columns,
@@ -380,7 +381,7 @@ export function SystemsView({
   initialSort,
   initialFilters,
   onColumnsChange,
-}: SystemsViewProps) {
+}: SystemsViewProps<TItem>) {
   const [searchParams, setSearchParams] = useSearchParams();
   const resolvedDefaultColumns = useMemo(
     () => resolveColumnSelector(columns),
