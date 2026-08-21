@@ -35,7 +35,7 @@ describe('CellValue', () => {
       render(<CellValue type="noPermission" appName="vulnerability" />);
       expect(
         screen.getByLabelText(
-          'You do not have the necessary Vulnerability permissions to view this data. Contact your organization administrator to request Vulnerability read access.',
+          'To view this data, contact your Organization Administrator to request Vulnerability read access.',
         ),
       ).toBeInTheDocument();
     });
@@ -44,7 +44,7 @@ describe('CellValue', () => {
       render(<CellValue type="noPermission" appName="advisor" />);
       expect(
         screen.getByLabelText(
-          'You do not have the necessary Advisor permissions to view this data. Contact your organization administrator to request Advisor read access.',
+          'To view this data, contact your Organization Administrator to request Advisor read access.',
         ),
       ).toBeInTheDocument();
     });
