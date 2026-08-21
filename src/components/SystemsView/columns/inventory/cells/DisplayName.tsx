@@ -5,12 +5,14 @@ import { Flex, FlexItem, Icon, Popover } from '@patternfly/react-core';
 import { BundleIcon } from '@patternfly/react-icons';
 import FontAwesomeImageIcon from '../../../../FontAwesomeImageIcon';
 import CellValue from '../../CellValue';
-import type { System } from '../../../../InventoryViews/hooks/useHostsQuery';
+import type { System } from '../../../../InventoryViews/hostsQueryOptions';
 
 export type DisplayNameValue = Pick<
   System,
-  'id' | 'display_name' | 'system_profile'
->;
+  'display_name' | 'system_profile'
+> & {
+  id?: string;
+};
 
 const isImageBasedSystem = (value: DisplayNameValue) =>
   value.system_profile?.bootc_status?.booted?.image_digest ||

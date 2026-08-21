@@ -545,6 +545,26 @@ const EntityTableToolbar = ({
     [WORKLOAD_FILTER_KEY]: (deleted) =>
       setWorkloadFilterValue(onDeleteFilter(deleted, workloadFilterValue)),
   };
+
+  const deleteGroupMapper = {
+    [TEXTUAL_CHIP]: () => setTextFilter(''),
+    [TAG_CHIP]: () => {
+      setSelectedTags({});
+      onSetFilter([], 'tagFilters', updateData);
+    },
+    [STALE_CHIP]: () => setStaleFilter([]),
+    [REGISTERED_CHIP]: () => setRegisteredWithFilter([]),
+    [OS_CHIP]: () => setOsFilterValue([]),
+    [RHCD_FILTER_KEY]: () => setRhcdFilterValue([]),
+    [LAST_SEEN_CHIP]: () => {
+      setLastSeenFilterValue([]);
+      setStartDate();
+      setEndDate();
+    },
+    [HOST_GROUP_CHIP]: () => setHostGroupValue([]),
+    [SYSTEM_TYPE_KEY]: () => setSystemTypeValue([]),
+    [WORKLOAD_FILTER_KEY]: () => setWorkloadFilterValue([]),
+  };
   /**
    * Function to reset all filters with 'Reset Filter' is clicked
    */
@@ -604,6 +624,14 @@ const EntityTableToolbar = ({
           activeFiltersConfig.onDelete &&
           activeFiltersConfig.onDelete(e, [deleted, ...restDeleted], isAll);
       },
+      ...(activeFiltersConfig?.onDeleteGroup
+        ? {
+            onDeleteGroup: (e, deleted, groups) => {
+              deleteGroupMapper[deleted[0]?.type]?.();
+              activeFiltersConfig.onDeleteGroup(e, deleted, groups);
+            },
+          }
+        : {}),
     };
   };
 

@@ -1,4 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
+import {
+  keepPreviousData,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import {
   DataView,
   useDataViewPagination,
@@ -32,7 +37,7 @@ import {
   type SystemsViewTableRow,
 } from './utils/mapSystemsToRows';
 import './SystemsView.scss';
-import { InnerScrollContainer, ISortBy } from '@patternfly/react-table';
+import { InnerScrollContainer } from '@patternfly/react-table';
 import { ColumnManagementModalProvider } from './ColumnManagementModalContext';
 import {
   DataViewFiltersProvider,
@@ -44,21 +49,31 @@ import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
 import { PER_PAGE } from '../../constants';
 import { DEBOUNCE_TIMEOUT_MS } from '../../constants';
 import { normalizeLegacySortSearchParams } from './utils/normalizeLegacySortSearchParams';
-import { SORT_DIR_URL_PARAM, SORT_URL_PARAM } from './constants';
+import {
+  EMPTY_SERVICES,
+  SORT_DIR_URL_PARAM,
+  SORT_URL_PARAM,
+} from './constants';
 import useInventoryViewsFeatureFlag from '../../Utilities/useInventoryViewsFeatureFlag';
 import type { Column } from './columns/allColumnDefinitions';
+import type { System } from '../InventoryViews/hostsQueryOptions';
 import type {
-  System,
+  SortDirection,
   SystemsViewFetchParams,
-} from '../InventoryViews/hooks/useHostsQuery';
+  SystemsViewQueryData,
+} from './types';
 import { deriveActiveState } from './utils/deriveActiveState';
-import type { OnInvalidate } from './SystemActionModalsContext';
 import {
   resolveColumnSelector,
   type ColumnSelector,
 } from './columns/resolveColumnSelector';
+import useInventoryViewsColumnsRbacFeatureFlag from '../../Utilities/useInventoryViewsColumnsRbacFeatureFlag';
 
-export type SortDirection = ISortBy['direction'];
+export type { SortDirection } from './types';
+export type { SystemsViewItem, SystemsViewQueryData } from './types';
+export type SystemsViewFetchData = (
+  params: SystemsViewFetchParams<InventoryFilters>,
+) => Promise<SystemsViewQueryData>;
 export type OnSort = (
   _event: React.MouseEvent | React.KeyboardEvent | MouseEvent | undefined,
   newSortBy: string,
@@ -66,22 +81,17 @@ export type OnSort = (
 ) => void;
 export type Pagination = ReturnType<typeof useDataViewPagination>;
 
-export type SystemsViewDataQueryResult = {
-  data: System[] | undefined;
-  total: number | undefined;
-  deniedServices?: string[];
-  isLoading: boolean;
-  isFetching: boolean;
-  isError: boolean;
-};
-
-export type UseSystemsViewDataQuery = (
-  params: SystemsViewFetchParams,
-) => SystemsViewDataQueryResult;
-
 export type SystemsViewProps = {
-  useDataQuery: UseSystemsViewDataQuery;
-  onInvalidate: OnInvalidate;
+  /**
+   * Unique & stable queryKey prefix (`'hosts'`, `'inventory-views'`). SystemsView keys the
+   * inner query as `[queryKeyPrefix, fetchParams]` and invalidates by this prefix after mutations.
+   */
+  queryKeyPrefix: string;
+  /**
+   * Fetches the data for table. Receives table state for pagination, sorting, and
+   * filtering, and should use those values to fetch from backend.
+   */
+  fetchData: SystemsViewFetchData;
   /**
    * Selects which columns are available in this view from the full catalog.
    * Stable reference for selectors required! don't define them inline in JSX.
@@ -90,25 +100,29 @@ export type SystemsViewProps = {
   defaultFilters?: Partial<InventoryFilters>;
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   initialFilters?: Partial<InventoryFilters>;
+  onColumnsChange?: (columns: readonly Column[]) => void;
 };
 
 interface SystemsViewInnerProps {
   searchParams: URLSearchParams;
   setSearchParams: SetURLSearchParams;
-  useDataQuery: UseSystemsViewDataQuery;
-  onInvalidate: OnInvalidate;
+  queryKeyPrefix: string;
+  fetchData: SystemsViewFetchData;
   resolvedDefaultColumns: readonly Column[];
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
+  onColumnsChange?: (columns: readonly Column[]) => void;
 }
 
-const SystemsViewInner = ({
+function SystemsViewInner({
   searchParams,
   setSearchParams,
-  useDataQuery,
-  onInvalidate,
+  queryKeyPrefix,
+  fetchData,
   resolvedDefaultColumns,
   initialSort,
-}: SystemsViewInnerProps) => {
+  onColumnsChange,
+}: SystemsViewInnerProps) {
+  const queryClient = useQueryClient();
   const { filters, clearAllFilters, hasDefaultFilters, lastSeenCustomRange } =
     useDataViewFiltersContext();
 
@@ -162,28 +176,43 @@ const SystemsViewInner = ({
   const { direction, onSort } = sort;
 
   const fetchParams = useMemo(
-    (): SystemsViewFetchParams => ({
+    (): SystemsViewFetchParams<InventoryFilters> => ({
       page: pagination.page,
       perPage: pagination.perPage,
       filters: queryFilters,
-      lastSeenCustomRange,
       sortBy,
       direction,
+      lastSeenCustomRange,
     }),
     [
       pagination.page,
       pagination.perPage,
       queryFilters,
-      lastSeenCustomRange,
       sortBy,
       direction,
+      lastSeenCustomRange,
     ],
   );
 
-  const { data, total, deniedServices, isLoading, isFetching, isError } =
-    useDataQuery(fetchParams);
+  const { data, isLoading, isFetching, isError } = useQuery({
+    queryKey: [queryKeyPrefix, fetchParams],
+    queryFn: () => fetchData(fetchParams),
+    placeholderData: keepPreviousData,
+    refetchOnWindowFocus: false,
+  });
+  const rowsData = data?.results;
+  const total = data?.total;
+  const isInventoryViewsRbacEnabled = useInventoryViewsColumnsRbacFeatureFlag();
+  const deniedServices = isInventoryViewsRbacEnabled
+    ? (data?.deniedServices ?? EMPTY_SERVICES)
+    : EMPTY_SERVICES;
+
+  const onInvalidate = useCallback(() => {
+    return queryClient.invalidateQueries({ queryKey: [queryKeyPrefix] });
+  }, [queryClient, queryKeyPrefix]);
+
   const activeState = deriveActiveState({
-    data,
+    data: rowsData,
     isLoading,
     isFetching,
     isError,
@@ -201,10 +230,26 @@ const SystemsViewInner = ({
       deniedServices: deniedServices ?? [],
     });
 
-  const { hostsWithPermissions } = useHostIdsWithKessel(data);
+  // Wrapper to call both setColumns and onColumnsChange when user applies columns in modal.
+  // Note: ColumnManagementModal always calls this with direct column array, never with updater function.
+  const handleApplyColumns = useCallback(
+    (newColumns: React.SetStateAction<readonly Column[]>) => {
+      setColumns(newColumns);
+      // Only notify parent when columns are directly provided (modal always does this)
+      if (typeof newColumns !== 'function') {
+        onColumnsChange?.(newColumns);
+      }
+    },
+    [setColumns, onColumnsChange],
+  );
+
+  // FIXME remove type casting
+  const { hostsWithPermissions } = useHostIdsWithKessel(
+    rowsData as unknown as System[] | undefined,
+  );
 
   const rows = mapSystemsToRows({
-    data: hostsWithPermissions ?? data,
+    data: hostsWithPermissions ?? rowsData,
     columns,
     isInventoryViewsEnabled,
   });
@@ -265,7 +310,7 @@ const SystemsViewInner = ({
       <ColumnManagementModalProvider
         columns={columns}
         defaultColumns={annotatedDefaults}
-        setColumns={setColumns}
+        setColumns={handleApplyColumns}
       >
         <DataView selection={selection} activeState={activeState}>
           <PageSection hasBodyWrapper={false}>
@@ -300,7 +345,8 @@ const SystemsViewInner = ({
               filters={<SystemsViewFilters />}
               actions={
                 <SystemsViewBulkActions
-                  selectedSystems={selectedSystems}
+                  // FIXME remove type casting
+                  selectedSystems={selectedSystems as unknown as System[]}
                   activeState={activeState}
                 />
               }
@@ -324,16 +370,17 @@ const SystemsViewInner = ({
       </ColumnManagementModalProvider>
     </SystemActionModalsProvider>
   );
-};
+}
 
-export const SystemsView = ({
-  useDataQuery,
-  onInvalidate,
+export function SystemsView({
+  queryKeyPrefix,
+  fetchData,
   columns,
   defaultFilters,
   initialSort,
   initialFilters,
-}: SystemsViewProps) => {
+  onColumnsChange,
+}: SystemsViewProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const resolvedDefaultColumns = useMemo(
     () => resolveColumnSelector(columns),
@@ -350,13 +397,14 @@ export const SystemsView = ({
       <SystemsViewInner
         searchParams={searchParams}
         setSearchParams={setSearchParams}
-        useDataQuery={useDataQuery}
-        onInvalidate={onInvalidate}
+        queryKeyPrefix={queryKeyPrefix}
+        fetchData={fetchData}
         resolvedDefaultColumns={resolvedDefaultColumns}
         initialSort={initialSort}
+        onColumnsChange={onColumnsChange}
       />
     </DataViewFiltersProvider>
   );
-};
+}
 
 export default SystemsView;

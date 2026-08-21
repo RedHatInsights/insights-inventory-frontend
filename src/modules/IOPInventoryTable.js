@@ -18,6 +18,7 @@ BaseIOPInventoryTable.propTypes = {
     deleteTitle: PropTypes.string,
     filters: PropTypes.arrayOf(PropTypes.object),
     onDelete: PropTypes.func,
+    onDeleteGroup: PropTypes.func,
   }),
   autoRefresh: PropTypes.bool,
   axios: PropTypes.func,

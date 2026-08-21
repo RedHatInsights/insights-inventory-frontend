@@ -1,6 +1,6 @@
 import { ActionsColumn } from '@patternfly/react-table';
 import React from 'react';
-import { System } from '../InventoryViews/hooks/useHostsQuery';
+import { System } from '../InventoryViews/hostsQueryOptions';
 import { useSystemActionModalsContext } from './SystemActionModalsContext';
 import { useKesselMigrationFeatureFlag } from '../../Utilities/hooks/useKesselMigrationFeatureFlag';
 import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';

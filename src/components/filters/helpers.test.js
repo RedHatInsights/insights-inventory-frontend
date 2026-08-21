@@ -41,6 +41,27 @@ describe('toOsFilterGroups', () => {
     expect(toOsFilterGroups(operatingSystems, true)).toMatchSnapshot();
   });
 
+  it('uses human-readable labels while keeping hyphenated values as keys', () => {
+    const operatingSystems = [
+      ...buildOperatingSystems(3, { osName: 'RHEL', major: 8 }),
+      ...buildOperatingSystems(3, { osName: 'CentOS Linux', major: 7 }),
+    ];
+    const groups = toOsFilterGroups(operatingSystems, true);
+
+    expect(groups).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          label: 'RHEL 8',
+          value: 'RHEL-8',
+        }),
+        expect.objectContaining({
+          label: 'CentOS Linux 7',
+          value: 'CentOS-Linux-7',
+        }),
+      ]),
+    );
+  });
+
   it('returns os versions ordered descending', () => {
     const operatingSystems = [
       ...buildOperatingSystems(5, { osName: 'RHEL', major: 7 }),

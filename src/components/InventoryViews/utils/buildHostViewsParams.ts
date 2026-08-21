@@ -6,7 +6,7 @@ import {
 } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 import type { Column } from '../../SystemsView/columns/allColumnDefinitions';
 import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
-import type { LastSeenCustomRange } from '../../SystemsView/DataViewFiltersContext';
+import type { LastSeenCustomRange } from '../../SystemsView/types';
 import type { SortDirection } from '../../SystemsView/SystemsView';
 import { buildSystemProfileFilters } from './buildSystemProfileFilters';
 import { buildHostQueryOptions } from './buildHostListOptions';
