@@ -1,25 +1,30 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import { expect, jest } from '@jest/globals';
 import React from 'react';
-import { SystemsView, type UseSystemsViewDataQuery } from './SystemsView';
-import type { OnInvalidate } from './SystemActionModalsContext';
+import {
+  SystemsView,
+  type SystemsViewFetchData,
+  type SystemsViewQueryData,
+} from './SystemsView';
 import type { ColumnSelector } from './columns/resolveColumnSelector';
-import type { System } from '../InventoryViews/hooks/useHostsQuery';
-import { TestWrapper } from '../../Utilities/TestingUtilities';
+import type { System } from '../InventoryViews/hostsQueryOptions';
+import {
+  createTestQueryClient,
+  TestWrapper,
+} from '../../Utilities/TestingUtilities';
+
+const TEST_QUERY_KEY = 'systems-view-test' as const;
 
 const mockSystem = {
   id: 'host-1',
   display_name: 'Test Host',
 } as System;
 
-const mockUseDataQuery = jest.fn<UseSystemsViewDataQuery>(() => ({
-  data: [mockSystem],
+const successData: SystemsViewQueryData = {
+  results: [mockSystem],
   total: 1,
-  isLoading: false,
-  isFetching: false,
-  isError: false,
-}));
+};
 
 jest.mock('../../Utilities/hooks/useHostIdsWithKessel', () => ({
   useHostIdsWithKessel: (hosts: System[] | undefined) => ({
@@ -60,12 +65,15 @@ jest.mock('../../Utilities/useFeatureFlag', () => ({
 const selectNameColumn: ColumnSelector = (allColumns) =>
   allColumns.filter((column) => column.key === 'display_name');
 
-const renderSystemsView = () =>
+const renderSystemsView = (
+  fetchData: SystemsViewFetchData,
+  client = createTestQueryClient(),
+) =>
   render(
-    <TestWrapper>
+    <TestWrapper client={client}>
       <SystemsView
-        useDataQuery={mockUseDataQuery}
-        onInvalidate={jest.fn<OnInvalidate>()}
+        queryKeyPrefix={TEST_QUERY_KEY}
+        fetchData={fetchData}
         columns={selectNameColumn}
       />
     </TestWrapper>,
@@ -75,90 +83,75 @@ describe('SystemsView', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
-    mockUseDataQuery.mockImplementation(() => ({
-      data: [mockSystem],
-      total: 1,
-      isLoading: false,
-      isFetching: false,
-      isError: false,
-    }));
   });
 
   it('renders a column when the columns selector includes it', async () => {
-    renderSystemsView();
+    renderSystemsView(() => Promise.resolve(successData));
 
     expect(
       await screen.findByRole('columnheader', { name: 'Name' }),
     ).toBeInTheDocument();
   });
 
-  it('shows a loading state when isLoading is true', () => {
-    mockUseDataQuery.mockImplementation(() => ({
-      data: undefined,
-      total: undefined,
-      isLoading: true,
-      isFetching: false,
-      isError: false,
-    }));
+  it('passes lastSeenCustomRange in fetch params', async () => {
+    const fetchData = jest.fn<SystemsViewFetchData>(() =>
+      Promise.resolve(successData),
+    );
+    renderSystemsView(fetchData);
 
-    renderSystemsView();
+    await screen.findByRole('columnheader', { name: 'Name' });
+
+    expect(fetchData).toHaveBeenCalledWith(
+      expect.objectContaining({ lastSeenCustomRange: null }),
+    );
+  });
+
+  it('shows a loading state when the query is pending', () => {
+    renderSystemsView(() => new Promise(() => {}));
 
     expect(
       screen.getByRole('checkbox', { name: 'Select row 0' }),
     ).toBeDisabled();
-    expect(
-      screen.queryByRole('cell', { name: 'Test Host' }),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText('Test Host')).not.toBeInTheDocument();
   });
 
-  it('shows a loading state when isFetching is true', () => {
-    mockUseDataQuery.mockImplementation(() => ({
-      data: [mockSystem],
-      total: 1,
-      isLoading: false,
-      isFetching: true,
-      isError: false,
-    }));
+  it('shows a loading state while a refetch is in flight', async () => {
+    let hangNextFetch = false;
+    const fetchData = jest.fn<SystemsViewFetchData>(() =>
+      hangNextFetch ? new Promise(() => {}) : Promise.resolve(successData),
+    );
+    const client = createTestQueryClient();
 
-    renderSystemsView();
+    renderSystemsView(fetchData, client);
 
-    expect(
-      screen.getByRole('checkbox', { name: 'Select row 0' }),
-    ).toBeDisabled();
-    expect(
-      screen.queryByRole('cell', { name: 'Test Host' }),
-    ).not.toBeInTheDocument();
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+
+    hangNextFetch = true;
+    act(() => {
+      void client.invalidateQueries({ queryKey: [TEST_QUERY_KEY] });
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole('checkbox', { name: 'Select row 0' }),
+      ).toBeDisabled();
+    });
+    expect(screen.queryByText('Test Host')).not.toBeInTheDocument();
   });
 
-  it('shows an error state when isError is true', () => {
-    mockUseDataQuery.mockImplementation(() => ({
-      data: [],
-      total: 0,
-      isLoading: false,
-      isFetching: false,
-      isError: true,
-    }));
+  it('shows an error state when the query fails', async () => {
+    renderSystemsView(() => Promise.reject(new Error('failed to load')));
 
-    renderSystemsView();
-
-    expect(screen.getByText(/Unable to load data/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Unable to load data/i)).toBeInTheDocument();
     expect(screen.getByText(/error retrieving data/i)).toBeInTheDocument();
-    expect(
-      screen.queryByRole('cell', { name: 'Test Host' }),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText('Test Host')).not.toBeInTheDocument();
   });
 
-  it('shows an empty state when the query succeeds with no systems', () => {
-    mockUseDataQuery.mockImplementation(() => ({
-      data: [],
-      total: 0,
-      isLoading: false,
-      isFetching: false,
-      isError: false,
-    }));
+  it('shows an empty state when the query succeeds with no systems', async () => {
+    renderSystemsView(() => Promise.resolve({ results: [], total: 0 }));
 
-    renderSystemsView();
-
-    expect(screen.getByText(/No matching systems found/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/No matching systems found/i),
+    ).toBeInTheDocument();
   });
 });

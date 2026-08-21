@@ -98,18 +98,16 @@ const createMockHosts = () => [
   },
 ];
 
-const createMockQuery = (deniedServices = []) => {
-  return () => ({
-    data: createMockHosts(),
-    total: 2,
-    deniedServices,
-    isLoading: false,
-    isFetching: false,
-    isError: false,
-  });
+const createMockFetchData = (deniedServices = []) => {
+  return () =>
+    Promise.resolve({
+      results: createMockHosts(),
+      total: 2,
+      deniedServices,
+    });
 };
 
-const setInventoryViewsFeatureFlag = () => {
+const setInventoryViewsFeatureFlags = () => {
   cy.intercept('GET', '/feature_flags*', {
     statusCode: 200,
     body: {
@@ -122,20 +120,29 @@ const setInventoryViewsFeatureFlag = () => {
             enabled: true,
           },
         },
+        {
+          name: 'hbi.inventory-views-rbac',
+          enabled: true,
+          variant: {
+            name: 'enabled',
+            enabled: true,
+          },
+        },
       ],
     },
   }).as('getFeatureFlag');
 };
 
 const mountSystemsView = (deniedServices = [], routerProps = {}) => {
-  setInventoryViewsFeatureFlag();
+  setInventoryViewsFeatureFlags();
   systemProfileInterceptors['operating system, successful empty']();
   groupsInterceptors['successful empty']();
   localStorage.setItem('ui.inventory-views', 'true');
+  localStorage.setItem('hbi.inventory-views-rbac', 'true');
   cy.mockWindowInsights();
   cy.mountWithContext(SystemsView, routerProps, {
-    useDataQuery: createMockQuery(deniedServices),
-    onInvalidate: cy.stub(),
+    queryKeyPrefix: 'systems-view-rbac',
+    fetchData: createMockFetchData(deniedServices),
     columns: selectTestColumns,
   });
 };

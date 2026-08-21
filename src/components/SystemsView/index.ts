@@ -1,11 +1,12 @@
 export { default } from './SystemsView';
+export type { SystemsViewProps, SystemsViewFetchData } from './SystemsView';
 export type {
-  SystemsViewProps,
-  UseSystemsViewDataQuery,
-  SystemsViewDataQueryResult,
+  SystemsViewFetchParams,
+  SystemsViewItem,
+  SystemsViewQueryData,
   SortDirection,
-} from './SystemsView';
-export type { SystemsViewFetchParams } from '../InventoryViews/hooks/useHostsQuery';
+  LastSeenCustomRange,
+} from './types';
 export type { OnInvalidate } from './SystemActionModalsContext';
 export type { SystemsViewActiveState } from './utils/deriveActiveState';
 export type { Column } from './columns/allColumnDefinitions';

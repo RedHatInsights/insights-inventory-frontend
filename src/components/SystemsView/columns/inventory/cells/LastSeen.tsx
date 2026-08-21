@@ -5,7 +5,7 @@ import { verifyCulledReporter } from '../../../../../Utilities/sharedFunctions';
 import InsightsDisconnected from '../../../../../Utilities/InsightsDisconnected';
 import { REPORTER_PUPTOO } from '../../../../../Utilities/constants';
 import CellValue from '../../CellValue';
-import { System } from '../../../../InventoryViews/hooks/useHostsQuery';
+import { System } from '../../../../InventoryViews/hostsQueryOptions';
 
 type CullingDate = string | number | Date;
 

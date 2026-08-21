@@ -1,12 +1,10 @@
-import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import SystemsView from '../SystemsView/SystemsView';
-import { HOSTS_QUERY_KEY, useHostsQuery } from './hooks/useHostsQuery';
+import { fetchHosts, HOSTS_QUERY_KEY } from './hostsQueryOptions';
 import { useAnsibleWorkloadDefault } from './hooks/useAnsibleWorkloadDefault';
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
 
 const InventoryHosts = () => {
-  const queryClient = useQueryClient();
   const { isReady, defaultFilters } = useAnsibleWorkloadDefault();
 
   if (!isReady) {
@@ -16,11 +14,9 @@ const InventoryHosts = () => {
   return (
     <SystemsView
       columns={selectLegacyInventoryColumns}
-      useDataQuery={useHostsQuery}
+      queryKeyPrefix={HOSTS_QUERY_KEY}
+      fetchData={fetchHosts}
       defaultFilters={defaultFilters}
-      onInvalidate={() =>
-        queryClient.invalidateQueries({ queryKey: [HOSTS_QUERY_KEY] })
-      }
     />
   );
 };

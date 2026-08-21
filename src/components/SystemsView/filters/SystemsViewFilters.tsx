@@ -27,7 +27,7 @@ import {
   useWorkspaceDisplayNames,
 } from '../hooks/useWorkspaceDisplayNames';
 
-export interface InventoryFilters {
+export type InventoryFilters = {
   hostname_or_id: string;
   status: ApiHostGetHostListStalenessEnum[];
   source: ApiHostGetHostListRegisteredWithEnum[];
@@ -38,7 +38,7 @@ export interface InventoryFilters {
   operating_system: string[];
   workloads: string[];
   last_seen: LastSeenKey | '';
-}
+};
 
 export const isToolbarLabel = (
   label: string | ToolbarLabel,

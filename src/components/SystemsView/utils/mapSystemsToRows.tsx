@@ -7,17 +7,17 @@ import {
 } from './columnMinWidths';
 import { STICKY_ACTIONS_BODY_PROPS } from './stickyActionsColumn';
 import { getStickyNameBodyProps } from './stickyNameColumn';
-import type { SystemWithPermissions } from '../../../Utilities/hooks/useHostIdsWithKessel';
-import type { System } from '../../InventoryViews/hooks/useHostsQuery';
+import type { System } from '../../InventoryViews/hostsQueryOptions';
 import { Column } from '../columns/allColumnDefinitions';
+import type { SystemsViewItem } from '../types';
 
 /** DataViewTrObject Extension, `meta` points to associated system objects. */
 export type SystemsViewTableRow = DataViewTrObject & {
-  meta: System | SystemWithPermissions;
+  meta: SystemsViewItem;
 };
 
 interface MapSystemsToRowsParams {
-  data?: (System | SystemWithPermissions)[];
+  data?: SystemsViewItem[];
   columns: readonly Column[];
   /**
    * When true (inventory views feature): sticky Name/actions cells and column min-widths.
@@ -30,13 +30,12 @@ export const mapSystemsToRows = ({
   columns,
   isInventoryViewsEnabled,
 }: MapSystemsToRowsParams): SystemsViewTableRow[] => {
-  const mapSystemToRow = (
-    system: System | SystemWithPermissions,
-  ): SystemsViewTableRow => {
+  const mapSystemToRow = (system: SystemsViewItem): SystemsViewTableRow => {
     const selectableColumnCells = columns
       .filter((col) => col.isShown)
       .map((col) => {
-        const cell = col.renderCell(system);
+        // FIXME remove type casting
+        const cell = col.renderCell(system as unknown as System);
         if (col.key === 'display_name') {
           if (isInventoryViewsEnabled) {
             return {
@@ -59,7 +58,8 @@ export const mapSystemsToRows = ({
       row: [
         ...selectableColumnCells,
         {
-          cell: <SystemsViewRowActions system={system} />,
+          // FIXME remove type casting
+          cell: <SystemsViewRowActions system={system as unknown as System} />,
           props: isInventoryViewsEnabled
             ? {
                 ...STICKY_ACTIONS_BODY_PROPS,

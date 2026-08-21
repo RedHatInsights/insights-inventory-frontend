@@ -121,3 +121,5 @@ export const VULNERABILITY_LINK_SEARCH = {
   cvesWithSecurityRules: `${ADVISORY_AVAILABLE}&${RULE_PRESENCE}`,
   cvesWithKnownExploits: `${ADVISORY_AVAILABLE}&${KNOWN_EXPLOIT}`,
 } as const;
+
+export const EMPTY_SERVICES: string[] = [];

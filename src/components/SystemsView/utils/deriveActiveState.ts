@@ -13,10 +13,10 @@ export const deriveActiveState = ({
   isFetching,
   isError,
 }: DeriveActiveStateParams): SystemsViewActiveState =>
-  isLoading || isFetching || data == null
-    ? 'loading'
-    : isError
-      ? 'error'
+  isError
+    ? 'error'
+    : isLoading || isFetching || data == null
+      ? 'loading'
       : data.length === 0
         ? 'empty'
         : 'active';

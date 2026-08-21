@@ -5,7 +5,7 @@ import React from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { expect, jest } from '@jest/globals';
 import { createTestQueryClient } from '../../Utilities/TestingUtilities';
-import type { System } from '../InventoryViews/hooks/useHostsQuery';
+import type { System } from '../InventoryViews/hostsQueryOptions';
 import {
   SystemActionModalsProvider,
   useSystemActionModalsContext,

@@ -14,7 +14,7 @@ import type { SystemForWorkspace } from '../InventoryTable/MoveSystemsToWorkspac
 import TextInputModal from '../GeneralInfo/TextInputModal/TextInputModal';
 import { useDeleteSystemsMutation } from './hooks/useDeleteSystemsMutation';
 import { usePatchSystemsMutation } from './hooks/usePatchSystemsMutation';
-import type { System } from '../InventoryViews/hooks/useHostsQuery';
+import type { System } from '../InventoryViews/hostsQueryOptions';
 import { AllTagsModal } from './TagsModal/AllTagsModal';
 import { SingleHostTagsModal } from './TagsModal/SingleHostTagsModal';
 export type OnInvalidate = () => void | Promise<void>;
