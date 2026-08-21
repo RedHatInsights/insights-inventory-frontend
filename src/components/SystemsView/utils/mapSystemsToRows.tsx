@@ -12,12 +12,13 @@ import { Column } from '../columns/allColumnDefinitions';
 import type { SystemsViewItem } from '../types';
 
 /** DataViewTrObject Extension, `meta` points to associated system objects. */
-export type SystemsViewTableRow = DataViewTrObject & {
-  meta: SystemsViewItem;
-};
+export type SystemsViewTableRow<TItem extends SystemsViewItem> =
+  DataViewTrObject & {
+    meta: TItem;
+  };
 
-interface MapSystemsToRowsParams {
-  data?: SystemsViewItem[];
+interface MapSystemsToRowsParams<TItem extends SystemsViewItem> {
+  data?: TItem[];
   columns: readonly Column[];
   /**
    * When true (inventory views feature): sticky Name/actions cells and column min-widths.
@@ -25,12 +26,12 @@ interface MapSystemsToRowsParams {
   isInventoryViewsEnabled: boolean;
 }
 
-export const mapSystemsToRows = ({
+export const mapSystemsToRows = <TItem extends SystemsViewItem>({
   data,
   columns,
   isInventoryViewsEnabled,
-}: MapSystemsToRowsParams): SystemsViewTableRow[] => {
-  const mapSystemToRow = (system: SystemsViewItem): SystemsViewTableRow => {
+}: MapSystemsToRowsParams<TItem>): SystemsViewTableRow<TItem>[] => {
+  const mapSystemToRow = (system: TItem): SystemsViewTableRow<TItem> => {
     const selectableColumnCells = columns
       .filter((col) => col.isShown)
       .map((col) => {

@@ -149,7 +149,7 @@ function SystemsViewInner<TItem extends SystemsViewItem>({
     [filters, debouncedName],
   );
 
-  const selection = useDataViewSelection<SystemsViewTableRow>({
+  const selection = useDataViewSelection<SystemsViewTableRow<TItem>>({
     matchOption: (a, b) => a.id === b.id,
     initialSelected: [],
   });
@@ -250,7 +250,8 @@ function SystemsViewInner<TItem extends SystemsViewItem>({
   );
 
   const rows = mapSystemsToRows({
-    data: hostsWithPermissions ?? rowsData,
+    // FIXME: useHostIdsWithKessel still returns SystemWithPermissions[]
+    data: (hostsWithPermissions ?? rowsData) as TItem[] | undefined,
     columns,
     isInventoryViewsEnabled,
   });
