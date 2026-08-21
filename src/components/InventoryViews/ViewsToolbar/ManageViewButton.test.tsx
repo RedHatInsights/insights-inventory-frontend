@@ -1,8 +1,9 @@
+/* eslint-disable prettier/prettier */
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { ManageViewButton } from './ManageViewButton';
+import { ManageViewButton, getPrimaryAction } from './ManageViewButton';
 
 const defaultProps = {
   isSystemView: false,
@@ -23,6 +24,25 @@ async function openMenu() {
   await user.click(screen.getByRole('button', { name: 'Manage view actions' }));
   return user;
 }
+
+describe('getPrimaryAction', () => {
+  const onSave = jest.fn();
+
+  it.each([
+    [false, false, true, null],
+    [true, false, true, { label: 'Save', onClick: onSave }],
+    [true, true, false, null],
+    [true, true, true, null],
+    [true, false, false, null],
+  ])(
+    'given dirty=%s systemView=%s owner=%s, returns %p',
+    (isViewDirty, isSystemView, isOwner, expected) => {
+      expect(getPrimaryAction(isViewDirty, isSystemView, isOwner, onSave)).toEqual(
+        expected,
+      );
+    },
+  );
+});
 
 describe('ManageViewButton', () => {
   afterEach(() => {

@@ -26,6 +26,23 @@ export interface ManageViewButtonProps {
   onSave?: () => void;
 }
 
+export interface PrimaryAction {
+  label: string;
+  onClick?: () => void;
+}
+
+export const getPrimaryAction = (
+  isViewDirty: boolean,
+  isSystemView: boolean,
+  isOwner: boolean,
+  onSave?: () => void,
+): PrimaryAction | null => {
+  if (!isViewDirty) return null;
+  if (isSystemView) return null; // System views (incl. All systems) have no view to overwrite
+  if (!isOwner) return null; // Only owners can save
+  return { label: 'Save', onClick: onSave };
+};
+
 export const ManageViewButton = ({
   currentViewId,
   isSystemView = true,
@@ -46,14 +63,12 @@ export const ManageViewButton = ({
     setIsOpen(false);
   };
 
-  // Determine the primary action based on view type and dirty state
-  const primaryAction = isViewDirty
-    ? isSystemView
-      ? null // System views (incl. All systems) have no view to overwrite
-      : isOwner
-        ? { label: 'Save', onClick: onSave } // Custom view → Save changes
-        : null
-    : null;
+  const primaryAction = getPrimaryAction(
+    isViewDirty,
+    isSystemView,
+    isOwner,
+    onSave,
+  );
 
   return (
     <Dropdown
