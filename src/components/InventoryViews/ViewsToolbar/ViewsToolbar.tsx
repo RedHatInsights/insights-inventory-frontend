@@ -20,6 +20,7 @@ export interface ViewsToolbarProps {
   currentViewId?: string | null;
   isSystemView?: boolean;
   isViewDirty?: boolean;
+  isOwner?: boolean;
   viewsList?: ViewOut[];
   onSelectView: (viewId: string) => void;
   onSaveAs: () => void;
@@ -28,6 +29,7 @@ export interface ViewsToolbarProps {
   onFetchNextViewsPage?: () => Promise<unknown>;
   hasNextViewsPage?: boolean;
   isFetchingNextViewsPage?: boolean;
+  onSave?: () => void;
 }
 
 export const ViewsToolbar = ({
@@ -36,14 +38,19 @@ export const ViewsToolbar = ({
   currentViewId,
   isSystemView = true,
   isViewDirty = false,
+  isOwner = false,
   viewsList = [],
   onSelectView,
   onSaveAs,
   onRename,
   onDelete,
+<<<<<<< HEAD
   onFetchNextViewsPage,
   hasNextViewsPage,
   isFetchingNextViewsPage,
+=======
+  onSave,
+>>>>>>> be70e3d2 (feat(RHINENG-28363): Implement direct Save action for custom views)
 }: ViewsToolbarProps) => {
   return (
     <PageSection
@@ -81,9 +88,11 @@ export const ViewsToolbar = ({
               currentViewId={currentViewId}
               isSystemView={isSystemView}
               isViewDirty={isViewDirty}
+              isOwner={isOwner}
               onSaveAs={onSaveAs}
               onRename={onRename}
               onDelete={onDelete}
+              onSave={onSave}
             />
           </ToolbarItem>
         </ToolbarContent>
