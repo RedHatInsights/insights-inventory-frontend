@@ -94,8 +94,16 @@ const InventoryViews = () => {
   const [activeViewId, setActiveViewId] = useState(ALL_SYSTEMS_VIEW_ID);
   const queryClient = useQueryClient();
   const isInventoryViewsPrivateEnabled = useInventoryViewsPrivateFeatureFlag();
-  const { data: viewsData } = useViewsQuery();
-  const viewsList = viewsData?.results ?? [];
+  const {
+    data: viewsData,
+    fetchNextPage: fetchNextViewsPage,
+    hasNextPage: hasNextViewsPage,
+    isFetchingNextPage: isFetchingNextViewsPage,
+  } = useViewsQuery();
+  const viewsList = useMemo(
+    () => viewsData?.pages.flatMap((page) => page.results) ?? [],
+    [viewsData],
+  );
   const activeView = useMemo(
     () => viewsList.find((v) => v.id === activeViewId),
     [viewsList, activeViewId],
@@ -198,6 +206,9 @@ const InventoryViews = () => {
             onSaveAs={handleSaveAs}
             onRename={handleRename}
             onDelete={handleDelete}
+            onFetchNextViewsPage={fetchNextViewsPage}
+            hasNextViewsPage={hasNextViewsPage}
+            isFetchingNextViewsPage={isFetchingNextViewsPage}
           />
           <ViewSaveAsModal
             isOpen={isViewSaveAsModalOpen}
