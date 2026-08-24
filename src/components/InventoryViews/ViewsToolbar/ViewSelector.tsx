@@ -8,14 +8,11 @@ import {
   SelectList,
   SelectOption,
 } from '@patternfly/react-core';
-import {
-  ALL_SYSTEMS_VIEW_ID,
-  type ViewOut,
-} from '../../../api/inventoryViewsApi';
+import { isAllSystemsView, type ViewOut } from '../../../api/inventoryViewsApi';
 
 export interface ViewSelectorProps {
   views: ViewOut[];
-  activeViewId: string;
+  activeViewId?: string;
   onSelectView: (viewId: string) => void;
 }
 
@@ -35,7 +32,7 @@ const ViewSelector = ({
     systemViews: ViewOut[];
   }>(
     (acc, view) => {
-      if (view.id === ALL_SYSTEMS_VIEW_ID) {
+      if (isAllSystemsView(view)) {
         acc.allSystemsView = view;
       } else if (view.is_system_view) {
         acc.systemViews.push(view);

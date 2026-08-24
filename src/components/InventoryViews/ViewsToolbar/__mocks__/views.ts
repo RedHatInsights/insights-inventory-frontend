@@ -1,18 +1,23 @@
 import type { ViewOut } from '../../../../api/inventoryViewsApi';
-import {
-  ALL_SYSTEMS_VIEW_ID,
-  ALL_SYSTEMS_CONFIGURATION,
-} from '../../../../api/inventoryViewsApi';
+
+export const ALL_SYSTEMS_MOCK_ID = '506da034-39ab-41be-a6f4-1d7f1b8d0b73';
 
 export const MOCK_VIEWS: ViewOut[] = [
   {
-    id: ALL_SYSTEMS_VIEW_ID,
+    id: ALL_SYSTEMS_MOCK_ID,
     name: 'All systems',
-    description: 'Default view showing all inventory systems',
+    description: 'Default inventory view showing all systems.',
     is_system_view: true,
-    org_id: 'org-123',
+    org_id: null,
     org_wide: true,
-    configuration: ALL_SYSTEMS_CONFIGURATION,
+    configuration: {
+      columns: [
+        { key: 'display_name' },
+        { key: 'group_name' },
+        { key: 'operating_system' },
+        { key: 'last_check_in' },
+      ],
+    },
     created_by: 'system',
     created_at: '2026-01-01T00:00:00Z',
     updated_at: '2026-01-01T00:00:00Z',

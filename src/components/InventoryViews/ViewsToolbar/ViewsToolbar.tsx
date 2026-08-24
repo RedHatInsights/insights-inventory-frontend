@@ -16,7 +16,7 @@ import './ViewsToolbar.scss';
 
 export interface ViewsToolbarProps {
   className?: string;
-  activeViewId: string;
+  activeViewId?: string;
   currentViewId?: string | null;
   isSystemView?: boolean;
   viewsList?: ViewOut[];

@@ -3,12 +3,11 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import ViewSelector from './ViewSelector';
-import { ALL_SYSTEMS_VIEW_ID } from '../../../api/inventoryViewsApi';
-import { MOCK_VIEWS } from './__mocks__/views';
+import { MOCK_VIEWS, ALL_SYSTEMS_MOCK_ID } from './__mocks__/views';
 
 const defaultProps = {
   views: MOCK_VIEWS,
-  activeViewId: ALL_SYSTEMS_VIEW_ID,
+  activeViewId: ALL_SYSTEMS_MOCK_ID,
   onSelectView: jest.fn(),
 };
 

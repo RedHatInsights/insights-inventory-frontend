@@ -33,17 +33,9 @@ export type CreateViewRequest = ViewIn;
 export type UpdateViewRequest = ViewPatch;
 export type InventoryView = ViewOut;
 
-export const ALL_SYSTEMS_VIEW_ID = 'all-systems';
-
-export const ALL_SYSTEMS_CONFIGURATION: ViewConfiguration = {
-  columns: [
-    { key: 'display_name' },
-    { key: 'group_name' },
-    { key: 'tags' },
-    { key: 'operating_system' },
-    { key: 'last_check_in' },
-  ],
-};
+export const isAllSystemsView = (
+  view: Pick<ViewOut, 'is_system_view' | 'org_id'>,
+): boolean => view.is_system_view === true && view.org_id == null;
 
 const endpoints = {
   apiViewsGetViewsList,

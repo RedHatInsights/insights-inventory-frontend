@@ -15,8 +15,7 @@ import ViewSaveAsModal from './Modals/ViewSaveAsModal';
 import ViewRenameModal from './Modals/ViewRenameModal';
 import ViewDeleteModal from './Modals/ViewDeleteModal';
 import {
-  ALL_SYSTEMS_VIEW_ID,
-  ALL_SYSTEMS_CONFIGURATION,
+  isAllSystemsView,
   type ViewConfiguration,
 } from '../../api/inventoryViewsApi';
 import { createViewColumnSelector } from './createViewColumnSelector';
@@ -91,18 +90,25 @@ const InventoryViews = () => {
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [activeViewId, setActiveViewId] = useState(ALL_SYSTEMS_VIEW_ID);
+  const [activeViewId, setActiveViewId] = useState<string>();
   const queryClient = useQueryClient();
   const isInventoryViewsPrivateEnabled = useInventoryViewsPrivateFeatureFlag();
   const { data: viewsData } = useViewsQuery();
   const viewsList = viewsData?.results ?? [];
+  // TODO(RHINENG-30025, RHINENG-29867): "default view" == "All Systems" until
+  // the backend supports a user/org-configurable default. Swap to a real
+  // default lookup (v.is_default) once that lands, keeping isAllSystemsView
+  // only as the last-resort fallback.
+  const defaultView = useMemo(
+    () => viewsList.find(isAllSystemsView),
+    [viewsList],
+  );
   const activeView = useMemo(
-    () => viewsList.find((v) => v.id === activeViewId),
-    [viewsList, activeViewId],
+    () => viewsList.find((v) => v.id === activeViewId) ?? defaultView,
+    [viewsList, activeViewId, defaultView],
   );
 
-  const viewConfiguration =
-    activeView?.configuration ?? ALL_SYSTEMS_CONFIGURATION;
+  const viewConfiguration = activeView?.configuration;
 
   const [currentColumns, setCurrentColumns] =
     useState<ViewConfiguration['columns']>();
@@ -112,7 +118,10 @@ const InventoryViews = () => {
   }, []);
 
   const columnSelector = useMemo(
-    () => createViewColumnSelector(viewConfiguration)!,
+    () =>
+      viewConfiguration
+        ? createViewColumnSelector(viewConfiguration)
+        : undefined,
     [viewConfiguration],
   );
 
@@ -165,7 +174,7 @@ const InventoryViews = () => {
   const handleDeleteSuccess = (viewId: string) => {
     setIsDeleteModalOpen(false);
     if (viewId === activeViewId) {
-      setActiveViewId(ALL_SYSTEMS_VIEW_ID);
+      setActiveViewId(undefined);
       setSearchParams(new URLSearchParams(), { replace: true });
     }
   };
@@ -192,7 +201,7 @@ const InventoryViews = () => {
         <>
           <ViewsToolbar
             viewsList={viewsList}
-            activeViewId={activeViewId}
+            activeViewId={activeView?.id}
             isSystemView={activeView?.is_system_view ?? true}
             onSelectView={handleSelectView}
             onSaveAs={handleSaveAs}
@@ -227,16 +236,18 @@ const InventoryViews = () => {
           )}
         </>
       )}
-      <SystemsView
-        key={activeViewId}
-        columns={columnSelector}
-        initialSort={initialSort}
-        initialFilters={initialFilters}
-        onColumnsChange={handleColumnsChange}
-        queryKeyPrefix={INVENTORY_VIEWS_QUERY_KEY}
-        fetchData={fetchInventoryViews}
-        defaultFilters={defaultFilters}
-      />
+      {activeView && (
+        <SystemsView
+          key={activeView.id}
+          columns={columnSelector}
+          initialSort={initialSort}
+          initialFilters={initialFilters}
+          onColumnsChange={handleColumnsChange}
+          queryKeyPrefix={INVENTORY_VIEWS_QUERY_KEY}
+          fetchData={fetchInventoryViews}
+          defaultFilters={defaultFilters}
+        />
+      )}
     </>
   );
 };
