@@ -9,6 +9,6 @@ export type {
 } from './types';
 export type { OnInvalidate } from './SystemActionModalsContext';
 export type { SystemsViewActiveState } from './utils/deriveActiveState';
-export type { Column } from './columns/allColumnDefinitions';
+export type { BoundColumn } from './columns/inventoryViewColumns';
 export type { ColumnSelector } from './columns/resolveColumnSelector';
 export { defaultColumnSelector } from './columns/resolveColumnSelector';

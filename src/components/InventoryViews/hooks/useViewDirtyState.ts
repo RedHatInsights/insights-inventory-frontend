@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import type { ViewConfiguration } from '../../../api/inventoryViewsApi';
 import { ALL_SYSTEMS_VIEW_ID } from '../../../api/inventoryViewsApi';
 import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
-import type { Column } from '../../SystemsView/columns/allColumnDefinitions';
+import type { Column } from '../../SystemsView/columns/types';
 import {
   SORT_URL_PARAM,
   SORT_DIR_URL_PARAM,
@@ -13,12 +13,14 @@ import { parseViewConfigFilters } from '../utils/viewConfigFilters';
 
 export const FILTER_PARAM_KEYS = Object.keys(INITIAL_INVENTORY_FILTERS);
 
+type ColumnVisibility = Pick<Column, 'key' | 'isShown'>;
+
 interface UseViewDirtyStateParams {
   activeViewId: string;
   savedConfiguration?: ViewConfiguration;
   searchParams: URLSearchParams;
-  baselineColumns?: readonly Column[];
-  currentColumns?: readonly Column[];
+  baselineColumns?: readonly ColumnVisibility[];
+  currentColumns?: readonly ColumnVisibility[];
 }
 
 export const isSortDirty = (
@@ -70,8 +72,8 @@ export const areFiltersDirty = (
 };
 
 export const areColumnsDirty = (
-  baselineColumns?: readonly Column[],
-  currentColumns?: readonly Column[],
+  baselineColumns?: readonly ColumnVisibility[],
+  currentColumns?: readonly ColumnVisibility[],
 ): boolean => {
   if (!baselineColumns || !currentColumns) return false;
 

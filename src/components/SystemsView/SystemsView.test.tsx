@@ -8,6 +8,7 @@ import {
   type SystemsViewQueryData,
 } from './SystemsView';
 import type { ColumnSelector } from './columns/resolveColumnSelector';
+import { bindInventoryViewColumns } from './columns/inventoryViewColumns';
 import type { System } from '../InventoryViews/hostsQueryOptions';
 import {
   createTestQueryClient,
@@ -62,8 +63,8 @@ jest.mock('../../Utilities/useFeatureFlag', () => ({
   default: jest.fn(() => false),
 }));
 
-const selectNameColumn: ColumnSelector = (allColumns) =>
-  allColumns.filter((column) => column.key === 'display_name');
+const selectNameColumn: ColumnSelector<System> = () =>
+  bindInventoryViewColumns().filter((column) => column.key === 'display_name');
 
 const renderSystemsView = (
   fetchData: SystemsViewFetchData<System>,

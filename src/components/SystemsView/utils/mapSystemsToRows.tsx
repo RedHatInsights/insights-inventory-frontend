@@ -8,7 +8,7 @@ import {
 import { STICKY_ACTIONS_BODY_PROPS } from './stickyActionsColumn';
 import { getStickyNameBodyProps } from './stickyNameColumn';
 import type { System } from '../../InventoryViews/hostsQueryOptions';
-import { Column } from '../columns/allColumnDefinitions';
+import type { Column } from '../columns/types';
 import type { SystemsViewItem } from '../types';
 
 /** DataViewTrObject Extension, `meta` points to associated system objects. */
@@ -19,7 +19,7 @@ export type SystemsViewTableRow<TItem extends SystemsViewItem> =
 
 interface MapSystemsToRowsParams<TItem extends SystemsViewItem> {
   data?: TItem[];
-  columns: readonly Column[];
+  columns: readonly Column<TItem>[];
   /**
    * When true (inventory views feature): sticky Name/actions cells and column min-widths.
    */
@@ -35,8 +35,7 @@ export const mapSystemsToRows = <TItem extends SystemsViewItem>({
     const selectableColumnCells = columns
       .filter((col) => col.isShown)
       .map((col) => {
-        // FIXME remove type casting
-        const cell = col.renderCell(system as unknown as System);
+        const cell = col.renderCell(col.getValue(system));
         if (col.key === 'display_name') {
           if (isInventoryViewsEnabled) {
             return {
