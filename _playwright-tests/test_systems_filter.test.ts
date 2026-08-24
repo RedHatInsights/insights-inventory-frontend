@@ -14,7 +14,7 @@ import {
   isInventoryViewsEnabled,
   isLegacyInventoryTableEnabled,
 } from './helpers/constants';
-import { scrollColumnIntoView } from './helpers/columnHelpers';
+import { scrollColumnIntoView } from './helpers/views/columnHelpers';
 
 test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
   const operatingSystemTestCases = [

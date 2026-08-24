@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { useQueryClient } from '@tanstack/react-query';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';

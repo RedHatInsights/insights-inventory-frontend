@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test';
 import { navigateToInventorySystemsFunc } from './helpers/navHelpers';
 import { test } from './helpers/fixtures';
-import { columnManagementModal } from './helpers/columnManagementModal';
+import { columnManagementModal } from './helpers/views/columnManagementModal';
 import {
   totalDefaultColumns,
   defaultInventoryColumns,
@@ -17,7 +17,7 @@ import {
   scrollTableToPosition,
   isTableHorizontallyScrollable,
   allColumns,
-} from './helpers/columnHelpers';
+} from './helpers/views/columnHelpers';
 
 test.describe(
   'Inventory Views default columns',

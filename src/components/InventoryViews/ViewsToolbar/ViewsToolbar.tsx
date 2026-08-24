@@ -44,13 +44,10 @@ export const ViewsToolbar = ({
   onSaveAs,
   onRename,
   onDelete,
-<<<<<<< HEAD
   onFetchNextViewsPage,
   hasNextViewsPage,
   isFetchingNextViewsPage,
-=======
   onSave,
->>>>>>> be70e3d2 (feat(RHINENG-28363): Implement direct Save action for custom views)
 }: ViewsToolbarProps) => {
   return (
     <PageSection
