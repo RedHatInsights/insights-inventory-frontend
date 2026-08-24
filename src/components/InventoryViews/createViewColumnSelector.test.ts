@@ -7,14 +7,8 @@ describe('createViewColumnSelector', () => {
     expect(createViewColumnSelector(undefined)).toBeUndefined();
   });
 
-  it('hides all columns when columns array is empty', () => {
-    const selector = createViewColumnSelector({ columns: [] });
-    expect(selector).toBeDefined();
-
-    const result = selector!(allColumns);
-    expect(result).toHaveLength(allColumns.length);
-    expect(result.every((c) => !c.isShown)).toBe(true);
-    expect(result.every((c) => !c.isShownByDefault)).toBe(true);
+  it('returns undefined when columns array is empty', () => {
+    expect(createViewColumnSelector({ columns: [] })).toBeUndefined();
   });
 
   it('shows only configured columns as visible', () => {

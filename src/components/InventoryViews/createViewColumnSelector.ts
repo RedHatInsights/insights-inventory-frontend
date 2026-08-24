@@ -5,22 +5,21 @@ import type { ColumnSelector } from '../SystemsView/columns/resolveColumnSelecto
 export const createViewColumnSelector = (
   configuration?: ViewConfiguration,
 ): ColumnSelector | undefined => {
-  if (!configuration) {
+  if (!configuration?.columns?.length) {
     return undefined;
   }
 
-  const configColumns = configuration.columns ?? [];
+  const configColumns = configuration.columns;
 
   return (allColumns) => {
     const catalogByKey = new Map(allColumns.map((col) => [col.key, col]));
-    const matchedKeys = new Set<string>();
+    const configuredKeys = new Set(configColumns.map((c) => c.key));
     const result: Column[] = [];
 
     for (const configCol of configColumns) {
       const catalogCol = catalogByKey.get(configCol.key);
       if (!catalogCol) continue;
 
-      matchedKeys.add(configCol.key);
       result.push({
         ...catalogCol,
         isShown: true,
@@ -29,7 +28,7 @@ export const createViewColumnSelector = (
     }
 
     for (const catalogCol of allColumns) {
-      if (matchedKeys.has(catalogCol.key)) continue;
+      if (configuredKeys.has(catalogCol.key)) continue;
       result.push({
         ...catalogCol,
         isShown: false,
