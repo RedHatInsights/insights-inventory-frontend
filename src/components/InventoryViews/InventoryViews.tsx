@@ -234,7 +234,7 @@ const InventoryViews = () => {
     const filters = getFiltersFromSearchParams(searchParams);
     const columns = currentColumns
       ? normalizeViewColumns(currentColumns)
-      : (activeView?.configuration?.columns ?? []);
+      : normalizeViewColumns(baselineColumns);
 
     return {
       columns,
