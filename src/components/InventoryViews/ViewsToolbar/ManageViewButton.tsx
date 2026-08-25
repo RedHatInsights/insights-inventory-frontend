@@ -15,21 +15,43 @@ export interface ManageViewButtonProps {
   isSystemView?: boolean;
   /** Whether the view is dirty */
   isViewDirty?: boolean;
+  isOwner?: boolean;
   /** Callback when Save As is clicked */
   onSaveAs: () => void;
   /** Callback when Rename is clicked */
   onRename: () => void;
   /** Callback when Delete is clicked */
   onDelete: () => void;
+  /** Callback when Save is clicked */
+  onSave?: () => void;
 }
+
+export interface PrimaryAction {
+  label: string;
+  onClick?: () => void;
+}
+
+export const getPrimaryAction = (
+  isViewDirty: boolean,
+  isSystemView: boolean,
+  isOwner: boolean,
+  onSave?: () => void,
+  onSaveAs?: () => void,
+): PrimaryAction | null => {
+  if (!isViewDirty) return null;
+  if (isSystemView || !isOwner) return { label: 'Save as', onClick: onSaveAs };
+  return { label: 'Save', onClick: onSave };
+};
 
 export const ManageViewButton = ({
   currentViewId,
   isSystemView = true,
   isViewDirty = false,
+  isOwner = false,
   onSaveAs,
   onRename,
   onDelete,
+  onSave,
 }: ManageViewButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -41,12 +63,13 @@ export const ManageViewButton = ({
     setIsOpen(false);
   };
 
-  // Determine the primary action based on view type and dirty state
-  const primaryAction = isViewDirty
-    ? isSystemView
-      ? { label: 'Save as', onClick: onSaveAs } // System view → Save as new view
-      : { label: 'Save', onClick: onSaveAs } // Custom view → Save changes (TODO: implement onSave)
-    : null;
+  const primaryAction = getPrimaryAction(
+    isViewDirty,
+    isSystemView,
+    isOwner,
+    onSave,
+    onSaveAs,
+  );
 
   return (
     <Dropdown
@@ -61,6 +84,7 @@ export const ManageViewButton = ({
             onClick={onToggle}
             isExpanded={isOpen}
             aria-label="Manage view actions"
+            data-testid="manage-view-toggle"
             splitButtonItems={[
               <MenuToggleAction
                 key="primary-action"
@@ -77,6 +101,7 @@ export const ManageViewButton = ({
             onClick={onToggle}
             isExpanded={isOpen}
             aria-label="Manage view actions"
+            data-testid="manage-view-toggle"
             splitButtonItems={[
               <MenuToggleAction key="manage-view" onClick={onToggle}>
                 Manage view
@@ -95,6 +120,13 @@ export const ManageViewButton = ({
         </DropdownItem>
         <DropdownItem key="delete" onClick={onDelete} isDisabled={isSystemView}>
           Delete
+        </DropdownItem>
+        <DropdownItem
+          key="save"
+          onClick={onSave}
+          isDisabled={!isViewDirty || isSystemView || !isOwner}
+        >
+          Save
         </DropdownItem>
       </DropdownList>
     </Dropdown>

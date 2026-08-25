@@ -1,8 +1,8 @@
 import { expect } from '@playwright/test';
 import { test } from '../helpers/fixtures';
 import { navigateToInventorySystemsFunc } from '../helpers/navHelpers';
-import { columnManagementModal } from '../helpers/columnManagementModal';
-import { vulnerabilityColumns } from '../helpers/columnHelpers';
+import { columnManagementModal } from '../helpers/views/columnManagementModal';
+import { vulnerabilityColumns } from '../helpers/views/columnHelpers';
 
 test.use({ storageState: '.auth/viewer_user.json' });
 

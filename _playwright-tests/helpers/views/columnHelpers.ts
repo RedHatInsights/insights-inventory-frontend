@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test';
 import { type Page, type Locator } from '@playwright/test';
-import { parseLastSeenToDays } from './filterHelpers';
+import { parseLastSeenToDays } from '../filterHelpers';
 import { columnManagementModal } from './columnManagementModal';
 
 export { columnManagementModal } from './columnManagementModal';
@@ -15,6 +15,10 @@ export const defaultInventoryColumns = [
   'OS',
   'Last seen',
 ];
+
+// Default columns for All systems view (system view), Tags currently can't be saved to custom views
+export const allSystemsColumns = ['Name', 'Workspace', 'OS', 'Last seen'];
+
 // Total columns includes checkbox (first) and per-row actions (last)
 export const totalDefaultColumns = defaultInventoryColumns.length + 2;
 

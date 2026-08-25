@@ -23,7 +23,6 @@ import { createViewColumnSelector } from './createViewColumnSelector';
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
 import { SORT_URL_PARAM, SORT_DIR_URL_PARAM } from '../SystemsView/constants';
 import { INITIAL_SORT } from '../SystemsView/hooks/useColumns';
-import type { InventoryFilters } from '../SystemsView/filters/SystemsViewFilters';
 import type { Column } from '../SystemsView/columns/allColumnDefinitions';
 import {
   buildViewConfigFilters,
@@ -33,6 +32,7 @@ import {
   useViewDirtyState,
   FILTER_PARAM_KEYS,
 } from './hooks/useViewDirtyState';
+import { useUpdateViewMutation } from './hooks/useUpdateViewMutation';
 
 const filtersToSearchParams = (
   filters?: Partial<Record<string, string | string[]>>,
@@ -99,6 +99,7 @@ const InventoryViews = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [activeViewId, setActiveViewId] = useState(ALL_SYSTEMS_VIEW_ID);
   const queryClient = useQueryClient();
+  const updateView = useUpdateViewMutation();
   const isInventoryViewsPrivateEnabled = useInventoryViewsPrivateFeatureFlag();
   const {
     data: viewsData,
@@ -149,19 +150,16 @@ const InventoryViews = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- derive from view config on switch or data load
   }, [activeViewId, viewsLoaded]);
 
-  const initialFilters = useMemo(() => {
-    const filters = activeView?.configuration?.filters;
-    if (!filters || Object.keys(filters).length === 0) return undefined;
-    // Convert from backend nested format to flattened URL format for dirty state comparison
-    return parseViewConfigFilters(filters) as Partial<InventoryFilters>;
+  const initialFilters = useMemo(
+    () => parseViewConfigFilters(activeView?.configuration?.filters),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- derive from view config on switch or data load
-  }, [activeViewId, viewsLoaded]);
+    [activeViewId, viewsLoaded],
+  );
 
   const isViewDirty = useViewDirtyState({
     activeViewId,
     savedConfiguration: activeView?.configuration,
     searchParams,
-    initialFilters,
     baselineColumns: baselineColumnsRef.current,
     currentColumns,
   });
@@ -178,6 +176,21 @@ const InventoryViews = () => {
 
   const handleSaveAs = () => {
     setIsViewSaveAsModalOpen(true);
+  };
+
+  const handleSave = () => {
+    if (!activeView) return;
+    updateView.mutate(
+      {
+        id: activeView.id,
+        data: { configuration: getCurrentConfiguration() },
+      },
+      {
+        onSuccess: () => {
+          baselineColumnsRef.current = currentColumns;
+        },
+      },
+    );
   };
 
   const handleSaveAsSuccess = async (viewId: string, viewName: string) => {
@@ -233,6 +246,7 @@ const InventoryViews = () => {
             activeViewId={activeViewId}
             isSystemView={isSystemView}
             isViewDirty={isViewDirty}
+            isOwner={activeView?.is_owner ?? false}
             onSelectView={handleSelectView}
             onSaveAs={handleSaveAs}
             onRename={handleRename}
@@ -240,6 +254,7 @@ const InventoryViews = () => {
             onFetchNextViewsPage={fetchNextViewsPage}
             hasNextViewsPage={hasNextViewsPage}
             isFetchingNextViewsPage={isFetchingNextViewsPage}
+            onSave={handleSave}
           />
           <ViewSaveAsModal
             isOpen={isViewSaveAsModalOpen}

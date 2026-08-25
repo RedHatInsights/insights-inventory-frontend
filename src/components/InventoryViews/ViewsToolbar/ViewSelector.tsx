@@ -88,6 +88,7 @@ const ViewSelector = ({
       onClick={onToggleClick}
       isExpanded={isOpen}
       aria-label="Select a view"
+      data-testid="manage-view-select-view"
     >
       {toggleLabel}
     </MenuToggle>
@@ -103,6 +104,7 @@ const ViewSelector = ({
         if (!open) setVisibleSize(PAGE_SIZE);
       }}
       toggle={toggle}
+      data-testid="manage-view-select-view-dropdown"
       shouldFocusToggleOnSelect
       isScrollable
     >

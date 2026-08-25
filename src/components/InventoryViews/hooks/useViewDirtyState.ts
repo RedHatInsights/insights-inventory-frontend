@@ -9,6 +9,7 @@ import {
 } from '../../SystemsView/constants';
 import { INITIAL_SORT } from '../../SystemsView/hooks/useColumns';
 import { INITIAL_INVENTORY_FILTERS } from '../../SystemsView/DataViewFiltersContext';
+import { parseViewConfigFilters } from '../utils/viewConfigFilters';
 
 export const FILTER_PARAM_KEYS = Object.keys(INITIAL_INVENTORY_FILTERS);
 
@@ -16,7 +17,6 @@ interface UseViewDirtyStateParams {
   activeViewId: string;
   savedConfiguration?: ViewConfiguration;
   searchParams: URLSearchParams;
-  initialFilters?: Partial<InventoryFilters>;
   baselineColumns?: readonly Column[];
   currentColumns?: readonly Column[];
 }
@@ -90,7 +90,6 @@ export const useViewDirtyState = ({
   activeViewId,
   savedConfiguration,
   searchParams,
-  initialFilters,
   baselineColumns,
   currentColumns,
 }: UseViewDirtyStateParams) =>
@@ -98,9 +97,10 @@ export const useViewDirtyState = ({
     // For All Systems view (system view), check if current state differs from defaults
     // For custom views, check if current state differs from saved configuration
     const hasColumnConfig = !!savedConfiguration?.columns?.length;
+    const savedFilters = parseViewConfigFilters(savedConfiguration?.filters);
 
     const sortIsDirty = isSortDirty(searchParams, savedConfiguration?.sort);
-    const filtersAreDirty = areFiltersDirty(searchParams, initialFilters);
+    const filtersAreDirty = areFiltersDirty(searchParams, savedFilters);
     const columnsAreDirty =
       hasColumnConfig && areColumnsDirty(baselineColumns, currentColumns);
 
@@ -109,7 +109,6 @@ export const useViewDirtyState = ({
     activeViewId,
     savedConfiguration,
     searchParams,
-    initialFilters,
     // Note: baselineColumns is a ref value, so we only track currentColumns changes
     currentColumns,
   ]);
