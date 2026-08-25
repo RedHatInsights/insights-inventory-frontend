@@ -100,11 +100,6 @@ export const useViewDirtyState = ({
 
     const sortIsDirty = isSortDirty(searchParams, savedConfiguration?.sort);
     const filtersAreDirty = areFiltersDirty(searchParams, savedFilters);
-    // `currentColumns` is undefined until the user edits columns, so this stays
-    // false on a freshly loaded view. Not gated on savedConfiguration.columns:
-    // views without a saved column config (All Systems, or custom views saved
-    // before columns were set) still need column edits to register as dirty,
-    // compared against the resolved default/baseline columns.
     const columnsAreDirty = areColumnsDirty(baselineColumns, currentColumns);
 
     return sortIsDirty || filtersAreDirty || columnsAreDirty;
