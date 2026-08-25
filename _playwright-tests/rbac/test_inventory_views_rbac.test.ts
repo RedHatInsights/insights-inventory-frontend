@@ -31,7 +31,7 @@ test.describe(
 
       // Viewer account has no vulnerability access — expect lock icons
       const lockCells = page.locator(
-        'td span[aria-label*="do not have the necessary Vulnerability permissions"]',
+        'td span[aria-label*="request Vulnerability read access"]',
       );
       await expect(lockCells.first()).toBeVisible();
     });
@@ -50,7 +50,7 @@ test.describe(
       await modal.open();
 
       const vulnLock = modal.root.locator(
-        'span[aria-label*="do not have the necessary Vulnerability permissions"]',
+        'span[aria-label*="request Vulnerability read access"]',
       );
       await expect(vulnLock.first()).toBeVisible();
 
