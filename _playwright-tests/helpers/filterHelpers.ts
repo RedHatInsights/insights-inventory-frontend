@@ -59,9 +59,7 @@ export const filterSystemsWithConditionalFilter = async (
     // TODO: Implement logic to select the Status filter option.
     // Logic not implemented yet. Test continues without filtering.
   } else if (filterName === 'Tags') {
-    const inputLocator = isLegacyInventoryTableEnabled
-      ? page.getByPlaceholder('Filter by tags').nth(1)
-      : page.getByPlaceholder('Filter by tags');
+    const inputLocator = page.getByPlaceholder('Filter by tags');
     await inputLocator.click();
     await inputLocator.fill(option);
 
@@ -84,7 +82,6 @@ export const filterSystemsWithConditionalFilter = async (
   } else if (filterName === 'Operating system') {
     await page
       .getByRole('button', { name: 'Group filter' })
-      .nth(1)
       .or(
         page.locator(
           '[data-ouia-component-id="SystemsViewOperatingSystemsFilter"]',
