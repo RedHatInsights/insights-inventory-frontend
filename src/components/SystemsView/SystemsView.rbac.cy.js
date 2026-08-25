@@ -159,19 +159,20 @@ describe('Per-service RBAC column gating', () => {
     cy.contains('test-host-1.example.com').should('be.visible');
 
     // Verify: vulnerability columns show lock icons (2 rows, both denied)
-    cy.get('td span[aria-label*="do not have the necessary Vulnerability"]')
+    cy.get('td span[aria-label*="request Vulnerability read access"]')
       .should('have.length', 2)
       .first()
       .find('svg')
       .should('exist');
 
     // Verify: compliance columns show lock icons (2 rows, both denied)
-    cy.get(
-      'td span[aria-label*="do not have the necessary Compliance"]',
-    ).should('have.length', 2);
+    cy.get('td span[aria-label*="request Compliance read access"]').should(
+      'have.length',
+      2,
+    );
 
     // Verify: advisor columns show real data (no lock icons)
-    cy.get('td span[aria-label*="do not have the necessary Advisor"]').should(
+    cy.get('td span[aria-label*="request Advisor read access"]').should(
       'not.exist',
     );
 
@@ -194,9 +195,10 @@ describe('Per-service RBAC column gating', () => {
     cy.contains('test-host-1.example.com').should('be.visible');
 
     // Verify: Total CVEs column shows lock icons (denied)
-    cy.get(
-      'td span[aria-label*="do not have the necessary Vulnerability"]',
-    ).should('have.length', 2);
+    cy.get('td span[aria-label*="request Vulnerability read access"]').should(
+      'have.length',
+      2,
+    );
 
     // Verify: sort has automatically fallen back to Name (display_name) ascending
     // The useEffect in useColumns.tsx detects the locked column and resets to FALLBACK_SORT
@@ -214,9 +216,7 @@ describe('Per-service RBAC column gating', () => {
     cy.contains('test-host-1.example.com').should('be.visible');
 
     // Verify: no lock icons anywhere
-    cy.get('td span[aria-label*="do not have the necessary"]').should(
-      'not.exist',
-    );
+    cy.get('td span[aria-label*="To view this data"]').should('not.exist');
 
     // Verify real vulnerability data is shown
     cy.contains('td', '12').should('be.visible'); // total_cves for host 1
@@ -244,16 +244,18 @@ describe('Per-service RBAC column gating', () => {
     cy.contains('test-host-1.example.com').should('be.visible');
 
     // Verify: all app-data columns show lock icons
-    cy.get('td span[aria-label*="do not have the necessary Advisor"]').should(
+    cy.get('td span[aria-label*="request Advisor read access"]').should(
       'have.length',
       2,
     );
-    cy.get(
-      'td span[aria-label*="do not have the necessary Vulnerability"]',
-    ).should('have.length', 2);
-    cy.get(
-      'td span[aria-label*="do not have the necessary Compliance"]',
-    ).should('have.length', 2);
+    cy.get('td span[aria-label*="request Vulnerability read access"]').should(
+      'have.length',
+      2,
+    );
+    cy.get('td span[aria-label*="request Compliance read access"]').should(
+      'have.length',
+      2,
+    );
 
     // Verify: inventory columns show real data
     cy.contains('th', 'Name').should('be.visible');
