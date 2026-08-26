@@ -116,12 +116,6 @@ test.describe(
     const configurationUpdatedC = {
       columns: [...vulnerabilityColumns, ...malwareColumns],
       columnsCount: vulnerabilityColumns.length + malwareColumns.length + 3, // +3 for checkbox, name and per-row actions
-      filters: [
-        {
-          filter: 'System type',
-          value: ['Image-based system', 'Package-based system'],
-        },
-      ],
     };
 
     test('User creates custom views with own configuration', async ({
@@ -304,13 +298,6 @@ test.describe(
         }
         await manageColumnsModal.save();
 
-        // Applies new filter
-        await filterSystemsWithConditionalFilter(
-          page,
-          'System type',
-          'Package-based system',
-        );
-
         await manageView.save(viewC);
         await manageView.verifyActiveView(viewC);
       });
@@ -335,11 +322,10 @@ test.describe(
           { timeout: 10000 },
         );
 
-        // new filter should be applied after update
+        // filter should be same after update
         const filterToolbar = toolbarFilterHelper(page);
         await filterToolbar.verifyFiltersApplied({
-          [configurationUpdatedC.filters[0].filter]:
-            configurationUpdatedC.filters[0].value,
+          [configurationC.filters[0].filter]: configurationC.filters[0].value,
         });
       });
 

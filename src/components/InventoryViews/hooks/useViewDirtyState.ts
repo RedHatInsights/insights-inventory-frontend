@@ -96,19 +96,11 @@ export const useViewDirtyState = ({
   useMemo(() => {
     // For All Systems view (system view), check if current state differs from defaults
     // For custom views, check if current state differs from saved configuration
-    const hasColumnConfig = !!savedConfiguration?.columns?.length;
     const savedFilters = parseViewConfigFilters(savedConfiguration?.filters);
 
     const sortIsDirty = isSortDirty(searchParams, savedConfiguration?.sort);
     const filtersAreDirty = areFiltersDirty(searchParams, savedFilters);
-    const columnsAreDirty =
-      hasColumnConfig && areColumnsDirty(baselineColumns, currentColumns);
+    const columnsAreDirty = areColumnsDirty(baselineColumns, currentColumns);
 
     return sortIsDirty || filtersAreDirty || columnsAreDirty;
-  }, [
-    activeViewId,
-    savedConfiguration,
-    searchParams,
-    // Note: baselineColumns is a ref value, so we only track currentColumns changes
-    currentColumns,
-  ]);
+  }, [savedConfiguration, searchParams, baselineColumns, currentColumns]);
