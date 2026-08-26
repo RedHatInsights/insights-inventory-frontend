@@ -16,7 +16,6 @@ import ViewRenameModal from './Modals/ViewRenameModal';
 import ViewDeleteModal from './Modals/ViewDeleteModal';
 import {
   ALL_SYSTEMS_VIEW_ID,
-  ALL_SYSTEMS_CONFIGURATION,
   type ViewConfiguration,
 } from '../../api/inventoryViewsApi';
 import { createViewColumnSelector } from './createViewColumnSelector';
@@ -24,7 +23,8 @@ import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
 import { resolveColumnSelector } from '../SystemsView/columns/resolveColumnSelector';
 import { SORT_URL_PARAM, SORT_DIR_URL_PARAM } from '../SystemsView/constants';
 import { INITIAL_SORT } from '../SystemsView/hooks/useColumns';
-import type { Column } from '../SystemsView/columns/allColumnDefinitions';
+import type { Column } from '../SystemsView/columns/types';
+import type { InventoryBindableItem } from '../SystemsView/columns/inventory/columnDefinitions';
 import {
   buildViewConfigFilters,
   parseViewConfigFilters,
@@ -83,11 +83,11 @@ const getFiltersFromSearchParams = (
 // as invalid column key (see validation error listing valid keys).
 // Future fix: Change filter to use c.key instead of c.sortBy
 const normalizeViewColumns = (
-  columns: readonly Column[],
+  columns: readonly Column<InventoryBindableItem>[],
 ): ViewConfiguration['columns'] =>
   columns
     .filter(
-      (c): c is Column & { sortBy: string } =>
+      (c): c is Column<InventoryBindableItem> & { sortBy: string } =>
         c.isShown === true && typeof c.sortBy === 'string',
     )
     .map((c) => ({ key: c.sortBy }));
@@ -132,7 +132,8 @@ const InventoryViews = () => {
 
   // The user's live column edits from the Manage columns modal. `undefined` means
   // "no edits yet", so areColumnsDirty compares against the saved config baseline.
-  const [currentColumns, setCurrentColumns] = useState<readonly Column[]>();
+  const [currentColumns, setCurrentColumns] =
+    useState<readonly Column<InventoryBindableItem>[]>();
 
   // Reset edits synchronously when the active view (or views data) changes so a
   // freshly selected view starts clean. Render-time reset avoids the one-frame
@@ -144,9 +145,12 @@ const InventoryViews = () => {
     setCurrentColumns(undefined);
   }
 
-  const handleColumnsChange = useCallback((columns: readonly Column[]) => {
-    setCurrentColumns(columns);
-  }, []);
+  const handleColumnsChange = useCallback(
+    (columns: readonly Column<InventoryBindableItem>[]) => {
+      setCurrentColumns(columns);
+    },
+    [],
+  );
 
   const initialSort = useMemo(() => {
     const sort = activeView?.configuration?.sort;

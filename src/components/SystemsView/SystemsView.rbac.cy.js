@@ -1,11 +1,12 @@
 import SystemsView from './SystemsView';
+import { bindInventoryViewColumns } from './columns/inventoryViewColumns';
 import {
   groupsInterceptors,
   systemProfileInterceptors,
 } from '../../../cypress/support/interceptors';
 
 // Custom column selector that includes inventory + app-data columns for testing
-const selectTestColumns = (allColumns) => {
+const selectTestColumns = () => {
   const columnsToShow = [
     'display_name',
     'operating_system',
@@ -16,7 +17,7 @@ const selectTestColumns = (allColumns) => {
   ];
   const showKeys = new Set(columnsToShow);
 
-  return allColumns.map((col) => {
+  return bindInventoryViewColumns().map((col) => {
     const shouldShow = showKeys.has(col.key);
     return {
       ...col,

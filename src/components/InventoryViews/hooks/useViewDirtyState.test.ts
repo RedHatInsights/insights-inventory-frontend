@@ -1,5 +1,4 @@
 import { expect } from '@jest/globals';
-import type { Column } from '../../SystemsView/columns/allColumnDefinitions';
 import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import {
   isSortDirty,
@@ -19,8 +18,7 @@ const makeParams = (entries: Record<string, string | string[]> = {}) => {
   return params;
 };
 
-const makeColumn = (key: string, isShown: boolean) =>
-  ({ key, isShown }) as unknown as Column;
+const makeColumn = (key: string, isShown: boolean) => ({ key, isShown });
 
 describe('isSortDirty', () => {
   it('returns false when no sort params in URL', () => {
