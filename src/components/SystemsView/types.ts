@@ -22,8 +22,8 @@ export type SystemsViewItem = {
   id: string;
 };
 
-export type SystemsViewQueryData = {
-  results: SystemsViewItem[];
+export type SystemsViewQueryData<TItem extends SystemsViewItem> = {
+  results: TItem[];
   total: number;
   deniedServices?: string[];
 };

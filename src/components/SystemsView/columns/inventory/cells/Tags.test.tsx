@@ -3,9 +3,8 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import type { StructuredTag } from '@redhat-cloud-services/host-inventory-client';
-import Tags from './Tags';
+import Tags, { type TagsValue } from './Tags';
 import { SystemActionModalsContext } from '../../../SystemActionModalsContext';
-import type { System } from '../../../../InventoryViews/hostsQueryOptions';
 import { NOT_AVAILABLE } from '../../CellValue';
 
 const SYSTEM_ID = 'test-system-id';
@@ -21,27 +20,15 @@ const mockContextValue = {
   openTagsModal: mockOpenTagsModal,
 };
 
-function renderTags(value: StructuredTag[] | undefined, system: System) {
+function renderTags(value: TagsValue) {
   return render(
     <SystemActionModalsContext.Provider value={mockContextValue}>
-      <Tags value={value} system={system} />
+      <Tags value={value} />
     </SystemActionModalsContext.Provider>,
   );
 }
 
-const systemWithTags = {
-  id: SYSTEM_ID,
-  tags: [{ namespace: 'a', key: 'k', value: 'v' }],
-} as unknown as System;
-
-const systemWithoutTags = {
-  id: SYSTEM_ID,
-} as unknown as System;
-
-const systemWithEmptyTags = {
-  id: SYSTEM_ID,
-  tags: [],
-} as unknown as System;
+const tags: StructuredTag[] = [{ namespace: 'a', key: 'k', value: 'v' }];
 
 describe('Tags cell', () => {
   beforeEach(() => {
@@ -49,7 +36,7 @@ describe('Tags cell', () => {
   });
 
   it('should show tag count from value length', () => {
-    renderTags(systemWithTags.tags, systemWithTags);
+    renderTags({ id: SYSTEM_ID, tags });
 
     expect(
       screen.getByRole('button', { name: /tag count/i }),
@@ -57,26 +44,28 @@ describe('Tags cell', () => {
   });
 
   it(`should show ${NOT_AVAILABLE} when tag data is missing`, () => {
-    renderTags(undefined, systemWithoutTags);
+    renderTags({ id: SYSTEM_ID });
 
     expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
   });
 
   it('should show zero when tags are empty', () => {
-    renderTags([], systemWithEmptyTags);
+    renderTags({ id: SYSTEM_ID, tags: [] });
 
     expect(
       screen.getByRole('button', { name: /tag count/i }),
     ).toHaveTextContent('0');
   });
 
-  it('should call openTagsModal with the system when tag count is clicked', async () => {
+  it('should call openTagsModal with a host id when tag count is clicked', async () => {
     const user = userEvent.setup();
-    renderTags(systemWithTags.tags, systemWithTags);
+    renderTags({ id: SYSTEM_ID, tags });
 
     await user.click(screen.getByRole('button', { name: /tag count/i }));
 
     expect(mockOpenTagsModal).toHaveBeenCalledTimes(1);
-    expect(mockOpenTagsModal).toHaveBeenCalledWith([systemWithTags]);
+    expect(mockOpenTagsModal).toHaveBeenCalledWith([
+      expect.objectContaining({ id: SYSTEM_ID, tags }),
+    ]);
   });
 });

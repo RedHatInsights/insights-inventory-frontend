@@ -1,20 +1,25 @@
 import type { ViewConfiguration } from '../../api/inventoryViewsApi';
-import type { Column } from '../SystemsView/columns/allColumnDefinitions';
+import {
+  bindInventoryViewColumns,
+  type BoundColumn,
+} from '../SystemsView/columns/inventoryViewColumns';
 import type { ColumnSelector } from '../SystemsView/columns/resolveColumnSelector';
+import type { InventoryBindableItem } from '../SystemsView/columns/inventory/columnDefinitions';
 
 export const createViewColumnSelector = (
   configuration?: ViewConfiguration,
-): ColumnSelector | undefined => {
-  if (!configuration?.columns?.length) {
+): ColumnSelector<InventoryBindableItem> | undefined => {
+  if (!configuration) {
     return undefined;
   }
 
   const configColumns = configuration.columns;
 
-  return (allColumns) => {
+  return () => {
+    const allColumns = bindInventoryViewColumns();
     const catalogByKey = new Map(allColumns.map((col) => [col.key, col]));
-    const configuredKeys = new Set(configColumns.map((c) => c.key));
-    const result: Column[] = [];
+    const matchedKeys = new Set<string>(configColumns.map((col) => col.key));
+    const result: BoundColumn<InventoryBindableItem>[] = [];
 
     for (const configCol of configColumns) {
       const catalogCol = catalogByKey.get(configCol.key);
@@ -28,7 +33,7 @@ export const createViewColumnSelector = (
     }
 
     for (const catalogCol of allColumns) {
-      if (configuredKeys.has(catalogCol.key)) continue;
+      if (matchedKeys.has(catalogCol.key)) continue;
       result.push({
         ...catalogCol,
         isShown: false,

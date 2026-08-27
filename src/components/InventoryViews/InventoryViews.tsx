@@ -16,14 +16,15 @@ import ViewRenameModal from './Modals/ViewRenameModal';
 import ViewDeleteModal from './Modals/ViewDeleteModal';
 import {
   ALL_SYSTEMS_VIEW_ID,
-  ALL_SYSTEMS_CONFIGURATION,
   type ViewConfiguration,
 } from '../../api/inventoryViewsApi';
 import { createViewColumnSelector } from './createViewColumnSelector';
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
+import { resolveColumnSelector } from '../SystemsView/columns/resolveColumnSelector';
 import { SORT_URL_PARAM, SORT_DIR_URL_PARAM } from '../SystemsView/constants';
 import { INITIAL_SORT } from '../SystemsView/hooks/useColumns';
-import type { Column } from '../SystemsView/columns/allColumnDefinitions';
+import type { Column } from '../SystemsView/columns/types';
+import type { InventoryBindableItem } from '../SystemsView/columns/inventory/columnDefinitions';
 import {
   buildViewConfigFilters,
   parseViewConfigFilters,
@@ -82,11 +83,11 @@ const getFiltersFromSearchParams = (
 // as invalid column key (see validation error listing valid keys).
 // Future fix: Change filter to use c.key instead of c.sortBy
 const normalizeViewColumns = (
-  columns: readonly Column[],
+  columns: readonly Column<InventoryBindableItem>[],
 ): ViewConfiguration['columns'] =>
   columns
     .filter(
-      (c): c is Column & { sortBy: string } =>
+      (c): c is Column<InventoryBindableItem> & { sortBy: string } =>
         c.isShown === true && typeof c.sortBy === 'string',
     )
     .map((c) => ({ key: c.sortBy }));
@@ -115,29 +116,40 @@ const InventoryViews = () => {
   const isSystemView = activeView?.is_system_view ?? true;
   const viewsLoaded = !!viewsData;
 
-  const baselineColumnsRef = useRef<readonly Column[]>();
-  const [currentColumns, setCurrentColumns] = useState<readonly Column[]>();
+  const columnSelector = useMemo(
+    () => createViewColumnSelector(activeView?.configuration),
+    [activeView?.configuration],
+  );
 
-  const handleColumnsChange = useCallback((columns: readonly Column[]) => {
-    if (!baselineColumnsRef.current) {
-      baselineColumnsRef.current = columns;
-    }
-    setCurrentColumns(columns);
-  }, []);
+  // Baseline columns = the view's saved configuration, resolved to the same
+  // Column[] shape the modal produces. Deriving it from the saved config (rather
+  // than lazily seeding it from the first onColumnsChange) is what makes the
+  // first edit count as dirty — otherwise the first edit becomes its own baseline.
+  const baselineColumns = useMemo(
+    () => resolveColumnSelector(columnSelector ?? selectLegacyInventoryColumns),
+    [columnSelector],
+  );
 
-  // Synchronous render-time reset: useEffect would fire after child effects,
-  // causing onColumnsChange to run before the baseline clears.
+  // The user's live column edits from the Manage columns modal. `undefined` means
+  // "no edits yet", so areColumnsDirty compares against the saved config baseline.
+  const [currentColumns, setCurrentColumns] =
+    useState<readonly Column<InventoryBindableItem>[]>();
+
+  // Reset edits synchronously when the active view (or views data) changes so a
+  // freshly selected view starts clean. Render-time reset avoids the one-frame
+  // stale-dirty flash a useEffect would introduce.
   const prevViewKeyRef = useRef(`${activeViewId}-${viewsLoaded}`);
   const viewKey = `${activeViewId}-${viewsLoaded}`;
   if (viewKey !== prevViewKeyRef.current) {
     prevViewKeyRef.current = viewKey;
-    baselineColumnsRef.current = undefined;
+    setCurrentColumns(undefined);
   }
 
-  const columnSelector = useMemo(
-    () => createViewColumnSelector(activeView?.configuration),
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- recompute when view switches or views data loads
-    [activeViewId, viewsLoaded],
+  const handleColumnsChange = useCallback(
+    (columns: readonly Column<InventoryBindableItem>[]) => {
+      setCurrentColumns(columns);
+    },
+    [],
   );
 
   const initialSort = useMemo(() => {
@@ -160,7 +172,7 @@ const InventoryViews = () => {
     activeViewId,
     savedConfiguration: activeView?.configuration,
     searchParams,
-    baselineColumns: baselineColumnsRef.current,
+    baselineColumns,
     currentColumns,
   });
 
@@ -187,7 +199,9 @@ const InventoryViews = () => {
       },
       {
         onSuccess: () => {
-          baselineColumnsRef.current = currentColumns;
+          // Clear local edits; the view is now saved. The refetched configuration
+          // becomes the new baseline, so the view reads clean again.
+          setCurrentColumns(undefined);
         },
       },
     );
@@ -224,7 +238,7 @@ const InventoryViews = () => {
     const filters = getFiltersFromSearchParams(searchParams);
     const columns = currentColumns
       ? normalizeViewColumns(currentColumns)
-      : (activeView?.configuration?.columns ?? []);
+      : normalizeViewColumns(baselineColumns);
 
     return {
       columns,

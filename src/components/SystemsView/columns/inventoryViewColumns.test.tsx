@@ -1,7 +1,8 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import allColumns, { type Column } from './allColumnDefinitions';
+import inventoryViewColumns from './inventoryViewColumns';
+import { type Column } from './types';
 import { InventoryViewSystem } from '../../InventoryViews/inventoryViewsQueryOptions';
 import {
   DEFAULT_NAME_COLUMN_MIN_WIDTH,
@@ -13,22 +14,22 @@ import { NOT_AVAILABLE } from './CellValue';
 import inventoryColumns from './inventory/columnDefinitions';
 
 const inventoryKeys = inventoryColumns.map((col) => col.key);
-const nonInventoryColumns = allColumns.filter(
+const nonInventoryColumns = inventoryViewColumns.filter(
   (col) => !inventoryKeys.includes(col.key),
 );
 
-const columnsWithMinWidth = (allColumns as readonly Column[]).filter(
+const columnsWithMinWidth = (inventoryViewColumns as readonly Column[]).filter(
   (col): col is Column & { minWidth: string } => col.minWidth !== undefined,
 );
 
 describe('allColumnDefinitions', () => {
   it('should have no duplicate keys', () => {
-    const keys = allColumns.map((col) => col.key);
+    const keys = inventoryViewColumns.map((col) => col.key);
     expect(new Set(keys).size).toBe(keys.length);
   });
 
   it('should show all catalog columns by default', () => {
-    allColumns.forEach((col) => {
+    inventoryViewColumns.forEach((col) => {
       expect(col.isShownByDefault).toBe(true);
       expect(col.isShown).toBe(true);
     });
@@ -68,7 +69,7 @@ describe('allColumnDefinitions', () => {
     `should render ${NOT_AVAILABLE} when app data is missing for "$key"`,
     (column) => {
       const system = {} as unknown as InventoryViewSystem;
-      render(<>{column.renderCell(system)}</>);
+      render(<>{column.renderCell(column.getValue(system))}</>);
       expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
     },
   );

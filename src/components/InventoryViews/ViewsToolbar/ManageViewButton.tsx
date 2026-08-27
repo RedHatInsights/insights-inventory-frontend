@@ -88,7 +88,12 @@ export const ManageViewButton = ({
             splitButtonItems={[
               <MenuToggleAction
                 key="primary-action"
-                onClick={primaryAction.onClick}
+                // Stop the click from bubbling into the split button's toggle /
+                // dropdown so the primary action can never open the menu.
+                onClick={(event) => {
+                  event.stopPropagation();
+                  primaryAction.onClick?.();
+                }}
               >
                 {primaryAction.label}
               </MenuToggleAction>,
