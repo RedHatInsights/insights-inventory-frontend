@@ -11,7 +11,7 @@ const selectTestColumns = () => {
     'display_name',
     'operating_system',
     'last_check_in',
-    'advisor:recommendations',
+    'advisor:critical', // Changed from advisor:recommendations due to RHINENG-30055
     'vulnerability:total_cves',
     'compliance:policies_count',
   ];
@@ -177,9 +177,9 @@ describe('Per-service RBAC column gating', () => {
       'not.exist',
     );
 
-    // Verify advisor data is actually rendered
-    cy.contains('td', '5').should('be.visible'); // recommendations for host 1
-    cy.contains('td', '3').should('be.visible'); // recommendations for host 2
+    // Verify advisor data is actually rendered (individual severity counts)
+    cy.contains('td', '2').should('be.visible'); // important count for host 1
+    cy.contains('td', '1').should('be.visible'); // low count for host 1 or 2
   });
 
   it('automatically falls back to display_name sort when sorted column is denied', () => {
@@ -223,9 +223,9 @@ describe('Per-service RBAC column gating', () => {
     cy.contains('td', '12').should('be.visible'); // total_cves for host 1
     cy.contains('td', '8').should('be.visible'); // total_cves for host 2
 
-    // Verify real advisor data is shown
-    cy.contains('td', '5').should('be.visible'); // recommendations for host 1
-    cy.contains('td', '3').should('be.visible'); // recommendations for host 2
+    // Verify real advisor data is shown (individual severity counts)
+    cy.contains('td', '2').should('be.visible'); // important/moderate counts
+    cy.contains('td', '1').should('be.visible'); // low count
 
     // Verify real compliance data is shown
     cy.contains('td', '2').should('be.visible'); // policies_count for host 1
@@ -244,7 +244,7 @@ describe('Per-service RBAC column gating', () => {
     // Wait for table to load
     cy.contains('test-host-1.example.com').should('be.visible');
 
-    // Verify: all app-data columns show lock icons
+    // Verify: all app-data columns show lock icons (2 rows each)
     cy.get('td span[aria-label*="request Advisor read access"]').should(
       'have.length',
       2,
