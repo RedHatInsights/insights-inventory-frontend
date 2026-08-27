@@ -1,9 +1,12 @@
 import { expect } from '@jest/globals';
+import moment from 'moment';
 import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
+import type { ViewConfiguration } from '../../../api/inventoryViewsApi';
 import {
   isSortDirty,
   areFiltersDirty,
   areColumnsDirty,
+  isLastSeenCustomRangeDirty,
 } from './useViewDirtyState';
 
 const makeParams = (entries: Record<string, string | string[]> = {}) => {
@@ -173,5 +176,47 @@ describe('areColumnsDirty', () => {
 
   it('returns false when both are empty', () => {
     expect(areColumnsDirty([], [])).toBe(false);
+  });
+});
+
+describe('isLastSeenCustomRangeDirty', () => {
+  const start = moment('2026-07-29').startOf('day').toISOString();
+  const end = moment('2026-07-30').endOf('day').toISOString();
+  const savedCustom: ViewConfiguration = {
+    columns: [],
+    filters: {
+      host: { last_check_in_start: start, last_check_in_end: end },
+    },
+  } as unknown as ViewConfiguration;
+
+  it('returns false when the range is untouched (undefined)', () => {
+    expect(isLastSeenCustomRangeDirty(savedCustom, undefined)).toBe(false);
+  });
+
+  it('returns false when the live range matches the saved range', () => {
+    expect(isLastSeenCustomRangeDirty(savedCustom, { start, end })).toBe(false);
+  });
+
+  it('returns true when the end bound changes', () => {
+    const newEnd = moment('2026-08-15').endOf('day').toISOString();
+    expect(
+      isLastSeenCustomRangeDirty(savedCustom, { start, end: newEnd }),
+    ).toBe(true);
+  });
+
+  it('returns true when a bound is dropped (open-ended edit)', () => {
+    expect(isLastSeenCustomRangeDirty(savedCustom, { start })).toBe(true);
+  });
+
+  it('returns true when the range is cleared to null', () => {
+    expect(isLastSeenCustomRangeDirty(savedCustom, null)).toBe(true);
+  });
+
+  it('returns false when neither saved nor live has a range', () => {
+    const savedNoRange = {
+      columns: [],
+      filters: {},
+    } as unknown as ViewConfiguration;
+    expect(isLastSeenCustomRangeDirty(savedNoRange, null)).toBe(false);
   });
 });

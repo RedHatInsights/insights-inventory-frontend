@@ -26,10 +26,13 @@ export const lastSeenKeysToApiParams = (
   if (lastSeen === 'custom') {
     const start = lastSeenCustomRange?.start;
     const end = lastSeenCustomRange?.end;
-    if (!start || !end) {
+    if (!start && !end) {
       return null;
     }
-    return { lastCheckInStart: start, lastCheckInEnd: end };
+    return {
+      ...(start && { lastCheckInStart: start }),
+      ...(end && { lastCheckInEnd: end }),
+    };
   }
 
   const { start, end } = resolveLastSeenBounds(lastSeen);
