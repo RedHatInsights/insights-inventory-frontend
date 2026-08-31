@@ -16,30 +16,30 @@ function renderLastSeen(value: LastSeenValue) {
 }
 
 const lastSeenValue: LastSeenValue = {
-  last_check_in: LONG_AGO_LAST_SEEN,
-  culled_timestamp: undefined,
-  stale_warning_timestamp: undefined,
-  stale_timestamp: undefined,
-  per_reporter_staleness: undefined,
+  lastSeen: LONG_AGO_LAST_SEEN,
+  culled: undefined,
+  staleWarning: undefined,
+  stale: undefined,
+  perReporterStaleness: undefined,
 };
 
 describe('LastSeen cell', () => {
-  it('should render a relative last seen label for last_check_in', () => {
+  it('should render a relative last seen label for lastSeen', () => {
     renderLastSeen(lastSeenValue);
 
     expect(screen.getAllByText(/\d+ years ago/).length).toBeGreaterThan(0);
   });
 
-  it(`should show ${NOT_AVAILABLE} when last_check_in is undefined`, () => {
-    renderLastSeen({ ...lastSeenValue, last_check_in: undefined });
+  it(`should show ${NOT_AVAILABLE} when lastSeen is undefined`, () => {
+    renderLastSeen({ ...lastSeenValue, lastSeen: undefined });
 
     expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
   });
 
-  it('should show the disconnected indicator when puptoo is missing from per_reporter_staleness', () => {
+  it('should show the disconnected indicator when puptoo is missing from perReporterStaleness', () => {
     renderLastSeen({
       ...lastSeenValue,
-      per_reporter_staleness: {},
+      perReporterStaleness: {},
     });
 
     expect(

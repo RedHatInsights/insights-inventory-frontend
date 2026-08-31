@@ -1,10 +1,11 @@
 import React from 'react';
 import { DateFormat } from '@redhat-cloud-services/frontend-components/DateFormat';
 import CellValue from '../../CellValue';
-import { System } from '../../../../InventoryViews/hostsQueryOptions';
+
+export type CreatedValue = string | Date | undefined;
 
 interface CreatedProps {
-  value: System['created'];
+  value: CreatedValue;
 }
 
 const Created = ({ value }: CreatedProps) => {

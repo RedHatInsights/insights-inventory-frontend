@@ -7,7 +7,8 @@ import { TestWrapper } from '../../../../../Utilities/TestingUtilities';
 import type { PatchAppData } from '@redhat-cloud-services/host-inventory-client';
 
 const systemId = 'test-system-uuid';
-const PATCH_SYSTEM_PATH = `//patch/systems/${systemId}`;
+const getInventoryPatchPath = (advisoryType: string) =>
+  `//inventory/${systemId}?appName=patch&offset=0&filter[advisory_type_name]=${advisoryType}`;
 
 function renderInstallableAdvisories(appData: PatchAppData | undefined) {
   return render(
@@ -72,32 +73,44 @@ describe('InstallableAdvisories cell', () => {
     expect(screen.getByText(NOT_SET)).toBeInTheDocument();
   });
 
-  it('should render only the security advisory icon and count when rhsa is non-zero', () => {
+  it('should render all advisory types, with only security being non-zero', () => {
     renderInstallableAdvisories(securityOnlyPatchAppData);
 
     expect(screen.queryByText(NOT_SET)).not.toBeInTheDocument();
+    // Non-zero count (security)
     expect(screen.getByText('7')).toBeInTheDocument();
+    // Zero counts (should still be visible)
+    expect(screen.getAllByText('0')).toHaveLength(3); // bug fixes, enhancements, other
   });
 
-  it('should render only the bug fix advisory icon and count when rhba is non-zero', () => {
+  it('should render all advisory types, with only bug fixes being non-zero', () => {
     renderInstallableAdvisories(bugfixesOnlyPatchAppData);
 
     expect(screen.queryByText(NOT_SET)).not.toBeInTheDocument();
+    // Non-zero count (bug fixes)
     expect(screen.getByText('4')).toBeInTheDocument();
+    // Zero counts (should still be visible)
+    expect(screen.getAllByText('0')).toHaveLength(3); // security, enhancements, other
   });
 
-  it('should render only the enhancement advisory icon and count when rhea is non-zero', () => {
+  it('should render all advisory types, with only enhancements being non-zero', () => {
     renderInstallableAdvisories(enhancementsOnlyPatchAppData);
 
     expect(screen.queryByText(NOT_SET)).not.toBeInTheDocument();
+    // Non-zero count (enhancements)
     expect(screen.getByText('2')).toBeInTheDocument();
+    // Zero counts (should still be visible)
+    expect(screen.getAllByText('0')).toHaveLength(3); // security, bug fixes, other
   });
 
-  it('should render only the other advisory icon and count when other is non-zero', () => {
+  it('should render all advisory types, with only other being non-zero', () => {
     renderInstallableAdvisories(otherOnlyPatchAppData);
 
     expect(screen.queryByText(NOT_SET)).not.toBeInTheDocument();
+    // Non-zero count (other)
     expect(screen.getByText('1')).toBeInTheDocument();
+    // Zero counts (should still be visible)
+    expect(screen.getAllByText('0')).toHaveLength(3); // security, bug fixes, enhancements
   });
 
   it('should render all advisory type counts when each installable count is non-zero', () => {
@@ -110,14 +123,44 @@ describe('InstallableAdvisories cell', () => {
     expect(screen.getByText('9')).toBeInTheDocument();
   });
 
-  it('should link each advisory type to the patch system page', () => {
+  it('should link each non-zero advisory type to the filtered patch system page', () => {
     renderInstallableAdvisories(mixedCountsPatchAppData);
 
-    ['5', '11', '3', '9'].forEach((count) => {
-      expect(screen.getByRole('link', { name: count })).toHaveAttribute(
-        'href',
-        PATCH_SYSTEM_PATH,
-      );
-    });
+    // Security advisories (count: 5)
+    expect(screen.getByRole('link', { name: '5' })).toHaveAttribute(
+      'href',
+      getInventoryPatchPath('security'),
+    );
+
+    // Bug fixes (count: 11)
+    expect(screen.getByRole('link', { name: '11' })).toHaveAttribute(
+      'href',
+      getInventoryPatchPath('bugfix'),
+    );
+
+    // Enhancements (count: 3)
+    expect(screen.getByRole('link', { name: '3' })).toHaveAttribute(
+      'href',
+      getInventoryPatchPath('enhancement'),
+    );
+
+    // Other (count: 9)
+    expect(screen.getByRole('link', { name: '9' })).toHaveAttribute(
+      'href',
+      getInventoryPatchPath('other'),
+    );
+  });
+
+  it('should not link zero-count advisory types', () => {
+    renderInstallableAdvisories(securityOnlyPatchAppData);
+
+    // Security (count: 7) should be a link
+    expect(screen.getByRole('link', { name: '7' })).toBeInTheDocument();
+
+    // Zero counts should NOT be links (there should be no links with text '0')
+    expect(screen.queryAllByRole('link', { name: '0' })).toHaveLength(0);
+
+    // But the zero text should still be visible (3 times: bug fixes, enhancements, other)
+    expect(screen.getAllByText('0')).toHaveLength(3);
   });
 });

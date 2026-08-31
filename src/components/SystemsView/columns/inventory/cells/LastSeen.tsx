@@ -5,34 +5,27 @@ import { verifyCulledReporter } from '../../../../../Utilities/sharedFunctions';
 import InsightsDisconnected from '../../../../../Utilities/InsightsDisconnected';
 import { REPORTER_PUPTOO } from '../../../../../Utilities/constants';
 import CellValue from '../../CellValue';
-import { System } from '../../../../InventoryViews/hostsQueryOptions';
 
 type CullingDate = string | number | Date;
 
 const DEFAULT_CULLING_DATE: CullingDate = new Date(0);
 
-export type LastSeenValue = Pick<
-  System,
-  | 'culled_timestamp'
-  | 'stale_warning_timestamp'
-  | 'stale_timestamp'
-  | 'per_reporter_staleness'
-  | 'last_check_in'
->;
+export type LastSeenValue = {
+  lastSeen?: string | null;
+  culled?: string;
+  stale?: string;
+  staleWarning?: string;
+  perReporterStaleness?: unknown;
+};
+
 interface LastSeenProps {
   value: LastSeenValue;
 }
 
 const LastSeen = ({ value }: LastSeenProps) => {
-  const {
-    last_check_in: updated,
-    culled_timestamp: culled,
-    stale_warning_timestamp: staleWarn,
-    stale_timestamp: stale,
-    per_reporter_staleness: perReporterStaleness,
-  } = value;
+  const { lastSeen, culled, staleWarning, stale, perReporterStaleness } = value;
 
-  if (updated === undefined || updated === null) {
+  if (lastSeen === undefined || lastSeen === null) {
     return (
       <CellValue
         type="notAvailable"
@@ -46,13 +39,13 @@ const LastSeen = ({ value }: LastSeenProps) => {
       className=""
       content=""
       culled={culled ?? DEFAULT_CULLING_DATE}
-      staleWarning={staleWarn ?? DEFAULT_CULLING_DATE}
+      staleWarning={staleWarning ?? DEFAULT_CULLING_DATE}
       stale={stale ?? DEFAULT_CULLING_DATE}
       currDate={DEFAULT_CULLING_DATE}
       render={({ msg }) => (
         <React.Fragment>
           <DateFormat
-            date={updated}
+            date={lastSeen}
             extraTitle={
               <React.Fragment>
                 <div>{msg}</div>
@@ -67,7 +60,7 @@ const LastSeen = ({ value }: LastSeenProps) => {
       )}
     >
       <span>
-        <DateFormat date={updated} />
+        <DateFormat date={lastSeen} />
       </span>
     </CullingInformation>
   );

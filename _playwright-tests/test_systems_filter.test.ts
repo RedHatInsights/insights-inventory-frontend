@@ -12,9 +12,8 @@ import {
   TAG,
   isSystemsViewEnabled,
   isInventoryViewsEnabled,
-  isLegacyInventoryTableEnabled,
 } from './helpers/constants';
-import { scrollColumnIntoView } from './helpers/columnHelpers';
+import { scrollColumnIntoView } from './helpers/views/columnHelpers';
 
 test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
   const operatingSystemTestCases = [
@@ -207,9 +206,7 @@ test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
 
     await test.step('Verify Tags Modal has expected tag', async () => {
       // TODO: Remove when RHINENG-22581 is fixed
-      const inputLocator = isLegacyInventoryTableEnabled
-        ? page.getByPlaceholder('Filter by tags').nth(1)
-        : page.getByPlaceholder('Filter by tags');
+      const inputLocator = page.getByPlaceholder('Filter by tags');
       await inputLocator.fill('');
 
       // get name of system we check the tags to verify tags modal title

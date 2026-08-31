@@ -7,7 +7,7 @@ import {
 } from '../utils/columnMinWidths';
 import { STICKY_ACTIONS_HEADER_PROPS } from '../utils/stickyActionsColumn';
 import { getStickyNameHeaderProps } from '../utils/stickyNameColumn';
-import { type Column } from '../columns/allColumnDefinitions';
+import { type Column } from '../columns/types';
 import CellValue from '../columns/CellValue';
 
 export const INITIAL_SORT: {
@@ -26,8 +26,8 @@ const FALLBACK_SORT: {
   direction: 'asc',
 };
 
-interface UseColumnParams {
-  defaultColumns: readonly Column[];
+interface UseColumnParams<TItem> {
+  defaultColumns: readonly Column<TItem>[];
   sortBy: Column['sortBy'];
   onSort: OnSort;
   direction: SortDirection;
@@ -35,18 +35,19 @@ interface UseColumnParams {
   deniedServices: string[];
 }
 
-export const useColumns = ({
+export const useColumns = <TItem,>({
   defaultColumns,
   sortBy,
   onSort,
   direction,
   isInventoryViewsEnabled,
   deniedServices,
-}: UseColumnParams) => {
-  const [rawColumns, setColumns] = useState<readonly Column[]>(defaultColumns);
+}: UseColumnParams<TItem>) => {
+  const [rawColumns, setColumns] =
+    useState<readonly Column<TItem>[]>(defaultColumns);
 
   const annotatePermissions = useCallback(
-    (cols: readonly Column[]): readonly Column[] =>
+    (cols: readonly Column<TItem>[]): readonly Column<TItem>[] =>
       cols.map((col) => {
         const isLocked =
           col.appName !== 'inventory' && deniedServices.includes(col.appName);
@@ -61,12 +62,12 @@ export const useColumns = ({
     [deniedServices],
   );
 
-  const columns: readonly Column[] = useMemo(
+  const columns: readonly Column<TItem>[] = useMemo(
     () => annotatePermissions(rawColumns),
     [rawColumns, annotatePermissions],
   );
 
-  const annotatedDefaults: readonly Column[] = useMemo(
+  const annotatedDefaults: readonly Column<TItem>[] = useMemo(
     () => annotatePermissions(defaultColumns),
     [annotatePermissions, defaultColumns],
   );

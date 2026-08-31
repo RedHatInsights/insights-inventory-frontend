@@ -1,22 +1,27 @@
 import React from 'react';
-import type { Column } from '../allColumnDefinitions';
-import { InventoryViewSystem } from '../../../InventoryViews/inventoryViewsQueryOptions';
+import type { Column, ColumnSpec } from '../types';
+import { bindColumn } from '../bindColumn';
+import type { InventoryBindableItem } from '../inventory/columnDefinitions';
+import type { RemediationsAppData } from '@redhat-cloud-services/host-inventory-client';
 import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 import RemediationPlans from './cells/RemediationPlans';
 
 const APP_NAME = 'remediations' as const;
 
-const remediationPlansColumn = {
+const remediationPlansSpec: ColumnSpec<RemediationsAppData | undefined> = {
   appName: APP_NAME,
   title: 'Remediation plans',
   key: ApiHostViewsGetHostViewsOrderByEnum.RemediationsremediationsPlans,
   minWidth: '12rem',
-  isShownByDefault: true,
-  isShown: true,
   sortBy: ApiHostViewsGetHostViewsOrderByEnum.RemediationsremediationsPlans,
-  renderCell: (system: InventoryViewSystem) => (
-    <RemediationPlans appData={system?.app_data?.remediations} />
-  ),
+  renderCell: (value) => <RemediationPlans appData={value} />,
 };
 
-export default [remediationPlansColumn] as const satisfies readonly Column[];
+export const bindRemediationsColumns = <
+  TItem extends InventoryBindableItem,
+>(): Column<TItem>[] => [
+  bindColumn(remediationPlansSpec, {
+    getValue: (item) =>
+      item.app_data?.remediations as RemediationsAppData | undefined,
+  }),
+];
