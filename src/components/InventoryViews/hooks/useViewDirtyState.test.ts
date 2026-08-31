@@ -129,6 +129,35 @@ describe('areFiltersDirty', () => {
     const initial: Partial<InventoryFilters> = { tags: ['a', 'b'] };
     expect(areFiltersDirty(params, initial)).toBe(false);
   });
+
+  it('is not dirty for a custom Last seen with no chosen dates', () => {
+    const params = makeParams({ last_seen: 'custom' });
+    expect(areFiltersDirty(params, undefined)).toBe(false);
+    expect(areFiltersDirty(params, undefined, null)).toBe(false);
+    expect(areFiltersDirty(params, undefined, {})).toBe(false);
+  });
+
+  it('is dirty for a custom Last seen once a date bound is chosen', () => {
+    const params = makeParams({ last_seen: 'custom' });
+    expect(
+      areFiltersDirty(params, undefined, { start: '2026-01-01T00:00:00Z' }),
+    ).toBe(true);
+    expect(
+      areFiltersDirty(params, undefined, { end: '2026-02-01T00:00:00Z' }),
+    ).toBe(true);
+  });
+
+  it('is dirty when a boundless custom replaces a saved preset last_seen', () => {
+    const params = makeParams({ last_seen: 'custom' });
+    const initial: Partial<InventoryFilters> = { last_seen: 'last24' };
+    expect(areFiltersDirty(params, initial)).toBe(true);
+  });
+
+  it('is not dirty for a non-custom last_seen that matches the saved value', () => {
+    const params = makeParams({ last_seen: 'last24' });
+    const initial: Partial<InventoryFilters> = { last_seen: 'last24' };
+    expect(areFiltersDirty(params, initial)).toBe(false);
+  });
 });
 
 describe('areColumnsDirty', () => {

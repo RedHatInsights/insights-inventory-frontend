@@ -49,11 +49,24 @@ export const isSortDirty = (
 export const areFiltersDirty = (
   searchParams: URLSearchParams,
   initialFilters?: Partial<InventoryFilters>,
+  effectiveLastSeenCustomRange?: LastSeenCustomRange,
 ): boolean => {
   const initial = (initialFilters ?? {}) as Record<string, unknown>;
+  const hasEffectiveCustomRange = Boolean(
+    effectiveLastSeenCustomRange?.start || effectiveLastSeenCustomRange?.end,
+  );
 
   for (const key of FILTER_PARAM_KEYS) {
-    const current = searchParams.getAll(key).sort();
+    let current = searchParams.getAll(key).sort();
+
+    if (
+      key === 'last_seen' &&
+      !hasEffectiveCustomRange &&
+      current.length === 1 &&
+      current[0] === 'custom'
+    ) {
+      current = [];
+    }
 
     const rawSaved = initial[key];
     let saved: string[];
@@ -127,9 +140,17 @@ export const useViewDirtyState = ({
     // For All Systems view (system view), check if current state differs from defaults
     // For custom views, check if current state differs from saved configuration
     const savedFilters = parseViewConfigFilters(savedConfiguration?.filters);
+    const effectiveLastSeenCustomRange =
+      currentLastSeenCustomRange === undefined
+        ? parseViewConfigLastSeenCustomRange(savedConfiguration?.filters)
+        : currentLastSeenCustomRange;
 
     const sortIsDirty = isSortDirty(searchParams, savedConfiguration?.sort);
-    const filtersAreDirty = areFiltersDirty(searchParams, savedFilters);
+    const filtersAreDirty = areFiltersDirty(
+      searchParams,
+      savedFilters,
+      effectiveLastSeenCustomRange,
+    );
     const columnsAreDirty = areColumnsDirty(baselineColumns, currentColumns);
     const lastSeenRangeIsDirty = isLastSeenCustomRangeDirty(
       savedConfiguration,
