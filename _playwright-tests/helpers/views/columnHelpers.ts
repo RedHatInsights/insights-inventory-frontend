@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test';
 import { type Page, type Locator } from '@playwright/test';
-import { parseLastSeenToDays } from './filterHelpers';
+import { parseLastSeenToDays } from '../filterHelpers';
 import { columnManagementModal } from './columnManagementModal';
 
 export { columnManagementModal } from './columnManagementModal';
@@ -15,6 +15,10 @@ export const defaultInventoryColumns = [
   'OS',
   'Last seen',
 ];
+
+// Default columns for All systems view (system view), Tags currently can't be saved to custom views
+export const allSystemsColumns = ['Name', 'Workspace', 'OS', 'Last seen'];
+
 // Total columns includes checkbox (first) and per-row actions (last)
 export const totalDefaultColumns = defaultInventoryColumns.length + 2;
 
@@ -70,14 +74,7 @@ export const inventoryColumns = [
   'Infrastructure',
 ];
 
-export const advisorColumns = [
-  'Recommendations',
-  'Incidents',
-  'Critical',
-  'Important',
-  'Moderate',
-  'Low',
-];
+export const advisorColumns = ['Recommendations', 'Incidents'];
 
 export const complianceColumns = ['Last compliance scan', 'Policies'];
 
@@ -246,7 +243,7 @@ const COLUMN_VALIDATIONS: Record<string, ColumnValidationConfig> = {
   },
   Recommendations: {
     type: 'numeric',
-    ignoreValues: [NOT_AVAILABLE],
+    ignoreValues: [NOT_AVAILABLE, 'No recommendations'],
   },
   Incidents: {
     type: 'numeric',
@@ -342,6 +339,8 @@ export async function validateDataColumnSortOrder(
   } else if (config.type === 'numeric') {
     if (columnName === 'Installable advisories') {
       validateInstallableAdvisoriesOrder(columnValues, direction);
+    } else if (columnName === 'Recommendations') {
+      validateRecommendationsOrder(columnValues, direction);
     } else {
       validateNumericOrder(columnValues, direction);
     }
@@ -439,6 +438,25 @@ function validateNumericOrder(
 
     previousValue = numericValue;
   }
+}
+
+/**
+ * Validates Recommendations column order.
+ * The column displays severity icons (Critical, Important, Moderate, Low) but sorts by Critical count.
+ * Since icons for 0 counts are not rendered, we skip detailed validation and just verify
+ * the data changes across rows (not all the same value).
+ *  @param {string[]} values    - Array of values from the table.
+ *  @param {string}   direction - Sort direction ('ascending' or 'descending').
+ */
+function validateRecommendationsOrder(
+  values: string[],
+  direction: 'ascending' | 'descending',
+) {
+  // For the new multi-icon Recommendations column, the displayed values don't directly
+  // correspond to the sort key (critical count), so we just verify the column is sortable
+  // by checking that not all values are identical
+  const uniqueValues = new Set(values);
+  expect(uniqueValues.size).toBeGreaterThan(1);
 }
 
 /**

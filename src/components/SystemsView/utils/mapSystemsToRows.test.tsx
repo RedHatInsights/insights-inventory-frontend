@@ -1,7 +1,7 @@
 import { isDataViewTdObject } from '@patternfly/react-data-view';
 import { expect, jest } from '@jest/globals';
 import React from 'react';
-import type { Column } from '../columns/allColumnDefinitions';
+import type { Column } from '../columns/types';
 import type { System } from '../../InventoryViews/hostsQueryOptions';
 import { DEFAULT_NAME_COLUMN_MIN_WIDTH } from './columnMinWidths';
 import { mapSystemsToRows } from './mapSystemsToRows';
@@ -21,14 +21,17 @@ const mockSystem = {
 } as System;
 
 function createColumn(
-  overrides: Partial<Column> & Pick<Column, 'key' | 'renderCell'>,
-): Column {
+  overrides: Partial<Column<System>> &
+    Pick<Column<System>, 'key' | 'renderCell'>,
+): Column<System> {
   return {
     title: overrides.key,
     isShown: true,
     isShownByDefault: true,
+    getValue: () => undefined,
+    appName: 'inventory',
     ...overrides,
-  } as Column;
+  } as Column<System>;
 }
 
 describe('mapSystemsToRows', () => {
@@ -77,26 +80,36 @@ describe('mapSystemsToRows', () => {
   });
 
   it('renders column only when isShown is true', () => {
-    const renderShownCell = jest.fn<Column['renderCell']>(() => 'Shown');
-    const renderHiddenCell = jest.fn<Column['renderCell']>(() => 'Hidden');
+    const getShownValue = jest.fn((_item: System) => 'shown-dto');
+    const renderShownCell = jest.fn<Column<System>['renderCell']>(
+      () => 'Shown',
+    );
+    const getHiddenValue = jest.fn((_item: System) => 'hidden-dto');
+    const renderHiddenCell = jest.fn<Column<System>['renderCell']>(
+      () => 'Hidden',
+    );
 
     mapSystemsToRows({
       data: [mockSystem],
       columns: [
         createColumn({
           key: 'display_name',
+          getValue: getShownValue,
           renderCell: renderShownCell,
         }),
         createColumn({
           key: 'tags',
           isShown: false,
+          getValue: getHiddenValue,
           renderCell: renderHiddenCell,
         }),
       ],
       isInventoryViewsEnabled: false,
     });
 
-    expect(renderShownCell).toHaveBeenCalledWith(mockSystem);
+    expect(getShownValue).toHaveBeenCalledWith(mockSystem);
+    expect(renderShownCell).toHaveBeenCalledWith('shown-dto');
+    expect(getHiddenValue).not.toHaveBeenCalled();
     expect(renderHiddenCell).not.toHaveBeenCalled();
   });
 
@@ -198,8 +211,11 @@ describe('mapSystemsToRows', () => {
   });
 
   describe('permission-locked columns', () => {
-    it('calls renderCell for all columns including locked ones', () => {
-      const renderCell = jest.fn<Column['renderCell']>(() => 'lock icon');
+    it('calls getValue then renderCell for all columns including locked ones', () => {
+      const getValue = jest.fn((_item: System) => 'lock-dto');
+      const renderCell = jest.fn<Column<System>['renderCell']>(
+        () => 'lock icon',
+      );
 
       mapSystemsToRows({
         data: [mockSystem],
@@ -208,13 +224,15 @@ describe('mapSystemsToRows', () => {
             key: 'total_cves',
             appName: 'vulnerability',
             isPermissionLocked: true,
+            getValue,
             renderCell,
           }),
         ],
         isInventoryViewsEnabled: false,
       });
 
-      expect(renderCell).toHaveBeenCalledWith(mockSystem);
+      expect(getValue).toHaveBeenCalledWith(mockSystem);
+      expect(renderCell).toHaveBeenCalledWith('lock-dto');
     });
   });
 });

@@ -1,15 +1,19 @@
 import React from 'react';
 import CellValue from '../../CellValue';
-import { System } from '../../../../InventoryViews/hostsQueryOptions';
+
+export type WorkspaceValue = ReadonlyArray<{
+  id?: string;
+  name?: string | null;
+}>;
 
 interface WorkspaceProps {
-  value: System['groups'] | undefined;
+  value: WorkspaceValue | undefined;
 }
 
 const Workspace = ({ value }: WorkspaceProps) => {
   const [firstGroup] = value ?? [];
 
-  if (firstGroup === undefined) {
+  if (firstGroup === undefined || !firstGroup.name) {
     return (
       <CellValue
         type="notAvailable"

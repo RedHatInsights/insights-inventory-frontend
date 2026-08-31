@@ -1,14 +1,24 @@
 import React from 'react';
-import type { SystemProfileOperatingSystem } from '@redhat-cloud-services/host-inventory-client';
 import CellValue from '../../CellValue';
 
+export type OperatingSystemValue = {
+  name?: string;
+  major?: number;
+  minor?: number;
+  rhsm?: string;
+};
+
 interface OperatingSystemProps {
-  value: SystemProfileOperatingSystem | undefined;
+  value: OperatingSystemValue | undefined;
 }
 
 const formatOperatingSystem = (
-  operatingSystem: SystemProfileOperatingSystem,
-): string => {
+  operatingSystem: OperatingSystemValue,
+): string | undefined => {
+  if (!operatingSystem.name) {
+    return operatingSystem.rhsm;
+  }
+
   if (
     operatingSystem.name === 'RHEL' ||
     operatingSystem.name === 'CentOS Linux'
@@ -23,7 +33,9 @@ const formatOperatingSystem = (
 };
 
 const OperatingSystem = ({ value }: OperatingSystemProps) => {
-  if (value === undefined) {
+  const formatted = value ? formatOperatingSystem(value) : undefined;
+
+  if (formatted === undefined) {
     return (
       <CellValue
         type="notAvailable"
@@ -35,11 +47,7 @@ const OperatingSystem = ({ value }: OperatingSystemProps) => {
   return (
     <CellValue
       type="present"
-      value={
-        <span aria-label="Formatted OS version">
-          {formatOperatingSystem(value)}
-        </span>
-      }
+      value={<span aria-label="Formatted OS version">{formatted}</span>}
     />
   );
 };

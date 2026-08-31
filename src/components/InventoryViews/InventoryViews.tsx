@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import SystemsView from '../SystemsView/SystemsView';
 import type { SortDirection } from '../SystemsView/SystemsView';
@@ -16,17 +16,24 @@ import ViewRenameModal from './Modals/ViewRenameModal';
 import ViewDeleteModal from './Modals/ViewDeleteModal';
 import {
   ALL_SYSTEMS_VIEW_ID,
-  ALL_SYSTEMS_CONFIGURATION,
   type ViewConfiguration,
 } from '../../api/inventoryViewsApi';
 import { createViewColumnSelector } from './createViewColumnSelector';
+import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
+import { resolveColumnSelector } from '../SystemsView/columns/resolveColumnSelector';
 import { SORT_URL_PARAM, SORT_DIR_URL_PARAM } from '../SystemsView/constants';
 import { INITIAL_SORT } from '../SystemsView/hooks/useColumns';
-import type { Column } from '../SystemsView/columns/allColumnDefinitions';
+import type { Column } from '../SystemsView/columns/types';
+import type { InventoryBindableItem } from '../SystemsView/columns/inventory/columnDefinitions';
 import {
   buildViewConfigFilters,
   parseViewConfigFilters,
 } from './utils/viewConfigFilters';
+import {
+  useViewDirtyState,
+  FILTER_PARAM_KEYS,
+} from './hooks/useViewDirtyState';
+import { useUpdateViewMutation } from './hooks/useUpdateViewMutation';
 
 const filtersToSearchParams = (
   filters?: Partial<Record<string, string | string[]>>,
@@ -76,11 +83,11 @@ const getFiltersFromSearchParams = (
 // as invalid column key (see validation error listing valid keys).
 // Future fix: Change filter to use c.key instead of c.sortBy
 const normalizeViewColumns = (
-  columns: readonly Column[],
+  columns: readonly Column<InventoryBindableItem>[],
 ): ViewConfiguration['columns'] =>
   columns
     .filter(
-      (c): c is Column & { sortBy: string } =>
+      (c): c is Column<InventoryBindableItem> & { sortBy: string } =>
         c.isShown === true && typeof c.sortBy === 'string',
     )
     .map((c) => ({ key: c.sortBy }));
@@ -93,27 +100,56 @@ const InventoryViews = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [activeViewId, setActiveViewId] = useState(ALL_SYSTEMS_VIEW_ID);
   const queryClient = useQueryClient();
+  const updateView = useUpdateViewMutation();
   const isInventoryViewsPrivateEnabled = useInventoryViewsPrivateFeatureFlag();
-  const { data: viewsData } = useViewsQuery();
-  const viewsList = viewsData?.results ?? [];
-  const activeView = useMemo(
-    () => viewsList.find((v) => v.id === activeViewId),
-    [viewsList, activeViewId],
+  const {
+    data: viewsData,
+    fetchNextPage: fetchNextViewsPage,
+    hasNextPage: hasNextViewsPage,
+    isFetchingNextPage: isFetchingNextViewsPage,
+  } = useViewsQuery();
+  const viewsList = useMemo(
+    () => viewsData?.pages.flatMap((page) => page.results) ?? [],
+    [viewsData],
   );
-
-  const viewConfiguration =
-    activeView?.configuration ?? ALL_SYSTEMS_CONFIGURATION;
-
-  const [currentColumns, setCurrentColumns] =
-    useState<ViewConfiguration['columns']>();
-
-  const handleColumnsChange = useCallback((columns: readonly Column[]) => {
-    setCurrentColumns(normalizeViewColumns(columns));
-  }, []);
+  const activeView = viewsList.find((v) => v.id === activeViewId);
+  const isSystemView = activeView?.is_system_view ?? true;
+  const viewsLoaded = !!viewsData;
 
   const columnSelector = useMemo(
-    () => createViewColumnSelector(viewConfiguration)!,
-    [viewConfiguration],
+    () => createViewColumnSelector(activeView?.configuration),
+    [activeView?.configuration],
+  );
+
+  // Baseline columns = the view's saved configuration, resolved to the same
+  // Column[] shape the modal produces. Deriving it from the saved config (rather
+  // than lazily seeding it from the first onColumnsChange) is what makes the
+  // first edit count as dirty — otherwise the first edit becomes its own baseline.
+  const baselineColumns = useMemo(
+    () => resolveColumnSelector(columnSelector ?? selectLegacyInventoryColumns),
+    [columnSelector],
+  );
+
+  // The user's live column edits from the Manage columns modal. `undefined` means
+  // "no edits yet", so areColumnsDirty compares against the saved config baseline.
+  const [currentColumns, setCurrentColumns] =
+    useState<readonly Column<InventoryBindableItem>[]>();
+
+  // Reset edits synchronously when the active view (or views data) changes so a
+  // freshly selected view starts clean. Render-time reset avoids the one-frame
+  // stale-dirty flash a useEffect would introduce.
+  const prevViewKeyRef = useRef(`${activeViewId}-${viewsLoaded}`);
+  const viewKey = `${activeViewId}-${viewsLoaded}`;
+  if (viewKey !== prevViewKeyRef.current) {
+    prevViewKeyRef.current = viewKey;
+    setCurrentColumns(undefined);
+  }
+
+  const handleColumnsChange = useCallback(
+    (columns: readonly Column<InventoryBindableItem>[]) => {
+      setCurrentColumns(columns);
+    },
+    [],
   );
 
   const initialSort = useMemo(() => {
@@ -123,12 +159,22 @@ const InventoryViews = () => {
       sortBy: sort.key,
       direction: (sort.direction ?? 'asc') as SortDirection,
     };
-  }, [activeView?.configuration?.sort]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- derive from view config on switch or data load
+  }, [activeViewId, viewsLoaded]);
 
   const initialFilters = useMemo(
     () => parseViewConfigFilters(activeView?.configuration?.filters),
-    [activeView?.configuration?.filters],
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- derive from view config on switch or data load
+    [activeViewId, viewsLoaded],
   );
+
+  const isViewDirty = useViewDirtyState({
+    activeViewId,
+    savedConfiguration: activeView?.configuration,
+    searchParams,
+    baselineColumns,
+    currentColumns,
+  });
 
   const handleSelectView = useCallback(
     (viewId: string) => {
@@ -142,6 +188,23 @@ const InventoryViews = () => {
 
   const handleSaveAs = () => {
     setIsViewSaveAsModalOpen(true);
+  };
+
+  const handleSave = () => {
+    if (!activeView) return;
+    updateView.mutate(
+      {
+        id: activeView.id,
+        data: { configuration: getCurrentConfiguration() },
+      },
+      {
+        onSuccess: () => {
+          // Clear local edits; the view is now saved. The refetched configuration
+          // becomes the new baseline, so the view reads clean again.
+          setCurrentColumns(undefined);
+        },
+      },
+    );
   };
 
   const handleSaveAsSuccess = async (viewId: string, viewName: string) => {
@@ -173,7 +236,9 @@ const InventoryViews = () => {
   const getCurrentConfiguration = (): ViewConfiguration => {
     const sort = getSortFromSearchParams(searchParams);
     const filters = getFiltersFromSearchParams(searchParams);
-    const columns = currentColumns ?? activeView?.configuration?.columns ?? [];
+    const columns = currentColumns
+      ? normalizeViewColumns(currentColumns)
+      : normalizeViewColumns(baselineColumns);
 
     return {
       columns,
@@ -193,11 +258,17 @@ const InventoryViews = () => {
           <ViewsToolbar
             viewsList={viewsList}
             activeViewId={activeViewId}
-            isSystemView={activeView?.is_system_view ?? true}
+            isSystemView={isSystemView}
+            isViewDirty={isViewDirty}
+            isOwner={activeView?.is_owner ?? false}
             onSelectView={handleSelectView}
             onSaveAs={handleSaveAs}
             onRename={handleRename}
             onDelete={handleDelete}
+            onFetchNextViewsPage={fetchNextViewsPage}
+            hasNextViewsPage={hasNextViewsPage}
+            isFetchingNextViewsPage={isFetchingNextViewsPage}
+            onSave={handleSave}
           />
           <ViewSaveAsModal
             isOpen={isViewSaveAsModalOpen}
@@ -228,8 +299,8 @@ const InventoryViews = () => {
         </>
       )}
       <SystemsView
-        key={activeViewId}
-        columns={columnSelector}
+        key={`${activeViewId}-${viewsLoaded}`}
+        columns={columnSelector ?? selectLegacyInventoryColumns}
         initialSort={initialSort}
         initialFilters={initialFilters}
         onColumnsChange={handleColumnsChange}
