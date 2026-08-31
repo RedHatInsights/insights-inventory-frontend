@@ -43,6 +43,42 @@ function patchAppDataToInstallableCounts(
   ];
 }
 
+interface AdvisoryIconWithLinkProps {
+  count: number;
+  tooltipText: string;
+  Icon: React.ComponentType;
+  systemId: string;
+  advisoryType: 'security' | 'bugfix' | 'enhancement' | 'other';
+}
+
+const AdvisoryIconWithLink: React.FC<AdvisoryIconWithLinkProps> = ({
+  count,
+  tooltipText,
+  Icon,
+  systemId,
+  advisoryType,
+}) => {
+  const patchSystemLink = {
+    pathname: `/${systemId}`,
+    search: `appName=patch&offset=0&filter[advisory_type_name]=${advisoryType}`,
+  };
+
+  const iconAndCount = (
+    <AdvisoryIcon tooltipText={tooltipText} count={count} Icon={Icon} />
+  );
+
+  // Only link if count > 0
+  if (count > 0) {
+    return (
+      <InsightsLink app="inventory" to={patchSystemLink} preview={false}>
+        {iconAndCount}
+      </InsightsLink>
+    );
+  }
+
+  return iconAndCount;
+};
+
 interface InstallableAdvisoriesProps {
   appData: PatchAppData | undefined;
   systemId: string;
@@ -57,8 +93,25 @@ const InstallableAdvisories = ({
   }
 
   const [rhea, rhba, rhsa, other] = patchAppDataToInstallableCounts(appData);
-  const allZero = [rhea, rhba, rhsa, other].every((item) => item === 0);
-  const patchSystemLink = { pathname: `/systems/${systemId}` };
+
+  // Check if all advisory data is missing (null/undefined)
+  const allMissing = [rhea, rhba, rhsa, other].every(
+    (count) => count === null || count === undefined,
+  );
+
+  if (allMissing) {
+    return <CellValue type="notAvailable" reason={PATCH_DATA_NOT_AVAILABLE} />;
+  }
+
+  // Convert null/undefined to 0 for display (only if we have at least some valid data)
+  const rheaCount = rhea ?? 0;
+  const rhbaCount = rhba ?? 0;
+  const rhsaCount = rhsa ?? 0;
+  const otherCount = other ?? 0;
+
+  const allZero = [rheaCount, rhbaCount, rhsaCount, otherCount].every(
+    (count) => count === 0,
+  );
 
   if (allZero) {
     return <CellValue type="notSet" value={NOT_SET} />;
@@ -69,50 +122,42 @@ const InstallableAdvisories = ({
       type="present"
       value={
         <Flex style={{ display: 'inline-flex', flexWrap: 'nowrap' }}>
-          {rhsa !== 0 && (
-            <FlexItem spacer={{ default: 'spacerXs' }}>
-              <InsightsLink app="patch" to={patchSystemLink} preview={false}>
-                <AdvisoryIcon
-                  tooltipText="Security advisories"
-                  count={rhsa}
-                  Icon={SecurityIcon}
-                />
-              </InsightsLink>
-            </FlexItem>
-          )}
-          {rhba !== 0 && (
-            <FlexItem spacer={{ default: 'spacerXs' }}>
-              <InsightsLink app="patch" to={patchSystemLink} preview={false}>
-                <AdvisoryIcon
-                  tooltipText="Bug fixes"
-                  count={rhba}
-                  Icon={BugIcon}
-                />
-              </InsightsLink>
-            </FlexItem>
-          )}
-          {rhea !== 0 && (
-            <FlexItem spacer={{ default: 'spacerXs' }}>
-              <InsightsLink app="patch" to={patchSystemLink} preview={false}>
-                <AdvisoryIcon
-                  tooltipText="Enhancements"
-                  count={rhea}
-                  Icon={EnhancementIcon}
-                />
-              </InsightsLink>
-            </FlexItem>
-          )}
-          {other !== 0 && (
-            <FlexItem spacer={{ default: 'spacerXs' }}>
-              <InsightsLink app="patch" to={patchSystemLink} preview={false}>
-                <AdvisoryIcon
-                  tooltipText="Other"
-                  count={other}
-                  Icon={FlagIcon}
-                />
-              </InsightsLink>
-            </FlexItem>
-          )}
+          <FlexItem spacer={{ default: 'spacerXs' }}>
+            <AdvisoryIconWithLink
+              tooltipText="Security advisories"
+              count={rhsaCount}
+              Icon={SecurityIcon}
+              systemId={systemId}
+              advisoryType="security"
+            />
+          </FlexItem>
+          <FlexItem spacer={{ default: 'spacerXs' }}>
+            <AdvisoryIconWithLink
+              tooltipText="Bug fixes"
+              count={rhbaCount}
+              Icon={BugIcon}
+              systemId={systemId}
+              advisoryType="bugfix"
+            />
+          </FlexItem>
+          <FlexItem spacer={{ default: 'spacerXs' }}>
+            <AdvisoryIconWithLink
+              tooltipText="Enhancements"
+              count={rheaCount}
+              Icon={EnhancementIcon}
+              systemId={systemId}
+              advisoryType="enhancement"
+            />
+          </FlexItem>
+          <FlexItem spacer={{ default: 'spacerXs' }}>
+            <AdvisoryIconWithLink
+              tooltipText="Other"
+              count={otherCount}
+              Icon={FlagIcon}
+              systemId={systemId}
+              advisoryType="other"
+            />
+          </FlexItem>
         </Flex>
       }
     />

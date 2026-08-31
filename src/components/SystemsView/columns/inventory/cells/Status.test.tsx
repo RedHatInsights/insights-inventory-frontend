@@ -11,51 +11,51 @@ import { NOT_AVAILABLE } from '../../CellValue';
 const NOW = new Date('2024-06-15T12:00:00.000Z');
 
 const freshValue: StatusTimestamps = {
-  stale_timestamp: '2024-07-01T00:00:00.000Z',
-  stale_warning_timestamp: '2024-08-01T00:00:00.000Z',
-  culled_timestamp: '2024-09-01T00:00:00.000Z',
+  stale: '2024-07-01T00:00:00.000Z',
+  staleWarning: '2024-08-01T00:00:00.000Z',
+  culled: '2024-09-01T00:00:00.000Z',
 };
 
 const staleValue: StatusTimestamps = {
-  stale_timestamp: '2024-06-01T00:00:00.000Z',
-  stale_warning_timestamp: '2024-07-01T00:00:00.000Z',
-  culled_timestamp: '2024-08-01T00:00:00.000Z',
+  stale: '2024-06-01T00:00:00.000Z',
+  staleWarning: '2024-07-01T00:00:00.000Z',
+  culled: '2024-08-01T00:00:00.000Z',
 };
 
 const staleWarningValue: StatusTimestamps = {
-  stale_timestamp: '2024-05-01T00:00:00.000Z',
-  stale_warning_timestamp: '2024-06-01T00:00:00.000Z',
-  culled_timestamp: '2024-08-01T00:00:00.000Z',
+  stale: '2024-05-01T00:00:00.000Z',
+  staleWarning: '2024-06-01T00:00:00.000Z',
+  culled: '2024-08-01T00:00:00.000Z',
 };
 
 const unknownValue: StatusTimestamps = {
-  stale_timestamp: null,
-  stale_warning_timestamp: undefined,
-  culled_timestamp: undefined,
+  stale: null,
+  staleWarning: undefined,
+  culled: undefined,
 };
 
 const culledValue: StatusTimestamps = {
-  stale_timestamp: '2024-01-01T00:00:00.000Z',
-  stale_warning_timestamp: '2024-02-01T00:00:00.000Z',
-  culled_timestamp: '2024-03-01T00:00:00.000Z',
+  stale: '2024-01-01T00:00:00.000Z',
+  staleWarning: '2024-02-01T00:00:00.000Z',
+  culled: '2024-03-01T00:00:00.000Z',
 };
 
 describe('getHostStalenessStatus', () => {
-  it('returns Fresh when the current time is before stale_timestamp', () => {
+  it('returns Fresh when the current time is before stale', () => {
     expect(getHostStalenessStatus(freshValue, NOW)).toBe('Fresh');
   });
 
-  it('returns Stale when the current time is past stale_timestamp but before stale_warning_timestamp', () => {
+  it('returns Stale when the current time is past stale but before staleWarning', () => {
     expect(getHostStalenessStatus(staleValue, NOW)).toBe('Stale');
   });
 
-  it('returns Stale warning when the current time is past stale_warning_timestamp but before culled_timestamp', () => {
+  it('returns Stale warning when the current time is past staleWarning but before culled', () => {
     expect(getHostStalenessStatus(staleWarningValue, NOW)).toBe(
       'Stale warning',
     );
   });
 
-  it('returns null when stale_timestamp is missing', () => {
+  it('returns null when stale is missing', () => {
     expect(getHostStalenessStatus(unknownValue, NOW)).toBeNull();
   });
 

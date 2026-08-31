@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import type { Column } from '../columns/allColumnDefinitions';
+import type { Column } from '../columns/types';
 
 /** Last column (row actions kebab); not a managed inventory column key. */
 export const SYSTEMS_VIEW_ROW_ACTIONS_MIN_WIDTH = '2rem';
