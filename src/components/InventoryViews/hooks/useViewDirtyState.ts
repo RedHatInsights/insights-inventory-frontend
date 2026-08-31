@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import type { ViewConfiguration } from '../../../api/inventoryViewsApi';
-import { ALL_SYSTEMS_VIEW_ID } from '../../../api/inventoryViewsApi';
 import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import type { Column } from '../../SystemsView/columns/types';
 import {
