@@ -1,6 +1,5 @@
 import React from 'react';
-import { Label, LabelGroup } from '@patternfly/react-core';
-import CellValue from '../../CellValue';
+import LabelWithOverflow from '../../LabelWithOverflow';
 import {
   registered,
   REPORTER_RHSM_CONDUIT,
@@ -37,27 +36,11 @@ const DataCollector = ({ value }: DataCollectorProps) => {
     ),
   );
 
-  if (collectors.length === 0) {
-    return (
-      <CellValue
-        type="notAvailable"
-        reason="Data collector information is not available for this system"
-      />
-    );
-  }
-
   return (
-    <CellValue
-      type="present"
-      value={
-        <LabelGroup numLabels={1} isCompact aria-label="Data collectors">
-          {collectors.map((collector) => (
-            <Label key={collector} isCompact>
-              {collector}
-            </Label>
-          ))}
-        </LabelGroup>
-      }
+    <LabelWithOverflow
+      items={collectors}
+      notAvailableReason="Data collector information is not available for this system"
+      aria-label="Data collectors"
     />
   );
 };

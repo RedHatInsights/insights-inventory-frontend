@@ -11,10 +11,10 @@ const workloadsWithValues: SystemProfileWorkloads = {
 };
 
 describe('Workload cell', () => {
-  it('should show comma-separated workload acronyms for present keys', () => {
+  it('should show workload acronyms as labels for present keys', () => {
     render(<Workload value={workloadsWithValues} />);
-
-    expect(screen.getByText('AAP, SAP')).toBeInTheDocument();
+    expect(screen.getByText('AAP')).toBeInTheDocument();
+    expect(screen.getByText('1 more')).toBeInTheDocument();
   });
 
   it(`should show ${NOT_AVAILABLE} when no workloads are present`, () => {

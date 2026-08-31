@@ -1,6 +1,6 @@
 import React from 'react';
 import type { SystemProfileWorkloads } from '@redhat-cloud-services/host-inventory-client';
-import CellValue from '../../CellValue';
+import LabelWithOverflow from '../../LabelWithOverflow';
 import { WORKLOAD_ACRONYMS } from '../../../utils/workloadsFilter';
 
 interface WorkloadProps {
@@ -8,31 +8,27 @@ interface WorkloadProps {
 }
 
 const Workload = ({ value }: WorkloadProps) => {
-  if (value === undefined) {
-    return (
-      <CellValue
-        type="notAvailable"
-        reason="Workload data is not available for this system"
-      />
-    );
-  }
+  const acronyms =
+    value === undefined
+      ? []
+      : (Object.keys(value) as Array<keyof SystemProfileWorkloads>)
+          .filter((key) => value[key] != null)
+          .map((key) => WORKLOAD_ACRONYMS[key])
+          .filter((acronym): acronym is string => acronym != null)
+          .sort();
 
-  const acronyms = (Object.keys(value) as Array<keyof SystemProfileWorkloads>)
-    .filter((key) => value[key] != null)
-    .map((key) => WORKLOAD_ACRONYMS[key])
-    .filter((acronym): acronym is string => acronym != null)
-    .sort();
+  const notAvailableReason =
+    value === undefined
+      ? 'Workload data is not available for this system'
+      : 'No workloads are present for this system';
 
-  if (acronyms.length === 0) {
-    return (
-      <CellValue
-        type="notAvailable"
-        reason="No workloads are present for this system"
-      />
-    );
-  }
-
-  return <CellValue type="present" value={acronyms.join(', ')} />;
+  return (
+    <LabelWithOverflow
+      items={acronyms}
+      notAvailableReason={notAvailableReason}
+      aria-label="Workloads"
+    />
+  );
 };
 
 export default Workload;
