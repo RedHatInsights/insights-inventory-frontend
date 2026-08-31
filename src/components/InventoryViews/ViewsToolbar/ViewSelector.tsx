@@ -7,24 +7,36 @@ import {
   Select,
   SelectList,
   SelectOption,
+  Spinner,
 } from '@patternfly/react-core';
 import {
   ALL_SYSTEMS_VIEW_ID,
   type ViewOut,
 } from '../../../api/inventoryViewsApi';
+import { DEFAULT_PAGE_SIZE } from '../hooks/useViewsQuery';
 
 export interface ViewSelectorProps {
   views: ViewOut[];
   activeViewId: string;
   onSelectView: (viewId: string) => void;
+  onFetchNextPage?: () => Promise<unknown>;
+  hasNextPage?: boolean;
+  isFetchingNextPage?: boolean;
 }
+
+const PAGE_SIZE = DEFAULT_PAGE_SIZE;
+const LOADER_ID = '__view-selector-show-more__';
 
 const ViewSelector = ({
   views,
   activeViewId,
   onSelectView,
+  onFetchNextPage,
+  hasNextPage,
+  isFetchingNextPage,
 }: ViewSelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [visibleSize, setVisibleSize] = useState(PAGE_SIZE);
 
   const activeView = views.find((v) => v.id === activeViewId);
   const toggleLabel = activeView?.name ?? 'All systems';
@@ -52,8 +64,22 @@ const ViewSelector = ({
   };
 
   const onSelect = (_event: unknown, value: string | undefined) => {
-    if (value) onSelectView(value);
+    if (!value || value === LOADER_ID) return;
+    onSelectView(value);
     setIsOpen(false);
+  };
+
+  const visibleUserViews = userViews.slice(0, visibleSize);
+  const canShowMore =
+    userViews.length > visibleSize || !!(hasNextPage && onFetchNextPage);
+
+  const onShowMoreClick = async (event: React.MouseEvent) => {
+    event.stopPropagation();
+    const nextVisibleSize = visibleSize + PAGE_SIZE;
+    if (nextVisibleSize > userViews.length && hasNextPage && onFetchNextPage) {
+      await onFetchNextPage();
+    }
+    setVisibleSize(nextVisibleSize);
   };
 
   const toggle = (toggleRef: Ref<MenuToggleElement>) => (
@@ -62,6 +88,7 @@ const ViewSelector = ({
       onClick={onToggleClick}
       isExpanded={isOpen}
       aria-label="Select a view"
+      data-testid="manage-view-select-view"
     >
       {toggleLabel}
     </MenuToggle>
@@ -72,9 +99,14 @@ const ViewSelector = ({
       isOpen={isOpen}
       selected={activeViewId}
       onSelect={onSelect}
-      onOpenChange={(open) => setIsOpen(open)}
+      onOpenChange={(open) => {
+        setIsOpen(open);
+        if (!open) setVisibleSize(PAGE_SIZE);
+      }}
       toggle={toggle}
+      data-testid="manage-view-select-view-dropdown"
       shouldFocusToggleOnSelect
+      isScrollable
     >
       <SelectList>
         {allSystemsView && (
@@ -85,11 +117,23 @@ const ViewSelector = ({
         {userViews.length > 0 && (
           <>
             <Divider />
-            {userViews.map((view) => (
+            {visibleUserViews.map((view) => (
               <SelectOption key={view.id} value={view.id}>
                 {view.name}
               </SelectOption>
             ))}
+            {canShowMore && (
+              <SelectOption
+                value={LOADER_ID}
+                isLoadButton={!isFetchingNextPage}
+                isLoading={isFetchingNextPage}
+                isDisabled={isFetchingNextPage}
+                style={{ overflow: 'visible' }}
+                onClick={onShowMoreClick}
+              >
+                {isFetchingNextPage ? <Spinner size="lg" /> : 'Show more'}
+              </SelectOption>
+            )}
           </>
         )}
         {systemViews.length > 0 && (

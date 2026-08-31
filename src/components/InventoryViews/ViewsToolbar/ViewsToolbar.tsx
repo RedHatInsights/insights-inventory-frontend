@@ -19,11 +19,17 @@ export interface ViewsToolbarProps {
   activeViewId: string;
   currentViewId?: string | null;
   isSystemView?: boolean;
+  isViewDirty?: boolean;
+  isOwner?: boolean;
   viewsList?: ViewOut[];
   onSelectView: (viewId: string) => void;
   onSaveAs: () => void;
   onRename: () => void;
   onDelete: () => void;
+  onFetchNextViewsPage?: () => Promise<unknown>;
+  hasNextViewsPage?: boolean;
+  isFetchingNextViewsPage?: boolean;
+  onSave?: () => void;
 }
 
 export const ViewsToolbar = ({
@@ -31,11 +37,17 @@ export const ViewsToolbar = ({
   activeViewId,
   currentViewId,
   isSystemView = true,
+  isViewDirty = false,
+  isOwner = false,
   viewsList = [],
   onSelectView,
   onSaveAs,
   onRename,
   onDelete,
+  onFetchNextViewsPage,
+  hasNextViewsPage,
+  isFetchingNextViewsPage,
+  onSave,
 }: ViewsToolbarProps) => {
   return (
     <PageSection
@@ -63,15 +75,21 @@ export const ViewsToolbar = ({
               views={viewsList}
               activeViewId={activeViewId}
               onSelectView={onSelectView}
+              onFetchNextPage={onFetchNextViewsPage}
+              hasNextPage={hasNextViewsPage}
+              isFetchingNextPage={isFetchingNextViewsPage}
             />
           </ToolbarItem>
           <ToolbarItem>
             <ManageViewButton
               currentViewId={currentViewId}
               isSystemView={isSystemView}
+              isViewDirty={isViewDirty}
+              isOwner={isOwner}
               onSaveAs={onSaveAs}
               onRename={onRename}
               onDelete={onDelete}
+              onSave={onSave}
             />
           </ToolbarItem>
         </ToolbarContent>

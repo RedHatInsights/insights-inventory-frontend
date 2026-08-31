@@ -9,6 +9,7 @@ import { CreateGroupButton } from '../SmallComponents/CreateGroupButton';
 import { addHostSchema } from './ModalSchemas/schemes';
 import CreateGroupModal from './CreateGroupModal';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
+import { useKesselMigrationFeatureFlag } from '../../../Utilities/hooks/useKesselMigrationFeatureFlag';
 
 const AddSelectedHostsToGroupModal = ({
   isModalOpen,
@@ -18,6 +19,7 @@ const AddSelectedHostsToGroupModal = ({
 }) => {
   const chrome = useChrome();
   const apiWithToast = useApiWithToast();
+  const isKesselEnabled = useKesselMigrationFeatureFlag();
   const [isCreateGroupModalOpen, setIsCreateGroupModalOpen] = useState(false);
   const handleAddDevices = (values) => {
     const group = JSON.parse(values.group); // parse is a workaround for https://github.com/data-driven-forms/react-forms/issues/1401
@@ -52,7 +54,7 @@ const AddSelectedHostsToGroupModal = ({
           closeModal={() => setIsModalOpen(false)}
           title="Add to workspace"
           submitLabel="Add"
-          schema={addHostSchema(hosts, chrome)}
+          schema={addHostSchema(hosts, chrome, isKesselEnabled)}
           additionalMappers={{
             'create-group-btn': {
               component: CreateGroupButton,

@@ -5,34 +5,34 @@ import {
   ExclamationTriangleIcon,
 } from '@patternfly/react-icons';
 import CellValue from '../../CellValue';
-import { System } from '../../../../InventoryViews/hostsQueryOptions';
 
 export type HostStalenessStatus = 'Fresh' | 'Stale' | 'Stale warning';
 
-export type StatusTimestamps = Pick<
-  System,
-  'stale_timestamp' | 'stale_warning_timestamp' | 'culled_timestamp'
->;
+export type StatusTimestamps = {
+  stale?: string | null;
+  staleWarning?: string | null;
+  culled?: string | null;
+};
 
 export const getHostStalenessStatus = (
   value: StatusTimestamps,
   now: Date = new Date(),
 ): HostStalenessStatus | null => {
-  const { stale_timestamp, stale_warning_timestamp, culled_timestamp } = value;
+  const { stale, staleWarning, culled } = value;
 
-  if (!stale_timestamp) {
+  if (!stale) {
     return null;
   }
 
   const nowMs = now.getTime();
-  const staleMs = new Date(stale_timestamp).getTime();
+  const staleMs = new Date(stale).getTime();
 
   if (nowMs < staleMs) {
     return 'Fresh';
   }
 
-  if (stale_warning_timestamp) {
-    const staleWarningMs = new Date(stale_warning_timestamp).getTime();
+  if (staleWarning) {
+    const staleWarningMs = new Date(staleWarning).getTime();
     if (nowMs < staleWarningMs) {
       return 'Stale';
     }
@@ -40,8 +40,8 @@ export const getHostStalenessStatus = (
     return 'Stale';
   }
 
-  if (culled_timestamp) {
-    const culledMs = new Date(culled_timestamp).getTime();
+  if (culled) {
+    const culledMs = new Date(culled).getTime();
     if (nowMs < culledMs) {
       return 'Stale warning';
     }

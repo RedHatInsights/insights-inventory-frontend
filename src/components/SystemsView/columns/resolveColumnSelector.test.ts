@@ -1,22 +1,22 @@
 import { expect } from '@jest/globals';
-import allColumns from './allColumnDefinitions';
-import inventoryColumns from './inventory/columnDefinitions';
+import { bindInventoryViewColumns } from './inventoryViewColumns';
+import { columnCatalog } from './catalog';
+import type { InventoryBindableItem } from './inventory/columnDefinitions';
 import {
   type ColumnSelector,
   defaultColumnSelector,
   resolveColumnSelector,
 } from './resolveColumnSelector';
 
-const inventoryKeys = inventoryColumns.map((col) => col.key);
-
 describe('resolveColumnSelector', () => {
   it('returns no columns with the default selector', () => {
     expect(resolveColumnSelector()).toEqual([]);
-    expect(defaultColumnSelector(allColumns)).toEqual([]);
+    expect(defaultColumnSelector(columnCatalog)).toEqual([]);
   });
 
   it('allows custom selectors to reorder and override visibility', () => {
-    const customSelector: ColumnSelector = (all) => {
+    const customSelector: ColumnSelector<InventoryBindableItem> = () => {
+      const all = bindInventoryViewColumns();
       const byKey = Object.fromEntries(all.map((col) => [col.key, col]));
       return [
         { ...byKey['operating_system'], isShown: true, isShownByDefault: true },
