@@ -87,9 +87,9 @@ export const malwareColumns = [
 ];
 
 export const vulnerabilityColumns = [
-  'Total CVEs',
-  'Important CVEs',
+  'Vulnerabilities',
   'Critical CVEs',
+  'Important CVEs',
   'CVEs with security rules',
   'CVEs with known exploits',
 ];
@@ -253,9 +253,9 @@ const COLUMN_VALIDATIONS: Record<string, ColumnValidationConfig> = {
     type: 'numeric',
     ignoreValues: [NOT_AVAILABLE],
   },
-  'Total CVEs': {
+  Vulnerabilities: {
     type: 'numeric',
-    ignoreValues: [NOT_AVAILABLE],
+    ignoreValues: [NOT_AVAILABLE, 'No vulnerabilities'],
   },
   'Critical CVEs': {
     type: 'numeric',
@@ -341,6 +341,8 @@ export async function validateDataColumnSortOrder(
       validateInstallableAdvisoriesOrder(columnValues, direction);
     } else if (columnName === 'Recommendations') {
       validateRecommendationsOrder(columnValues, direction);
+    } else if (columnName === 'Vulnerabilities') {
+      validateVulnerabilitiesOrder(columnValues, direction);
     } else {
       validateNumericOrder(columnValues, direction);
     }
@@ -454,6 +456,30 @@ function validateRecommendationsOrder(
 ) {
   // For the new multi-icon Recommendations column, the displayed values don't directly
   // correspond to the sort key (critical count), so we just verify the column is sortable
+  // by checking that not all values are identical
+  const uniqueValues = new Set(values);
+  expect(uniqueValues.size).toBeGreaterThan(1);
+}
+
+/**
+ * Validates Vulnerabilities column order.
+ * The column displays severity icons (Critical, Important, Moderate, Low) but sorts by Critical CVE count.
+ * Since icons display multiple values and may include fallback values (--), we skip detailed validation
+ * and just verify the data changes across rows (not all the same value).
+ *
+ * TODO: Once backend provides moderate_cves and low_cves data and implements proper sorting,
+ * update this to do full numeric validation by parsing the critical CVE count from the composite display.
+ *
+ *  @param {string[]} values    - Array of values from the table.
+ *  @param {string}   direction - Sort direction ('ascending' or 'descending').
+ */
+function validateVulnerabilitiesOrder(
+  values: string[],
+  direction: 'ascending' | 'descending',
+) {
+  // TODO: Temporary validation - replace with proper numeric validation once backend is ready.
+  // For the new multi-icon Vulnerabilities column, the displayed values don't directly
+  // correspond to the sort key (critical CVE count), so we just verify the column is sortable
   // by checking that not all values are identical
   const uniqueValues = new Set(values);
   expect(uniqueValues.size).toBeGreaterThan(1);
