@@ -80,7 +80,7 @@ test.describe(
 
     const configurationA = {
       columns: [...vulnerabilityColumns, ...allSystemsColumns],
-      columnsCount: vulnerabilityColumns.length + totalDefaultColumns - 1, // tags columns currenlty not be able to be added to custom view
+      columnsCount: vulnerabilityColumns.length + totalDefaultColumns,
       filters: [
         {
           filter: 'System type',
@@ -97,8 +97,7 @@ test.describe(
       columnsCount:
         vulnerabilityColumns.length +
         malwareColumns.length +
-        totalDefaultColumns -
-        1, // tags columns currenlty not be able to be added to custom view
+        totalDefaultColumns,
       filters: [],
     };
 

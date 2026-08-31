@@ -16,7 +16,9 @@ export const defaultInventoryColumns = [
   'Last seen',
 ];
 
-// Default columns for All systems view (system view), Tags currently can't be saved to custom views
+// Default columns for All systems view (system view)
+// Note: Tags is excluded from this array because it's a special column that's always visible by default
+// but not included in the minimal set of columns for testing custom views.
 export const allSystemsColumns = ['Name', 'Workspace', 'OS', 'Last seen'];
 
 // Total columns includes checkbox (first) and per-row actions (last)
