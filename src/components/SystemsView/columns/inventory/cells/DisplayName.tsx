@@ -5,28 +5,20 @@ import { Flex, FlexItem, Icon, Popover } from '@patternfly/react-core';
 import { BundleIcon } from '@patternfly/react-icons';
 import FontAwesomeImageIcon from '../../../../FontAwesomeImageIcon';
 import CellValue from '../../CellValue';
-import type { System } from '../../../../InventoryViews/hostsQueryOptions';
 
-export type DisplayNameValue = Pick<
-  System,
-  'display_name' | 'system_profile'
-> & {
+export type DisplayNameValue = {
   id?: string;
+  displayName: string | null | undefined;
+  isImageBased?: boolean;
+  isCentosLinux?: boolean;
 };
-
-const isImageBasedSystem = (value: DisplayNameValue) =>
-  value.system_profile?.bootc_status?.booted?.image_digest ||
-  value.system_profile?.host_type === 'edge';
-
-const isCentosLinuxSystem = (value: DisplayNameValue) =>
-  value.system_profile?.operating_system?.name === 'CentOS Linux';
 
 interface DisplayNameProps {
   value: DisplayNameValue;
 }
 
 const DisplayName = ({ value }: DisplayNameProps) => {
-  if (value.display_name === null || value.display_name === undefined) {
+  if (value.displayName === null || value.displayName === undefined) {
     return (
       <CellValue
         type="notAvailable"
@@ -38,10 +30,10 @@ const DisplayName = ({ value }: DisplayNameProps) => {
   const displayNameContent =
     value.id !== null && value.id !== undefined ? (
       <InsightsLink app="inventory" to={value.id} preview={false}>
-        {value.display_name}
+        {value.displayName}
       </InsightsLink>
     ) : (
-      value.display_name
+      value.displayName
     );
 
   const displayNameValue = (
@@ -49,7 +41,7 @@ const DisplayName = ({ value }: DisplayNameProps) => {
       <div key="data">
         <Flex gap={{ default: 'gapSm' }}>
           <FlexItem>
-            {isImageBasedSystem(value) ? (
+            {value.isImageBased ? (
               <Popover
                 triggerAction="hover"
                 headerContent="Image-based system"
@@ -90,9 +82,7 @@ const DisplayName = ({ value }: DisplayNameProps) => {
             )}
           </FlexItem>
           <FlexItem>{displayNameContent}</FlexItem>
-          <FlexItem>
-            {isCentosLinuxSystem(value) && <ConversionPopover />}
-          </FlexItem>
+          <FlexItem>{value.isCentosLinux && <ConversionPopover />}</FlexItem>
         </Flex>
       </div>
     </div>

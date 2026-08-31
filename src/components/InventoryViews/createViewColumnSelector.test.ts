@@ -1,5 +1,6 @@
 import { expect } from '@jest/globals';
-import allColumns from '../SystemsView/columns/allColumnDefinitions';
+import inventoryViewColumns from '../SystemsView/columns/inventoryViewColumns';
+import { columnCatalog } from '../SystemsView/columns/catalog';
 import { createViewColumnSelector } from './createViewColumnSelector';
 
 describe('createViewColumnSelector', () => {
@@ -11,8 +12,8 @@ describe('createViewColumnSelector', () => {
     const selector = createViewColumnSelector({ columns: [] });
     expect(selector).toBeDefined();
 
-    const result = selector!(allColumns);
-    expect(result).toHaveLength(allColumns.length);
+    const result = selector!(columnCatalog);
+    expect(result).toHaveLength(inventoryViewColumns.length);
     expect(result.every((c) => !c.isShown)).toBe(true);
     expect(result.every((c) => !c.isShownByDefault)).toBe(true);
   });
@@ -25,7 +26,7 @@ describe('createViewColumnSelector', () => {
         { key: 'vulnerability:total_cves' },
       ],
     });
-    const result = selector!(allColumns);
+    const result = selector!(columnCatalog);
 
     const shownKeys = result.filter((c) => c.isShown).map((c) => c.key);
     expect(shownKeys).toEqual([
@@ -43,7 +44,7 @@ describe('createViewColumnSelector', () => {
         { key: 'last_check_in' },
       ],
     });
-    const result = selector!(allColumns);
+    const result = selector!(columnCatalog);
 
     for (const key of ['display_name', 'operating_system', 'last_check_in']) {
       const col = result.find((c) => c.key === key);
@@ -56,9 +57,9 @@ describe('createViewColumnSelector', () => {
     const selector = createViewColumnSelector({
       columns: [{ key: 'display_name' }, { key: 'operating_system' }],
     });
-    const result = selector!(allColumns);
+    const result = selector!(columnCatalog);
 
-    expect(result).toHaveLength(allColumns.length);
+    expect(result).toHaveLength(inventoryViewColumns.length);
 
     const resultKeys = result.map((c) => c.key);
     expect(resultKeys[0]).toBe('display_name');
@@ -77,7 +78,7 @@ describe('createViewColumnSelector', () => {
         { key: 'display_name' },
       ],
     });
-    const result = selector!(allColumns);
+    const result = selector!(columnCatalog);
 
     const firstThree = result.slice(0, 3).map((c) => c.key);
     expect(firstThree).toEqual([
@@ -95,9 +96,9 @@ describe('createViewColumnSelector', () => {
         { key: 'operating_system' },
       ],
     });
-    const result = selector!(allColumns);
+    const result = selector!(columnCatalog);
 
-    expect(result).toHaveLength(allColumns.length);
+    expect(result).toHaveLength(inventoryViewColumns.length);
     const shownKeys = result.filter((c) => c.isShown).map((c) => c.key);
     expect(shownKeys).toEqual(['display_name', 'operating_system']);
   });

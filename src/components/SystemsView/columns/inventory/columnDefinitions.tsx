@@ -1,174 +1,199 @@
 import React from 'react';
 import { ApiHostViewsGetHostViewsOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
-import DisplayName from './cells/DisplayName';
-import Workspace from './cells/Workspace';
-import LastSeen from './cells/LastSeen';
-import OperatingSystem from './cells/OperatingSystem';
-import Status from './cells/Status';
-import Tags from './cells/Tags';
+import type {
+  HostViewHost,
+  StructuredTag,
+  SystemProfileWorkloads,
+} from '@redhat-cloud-services/host-inventory-client';
+import type { SystemsViewItem } from '../../types';
+import type { Column, ColumnSpec } from '../types';
+import { bindColumn } from '../bindColumn';
+import { DEFAULT_NAME_COLUMN_MIN_WIDTH } from '../../utils/columnMinWidths';
+import { LastSeenColumnHeader } from '../../../../Utilities/LastSeenColumnHeader';
+import DisplayName, { type DisplayNameValue } from './cells/DisplayName';
+import Workspace, { type WorkspaceValue } from './cells/Workspace';
+import LastSeen, { type LastSeenValue } from './cells/LastSeen';
+import OperatingSystem, {
+  type OperatingSystemValue,
+} from './cells/OperatingSystem';
+import Status, { type StatusTimestamps } from './cells/Status';
+import Tags, { type TagsValue } from './cells/Tags';
 import Workload from './cells/Workload';
 import Vendor from './cells/Vendor';
 import Infrastructure from './cells/Infrastructure';
-import Created from './cells/Created';
-import { LastSeenColumnHeader } from '../../../../Utilities/LastSeenColumnHeader';
-import { System } from '../../../InventoryViews/hostsQueryOptions';
-import type { Column } from '../allColumnDefinitions';
-import { DEFAULT_NAME_COLUMN_MIN_WIDTH } from '../../utils/columnMinWidths';
-import { InventoryViewSystem } from '../../../InventoryViews/inventoryViewsQueryOptions';
+import Created, { type CreatedValue } from './cells/Created';
+
+/**
+ * Fields inventory column bindings for both InventoryHosts and InventoryViews can use
+ * `id` is required for the table;
+ * `tags` is merged client-side from `getHostTags`.
+ */
+export type InventoryBindableItem = SystemsViewItem &
+  Pick<
+    HostViewHost,
+    | 'display_name'
+    | 'groups'
+    | 'last_check_in'
+    | 'culled_timestamp'
+    | 'stale_timestamp'
+    | 'stale_warning_timestamp'
+    | 'per_reporter_staleness'
+    | 'created'
+    | 'system_profile'
+    | 'app_data'
+  > & {
+    tags?: StructuredTag[];
+  };
 
 const APP_NAME = 'inventory' as const;
 
-const nameColumn = {
+export const nameSpec: ColumnSpec<DisplayNameValue> = {
   appName: APP_NAME,
   title: 'Name',
   key: ApiOrderByEnum.DisplayName,
   minWidth: DEFAULT_NAME_COLUMN_MIN_WIDTH,
-  isShownByDefault: true,
-  isShown: true,
   isUntoggleable: true,
   sortBy: ApiOrderByEnum.DisplayName,
-  renderCell: (system: System) => (
-    <DisplayName
-      value={{
-        id: system.id,
-        display_name: system.display_name,
-        system_profile: system.system_profile,
-      }}
-    />
-  ),
+  renderCell: (value) => <DisplayName value={value} />,
 };
 
-const workspaceColumn = {
+export const workspaceSpec: ColumnSpec<WorkspaceValue | undefined> = {
   appName: APP_NAME,
   title: 'Workspace',
   key: ApiOrderByEnum.GroupName,
   minWidth: '10rem',
-  isShownByDefault: true,
-  isShown: true,
   sortBy: ApiOrderByEnum.GroupName,
-  renderCell: (system: InventoryViewSystem) => (
-    <Workspace value={system.groups} />
-  ),
+  renderCell: (value) => <Workspace value={value} />,
 };
 
-const tagsColumn = {
+export const tagsSpec: ColumnSpec<TagsValue> = {
   appName: APP_NAME,
   title: 'Tags',
   key: 'tags',
   minWidth: '6rem',
-  isShownByDefault: true,
-  isShown: true,
-  renderCell: (system: InventoryViewSystem) => (
-    <Tags value={system.tags} system={system} />
-  ),
+  renderCell: (value) => <Tags value={value} />,
 };
 
-const operatingSystemColumn = {
+export const osSpec: ColumnSpec<OperatingSystemValue | undefined> = {
   appName: APP_NAME,
   title: 'OS',
   key: ApiOrderByEnum.OperatingSystem,
   minWidth: '11rem',
-  isShownByDefault: true,
-  isShown: true,
   sortBy: ApiOrderByEnum.OperatingSystem,
-  renderCell: (system: InventoryViewSystem) => (
-    <OperatingSystem value={system.system_profile?.operating_system} />
-  ),
+  renderCell: (value) => <OperatingSystem value={value} />,
 };
 
-const lastSeenColumn = {
+export const lastSeenSpec: ColumnSpec<LastSeenValue> = {
   appName: APP_NAME,
   title: <LastSeenColumnHeader />,
   key: ApiOrderByEnum.LastCheckIn,
   minWidth: '9rem',
-  isShownByDefault: true,
-  isShown: true,
   sortBy: ApiOrderByEnum.LastCheckIn,
-  renderCell: (system: InventoryViewSystem) => (
-    <LastSeen
-      value={{
-        last_check_in: system.last_check_in,
-        culled_timestamp: system.culled_timestamp,
-        stale_warning_timestamp: system.stale_warning_timestamp,
-        stale_timestamp: system.stale_timestamp,
-        per_reporter_staleness: system.per_reporter_staleness,
-      }}
-    />
-  ),
+  renderCell: (value) => <LastSeen value={value} />,
 };
 
-const statusColumn = {
+export const statusSpec: ColumnSpec<StatusTimestamps> = {
   appName: APP_NAME,
   title: 'Status',
   key: 'status',
   minWidth: '9rem',
-  isShownByDefault: true,
-  isShown: true,
   sortBy: 'status',
-  renderCell: (system: InventoryViewSystem) => (
-    <Status
-      value={{
-        stale_timestamp: system.stale_timestamp,
-        stale_warning_timestamp: system.stale_warning_timestamp,
-        culled_timestamp: system.culled_timestamp,
-      }}
-    />
-  ),
+  renderCell: (value) => <Status value={value} />,
 };
 
-const infrastructureColumn = {
+export const infrastructureSpec: ColumnSpec<string | undefined> = {
   appName: APP_NAME,
   title: 'Infrastructure',
   key: 'infrastructure',
-  isShownByDefault: true,
-  isShown: true,
-  renderCell: (system: InventoryViewSystem) => (
-    <Infrastructure value={system.system_profile?.infrastructure_type} />
-  ),
+  renderCell: (value) => <Infrastructure value={value} />,
 };
 
-const vendorColumn = {
+export const vendorSpec: ColumnSpec<string | undefined> = {
   appName: APP_NAME,
   title: 'Vendor',
   key: 'vendor',
-  isShownByDefault: true,
-  isShown: true,
-  renderCell: (system: InventoryViewSystem) => (
-    <Vendor value={system.system_profile?.infrastructure_vendor} />
-  ),
+  renderCell: (value) => <Vendor value={value} />,
 };
 
-const workloadColumn = {
+export const workloadSpec: ColumnSpec<SystemProfileWorkloads | undefined> = {
   appName: APP_NAME,
   title: 'Workload',
   key: 'workload',
-  isShownByDefault: true,
-  isShown: true,
-  renderCell: (system: InventoryViewSystem) => (
-    <Workload value={system.system_profile?.workloads} />
-  ),
+  renderCell: (value) => <Workload value={value} />,
 };
 
-const createdColumn = {
+export const createdSpec: ColumnSpec<CreatedValue> = {
   appName: APP_NAME,
   title: 'Created',
   key: 'created',
-  isShownByDefault: true,
-  isShown: true,
-  renderCell: (system: InventoryViewSystem) => (
-    <Created value={system?.created} />
-  ),
+  renderCell: (value) => <Created value={value} />,
 };
 
-export default [
-  nameColumn,
-  workspaceColumn,
-  tagsColumn,
-  operatingSystemColumn,
-  lastSeenColumn,
-  statusColumn,
-  infrastructureColumn,
-  vendorColumn,
-  workloadColumn,
-  createdColumn,
-] as const satisfies readonly Column[];
+const isImageBasedSystem = (item: InventoryBindableItem) =>
+  Boolean(
+    item.system_profile?.bootc_status?.booted?.image_digest ||
+      item.system_profile?.host_type === 'edge',
+  );
+
+const isCentosLinuxSystem = (item: InventoryBindableItem) =>
+  item.system_profile?.operating_system?.name === 'CentOS Linux';
+
+/**
+ * Inventory-only bindings of catalog specs onto `InventoryBindableItem`.
+ *  @returns Bound inventory columns for an Inventory consumers.
+ */
+export const bindInventoryColumns = <
+  TItem extends InventoryBindableItem,
+>(): Column<TItem>[] => [
+  bindColumn(nameSpec, {
+    getValue: (item) => ({
+      id: item.id,
+      displayName: item.display_name,
+      isImageBased: isImageBasedSystem(item),
+      isCentosLinux: isCentosLinuxSystem(item),
+    }),
+  }),
+  bindColumn(workspaceSpec, {
+    getValue: (item) => item.groups,
+  }),
+  bindColumn(tagsSpec, {
+    getValue: (item) => ({
+      id: item.id,
+      display_name: item.display_name,
+      tags: item.tags,
+    }),
+  }),
+  bindColumn(osSpec, {
+    getValue: (item) => item.system_profile?.operating_system,
+  }),
+  bindColumn(lastSeenSpec, {
+    getValue: (item) => ({
+      lastSeen: item.last_check_in,
+      culled: item.culled_timestamp ?? undefined,
+      staleWarning: item.stale_warning_timestamp ?? undefined,
+      stale: item.stale_timestamp ?? undefined,
+      perReporterStaleness: item.per_reporter_staleness,
+    }),
+  }),
+  bindColumn(statusSpec, {
+    getValue: (item) => ({
+      stale: item.stale_timestamp,
+      staleWarning: item.stale_warning_timestamp,
+      culled: item.culled_timestamp,
+    }),
+  }),
+  bindColumn(infrastructureSpec, {
+    getValue: (item) => item.system_profile?.infrastructure_type,
+  }),
+  bindColumn(vendorSpec, {
+    getValue: (item) => item.system_profile?.infrastructure_vendor,
+  }),
+  bindColumn(workloadSpec, {
+    getValue: (item) => item.system_profile?.workloads,
+  }),
+  bindColumn(createdSpec, {
+    getValue: (item) => item.created,
+  }),
+];
+
+export default bindInventoryColumns();

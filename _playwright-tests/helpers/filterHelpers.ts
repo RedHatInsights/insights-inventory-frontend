@@ -59,9 +59,7 @@ export const filterSystemsWithConditionalFilter = async (
     // TODO: Implement logic to select the Status filter option.
     // Logic not implemented yet. Test continues without filtering.
   } else if (filterName === 'Tags') {
-    const inputLocator = isLegacyInventoryTableEnabled
-      ? page.getByPlaceholder('Filter by tags').nth(1)
-      : page.getByPlaceholder('Filter by tags');
+    const inputLocator = page.getByPlaceholder('Filter by tags');
     await inputLocator.click();
     await inputLocator.fill(option);
 
@@ -84,7 +82,6 @@ export const filterSystemsWithConditionalFilter = async (
   } else if (filterName === 'Operating system') {
     await page
       .getByRole('button', { name: 'Group filter' })
-      .nth(1)
       .or(
         page.locator(
           '[data-ouia-component-id="SystemsViewOperatingSystemsFilter"]',
@@ -259,3 +256,65 @@ export const parseLastSeenToDays = (text: string): number => {
   // Default: return -1 to indicate unknown format
   return -1;
 };
+
+export type ToolbarFilterHelper = {
+  filterToolbarGroup: Locator;
+  verifyFilterApplied: (category: string, value: string) => Promise<void>;
+  verifyFilterValues: (category: string, values: string[]) => Promise<void>;
+  verifyFiltersApplied: (
+    expectedFilters: Record<string, string | string[]>,
+  ) => Promise<void>;
+};
+/**
+ * Helper for verifying toolbar filters in the Inventory UI.
+ * @example * const filters = toolbarFilterHelper(page);
+ * await filters.verifyFilterApplied('Status', 'Stale');
+ *  await filters.verifyFiltersApplied({ 'Operating system': ['RHEL 9.6', 'RHEL 9.4'] });
+ */
+export function toolbarFilterHelper(page: Page): ToolbarFilterHelper {
+  const filterToolbarGroup = page.locator('.pf-v6-c-toolbar__group');
+  const verifyFilterApplied = async (
+    category: string,
+    value: string,
+  ): Promise<void> => {
+    const categoryGroup = filterToolbarGroup
+      .locator('.pf-v6-c-label-group')
+      .filter({
+        has: page.locator('.pf-v6-c-label-group__label', { hasText: category }),
+      });
+    await expect(categoryGroup).toBeVisible();
+    const chipValue = categoryGroup.locator('.pf-v6-c-label__text', {
+      hasText: value,
+    });
+    await expect(chipValue).toBeVisible();
+  };
+  const verifyFilterValues = async (
+    category: string,
+    values: string[],
+  ): Promise<void> => {
+    for (const value of values) {
+      await verifyFilterApplied(category, value);
+    }
+  };
+  return {
+    filterToolbarGroup,
+    verifyFilterApplied,
+    verifyFilterValues,
+    /**
+     * Validates multiple active filters in one call. Each category maps to either
+     * a single expected value or an array of expected values.
+     * Example: await verifyFiltersApplied({ 'Operating system': ['RHEL 9.6', 'RHEL 9.4'], 'Status': 'Stale' });
+     */
+    async verifyFiltersApplied(
+      expectedFilters: Record<string, string | string[]>,
+    ): Promise<void> {
+      for (const [category, value] of Object.entries(expectedFilters)) {
+        if (Array.isArray(value)) {
+          await verifyFilterValues(category, value);
+        } else {
+          await verifyFilterApplied(category, value);
+        }
+      }
+    },
+  };
+}
