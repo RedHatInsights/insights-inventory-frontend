@@ -21,34 +21,25 @@ const TEST_DISPLAY_NAME = 'My test system';
 
 const packageBasedSystem = {
   id: TEST_SYSTEM_ID,
-  display_name: TEST_DISPLAY_NAME,
-  system_profile: {},
+  displayName: TEST_DISPLAY_NAME,
 } satisfies DisplayNameValue;
 
 const imageBasedSystemBootcDigest = {
   id: TEST_SYSTEM_ID,
-  display_name: TEST_DISPLAY_NAME,
-  system_profile: {
-    bootc_status: {
-      booted: { image_digest: 'sha256:abc123' },
-    },
-  },
+  displayName: TEST_DISPLAY_NAME,
+  isImageBased: true,
 } satisfies DisplayNameValue;
 
 const imageBasedSystemEdge = {
   id: TEST_SYSTEM_ID,
-  display_name: TEST_DISPLAY_NAME,
-  system_profile: {
-    host_type: 'edge',
-  },
+  displayName: TEST_DISPLAY_NAME,
+  isImageBased: true,
 } satisfies DisplayNameValue;
 
 const centosSystem = {
   id: TEST_SYSTEM_ID,
-  display_name: TEST_DISPLAY_NAME,
-  system_profile: {
-    operating_system: { name: 'CentOS Linux', major: 7, minor: 4 },
-  },
+  displayName: TEST_DISPLAY_NAME,
+  isCentosLinux: true,
 } satisfies DisplayNameValue;
 
 function LocationProbe() {
@@ -147,7 +138,7 @@ describe('DisplayName cell', () => {
         <DisplayName
           value={{
             id: TEST_SYSTEM_ID,
-            system_profile: {},
+            displayName: undefined,
           }}
         />
       </TestWrapper>,
@@ -161,9 +152,8 @@ describe('DisplayName cell', () => {
           value={
             {
               id: TEST_SYSTEM_ID,
-              display_name: null,
-              system_profile: {},
-            } as unknown as DisplayNameValue
+              displayName: null,
+            } as DisplayNameValue
           }
         />
       </TestWrapper>,
@@ -177,8 +167,7 @@ describe('DisplayName cell', () => {
       <TestWrapper>
         <DisplayName
           value={{
-            display_name: TEST_DISPLAY_NAME,
-            system_profile: {},
+            displayName: TEST_DISPLAY_NAME,
           }}
         />
       </TestWrapper>,
