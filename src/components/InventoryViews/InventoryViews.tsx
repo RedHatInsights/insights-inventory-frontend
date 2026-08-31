@@ -21,19 +21,29 @@ import {
 import { createViewColumnSelector } from './createViewColumnSelector';
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
 import { resolveColumnSelector } from '../SystemsView/columns/resolveColumnSelector';
-import { SORT_URL_PARAM, SORT_DIR_URL_PARAM } from '../SystemsView/constants';
+import {
+  SORT_URL_PARAM,
+  SORT_DIR_URL_PARAM,
+  type LastSeenKey,
+} from '../SystemsView/constants';
+import {
+  ApiHostGetHostListRegisteredWithEnum,
+  ApiHostGetHostListStalenessEnum,
+} from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import { INITIAL_SORT } from '../SystemsView/hooks/useColumns';
 import type { Column } from '../SystemsView/columns/types';
 import type { InventoryBindableItem } from '../SystemsView/columns/inventory/columnDefinitions';
 import {
   buildViewConfigFilters,
   parseViewConfigFilters,
+  parseViewConfigLastSeenCustomRange,
 } from './utils/viewConfigFilters';
 import {
   useViewDirtyState,
   FILTER_PARAM_KEYS,
 } from './hooks/useViewDirtyState';
 import { useUpdateViewMutation } from './hooks/useUpdateViewMutation';
+import type { LastSeenCustomRange } from '../SystemsView/types';
 
 const filtersToSearchParams = (
   filters?: Partial<Record<string, string | string[]>>,
@@ -67,13 +77,27 @@ const getSortFromSearchParams = (
 
 const getFiltersFromSearchParams = (
   searchParams: URLSearchParams,
+  lastSeenCustomRange?: LastSeenCustomRange,
 ): ViewConfiguration['filters'] | undefined => {
-  return buildViewConfigFilters({
-    operating_system: searchParams.getAll('operating_system'),
-    workloads: searchParams.getAll('workloads'),
-    rhcStatus: searchParams.getAll('rhcStatus'),
-    system_type: searchParams.getAll('system_type'),
-  });
+  return buildViewConfigFilters(
+    {
+      operating_system: searchParams.getAll('operating_system'),
+      workloads: searchParams.getAll('workloads'),
+      rhcStatus: searchParams.getAll('rhcStatus'),
+      system_type: searchParams.getAll('system_type'),
+      hostname_or_id: searchParams.get('hostname_or_id') || '',
+      status: searchParams.getAll(
+        'status',
+      ) as ApiHostGetHostListStalenessEnum[],
+      source: searchParams.getAll(
+        'source',
+      ) as ApiHostGetHostListRegisteredWithEnum[],
+      tags: searchParams.getAll('tags'),
+      group_id: searchParams.getAll('group_id'),
+      last_seen: (searchParams.get('last_seen') || '') as LastSeenKey | '',
+    },
+    lastSeenCustomRange ?? undefined,
+  );
 };
 
 // TODO: Once backend accepts 'tags' column in view configuration API,
@@ -102,6 +126,9 @@ const InventoryViews = () => {
   const queryClient = useQueryClient();
   const updateView = useUpdateViewMutation();
   const isInventoryViewsPrivateEnabled = useInventoryViewsPrivateFeatureFlag();
+  const [currentLastSeenCustomRange, setCurrentLastSeenCustomRange] = useState<
+    LastSeenCustomRange | undefined
+  >(undefined);
   const {
     data: viewsData,
     fetchNextPage: fetchNextViewsPage,
@@ -143,6 +170,7 @@ const InventoryViews = () => {
   if (viewKey !== prevViewKeyRef.current) {
     prevViewKeyRef.current = viewKey;
     setCurrentColumns(undefined);
+    setCurrentLastSeenCustomRange(undefined);
   }
 
   const handleColumnsChange = useCallback(
@@ -168,12 +196,20 @@ const InventoryViews = () => {
     [activeViewId, viewsLoaded],
   );
 
+  const initialLastSeenCustomRange = useMemo(
+    () =>
+      parseViewConfigLastSeenCustomRange(activeView?.configuration?.filters),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- derive from view config on switch or data load
+    [activeViewId, viewsLoaded],
+  );
+
   const isViewDirty = useViewDirtyState({
     activeViewId,
     savedConfiguration: activeView?.configuration,
     searchParams,
     baselineColumns,
     currentColumns,
+    currentLastSeenCustomRange,
   });
 
   const handleSelectView = useCallback(
@@ -199,9 +235,8 @@ const InventoryViews = () => {
       },
       {
         onSuccess: () => {
-          // Clear local edits; the view is now saved. The refetched configuration
-          // becomes the new baseline, so the view reads clean again.
           setCurrentColumns(undefined);
+          setCurrentLastSeenCustomRange(undefined);
         },
       },
     );
@@ -235,7 +270,13 @@ const InventoryViews = () => {
 
   const getCurrentConfiguration = (): ViewConfiguration => {
     const sort = getSortFromSearchParams(searchParams);
-    const filters = getFiltersFromSearchParams(searchParams);
+    const filters = getFiltersFromSearchParams(
+      searchParams,
+      currentLastSeenCustomRange === undefined
+        ? (initialLastSeenCustomRange ?? undefined)
+        : currentLastSeenCustomRange,
+    );
+
     const columns = currentColumns
       ? normalizeViewColumns(currentColumns)
       : normalizeViewColumns(baselineColumns);
@@ -303,7 +344,9 @@ const InventoryViews = () => {
         columns={columnSelector ?? selectLegacyInventoryColumns}
         initialSort={initialSort}
         initialFilters={initialFilters}
+        initialLastSeenCustomRange={initialLastSeenCustomRange}
         onColumnsChange={handleColumnsChange}
+        onLastSeenCustomRangeChange={setCurrentLastSeenCustomRange}
         queryKeyPrefix={INVENTORY_VIEWS_QUERY_KEY}
         fetchData={fetchInventoryViews}
         defaultFilters={defaultFilters}

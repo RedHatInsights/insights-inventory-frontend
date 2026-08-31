@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import {
   keepPreviousData,
   useQuery,
@@ -58,6 +58,7 @@ import useInventoryViewsFeatureFlag from '../../Utilities/useInventoryViewsFeatu
 import type { Column } from './columns/types';
 import type { System } from '../InventoryViews/hostsQueryOptions';
 import type {
+  LastSeenCustomRange,
   SortDirection,
   SystemsViewFetchParams,
   SystemsViewItem,
@@ -103,7 +104,9 @@ export type SystemsViewProps<TItem extends SystemsViewItem> = {
   defaultFilters?: Partial<InventoryFilters>;
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   initialFilters?: Partial<InventoryFilters>;
+  initialLastSeenCustomRange?: LastSeenCustomRange;
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
+  onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
 };
 
 interface SystemsViewInnerProps<TItem extends SystemsViewItem> {
@@ -114,6 +117,7 @@ interface SystemsViewInnerProps<TItem extends SystemsViewItem> {
   resolvedDefaultColumns: readonly Column<TItem>[];
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
+  onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
 }
 
 function SystemsViewInner<TItem extends SystemsViewItem>({
@@ -124,10 +128,15 @@ function SystemsViewInner<TItem extends SystemsViewItem>({
   resolvedDefaultColumns,
   initialSort,
   onColumnsChange,
+  onLastSeenCustomRangeChange,
 }: SystemsViewInnerProps<TItem>) {
   const queryClient = useQueryClient();
   const { filters, clearAllFilters, hasDefaultFilters, lastSeenCustomRange } =
     useDataViewFiltersContext();
+
+  useEffect(() => {
+    onLastSeenCustomRangeChange?.(lastSeenCustomRange);
+  }, [lastSeenCustomRange, onLastSeenCustomRangeChange]);
 
   const pagination = useDataViewPagination({
     perPage: PER_PAGE,
@@ -383,7 +392,9 @@ export function SystemsView<TItem extends SystemsViewItem>({
   defaultFilters,
   initialSort,
   initialFilters,
+  initialLastSeenCustomRange,
   onColumnsChange,
+  onLastSeenCustomRangeChange,
 }: SystemsViewProps<TItem>) {
   const [searchParams, setSearchParams] = useSearchParams();
   const resolvedDefaultColumns = useMemo(
@@ -397,6 +408,7 @@ export function SystemsView<TItem extends SystemsViewItem>({
       setSearchParams={setSearchParams}
       defaultFilters={defaultFilters}
       initialFilters={initialFilters}
+      initialLastSeenCustomRange={initialLastSeenCustomRange}
     >
       <SystemsViewInner
         searchParams={searchParams}
@@ -406,6 +418,7 @@ export function SystemsView<TItem extends SystemsViewItem>({
         resolvedDefaultColumns={resolvedDefaultColumns}
         initialSort={initialSort}
         onColumnsChange={onColumnsChange}
+        onLastSeenCustomRangeChange={onLastSeenCustomRangeChange}
       />
     </DataViewFiltersProvider>
   );
