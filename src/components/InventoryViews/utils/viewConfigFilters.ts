@@ -176,8 +176,7 @@ export const parseViewConfigLastSeenCustomRange = (
 ): LastSeenCustomRange => {
   if (!viewFilters) return null;
 
-  const raw = viewFilters as unknown as Record<string, unknown>;
-  const hostFilters = raw.host as HostFilters | undefined;
+  const hostFilters = viewFilters.host;
   const start = hostFilters?.last_check_in_start;
   const end = hostFilters?.last_check_in_end;
 
