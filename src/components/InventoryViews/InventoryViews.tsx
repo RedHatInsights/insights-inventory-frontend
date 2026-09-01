@@ -1,5 +1,11 @@
 import { useQueryClient } from '@tanstack/react-query';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useSearchParams } from 'react-router-dom';
 import SystemsView from '../SystemsView/SystemsView';
 import type { SortDirection } from '../SystemsView/SystemsView';
@@ -139,6 +145,20 @@ const InventoryViews = () => {
     () => viewsData?.pages.flatMap((page) => page.results) ?? [],
     [viewsData],
   );
+  const allSystemsViewId = useMemo(
+    () => viewsList.find((v) => v.is_system_view)?.id ?? ALL_SYSTEMS_VIEW_ID,
+    [viewsList],
+  );
+
+  useEffect(() => {
+    if (
+      activeViewId === ALL_SYSTEMS_VIEW_ID &&
+      allSystemsViewId !== ALL_SYSTEMS_VIEW_ID
+    ) {
+      setActiveViewId(allSystemsViewId);
+    }
+  }, [activeViewId, allSystemsViewId]);
+
   const activeView = viewsList.find((v) => v.id === activeViewId);
   const isSystemView = activeView?.is_system_view ?? true;
   const viewsLoaded = !!viewsData;
@@ -263,7 +283,7 @@ const InventoryViews = () => {
   const handleDeleteSuccess = (viewId: string) => {
     setIsDeleteModalOpen(false);
     if (viewId === activeViewId) {
-      setActiveViewId(ALL_SYSTEMS_VIEW_ID);
+      setActiveViewId(allSystemsViewId);
       setSearchParams(new URLSearchParams(), { replace: true });
     }
   };

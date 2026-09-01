@@ -100,7 +100,7 @@ test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
       })
       .or(
         page.locator(
-          'td[data-ouia-component-id^="systems-view-table-td-"][data-ouia-component-id$="-1"]',
+          'td[data-ouia-component-id^="systems-view-table-td-"][data-ouia-component-id$="-2"]',
           {
             hasText: workspaceWithSystem.workspaceName,
           },
