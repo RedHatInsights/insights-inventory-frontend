@@ -106,24 +106,13 @@ const getFiltersFromSearchParams = (
   );
 };
 
-// Persists each shown column's `key`, which is what restore matches against
-// (see createViewColumnSelector, which builds its catalog map keyed by col.key).
-// The `typeof c.sortBy === 'string'` filter selects only persistable columns:
-// every sortable column's `key` is a backend-valid order_by value.
-//
-// TODO: Once backend accepts 'tags' column in view configuration API,
-// update this filter to not exclude columns without sortBy.
-// Current issue: Tags column has no sortBy field and gets filtered out,
-// so it cannot be saved to custom views. Backend currently rejects 'tags'
-// as invalid column key (see validation error listing valid keys).
+// Converts visible columns to ViewConfiguration format.
+// Backend validates column keys server-side against its field registry.
 const normalizeViewColumns = (
   columns: readonly Column<InventoryBindableItem>[],
 ): ViewConfiguration['columns'] =>
   columns
-    .filter(
-      (c): c is Column<InventoryBindableItem> & { sortBy: string } =>
-        c.isShown === true && typeof c.sortBy === 'string',
-    )
+    .filter((c) => c.isShown === true && typeof c.key === 'string')
     .map((c) => ({ key: c.key }));
 
 const InventoryViews = () => {
