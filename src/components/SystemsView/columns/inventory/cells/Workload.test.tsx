@@ -11,9 +11,9 @@ const workloadsWithValues: SystemProfileWorkloads = {
 };
 
 describe('Workload cell', () => {
-  it('should show workload acronyms as labels for present keys', () => {
+  it('should show full workload labels for present keys', () => {
     render(<Workload value={workloadsWithValues} />);
-    expect(screen.getByText('AAP')).toBeInTheDocument();
+    expect(screen.getByText('Ansible Automation Platform')).toBeInTheDocument();
     expect(screen.getByText('1 more')).toBeInTheDocument();
   });
 
