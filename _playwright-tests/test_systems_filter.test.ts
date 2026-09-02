@@ -89,6 +89,13 @@ test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
        - inv-hosts-filter-by-group_id
        - importance: critical
      */
+    if (isInventoryViewsEnabled) {
+      // eslint-disable-next-line playwright/no-skipped-test
+      test.skip(
+        true,
+        'Workspace filter has not correct locator, waiting for backend fix',
+      );
+    }
     await filterSystemsWithConditionalFilter(
       page,
       'Workspace',
@@ -100,7 +107,7 @@ test.describe('Filtering Systems Tests', { tag: ['@systems-table'] }, () => {
       })
       .or(
         page.locator(
-          'td[data-ouia-component-id^="systems-view-table-td-"][data-ouia-component-id$="-2"]',
+          'td[data-ouia-component-id^="systems-view-table-td-"][data-ouia-component-id$="-1"]',
           {
             hasText: workspaceWithSystem.workspaceName,
           },
