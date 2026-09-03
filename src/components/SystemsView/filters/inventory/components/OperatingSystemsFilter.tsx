@@ -11,16 +11,16 @@ import { TypeaheadMenuToggle } from './TypeaheadMenuToggle';
 import { css } from '@patternfly/react-styles';
 import menuStyles from '@patternfly/react-styles/css/components/Menu/menu';
 import xor from 'lodash/xor';
-import { useDebouncedValue } from '../../../Utilities/hooks/useDebouncedValue';
-import { useOperatingSystemsQuery } from '../hooks/useOperatingSystemsQuery';
+import { useDebouncedValue } from '../../../../../Utilities/hooks/useDebouncedValue';
+import { useOperatingSystemsQuery } from '../../../hooks/useOperatingSystemsQuery';
 import {
   buildOperatingSystemSelectGroups,
   buildOsFilterTokens,
   mapOperatingSystemApiResultsToVersionRows,
   serializeOperatingSystemFilterValue,
-} from '../utils/operatingSystemSelectOptions';
-import { FILTER_DROPDOWN_WIDTH } from '../constants';
-import { DEBOUNCE_TIMEOUT_MS } from '../../../constants';
+} from '../../../utils/operatingSystemSelectOptions';
+import { FILTER_DROPDOWN_WIDTH } from '../../../constants';
+import { DEBOUNCE_TIMEOUT_MS } from '../../../../../constants';
 
 interface OperatingSystemsFilterProps {
   placeholder?: string;

@@ -20,11 +20,11 @@ import {
 } from '@patternfly/react-core';
 import { TypeaheadMenuToggle } from './TypeaheadMenuToggle';
 import xor from 'lodash/xor';
-import { useDebouncedValue } from '../../../Utilities/hooks/useDebouncedValue';
-import { useWorkspaceGroupsInfiniteQuery } from '../../filters/useWorkspaceGroupsInfiniteQuery';
-import { DEBOUNCE_TIMEOUT_MS } from '../../../constants';
-import { UNGROUPED_HOSTS_LABEL } from '../constants';
-import { DataViewFiltersContext } from '../DataViewFiltersContext';
+import { useDebouncedValue } from '../../../../../Utilities/hooks/useDebouncedValue';
+import { useWorkspaceGroupsInfiniteQuery } from '../../../../filters/useWorkspaceGroupsInfiniteQuery';
+import { DEBOUNCE_TIMEOUT_MS } from '../../../../../constants';
+import { UNGROUPED_HOSTS_LABEL } from '../../../constants';
+import { DataViewFiltersContext } from '../../../DataViewFiltersContext';
 
 interface WorkspaceFilterProps {
   placeholder?: string;
