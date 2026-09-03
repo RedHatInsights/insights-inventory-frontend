@@ -9,10 +9,7 @@ import {
   SelectOption,
   Spinner,
 } from '@patternfly/react-core';
-import {
-  ALL_SYSTEMS_VIEW_ID,
-  type ViewOut,
-} from '../../../api/inventoryViewsApi';
+import type { ViewOut } from '../../../api/inventoryViewsApi';
 import { DEFAULT_PAGE_SIZE } from '../hooks/useViewsQuery';
 
 export interface ViewSelectorProps {
@@ -47,10 +44,12 @@ const ViewSelector = ({
     systemViews: ViewOut[];
   }>(
     (acc, view) => {
-      if (view.id === ALL_SYSTEMS_VIEW_ID) {
-        acc.allSystemsView = view;
-      } else if (view.is_system_view) {
-        acc.systemViews.push(view);
+      if (view.is_system_view) {
+        if (!acc.allSystemsView) {
+          acc.allSystemsView = view;
+        } else {
+          acc.systemViews.push(view);
+        }
       } else {
         acc.userViews.push(view);
       }

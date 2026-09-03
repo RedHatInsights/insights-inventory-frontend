@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import type { ViewConfiguration } from '../../../api/inventoryViewsApi';
-import { ALL_SYSTEMS_VIEW_ID } from '../../../api/inventoryViewsApi';
 import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import type { Column } from '../../SystemsView/columns/types';
 import {
@@ -9,7 +8,11 @@ import {
 } from '../../SystemsView/constants';
 import { INITIAL_SORT } from '../../SystemsView/hooks/useColumns';
 import { INITIAL_INVENTORY_FILTERS } from '../../SystemsView/DataViewFiltersContext';
-import { parseViewConfigFilters } from '../utils/viewConfigFilters';
+import {
+  parseViewConfigFilters,
+  parseViewConfigLastSeenCustomRange,
+} from '../utils/viewConfigFilters';
+import type { LastSeenCustomRange } from '../../SystemsView/types';
 
 export const FILTER_PARAM_KEYS = Object.keys(INITIAL_INVENTORY_FILTERS);
 
@@ -21,6 +24,7 @@ interface UseViewDirtyStateParams {
   searchParams: URLSearchParams;
   baselineColumns?: readonly ColumnVisibility[];
   currentColumns?: readonly ColumnVisibility[];
+  currentLastSeenCustomRange?: LastSeenCustomRange;
 }
 
 export const isSortDirty = (
@@ -44,11 +48,24 @@ export const isSortDirty = (
 export const areFiltersDirty = (
   searchParams: URLSearchParams,
   initialFilters?: Partial<InventoryFilters>,
+  effectiveLastSeenCustomRange?: LastSeenCustomRange,
 ): boolean => {
   const initial = (initialFilters ?? {}) as Record<string, unknown>;
+  const hasEffectiveCustomRange = Boolean(
+    effectiveLastSeenCustomRange?.start || effectiveLastSeenCustomRange?.end,
+  );
 
   for (const key of FILTER_PARAM_KEYS) {
-    const current = searchParams.getAll(key).sort();
+    let current = searchParams.getAll(key).sort();
+
+    if (
+      key === 'last_seen' &&
+      !hasEffectiveCustomRange &&
+      current.length === 1 &&
+      current[0] === 'custom'
+    ) {
+      current = [];
+    }
 
     const rawSaved = initial[key];
     let saved: string[];
@@ -69,6 +86,28 @@ export const areFiltersDirty = (
   }
 
   return false;
+};
+
+/**
+ * The custom Last seen range lives in in-memory state, not the URL, so areFiltersDirty
+ * cannot see it: editing a saved custom range keeps `last_seen=custom` in searchParams
+ * unchanged. This compares the live range against the saved one directly.
+ *
+ *  @param savedConfiguration - The view's saved configuration.
+ *  @param currentRange       - Live range; `undefined` means untouched (never dirty).
+ *  @returns                  True when the live range differs from the saved one.
+ */
+export const isLastSeenCustomRangeDirty = (
+  savedConfiguration: ViewConfiguration | undefined,
+  currentRange: LastSeenCustomRange | undefined,
+): boolean => {
+  if (currentRange === undefined) return false;
+
+  const saved = parseViewConfigLastSeenCustomRange(savedConfiguration?.filters);
+  return (
+    (currentRange?.start ?? '') !== (saved?.start ?? '') ||
+    (currentRange?.end ?? '') !== (saved?.end ?? '')
+  );
 };
 
 export const areColumnsDirty = (
@@ -94,15 +133,36 @@ export const useViewDirtyState = ({
   searchParams,
   baselineColumns,
   currentColumns,
+  currentLastSeenCustomRange,
 }: UseViewDirtyStateParams) =>
   useMemo(() => {
     // For All Systems view (system view), check if current state differs from defaults
     // For custom views, check if current state differs from saved configuration
     const savedFilters = parseViewConfigFilters(savedConfiguration?.filters);
+    const effectiveLastSeenCustomRange =
+      currentLastSeenCustomRange === undefined
+        ? parseViewConfigLastSeenCustomRange(savedConfiguration?.filters)
+        : currentLastSeenCustomRange;
 
     const sortIsDirty = isSortDirty(searchParams, savedConfiguration?.sort);
-    const filtersAreDirty = areFiltersDirty(searchParams, savedFilters);
+    const filtersAreDirty = areFiltersDirty(
+      searchParams,
+      savedFilters,
+      effectiveLastSeenCustomRange,
+    );
     const columnsAreDirty = areColumnsDirty(baselineColumns, currentColumns);
+    const lastSeenRangeIsDirty = isLastSeenCustomRangeDirty(
+      savedConfiguration,
+      currentLastSeenCustomRange,
+    );
 
-    return sortIsDirty || filtersAreDirty || columnsAreDirty;
-  }, [savedConfiguration, searchParams, baselineColumns, currentColumns]);
+    return (
+      sortIsDirty || filtersAreDirty || columnsAreDirty || lastSeenRangeIsDirty
+    );
+  }, [
+    savedConfiguration,
+    searchParams,
+    baselineColumns,
+    currentColumns,
+    currentLastSeenCustomRange,
+  ]);

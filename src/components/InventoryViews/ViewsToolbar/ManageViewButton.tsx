@@ -120,18 +120,18 @@ export const ManageViewButton = ({
         <DropdownItem key="save-as" onClick={onSaveAs}>
           Save as
         </DropdownItem>
-        <DropdownItem key="rename" onClick={onRename} isDisabled={isSystemView}>
-          Rename
-        </DropdownItem>
-        <DropdownItem key="delete" onClick={onDelete} isDisabled={isSystemView}>
-          Delete
-        </DropdownItem>
         <DropdownItem
           key="save"
           onClick={onSave}
           isDisabled={!isViewDirty || isSystemView || !isOwner}
         >
           Save
+        </DropdownItem>
+        <DropdownItem key="rename" onClick={onRename} isDisabled={isSystemView}>
+          Rename
+        </DropdownItem>
+        <DropdownItem key="delete" onClick={onDelete} isDisabled={isSystemView}>
+          Delete
         </DropdownItem>
       </DropdownList>
     </Dropdown>

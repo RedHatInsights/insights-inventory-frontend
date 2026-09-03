@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 const OperatingSystemFormatter = ({ operatingSystem }) => {
   if (
     operatingSystem?.name === 'RHEL' ||
-    operatingSystem?.name === 'CentOS Linux'
+    operatingSystem?.name === 'CentOS Linux' ||
+    operatingSystem?.name === 'CentOS'
   ) {
     const version =
       (operatingSystem.major &&

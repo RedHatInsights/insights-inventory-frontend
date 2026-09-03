@@ -66,17 +66,17 @@ test.describe(
 
       const modal = columnManagementModal(page);
       await modal.open();
-      await modal.enableColumn('Total CVEs');
+      await modal.enableColumn('Critical CVEs');
       await modal.save();
 
-      const totalCvesHeader = page.getByRole('columnheader', {
-        name: 'Total CVEs',
+      const criticalCvesHeader = page.getByRole('columnheader', {
+        name: 'Critical CVEs',
       });
-      await expect(totalCvesHeader).toBeVisible();
-      await expect(totalCvesHeader).not.toHaveAttribute('aria-sort');
+      await expect(criticalCvesHeader).toBeVisible();
+      await expect(criticalCvesHeader).not.toHaveAttribute('aria-sort');
 
-      await totalCvesHeader.click();
-      await expect(totalCvesHeader).not.toHaveAttribute('aria-sort');
+      await criticalCvesHeader.click();
+      await expect(criticalCvesHeader).not.toHaveAttribute('aria-sort');
     });
   },
 );

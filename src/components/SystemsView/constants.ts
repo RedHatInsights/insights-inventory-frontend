@@ -67,6 +67,54 @@ export const resolveLastSeenBounds = (
   }
 };
 
+/**
+ * Fresh moment() per call — inverse of resolveLastSeenBounds.
+ *
+ * Saved view configs persist only the concrete `last_check_in` dates, not the
+ * original preset key, so restoring the UI requires classifying those dates back
+ * to a key to repaint the Last seen dropdown.
+ *
+ *  @param start - Saved `last_check_in_start`, if any.
+ *  @param end   - Saved `last_check_in_end`, if any.
+ *  @returns     A `last_seen` key (single bound → closest preset by age), or empty when none.
+ */
+export const resolveLastSeenKeyFromBounds = (
+  start: string | undefined,
+  end: string | undefined,
+): LastSeenKey | '' => {
+  if (!start && !end) return '';
+
+  // Custom ranges come from the date pickers, which snap to day boundaries
+  // (start → startOf day, end → endOf day). Presets use arbitrary now-based times,
+  // so a day-aligned bound on either side is a custom selection.
+  const isStartAligned =
+    start !== undefined && moment(start).startOf('day').toISOString() === start;
+  const isEndAligned =
+    end !== undefined && moment(end).endOf('day').toISOString() === end;
+
+  if (start && end) {
+    return isStartAligned && isEndAligned ? 'custom' : 'last24';
+  }
+
+  if (isStartAligned || isEndAligned) {
+    return 'custom';
+  }
+
+  const bound = (end ?? start) as string;
+  const daysAgo = moment().diff(moment(bound), 'days');
+  const presets: { key: LastSeenKey; days: number }[] = [
+    { key: '24more', days: 1 },
+    { key: '7more', days: 7 },
+    { key: '15more', days: 15 },
+    { key: '30more', days: 30 },
+  ];
+  return presets.reduce((closest, preset) =>
+    Math.abs(preset.days - daysAgo) < Math.abs(closest.days - daysAgo)
+      ? preset
+      : closest,
+  ).key;
+};
+
 export const LAST_SEEN_OPTIONS: { label: string; key: LastSeenKey }[] = [
   { label: 'Within the last 24 hours', key: 'last24' },
   { label: 'More than 1 day ago', key: '24more' },

@@ -15,7 +15,7 @@ export const createViewColumnSelector = (
 
   const configColumns = configuration.columns;
 
-  return () => {
+  return (_catalog) => {
     const allColumns = bindInventoryViewColumns();
     const catalogByKey = new Map(allColumns.map((col) => [col.key, col]));
     const matchedKeys = new Set<string>(configColumns.map((col) => col.key));
