@@ -53,7 +53,7 @@ export const filterSystemsWithConditionalFilter = async (
     await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
     await optionCheckbox.click();
   } else if (filterName === 'Data collector') {
-    // TODO: Implement logic to select the Data Collector filter option.
+    // TODO: Implement logic to select the Data collector filter option.
     // Logic not implemented yet. Test continues without filtering.
   } else if (filterName === 'Status') {
     // TODO: Implement logic to select the Status filter option.
