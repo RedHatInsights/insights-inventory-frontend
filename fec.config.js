@@ -96,6 +96,7 @@ module.exports = {
       ),
       // Inventory modules
       './InventoryTable': resolve(__dirname, '/src/modules/InventoryTable.js'),
+      './SystemsView': resolve(__dirname, '/src/modules/SystemsView.tsx'),
       './AppInfo': resolve(__dirname, '/src/modules/AppInfo.js'),
       './InventoryDetailHead': resolve(
         __dirname,

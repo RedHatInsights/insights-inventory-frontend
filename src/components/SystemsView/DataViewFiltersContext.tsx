@@ -68,6 +68,7 @@ interface DataViewFiltersProviderProps {
   setSearchParams: SearchParamsTuple[1];
   defaultFilters?: Partial<InventoryFilters>;
   initialFilters?: Partial<InventoryFilters>;
+  initialLastSeenCustomRange?: LastSeenCustomRange;
 }
 
 export const DataViewFiltersProvider = ({
@@ -76,9 +77,10 @@ export const DataViewFiltersProvider = ({
   setSearchParams,
   defaultFilters,
   initialFilters,
+  initialLastSeenCustomRange,
 }: DataViewFiltersProviderProps) => {
   const [lastSeenCustomRange, setLastSeenCustomRange] =
-    useState<LastSeenCustomRange>(null);
+    useState<LastSeenCustomRange>(initialLastSeenCustomRange ?? null);
 
   const { hasAccess } = useConditionalRBAC(
     [GENERAL_GROUPS_READ_PERMISSION],
