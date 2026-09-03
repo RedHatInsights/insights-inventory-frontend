@@ -226,10 +226,6 @@ const InventoryViews = () => {
     currentLastSeenCustomRange,
   });
 
-  useEffect(() => {
-    if (isSaving && !isViewDirty) setIsSaving(false);
-  }, [isSaving, isViewDirty]);
-
   const handleSelectView = useCallback(
     (viewId: string) => {
       setActiveViewId(viewId);
@@ -253,9 +249,11 @@ const InventoryViews = () => {
         data: { configuration: getCurrentConfiguration() },
       },
       {
-        onSuccess: () => {
+        onSuccess: async () => {
           setCurrentColumns(undefined);
           setCurrentLastSeenCustomRange(undefined);
+          await queryClient.invalidateQueries({ queryKey: ['views'] });
+          setIsSaving(false);
         },
         onError: () => {
           setIsSaving(false);
