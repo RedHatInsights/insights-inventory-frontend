@@ -155,6 +155,7 @@ const InventoryViews = () => {
   const activeView = viewsList.find((v) => v.id === activeViewId);
   const isSystemView = activeView?.is_system_view ?? true;
   const viewsLoaded = !!viewsData;
+  const [isSaving, setIsSaving] = useState(false);
 
   const columnSelector = useMemo(
     () => createViewColumnSelector(activeView?.configuration),
@@ -225,6 +226,10 @@ const InventoryViews = () => {
     currentLastSeenCustomRange,
   });
 
+  useEffect(() => {
+    if (isSaving && !isViewDirty) setIsSaving(false);
+  }, [isSaving, isViewDirty]);
+
   const handleSelectView = useCallback(
     (viewId: string) => {
       setActiveViewId(viewId);
@@ -241,6 +246,7 @@ const InventoryViews = () => {
 
   const handleSave = () => {
     if (!activeView) return;
+    setIsSaving(true);
     updateView.mutate(
       {
         id: activeView.id,
@@ -250,6 +256,9 @@ const InventoryViews = () => {
         onSuccess: () => {
           setCurrentColumns(undefined);
           setCurrentLastSeenCustomRange(undefined);
+        },
+        onError: () => {
+          setIsSaving(false);
         },
       },
     );
@@ -314,6 +323,7 @@ const InventoryViews = () => {
             activeViewId={activeViewId}
             isSystemView={isSystemView}
             isViewDirty={isViewDirty}
+            isSaving={isSaving}
             isOwner={activeView?.is_owner ?? false}
             onSelectView={handleSelectView}
             onSaveAs={handleSaveAs}
