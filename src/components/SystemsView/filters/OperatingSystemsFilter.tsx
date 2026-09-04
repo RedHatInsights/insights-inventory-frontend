@@ -1,15 +1,13 @@
-import React, { Ref, useId, useMemo, useState, useEffect, useRef } from 'react';
+import React, { Ref, useId, useMemo, useState, useRef } from 'react';
 import {
   Checkbox,
-  MenuToggle,
   Select,
   SelectList,
   SelectOption,
   Spinner,
   MenuToggleElement,
-  TextInputGroup,
-  TextInputGroupMain,
 } from '@patternfly/react-core';
+import { TypeaheadMenuToggle } from './TypeaheadMenuToggle';
 import { css } from '@patternfly/react-styles';
 import menuStyles from '@patternfly/react-styles/css/components/Menu/menu';
 import xor from 'lodash/xor';
@@ -122,13 +120,6 @@ export const OperatingSystemsFilter = ({
       .filter((group): group is NonNullable<typeof group> => group !== null);
   }, [groups, debouncedSearch]);
 
-  // Auto-open when user starts typing (if closed)
-  useEffect(() => {
-    if (search && !isOpen) {
-      setIsOpen(true);
-    }
-  }, [search, isOpen]);
-
   const onToggleClick = () => {
     // Toggle button should open/close the dropdown
     if (!isOpen) {
@@ -142,36 +133,16 @@ export const OperatingSystemsFilter = ({
   };
 
   const toggle = (toggleRef: Ref<MenuToggleElement>) => (
-    <MenuToggle
-      variant="typeahead"
-      onClick={onToggleClick}
-      innerRef={toggleRef}
+    <TypeaheadMenuToggle
+      toggleRef={toggleRef}
       isExpanded={isOpen}
-    >
-      <TextInputGroup isPlain>
-        <TextInputGroupMain
-          ref={textInputRef}
-          value={search}
-          onClick={(e) => {
-            // Clicks in the input should only open the menu, not toggle it closed
-            e.stopPropagation();
-            setIsOpen(true);
-          }}
-          onChange={(_event, value) => {
-            setSearch(value);
-          }}
-          onFocus={() => {
-            // Open dropdown when input gains focus
-            if (!isOpen) {
-              setIsOpen(true);
-            }
-          }}
-          id={`${idPrefix}-os-filter-typeahead-input`}
-          autoComplete="off"
-          placeholder={placeholder ?? 'Filter by operating system'}
-        />
-      </TextInputGroup>
-    </MenuToggle>
+      onToggleClick={onToggleClick}
+      searchValue={search}
+      onSearchChange={setSearch}
+      placeholder={placeholder ?? 'Filter by operating system'}
+      inputId={`${idPrefix}-os-filter-typeahead-input`}
+      inputRef={textInputRef}
+    />
   );
 
   const notifyChange = (next: string[]) => {
