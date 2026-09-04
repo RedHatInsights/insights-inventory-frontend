@@ -240,7 +240,7 @@ const InventoryViews = () => {
   };
 
   const handleSave = () => {
-    if (!activeView) return;
+    if (!activeView || updateView.isPending) return;
     updateView.mutate(
       {
         id: activeView.id,
@@ -314,6 +314,7 @@ const InventoryViews = () => {
             activeViewId={activeViewId}
             isSystemView={isSystemView}
             isViewDirty={isViewDirty}
+            isSaving={updateView.isPending}
             isOwner={activeView?.is_owner ?? false}
             onSelectView={handleSelectView}
             onSaveAs={handleSaveAs}
