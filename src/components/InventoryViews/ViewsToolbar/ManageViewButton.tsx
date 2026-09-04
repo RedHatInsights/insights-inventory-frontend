@@ -85,6 +85,7 @@ export const ManageViewButton = ({
             ref={toggleRef}
             onClick={onToggle}
             isExpanded={isOpen}
+            isDisabled={isSaving}
             aria-label="Manage view actions"
             data-testid="manage-view-toggle"
             splitButtonItems={[
