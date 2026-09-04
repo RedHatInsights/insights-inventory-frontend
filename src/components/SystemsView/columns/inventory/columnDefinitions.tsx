@@ -2,6 +2,7 @@ import React from 'react';
 import { ApiHostViewsGetHostViewsOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 import type {
   HostViewHost,
+  PerReporterStaleness,
   StructuredTag,
   SystemProfileWorkloads,
 } from '@redhat-cloud-services/host-inventory-client';
@@ -22,6 +23,7 @@ import Workload from './cells/Workload';
 import Vendor from './cells/Vendor';
 import Infrastructure from './cells/Infrastructure';
 import Created, { type CreatedValue } from './cells/Created';
+import DataCollector from './cells/DataCollector';
 
 /**
  * Fields inventory column bindings for both InventoryHosts and InventoryViews can use
@@ -129,6 +131,15 @@ export const createdSpec: ColumnSpec<CreatedValue> = {
   renderCell: (value) => <Created value={value} />,
 };
 
+export const dataCollectorSpec: ColumnSpec<
+  Record<string, PerReporterStaleness> | undefined
+> = {
+  appName: APP_NAME,
+  title: 'Data collector',
+  key: 'per_reporter_staleness',
+  renderCell: (value) => <DataCollector value={value} />,
+};
+
 const isImageBasedSystem = (item: InventoryBindableItem) =>
   Boolean(
     item.system_profile?.bootc_status?.booted?.image_digest ||
@@ -193,6 +204,9 @@ export const bindInventoryColumns = <
   }),
   bindColumn(createdSpec, {
     getValue: (item) => item.created,
+  }),
+  bindColumn(dataCollectorSpec, {
+    getValue: (item) => item.per_reporter_staleness,
   }),
 ];
 
