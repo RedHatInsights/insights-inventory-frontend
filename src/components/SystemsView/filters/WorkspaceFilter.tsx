@@ -8,9 +8,6 @@ import React, {
   Ref,
 } from 'react';
 import {
-  MenuToggle,
-  TextInputGroup,
-  TextInputGroupMain,
   Select,
   SelectList,
   SelectOption,
@@ -21,6 +18,7 @@ import {
   Flex,
   FlexItem,
 } from '@patternfly/react-core';
+import { TypeaheadMenuToggle } from './TypeaheadMenuToggle';
 import xor from 'lodash/xor';
 import { useDebouncedValue } from '../../../Utilities/hooks/useDebouncedValue';
 import { useWorkspaceGroupsInfiniteQuery } from '../../filters/useWorkspaceGroupsInfiniteQuery';
@@ -109,13 +107,6 @@ export const WorkspaceFilter = ({
     setFocusedOption(visibleSize);
   };
 
-  // Auto-open when user starts typing (if closed)
-  useEffect(() => {
-    if (search && !isOpen) {
-      setIsOpen(true);
-    }
-  }, [search, isOpen]);
-
   useEffect(() => {
     focusedOptionRef.current?.focus();
   }, [visibleSize]);
@@ -125,25 +116,15 @@ export const WorkspaceFilter = ({
   };
 
   const toggle = (toggleRef: Ref<MenuToggleElement>) => (
-    <MenuToggle
-      variant="typeahead"
-      onClick={onToggleClick}
-      innerRef={toggleRef}
+    <TypeaheadMenuToggle
+      toggleRef={toggleRef}
       isExpanded={isOpen}
-    >
-      <TextInputGroup isPlain>
-        <TextInputGroupMain
-          value={search}
-          onClick={onToggleClick}
-          onChange={(_event, value) => {
-            setSearch(value);
-          }}
-          id="multi-typeahead-select-input"
-          autoComplete="off"
-          placeholder={placeholder ?? ''}
-        />
-      </TextInputGroup>
-    </MenuToggle>
+      onToggleClick={onToggleClick}
+      searchValue={search}
+      onSearchChange={setSearch}
+      placeholder={placeholder ?? ''}
+      inputId="multi-typeahead-select-input"
+    />
   );
 
   return (
