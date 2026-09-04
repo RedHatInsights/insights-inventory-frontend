@@ -101,7 +101,7 @@ export const SystemsViewFilters = () => {
         />
         <DataViewCheckboxFilter
           filterId="source"
-          title="Data Collector"
+          title="Data collector"
           placeholder="Filter by data collector"
           options={[
             {
