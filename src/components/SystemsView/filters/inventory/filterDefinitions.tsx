@@ -21,6 +21,7 @@ import {
   type CheckboxFilterSpec,
   type CustomFilterSpec,
   type FilterSpec,
+  type LastSeenSelectValue,
   type TextFilterSpec,
 } from '../types';
 
@@ -40,16 +41,16 @@ const WorkspaceChip = ({ id }: { id: string }) => {
   );
 };
 
-export const hostnameSpec: TextFilterSpec = {
+export const hostnameSpec = {
   type: 'text',
   filterId: 'hostname_or_id',
   title: 'Name',
   chipTitle: 'Display name',
   placeholder: 'Filter by name',
   debounceMs: DEBOUNCE_TIMEOUT_MS,
-};
+} satisfies TextFilterSpec;
 
-export const statusSpec: CheckboxFilterSpec = {
+export const statusSpec = {
   type: 'checkbox',
   filterId: 'status',
   title: 'Status',
@@ -59,9 +60,9 @@ export const statusSpec: CheckboxFilterSpec = {
     { label: 'Stale', value: 'stale' },
     { label: 'Stale warning', value: 'stale_warning' },
   ],
-};
+} satisfies CheckboxFilterSpec;
 
-export const operatingSystemSpec: CustomFilterSpec<string[]> = {
+export const operatingSystemSpec = {
   type: 'custom',
   filterId: 'operating_system',
   title: 'Operating system',
@@ -82,9 +83,9 @@ export const operatingSystemSpec: CustomFilterSpec<string[]> = {
       ),
     );
   },
-};
+} satisfies CustomFilterSpec<string[]>;
 
-export const sourceSpec: CheckboxFilterSpec = {
+export const sourceSpec = {
   type: 'checkbox',
   filterId: 'source',
   title: 'Data collector',
@@ -102,9 +103,9 @@ export const sourceSpec: CheckboxFilterSpec = {
     { label: 'Discovery', value: 'discovery' },
     { label: 'insights-client not connected', value: '!puptoo' },
   ],
-};
+} satisfies CheckboxFilterSpec;
 
-export const rhcStatusSpec: CheckboxFilterSpec = {
+export const rhcStatusSpec = {
   type: 'checkbox',
   filterId: 'rhcStatus',
   title: 'RHC status',
@@ -113,9 +114,9 @@ export const rhcStatusSpec: CheckboxFilterSpec = {
     { label: 'Active', value: 'not_nil' },
     { label: 'Inactive', value: 'nil' },
   ],
-};
+} satisfies CheckboxFilterSpec;
 
-export const systemTypeSpec: CheckboxFilterSpec = {
+export const systemTypeSpec = {
   type: 'checkbox',
   filterId: 'system_type',
   title: 'System type',
@@ -124,9 +125,9 @@ export const systemTypeSpec: CheckboxFilterSpec = {
     { label: 'Package-based system', value: 'conventional' },
     { label: 'Image-based system', value: 'image' },
   ],
-};
+} satisfies CheckboxFilterSpec;
 
-export const workspaceSpec: CustomFilterSpec<string[]> = {
+export const workspaceSpec = {
   type: 'custom',
   filterId: SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM,
   title: 'Workspace',
@@ -148,9 +149,9 @@ export const workspaceSpec: CustomFilterSpec<string[]> = {
         return item !== label;
       }),
     ),
-};
+} satisfies CustomFilterSpec<string[]>;
 
-export const lastSeenSpec: CustomFilterSpec<LastSeenKey | ''> = {
+export const lastSeenSpec = {
   type: 'custom',
   filterId: 'last_seen',
   title: 'Last seen',
@@ -173,9 +174,13 @@ export const lastSeenSpec: CustomFilterSpec<LastSeenKey | ''> = {
   deleteLabel: (_category, _label, _value, onChange) => {
     onChange?.(undefined, '');
   },
-};
+  selectValue: (filters, ctx): LastSeenSelectValue => ({
+    key: filters.last_seen,
+    range: ctx.lastSeenCustomRange,
+  }),
+} satisfies CustomFilterSpec<LastSeenKey | ''>;
 
-export const tagsSpec: CustomFilterSpec<string[]> = {
+export const tagsSpec = {
   type: 'custom',
   filterId: 'tags',
   title: 'Tags',
@@ -209,15 +214,15 @@ export const tagsSpec: CustomFilterSpec<string[]> = {
       value?.filter((item) => item !== `${category}/${label}`),
     );
   },
-};
+} satisfies CustomFilterSpec<string[]>;
 
-export const workloadsSpec: CheckboxFilterSpec = {
+export const workloadsSpec = {
   type: 'checkbox',
   filterId: 'workloads',
   title: 'Workload',
   placeholder: 'Filter by workload',
   options: [...WORKLOAD_FILTER_OPTIONS],
-};
+} satisfies CheckboxFilterSpec;
 
 /** Current inventory toolbar, in display order. */
 export const inventoryFilterSpecs: readonly FilterSpec[] = [

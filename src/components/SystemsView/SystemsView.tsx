@@ -43,11 +43,10 @@ import {
   DataViewFiltersProvider,
   useDataViewFiltersContext,
 } from './DataViewFiltersContext';
-import { useDebouncedValue } from '../../Utilities/hooks/useDebouncedValue';
 import { useResetPage } from './hooks/useResetPage';
 import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
 import { PER_PAGE } from '../../constants';
-import { DEBOUNCE_TIMEOUT_MS } from '../../constants';
+import { useDebouncedFilters } from './filters/useDebouncedFilters';
 import { normalizeLegacySortSearchParams } from './utils/normalizeLegacySortSearchParams';
 import {
   EMPTY_SERVICES,
@@ -131,8 +130,13 @@ function SystemsViewInner<TItem extends SystemsViewItem>({
   onLastSeenCustomRangeChange,
 }: SystemsViewInnerProps<TItem>) {
   const queryClient = useQueryClient();
-  const { filters, clearAllFilters, hasDefaultFilters, lastSeenCustomRange } =
-    useDataViewFiltersContext();
+  const {
+    filters,
+    resolvedFilters,
+    clearAllFilters,
+    hasDefaultFilters,
+    lastSeenCustomRange,
+  } = useDataViewFiltersContext();
 
   useEffect(() => {
     onLastSeenCustomRangeChange?.(lastSeenCustomRange);
@@ -148,17 +152,7 @@ function SystemsViewInner<TItem extends SystemsViewItem>({
 
   useResetPage(filters, setSearchParams, lastSeenCustomRange);
 
-  const debouncedName = useDebouncedValue(
-    filters.hostname_or_id,
-    DEBOUNCE_TIMEOUT_MS,
-  );
-  const queryFilters: InventoryFilters = useMemo(
-    () => ({
-      ...filters,
-      hostname_or_id: debouncedName,
-    }),
-    [filters, debouncedName],
-  );
+  const queryFilters = useDebouncedFilters(filters, resolvedFilters);
 
   const selection = useDataViewSelection<SystemsViewTableRow<TItem>>({
     matchOption: (a, b) => a.id === b.id,

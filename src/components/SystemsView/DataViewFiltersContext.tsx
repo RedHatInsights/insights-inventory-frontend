@@ -9,7 +9,10 @@ import React, {
 import { useDataViewFilters } from '@patternfly/react-data-view';
 import type { InventoryFilters } from './filters/SystemsViewFilters';
 import type { FilterSpec } from './filters/types';
-import { normalizeLastSeenFilterValue } from './constants';
+import {
+  normalizeLastSeenFilterValue,
+  SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM,
+} from './constants';
 import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 import { GENERAL_GROUPS_READ_PERMISSION } from '../../constants';
 import { useUngroupedWorkspaceId } from '../../hooks/useUngroupedWorkspaceId';
@@ -92,8 +95,12 @@ export const DataViewFiltersProvider = ({
     false,
   );
 
+  const hasWorkspaceFilter = resolvedFilters.some(
+    (spec) => spec.filterId === SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM,
+  );
+
   const { data: ungroupedWorkspaceId } = useUngroupedWorkspaceId(
-    Boolean(hasAccess),
+    hasAccess && hasWorkspaceFilter,
   );
 
   const {
@@ -123,7 +130,7 @@ export const DataViewFiltersProvider = ({
   }, [rawFilters.last_seen]);
 
   useEffect(() => {
-    if (!ungroupedWorkspaceId) {
+    if (!hasWorkspaceFilter || !ungroupedWorkspaceId) {
       return;
     }
     const ids = rawFilters.group_id;
@@ -133,7 +140,12 @@ export const DataViewFiltersProvider = ({
     onSetFilters({
       group_id: ids.map((id) => (id === '' ? ungroupedWorkspaceId : id)),
     });
-  }, [ungroupedWorkspaceId, rawFilters.group_id, onSetFilters]);
+  }, [
+    hasWorkspaceFilter,
+    ungroupedWorkspaceId,
+    rawFilters.group_id,
+    onSetFilters,
+  ]);
 
   const clearAllFilters = useCallback(() => {
     setLastSeenCustomRange(null);

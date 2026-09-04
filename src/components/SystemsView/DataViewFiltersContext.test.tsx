@@ -23,9 +23,11 @@ jest.mock('../../Utilities/hooks/useConditionalRBAC', () => ({
 function FiltersHarness({
   children,
   queryClient,
+  resolvedFilters = inventoryFilterSpecs,
 }: {
   children: React.ReactNode;
   queryClient?: QueryClient;
+  resolvedFilters?: typeof inventoryFilterSpecs;
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -34,7 +36,7 @@ function FiltersHarness({
       <DataViewFiltersProvider
         searchParams={searchParams}
         setSearchParams={setSearchParams}
-        resolvedFilters={inventoryFilterSpecs}
+        resolvedFilters={resolvedFilters}
       >
         {children}
       </DataViewFiltersProvider>
@@ -45,6 +47,7 @@ function FiltersHarness({
 function renderFiltersContext(
   initialRoute = '/',
   queryClient = createTestQueryClient(),
+  resolvedFilters: typeof inventoryFilterSpecs = inventoryFilterSpecs,
 ) {
   return renderHook(() => useDataViewFiltersContext(), {
     wrapper: ({ children }) => (
@@ -53,7 +56,10 @@ function renderFiltersContext(
           <Route
             path="/"
             element={
-              <FiltersHarness queryClient={queryClient}>
+              <FiltersHarness
+                queryClient={queryClient}
+                resolvedFilters={resolvedFilters}
+              >
                 {children}
               </FiltersHarness>
             }

@@ -4,6 +4,7 @@ import {
 } from '@patternfly/react-data-view';
 import { DataViewCustomFilter } from './DataViewCustomFilter';
 import { getFilterComponent } from './getFilterComponent';
+import { tagsSpec } from './inventory/filterDefinitions';
 import type {
   CheckboxFilterSpec,
   CustomFilterSpec,
@@ -42,5 +43,9 @@ describe('getFilterComponent', () => {
 
   it('maps type "custom" to DataViewCustomFilter', () => {
     expect(getFilterComponent(customSpec).type).toBe(DataViewCustomFilter);
+  });
+
+  it('maps the tags spec through the custom factory', () => {
+    expect(getFilterComponent(tagsSpec).type).toBe(DataViewCustomFilter);
   });
 });
