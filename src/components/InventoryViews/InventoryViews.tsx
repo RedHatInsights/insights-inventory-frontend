@@ -2,6 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import React, {
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -50,6 +51,7 @@ import {
 } from './hooks/useViewDirtyState';
 import { useUpdateViewMutation } from './hooks/useUpdateViewMutation';
 import type { LastSeenCustomRange } from '../SystemsView/types';
+import type { InventoryFilters } from '../SystemsView/filters/SystemsViewFilters';
 
 const filtersToSearchParams = (
   filters?: Partial<Record<string, string | string[]>>,
@@ -65,6 +67,46 @@ const filtersToSearchParams = (
       params.set(key, value);
     }
   }
+  return params;
+};
+
+// Builds the URL search params that represent a view exactly as saved: its
+// filters plus its sort. Anything not produced here (ad-hoc sort, ad-hoc
+// filters, pagination) is intentionally dropped when this result replaces the
+// query string. `extraFilters` preserves bundle-level defaults that live
+// outside the saved configuration (e.g. the Ansible workload pre-selection).
+const viewConfigToSearchParams = (
+  configuration?: ViewConfiguration,
+  extraFilters?: Partial<InventoryFilters>,
+): URLSearchParams => {
+  const params = filtersToSearchParams(
+    parseViewConfigFilters(configuration?.filters),
+  );
+
+  const sort = configuration?.sort;
+  if (sort?.key) {
+    params.set(SORT_URL_PARAM, sort.key);
+    if (sort.direction) {
+      params.set(SORT_DIR_URL_PARAM, sort.direction);
+    }
+  }
+
+  if (extraFilters) {
+    for (const [key, value] of Object.entries(extraFilters)) {
+      const values = Array.isArray(value)
+        ? value
+        : typeof value === 'string' && value
+          ? [value]
+          : [];
+      for (const v of values) {
+        const str = String(v);
+        if (str && !params.getAll(key).includes(str)) {
+          params.append(key, str);
+        }
+      }
+    }
+  }
+
   return params;
 };
 
@@ -122,6 +164,10 @@ const InventoryViews = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [activeViewId, setActiveViewId] = useState(ALL_SYSTEMS_VIEW_ID);
+  // Gates SystemsView so its filter/sort hooks only ever hydrate from the URL
+  // after we have normalized it on load (see the useLayoutEffect below).
+  const [isUrlNormalized, setIsUrlNormalized] = useState(false);
+  const didNormalizeUrlRef = useRef(false);
   const queryClient = useQueryClient();
   const updateView = useUpdateViewMutation();
   const isInventoryViewsPrivateEnabled = useInventoryViewsPrivateFeatureFlag();
@@ -151,6 +197,25 @@ const InventoryViews = () => {
       setActiveViewId(allSystemsViewId);
     }
   }, [activeViewId, allSystemsViewId]);
+
+  // On the Inventory Views page, filter/sort/pagination URL params are ephemeral:
+  // they update as the user interacts, but on a fresh load we drop whatever is in
+  // the URL and reseed it from the default view so a refresh loads that view
+  // as-is. Runs exactly once, before paint, and before SystemsView is allowed to
+  // mount (isUrlNormalized gate) so the table hydrates from the cleaned URL
+  // rather than the leftover params. Later edits and view switches manage the URL
+  // themselves. On load the active view is always the default ("All systems",
+  // whose saved config is empty), so normalizing to an empty config is correct;
+  // defaultFilters preserves bundle-level defaults such as the Ansible workload.
+  useLayoutEffect(() => {
+    if (didNormalizeUrlRef.current) return;
+    didNormalizeUrlRef.current = true;
+    setSearchParams(viewConfigToSearchParams(undefined, defaultFilters), {
+      replace: true,
+    });
+    setIsUrlNormalized(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-time initialization on mount
+  }, []);
 
   const activeView = viewsList.find((v) => v.id === activeViewId);
   const isSystemView = activeView?.is_system_view ?? true;
@@ -229,10 +294,18 @@ const InventoryViews = () => {
     (viewId: string) => {
       setActiveViewId(viewId);
       const view = viewsList.find((v) => v.id === viewId);
-      const filters = parseViewConfigFilters(view?.configuration?.filters);
-      setSearchParams(filtersToSearchParams(filters), { replace: true });
+      // Replace the whole query string with the target view's saved config
+      // (filters + sort), dropping any ad-hoc filters, sort or pagination the
+      // user had applied so the view loads as-is. Preserve defaultFilters to
+      // maintain bundle-level defaults (e.g. Ansible workload).
+      setSearchParams(
+        viewConfigToSearchParams(view?.configuration, defaultFilters),
+        {
+          replace: true,
+        },
+      );
     },
-    [setSearchParams, viewsList],
+    [defaultFilters, setSearchParams, viewsList],
   );
 
   const handleSaveAs = () => {
@@ -353,18 +426,20 @@ const InventoryViews = () => {
           )}
         </>
       )}
-      <SystemsView
-        key={`${activeViewId}-${viewsLoaded}`}
-        columns={columnSelector ?? selectLegacyInventoryColumns}
-        initialSort={initialSort}
-        initialFilters={initialFilters}
-        initialLastSeenCustomRange={initialLastSeenCustomRange}
-        onColumnsChange={handleColumnsChange}
-        onLastSeenCustomRangeChange={setCurrentLastSeenCustomRange}
-        queryKeyPrefix={INVENTORY_VIEWS_QUERY_KEY}
-        fetchData={fetchInventoryViews}
-        defaultFilters={defaultFilters}
-      />
+      {isUrlNormalized && (
+        <SystemsView
+          key={`${activeViewId}-${viewsLoaded}`}
+          columns={columnSelector ?? selectLegacyInventoryColumns}
+          initialSort={initialSort}
+          initialFilters={initialFilters}
+          initialLastSeenCustomRange={initialLastSeenCustomRange}
+          onColumnsChange={handleColumnsChange}
+          onLastSeenCustomRangeChange={setCurrentLastSeenCustomRange}
+          queryKeyPrefix={INVENTORY_VIEWS_QUERY_KEY}
+          fetchData={fetchInventoryViews}
+          defaultFilters={defaultFilters}
+        />
+      )}
     </>
   );
 };
