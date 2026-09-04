@@ -9,6 +9,7 @@ import {
   INITIAL_INVENTORY_FILTERS,
   useDataViewFiltersContext,
 } from './DataViewFiltersContext';
+import { inventoryFilterSpecs } from './filters/inventory/filterDefinitions';
 import {
   QueryClientWrapper,
   createTestQueryClient,
@@ -33,6 +34,7 @@ function FiltersHarness({
       <DataViewFiltersProvider
         searchParams={searchParams}
         setSearchParams={setSearchParams}
+        resolvedFilters={inventoryFilterSpecs}
       >
         {children}
       </DataViewFiltersProvider>
@@ -76,6 +78,12 @@ describe('useDataViewFiltersContext', () => {
 });
 
 describe('DataViewFiltersProvider', () => {
+  it('exposes the resolved filter list passed into the provider', () => {
+    const { result } = renderFiltersContext();
+
+    expect(result.current.resolvedFilters).toEqual(inventoryFilterSpecs);
+  });
+
   it('normalizes invalid last_seen values from URL to empty string', async () => {
     const { result } = renderFiltersContext('/?last_seen=not-a-valid-key');
 

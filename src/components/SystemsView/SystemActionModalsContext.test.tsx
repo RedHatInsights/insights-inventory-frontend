@@ -170,6 +170,7 @@ function renderWithProvider(
     <DataViewFiltersContext.Provider
       value={{
         filters: { ...INITIAL_INVENTORY_FILTERS },
+        resolvedFilters: [],
         onSetFilters,
         clearAllFilters: jest.fn(),
         hasDefaultFilters: false,

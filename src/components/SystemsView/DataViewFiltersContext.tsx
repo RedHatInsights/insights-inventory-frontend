@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import { useDataViewFilters } from '@patternfly/react-data-view';
 import type { InventoryFilters } from './filters/SystemsViewFilters';
+import type { FilterSpec } from './filters/types';
 import { normalizeLastSeenFilterValue } from './constants';
 import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 import { GENERAL_GROUPS_READ_PERMISSION } from '../../constants';
@@ -31,6 +32,7 @@ export const INITIAL_INVENTORY_FILTERS: InventoryFilters = {
 
 export interface DataViewFiltersContextValue {
   filters: InventoryFilters;
+  resolvedFilters: readonly FilterSpec[];
   onSetFilters: (_: Partial<InventoryFilters>) => void;
   clearAllFilters: () => void;
   hasDefaultFilters: boolean;
@@ -64,6 +66,7 @@ type SearchParamsTuple = ReturnType<
 
 interface DataViewFiltersProviderProps {
   children: React.ReactNode;
+  resolvedFilters: readonly FilterSpec[];
   searchParams: SearchParamsTuple[0];
   setSearchParams: SearchParamsTuple[1];
   defaultFilters?: Partial<InventoryFilters>;
@@ -73,6 +76,7 @@ interface DataViewFiltersProviderProps {
 
 export const DataViewFiltersProvider = ({
   children,
+  resolvedFilters,
   searchParams,
   setSearchParams,
   defaultFilters,
@@ -145,6 +149,7 @@ export const DataViewFiltersProvider = ({
   const value = useMemo(
     () => ({
       filters,
+      resolvedFilters,
       onSetFilters,
       clearAllFilters,
       hasDefaultFilters,
@@ -154,6 +159,7 @@ export const DataViewFiltersProvider = ({
     }),
     [
       filters,
+      resolvedFilters,
       onSetFilters,
       clearAllFilters,
       hasDefaultFilters,

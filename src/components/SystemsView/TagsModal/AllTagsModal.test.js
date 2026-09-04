@@ -49,6 +49,7 @@ function renderWithFilters(ui, options) {
         <DataViewFiltersContext.Provider
           value={{
             filters,
+            resolvedFilters: [],
             onSetFilters,
             clearAllFilters,
             lastSeenCustomRange,

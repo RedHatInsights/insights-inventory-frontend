@@ -4,14 +4,17 @@ import LastSeenFilterExtension from './inventory/components/LastSeenFilterExtens
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import { useDataViewFiltersContext } from '../DataViewFiltersContext';
 import { getFilterComponent } from './getFilterComponent';
-import { inventoryFilterSpecs } from './inventory/filterDefinitions';
 
 export type { InventoryFilters } from './types';
 export { isToolbarLabel } from './types';
 
 export const SystemsViewFilters = () => {
-  const { filters, onSetFilters } = useDataViewFiltersContext();
+  const { filters, onSetFilters, resolvedFilters } =
+    useDataViewFiltersContext();
   const isHideRHCFilterFlagEnabled = useFeatureFlag('hbi.ui.hide_rhc_filter');
+  const showLastSeenExtension = resolvedFilters.some(
+    (spec) => spec.filterId === 'last_seen',
+  );
 
   return (
     <>
@@ -22,7 +25,7 @@ export const SystemsViewFilters = () => {
         }}
         values={filters}
       >
-        {inventoryFilterSpecs.map((spec) => {
+        {resolvedFilters.map((spec) => {
           if (spec.filterId === 'rhcStatus' && isHideRHCFilterFlagEnabled) {
             return null;
           }
@@ -30,7 +33,7 @@ export const SystemsViewFilters = () => {
           return getFilterComponent(spec);
         })}
       </DataViewFilters>
-      <LastSeenFilterExtension />
+      {showLastSeenExtension ? <LastSeenFilterExtension /> : null}
     </>
   );
 };

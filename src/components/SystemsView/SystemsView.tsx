@@ -69,8 +69,8 @@ import {
   resolveColumnSelector,
   type ColumnSelector,
 } from './columns/resolveColumnSelector';
+import { resolveFilterSelector } from './filters/resolveFilterSelector';
 import useInventoryViewsColumnsRbacFeatureFlag from '../../Utilities/useInventoryViewsColumnsRbacFeatureFlag';
-import { Resolve } from '../../types/utility-types';
 
 export type { SortDirection } from './types';
 export type { SystemsViewItem, SystemsViewQueryData } from './types';
@@ -401,11 +401,13 @@ export function SystemsView<TItem extends SystemsViewItem>({
     () => resolveColumnSelector(columns),
     [columns],
   );
+  const resolvedFilters = useMemo(() => resolveFilterSelector(), []);
 
   return (
     <DataViewFiltersProvider
       searchParams={searchParams}
       setSearchParams={setSearchParams}
+      resolvedFilters={resolvedFilters}
       defaultFilters={defaultFilters}
       initialFilters={initialFilters}
       initialLastSeenCustomRange={initialLastSeenCustomRange}
