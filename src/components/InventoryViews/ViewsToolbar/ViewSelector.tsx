@@ -121,19 +121,19 @@ const ViewSelector = ({
                 {view.name}
               </SelectOption>
             ))}
-            {canShowMore && (
-              <SelectOption
-                value={LOADER_ID}
-                isLoadButton={!isFetchingNextPage}
-                isLoading={isFetchingNextPage}
-                isDisabled={isFetchingNextPage}
-                style={{ overflow: 'visible' }}
-                onClick={onShowMoreClick}
-              >
-                {isFetchingNextPage ? <Spinner size="lg" /> : 'Show more'}
-              </SelectOption>
-            )}
           </>
+        )}
+        {canShowMore && (
+          <SelectOption
+            value={LOADER_ID}
+            isLoadButton={!isFetchingNextPage}
+            isLoading={isFetchingNextPage}
+            isDisabled={isFetchingNextPage}
+            style={{ overflow: 'visible' }}
+            onClick={onShowMoreClick}
+          >
+            {isFetchingNextPage ? <Spinner size="lg" /> : 'Show more'}
+          </SelectOption>
         )}
         {systemViews.length > 0 && (
           <>
