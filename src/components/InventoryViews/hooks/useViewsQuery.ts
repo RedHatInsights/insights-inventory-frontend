@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { listViewsApi } from '../../../api/inventoryViewsApi';
 
