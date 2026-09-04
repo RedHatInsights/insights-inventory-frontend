@@ -155,7 +155,6 @@ const InventoryViews = () => {
   const activeView = viewsList.find((v) => v.id === activeViewId);
   const isSystemView = activeView?.is_system_view ?? true;
   const viewsLoaded = !!viewsData;
-  const [isSaving, setIsSaving] = useState(false);
 
   const columnSelector = useMemo(
     () => createViewColumnSelector(activeView?.configuration),
@@ -241,22 +240,16 @@ const InventoryViews = () => {
   };
 
   const handleSave = () => {
-    if (!activeView) return;
-    setIsSaving(true);
+    if (!activeView || updateView.isPending) return;
     updateView.mutate(
       {
         id: activeView.id,
         data: { configuration: getCurrentConfiguration() },
       },
       {
-        onSuccess: async () => {
+        onSuccess: () => {
           setCurrentColumns(undefined);
           setCurrentLastSeenCustomRange(undefined);
-          await queryClient.invalidateQueries({ queryKey: ['views'] });
-          setIsSaving(false);
-        },
-        onError: () => {
-          setIsSaving(false);
         },
       },
     );
@@ -321,7 +314,7 @@ const InventoryViews = () => {
             activeViewId={activeViewId}
             isSystemView={isSystemView}
             isViewDirty={isViewDirty}
-            isSaving={isSaving}
+            isSaving={updateView.isPending}
             isOwner={activeView?.is_owner ?? false}
             onSelectView={handleSelectView}
             onSaveAs={handleSaveAs}
