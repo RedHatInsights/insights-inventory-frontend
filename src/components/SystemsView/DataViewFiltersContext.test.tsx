@@ -9,7 +9,14 @@ import {
   INITIAL_INVENTORY_FILTERS,
   useDataViewFiltersContext,
 } from './DataViewFiltersContext';
-import { inventoryFilterSpecs } from './filters/inventory/filterDefinitions';
+import {
+  hostnameSpec,
+  inventoryFilterSpecs,
+  statusSpec,
+  tagsSpec,
+} from './filters/inventory/filterDefinitions';
+import type { FilterSpec } from './filters/types';
+import type { InventoryFilters } from './filters/SystemsViewFilters';
 import {
   QueryClientWrapper,
   createTestQueryClient,
@@ -24,10 +31,14 @@ function FiltersHarness({
   children,
   queryClient,
   resolvedFilters = inventoryFilterSpecs,
+  defaultFilters,
+  initialFilters,
 }: {
   children: React.ReactNode;
   queryClient?: QueryClient;
-  resolvedFilters?: typeof inventoryFilterSpecs;
+  resolvedFilters?: readonly FilterSpec[];
+  defaultFilters?: Partial<InventoryFilters>;
+  initialFilters?: Partial<InventoryFilters>;
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -37,6 +48,8 @@ function FiltersHarness({
         searchParams={searchParams}
         setSearchParams={setSearchParams}
         resolvedFilters={resolvedFilters}
+        defaultFilters={defaultFilters}
+        initialFilters={initialFilters}
       >
         {children}
       </DataViewFiltersProvider>
@@ -47,7 +60,11 @@ function FiltersHarness({
 function renderFiltersContext(
   initialRoute = '/',
   queryClient = createTestQueryClient(),
-  resolvedFilters: typeof inventoryFilterSpecs = inventoryFilterSpecs,
+  resolvedFilters: readonly FilterSpec[] = inventoryFilterSpecs,
+  extras: {
+    defaultFilters?: Partial<InventoryFilters>;
+    initialFilters?: Partial<InventoryFilters>;
+  } = {},
 ) {
   return renderHook(() => useDataViewFiltersContext(), {
     wrapper: ({ children }) => (
@@ -59,6 +76,8 @@ function renderFiltersContext(
               <FiltersHarness
                 queryClient={queryClient}
                 resolvedFilters={resolvedFilters}
+                defaultFilters={extras.defaultFilters}
+                initialFilters={extras.initialFilters}
               >
                 {children}
               </FiltersHarness>
@@ -156,6 +175,92 @@ describe('DataViewFiltersProvider', () => {
     await waitFor(() => {
       expect(result.current.ungroupedWorkspaceId).toBe(ungroupedWorkspaceId);
       expect(result.current.filters.group_id).toEqual([ungroupedWorkspaceId]);
+    });
+  });
+
+  it('initializes only keys from the resolved spec list', () => {
+    const { result } = renderFiltersContext('/', createTestQueryClient(), [
+      hostnameSpec,
+      statusSpec,
+    ]);
+
+    expect(result.current.filters).toEqual({
+      hostname_or_id: '',
+      status: [],
+    });
+    expect(result.current.filters).not.toHaveProperty('tags');
+  });
+
+  it('adds a URL key to empty state when that spec is included', () => {
+    const { result } = renderFiltersContext('/', createTestQueryClient(), [
+      hostnameSpec,
+      statusSpec,
+      tagsSpec,
+    ]);
+
+    expect(result.current.filters).toEqual({
+      hostname_or_id: '',
+      status: [],
+      tags: [],
+    });
+  });
+
+  it('merges initialFilters onto spec empty values', () => {
+    const { result } = renderFiltersContext(
+      '/',
+      createTestQueryClient(),
+      [hostnameSpec, statusSpec],
+      { initialFilters: { hostname_or_id: 'web-01' } },
+    );
+
+    expect(result.current.filters).toEqual({
+      hostname_or_id: 'web-01',
+      status: [],
+    });
+  });
+
+  it('clearAllFilters resets only resolved spec keys', async () => {
+    const { result } = renderFiltersContext(
+      '/?hostname_or_id=foo&status=fresh&tags=env%3Dprod',
+      createTestQueryClient(),
+      [hostnameSpec, statusSpec],
+    );
+
+    await waitFor(() => {
+      expect(result.current.filters.hostname_or_id).toBe('foo');
+      expect(result.current.filters.status).toEqual(['fresh']);
+    });
+    expect(result.current.filters).not.toHaveProperty('tags');
+
+    act(() => {
+      result.current.clearAllFilters();
+    });
+
+    await waitFor(() => {
+      expect(result.current.filters).toEqual({
+        hostname_or_id: '',
+        status: [],
+      });
+    });
+  });
+
+  it('clearAllFilters merges defaultFilters onto spec empty values', async () => {
+    const { result } = renderFiltersContext(
+      '/?hostname_or_id=foo&status=fresh',
+      createTestQueryClient(),
+      [hostnameSpec, statusSpec],
+      { defaultFilters: { status: ['stale'] } },
+    );
+
+    act(() => {
+      result.current.clearAllFilters();
+    });
+
+    await waitFor(() => {
+      expect(result.current.filters).toEqual({
+        hostname_or_id: '',
+        status: ['stale'],
+      });
     });
   });
 });

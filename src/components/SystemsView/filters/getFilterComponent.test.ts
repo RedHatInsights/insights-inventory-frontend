@@ -15,12 +15,14 @@ const textSpec: TextFilterSpec = {
   type: 'text',
   filterId: 'name',
   title: 'Name',
+  emptyValue: '',
 };
 
 const checkboxSpec: CheckboxFilterSpec = {
   type: 'checkbox',
   filterId: 'severity',
   title: 'Severity',
+  emptyValue: [],
   options: [{ label: 'Critical', value: 'critical' }],
 };
 
@@ -28,6 +30,7 @@ const customSpec: CustomFilterSpec<string[]> = {
   type: 'custom',
   filterId: 'group',
   title: 'Group',
+  emptyValue: [],
   filterComponent: () => null,
   createLabel: () => [],
 };

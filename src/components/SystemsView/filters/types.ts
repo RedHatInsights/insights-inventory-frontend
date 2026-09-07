@@ -44,6 +44,8 @@ export type LastSeenSelectValue = {
 type FilterIdentity = {
   filterId: string;
   title: string;
+  /** Empty value for this key (reset, initial merge, URL sync). */
+  emptyValue: string | string[];
   /** When set, SystemsView debounces this key in the fetch */
   debounceMs?: number;
   /**

@@ -3,10 +3,17 @@ import moment from 'moment';
 import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import type { ViewConfiguration } from '../../../api/inventoryViewsApi';
 import {
+  hostnameSpec,
+  inventoryFilterSpecs,
+  statusSpec,
+  tagsSpec,
+} from '../../SystemsView/filters/inventory/filterDefinitions';
+import {
   isSortDirty,
   areFiltersDirty,
   areColumnsDirty,
   isLastSeenCustomRangeDirty,
+  FILTER_PARAM_KEYS,
 } from './useViewDirtyState';
 
 const makeParams = (entries: Record<string, string | string[]> = {}) => {
@@ -157,6 +164,57 @@ describe('areFiltersDirty', () => {
     const params = makeParams({ last_seen: 'last24' });
     const initial: Partial<InventoryFilters> = { last_seen: 'last24' };
     expect(areFiltersDirty(params, initial)).toBe(false);
+  });
+
+  it('uses FILTER_PARAM_KEYS from the inventory spec list', () => {
+    expect(FILTER_PARAM_KEYS).toEqual(
+      inventoryFilterSpecs.map((spec) => spec.filterId),
+    );
+  });
+
+  it('ignores a URL key when that spec is not in the list', () => {
+    const params = makeParams({
+      hostname_or_id: 'foo',
+      tags: ['env=prod'],
+    });
+    const keysWithoutTags = [hostnameSpec, statusSpec].map(
+      (spec) => spec.filterId,
+    );
+
+    expect(
+      areFiltersDirty(
+        params,
+        { hostname_or_id: 'foo' },
+        undefined,
+        keysWithoutTags,
+      ),
+    ).toBe(false);
+  });
+
+  it('treats a URL key as dirty once that spec is added', () => {
+    const params = makeParams({ tags: ['env=prod'] });
+    const withoutTags = [hostnameSpec, statusSpec].map((spec) => spec.filterId);
+    const withTags = [hostnameSpec, statusSpec, tagsSpec].map(
+      (spec) => spec.filterId,
+    );
+
+    expect(areFiltersDirty(params, undefined, undefined, withoutTags)).toBe(
+      false,
+    );
+    expect(areFiltersDirty(params, undefined, undefined, withTags)).toBe(true);
+  });
+
+  it('drops a URL key from dirty detection when that spec is removed', () => {
+    const params = makeParams({ status: ['fresh'] });
+    const withStatus = [hostnameSpec, statusSpec].map((spec) => spec.filterId);
+    const withoutStatus = [hostnameSpec].map((spec) => spec.filterId);
+
+    expect(areFiltersDirty(params, undefined, undefined, withStatus)).toBe(
+      true,
+    );
+    expect(areFiltersDirty(params, undefined, undefined, withoutStatus)).toBe(
+      false,
+    );
   });
 });
 

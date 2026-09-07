@@ -9,6 +9,7 @@ import React, {
 import { useDataViewFilters } from '@patternfly/react-data-view';
 import type { InventoryFilters } from './filters/SystemsViewFilters';
 import type { FilterSpec } from './filters/types';
+import { emptyValuesFrom } from './filters/emptyValuesFrom';
 import {
   normalizeLastSeenFilterValue,
   SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM,
@@ -20,18 +21,7 @@ import type { LastSeenCustomRange } from './types';
 
 export type { LastSeenCustomRange } from './types';
 
-export const INITIAL_INVENTORY_FILTERS: InventoryFilters = {
-  hostname_or_id: '',
-  status: [],
-  source: [],
-  rhcStatus: [],
-  system_type: [],
-  group_id: [],
-  last_seen: '',
-  tags: [],
-  operating_system: [],
-  workloads: [],
-};
+export { INITIAL_INVENTORY_FILTERS } from './filters/inventory/filterDefinitions';
 
 export interface DataViewFiltersContextValue {
   filters: InventoryFilters;
@@ -98,29 +88,35 @@ export const DataViewFiltersProvider = ({
   const hasWorkspaceFilter = resolvedFilters.some(
     (spec) => spec.filterId === SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM,
   );
+  const hasLastSeenFilter = resolvedFilters.some(
+    (spec) => spec.filterId === 'last_seen',
+  );
+
+  const emptyFilters = useMemo(
+    () => emptyValuesFrom(resolvedFilters) as InventoryFilters,
+    [resolvedFilters],
+  );
 
   const { data: ungroupedWorkspaceId } = useUngroupedWorkspaceId(
     hasAccess && hasWorkspaceFilter,
   );
 
-  const {
-    filters: rawFilters,
-    onSetFilters,
-    clearAllFilters: hookClearAll,
-  } = useDataViewFilters<InventoryFilters>({
-    initialFilters: initialFilters
-      ? { ...INITIAL_INVENTORY_FILTERS, ...initialFilters }
-      : INITIAL_INVENTORY_FILTERS,
-    searchParams,
-    setSearchParams,
-  });
+  const { filters: rawFilters, onSetFilters } =
+    useDataViewFilters<InventoryFilters>({
+      initialFilters: { ...emptyFilters, ...initialFilters },
+      searchParams,
+      setSearchParams,
+    });
 
   const filters = useMemo(
-    () => ({
-      ...rawFilters,
-      last_seen: normalizeLastSeenFilterValue(rawFilters.last_seen),
-    }),
-    [rawFilters],
+    () =>
+      hasLastSeenFilter
+        ? {
+            ...rawFilters,
+            last_seen: normalizeLastSeenFilterValue(rawFilters.last_seen),
+          }
+        : rawFilters,
+    [hasLastSeenFilter, rawFilters],
   );
 
   useEffect(() => {
@@ -149,12 +145,8 @@ export const DataViewFiltersProvider = ({
 
   const clearAllFilters = useCallback(() => {
     setLastSeenCustomRange(null);
-    if (defaultFilters) {
-      onSetFilters({ ...INITIAL_INVENTORY_FILTERS, ...defaultFilters });
-    } else {
-      hookClearAll();
-    }
-  }, [hookClearAll, defaultFilters, onSetFilters]);
+    onSetFilters({ ...emptyFilters, ...defaultFilters });
+  }, [defaultFilters, emptyFilters, onSetFilters]);
 
   const hasDefaultFilters = Boolean(defaultFilters);
 

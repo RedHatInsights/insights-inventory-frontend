@@ -7,14 +7,16 @@ import {
   SORT_DIR_URL_PARAM,
 } from '../../SystemsView/constants';
 import { INITIAL_SORT } from '../../SystemsView/hooks/useColumns';
-import { INITIAL_INVENTORY_FILTERS } from '../../SystemsView/DataViewFiltersContext';
+import { inventoryFilterSpecs } from '../../SystemsView/filters/inventory/filterDefinitions';
 import {
   parseViewConfigFilters,
   parseViewConfigLastSeenCustomRange,
 } from '../utils/viewConfigFilters';
 import type { LastSeenCustomRange } from '../../SystemsView/types';
 
-export const FILTER_PARAM_KEYS = Object.keys(INITIAL_INVENTORY_FILTERS);
+export const FILTER_PARAM_KEYS = inventoryFilterSpecs.map(
+  (spec) => spec.filterId,
+);
 
 type ColumnVisibility = Pick<Column, 'key' | 'isShown'>;
 
@@ -25,6 +27,7 @@ interface UseViewDirtyStateParams {
   baselineColumns?: readonly ColumnVisibility[];
   currentColumns?: readonly ColumnVisibility[];
   currentLastSeenCustomRange?: LastSeenCustomRange;
+  filterParamKeys?: readonly string[];
 }
 
 export const isSortDirty = (
@@ -49,13 +52,14 @@ export const areFiltersDirty = (
   searchParams: URLSearchParams,
   initialFilters?: Partial<InventoryFilters>,
   effectiveLastSeenCustomRange?: LastSeenCustomRange,
+  filterParamKeys: readonly string[] = FILTER_PARAM_KEYS,
 ): boolean => {
   const initial = (initialFilters ?? {}) as Record<string, unknown>;
   const hasEffectiveCustomRange = Boolean(
     effectiveLastSeenCustomRange?.start || effectiveLastSeenCustomRange?.end,
   );
 
-  for (const key of FILTER_PARAM_KEYS) {
+  for (const key of filterParamKeys) {
     let current = searchParams.getAll(key).sort();
 
     if (
@@ -134,6 +138,7 @@ export const useViewDirtyState = ({
   baselineColumns,
   currentColumns,
   currentLastSeenCustomRange,
+  filterParamKeys = FILTER_PARAM_KEYS,
 }: UseViewDirtyStateParams) =>
   useMemo(() => {
     // For All Systems view (system view), check if current state differs from defaults
@@ -149,6 +154,7 @@ export const useViewDirtyState = ({
       searchParams,
       savedFilters,
       effectiveLastSeenCustomRange,
+      filterParamKeys,
     );
     const columnsAreDirty = areColumnsDirty(baselineColumns, currentColumns);
     const lastSeenRangeIsDirty = isLastSeenCustomRangeDirty(
@@ -165,4 +171,5 @@ export const useViewDirtyState = ({
     baselineColumns,
     currentColumns,
     currentLastSeenCustomRange,
+    filterParamKeys,
   ]);
