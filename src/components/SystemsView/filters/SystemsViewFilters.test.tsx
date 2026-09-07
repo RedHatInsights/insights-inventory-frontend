@@ -16,6 +16,8 @@ import {
   lastSeenSpec,
   statusSpec,
 } from './inventory/filterDefinitions';
+import { filterCatalog } from './catalog';
+import { selectLegacyInventoryFilters } from '../../InventoryViews/selectLegacyInventoryFilters';
 import type { FilterSpec } from './types';
 
 jest.mock('../../../Utilities/hooks/useConditionalRBAC', () => ({
@@ -79,6 +81,25 @@ describe('SystemsViewFilters', () => {
     ).not.toBeInTheDocument();
     expect(
       screen.queryByRole('menuitem', { name: 'Last seen' }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('hides a control when that factory is dropped from the inventory selector', async () => {
+    renderFiltersToolbar(
+      selectLegacyInventoryFilters(filterCatalog).filter(
+        (filter) => filter.filterId !== 'tags',
+      ),
+    );
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('button', { name: 'Name' }));
+
+    expect(screen.getByRole('menuitem', { name: 'Name' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('menuitem', { name: 'Status' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('menuitem', { name: 'Tags' }),
     ).not.toBeInTheDocument();
   });
 

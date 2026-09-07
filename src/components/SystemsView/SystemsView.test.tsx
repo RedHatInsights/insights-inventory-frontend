@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { expect, jest } from '@jest/globals';
+import type { ApiHostGetHostListParams } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import React from 'react';
 import {
   SystemsView,
@@ -8,7 +9,9 @@ import {
   type SystemsViewQueryData,
 } from './SystemsView';
 import type { ColumnSelector } from './columns/resolveColumnSelector';
+import type { FilterSelector } from './filters/resolveFilterSelector';
 import { bindInventoryViewColumns } from './columns/inventoryViewColumns';
+import { selectLegacyInventoryFilters } from '../InventoryViews/selectLegacyInventoryFilters';
 import type { System } from '../InventoryViews/hostsQueryOptions';
 import {
   createTestQueryClient,
@@ -66,16 +69,24 @@ jest.mock('../../Utilities/useFeatureFlag', () => ({
 const selectNameColumn: ColumnSelector<System> = () =>
   bindInventoryViewColumns().filter((column) => column.key === 'display_name');
 
-const renderSystemsView = (
-  fetchData: SystemsViewFetchData<System>,
+const renderSystemsView = <TQuery = unknown,>(
+  fetchData: SystemsViewFetchData<System, TQuery>,
   client = createTestQueryClient(),
+  extra?: {
+    filters?: FilterSelector<TQuery>;
+    initialRoute?: string;
+  },
 ) =>
   render(
-    <TestWrapper client={client}>
+    <TestWrapper
+      client={client}
+      routerProps={{ initialEntries: [extra?.initialRoute ?? '/'] }}
+    >
       <SystemsView
         queryKeyPrefix={TEST_QUERY_KEY}
         fetchData={fetchData}
         columns={selectNameColumn}
+        filters={extra?.filters}
       />
     </TestWrapper>,
   );
@@ -104,11 +115,46 @@ describe('SystemsView', () => {
 
     expect(fetchData).toHaveBeenCalledWith(
       expect.objectContaining({
-        query: expect.any(Object),
+        filterParams: expect.any(Object),
       }),
     );
     expect(fetchData.mock.calls[0][0]).not.toHaveProperty(
       'lastSeenCustomRange',
+    );
+  });
+
+  it('omitting filters folds the full inventory query', async () => {
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(() =>
+      Promise.resolve(successData),
+    );
+    renderSystemsView(fetchData);
+
+    await screen.findByRole('columnheader', { name: 'Name' });
+
+    const { filterParams } = fetchData.mock.calls.at(-1)?.[0] ?? {};
+    expect(filterParams).toHaveProperty('tags');
+  });
+
+  it('dropping a factory from the filter selector omits that query field', async () => {
+    const fetchData = jest.fn<
+      SystemsViewFetchData<System, ApiHostGetHostListParams>
+    >(() => Promise.resolve(successData));
+    const filters: FilterSelector<ApiHostGetHostListParams> = (catalog) =>
+      selectLegacyInventoryFilters(catalog).filter(
+        (filter) => filter.filterId !== 'tags',
+      );
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      filters,
+      initialRoute: '/?tags=namespace/key=value&status=fresh',
+    });
+
+    await screen.findByRole('columnheader', { name: 'Name' });
+
+    const { filterParams } = fetchData.mock.calls.at(-1)?.[0] ?? {};
+    expect(filterParams).not.toHaveProperty('tags');
+    expect(filterParams).toEqual(
+      expect.objectContaining({ staleness: ['fresh'] }),
     );
   });
 

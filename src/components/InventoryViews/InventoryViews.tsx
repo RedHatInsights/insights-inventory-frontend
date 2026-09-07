@@ -26,7 +26,7 @@ import {
 } from '../../api/inventoryViewsApi';
 import { createViewColumnSelector } from './createViewColumnSelector';
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
-import { bindInventoryHostViewsFilters } from '../SystemsView/filters/inventory/bindInventoryFilters';
+import { selectInventoryViewsFilters } from './selectInventoryViewsFilters';
 import { resolveColumnSelector } from '../SystemsView/columns/resolveColumnSelector';
 import {
   SORT_URL_PARAM,
@@ -45,10 +45,7 @@ import {
   parseViewConfigFilters,
   parseViewConfigLastSeenCustomRange,
 } from './utils/viewConfigFilters';
-import {
-  useViewDirtyState,
-  FILTER_PARAM_KEYS,
-} from './hooks/useViewDirtyState';
+import { useViewDirtyState } from './hooks/useViewDirtyState';
 import { useUpdateViewMutation } from './hooks/useUpdateViewMutation';
 import type { LastSeenCustomRange } from '../SystemsView/types';
 
@@ -357,7 +354,7 @@ const InventoryViews = () => {
       <SystemsView
         key={`${activeViewId}-${viewsLoaded}`}
         columns={columnSelector ?? selectLegacyInventoryColumns}
-        filters={bindInventoryHostViewsFilters}
+        filters={selectInventoryViewsFilters}
         initialSort={initialSort}
         initialFilters={initialFilters}
         initialLastSeenCustomRange={initialLastSeenCustomRange}

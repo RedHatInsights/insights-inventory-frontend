@@ -3,6 +3,7 @@ import SystemsView from '../SystemsView/SystemsView';
 import { fetchHosts, HOSTS_QUERY_KEY } from './hostsQueryOptions';
 import { useAnsibleWorkloadDefault } from './hooks/useAnsibleWorkloadDefault';
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
+import { selectLegacyInventoryFilters } from './selectLegacyInventoryFilters';
 
 const InventoryHosts = () => {
   const { isReady, defaultFilters } = useAnsibleWorkloadDefault();
@@ -14,6 +15,7 @@ const InventoryHosts = () => {
   return (
     <SystemsView
       columns={selectLegacyInventoryColumns}
+      filters={selectLegacyInventoryFilters}
       queryKeyPrefix={HOSTS_QUERY_KEY}
       fetchData={fetchHosts}
       defaultFilters={defaultFilters}
