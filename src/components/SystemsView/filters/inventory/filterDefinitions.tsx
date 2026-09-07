@@ -29,8 +29,11 @@ import { emptyValuesFrom } from '../emptyValuesFrom';
 
 const WorkspaceChip = ({ id }: { id: string }) => {
   const { filters } = useDataViewFiltersContext();
+  const groupId = filters[SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM];
   const { names, isFetching, ids, pendingLabelFetchIds } =
-    useWorkspaceDisplayNames(filters.group_id);
+    useWorkspaceDisplayNames(
+      Array.isArray(groupId) ? (groupId as string[]) : undefined,
+    );
 
   return (
     <HostGroupChipNode

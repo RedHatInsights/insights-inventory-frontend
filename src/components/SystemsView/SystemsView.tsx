@@ -23,10 +23,7 @@ import { useHostIdsWithKessel } from '../../Utilities/hooks/useHostIdsWithKessel
 import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorState';
 import SkeletonTable from '@patternfly/react-component-groups/dist/dynamic/SkeletonTable';
 import NoEntitiesFound from '../InventoryTable/NoEntitiesFound';
-import {
-  InventoryFilters,
-  SystemsViewFilters,
-} from './filters/SystemsViewFilters';
+import { SystemsViewFilters } from './filters/SystemsViewFilters';
 import { INITIAL_SORT, useColumns } from './hooks/useColumns';
 import { SetURLSearchParams, useSearchParams } from 'react-router-dom';
 import { SystemActionModalsProvider } from './SystemActionModalsContext';
@@ -60,6 +57,7 @@ import type {
   LastSeenCustomRange,
   SortDirection,
   SystemsViewFetchParams,
+  SystemsViewFilterState,
   SystemsViewItem,
   SystemsViewQueryData,
 } from './types';
@@ -74,7 +72,7 @@ import useInventoryViewsColumnsRbacFeatureFlag from '../../Utilities/useInventor
 export type { SortDirection } from './types';
 export type { SystemsViewItem, SystemsViewQueryData } from './types';
 export type SystemsViewFetchData<TItem extends SystemsViewItem> = (
-  params: SystemsViewFetchParams<InventoryFilters>,
+  params: SystemsViewFetchParams,
 ) => Promise<SystemsViewQueryData<TItem>>;
 export type OnSort = (
   _event: React.MouseEvent | React.KeyboardEvent | MouseEvent | undefined,
@@ -100,9 +98,9 @@ export type SystemsViewProps<TItem extends SystemsViewItem> = {
    * inline definition.
    */
   columns?: ColumnSelector<TItem>;
-  defaultFilters?: Partial<InventoryFilters>;
+  defaultFilters?: Partial<SystemsViewFilterState>;
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
-  initialFilters?: Partial<InventoryFilters>;
+  initialFilters?: Partial<SystemsViewFilterState>;
   initialLastSeenCustomRange?: LastSeenCustomRange;
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
   onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
@@ -182,7 +180,7 @@ function SystemsViewInner<TItem extends SystemsViewItem>({
   const { direction, onSort } = sort;
 
   const fetchParams = useMemo(
-    (): SystemsViewFetchParams<InventoryFilters> => ({
+    (): SystemsViewFetchParams => ({
       page: pagination.page,
       perPage: pagination.perPage,
       filters: queryFilters,

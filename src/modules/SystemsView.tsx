@@ -14,6 +14,7 @@ import { KESSEL_API_PATH } from '../constants';
 export type { SystemsViewFetchData } from '../components/SystemsView/SystemsView';
 export type {
   SystemsViewFetchParams,
+  SystemsViewFilterState,
   SystemsViewItem,
   SystemsViewQueryData,
 } from '../components/SystemsView/types';

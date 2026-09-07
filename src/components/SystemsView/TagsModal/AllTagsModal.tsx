@@ -30,14 +30,17 @@ export const AllTagsModal = ({
 }: AllTagsModalProps) => {
   const { filters, onSetFilters } = useDataViewFiltersContext();
   const [inventorySearch, setInventorySearch] = useState(initialTagSearch);
+  const selectedTags = Array.isArray(filters.tags)
+    ? (filters.tags as string[])
+    : [];
 
   const tagSelection = useDataViewSelection({
     matchOption: matchTagRowItems,
-    initialSelected: filterStrsToSelectedTagTuples(filters.tags ?? []),
+    initialSelected: filterStrsToSelectedTagTuples(selectedTags),
   });
 
   const [tagSelectionBaseline] = useState<string[]>(() =>
-    [...(filters.tags ?? [])].sort(),
+    [...selectedTags].sort(),
   );
 
   const isSelectionDirty = useMemo(() => {

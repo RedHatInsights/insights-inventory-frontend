@@ -7,7 +7,6 @@ import React, {
   useState,
 } from 'react';
 import { useDataViewFilters } from '@patternfly/react-data-view';
-import type { InventoryFilters } from './filters/SystemsViewFilters';
 import type { FilterSpec } from './filters/types';
 import { emptyValuesFrom } from './filters/emptyValuesFrom';
 import {
@@ -17,16 +16,16 @@ import {
 import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 import { GENERAL_GROUPS_READ_PERMISSION } from '../../constants';
 import { useUngroupedWorkspaceId } from '../../hooks/useUngroupedWorkspaceId';
-import type { LastSeenCustomRange } from './types';
+import type { LastSeenCustomRange, SystemsViewFilterState } from './types';
 
 export type { LastSeenCustomRange } from './types';
 
 export { INITIAL_INVENTORY_FILTERS } from './filters/inventory/filterDefinitions';
 
 export interface DataViewFiltersContextValue {
-  filters: InventoryFilters;
+  filters: SystemsViewFilterState;
   resolvedFilters: readonly FilterSpec[];
-  onSetFilters: (_: Partial<InventoryFilters>) => void;
+  onSetFilters: (_: Partial<SystemsViewFilterState>) => void;
   clearAllFilters: () => void;
   hasDefaultFilters: boolean;
   lastSeenCustomRange: LastSeenCustomRange;
@@ -62,8 +61,8 @@ interface DataViewFiltersProviderProps {
   resolvedFilters: readonly FilterSpec[];
   searchParams: SearchParamsTuple[0];
   setSearchParams: SearchParamsTuple[1];
-  defaultFilters?: Partial<InventoryFilters>;
-  initialFilters?: Partial<InventoryFilters>;
+  defaultFilters?: Partial<SystemsViewFilterState>;
+  initialFilters?: Partial<SystemsViewFilterState>;
   initialLastSeenCustomRange?: LastSeenCustomRange;
 }
 
@@ -93,7 +92,7 @@ export const DataViewFiltersProvider = ({
   );
 
   const emptyFilters = useMemo(
-    () => emptyValuesFrom(resolvedFilters) as InventoryFilters,
+    () => emptyValuesFrom(resolvedFilters),
     [resolvedFilters],
   );
 
@@ -102,11 +101,13 @@ export const DataViewFiltersProvider = ({
   );
 
   const { filters: rawFilters, onSetFilters } =
-    useDataViewFilters<InventoryFilters>({
+    useDataViewFilters<SystemsViewFilterState>({
       initialFilters: { ...emptyFilters, ...initialFilters },
       searchParams,
       setSearchParams,
     });
+
+  const workspaceFilterIds = rawFilters[SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM];
 
   const filters = useMemo(
     () =>
@@ -129,17 +130,21 @@ export const DataViewFiltersProvider = ({
     if (!hasWorkspaceFilter || !ungroupedWorkspaceId) {
       return;
     }
-    const ids = rawFilters.group_id;
-    if (!ids?.includes('')) {
+    if (
+      !Array.isArray(workspaceFilterIds) ||
+      !workspaceFilterIds.includes('')
+    ) {
       return;
     }
     onSetFilters({
-      group_id: ids.map((id) => (id === '' ? ungroupedWorkspaceId : id)),
+      [SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM]: workspaceFilterIds.map((id) =>
+        id === '' ? ungroupedWorkspaceId : id,
+      ),
     });
   }, [
     hasWorkspaceFilter,
     ungroupedWorkspaceId,
-    rawFilters.group_id,
+    workspaceFilterIds,
     onSetFilters,
   ]);
 

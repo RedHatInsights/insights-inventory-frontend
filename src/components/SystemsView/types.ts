@@ -7,8 +7,11 @@ export type LastSeenCustomRange = {
   end?: string;
 } | null;
 
+/** Toolbar filters keys match FilterSpec `filterId`. */
+export type SystemsViewFilterState = Record<string, unknown>;
+
 export type SystemsViewFetchParams<
-  TFilters extends Record<string, unknown> = Record<string, unknown>,
+  TFilters extends SystemsViewFilterState = SystemsViewFilterState,
 > = {
   page: number;
   perPage: number;

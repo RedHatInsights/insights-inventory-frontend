@@ -1,5 +1,5 @@
 import { getHostTags, getHostViews } from '../../api/hostInventoryApiTyped';
-import { InventoryFilters } from '../SystemsView/filters/SystemsViewFilters';
+import type { InventoryFilters } from '../SystemsView/filters/SystemsViewFilters';
 import { ApiHostViewsGetHostViewsOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 import type { SystemsViewFetchParams } from '../SystemsView/types';
 import { buildHostViewsParams } from './utils/buildHostViewsParams';
@@ -25,13 +25,11 @@ const hasHostId = <T extends { id?: string }>(
   host: T,
 ): host is T & { id: string } => typeof host.id === 'string';
 
-export const fetchInventoryViews = async (
-  params: SystemsViewFetchParams<InventoryFilters>,
-) => {
+export const fetchInventoryViews = async (params: SystemsViewFetchParams) => {
   const fetchParams = buildHostViewsParams({
     page: params.page,
     perPage: params.perPage,
-    filters: params.filters,
+    filters: params.filters as InventoryFilters,
     lastSeenCustomRange: params.lastSeenCustomRange,
     sortBy: params.sortBy as ApiOrderByEnum | undefined,
     direction: params.direction,

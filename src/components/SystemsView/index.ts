@@ -2,6 +2,7 @@ export { default } from './SystemsView';
 export type { SystemsViewProps, SystemsViewFetchData } from './SystemsView';
 export type {
   SystemsViewFetchParams,
+  SystemsViewFilterState,
   SystemsViewItem,
   SystemsViewQueryData,
   SortDirection,
