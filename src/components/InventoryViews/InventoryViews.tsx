@@ -26,6 +26,7 @@ import {
 } from '../../api/inventoryViewsApi';
 import { createViewColumnSelector } from './createViewColumnSelector';
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
+import { bindInventoryHostViewsFilters } from '../SystemsView/filters/inventory/bindInventoryFilters';
 import { resolveColumnSelector } from '../SystemsView/columns/resolveColumnSelector';
 import {
   SORT_URL_PARAM,
@@ -356,6 +357,7 @@ const InventoryViews = () => {
       <SystemsView
         key={`${activeViewId}-${viewsLoaded}`}
         columns={columnSelector ?? selectLegacyInventoryColumns}
+        filters={bindInventoryHostViewsFilters}
         initialSort={initialSort}
         initialFilters={initialFilters}
         initialLastSeenCustomRange={initialLastSeenCustomRange}

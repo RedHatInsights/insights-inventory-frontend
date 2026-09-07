@@ -94,7 +94,7 @@ describe('SystemsView', () => {
     ).toBeInTheDocument();
   });
 
-  it('passes lastSeenCustomRange in fetch params', async () => {
+  it('passes folded query in fetch params', async () => {
     const fetchData = jest.fn<SystemsViewFetchData<System>>(() =>
       Promise.resolve(successData),
     );
@@ -103,7 +103,12 @@ describe('SystemsView', () => {
     await screen.findByRole('columnheader', { name: 'Name' });
 
     expect(fetchData).toHaveBeenCalledWith(
-      expect.objectContaining({ lastSeenCustomRange: null }),
+      expect.objectContaining({
+        query: expect.any(Object),
+      }),
+    );
+    expect(fetchData.mock.calls[0][0]).not.toHaveProperty(
+      'lastSeenCustomRange',
     );
   });
 

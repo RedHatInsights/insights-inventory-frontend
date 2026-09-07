@@ -5,7 +5,8 @@ import {
   ApiHostGetHostListStalenessEnum,
 } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import type { LastSeenKey } from '../constants';
-import type { LastSeenCustomRange } from '../types';
+import type { LastSeenCustomRange, SystemsViewFilterState } from '../types';
+import type { Resolve } from '../../../types/utility-types';
 import type { DataViewCustomFilterProps } from './DataViewCustomFilter';
 
 type CheckboxOption = { label: ReactNode; value: string };
@@ -52,10 +53,18 @@ type FilterIdentity = {
    * Maps the URL/UI bag plus extra context to the value the later
    * `updateQuery` fold should see. Defaults to `filters[filterId]`.
    */
-  selectValue?: (
-    filters: InventoryFilters,
+  getValue?: (
+    filters: SystemsViewFilterState,
     ctx: FilterSelectContext,
   ) => unknown;
+};
+
+/**
+ * Consumer adapter passed to `bindFilter`, named catalog factories, and `catalog.custom`
+ * while `TValue` is still known.
+ */
+export type FilterBinding<TQuery, TValue> = {
+  updateQuery: (query: TQuery, value: TValue) => TQuery;
 };
 
 export type TextFilterSpec = FilterIdentity & {
@@ -85,6 +94,16 @@ export type FilterSpec =
   | CheckboxFilterSpec
   | CustomFilterSpec<string[]>
   | CustomFilterSpec<LastSeenKey | ''>;
+
+/**
+ * Runtime toolbar filter. `TValue` is erased so mixed-filter arrays type-check;
+ * `TQuery` stays so every filter in a view writes the same query type.
+ */
+export type BoundFilter<TQuery = unknown> = Resolve<
+  FilterSpec & {
+    updateQuery: (query: TQuery, value: unknown) => TQuery;
+  }
+>;
 
 export const isToolbarLabel = (
   label: string | ToolbarLabel,

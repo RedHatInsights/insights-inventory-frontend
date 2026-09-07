@@ -1,28 +1,34 @@
-import { inventoryFilterSpecs } from './inventory/filterDefinitions';
-import type { FilterSpec } from './types';
+import type { ApiHostGetHostListParams } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
+import { filterCatalog, type FilterCatalog } from './catalog';
+import { bindInventoryHostListFilters } from './inventory/bindInventoryFilters';
+import type { BoundFilter } from './types';
 
 /**
  * Selects which filters a `SystemsView` instance displays.
- * Until SystemsView accepts a consumer `filters` prop, callers use the default
- * (full inventory toolbar).
- *  @returns filter specs
+ * Receives the shared filter catalog of factories;
+ *  @returns bound filters
  */
-export type FilterSelector = () => readonly FilterSpec[];
+export type FilterSelector<TQuery = unknown> = (
+  catalog: FilterCatalog,
+) => readonly BoundFilter<TQuery>[];
 
 /**
- * Default when `SystemsView` omits a filter selector: the full inventory toolbar.
- * Unlike columns, omitting filters does not mean an empty list.
- *  @returns The current inventory toolbar specs, in display order.
+ * Default when `SystemsView` omits a filter selector: the full inventory toolbar
+ * bound to host-list `updateQuery`. Unlike columns, omitting filters does not
+ * mean an empty list.
+ *  @param catalog - Shared filter catalog of named factories
+ *  @returns       Bound inventory host-list filters, in display order
  */
-export const defaultFilterSelector: FilterSelector = () => inventoryFilterSpecs;
+export const defaultFilterSelector: FilterSelector<ApiHostGetHostListParams> =
+  bindInventoryHostListFilters;
 
 /**
- * Resolves the toolbar spec list. Until SystemsView grows a consumer `filters`
- * prop, this is always the full inventory catalog.
+ * Resolves the toolbar to bound filters. When `selector` is omitted, uses the
+ * full inventory catalog with host-list `updateQuery`.
  *
  *  @param selector - Optional selector; defaults to {@link defaultFilterSelector}
- *  @returns        Filter specs in toolbar order
+ *  @returns        Bound filters in toolbar order
  */
-export const resolveFilterSelector = (
-  selector: FilterSelector = defaultFilterSelector,
-): readonly FilterSpec[] => selector();
+export const resolveFilterSelector = <TQuery = unknown>(
+  selector: FilterSelector<TQuery> = defaultFilterSelector as unknown as FilterSelector<TQuery>,
+): readonly BoundFilter<TQuery>[] => selector(filterCatalog);

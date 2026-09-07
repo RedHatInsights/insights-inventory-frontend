@@ -187,8 +187,11 @@ export const lastSeenSpec = {
   deleteLabel: (_category, _label, _value, onChange) => {
     onChange?.(undefined, '');
   },
-  selectValue: (filters, ctx): LastSeenSelectValue => ({
-    key: filters.last_seen,
+  getValue: (filters, ctx): LastSeenSelectValue => ({
+    key:
+      typeof filters.last_seen === 'string'
+        ? (filters.last_seen as LastSeenKey | '')
+        : '',
     range: ctx.lastSeenCustomRange,
   }),
 } satisfies CustomFilterSpec<LastSeenKey | ''>;

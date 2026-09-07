@@ -6,27 +6,42 @@ import {
 } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import { INITIAL_INVENTORY_FILTERS } from '../../SystemsView/DataViewFiltersContext';
 import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
+import { filterCatalog } from '../../SystemsView/filters/catalog';
+import { buildFilterParams } from '../../SystemsView/filters/buildFilterParams';
+import { bindInventoryHostListFilters } from '../../SystemsView/filters/inventory/bindInventoryFilters';
+import type { LastSeenCustomRange } from '../../SystemsView/types';
 import type { BuildHostListParamsInput } from './buildHostListParams';
 import { buildHostListParams } from './buildHostListParams';
 import { hostQueryParamsSerializer } from './buildHostListOptions';
 
 const NOT_NIL = { is: 'not_nil' as const };
 
+const foldQuery = (
+  filterOverrides: Partial<InventoryFilters> = {},
+  lastSeenCustomRange: LastSeenCustomRange = null,
+) =>
+  buildFilterParams(
+    bindInventoryHostListFilters(filterCatalog),
+    {
+      ...INITIAL_INVENTORY_FILTERS,
+      ...filterOverrides,
+    },
+    { lastSeenCustomRange },
+    {},
+  );
+
 const buildParams = (
-  overrides: Omit<Partial<BuildHostListParamsInput>, 'filters'> & {
+  overrides: Omit<Partial<BuildHostListParamsInput>, 'query'> & {
     filters?: Partial<InventoryFilters>;
+    lastSeenCustomRange?: LastSeenCustomRange;
   } = {},
 ) => {
-  const { filters: filterOverrides, ...rest } = overrides;
+  const { filters: filterOverrides, lastSeenCustomRange, ...rest } = overrides;
 
   return buildHostListParams({
     page: 1,
     perPage: 20,
-    filters: {
-      ...INITIAL_INVENTORY_FILTERS,
-      ...filterOverrides,
-    },
-    lastSeenCustomRange: null,
+    query: foldQuery(filterOverrides, lastSeenCustomRange ?? null),
     ...rest,
   });
 };
