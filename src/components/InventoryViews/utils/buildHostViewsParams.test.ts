@@ -4,11 +4,12 @@ import {
   ApiHostViewsGetHostViewsStalenessEnum,
   ApiHostViewsGetHostViewsSystemTypeEnum,
 } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
-import { INITIAL_INVENTORY_FILTERS } from '../../SystemsView/DataViewFiltersContext';
 import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import { filterCatalog } from '../../SystemsView/filters/catalog';
+import { defaultValuesFrom } from '../../SystemsView/filters/defaultValuesFrom';
 import { buildFilterParams } from '../../SystemsView/filters/buildFilterParams';
 import { bindInventoryHostViewsFilters } from '../../SystemsView/filters/inventory/bindInventoryFilters';
+import { inventoryFilterSpecs } from '../../SystemsView/filters/inventory/filterDefinitions';
 import type { LastSeenCustomRange } from '../../SystemsView/types';
 import type { BuildHostViewsParamsInput } from './buildHostViewsParams';
 import { buildHostViewsParams } from './buildHostViewsParams';
@@ -23,7 +24,7 @@ const foldQuery = (
   buildFilterParams(
     bindInventoryHostViewsFilters(filterCatalog),
     {
-      ...INITIAL_INVENTORY_FILTERS,
+      ...defaultValuesFrom(inventoryFilterSpecs),
       ...filterOverrides,
     },
     { lastSeenCustomRange },

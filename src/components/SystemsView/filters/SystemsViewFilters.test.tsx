@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, jest } from '@jest/globals';
 import React from 'react';
@@ -113,5 +113,21 @@ describe('SystemsViewFilters', () => {
     renderFiltersToolbar([hostnameSpec, lastSeenSpec], '/?last_seen=custom');
 
     expect(screen.getByLabelText('Start date')).toBeInTheDocument();
+  });
+
+  it('lets chip-X remove a Name chip when that spec has a stamped defaultValue', async () => {
+    renderFiltersToolbar(
+      [{ ...hostnameSpec, defaultValue: 'web-01' }],
+      '/?hostname_or_id=web-01',
+    );
+
+    expect(screen.getByDisplayValue('web-01')).toBeInTheDocument();
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('button', { name: /close web-01/i }));
+
+    await waitFor(() => {
+      expect(screen.queryByDisplayValue('web-01')).not.toBeInTheDocument();
+    });
   });
 });

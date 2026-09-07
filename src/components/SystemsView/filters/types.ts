@@ -11,6 +11,7 @@ import type { DataViewCustomFilterProps } from './DataViewCustomFilter';
 
 type CheckboxOption = { label: ReactNode; value: string };
 
+//TODO infer this from specs and move it to InventoryViews
 /** Toolbar filters for SystemsView. Keys match `FilterSpec.filterId`. */
 export type InventoryFilters = {
   hostname_or_id: string;
@@ -45,8 +46,10 @@ export type LastSeenSelectValue = {
 type FilterIdentity = {
   filterId: string;
   title: string;
-  /** Empty value for this key (reset, initial merge, URL sync). */
-  emptyValue: string | string[];
+  /**
+   * Starting value and clear target for this key
+   */
+  defaultValue: string | string[];
   /** When set, SystemsView debounces this key in the fetch */
   debounceMs?: number;
   /**

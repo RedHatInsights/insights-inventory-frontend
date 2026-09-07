@@ -1,7 +1,7 @@
 import { expect } from '@jest/globals';
 import { filterCatalog } from '../SystemsView/filters/catalog';
 import { buildFilterParams } from '../SystemsView/filters/buildFilterParams';
-import { emptyValuesFrom } from '../SystemsView/filters/emptyValuesFrom';
+import { defaultValuesFrom } from '../SystemsView/filters/defaultValuesFrom';
 import { inventoryFilterSpecs } from '../SystemsView/filters/inventory/filterDefinitions';
 import {
   defaultFilterSelector,
@@ -38,7 +38,7 @@ describe('selectLegacyInventoryFilters', () => {
     const full = selectLegacyInventoryFilters(filterCatalog);
     const withoutTags = dropTags(selectLegacyInventoryFilters)(filterCatalog);
     const ui = {
-      ...emptyValuesFrom(full),
+      ...defaultValuesFrom(full),
       tags: ['namespace/key=value'],
     };
     const ctx = { lastSeenCustomRange: null };
@@ -46,8 +46,8 @@ describe('selectLegacyInventoryFilters', () => {
     expect(full.map((filter) => filter.filterId)).toContain('tags');
     expect(withoutTags.map((filter) => filter.filterId)).not.toContain('tags');
 
-    expect(emptyValuesFrom(full)).toHaveProperty('tags');
-    expect(emptyValuesFrom(withoutTags)).not.toHaveProperty('tags');
+    expect(defaultValuesFrom(full)).toHaveProperty('tags');
+    expect(defaultValuesFrom(withoutTags)).not.toHaveProperty('tags');
 
     expect(buildFilterParams(full, ui, ctx, {})).toEqual(
       expect.objectContaining({ tags: ['namespace/key=value'] }),
@@ -71,13 +71,13 @@ describe('selectInventoryViewsFilters', () => {
     const full = selectInventoryViewsFilters(filterCatalog);
     const withoutTags = dropTags(selectInventoryViewsFilters)(filterCatalog);
     const ui = {
-      ...emptyValuesFrom(full),
+      ...defaultValuesFrom(full),
       tags: ['namespace/key=value'],
     };
     const ctx = { lastSeenCustomRange: null };
 
     expect(withoutTags.map((filter) => filter.filterId)).not.toContain('tags');
-    expect(emptyValuesFrom(withoutTags)).not.toHaveProperty('tags');
+    expect(defaultValuesFrom(withoutTags)).not.toHaveProperty('tags');
     expect(buildFilterParams(withoutTags, ui, ctx, {})).not.toHaveProperty(
       'tags',
     );

@@ -4,11 +4,12 @@ import {
   ApiHostGetHostListStalenessEnum,
   ApiHostGetHostListSystemTypeEnum,
 } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
-import { INITIAL_INVENTORY_FILTERS } from '../../SystemsView/DataViewFiltersContext';
 import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import { filterCatalog } from '../../SystemsView/filters/catalog';
+import { defaultValuesFrom } from '../../SystemsView/filters/defaultValuesFrom';
 import { buildFilterParams } from '../../SystemsView/filters/buildFilterParams';
 import { bindInventoryHostListFilters } from '../../SystemsView/filters/inventory/bindInventoryFilters';
+import { inventoryFilterSpecs } from '../../SystemsView/filters/inventory/filterDefinitions';
 import type { LastSeenCustomRange } from '../../SystemsView/types';
 import type { BuildHostListParamsInput } from './buildHostListParams';
 import { buildHostListParams } from './buildHostListParams';
@@ -23,7 +24,7 @@ const foldQuery = (
   buildFilterParams(
     bindInventoryHostListFilters(filterCatalog),
     {
-      ...INITIAL_INVENTORY_FILTERS,
+      ...defaultValuesFrom(inventoryFilterSpecs),
       ...filterOverrides,
     },
     { lastSeenCustomRange },

@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
 import { act, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { expect, jest } from '@jest/globals';
 import type { ApiHostGetHostListParams } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import React from 'react';
@@ -68,6 +69,15 @@ jest.mock('../../Utilities/useFeatureFlag', () => ({
 
 const selectNameColumn: ColumnSelector<System> = () =>
   bindInventoryViewColumns().filter((column) => column.key === 'display_name');
+
+const stampHostnameDefault: FilterSelector<ApiHostGetHostListParams> = (
+  catalog,
+) =>
+  selectLegacyInventoryFilters(catalog).map((filter) =>
+    filter.filterId === 'hostname_or_id'
+      ? { ...filter, defaultValue: 'web-01' }
+      : filter,
+  );
 
 const renderSystemsView = <TQuery = unknown,>(
   fetchData: SystemsViewFetchData<System, TQuery>,
@@ -204,6 +214,82 @@ describe('SystemsView', () => {
 
     expect(
       await screen.findByText(/No matching systems found/i),
+    ).toBeInTheDocument();
+  });
+
+  it('hides Reset filters when current filters match spec defaults', async () => {
+    renderSystemsView(
+      () => Promise.resolve(successData),
+      createTestQueryClient(),
+      {
+        filters: stampHostnameDefault,
+        initialRoute: '/?hostname_or_id=web-01',
+      },
+    );
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'Reset filters' }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('shows Reset filters after chip-X clears stamped spec defaults', async () => {
+    renderSystemsView(
+      () => Promise.resolve(successData),
+      createTestQueryClient(),
+      {
+        filters: stampHostnameDefault,
+        initialRoute: '/?hostname_or_id=web-01',
+      },
+    );
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'Reset filters' }),
+    ).not.toBeInTheDocument();
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('button', { name: /close web-01/i }));
+
+    expect(
+      await screen.findByRole('button', { name: 'Reset filters' }),
+    ).toBeInTheDocument();
+  });
+
+  it('shows Reset filters when current filters differ from spec defaults', async () => {
+    renderSystemsView(
+      () => Promise.resolve(successData),
+      createTestQueryClient(),
+      {
+        filters: stampHostnameDefault,
+        initialRoute: '/?hostname_or_id=other-host',
+      },
+    );
+
+    expect(
+      await screen.findByRole('button', { name: 'Reset filters' }),
+    ).toBeInTheDocument();
+  });
+
+  it('keeps Reset filters visible after chip-X removes the last filter chip', async () => {
+    renderSystemsView(
+      () => Promise.resolve(successData),
+      createTestQueryClient(),
+      {
+        filters: stampHostnameDefault,
+        initialRoute: '/?hostname_or_id=other-host',
+      },
+    );
+
+    expect(
+      await screen.findByRole('button', { name: 'Reset filters' }),
+    ).toBeInTheDocument();
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('button', { name: /close other-host/i }));
+
+    expect(
+      await screen.findByRole('button', { name: 'Reset filters' }),
     ).toBeInTheDocument();
   });
 });

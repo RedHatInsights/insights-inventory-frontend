@@ -87,12 +87,12 @@ describe('areFiltersDirty', () => {
     expect(areFiltersDirty(params, undefined)).toBe(true);
   });
 
-  it('returns false when URL filters match initial filters', () => {
+  it('returns false when URL filters match defaultValues', () => {
     const params = makeParams({ operating_system: ['RHEL9.6'] });
-    const initial: Partial<InventoryFilters> = {
+    const defaults: Partial<InventoryFilters> = {
       operating_system: ['RHEL9.6'],
     };
-    expect(areFiltersDirty(params, initial)).toBe(false);
+    expect(areFiltersDirty(params, defaults)).toBe(false);
   });
 
   it('returns true when URL filter value differs from initial', () => {
@@ -164,6 +164,17 @@ describe('areFiltersDirty', () => {
     const params = makeParams({ last_seen: 'last24' });
     const initial: Partial<InventoryFilters> = { last_seen: 'last24' };
     expect(areFiltersDirty(params, initial)).toBe(false);
+  });
+
+  it('is not dirty when URL matches a stamped ansible defaultValue', () => {
+    const params = makeParams({ workloads: ['ansible'] });
+    expect(areFiltersDirty(params, { workloads: ['ansible'] })).toBe(false);
+  });
+
+  it('is dirty when URL drops a stamped ansible defaultValue', () => {
+    expect(areFiltersDirty(makeParams(), { workloads: ['ansible'] })).toBe(
+      true,
+    );
   });
 
   it('uses FILTER_PARAM_KEYS from the inventory spec list', () => {

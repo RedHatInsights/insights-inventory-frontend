@@ -21,11 +21,9 @@ import {
   type CheckboxFilterSpec,
   type CustomFilterSpec,
   type FilterSpec,
-  type InventoryFilters,
   type LastSeenSelectValue,
   type TextFilterSpec,
 } from '../types';
-import { emptyValuesFrom } from '../emptyValuesFrom';
 
 const WorkspaceChip = ({ id }: { id: string }) => {
   const { filters } = useDataViewFiltersContext();
@@ -50,7 +48,7 @@ export const hostnameSpec = {
   type: 'text',
   filterId: 'hostname_or_id',
   title: 'Name',
-  emptyValue: '',
+  defaultValue: '',
   chipTitle: 'Display name',
   placeholder: 'Filter by name',
   debounceMs: DEBOUNCE_TIMEOUT_MS,
@@ -60,7 +58,7 @@ export const statusSpec = {
   type: 'checkbox',
   filterId: 'status',
   title: 'Status',
-  emptyValue: [],
+  defaultValue: [],
   placeholder: 'Filter by status',
   options: [
     { label: 'Fresh', value: 'fresh' },
@@ -73,7 +71,7 @@ export const operatingSystemSpec = {
   type: 'custom',
   filterId: 'operating_system',
   title: 'Operating system',
-  emptyValue: [],
+  defaultValue: [],
   placeholder: 'Filter by operating system',
   ouiaId: 'SystemsViewOperatingSystemsFilter',
   filterComponent: OperatingSystemsFilter,
@@ -97,7 +95,7 @@ export const sourceSpec = {
   type: 'checkbox',
   filterId: 'source',
   title: 'Data collector',
-  emptyValue: [],
+  defaultValue: [],
   placeholder: 'Filter by data collector',
   options: [
     {
@@ -118,7 +116,7 @@ export const rhcStatusSpec = {
   type: 'checkbox',
   filterId: 'rhcStatus',
   title: 'RHC status',
-  emptyValue: [],
+  defaultValue: [],
   placeholder: 'Filter by RHC status',
   options: [
     { label: 'Active', value: 'not_nil' },
@@ -130,7 +128,7 @@ export const systemTypeSpec = {
   type: 'checkbox',
   filterId: 'system_type',
   title: 'System type',
-  emptyValue: [],
+  defaultValue: [],
   placeholder: 'Filter by system type',
   options: [
     { label: 'Package-based system', value: 'conventional' },
@@ -142,7 +140,7 @@ export const workspaceSpec = {
   type: 'custom',
   filterId: SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM,
   title: 'Workspace',
-  emptyValue: [],
+  defaultValue: [],
   placeholder: 'Filter by workspace',
   ouiaId: 'SystemsViewWorkspaceFilter',
   filterComponent: WorkspaceFilter,
@@ -167,7 +165,7 @@ export const lastSeenSpec = {
   type: 'custom',
   filterId: 'last_seen',
   title: 'Last seen',
-  emptyValue: '',
+  defaultValue: '',
   placeholder: 'Filter by last seen',
   ouiaId: 'SystemsViewLastSeenFilter',
   filterComponent: LastSeenFilter,
@@ -200,7 +198,7 @@ export const tagsSpec = {
   type: 'custom',
   filterId: 'tags',
   title: 'Tags',
-  emptyValue: [],
+  defaultValue: [],
   placeholder: 'Filter by tags',
   ouiaId: 'SystemsViewTagsFilter',
   isMultiGroup: true,
@@ -237,7 +235,7 @@ export const workloadsSpec = {
   type: 'checkbox',
   filterId: 'workloads',
   title: 'Workload',
-  emptyValue: [],
+  defaultValue: [],
   placeholder: 'Filter by workload',
   options: [...WORKLOAD_FILTER_OPTIONS],
 } satisfies CheckboxFilterSpec;
@@ -255,8 +253,3 @@ export const inventoryFilterSpecs: readonly FilterSpec[] = [
   tagsSpec,
   workloadsSpec,
 ];
-
-/** Empty UI bag for the full inventory toolbar. */
-export const INITIAL_INVENTORY_FILTERS = emptyValuesFrom(
-  inventoryFilterSpecs,
-) as InventoryFilters;

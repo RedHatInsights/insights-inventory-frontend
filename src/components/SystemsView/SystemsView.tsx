@@ -15,6 +15,9 @@ import {
   Button,
   PageSection,
   Pagination,
+  Toolbar,
+  ToolbarContent,
+  ToolbarGroup,
   ToolbarItem,
 } from '@patternfly/react-core';
 import { DataViewToolbar } from '@patternfly/react-data-view/dist/dynamic/DataViewToolbar';
@@ -57,7 +60,6 @@ import type {
   LastSeenCustomRange,
   SortDirection,
   SystemsViewFetchParams,
-  SystemsViewFilterState,
   SystemsViewItem,
   SystemsViewQueryData,
 } from './types';
@@ -71,6 +73,7 @@ import {
   type FilterSelector,
 } from './filters/resolveFilterSelector';
 import { buildFilterParams as buildFilterParams } from './filters/buildFilterParams';
+import { hasActiveFilterChips } from './filters/defaultValuesFrom';
 import type { BoundFilter } from './filters/types';
 import useInventoryViewsColumnsRbacFeatureFlag from '../../Utilities/useInventoryViewsColumnsRbacFeatureFlag';
 
@@ -119,9 +122,7 @@ export type SystemsViewProps<
    * Starting value for the query params and `updateQuery` fold. Bindings only add filter fields.
    */
   baseQuery?: TQuery;
-  defaultFilters?: Partial<SystemsViewFilterState>;
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
-  initialFilters?: Partial<SystemsViewFilterState>;
   initialLastSeenCustomRange?: LastSeenCustomRange;
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
   onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
@@ -153,8 +154,30 @@ function SystemsViewInner<TItem extends SystemsViewItem, TQuery>({
   onLastSeenCustomRangeChange,
 }: SystemsViewInnerProps<TItem, TQuery>) {
   const queryClient = useQueryClient();
-  const { filters, clearAllFilters, hasDefaultFilters, lastSeenCustomRange } =
-    useDataViewFiltersContext();
+  const {
+    filters,
+    clearAllFilters,
+    filtersDifferFromDefaults,
+    lastSeenCustomRange,
+  } = useDataViewFiltersContext();
+
+  const hasFilterChips = useMemo(
+    () => hasActiveFilterChips(filters, resolvedFilters),
+    [filters, resolvedFilters],
+  );
+
+  const resetFiltersButton = filtersDifferFromDefaults ? (
+    <ToolbarItem>
+      <Button
+        ouiaId="systems-view-header-reset-filters"
+        variant="link"
+        onClick={clearAllFilters}
+        isInline
+      >
+        Reset filters
+      </Button>
+    </ToolbarItem>
+  ) : null;
 
   useEffect(() => {
     onLastSeenCustomRangeChange?.(lastSeenCustomRange);
@@ -343,21 +366,17 @@ function SystemsViewInner<TItem extends SystemsViewItem, TQuery>({
         <DataView selection={selection} activeState={activeState}>
           <PageSection hasBodyWrapper={false}>
             <DataViewToolbar
+              className={
+                !hasFilterChips && filtersDifferFromDefaults
+                  ? 'ins-c-systems-view-toolbar ins-c-systems-view-toolbar--with-reset-row'
+                  : 'ins-c-systems-view-toolbar'
+              }
               ouiaId="systems-view-header"
               clearAllFilters={clearAllFilters}
               customLabelGroupContent={
-                hasDefaultFilters ? (
-                  <ToolbarItem>
-                    <Button
-                      ouiaId="systems-view-header-reset-filters"
-                      variant="link"
-                      onClick={clearAllFilters}
-                      isInline
-                    >
-                      Reset filters
-                    </Button>
-                  </ToolbarItem>
-                ) : undefined
+                // Always pass a node so DataViewToolbar does not fall back to
+                // "Clear filters", which would no-op at spec defaults.
+                <>{hasFilterChips ? resetFiltersButton : null}</>
               }
               bulkSelect={
                 <BulkSelect
@@ -382,6 +401,19 @@ function SystemsViewInner<TItem extends SystemsViewItem, TQuery>({
                 <Pagination isCompact itemCount={total} {...pagination} />
               }
             />
+            {/* PF hides the chip row at 0 chips; this row matches that chip-row layout. */}
+            {!hasFilterChips && resetFiltersButton ? (
+              <Toolbar
+                className="ins-c-systems-view-reset-filters-row"
+                ouiaId="systems-view-header-reset-row"
+              >
+                <ToolbarContent>
+                  <ToolbarGroup variant="action-group-inline">
+                    {resetFiltersButton}
+                  </ToolbarGroup>
+                </ToolbarContent>
+              </Toolbar>
+            ) : null}
             {isInventoryViewsEnabled ? (
               <InnerScrollContainer className="ins-c-systems-view-table-scroll">
                 {systemsTable}
@@ -406,9 +438,7 @@ export function SystemsView<TItem extends SystemsViewItem, TQuery = unknown>({
   columns,
   filters,
   baseQuery: baseQuery = DEFAULT_EMPTY_QUERY as TQuery,
-  defaultFilters,
   initialSort,
-  initialFilters,
   initialLastSeenCustomRange,
   onColumnsChange,
   onLastSeenCustomRangeChange,
@@ -428,8 +458,6 @@ export function SystemsView<TItem extends SystemsViewItem, TQuery = unknown>({
       searchParams={searchParams}
       setSearchParams={setSearchParams}
       resolvedFilters={resolvedFilters}
-      defaultFilters={defaultFilters}
-      initialFilters={initialFilters}
       initialLastSeenCustomRange={initialLastSeenCustomRange}
     >
       <SystemsViewInner

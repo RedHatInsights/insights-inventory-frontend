@@ -8,7 +8,11 @@ import React, {
 } from 'react';
 import { useDataViewFilters } from '@patternfly/react-data-view';
 import type { FilterSpec } from './filters/types';
-import { emptyValuesFrom } from './filters/emptyValuesFrom';
+import {
+  defaultValuesFrom,
+  filtersDifferFromDefaults as specFiltersDiffer,
+  isEmptyFilterValue,
+} from './filters/defaultValuesFrom';
 import {
   normalizeLastSeenFilterValue,
   SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM,
@@ -20,14 +24,13 @@ import type { LastSeenCustomRange, SystemsViewFilterState } from './types';
 
 export type { LastSeenCustomRange } from './types';
 
-export { INITIAL_INVENTORY_FILTERS } from './filters/inventory/filterDefinitions';
-
 export interface DataViewFiltersContextValue {
   filters: SystemsViewFilterState;
   resolvedFilters: readonly FilterSpec[];
   onSetFilters: (_: Partial<SystemsViewFilterState>) => void;
   clearAllFilters: () => void;
-  hasDefaultFilters: boolean;
+  /** True once live toolbar values differ from resolved spec `defaultValue`s. */
+  filtersDifferFromDefaults: boolean;
   lastSeenCustomRange: LastSeenCustomRange;
   setLastSeenCustomRange: React.Dispatch<
     React.SetStateAction<LastSeenCustomRange>
@@ -61,8 +64,6 @@ interface DataViewFiltersProviderProps {
   resolvedFilters: readonly FilterSpec[];
   searchParams: SearchParamsTuple[0];
   setSearchParams: SearchParamsTuple[1];
-  defaultFilters?: Partial<SystemsViewFilterState>;
-  initialFilters?: Partial<SystemsViewFilterState>;
   initialLastSeenCustomRange?: LastSeenCustomRange;
 }
 
@@ -71,8 +72,6 @@ export const DataViewFiltersProvider = ({
   resolvedFilters,
   searchParams,
   setSearchParams,
-  defaultFilters,
-  initialFilters,
   initialLastSeenCustomRange,
 }: DataViewFiltersProviderProps) => {
   const [lastSeenCustomRange, setLastSeenCustomRange] =
@@ -91,8 +90,8 @@ export const DataViewFiltersProvider = ({
     (spec) => spec.filterId === 'last_seen',
   );
 
-  const emptyFilters = useMemo(
-    () => emptyValuesFrom(resolvedFilters),
+  const specDefaultValues = useMemo(
+    () => defaultValuesFrom(resolvedFilters),
     [resolvedFilters],
   );
 
@@ -102,10 +101,12 @@ export const DataViewFiltersProvider = ({
 
   const { filters: rawFilters, onSetFilters } =
     useDataViewFilters<SystemsViewFilterState>({
-      initialFilters: { ...emptyFilters, ...initialFilters },
+      initialFilters: specDefaultValues,
       searchParams,
       setSearchParams,
     });
+
+  const [hasHydratedDefaults, setHasHydratedDefaults] = useState(false);
 
   const workspaceFilterIds = rawFilters[SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM];
 
@@ -148,12 +149,35 @@ export const DataViewFiltersProvider = ({
     onSetFilters,
   ]);
 
+  useEffect(() => {
+    if (hasHydratedDefaults) {
+      return;
+    }
+
+    const updates: Partial<SystemsViewFilterState> = {};
+    for (const spec of resolvedFilters) {
+      if (
+        isEmptyFilterValue(rawFilters[spec.filterId]) &&
+        !isEmptyFilterValue(spec.defaultValue)
+      ) {
+        updates[spec.filterId] = spec.defaultValue;
+      }
+    }
+    if (Object.keys(updates).length > 0) {
+      onSetFilters(updates);
+    }
+    setHasHydratedDefaults(true);
+  }, [hasHydratedDefaults, rawFilters, resolvedFilters, onSetFilters]);
+
   const clearAllFilters = useCallback(() => {
     setLastSeenCustomRange(null);
-    onSetFilters({ ...emptyFilters, ...defaultFilters });
-  }, [defaultFilters, emptyFilters, onSetFilters]);
+    onSetFilters({ ...specDefaultValues });
+  }, [specDefaultValues, onSetFilters]);
 
-  const hasDefaultFilters = Boolean(defaultFilters);
+  const filtersDifferFromDefaults = useMemo(
+    () => hasHydratedDefaults && specFiltersDiffer(filters, resolvedFilters),
+    [hasHydratedDefaults, filters, resolvedFilters],
+  );
 
   const value = useMemo(
     () => ({
@@ -161,7 +185,7 @@ export const DataViewFiltersProvider = ({
       resolvedFilters,
       onSetFilters,
       clearAllFilters,
-      hasDefaultFilters,
+      filtersDifferFromDefaults,
       lastSeenCustomRange,
       setLastSeenCustomRange,
       ungroupedWorkspaceId,
@@ -171,7 +195,7 @@ export const DataViewFiltersProvider = ({
       resolvedFilters,
       onSetFilters,
       clearAllFilters,
-      hasDefaultFilters,
+      filtersDifferFromDefaults,
       lastSeenCustomRange,
       setLastSeenCustomRange,
       ungroupedWorkspaceId,

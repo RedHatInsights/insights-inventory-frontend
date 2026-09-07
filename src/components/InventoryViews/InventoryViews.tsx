@@ -13,7 +13,7 @@ import {
   fetchInventoryViews,
   INVENTORY_VIEWS_QUERY_KEY,
 } from './inventoryViewsQueryOptions';
-import { useAnsibleWorkloadDefault } from './hooks/useAnsibleWorkloadDefault';
+import { useAnsibleWorkloadsSearchParam } from './hooks/useAnsibleWorkloadsSearchParam';
 import { useViewsQuery } from './hooks/useViewsQuery';
 import useInventoryViewsPrivateFeatureFlag from '../../Utilities/useInventoryViewsPrivateFeatureFlag';
 import ViewsToolbar from './ViewsToolbar/ViewsToolbar';
@@ -25,9 +25,16 @@ import {
   type ViewConfiguration,
 } from '../../api/inventoryViewsApi';
 import { createViewColumnSelector } from './createViewColumnSelector';
+import { createViewFilterSelector } from './createViewFilterSelector';
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
 import { selectInventoryViewsFilters } from './selectInventoryViewsFilters';
+import {
+  ANSIBLE_WORKLOAD,
+  selectAnsibleWorkload,
+} from './stampAnsibleWorkloadDefault';
 import { resolveColumnSelector } from '../SystemsView/columns/resolveColumnSelector';
+import { resolveFilterSelector } from '../SystemsView/filters/resolveFilterSelector';
+import { defaultValuesFrom } from '../SystemsView/filters/defaultValuesFrom';
 import {
   SORT_URL_PARAM,
   SORT_DIR_URL_PARAM,
@@ -114,7 +121,7 @@ const normalizeViewColumns = (
     .map((c) => ({ key: c.key }));
 
 const InventoryViews = () => {
-  const { isReady, defaultFilters } = useAnsibleWorkloadDefault();
+  const { isReady, isAnsibleBundle } = useAnsibleWorkloadsSearchParam();
   const [isViewSaveAsModalOpen, setIsViewSaveAsModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -159,6 +166,28 @@ const InventoryViews = () => {
     [activeView?.configuration],
   );
 
+  const filterSelector = useMemo(() => {
+    const selector =
+      createViewFilterSelector(activeView?.configuration) ??
+      selectInventoryViewsFilters;
+    const selectorWithWorkloadDefault = selectAnsibleWorkload(selector);
+
+    return isAnsibleBundle ? selectorWithWorkloadDefault : selector;
+  }, [activeView?.configuration, isAnsibleBundle]);
+
+  const resolvedFilters = useMemo(
+    () => resolveFilterSelector(filterSelector),
+    [filterSelector],
+  );
+  const filterDefaultValues = useMemo(
+    () => defaultValuesFrom(resolvedFilters),
+    [resolvedFilters],
+  );
+  const filterParamKeys = useMemo(
+    () => resolvedFilters.map((spec) => spec.filterId),
+    [resolvedFilters],
+  );
+
   // Baseline columns = the view's saved configuration, resolved to the same
   // Column[] shape the modal produces. Deriving it from the saved config (rather
   // than lazily seeding it from the first onColumnsChange) is what makes the
@@ -201,12 +230,6 @@ const InventoryViews = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- derive from view config on switch or data load
   }, [activeViewId, viewsLoaded]);
 
-  const initialFilters = useMemo(
-    () => parseViewConfigFilters(activeView?.configuration?.filters),
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- derive from view config on switch or data load
-    [activeViewId, viewsLoaded],
-  );
-
   const initialLastSeenCustomRange = useMemo(
     () =>
       parseViewConfigLastSeenCustomRange(activeView?.configuration?.filters),
@@ -221,6 +244,8 @@ const InventoryViews = () => {
     baselineColumns,
     currentColumns,
     currentLastSeenCustomRange,
+    defaultValues: filterDefaultValues,
+    filterParamKeys,
   });
 
   const handleSelectView = useCallback(
@@ -228,9 +253,13 @@ const InventoryViews = () => {
       setActiveViewId(viewId);
       const view = viewsList.find((v) => v.id === viewId);
       const filters = parseViewConfigFilters(view?.configuration?.filters);
-      setSearchParams(filtersToSearchParams(filters), { replace: true });
+      const params = filtersToSearchParams(filters);
+      if (isAnsibleBundle && !params.has('workloads')) {
+        params.set('workloads', ANSIBLE_WORKLOAD);
+      }
+      setSearchParams(params, { replace: true });
     },
-    [setSearchParams, viewsList],
+    [isAnsibleBundle, setSearchParams, viewsList],
   );
 
   const handleSaveAs = () => {
@@ -299,10 +328,6 @@ const InventoryViews = () => {
     };
   };
 
-  if (!isReady) {
-    return null;
-  }
-
   return (
     <>
       {isInventoryViewsPrivateEnabled && (
@@ -351,19 +376,19 @@ const InventoryViews = () => {
           )}
         </>
       )}
-      <SystemsView
-        key={`${activeViewId}-${viewsLoaded}`}
-        columns={columnSelector ?? selectLegacyInventoryColumns}
-        filters={selectInventoryViewsFilters}
-        initialSort={initialSort}
-        initialFilters={initialFilters}
-        initialLastSeenCustomRange={initialLastSeenCustomRange}
-        onColumnsChange={handleColumnsChange}
-        onLastSeenCustomRangeChange={setCurrentLastSeenCustomRange}
-        queryKeyPrefix={INVENTORY_VIEWS_QUERY_KEY}
-        fetchData={fetchInventoryViews}
-        defaultFilters={defaultFilters}
-      />
+      {isReady && (
+        <SystemsView
+          key={`${activeViewId}-${viewsLoaded}`}
+          columns={columnSelector ?? selectLegacyInventoryColumns}
+          filters={filterSelector}
+          initialSort={initialSort}
+          initialLastSeenCustomRange={initialLastSeenCustomRange}
+          onColumnsChange={handleColumnsChange}
+          onLastSeenCustomRangeChange={setCurrentLastSeenCustomRange}
+          queryKeyPrefix={INVENTORY_VIEWS_QUERY_KEY}
+          fetchData={fetchInventoryViews}
+        />
+      )}
     </>
   );
 };

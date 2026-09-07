@@ -13,7 +13,7 @@ const nameSpec: FilterSpec = {
   type: 'text',
   filterId: 'hostname_or_id',
   title: 'Name',
-  emptyValue: '',
+  defaultValue: '',
 };
 
 describe('bindFilter', () => {
