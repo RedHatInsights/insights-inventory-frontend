@@ -1,30 +1,11 @@
 import type { ReactNode } from 'react';
 import type { ToolbarLabel } from '@patternfly/react-core';
-import {
-  ApiHostGetHostListRegisteredWithEnum,
-  ApiHostGetHostListStalenessEnum,
-} from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import type { LastSeenKey } from '../constants';
 import type { LastSeenCustomRange, SystemsViewFilterState } from '../types';
 import type { Resolve } from '../../../types/utility-types';
 import type { DataViewCustomFilterProps } from './DataViewCustomFilter';
 
 type CheckboxOption = { label: ReactNode; value: string };
-
-//TODO infer this from specs and move it to InventoryViews
-/** Toolbar filters for SystemsView. Keys match `FilterSpec.filterId`. */
-export type InventoryFilters = {
-  hostname_or_id: string;
-  status: ApiHostGetHostListStalenessEnum[];
-  source: ApiHostGetHostListRegisteredWithEnum[];
-  rhcStatus: string[];
-  system_type: string[];
-  group_id: string[];
-  tags: string[];
-  operating_system: string[];
-  workloads: string[];
-  last_seen: LastSeenKey | '';
-};
 
 /**
  * Extra state `selectValue` may read that is not on the URL UI bag

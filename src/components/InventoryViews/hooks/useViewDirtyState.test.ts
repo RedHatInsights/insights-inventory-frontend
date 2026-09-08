@@ -1,6 +1,5 @@
 import { expect } from '@jest/globals';
 import moment from 'moment';
-import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import type { ViewConfiguration } from '../../../api/inventoryViewsApi';
 import {
   hostnameSpec,
@@ -89,7 +88,7 @@ describe('areFiltersDirty', () => {
 
   it('returns false when URL filters match defaultValues', () => {
     const params = makeParams({ operating_system: ['RHEL9.6'] });
-    const defaults: Partial<InventoryFilters> = {
+    const defaults = {
       operating_system: ['RHEL9.6'],
     };
     expect(areFiltersDirty(params, defaults)).toBe(false);
@@ -97,7 +96,7 @@ describe('areFiltersDirty', () => {
 
   it('returns true when URL filter value differs from initial', () => {
     const params = makeParams({ operating_system: ['RHEL8.4'] });
-    const initial: Partial<InventoryFilters> = {
+    const initial = {
       operating_system: ['RHEL9.6'],
     };
     expect(areFiltersDirty(params, initial)).toBe(true);
@@ -105,7 +104,7 @@ describe('areFiltersDirty', () => {
 
   it('returns true when URL has additional filter values', () => {
     const params = makeParams({ operating_system: ['RHEL9.6', 'RHEL8.4'] });
-    const initial: Partial<InventoryFilters> = {
+    const initial = {
       operating_system: ['RHEL9.6'],
     };
     expect(areFiltersDirty(params, initial)).toBe(true);
@@ -113,7 +112,7 @@ describe('areFiltersDirty', () => {
 
   it('returns true when initial filter is removed from URL', () => {
     const params = makeParams();
-    const initial: Partial<InventoryFilters> = {
+    const initial = {
       operating_system: ['RHEL9.6'],
     };
     expect(areFiltersDirty(params, initial)).toBe(true);
@@ -124,7 +123,7 @@ describe('areFiltersDirty', () => {
       operating_system: ['RHEL9.6'],
       tags: ['env=prod'],
     });
-    const initial: Partial<InventoryFilters> = {
+    const initial = {
       operating_system: ['RHEL9.6'],
       tags: ['env=prod'],
     };
@@ -133,7 +132,7 @@ describe('areFiltersDirty', () => {
 
   it('ignores order of multi-value filters', () => {
     const params = makeParams({ tags: ['b', 'a'] });
-    const initial: Partial<InventoryFilters> = { tags: ['a', 'b'] };
+    const initial = { tags: ['a', 'b'] };
     expect(areFiltersDirty(params, initial)).toBe(false);
   });
 
@@ -156,13 +155,13 @@ describe('areFiltersDirty', () => {
 
   it('is dirty when a boundless custom replaces a saved preset last_seen', () => {
     const params = makeParams({ last_seen: 'custom' });
-    const initial: Partial<InventoryFilters> = { last_seen: 'last24' };
+    const initial = { last_seen: 'last24' };
     expect(areFiltersDirty(params, initial)).toBe(true);
   });
 
   it('is not dirty for a non-custom last_seen that matches the saved value', () => {
     const params = makeParams({ last_seen: 'last24' });
-    const initial: Partial<InventoryFilters> = { last_seen: 'last24' };
+    const initial = { last_seen: 'last24' };
     expect(areFiltersDirty(params, initial)).toBe(false);
   });
 

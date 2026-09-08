@@ -29,7 +29,6 @@ export type {
   FilterBinding,
   FilterSpec,
 } from '../components/SystemsView/filters/types';
-export type { InventoryFilters } from '../components/SystemsView/filters/SystemsViewFilters';
 
 /**
  * Public federated contract. Internal-only props are not exposed.

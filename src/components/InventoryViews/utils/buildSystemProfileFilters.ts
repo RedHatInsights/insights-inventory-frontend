@@ -1,4 +1,4 @@
-import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
+import type { SystemsViewFilterState } from '../../SystemsView/types';
 import {
   buildOperatingSystemProfileFilter,
   type OperatingSystemProfileFilter,
@@ -8,17 +8,15 @@ import {
   type WorkloadsPresenceFilter,
 } from '../../SystemsView/utils/workloadsFilter';
 
-export type SystemProfileFilterInput = Pick<
-  InventoryFilters,
-  'rhcStatus' | 'operating_system' | 'workloads'
->;
-
 /** Nested `filter.system_profile` fragment for host list and host-view APIs. */
 export type SystemProfileFilter = {
   rhc_client_id?: string[];
   operating_system?: OperatingSystemProfileFilter;
   workloads?: WorkloadsPresenceFilter;
 };
+
+const asStringList = (value: unknown): string[] | undefined =>
+  Array.isArray(value) ? value.map(String) : undefined;
 
 /**
  * Maps toolbar RHC, OS, and workload filters to `filter.system_profile` for host APIs.
@@ -27,17 +25,16 @@ export type SystemProfileFilter = {
  *  @returns       Profile filter or `undefined` when there is nothing to filter.
  */
 export const buildSystemProfileFilters = (
-  filters: SystemProfileFilterInput,
+  filters: SystemsViewFilterState,
 ): SystemProfileFilter | undefined => {
+  const rhcStatus = asStringList(filters.rhcStatus);
   const operatingSystemFilter = buildOperatingSystemProfileFilter(
-    filters.operating_system,
+    asStringList(filters.operating_system),
   );
-  const workloadsFilter = buildWorkloadsFilter(filters.workloads);
+  const workloadsFilter = buildWorkloadsFilter(asStringList(filters.workloads));
 
   const systemProfileFilter: SystemProfileFilter = {
-    ...(filters.rhcStatus?.length && {
-      rhc_client_id: filters.rhcStatus,
-    }),
+    ...(rhcStatus?.length && { rhc_client_id: rhcStatus }),
     ...(operatingSystemFilter && { operating_system: operatingSystemFilter }),
     ...(workloadsFilter && { workloads: workloadsFilter }),
   };

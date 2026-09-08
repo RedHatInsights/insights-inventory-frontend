@@ -1,4 +1,3 @@
-import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import type { ViewConfiguration } from '../../../api/inventoryViewsApi';
 import {
   buildSystemProfileFilters,
@@ -6,7 +5,10 @@ import {
 } from './buildSystemProfileFilters';
 import { serializeOperatingSystemFilterValue } from '../../SystemsView/utils/operatingSystemSelectOptions';
 import { resolveLastSeenKeyFromBounds } from '../../SystemsView/constants';
-import type { LastSeenCustomRange } from '../../SystemsView/types';
+import type {
+  LastSeenCustomRange,
+  SystemsViewFilterState,
+} from '../../SystemsView/types';
 import type { HostFilters } from '@redhat-cloud-services/host-inventory-client';
 import { buildHostFilters } from './buildHostFilters';
 
@@ -41,19 +43,7 @@ const parseHostTypeFilter = (hostType: unknown): string[] | undefined => {
  *  @returns                   ViewConfiguration filters object or undefined when empty
  */
 export const buildViewConfigFilters = (
-  filters: Pick<
-    InventoryFilters,
-    | 'operating_system'
-    | 'workloads'
-    | 'rhcStatus'
-    | 'system_type'
-    | 'hostname_or_id'
-    | 'status'
-    | 'source'
-    | 'tags'
-    | 'group_id'
-    | 'last_seen'
-  >,
+  filters: SystemsViewFilterState,
   lastSeenCustomRange?: LastSeenCustomRange,
 ): ViewFilters | undefined => {
   const systemProfile = buildSystemProfileFilters(filters);
@@ -74,13 +64,13 @@ export const buildViewConfigFilters = (
 
 /**
  * Converts the nested backend ViewConfiguration.filters back into
- * flat toolbar InventoryFilters for restoring UI state.
+ * a flat toolbar filter state.
  *  @param viewFilters - ViewConfiguration filters to parse
- *  @returns           Partial InventoryFilters object or undefined when empty
+ *  @returns           Toolbar values keyed by filterId, or undefined when empty
  */
 export const parseViewConfigFilters = (
   viewFilters: ViewFilters | undefined,
-): Partial<InventoryFilters> | undefined => {
+): SystemsViewFilterState | undefined => {
   if (!viewFilters || Object.keys(viewFilters).length === 0) return undefined;
 
   const raw = viewFilters as unknown as Record<string, unknown>;
@@ -89,7 +79,7 @@ export const parseViewConfigFilters = (
     | undefined;
   const hostFilters = raw.host as HostFilters | undefined;
 
-  const result: Partial<InventoryFilters> = {};
+  const result: SystemsViewFilterState = {};
 
   if (systemProfile) {
     if (systemProfile.operating_system) {
@@ -128,13 +118,11 @@ export const parseViewConfigFilters = (
     }
 
     if (hostFilters.staleness?.length) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      result.status = hostFilters.staleness as any;
+      result.status = hostFilters.staleness;
     }
 
     if (hostFilters.registered_with?.length) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      result.source = hostFilters.registered_with as any;
+      result.source = hostFilters.registered_with;
     }
 
     if (hostFilters.tags?.length) {
@@ -157,7 +145,7 @@ export const parseViewConfigFilters = (
       hostFilters.last_check_in_end,
     );
     if (lastSeenKey) {
-      result.last_seen = lastSeenKey as InventoryFilters['last_seen'];
+      result.last_seen = lastSeenKey;
     }
   }
 

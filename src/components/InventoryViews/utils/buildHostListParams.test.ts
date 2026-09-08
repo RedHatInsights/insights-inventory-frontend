@@ -4,13 +4,15 @@ import {
   ApiHostGetHostListStalenessEnum,
   ApiHostGetHostListSystemTypeEnum,
 } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
-import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import { filterCatalog } from '../../SystemsView/filters/catalog';
 import { defaultValuesFrom } from '../../SystemsView/filters/defaultValuesFrom';
 import { buildFilterParams } from '../../SystemsView/filters/buildFilterParams';
 import { bindInventoryHostListFilters } from '../../SystemsView/filters/inventory/bindInventoryFilters';
 import { inventoryFilterSpecs } from '../../SystemsView/filters/inventory/filterDefinitions';
-import type { LastSeenCustomRange } from '../../SystemsView/types';
+import type {
+  LastSeenCustomRange,
+  SystemsViewFilterState,
+} from '../../SystemsView/types';
 import type { BuildHostListParamsInput } from './buildHostListParams';
 import { buildHostListParams } from './buildHostListParams';
 import { hostQueryParamsSerializer } from './buildHostListOptions';
@@ -18,7 +20,7 @@ import { hostQueryParamsSerializer } from './buildHostListOptions';
 const NOT_NIL = { is: 'not_nil' as const };
 
 const foldQuery = (
-  filterOverrides: Partial<InventoryFilters> = {},
+  filterOverrides: SystemsViewFilterState = {},
   lastSeenCustomRange: LastSeenCustomRange = null,
 ) =>
   buildFilterParams(
@@ -33,7 +35,7 @@ const foldQuery = (
 
 const buildParams = (
   overrides: Omit<Partial<BuildHostListParamsInput>, 'query'> & {
-    filters?: Partial<InventoryFilters>;
+    filters?: SystemsViewFilterState;
     lastSeenCustomRange?: LastSeenCustomRange;
   } = {},
 ) => {

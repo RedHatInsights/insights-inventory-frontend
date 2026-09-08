@@ -1,13 +1,12 @@
 import { expect } from '@jest/globals';
 import moment from 'moment';
-import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import {
   buildViewConfigFilters,
   parseViewConfigFilters,
   parseViewConfigLastSeenCustomRange,
 } from './viewConfigFilters';
 
-const EMPTY_FILTERS: InventoryFilters = {
+const EMPTY_FILTERS = {
   operating_system: [],
   workloads: [],
   rhcStatus: [],
@@ -268,7 +267,7 @@ describe('parseViewConfigFilters', () => {
   });
 
   it('round-trips system_profile and host filters together', () => {
-    const input: InventoryFilters = {
+    const input = {
       operating_system: ['RHEL9.4'],
       workloads: ['sap'],
       rhcStatus: ['connected'],
@@ -298,7 +297,7 @@ describe('parseViewConfigFilters', () => {
   });
 
   it('round-trips through build and parse', () => {
-    const input: InventoryFilters = {
+    const input = {
       operating_system: ['RHEL9.4', 'CentOS Linux8.5'],
       workloads: ['sap'],
       rhcStatus: ['connected'],

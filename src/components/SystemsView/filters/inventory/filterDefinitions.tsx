@@ -46,7 +46,7 @@ const WorkspaceChip = ({ id }: { id: string }) => {
 
 export const hostnameSpec = {
   type: 'text',
-  filterId: 'hostname_or_id',
+  filterId: 'hostname_or_id' as const,
   title: 'Name',
   defaultValue: '',
   chipTitle: 'Display name',
@@ -56,7 +56,7 @@ export const hostnameSpec = {
 
 export const statusSpec = {
   type: 'checkbox',
-  filterId: 'status',
+  filterId: 'status' as const,
   title: 'Status',
   defaultValue: [],
   placeholder: 'Filter by status',
@@ -69,7 +69,7 @@ export const statusSpec = {
 
 export const operatingSystemSpec = {
   type: 'custom',
-  filterId: 'operating_system',
+  filterId: 'operating_system' as const,
   title: 'Operating system',
   defaultValue: [],
   placeholder: 'Filter by operating system',
@@ -93,7 +93,7 @@ export const operatingSystemSpec = {
 
 export const sourceSpec = {
   type: 'checkbox',
-  filterId: 'source',
+  filterId: 'source' as const,
   title: 'Data collector',
   defaultValue: [],
   placeholder: 'Filter by data collector',
@@ -114,7 +114,7 @@ export const sourceSpec = {
 
 export const rhcStatusSpec = {
   type: 'checkbox',
-  filterId: 'rhcStatus',
+  filterId: 'rhcStatus' as const,
   title: 'RHC status',
   defaultValue: [],
   placeholder: 'Filter by RHC status',
@@ -126,7 +126,7 @@ export const rhcStatusSpec = {
 
 export const systemTypeSpec = {
   type: 'checkbox',
-  filterId: 'system_type',
+  filterId: 'system_type' as const,
   title: 'System type',
   defaultValue: [],
   placeholder: 'Filter by system type',
@@ -163,7 +163,7 @@ export const workspaceSpec = {
 
 export const lastSeenSpec = {
   type: 'custom',
-  filterId: 'last_seen',
+  filterId: 'last_seen' as const,
   title: 'Last seen',
   defaultValue: '',
   placeholder: 'Filter by last seen',
@@ -196,7 +196,7 @@ export const lastSeenSpec = {
 
 export const tagsSpec = {
   type: 'custom',
-  filterId: 'tags',
+  filterId: 'tags' as const,
   title: 'Tags',
   defaultValue: [],
   placeholder: 'Filter by tags',
@@ -233,15 +233,15 @@ export const tagsSpec = {
 
 export const workloadsSpec = {
   type: 'checkbox',
-  filterId: 'workloads',
+  filterId: 'workloads' as const,
   title: 'Workload',
   defaultValue: [],
   placeholder: 'Filter by workload',
   options: [...WORKLOAD_FILTER_OPTIONS],
 } satisfies CheckboxFilterSpec;
 
-/** Current inventory toolbar, in display order. */
-export const inventoryFilterSpecs: readonly FilterSpec[] = [
+/** Current inventory toolbar, in display order. `filterId as const` keeps keys inferable. */
+export const inventoryFilterSpecs = [
   hostnameSpec,
   statusSpec,
   operatingSystemSpec,
@@ -252,4 +252,4 @@ export const inventoryFilterSpecs: readonly FilterSpec[] = [
   lastSeenSpec,
   tagsSpec,
   workloadsSpec,
-];
+] as const satisfies readonly FilterSpec[];

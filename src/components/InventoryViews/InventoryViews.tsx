@@ -35,15 +35,7 @@ import {
 import { resolveColumnSelector } from '../SystemsView/columns/resolveColumnSelector';
 import { resolveFilterSelector } from '../SystemsView/filters/resolveFilterSelector';
 import { defaultValuesFrom } from '../SystemsView/filters/defaultValuesFrom';
-import {
-  SORT_URL_PARAM,
-  SORT_DIR_URL_PARAM,
-  type LastSeenKey,
-} from '../SystemsView/constants';
-import {
-  ApiHostGetHostListRegisteredWithEnum,
-  ApiHostGetHostListStalenessEnum,
-} from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
+import { SORT_URL_PARAM, SORT_DIR_URL_PARAM } from '../SystemsView/constants';
 import { INITIAL_SORT } from '../SystemsView/hooks/useColumns';
 import type { Column } from '../SystemsView/columns/types';
 import type { InventoryBindableItem } from '../SystemsView/columns/inventory/columnDefinitions';
@@ -54,10 +46,13 @@ import {
 } from './utils/viewConfigFilters';
 import { useViewDirtyState } from './hooks/useViewDirtyState';
 import { useUpdateViewMutation } from './hooks/useUpdateViewMutation';
-import type { LastSeenCustomRange } from '../SystemsView/types';
+import type {
+  LastSeenCustomRange,
+  SystemsViewFilterState,
+} from '../SystemsView/types';
 
 const filtersToSearchParams = (
-  filters?: Partial<Record<string, string | string[]>>,
+  filters?: SystemsViewFilterState,
 ): URLSearchParams => {
   const params = new URLSearchParams();
   if (!filters) return params;
@@ -97,15 +92,11 @@ const getFiltersFromSearchParams = (
       rhcStatus: searchParams.getAll('rhcStatus'),
       system_type: searchParams.getAll('system_type'),
       hostname_or_id: searchParams.get('hostname_or_id') || '',
-      status: searchParams.getAll(
-        'status',
-      ) as ApiHostGetHostListStalenessEnum[],
-      source: searchParams.getAll(
-        'source',
-      ) as ApiHostGetHostListRegisteredWithEnum[],
+      status: searchParams.getAll('status'),
+      source: searchParams.getAll('source'),
       tags: searchParams.getAll('tags'),
       group_id: searchParams.getAll('group_id'),
-      last_seen: (searchParams.get('last_seen') || '') as LastSeenKey | '',
+      last_seen: searchParams.get('last_seen') || '',
     },
     lastSeenCustomRange ?? undefined,
   );

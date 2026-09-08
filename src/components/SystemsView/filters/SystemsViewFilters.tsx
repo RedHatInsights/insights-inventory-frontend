@@ -5,7 +5,6 @@ import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import { getFilterComponent } from './getFilterComponent';
 import LastSeenFilterExtension from './inventory/components/LastSeenFilterExtension';
 
-export type { InventoryFilters } from './types';
 export { isToolbarLabel } from './types';
 
 export const SystemsViewFilters = () => {
