@@ -115,11 +115,13 @@ export type SystemsViewProps<
    */
   columns?: ColumnSelector<TItem>;
   /**
-   * Selects view's filters from the shared catalog.
+   * Selects view's filters from the shared catalog. When omitted, uses the full
+   * inventory toolbar (unlike columns, which default to empty).
    */
   filters?: FilterSelector<TQuery>;
   /**
-   * Starting value for the query params and `updateQuery` fold. Bindings only add filter fields.
+   * Starting value for the query params and `updateQuery` fold. Bindings only add
+   * filter fields. Defaults to `{}`.
    */
   baseQuery?: TQuery;
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };

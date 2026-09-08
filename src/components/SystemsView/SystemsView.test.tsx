@@ -84,6 +84,7 @@ const renderSystemsView = <TQuery = unknown,>(
   client = createTestQueryClient(),
   extra?: {
     filters?: FilterSelector<TQuery>;
+    baseQuery?: TQuery;
     initialRoute?: string;
   },
 ) =>
@@ -97,6 +98,7 @@ const renderSystemsView = <TQuery = unknown,>(
         fetchData={fetchData}
         columns={selectNameColumn}
         filters={extra?.filters}
+        baseQuery={extra?.baseQuery}
       />
     </TestWrapper>,
   );
@@ -143,6 +145,83 @@ describe('SystemsView', () => {
 
     const { filterParams } = fetchData.mock.calls.at(-1)?.[0] ?? {};
     expect(filterParams).toHaveProperty('tags');
+  });
+
+  it('uses baseQuery as the updateQuery fold seed', async () => {
+    type PatchQuery = { origin: string; hostnameOrId?: string };
+    const fetchData = jest.fn<SystemsViewFetchData<System, PatchQuery>>(() =>
+      Promise.resolve(successData),
+    );
+    const filters: FilterSelector<PatchQuery> = (catalog) => [
+      catalog.hostname({
+        updateQuery: (query, value) => ({
+          ...query,
+          ...(value ? { hostnameOrId: value } : {}),
+        }),
+      }),
+    ];
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      filters,
+      baseQuery: { origin: 'patch' },
+    });
+
+    await screen.findByRole('columnheader', { name: 'Name' });
+
+    expect(fetchData.mock.calls.at(-1)?.[0].filterParams).toEqual({
+      origin: 'patch',
+    });
+  });
+
+  it('an empty filter selector does not fold inventory query fields', async () => {
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(() =>
+      Promise.resolve(successData),
+    );
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      filters: () => [],
+    });
+
+    await screen.findByRole('columnheader', { name: 'Name' });
+
+    const { filterParams } = fetchData.mock.calls.at(-1)?.[0] ?? {};
+    expect(filterParams).toEqual({});
+    expect(filterParams).not.toHaveProperty('tags');
+  });
+
+  it('folds catalog.custom filters into fetch params', async () => {
+    type ExtraQuery = { extra?: string };
+    const fetchData = jest.fn<SystemsViewFetchData<System, ExtraQuery>>(() =>
+      Promise.resolve(successData),
+    );
+    const filters: FilterSelector<ExtraQuery> = (catalog) => [
+      catalog.custom(
+        {
+          type: 'text',
+          filterId: 'extra',
+          title: 'Extra',
+          defaultValue: '',
+        },
+        {
+          updateQuery: (query, value: string) => ({
+            ...query,
+            ...(value ? { extra: value } : {}),
+          }),
+        },
+      ),
+    ];
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      filters,
+      initialRoute: '/?extra=abc',
+    });
+
+    await screen.findByRole('columnheader', { name: 'Name' });
+
+    expect(screen.getByRole('button', { name: 'Extra' })).toBeInTheDocument();
+    expect(fetchData.mock.calls.at(-1)?.[0].filterParams).toEqual({
+      extra: 'abc',
+    });
   });
 
   it('dropping a factory from the filter selector omits that query field', async () => {

@@ -7,6 +7,7 @@ import {
   type SystemsViewFetchData,
 } from '../components/SystemsView/SystemsView';
 import type { ColumnSelector } from '../components/SystemsView/columns/resolveColumnSelector';
+import type { FilterSelector } from '../components/SystemsView/filters/resolveFilterSelector';
 import type { SystemsViewItem } from '../components/SystemsView/types';
 import { useKesselMigrationFeatureFlag } from '../Utilities/hooks/useKesselMigrationFeatureFlag';
 import { KESSEL_API_PATH } from '../constants';
@@ -18,7 +19,16 @@ export type {
   SystemsViewItem,
   SystemsViewQueryData,
 } from '../components/SystemsView/types';
-export type { ColumnSelector } from '../components/SystemsView/columns/resolveColumnSelector';
+export type { ColumnSelector };
+export type { FilterSelector };
+export type { FilterCatalog } from '../components/SystemsView/filters/catalog';
+export { filterCatalog } from '../components/SystemsView/filters/catalog';
+export { bindFilter as custom } from '../components/SystemsView/filters/bindFilter';
+export type {
+  BoundFilter,
+  FilterBinding,
+  FilterSpec,
+} from '../components/SystemsView/filters/types';
 export type { InventoryFilters } from '../components/SystemsView/filters/SystemsViewFilters';
 
 /**
@@ -27,20 +37,36 @@ export type { InventoryFilters } from '../components/SystemsView/filters/Systems
  * `queryClient` is optional. Pass the host client to share cache (and
  * `invalidateQueries`). Omit it for an isolated cache owned by this module.
  * Does not fall back to an ambient `QueryClientProvider`.
+ * `baseQuery` is optional. Pass an object to share query params. It defaults to `{}`.
  */
-export type SystemsViewProps<TItem extends SystemsViewItem> = {
+export type SystemsViewProps<
+  TItem extends SystemsViewItem,
+  TQuery = unknown,
+> = {
   queryClient?: QueryClient;
   queryKeyPrefix: string;
-  fetchData: SystemsViewFetchData<TItem>;
+  fetchData: SystemsViewFetchData<TItem, TQuery>;
   columns: ColumnSelector<TItem>;
+  /**
+   * Selects which filters to show and how they map onto `TQuery`.
+   * Required: unlike inner SystemsView, this module has no inventory default.
+   */
+  filters: FilterSelector<TQuery>;
+  /**
+   * Starting query for the `updateQuery` fold. Bindings only add filter fields.
+   * Defaults to `{}`.
+   */
+  baseQuery?: TQuery;
 };
 
-function SystemsView<TItem extends SystemsViewItem>({
+function SystemsView<TItem extends SystemsViewItem, TQuery = unknown>({
   queryClient,
   queryKeyPrefix,
   fetchData,
   columns,
-}: SystemsViewProps<TItem>) {
+  filters,
+  baseQuery,
+}: SystemsViewProps<TItem, TQuery>) {
   const [internalQueryClient] = useState(
     () => queryClient ?? new QueryClient(),
   );
@@ -51,6 +77,8 @@ function SystemsView<TItem extends SystemsViewItem>({
       queryKeyPrefix={queryKeyPrefix}
       fetchData={fetchData}
       columns={columns}
+      filters={filters}
+      baseQuery={baseQuery}
     />
   );
 
