@@ -32,28 +32,41 @@ export type {
 export type { InventoryFilters } from '../components/SystemsView/filters/SystemsViewFilters';
 
 /**
- * Public federated contract. Some internal props are not exposed.
- *
- * `queryClient` is optional. Pass the host client to share cache (and
- * `invalidateQueries`). Omit it for an isolated cache owned by this module.
- * Does not fall back to an ambient `QueryClientProvider`.
- * `baseQuery` is optional. Pass an object to share query params. It defaults to `{}`.
+ * Public federated contract. Internal-only props are not exposed.
  */
 export type SystemsViewProps<
   TItem extends SystemsViewItem,
   TQuery = unknown,
 > = {
+  /**
+   * Host `QueryClient` to share cache and `invalidateQueries`.
+   * Omit to use an isolated client owned by this module.
+   * Does not fall back to an ambient `QueryClientProvider`.
+   */
   queryClient?: QueryClient;
+  /**
+   * Stable query-key prefix (e.g. `'hosts'`). Used to key fetches
+   * and to invalidate after mutations.
+   */
   queryKeyPrefix: string;
+  /**
+   * Loads table rows. Receives pagination, sort, and folded `TQuery`
+   * filter params.
+   */
   fetchData: SystemsViewFetchData<TItem, TQuery>;
+  /**
+   * Selects columns from the shared catalog. Use a stable reference,
+   * not an inline function.
+   */
   columns: ColumnSelector<TItem>;
   /**
-   * Selects which filters to show and how they map onto `TQuery`.
+   * Selects filters from the shared catalog and maps them onto `TQuery`.
+   * Use a stable reference, not an inline function.
    */
   filters: FilterSelector<TQuery>;
   /**
-   * Starting query for the `updateQuery` fold. Bindings only add filter fields.
-   * Defaults to `{}`.
+   * Starting `TQuery` for the `updateQuery` fold. Bindings only add
+   * filter fields. Defaults to `{}`.
    */
   baseQuery?: TQuery;
 };
