@@ -1,31 +1,14 @@
 import { expect } from '@jest/globals';
-import {
-  inventoryFilterSpecs,
-  hostnameSpec,
-  tagsSpec,
-} from './inventory/filterDefinitions';
+import { hostnameSpec, tagsSpec } from './inventory/filterDefinitions';
 import {
   defaultFilterSelector,
   resolveFilterSelector,
 } from './resolveFilterSelector';
-import { filterCatalog } from './catalog';
 
 describe('resolveFilterSelector', () => {
-  it('defaults to the full inventory toolbar in catalog order', () => {
-    expect(resolveFilterSelector().map((spec) => spec.filterId)).toEqual(
-      inventoryFilterSpecs.map((spec) => spec.filterId),
-    );
-    expect(
-      defaultFilterSelector(filterCatalog).map((spec) => spec.filterId),
-    ).toEqual(inventoryFilterSpecs.map((spec) => spec.filterId));
-  });
-
-  it('binds default filters with updateQuery', () => {
-    expect(
-      resolveFilterSelector().every(
-        (filter) => typeof filter.updateQuery === 'function',
-      ),
-    ).toBe(true);
+  it('returns no filters with the default selector', () => {
+    expect(resolveFilterSelector()).toEqual([]);
+    expect(defaultFilterSelector()).toEqual([]);
   });
 
   it('uses a custom selector when provided', () => {

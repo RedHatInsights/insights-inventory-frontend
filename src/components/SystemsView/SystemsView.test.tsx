@@ -135,7 +135,7 @@ describe('SystemsView', () => {
     );
   });
 
-  it('omitting filters folds the full inventory query', async () => {
+  it('omitting filters does not fold inventory query fields', async () => {
     const fetchData = jest.fn<SystemsViewFetchData<System>>(() =>
       Promise.resolve(successData),
     );
@@ -144,7 +144,14 @@ describe('SystemsView', () => {
     await screen.findByRole('columnheader', { name: 'Name' });
 
     const { filterParams } = fetchData.mock.calls.at(-1)?.[0] ?? {};
-    expect(filterParams).toHaveProperty('tags');
+    expect(filterParams).toEqual({});
+    expect(filterParams).not.toHaveProperty('tags');
+    expect(
+      screen.queryByRole('button', { name: 'Status' }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'Tags' }),
+    ).not.toBeInTheDocument();
   });
 
   it('uses baseQuery as the updateQuery fold seed', async () => {

@@ -21,7 +21,6 @@ import { buildSystemProfileParam } from './buildSystemProfileParam';
 
 /**
  * Full inventory toolbar bound to `/hosts` list `updateQuery`.
- * Default when SystemsView omits a filter selector.
  *  @param catalog - Shared filter catalog of named factories
  *  @returns       Bound host-list filters in toolbar order
  */

@@ -49,7 +49,6 @@ export type SystemsViewProps<
   columns: ColumnSelector<TItem>;
   /**
    * Selects which filters to show and how they map onto `TQuery`.
-   * Required: unlike inner SystemsView, this module has no inventory default.
    */
   filters: FilterSelector<TQuery>;
   /**

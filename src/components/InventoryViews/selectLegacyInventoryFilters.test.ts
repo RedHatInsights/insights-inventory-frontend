@@ -3,10 +3,7 @@ import { filterCatalog } from '../SystemsView/filters/catalog';
 import { buildFilterParams } from '../SystemsView/filters/buildFilterParams';
 import { defaultValuesFrom } from '../SystemsView/filters/defaultValuesFrom';
 import { inventoryFilterSpecs } from '../SystemsView/filters/inventory/filterDefinitions';
-import {
-  defaultFilterSelector,
-  type FilterSelector,
-} from '../SystemsView/filters/resolveFilterSelector';
+import type { FilterSelector } from '../SystemsView/filters/resolveFilterSelector';
 import { selectLegacyInventoryFilters } from './selectLegacyInventoryFilters';
 import { selectInventoryViewsFilters } from './selectInventoryViewsFilters';
 
@@ -22,16 +19,6 @@ describe('selectLegacyInventoryFilters', () => {
         (filter) => filter.filterId,
       ),
     ).toEqual(inventoryFilterSpecs.map((spec) => spec.filterId));
-  });
-
-  it('matches the SystemsView omit default', () => {
-    expect(
-      defaultFilterSelector(filterCatalog).map((filter) => filter.filterId),
-    ).toEqual(
-      selectLegacyInventoryFilters(filterCatalog).map(
-        (filter) => filter.filterId,
-      ),
-    );
   });
 
   it('dropping one factory removes the control, its URL key, and its query field', () => {

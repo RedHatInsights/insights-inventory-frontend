@@ -1,6 +1,4 @@
-import type { ApiHostGetHostListParams } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import { filterCatalog, type FilterCatalog } from './catalog';
-import { bindInventoryHostListFilters } from './inventory/bindInventoryFilters';
 import type { BoundFilter } from './types';
 
 /**
@@ -13,22 +11,13 @@ export type FilterSelector<TQuery = unknown> = (
 ) => readonly BoundFilter<TQuery>[];
 
 /**
- * Default when `SystemsView` omits a filter selector: the full inventory toolbar
- * bound to host-list `updateQuery`. Unlike columns, omitting filters does not
- * mean an empty list.
- *  @param catalog - Shared filter catalog of named factories
- *  @returns       Bound inventory host-list filters, in display order
+ * Default when `SystemsView` omits the `filters` prop: expose no filters.
+ *  @returns An empty list; no filters for the toolbar.
  */
-export const defaultFilterSelector: FilterSelector<ApiHostGetHostListParams> =
-  bindInventoryHostListFilters;
+export const defaultFilterSelector = <
+  TQuery = unknown,
+>(): readonly BoundFilter<TQuery>[] => [];
 
-/**
- * Resolves the toolbar to bound filters. When `selector` is omitted, uses the
- * full inventory catalog with host-list `updateQuery`.
- *
- *  @param selector - Optional selector; defaults to {@link defaultFilterSelector}
- *  @returns        Bound filters in toolbar order
- */
 export const resolveFilterSelector = <TQuery = unknown>(
-  selector: FilterSelector<TQuery> = defaultFilterSelector as unknown as FilterSelector<TQuery>,
+  selector: FilterSelector<TQuery> = defaultFilterSelector,
 ): readonly BoundFilter<TQuery>[] => selector(filterCatalog);

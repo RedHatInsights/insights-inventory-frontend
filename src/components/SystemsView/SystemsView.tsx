@@ -115,8 +115,9 @@ export type SystemsViewProps<
    */
   columns?: ColumnSelector<TItem>;
   /**
-   * Selects view's filters from the shared catalog. When omitted, uses the full
-   * inventory toolbar (unlike columns, which default to empty).
+   * Selects view's filters from the shared catalog. The returned bound filters are
+   * what SystemsView uses. For optimal performance use a stable reference, not an
+   * inline definition.
    */
   filters?: FilterSelector<TQuery>;
   /**
@@ -391,7 +392,9 @@ function SystemsViewInner<TItem extends SystemsViewItem, TQuery>({
                   onSelect={onBulkSelect}
                 />
               }
-              filters={<SystemsViewFilters />}
+              filters={
+                resolvedFilters.length > 0 ? <SystemsViewFilters /> : undefined
+              }
               actions={
                 <SystemsViewBulkActions
                   // FIXME remove type casting
