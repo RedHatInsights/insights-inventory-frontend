@@ -10,12 +10,12 @@ export type LastSeenCustomRange = {
 /** Toolbar filters keys match FilterSpec `filterId`. */
 export type SystemsViewFilterState = Record<string, unknown>;
 
-export type SystemsViewFetchParams<TQuery = unknown> = {
+export type SystemsViewFetchParams<TFilterParams = unknown> = {
   page: number;
   perPage: number;
   sortBy: string | undefined;
   direction: SortDirection | undefined;
-  filterParams: TQuery;
+  filterParams: TFilterParams;
 };
 
 export type SystemsViewItem = {

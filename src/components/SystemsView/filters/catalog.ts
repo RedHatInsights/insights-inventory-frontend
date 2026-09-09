@@ -19,50 +19,50 @@ import {
 } from './inventory/filterDefinitions';
 
 /**
- * Shared filter factories. Bind a consumer query with `updateQuery`.
+ * Shared filter factories. Bind a consumer query with `updateFilterParams`.
  * Inventory uses `bindInventoryHostListFilters` / `bindInventoryHostViewsFilters`;
  * other apps should use this catalog. Use `custom` for a filter that is not
  * one of the named factories.
  */
 export type FilterCatalog = {
-  hostname: <TQuery>(
-    binding: FilterBinding<TQuery, string>,
-  ) => BoundFilter<TQuery>;
-  status: <TQuery>(
-    binding: FilterBinding<TQuery, string[]>,
-  ) => BoundFilter<TQuery>;
-  operatingSystem: <TQuery>(
-    binding: FilterBinding<TQuery, string[]>,
-  ) => BoundFilter<TQuery>;
-  source: <TQuery>(
-    binding: FilterBinding<TQuery, string[]>,
-  ) => BoundFilter<TQuery>;
-  rhcStatus: <TQuery>(
-    binding: FilterBinding<TQuery, string[]>,
-  ) => BoundFilter<TQuery>;
-  systemType: <TQuery>(
-    binding: FilterBinding<TQuery, string[]>,
-  ) => BoundFilter<TQuery>;
-  workspace: <TQuery>(
-    binding: FilterBinding<TQuery, string[]>,
-  ) => BoundFilter<TQuery>;
-  lastSeen: <TQuery>(
-    binding: FilterBinding<TQuery, LastSeenSelectValue>,
-  ) => BoundFilter<TQuery>;
-  tags: <TQuery>(
-    binding: FilterBinding<TQuery, string[]>,
-  ) => BoundFilter<TQuery>;
-  workloads: <TQuery>(
-    binding: FilterBinding<TQuery, string[]>,
-  ) => BoundFilter<TQuery>;
+  hostname: <TFilterParams>(
+    binding: FilterBinding<TFilterParams, string>,
+  ) => BoundFilter<TFilterParams>;
+  status: <TFilterParams>(
+    binding: FilterBinding<TFilterParams, string[]>,
+  ) => BoundFilter<TFilterParams>;
+  operatingSystem: <TFilterParams>(
+    binding: FilterBinding<TFilterParams, string[]>,
+  ) => BoundFilter<TFilterParams>;
+  source: <TFilterParams>(
+    binding: FilterBinding<TFilterParams, string[]>,
+  ) => BoundFilter<TFilterParams>;
+  rhcStatus: <TFilterParams>(
+    binding: FilterBinding<TFilterParams, string[]>,
+  ) => BoundFilter<TFilterParams>;
+  systemType: <TFilterParams>(
+    binding: FilterBinding<TFilterParams, string[]>,
+  ) => BoundFilter<TFilterParams>;
+  workspace: <TFilterParams>(
+    binding: FilterBinding<TFilterParams, string[]>,
+  ) => BoundFilter<TFilterParams>;
+  lastSeen: <TFilterParams>(
+    binding: FilterBinding<TFilterParams, LastSeenSelectValue>,
+  ) => BoundFilter<TFilterParams>;
+  tags: <TFilterParams>(
+    binding: FilterBinding<TFilterParams, string[]>,
+  ) => BoundFilter<TFilterParams>;
+  workloads: <TFilterParams>(
+    binding: FilterBinding<TFilterParams, string[]>,
+  ) => BoundFilter<TFilterParams>;
   /**
    * Escape hatch for filters that are not in the shared catalog.
    * Same as `bindFilter`; keeps ad-hoc definitions inside the selector.
    */
-  custom: <TQuery, TValue>(
+  custom: <TFilterParams, TValue>(
     spec: FilterSpec,
-    binding: FilterBinding<TQuery, TValue>,
-  ) => BoundFilter<TQuery>;
+    binding: FilterBinding<TFilterParams, TValue>,
+  ) => BoundFilter<TFilterParams>;
 };
 
 export const filterCatalog: FilterCatalog = {

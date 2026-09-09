@@ -6,18 +6,18 @@ import type { BoundFilter } from './types';
  * Receives the shared filter catalog of factories;
  *  @returns bound filters
  */
-export type FilterSelector<TQuery = unknown> = (
+export type FilterSelector<TFilterParams = unknown> = (
   catalog: FilterCatalog,
-) => readonly BoundFilter<TQuery>[];
+) => readonly BoundFilter<TFilterParams>[];
 
 /**
  * Default when `SystemsView` omits the `filters` prop: expose no filters.
  *  @returns An empty list; no filters for the toolbar.
  */
 export const defaultFilterSelector = <
-  TQuery = unknown,
->(): readonly BoundFilter<TQuery>[] => [];
+  TFilterParams = unknown,
+>(): readonly BoundFilter<TFilterParams>[] => [];
 
-export const resolveFilterSelector = <TQuery = unknown>(
-  selector: FilterSelector<TQuery> = defaultFilterSelector,
-): readonly BoundFilter<TQuery>[] => selector(filterCatalog);
+export const resolveFilterSelector = <TFilterParams = unknown>(
+  selector: FilterSelector<TFilterParams> = defaultFilterSelector,
+): readonly BoundFilter<TFilterParams>[] => selector(filterCatalog);

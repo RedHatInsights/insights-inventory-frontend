@@ -12,15 +12,17 @@ type SystemProfileFragment = {
 
 /**
  * Builds a `filter.system_profile` fragment onto an in-progress host query.
- * Used by RHC, OS, and workload `updateQuery` reducers so they can compose.
+ * Used by RHC, OS, and workload `updateFilterParams` reducers so they can compose.
  *  @param query    Query accumulated by earlier bindings
  *  @param fragment Profile filter keys to merge
  *  @returns        Query with `options.params.filter.system_profile` updated
  */
-export const buildSystemProfileParam = <TQuery extends SystemProfileFragment>(
-  query: TQuery,
+export const buildSystemProfileParam = <
+  TFilterParams extends SystemProfileFragment,
+>(
+  query: TFilterParams,
   fragment: SystemProfileFilter,
-): TQuery => {
+): TFilterParams => {
   const existing = query.options?.params?.filter?.system_profile;
 
   return {
@@ -42,7 +44,7 @@ export const buildSystemProfileParam = <TQuery extends SystemProfileFragment>(
 };
 
 /**
- * Reads the system-profile filter fragment written by inventory `updateQuery`.
+ * Reads the system-profile filter fragment written by inventory `updateFilterParams`.
  *  @param query - Folded host list or host-views query
  *  @returns     Nested `system_profile` filter, or `undefined` when unset
  */

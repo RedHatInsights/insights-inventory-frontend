@@ -20,7 +20,7 @@ import type { BoundFilter } from '../types';
 import { buildSystemProfileParam } from './buildSystemProfileParam';
 
 /**
- * Full inventory toolbar bound to `/hosts` list `updateQuery`.
+ * Full inventory toolbar bound to `/hosts` list `updateFilterParams`.
  *  @param catalog - Shared filter catalog of named factories
  *  @returns       Bound host-list filters in toolbar order
  */
@@ -28,46 +28,46 @@ export const bindInventoryHostListFilters = (
   catalog: FilterCatalog,
 ): BoundFilter<ApiHostGetHostListParams>[] => [
   catalog.hostname({
-    updateQuery: (query, value) => ({
-      ...query,
+    updateFilterParams: (params, value) => ({
+      ...params,
       ...(value && { hostnameOrId: value }),
     }),
   }),
   catalog.status({
-    updateQuery: (query, value) => ({
-      ...query,
+    updateFilterParams: (params, value) => ({
+      ...params,
       ...(value.length > 0 && {
         staleness: value as ApiHostGetHostListStalenessEnum[],
       }),
     }),
   }),
   catalog.operatingSystem({
-    updateQuery: (query, value) => {
+    updateFilterParams: (params, value) => {
       const operatingSystem = buildOperatingSystemProfileFilter(value);
       return operatingSystem
-        ? buildSystemProfileParam(query, {
+        ? buildSystemProfileParam(params, {
             operating_system: operatingSystem,
           })
-        : query;
+        : params;
     },
   }),
   catalog.source({
-    updateQuery: (query, value) => ({
-      ...query,
+    updateFilterParams: (params, value) => ({
+      ...params,
       ...(value.length > 0 && {
         registeredWith: value as ApiHostGetHostListRegisteredWithEnum[],
       }),
     }),
   }),
   catalog.rhcStatus({
-    updateQuery: (query, value) =>
+    updateFilterParams: (params, value) =>
       value.length
-        ? buildSystemProfileParam(query, { rhc_client_id: value })
-        : query,
+        ? buildSystemProfileParam(params, { rhc_client_id: value })
+        : params,
   }),
   catalog.systemType({
-    updateQuery: (query, value) => ({
-      ...query,
+    updateFilterParams: (params, value) => ({
+      ...params,
       ...(value && {
         systemType: buildSystemType(
           value,
@@ -77,33 +77,35 @@ export const bindInventoryHostListFilters = (
     }),
   }),
   catalog.workspace({
-    updateQuery: (query, value) => ({
-      ...query,
+    updateFilterParams: (params, value) => ({
+      ...params,
       ...buildGroupIdParam(value),
     }),
   }),
   catalog.lastSeen({
-    updateQuery: (query, value) => ({
-      ...query,
+    updateFilterParams: (params, value) => ({
+      ...params,
       ...(lastSeenKeysToApiParams(value.key, value.range) ?? {}),
     }),
   }),
   catalog.tags({
-    updateQuery: (query, value) => ({
-      ...query,
+    updateFilterParams: (params, value) => ({
+      ...params,
       ...(value && { tags: value }),
     }),
   }),
   catalog.workloads({
-    updateQuery: (query, value) => {
+    updateFilterParams: (params, value) => {
       const workloads = buildWorkloadsFilter(value);
-      return workloads ? buildSystemProfileParam(query, { workloads }) : query;
+      return workloads
+        ? buildSystemProfileParam(params, { workloads })
+        : params;
     },
   }),
 ];
 
 /**
- * Full inventory toolbar bound to `/hosts/views` `updateQuery`.
+ * Full inventory toolbar bound to `/hosts/views` `updateFilterParams`.
  *  @param catalog - Shared filter catalog of named factories
  *  @returns       Bound host-views filters in toolbar order
  */
@@ -111,46 +113,46 @@ export const bindInventoryHostViewsFilters = (
   catalog: FilterCatalog,
 ): BoundFilter<ApiHostViewsGetHostViewsParams>[] => [
   catalog.hostname({
-    updateQuery: (query, value) => ({
-      ...query,
+    updateFilterParams: (params, value) => ({
+      ...params,
       ...(value && { hostnameOrId: value }),
     }),
   }),
   catalog.status({
-    updateQuery: (query, value) => ({
-      ...query,
+    updateFilterParams: (params, value) => ({
+      ...params,
       ...(value?.length && {
         staleness: value as ApiHostViewsGetHostViewsStalenessEnum[],
       }),
     }),
   }),
   catalog.operatingSystem({
-    updateQuery: (query, value) => {
+    updateFilterParams: (params, value) => {
       const operatingSystem = buildOperatingSystemProfileFilter(value);
       return operatingSystem
-        ? buildSystemProfileParam(query, {
+        ? buildSystemProfileParam(params, {
             operating_system: operatingSystem,
           })
-        : query;
+        : params;
     },
   }),
   catalog.source({
-    updateQuery: (query, value) => ({
-      ...query,
+    updateFilterParams: (params, value) => ({
+      ...params,
       ...(value?.length && {
         registeredWith: value as ApiHostViewsGetHostViewsRegisteredWithEnum[],
       }),
     }),
   }),
   catalog.rhcStatus({
-    updateQuery: (query, value) =>
+    updateFilterParams: (params, value) =>
       value?.length
-        ? buildSystemProfileParam(query, { rhc_client_id: value })
-        : query,
+        ? buildSystemProfileParam(params, { rhc_client_id: value })
+        : params,
   }),
   catalog.systemType({
-    updateQuery: (query, value) => ({
-      ...query,
+    updateFilterParams: (params, value) => ({
+      ...params,
       ...(value?.length && {
         systemType: buildSystemType(
           value,
@@ -160,30 +162,32 @@ export const bindInventoryHostViewsFilters = (
     }),
   }),
   catalog.workspace({
-    updateQuery: (query, value) => {
+    updateFilterParams: (params, value) => {
       const { groupId } = buildGroupIdParam(value);
       return {
-        ...query,
+        ...params,
         ...(groupId && { workspaceId: groupId }),
       };
     },
   }),
   catalog.lastSeen({
-    updateQuery: (query, value) => ({
-      ...query,
+    updateFilterParams: (params, value) => ({
+      ...params,
       ...(lastSeenKeysToApiParams(value.key, value.range) ?? {}),
     }),
   }),
   catalog.tags({
-    updateQuery: (query, value) => ({
-      ...query,
+    updateFilterParams: (params, value) => ({
+      ...params,
       ...(value && { tags: value }),
     }),
   }),
   catalog.workloads({
-    updateQuery: (query, value) => {
+    updateFilterParams: (params, value) => {
       const workloads = buildWorkloadsFilter(value);
-      return workloads ? buildSystemProfileParam(query, { workloads }) : query;
+      return workloads
+        ? buildSystemProfileParam(params, { workloads })
+        : params;
     },
   }),
 ];

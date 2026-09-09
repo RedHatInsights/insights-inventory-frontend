@@ -24,14 +24,14 @@ describe('filterCatalog.custom', () => {
   it('binds an ad-hoc spec and can mix with named factories', () => {
     const filters: BoundFilter<HostQuery>[] = [
       filterCatalog.tags({
-        updateQuery: (query, value) => ({
-          ...query,
+        updateFilterParams: (params, value) => ({
+          ...params,
           extra: value.join(','),
         }),
       }),
       filterCatalog.custom(nameSpec, {
-        updateQuery: (query, value: string) => ({
-          ...query,
+        updateFilterParams: (params, value: string) => ({
+          ...params,
           ...(value && { hostnameOrId: value }),
         }),
       }),
@@ -51,8 +51,8 @@ describe('filterCatalog.custom', () => {
 });
 
 const hostFilter: BoundFilter<HostQuery> = filterCatalog.custom(nameSpec, {
-  updateQuery: (query, value: string) => ({
-    ...query,
+  updateFilterParams: (params, value: string) => ({
+    ...params,
     ...(value && { hostnameOrId: value }),
   }),
 });
@@ -63,8 +63,8 @@ export const customHostFilters: BoundFilter<HostQuery>[] = [hostFilter];
 export const invalidCustomFilter: BoundFilter<HostQuery> = filterCatalog.custom(
   nameSpec,
   {
-    updateQuery: (query: PatchQuery, value: string) => ({
-      ...query,
+    updateFilterParams: (params: PatchQuery, value: string) => ({
+      ...params,
       hostname: value,
     }),
   },

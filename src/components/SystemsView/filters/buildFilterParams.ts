@@ -3,7 +3,7 @@ import type { BoundFilter, FilterSelectContext } from './types';
 
 /**
  * Reduces bound filters into a backend query params. Each filter writes through
- * `updateQuery`
+ * `updateFilterParams`
  *
  *  @param specs     Bound filters in toolbar order
  *  @param filters   Debounced toolbar UI bag
@@ -11,16 +11,16 @@ import type { BoundFilter, FilterSelectContext } from './types';
  *  @param baseQuery Starting query; bindings only add filter fields
  *  @returns         Folded backend query
  */
-export const buildFilterParams = <TQuery>(
-  specs: readonly BoundFilter<TQuery>[],
+export const buildFilterParams = <TFilterParams>(
+  specs: readonly BoundFilter<TFilterParams>[],
   filters: SystemsViewFilterState,
   ctx: FilterSelectContext,
-  baseQuery: TQuery,
-): TQuery =>
+  baseQuery: TFilterParams,
+): TFilterParams =>
   specs.reduce(
-    (query, filter) =>
-      filter.updateQuery(
-        query,
+    (params, filter) =>
+      filter.updateFilterParams(
+        params,
         filter.getValue?.(filters, ctx) ?? filters[filter.filterId],
       ),
     baseQuery,

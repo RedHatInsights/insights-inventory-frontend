@@ -35,7 +35,7 @@ export type {
  */
 export type SystemsViewProps<
   TItem extends SystemsViewItem,
-  TQuery = unknown,
+  TFilterParams = unknown,
 > = {
   /**
    * Host `QueryClient` to share cache and `invalidateQueries`.
@@ -49,35 +49,34 @@ export type SystemsViewProps<
    */
   queryKeyPrefix: string;
   /**
-   * Loads table rows. Receives pagination, sort, and folded `TQuery`
-   * filter params.
+   * Loads table rows. Receives pagination, sort, and folded `TFilterParams`.
    */
-  fetchData: SystemsViewFetchData<TItem, TQuery>;
+  fetchData: SystemsViewFetchData<TItem, TFilterParams>;
   /**
    * Selects columns from the shared catalog. Use a stable reference,
    * not an inline function.
    */
   columns: ColumnSelector<TItem>;
   /**
-   * Selects filters from the shared catalog and maps them onto `TQuery`.
+   * Selects filters from the shared catalog and maps them onto `TFilterParams`.
    * Use a stable reference, not an inline function.
    */
-  filters: FilterSelector<TQuery>;
+  filters: FilterSelector<TFilterParams>;
   /**
-   * Starting `TQuery` for the `updateQuery` fold. Bindings only add
+   * Starting `TFilterParams` for the `updateFilterParams` fold. Bindings only add
    * filter fields. Defaults to `{}`.
    */
-  baseQuery?: TQuery;
+  baseQuery?: TFilterParams;
 };
 
-function SystemsView<TItem extends SystemsViewItem, TQuery = unknown>({
+function SystemsView<TItem extends SystemsViewItem, TFilterParams = unknown>({
   queryClient,
   queryKeyPrefix,
   fetchData,
   columns,
   filters,
   baseQuery,
-}: SystemsViewProps<TItem, TQuery>) {
+}: SystemsViewProps<TItem, TFilterParams>) {
   const [internalQueryClient] = useState(
     () => queryClient ?? new QueryClient(),
   );

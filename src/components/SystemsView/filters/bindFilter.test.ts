@@ -17,31 +17,31 @@ const nameSpec: FilterSpec = {
 };
 
 describe('bindFilter', () => {
-  it('merges spec identity with a consumer updateQuery', () => {
+  it('merges spec identity with a consumer updateFilterParams', () => {
     const filter = bindFilter(nameSpec, {
-      updateQuery: (query: HostQuery, value: string) => ({
-        ...query,
+      updateFilterParams: (params: HostQuery, value: string) => ({
+        ...params,
         ...(value && { hostnameOrId: value }),
       }),
     });
 
     expect(filter.filterId).toBe('hostname_or_id');
-    expect(filter.updateQuery({}, 'host-a')).toEqual({
+    expect(filter.updateFilterParams({}, 'host-a')).toEqual({
       hostnameOrId: 'host-a',
     });
   });
 
-  it('allows mixing bindings of the same TQuery in one array', () => {
+  it('allows mixing bindings of the same TFilterParams in one array', () => {
     const filters: BoundFilter<HostQuery>[] = [
       bindFilter(nameSpec, {
-        updateQuery: (query, value: string) => ({
-          ...query,
+        updateFilterParams: (params, value: string) => ({
+          ...params,
           ...(value && { hostnameOrId: value }),
         }),
       }),
       filterCatalog.tags({
-        updateQuery: (query, value) => ({
-          ...query,
+        updateFilterParams: (params, value) => ({
+          ...params,
           ...(value.length && { tags: value }),
         }),
       }),
@@ -60,8 +60,8 @@ describe('bindFilter', () => {
 });
 
 const hostFilter: BoundFilter<HostQuery> = bindFilter(nameSpec, {
-  updateQuery: (query, value: string) => ({
-    ...query,
+  updateFilterParams: (params, value: string) => ({
+    ...params,
     ...(value && { hostnameOrId: value }),
   }),
 });
@@ -70,8 +70,8 @@ export const boundHostFilters: BoundFilter<HostQuery>[] = [hostFilter];
 
 // @ts-expect-error PatchQuery is not assignable as HostQuery binding
 export const invalidHostFilter: BoundFilter<HostQuery> = bindFilter(nameSpec, {
-  updateQuery: (query: PatchQuery, value: string) => ({
-    ...query,
+  updateFilterParams: (params: PatchQuery, value: string) => ({
+    ...params,
     hostname: value,
   }),
 });

@@ -8,7 +8,9 @@ import { selectLegacyInventoryFilters } from './selectLegacyInventoryFilters';
 import { selectInventoryViewsFilters } from './selectInventoryViewsFilters';
 
 const dropTags =
-  <TQuery>(selector: FilterSelector<TQuery>): FilterSelector<TQuery> =>
+  <TFilterParams>(
+    selector: FilterSelector<TFilterParams>,
+  ): FilterSelector<TFilterParams> =>
   (catalog) =>
     selector(catalog).filter((filter) => filter.filterId !== 'tags');
 

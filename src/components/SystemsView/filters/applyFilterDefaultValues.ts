@@ -10,10 +10,10 @@ import type { FilterSpec } from './types';
  *  @param defaults - Applied UI values keyed by `filterId`
  *  @returns        Selector that yields copies with stamped `defaultValue`
  */
-export const applyFilterDefaultValues = <TQuery>(
-  selector: FilterSelector<TQuery>,
+export const applyFilterDefaultValues = <TFilterParams>(
+  selector: FilterSelector<TFilterParams>,
   defaults: Readonly<Record<string, FilterSpec['defaultValue'] | undefined>>,
-): FilterSelector<TQuery> => {
+): FilterSelector<TFilterParams> => {
   return (catalog) =>
     selector(catalog).map((spec) => {
       const stamped = defaults[spec.filterId];

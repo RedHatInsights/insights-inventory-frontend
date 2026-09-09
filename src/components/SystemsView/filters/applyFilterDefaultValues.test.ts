@@ -8,9 +8,9 @@ import {
 import type { FilterSelector } from './resolveFilterSelector';
 
 const passthrough: FilterSelector = (_catalog) => [
-  { ...hostnameSpec, updateQuery: (query) => query },
-  { ...statusSpec, updateQuery: (query) => query },
-  { ...tagsSpec, updateQuery: (query) => query },
+  { ...hostnameSpec, updateFilterParams: (params) => params },
+  { ...statusSpec, updateFilterParams: (params) => params },
+  { ...tagsSpec, updateFilterParams: (params) => params },
 ];
 
 describe('stampFilterDefaultValues', () => {

@@ -10,9 +10,9 @@ export const ANSIBLE_WORKLOAD = 'ansible';
  *  @param selector - Bound-filter selector to wrap
  *  @returns        Selector with ansible stamped on empty workloads
  */
-export const selectAnsibleWorkload = <TQuery>(
-  selector: FilterSelector<TQuery>,
-): FilterSelector<TQuery> => {
+export const selectAnsibleWorkload = <TFilterParams>(
+  selector: FilterSelector<TFilterParams>,
+): FilterSelector<TFilterParams> => {
   return (catalog) =>
     selector(catalog).map((spec) =>
       spec.filterId === 'workloads' && isEmptyFilterValue(spec.defaultValue)

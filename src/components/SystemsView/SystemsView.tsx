@@ -81,9 +81,9 @@ export type { SortDirection } from './types';
 export type { SystemsViewItem, SystemsViewQueryData } from './types';
 export type SystemsViewFetchData<
   TItem extends SystemsViewItem,
-  TQuery = unknown,
+  TFilterParams = unknown,
 > = (
-  params: SystemsViewFetchParams<TQuery>,
+  params: SystemsViewFetchParams<TFilterParams>,
 ) => Promise<SystemsViewQueryData<TItem>>;
 export type OnSort = (
   _event: React.MouseEvent | React.KeyboardEvent | MouseEvent | undefined,
@@ -96,7 +96,7 @@ const DEFAULT_EMPTY_QUERY: Record<PropertyKey, never> = {};
 
 export type SystemsViewProps<
   TItem extends SystemsViewItem,
-  TQuery = unknown,
+  TFilterParams = unknown,
 > = {
   /**
    * Unique & stable queryKey prefix (`'hosts'`, `'inventory-views'`). SystemsView keys the
@@ -107,7 +107,7 @@ export type SystemsViewProps<
    * Fetches the data for table. Receives table state for pagination, sorting, and
    * filtering, and should use those values to fetch from backend.
    */
-  fetchData: SystemsViewFetchData<TItem, TQuery>;
+  fetchData: SystemsViewFetchData<TItem, TFilterParams>;
   /**
    * Selects view's columns from the shared catalog. The returned bound columns are
    * what SystemsView uses. For optimal performance use a stable reference, not an
@@ -119,32 +119,32 @@ export type SystemsViewProps<
    * what SystemsView uses. For optimal performance use a stable reference, not an
    * inline definition.
    */
-  filters?: FilterSelector<TQuery>;
+  filters?: FilterSelector<TFilterParams>;
   /**
-   * Starting value for the query params and `updateQuery` fold. Bindings only add
+   * Starting value for the query params and `updateFilterParams` fold. Bindings only add
    * filter fields. Defaults to `{}`.
    */
-  baseQuery?: TQuery;
+  baseQuery?: TFilterParams;
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   initialLastSeenCustomRange?: LastSeenCustomRange;
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
   onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
 };
 
-interface SystemsViewInnerProps<TItem extends SystemsViewItem, TQuery> {
+interface SystemsViewInnerProps<TItem extends SystemsViewItem, TFilterParams> {
   searchParams: URLSearchParams;
   setSearchParams: SetURLSearchParams;
   queryKeyPrefix: string;
-  fetchData: SystemsViewFetchData<TItem, TQuery>;
+  fetchData: SystemsViewFetchData<TItem, TFilterParams>;
   resolvedDefaultColumns: readonly Column<TItem>[];
-  resolvedFilters: readonly BoundFilter<TQuery>[];
-  baseQuery: TQuery;
+  resolvedFilters: readonly BoundFilter<TFilterParams>[];
+  baseQuery: TFilterParams;
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
   onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
 }
 
-function SystemsViewInner<TItem extends SystemsViewItem, TQuery>({
+function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
   searchParams,
   setSearchParams,
   queryKeyPrefix,
@@ -155,7 +155,7 @@ function SystemsViewInner<TItem extends SystemsViewItem, TQuery>({
   initialSort,
   onColumnsChange,
   onLastSeenCustomRangeChange,
-}: SystemsViewInnerProps<TItem, TQuery>) {
+}: SystemsViewInnerProps<TItem, TFilterParams>) {
   const queryClient = useQueryClient();
   const {
     filters,
@@ -237,7 +237,7 @@ function SystemsViewInner<TItem extends SystemsViewItem, TQuery>({
   const { direction, onSort } = sort;
 
   const fetchParams = useMemo(
-    (): SystemsViewFetchParams<TQuery> => ({
+    (): SystemsViewFetchParams<TFilterParams> => ({
       page: pagination.page,
       perPage: pagination.perPage,
       sortBy,
@@ -437,17 +437,20 @@ function SystemsViewInner<TItem extends SystemsViewItem, TQuery>({
   );
 }
 
-export function SystemsView<TItem extends SystemsViewItem, TQuery = unknown>({
+export function SystemsView<
+  TItem extends SystemsViewItem,
+  TFilterParams = unknown,
+>({
   queryKeyPrefix,
   fetchData,
   columns,
   filters,
-  baseQuery: baseQuery = DEFAULT_EMPTY_QUERY as TQuery,
+  baseQuery: baseQuery = DEFAULT_EMPTY_QUERY as TFilterParams,
   initialSort,
   initialLastSeenCustomRange,
   onColumnsChange,
   onLastSeenCustomRangeChange,
-}: SystemsViewProps<TItem, TQuery>) {
+}: SystemsViewProps<TItem, TFilterParams>) {
   const [searchParams, setSearchParams] = useSearchParams();
   const resolvedDefaultColumns = useMemo(
     () => resolveColumnSelector(columns),

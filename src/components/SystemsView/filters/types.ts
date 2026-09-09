@@ -17,7 +17,7 @@ export type FilterSelectContext = {
 
 /**
  * Fold value for last seen: URL/UI still stores `LastSeenKey`, while
- * `updateQuery` later receives key plus the in-memory custom range.
+ * `updateFilterParams` later receives key plus the in-memory custom range.
  */
 export type LastSeenSelectValue = {
   key: LastSeenKey | '';
@@ -35,7 +35,7 @@ type FilterIdentity = {
   debounceMs?: number;
   /**
    * Maps the URL/UI bag plus extra context to the value the later
-   * `updateQuery` fold should see. Defaults to `filters[filterId]`.
+   * `updateFilterParams` fold should see. Defaults to `filters[filterId]`.
    */
   getValue?: (
     filters: SystemsViewFilterState,
@@ -47,8 +47,8 @@ type FilterIdentity = {
  * Consumer adapter passed to `bindFilter`, named catalog factories, and `catalog.custom`
  * while `TValue` is still known.
  */
-export type FilterBinding<TQuery, TValue> = {
-  updateQuery: (query: TQuery, value: TValue) => TQuery;
+export type FilterBinding<TFilterParams, TValue> = {
+  updateFilterParams: (params: TFilterParams, value: TValue) => TFilterParams;
 };
 
 export type TextFilterSpec = FilterIdentity & {
@@ -81,11 +81,14 @@ export type FilterSpec =
 
 /**
  * Runtime toolbar filter. `TValue` is erased so mixed-filter arrays type-check;
- * `TQuery` stays so every filter in a view writes the same query type.
+ * `TFilterParams` stays so every filter in a view writes the same params type.
  */
-export type BoundFilter<TQuery = unknown> = Resolve<
+export type BoundFilter<TFilterParams = unknown> = Resolve<
   FilterSpec & {
-    updateQuery: (query: TQuery, value: unknown) => TQuery;
+    updateFilterParams: (
+      params: TFilterParams,
+      value: unknown,
+    ) => TFilterParams;
   }
 >;
 

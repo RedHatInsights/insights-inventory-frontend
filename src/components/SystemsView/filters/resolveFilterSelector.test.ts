@@ -13,8 +13,8 @@ describe('resolveFilterSelector', () => {
 
   it('uses a custom selector when provided', () => {
     const selected = resolveFilterSelector((catalog) => [
-      catalog.custom(hostnameSpec, { updateQuery: (query) => query }),
-      catalog.custom(tagsSpec, { updateQuery: (query) => query }),
+      catalog.custom(hostnameSpec, { updateFilterParams: (params) => params }),
+      catalog.custom(tagsSpec, { updateFilterParams: (params) => params }),
     ]);
 
     expect(selected.map((spec) => spec.filterId)).toEqual([

@@ -79,12 +79,12 @@ const stampHostnameDefault: FilterSelector<ApiHostGetHostListParams> = (
       : filter,
   );
 
-const renderSystemsView = <TQuery = unknown,>(
-  fetchData: SystemsViewFetchData<System, TQuery>,
+const renderSystemsView = <TFilterParams = unknown,>(
+  fetchData: SystemsViewFetchData<System, TFilterParams>,
   client = createTestQueryClient(),
   extra?: {
-    filters?: FilterSelector<TQuery>;
-    baseQuery?: TQuery;
+    filters?: FilterSelector<TFilterParams>;
+    baseQuery?: TFilterParams;
     initialRoute?: string;
   },
 ) =>
@@ -154,15 +154,15 @@ describe('SystemsView', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('uses baseQuery as the updateQuery fold seed', async () => {
+  it('uses baseQuery as the updateFilterParams fold seed', async () => {
     type PatchQuery = { origin: string; hostnameOrId?: string };
     const fetchData = jest.fn<SystemsViewFetchData<System, PatchQuery>>(() =>
       Promise.resolve(successData),
     );
     const filters: FilterSelector<PatchQuery> = (catalog) => [
       catalog.hostname({
-        updateQuery: (query, value) => ({
-          ...query,
+        updateFilterParams: (params, value) => ({
+          ...params,
           ...(value ? { hostnameOrId: value } : {}),
         }),
       }),
@@ -210,8 +210,8 @@ describe('SystemsView', () => {
           defaultValue: '',
         },
         {
-          updateQuery: (query, value: string) => ({
-            ...query,
+          updateFilterParams: (params, value: string) => ({
+            ...params,
             ...(value ? { extra: value } : {}),
           }),
         },
