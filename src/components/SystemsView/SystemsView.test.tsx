@@ -84,7 +84,6 @@ const renderSystemsView = <TFilterParams = unknown,>(
   client = createTestQueryClient(),
   extra?: {
     filters?: FilterSelector<TFilterParams>;
-    baseQuery?: TFilterParams;
     initialRoute?: string;
   },
 ) =>
@@ -98,7 +97,6 @@ const renderSystemsView = <TFilterParams = unknown,>(
         fetchData={fetchData}
         columns={selectNameColumn}
         filters={extra?.filters}
-        baseQuery={extra?.baseQuery}
       />
     </TestWrapper>,
   );
@@ -152,32 +150,6 @@ describe('SystemsView', () => {
     expect(
       screen.queryByRole('button', { name: 'Tags' }),
     ).not.toBeInTheDocument();
-  });
-
-  it('uses baseQuery as the updateFilterParams fold seed', async () => {
-    type PatchQuery = { origin: string; hostnameOrId?: string };
-    const fetchData = jest.fn<SystemsViewFetchData<System, PatchQuery>>(() =>
-      Promise.resolve(successData),
-    );
-    const filters: FilterSelector<PatchQuery> = (catalog) => [
-      catalog.hostname({
-        updateFilterParams: (params, value) => ({
-          ...params,
-          ...(value ? { hostnameOrId: value } : {}),
-        }),
-      }),
-    ];
-
-    renderSystemsView(fetchData, createTestQueryClient(), {
-      filters,
-      baseQuery: { origin: 'patch' },
-    });
-
-    await screen.findByRole('columnheader', { name: 'Name' });
-
-    expect(fetchData.mock.calls.at(-1)?.[0].filterParams).toEqual({
-      origin: 'patch',
-    });
   });
 
   it('an empty filter selector does not fold inventory query fields', async () => {

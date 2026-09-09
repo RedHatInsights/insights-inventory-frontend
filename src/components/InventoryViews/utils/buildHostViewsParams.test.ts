@@ -30,7 +30,6 @@ const foldQuery = (
       ...filterOverrides,
     },
     { lastSeenCustomRange },
-    {},
   );
 
 const buildParams = (

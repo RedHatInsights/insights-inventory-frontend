@@ -62,11 +62,6 @@ export type SystemsViewProps<
    * Use a stable reference, not an inline function.
    */
   filters: FilterSelector<TFilterParams>;
-  /**
-   * Starting `TFilterParams` for the `updateFilterParams` fold. Bindings only add
-   * filter fields. Defaults to `{}`.
-   */
-  baseQuery?: TFilterParams;
 };
 
 function SystemsView<TItem extends SystemsViewItem, TFilterParams = unknown>({
@@ -75,7 +70,6 @@ function SystemsView<TItem extends SystemsViewItem, TFilterParams = unknown>({
   fetchData,
   columns,
   filters,
-  baseQuery,
 }: SystemsViewProps<TItem, TFilterParams>) {
   const [internalQueryClient] = useState(
     () => queryClient ?? new QueryClient(),
@@ -88,7 +82,6 @@ function SystemsView<TItem extends SystemsViewItem, TFilterParams = unknown>({
       fetchData={fetchData}
       columns={columns}
       filters={filters}
-      baseQuery={baseQuery}
     />
   );
 

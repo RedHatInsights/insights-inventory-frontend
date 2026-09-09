@@ -38,12 +38,10 @@ describe('selectLegacyInventoryFilters', () => {
     expect(defaultValuesFrom(full)).toHaveProperty('tags');
     expect(defaultValuesFrom(withoutTags)).not.toHaveProperty('tags');
 
-    expect(buildFilterParams(full, ui, ctx, {})).toEqual(
+    expect(buildFilterParams(full, ui, ctx)).toEqual(
       expect.objectContaining({ tags: ['namespace/key=value'] }),
     );
-    expect(buildFilterParams(withoutTags, ui, ctx, {})).not.toHaveProperty(
-      'tags',
-    );
+    expect(buildFilterParams(withoutTags, ui, ctx)).not.toHaveProperty('tags');
   });
 });
 
@@ -67,10 +65,8 @@ describe('selectInventoryViewsFilters', () => {
 
     expect(withoutTags.map((filter) => filter.filterId)).not.toContain('tags');
     expect(defaultValuesFrom(withoutTags)).not.toHaveProperty('tags');
-    expect(buildFilterParams(withoutTags, ui, ctx, {})).not.toHaveProperty(
-      'tags',
-    );
-    expect(buildFilterParams(full, ui, ctx, {})).toEqual(
+    expect(buildFilterParams(withoutTags, ui, ctx)).not.toHaveProperty('tags');
+    expect(buildFilterParams(full, ui, ctx)).toEqual(
       expect.objectContaining({ tags: ['namespace/key=value'] }),
     );
   });

@@ -53,7 +53,6 @@ describe('bindFilter', () => {
         filters,
         { hostname_or_id: 'host-a', tags: ['env/prod'] },
         { lastSeenCustomRange: null },
-        {},
       ),
     ).toEqual({ hostnameOrId: 'host-a', tags: ['env/prod'] });
   });

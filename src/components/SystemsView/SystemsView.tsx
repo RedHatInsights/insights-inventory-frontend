@@ -92,8 +92,6 @@ export type OnSort = (
 ) => void;
 export type Pagination = ReturnType<typeof useDataViewPagination>;
 
-const DEFAULT_EMPTY_QUERY: Record<PropertyKey, never> = {};
-
 export type SystemsViewProps<
   TItem extends SystemsViewItem,
   TFilterParams = unknown,
@@ -120,11 +118,6 @@ export type SystemsViewProps<
    * inline definition.
    */
   filters?: FilterSelector<TFilterParams>;
-  /**
-   * Starting value for the query params and `updateFilterParams` fold. Bindings only add
-   * filter fields. Defaults to `{}`.
-   */
-  baseQuery?: TFilterParams;
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   initialLastSeenCustomRange?: LastSeenCustomRange;
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
@@ -138,7 +131,6 @@ interface SystemsViewInnerProps<TItem extends SystemsViewItem, TFilterParams> {
   fetchData: SystemsViewFetchData<TItem, TFilterParams>;
   resolvedDefaultColumns: readonly Column<TItem>[];
   resolvedFilters: readonly BoundFilter<TFilterParams>[];
-  baseQuery: TFilterParams;
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
   onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
@@ -151,7 +143,6 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
   fetchData,
   resolvedDefaultColumns,
   resolvedFilters,
-  baseQuery: baseQuery,
   initialSort,
   onColumnsChange,
   onLastSeenCustomRangeChange,
@@ -200,13 +191,10 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
 
   const filterParams = useMemo(
     () =>
-      buildFilterParams(
-        resolvedFilters,
-        debouncedFilters,
-        { lastSeenCustomRange },
-        baseQuery,
-      ),
-    [resolvedFilters, debouncedFilters, lastSeenCustomRange, baseQuery],
+      buildFilterParams(resolvedFilters, debouncedFilters, {
+        lastSeenCustomRange,
+      }),
+    [resolvedFilters, debouncedFilters, lastSeenCustomRange],
   );
 
   const selection = useDataViewSelection<SystemsViewTableRow<TItem>>({
@@ -445,7 +433,6 @@ export function SystemsView<
   fetchData,
   columns,
   filters,
-  baseQuery: baseQuery = DEFAULT_EMPTY_QUERY as TFilterParams,
   initialSort,
   initialLastSeenCustomRange,
   onColumnsChange,
@@ -475,7 +462,6 @@ export function SystemsView<
         fetchData={fetchData}
         resolvedDefaultColumns={resolvedDefaultColumns}
         resolvedFilters={resolvedFilters}
-        baseQuery={baseQuery}
         initialSort={initialSort}
         onColumnsChange={onColumnsChange}
         onLastSeenCustomRangeChange={onLastSeenCustomRangeChange}

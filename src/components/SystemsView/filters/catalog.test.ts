@@ -44,7 +44,6 @@ describe('filterCatalog.custom', () => {
         filters,
         { hostname_or_id: 'host-a', tags: ['a', 'b'] },
         { lastSeenCustomRange: null },
-        {},
       ),
     ).toEqual({ hostnameOrId: 'host-a', extra: 'a,b' });
   });
