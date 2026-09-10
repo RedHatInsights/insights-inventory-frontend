@@ -35,7 +35,9 @@ type FilterIdentity = {
   debounceMs?: number;
   /**
    * Maps the URL/UI bag plus extra context to the value the later
-   * `updateFilterParams` fold should see. Defaults to `filters[filterId]`.
+   * `updateFilterParams` fold should see. When set, that return value is
+   * used as-is (including `undefined`). When omitted, the fold uses
+   * `filters[filterId]`.
    */
   getValue?: (
     filters: SystemsViewFilterState,

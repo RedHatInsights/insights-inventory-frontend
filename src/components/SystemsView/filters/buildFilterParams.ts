@@ -19,7 +19,9 @@ export const buildFilterParams = <TFilterParams>(
     (params, filter) =>
       filter.updateFilterParams(
         params,
-        filter.getValue?.(filters, ctx) ?? filters[filter.filterId],
+        filter.getValue
+          ? filter.getValue(filters, ctx)
+          : filters[filter.filterId],
       ),
     {} as TFilterParams,
   );
