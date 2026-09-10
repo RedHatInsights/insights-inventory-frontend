@@ -1,7 +1,12 @@
 import { getHostTags, getHostViews } from '../../api/hostInventoryApiTyped';
-import { InventoryFilters } from '../SystemsView/filters/SystemsViewFilters';
-import { ApiHostViewsGetHostViewsOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
-import type { SystemsViewFetchParams } from '../SystemsView/types';
+import {
+  ApiHostViewsGetHostViewsOrderByEnum as ApiOrderByEnum,
+  type ApiHostViewsGetHostViewsParams,
+} from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
+import type {
+  SystemsViewFetchParams,
+  SystemsViewFilterState,
+} from '../SystemsView/types';
 import { buildHostViewsParams } from './utils/buildHostViewsParams';
 
 export const INVENTORY_VIEWS_QUERY_KEY = 'inventory-views' as const;
@@ -26,13 +31,12 @@ const hasHostId = <T extends { id?: string }>(
 ): host is T & { id: string } => typeof host.id === 'string';
 
 export const fetchInventoryViews = async (
-  params: SystemsViewFetchParams<InventoryFilters>,
+  params: SystemsViewFetchParams<ApiHostViewsGetHostViewsParams>,
 ) => {
   const fetchParams = buildHostViewsParams({
     page: params.page,
     perPage: params.perPage,
-    filters: params.filters,
-    lastSeenCustomRange: params.lastSeenCustomRange,
+    query: params.filterParams,
     sortBy: params.sortBy as ApiOrderByEnum | undefined,
     direction: params.direction,
   });

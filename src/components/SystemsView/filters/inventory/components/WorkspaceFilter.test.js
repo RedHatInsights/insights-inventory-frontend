@@ -3,19 +3,19 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { WorkspaceFilter } from './WorkspaceFilter';
-import { UNGROUPED_HOSTS_LABEL } from '../constants';
+import { UNGROUPED_HOSTS_LABEL } from '../../../constants';
 import {
   makePage,
   mockGroupsInfiniteQuery,
   useWorkspaceGroupsInfiniteQuery,
-} from './__fixtures__/testHelpers';
+} from '../../__fixtures__/testHelpers';
 
-jest.mock('../../../constants', () => ({
-  ...jest.requireActual('../../../constants'),
+jest.mock('../../../../../constants', () => ({
+  ...jest.requireActual('../../../../../constants'),
   DEBOUNCE_TIMEOUT_MS: 0,
 }));
 
-jest.mock('../../filters/useWorkspaceGroupsInfiniteQuery', () => ({
+jest.mock('../../../../filters/useWorkspaceGroupsInfiniteQuery', () => ({
   useWorkspaceGroupsInfiniteQuery: jest.fn(),
 }));
 

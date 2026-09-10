@@ -17,6 +17,7 @@ import { manageViewHelper } from './helpers/views/manageViewsHelper';
 
 const DEFAULT_PREFIX = 'automated-test';
 const ALL_SYSTEMS_VIEW = 'All systems';
+const RESET_FILTERS = 'Reset filters';
 
 test.describe(
   'Inventory Views: Manage views CRUD operations',
@@ -154,12 +155,6 @@ test.describe(
         }
         await manageColumnsModal.save();
 
-        const resetFiltersButton = page.getByRole('button', {
-          name: 'Clear filters',
-        });
-        await expect(resetFiltersButton).toBeVisible();
-        await resetFiltersButton.click();
-
         await manageView.saveAs(viewB);
         await manageView.verifyActiveView(viewB);
       });
@@ -200,7 +195,7 @@ test.describe(
 
         // Verify no filters are applied
         const resetFiltersButton = page.getByRole('button', {
-          name: 'Clear filters',
+          name: RESET_FILTERS,
         });
         await expect(resetFiltersButton).toBeHidden();
       });

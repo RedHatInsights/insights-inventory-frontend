@@ -3,14 +3,14 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { TagsFilter } from './TagsFilter';
-import { SystemActionModalsContext } from '../SystemActionModalsContext';
-import { useTagsQuery } from '../hooks/useTagsQuery';
+import { SystemActionModalsContext } from '../../../SystemActionModalsContext';
+import { useTagsQuery } from '../../../hooks/useTagsQuery';
 
-jest.mock('../../../Utilities/hooks/useDebouncedValue', () => ({
+jest.mock('../../../../../Utilities/hooks/useDebouncedValue', () => ({
   useDebouncedValue: (value) => value,
 }));
 
-jest.mock('../hooks/useTagsQuery', () => ({
+jest.mock('../../../hooks/useTagsQuery', () => ({
   useTagsQuery: jest.fn(),
 }));
 

@@ -4,29 +4,46 @@ import {
   ApiHostGetHostListStalenessEnum,
   ApiHostGetHostListSystemTypeEnum,
 } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
-import { INITIAL_INVENTORY_FILTERS } from '../../SystemsView/DataViewFiltersContext';
-import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
+import { filterCatalog } from '../../SystemsView/filters/catalog';
+import { defaultValuesFrom } from '../../SystemsView/filters/defaultValuesFrom';
+import { buildFilterParams } from '../../SystemsView/filters/buildFilterParams';
+import { bindInventoryHostListFilters } from '../../SystemsView/filters/inventory/bindInventoryFilters';
+import { inventoryFilterSpecs } from '../../SystemsView/filters/inventory/filterDefinitions';
+import type {
+  LastSeenCustomRange,
+  SystemsViewFilterState,
+} from '../../SystemsView/types';
 import type { BuildHostListParamsInput } from './buildHostListParams';
 import { buildHostListParams } from './buildHostListParams';
 import { hostQueryParamsSerializer } from './buildHostListOptions';
 
 const NOT_NIL = { is: 'not_nil' as const };
 
+const foldQuery = (
+  filterOverrides: SystemsViewFilterState = {},
+  lastSeenCustomRange: LastSeenCustomRange = null,
+) =>
+  buildFilterParams(
+    bindInventoryHostListFilters(filterCatalog),
+    {
+      ...defaultValuesFrom(inventoryFilterSpecs),
+      ...filterOverrides,
+    },
+    { lastSeenCustomRange },
+  );
+
 const buildParams = (
-  overrides: Omit<Partial<BuildHostListParamsInput>, 'filters'> & {
-    filters?: Partial<InventoryFilters>;
+  overrides: Omit<Partial<BuildHostListParamsInput>, 'query'> & {
+    filters?: SystemsViewFilterState;
+    lastSeenCustomRange?: LastSeenCustomRange;
   } = {},
 ) => {
-  const { filters: filterOverrides, ...rest } = overrides;
+  const { filters: filterOverrides, lastSeenCustomRange, ...rest } = overrides;
 
   return buildHostListParams({
     page: 1,
     perPage: 20,
-    filters: {
-      ...INITIAL_INVENTORY_FILTERS,
-      ...filterOverrides,
-    },
-    lastSeenCustomRange: null,
+    query: foldQuery(filterOverrides, lastSeenCustomRange ?? null),
     ...rest,
   });
 };
@@ -185,7 +202,6 @@ describe('buildHostListParams', () => {
     it('nests system profile filters when toolbar profile filters are set', () => {
       const params = buildParams({
         filters: {
-          rhcStatus: ['connected'],
           operating_system: ['RHEL9.0'],
           workloads: ['sap'],
         },
@@ -193,7 +209,6 @@ describe('buildHostListParams', () => {
 
       expect(params.options?.params?.filter).toEqual({
         system_profile: {
-          rhc_client_id: ['connected'],
           operating_system: {
             RHEL: { version: { eq: ['9.0'] } },
           },

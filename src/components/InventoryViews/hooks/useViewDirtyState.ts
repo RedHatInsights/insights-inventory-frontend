@@ -1,20 +1,18 @@
 import { useMemo } from 'react';
 import type { ViewConfiguration } from '../../../api/inventoryViewsApi';
-import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import type { Column } from '../../SystemsView/columns/types';
 import {
   SORT_URL_PARAM,
   SORT_DIR_URL_PARAM,
 } from '../../SystemsView/constants';
 import { INITIAL_SORT } from '../../SystemsView/hooks/useColumns';
-import { INITIAL_INVENTORY_FILTERS } from '../../SystemsView/DataViewFiltersContext';
-import {
-  parseViewConfigFilters,
-  parseViewConfigLastSeenCustomRange,
-} from '../utils/viewConfigFilters';
+import { inventoryFilterSpecs } from '../../SystemsView/filters/inventory/filterDefinitions';
+import { parseViewConfigLastSeenCustomRange } from '../utils/viewConfigFilters';
 import type { LastSeenCustomRange } from '../../SystemsView/types';
 
-export const FILTER_PARAM_KEYS = Object.keys(INITIAL_INVENTORY_FILTERS);
+export const FILTER_PARAM_KEYS = inventoryFilterSpecs.map(
+  (spec) => spec.filterId,
+);
 
 type ColumnVisibility = Pick<Column, 'key' | 'isShown'>;
 
@@ -25,6 +23,9 @@ interface UseViewDirtyStateParams {
   baselineColumns?: readonly ColumnVisibility[];
   currentColumns?: readonly ColumnVisibility[];
   currentLastSeenCustomRange?: LastSeenCustomRange;
+  /** Resolved spec `defaultValue` bag (view / Ansible stamps). */
+  defaultValues?: Record<string, unknown>;
+  filterParamKeys?: readonly string[];
 }
 
 export const isSortDirty = (
@@ -47,15 +48,16 @@ export const isSortDirty = (
 
 export const areFiltersDirty = (
   searchParams: URLSearchParams,
-  initialFilters?: Partial<InventoryFilters>,
+  defaultValues?: Record<string, unknown>,
   effectiveLastSeenCustomRange?: LastSeenCustomRange,
+  filterParamKeys: readonly string[] = FILTER_PARAM_KEYS,
 ): boolean => {
-  const initial = (initialFilters ?? {}) as Record<string, unknown>;
+  const defaults = (defaultValues ?? {}) as Record<string, unknown>;
   const hasEffectiveCustomRange = Boolean(
     effectiveLastSeenCustomRange?.start || effectiveLastSeenCustomRange?.end,
   );
 
-  for (const key of FILTER_PARAM_KEYS) {
+  for (const key of filterParamKeys) {
     let current = searchParams.getAll(key).sort();
 
     if (
@@ -67,7 +69,7 @@ export const areFiltersDirty = (
       current = [];
     }
 
-    const rawSaved = initial[key];
+    const rawSaved = defaults[key];
     let saved: string[];
     if (Array.isArray(rawSaved)) {
       saved = rawSaved.map(String).sort();
@@ -128,17 +130,15 @@ export const areColumnsDirty = (
 };
 
 export const useViewDirtyState = ({
-  activeViewId,
   savedConfiguration,
   searchParams,
   baselineColumns,
   currentColumns,
   currentLastSeenCustomRange,
+  defaultValues,
+  filterParamKeys = FILTER_PARAM_KEYS,
 }: UseViewDirtyStateParams) =>
   useMemo(() => {
-    // For All Systems view (system view), check if current state differs from defaults
-    // For custom views, check if current state differs from saved configuration
-    const savedFilters = parseViewConfigFilters(savedConfiguration?.filters);
     const effectiveLastSeenCustomRange =
       currentLastSeenCustomRange === undefined
         ? parseViewConfigLastSeenCustomRange(savedConfiguration?.filters)
@@ -147,8 +147,9 @@ export const useViewDirtyState = ({
     const sortIsDirty = isSortDirty(searchParams, savedConfiguration?.sort);
     const filtersAreDirty = areFiltersDirty(
       searchParams,
-      savedFilters,
+      defaultValues,
       effectiveLastSeenCustomRange,
+      filterParamKeys,
     );
     const columnsAreDirty = areColumnsDirty(baselineColumns, currentColumns);
     const lastSeenRangeIsDirty = isLastSeenCustomRangeDirty(
@@ -165,4 +166,6 @@ export const useViewDirtyState = ({
     baselineColumns,
     currentColumns,
     currentLastSeenCustomRange,
+    defaultValues,
+    filterParamKeys,
   ]);

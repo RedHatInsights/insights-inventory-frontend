@@ -1,16 +1,14 @@
 import { expect } from '@jest/globals';
 import moment from 'moment';
-import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import {
   buildViewConfigFilters,
   parseViewConfigFilters,
   parseViewConfigLastSeenCustomRange,
 } from './viewConfigFilters';
 
-const EMPTY_FILTERS: InventoryFilters = {
+const EMPTY_FILTERS = {
   operating_system: [],
   workloads: [],
-  rhcStatus: [],
   system_type: [],
   hostname_or_id: '',
   status: [],
@@ -268,10 +266,9 @@ describe('parseViewConfigFilters', () => {
   });
 
   it('round-trips system_profile and host filters together', () => {
-    const input: InventoryFilters = {
+    const input = {
       operating_system: ['RHEL9.4'],
       workloads: ['sap'],
-      rhcStatus: ['connected'],
       system_type: ['conventional'],
       hostname_or_id: 'prod-host',
       status: ['fresh'],
@@ -288,7 +285,6 @@ describe('parseViewConfigFilters', () => {
     expect(parsed).toEqual({
       operating_system: ['RHEL9.4'],
       workloads: ['sap'],
-      rhcStatus: ['connected'],
       system_type: ['conventional'],
       hostname_or_id: 'prod-host',
       status: ['fresh'],
@@ -298,10 +294,9 @@ describe('parseViewConfigFilters', () => {
   });
 
   it('round-trips through build and parse', () => {
-    const input: InventoryFilters = {
+    const input = {
       operating_system: ['RHEL9.4', 'CentOS Linux8.5'],
       workloads: ['sap'],
-      rhcStatus: ['connected'],
       system_type: ['conventional', 'image'],
       hostname_or_id: '',
       status: [],
@@ -318,7 +313,6 @@ describe('parseViewConfigFilters', () => {
     expect(parsed).toEqual({
       operating_system: ['RHEL9.4', 'CentOS Linux8.5'],
       workloads: ['sap'],
-      rhcStatus: ['connected'],
       system_type: ['conventional', 'image'],
     });
   });
