@@ -54,7 +54,7 @@ test.describe(
       });
 
       await test.step(`Verifies active view now is default view after deletion`, async () => {
-        await expect(manageView.selectedView).toContainText(ALL_SYSTEMS_VIEW);
+        await manageView.verifyActiveView(ALL_SYSTEMS_VIEW);
       });
     });
   },
