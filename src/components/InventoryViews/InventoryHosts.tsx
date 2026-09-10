@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import type { InventoryBindableItem } from '../SystemsView/columns/inventory/columnDefinitions';
 import SystemsView from '../SystemsView/SystemsView';
 import { Actions } from './actions';
@@ -7,9 +8,11 @@ import { useAnsibleWorkloadsSearchParam } from './hooks/useAnsibleWorkloadsSearc
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
 import { selectLegacyInventoryFilters } from './selectLegacyInventoryFilters';
 import { selectAnsibleWorkload } from './stampAnsibleWorkloadDefault';
+import { VIEW_ID_URL_PARAM } from '../../api/inventoryViewsApi';
 
 const InventoryHosts = () => {
   const { isReady, isAnsibleBundle } = useAnsibleWorkloadsSearchParam();
+  const [searchParams, setSearchParams] = useSearchParams();
   const filtersSelector = useMemo(
     () =>
       isAnsibleBundle
@@ -17,6 +20,17 @@ const InventoryHosts = () => {
         : selectLegacyInventoryFilters,
     [isAnsibleBundle],
   );
+
+  // The stable table doesn't use view_id. Drop it whenever it shows up so a
+  // leftover param from the preview (InventoryViews) view doesn't linger in the
+  // URL after toggling preview off.
+  useEffect(() => {
+    if (searchParams.has(VIEW_ID_URL_PARAM)) {
+      const next = new URLSearchParams(searchParams);
+      next.delete(VIEW_ID_URL_PARAM);
+      setSearchParams(next, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
 
   if (!isReady) {
     return null;
