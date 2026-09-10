@@ -183,7 +183,7 @@ These applications import `InventoryTable` component through federated modules:
 
 The repository contains components covered with the documentation comments using JSDoc markup language. The HTML documentation can be generated with the `npm run docs` script. Additionally, the documentation is automatically built with the
 [Generate and Release Documentation](/.github/workflows//docs.yml) GitHub action.
-The deployed documentation is available at https://redhatinsights.github.io/insights-inventory-frontend.
+The deployed documentation is available at https://redhatinsights.github.io/insights-inventory-frontend/api/.
 
 
 ## Release process
