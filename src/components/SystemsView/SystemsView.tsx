@@ -72,7 +72,7 @@ import {
   resolveFilterSelector,
   type FilterSelector,
 } from './filters/resolveFilterSelector';
-import { buildFilterParams as buildFilterParams } from './filters/buildFilterParams';
+import { buildFilterParams } from './filters/buildFilterParams';
 import { hasActiveFilterChips } from './filters/defaultValuesFrom';
 import type { BoundFilter } from './filters/types';
 import useInventoryViewsColumnsRbacFeatureFlag from '../../Utilities/useInventoryViewsColumnsRbacFeatureFlag';
