@@ -34,7 +34,7 @@ const parseHostTypeFilter = (hostType: unknown): string[] | undefined => {
 /**
  * Converts flat toolbar filter state into the nested backend format
  * for ViewConfiguration.filters. Supports system_profile filters
- * (operating_system, workloads, rhc_client_id) and host-level filters
+ * (operating_system, workloads) and host-level filters
  * (hostname_or_id, staleness, tags, registered_with, workspace_name, system_type, last_check_in dates).
  *
  *  @param filters             - Toolbar filter state
@@ -100,10 +100,6 @@ export const parseViewConfigFilters = (
 
     if (systemProfile.workloads) {
       result.workloads = Object.keys(systemProfile.workloads);
-    }
-
-    if (systemProfile.rhc_client_id) {
-      result.rhcStatus = systemProfile.rhc_client_id;
     }
 
     if (systemProfile.host_type) {

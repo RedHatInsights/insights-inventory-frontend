@@ -9,7 +9,6 @@ import {
   hostnameSpec,
   lastSeenSpec,
   operatingSystemSpec,
-  rhcStatusSpec,
   sourceSpec,
   statusSpec,
   systemTypeSpec,
@@ -35,9 +34,6 @@ export type FilterCatalog = {
     binding: FilterBinding<TFilterParams, string[]>,
   ) => BoundFilter<TFilterParams>;
   source: <TFilterParams>(
-    binding: FilterBinding<TFilterParams, string[]>,
-  ) => BoundFilter<TFilterParams>;
-  rhcStatus: <TFilterParams>(
     binding: FilterBinding<TFilterParams, string[]>,
   ) => BoundFilter<TFilterParams>;
   systemType: <TFilterParams>(
@@ -70,7 +66,6 @@ export const filterCatalog: FilterCatalog = {
   status: (binding) => bindFilter(statusSpec, binding),
   operatingSystem: (binding) => bindFilter(operatingSystemSpec, binding),
   source: (binding) => bindFilter(sourceSpec, binding),
-  rhcStatus: (binding) => bindFilter(rhcStatusSpec, binding),
   systemType: (binding) => bindFilter(systemTypeSpec, binding),
   workspace: (binding) => bindFilter(workspaceSpec, binding),
   lastSeen: (binding) => bindFilter(lastSeenSpec, binding),

@@ -9,7 +9,6 @@ import {
 const EMPTY_FILTERS = {
   operating_system: [],
   workloads: [],
-  rhcStatus: [],
   system_type: [],
   hostname_or_id: '',
   status: [],
@@ -270,7 +269,6 @@ describe('parseViewConfigFilters', () => {
     const input = {
       operating_system: ['RHEL9.4'],
       workloads: ['sap'],
-      rhcStatus: ['connected'],
       system_type: ['conventional'],
       hostname_or_id: 'prod-host',
       status: ['fresh'],
@@ -287,7 +285,6 @@ describe('parseViewConfigFilters', () => {
     expect(parsed).toEqual({
       operating_system: ['RHEL9.4'],
       workloads: ['sap'],
-      rhcStatus: ['connected'],
       system_type: ['conventional'],
       hostname_or_id: 'prod-host',
       status: ['fresh'],
@@ -300,7 +297,6 @@ describe('parseViewConfigFilters', () => {
     const input = {
       operating_system: ['RHEL9.4', 'CentOS Linux8.5'],
       workloads: ['sap'],
-      rhcStatus: ['connected'],
       system_type: ['conventional', 'image'],
       hostname_or_id: '',
       status: [],
@@ -317,7 +313,6 @@ describe('parseViewConfigFilters', () => {
     expect(parsed).toEqual({
       operating_system: ['RHEL9.4', 'CentOS Linux8.5'],
       workloads: ['sap'],
-      rhcStatus: ['connected'],
       system_type: ['conventional', 'image'],
     });
   });

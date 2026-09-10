@@ -89,7 +89,6 @@ const getFiltersFromSearchParams = (
     {
       operating_system: searchParams.getAll('operating_system'),
       workloads: searchParams.getAll('workloads'),
-      rhcStatus: searchParams.getAll('rhcStatus'),
       system_type: searchParams.getAll('system_type'),
       hostname_or_id: searchParams.get('hostname_or_id') || '',
       status: searchParams.getAll('status'),

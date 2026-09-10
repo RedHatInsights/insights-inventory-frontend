@@ -59,12 +59,6 @@ export const bindInventoryHostListFilters = (
       }),
     }),
   }),
-  catalog.rhcStatus({
-    updateFilterParams: (params, value) =>
-      value.length
-        ? buildSystemProfileParam(params, { rhc_client_id: value })
-        : params,
-  }),
   catalog.systemType({
     updateFilterParams: (params, value) => ({
       ...params,
@@ -143,12 +137,6 @@ export const bindInventoryHostViewsFilters = (
         registeredWith: value as ApiHostViewsGetHostViewsRegisteredWithEnum[],
       }),
     }),
-  }),
-  catalog.rhcStatus({
-    updateFilterParams: (params, value) =>
-      value?.length
-        ? buildSystemProfileParam(params, { rhc_client_id: value })
-        : params,
   }),
   catalog.systemType({
     updateFilterParams: (params, value) => ({

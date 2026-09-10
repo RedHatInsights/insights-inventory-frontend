@@ -24,11 +24,6 @@ jest.mock('../../../Utilities/hooks/useConditionalRBAC', () => ({
   useConditionalRBAC: jest.fn(() => ({ hasAccess: true, isOrgAdmin: false })),
 }));
 
-jest.mock('../../../Utilities/useFeatureFlag', () => ({
-  __esModule: true,
-  default: jest.fn(() => false),
-}));
-
 function FiltersToolbarHarness({
   resolvedFilters,
 }: {

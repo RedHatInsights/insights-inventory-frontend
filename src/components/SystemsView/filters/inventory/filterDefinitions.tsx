@@ -112,18 +112,6 @@ export const sourceSpec = {
   ],
 } satisfies CheckboxFilterSpec;
 
-export const rhcStatusSpec = {
-  type: 'checkbox',
-  filterId: 'rhcStatus' as const,
-  title: 'RHC status',
-  defaultValue: [],
-  placeholder: 'Filter by RHC status',
-  options: [
-    { label: 'Active', value: 'not_nil' },
-    { label: 'Inactive', value: 'nil' },
-  ],
-} satisfies CheckboxFilterSpec;
-
 export const systemTypeSpec = {
   type: 'checkbox',
   filterId: 'system_type' as const,
@@ -246,7 +234,6 @@ export const inventoryFilterSpecs = [
   statusSpec,
   operatingSystemSpec,
   sourceSpec,
-  rhcStatusSpec,
   systemTypeSpec,
   workspaceSpec,
   lastSeenSpec,

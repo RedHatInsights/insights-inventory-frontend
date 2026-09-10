@@ -202,7 +202,6 @@ describe('buildHostListParams', () => {
     it('nests system profile filters when toolbar profile filters are set', () => {
       const params = buildParams({
         filters: {
-          rhcStatus: ['connected'],
           operating_system: ['RHEL9.0'],
           workloads: ['sap'],
         },
@@ -210,7 +209,6 @@ describe('buildHostListParams', () => {
 
       expect(params.options?.params?.filter).toEqual({
         system_profile: {
-          rhc_client_id: ['connected'],
           operating_system: {
             RHEL: { version: { eq: ['9.0'] } },
           },

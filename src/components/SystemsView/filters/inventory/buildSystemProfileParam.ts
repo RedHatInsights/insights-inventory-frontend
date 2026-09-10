@@ -12,7 +12,7 @@ type SystemProfileFragment = {
 
 /**
  * Builds a `filter.system_profile` fragment onto an in-progress host query.
- * Used by RHC, OS, and workload `updateFilterParams` reducers so they can compose.
+ * Used by OS and workload `updateFilterParams` reducers so they can compose.
  *  @param query    Query accumulated by earlier bindings
  *  @param fragment Profile filter keys to merge
  *  @returns        Query with `options.params.filter.system_profile` updated
