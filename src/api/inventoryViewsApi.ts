@@ -35,6 +35,9 @@ export type InventoryView = ViewOut;
 
 export const ALL_SYSTEMS_VIEW_ID = 'all-systems';
 
+/** URL query key tracking which saved view is active, so a refresh restores it. */
+export const VIEW_ID_URL_PARAM = 'view_id';
+
 export const ALL_SYSTEMS_CONFIGURATION: ViewConfiguration = {
   columns: [
     { key: 'display_name' },

@@ -22,10 +22,12 @@ import ViewRenameModal from './Modals/ViewRenameModal';
 import ViewDeleteModal from './Modals/ViewDeleteModal';
 import {
   ALL_SYSTEMS_VIEW_ID,
+  VIEW_ID_URL_PARAM,
   type ViewConfiguration,
 } from '../../api/inventoryViewsApi';
 import { createViewColumnSelector } from './createViewColumnSelector';
 import { createViewFilterSelector } from './createViewFilterSelector';
+import { resolveDefaultViewId } from './resolveDefaultViewId';
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
 import { selectInventoryViewsFilters } from './selectInventoryViewsFilters';
 import {
@@ -116,7 +118,11 @@ const InventoryViews = () => {
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [activeViewId, setActiveViewId] = useState(ALL_SYSTEMS_VIEW_ID);
+  // Seed from the URL so a refresh restores the active view (and its filter
+  // params below stay put). Falls back to All Systems when no view_id is present.
+  const [activeViewId, setActiveViewId] = useState(
+    () => searchParams.get(VIEW_ID_URL_PARAM) ?? ALL_SYSTEMS_VIEW_ID,
+  );
   const queryClient = useQueryClient();
   const updateView = useUpdateViewMutation();
   const isInventoryViewsPrivateEnabled = useInventoryViewsPrivateFeatureFlag();
@@ -133,23 +139,48 @@ const InventoryViews = () => {
     () => viewsData?.pages.flatMap((page) => page.results) ?? [],
     [viewsData],
   );
-  const allSystemsViewId = useMemo(
-    () => viewsList.find((v) => v.is_system_view)?.id ?? ALL_SYSTEMS_VIEW_ID,
+  // The view to load when the URL has no view_id (fresh /insights/inventory, or
+  // an old bookmark). Today this is the All Systems system view; see
+  // resolveDefaultViewId for how a user-pinned default will slot in later.
+  const defaultViewId = useMemo(
+    () => resolveDefaultViewId(viewsList),
     [viewsList],
   );
-
-  useEffect(() => {
-    if (
-      activeViewId === ALL_SYSTEMS_VIEW_ID &&
-      allSystemsViewId !== ALL_SYSTEMS_VIEW_ID
-    ) {
-      setActiveViewId(allSystemsViewId);
-    }
-  }, [activeViewId, allSystemsViewId]);
 
   const activeView = viewsList.find((v) => v.id === activeViewId);
   const isSystemView = activeView?.is_system_view ?? true;
   const viewsLoaded = !!viewsData;
+
+  // Reconcile activeViewId + URL against loaded views:
+  //  - No view_id in the URL: adopt the default view and stamp it in, keeping any
+  //    filter params already present (a dirty default view survives a refresh).
+  //  - A stale view_id (deleted view / old bookmark): fall back to the default,
+  //    dropping just the stale param while keeping any filters.
+  useEffect(() => {
+    if (!viewsLoaded) return;
+    const urlViewId = searchParams.get(VIEW_ID_URL_PARAM);
+
+    if (!urlViewId) {
+      if (defaultViewId === ALL_SYSTEMS_VIEW_ID) return; // views not ready yet
+      setActiveViewId(defaultViewId);
+      const next = new URLSearchParams(searchParams);
+      next.set(VIEW_ID_URL_PARAM, defaultViewId);
+      setSearchParams(next, { replace: true });
+      return;
+    }
+
+    if (viewsList.some((v) => v.id === urlViewId)) return;
+
+    // Stale view_id: fall back to the default view, keeping filters.
+    setActiveViewId(defaultViewId);
+    const next = new URLSearchParams(searchParams);
+    if (defaultViewId === ALL_SYSTEMS_VIEW_ID) {
+      next.delete(VIEW_ID_URL_PARAM);
+    } else {
+      next.set(VIEW_ID_URL_PARAM, defaultViewId);
+    }
+    setSearchParams(next, { replace: true });
+  }, [viewsLoaded, viewsList, searchParams, defaultViewId, setSearchParams]);
 
   const columnSelector = useMemo(
     () => createViewColumnSelector(activeView?.configuration),
@@ -243,7 +274,10 @@ const InventoryViews = () => {
       setActiveViewId(viewId);
       const view = viewsList.find((v) => v.id === viewId);
       const filters = parseViewConfigFilters(view?.configuration?.filters);
+      // Switching views starts from a clean slate: build fresh params from the
+      // target view's saved filters, dropping any params applied to the old view.
       const params = filtersToSearchParams(filters);
+      params.set(VIEW_ID_URL_PARAM, viewId);
       if (isAnsibleBundle && !params.has('workloads')) {
         params.set('workloads', ANSIBLE_WORKLOAD);
       }
@@ -276,6 +310,11 @@ const InventoryViews = () => {
     setIsViewSaveAsModalOpen(false);
     await queryClient.refetchQueries({ queryKey: ['views'] });
     setActiveViewId(viewId);
+    // The new view captured the current params, so keep them and point the URL
+    // at the newly created view so a refresh restores it.
+    const next = new URLSearchParams(searchParams);
+    next.set(VIEW_ID_URL_PARAM, viewId);
+    setSearchParams(next, { replace: true });
   };
 
   const handleRename = () => {
@@ -293,7 +332,9 @@ const InventoryViews = () => {
   const handleDeleteSuccess = (viewId: string) => {
     setIsDeleteModalOpen(false);
     if (viewId === activeViewId) {
-      setActiveViewId(allSystemsViewId);
+      // Land on the default view with its own defaults; the reconcile effect
+      // re-stamps view_id once the (now stale) active id is gone.
+      setActiveViewId(defaultViewId);
       setSearchParams(new URLSearchParams(), { replace: true });
     }
   };
