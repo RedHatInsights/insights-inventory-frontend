@@ -56,14 +56,15 @@ const useModalState = (navigate) => {
    *  @param {string} modalTitle      - Title to display in modal header
    *  @param {object} data            - Modal data object containing cells, rows, expandable, filters
    *  @param          data.cells
-   *  @param          data.rows
+   *  @param {Array}  data.rows       - Array of row data for the modal table
    *  @param {string} modalVariant    - Modal size variant (small, medium, large)
    *  @param          data.expandable
    *  @param          data.filters
+   *  @param          data.content    - Custom body rendered instead of the default table
    */
   const handleModalToggle = (
     modalTitle = '',
-    { cells, rows, expandable, filters } = {},
+    { cells, rows, expandable, filters, content } = {},
     modalVariant = ModalVariant.small,
   ) => {
     if (isModalOpen) {
@@ -78,6 +79,7 @@ const useModalState = (navigate) => {
       rows,
       expandable,
       filters,
+      content,
     });
 
     // Auto-sort rows when modal opens with data

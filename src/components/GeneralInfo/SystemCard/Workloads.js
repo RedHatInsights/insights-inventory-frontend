@@ -3,12 +3,17 @@ import PropTypes from 'prop-types';
 import { workloadConfigs } from './SystemCardConfigs';
 import { Clickable } from '../LoadingCard/LoadingCard';
 
-const WorkloadsSection = ({ handleClick, workloadsData, workloadsTypes }) => {
+const WorkloadsSection = ({
+  handleClick,
+  workloadsData,
+  workloadsTypes,
+  entity,
+}) => {
   const filteredConfigs = useMemo(() => {
-    return workloadConfigs(handleClick, workloadsData).filter(({ type }) =>
-      workloadsTypes.includes(type),
+    return workloadConfigs(handleClick, workloadsData, entity).filter(
+      ({ type }) => workloadsTypes.includes(type),
     );
-  }, [handleClick, workloadsData, workloadsTypes]);
+  }, [handleClick, workloadsData, workloadsTypes, entity]);
 
   return filteredConfigs.map(
     ({ type, title, onClick, target, customRender }, index) => {
@@ -40,6 +45,7 @@ WorkloadsSection.propTypes = {
   handleClick: PropTypes.func.isRequired,
   workloadsData: PropTypes.object.isRequired,
   workloadsTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  entity: PropTypes.object,
 };
 
 export default React.memo(WorkloadsSection);
