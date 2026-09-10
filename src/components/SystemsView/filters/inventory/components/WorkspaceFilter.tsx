@@ -18,7 +18,7 @@ import {
   Flex,
   FlexItem,
 } from '@patternfly/react-core';
-import { TypeaheadMenuToggle } from './TypeaheadMenuToggle';
+import { TypeaheadMenuToggle } from '../../TypeaheadMenuToggle';
 import xor from 'lodash/xor';
 import { useDebouncedValue } from '../../../../../Utilities/hooks/useDebouncedValue';
 import { useWorkspaceGroupsInfiniteQuery } from '../../../../filters/useWorkspaceGroupsInfiniteQuery';

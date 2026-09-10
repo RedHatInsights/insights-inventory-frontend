@@ -7,7 +7,7 @@ import {
   Spinner,
   MenuToggleElement,
 } from '@patternfly/react-core';
-import { TypeaheadMenuToggle } from './TypeaheadMenuToggle';
+import { TypeaheadMenuToggle } from '../../TypeaheadMenuToggle';
 import { css } from '@patternfly/react-styles';
 import menuStyles from '@patternfly/react-styles/css/components/Menu/menu';
 import xor from 'lodash/xor';
