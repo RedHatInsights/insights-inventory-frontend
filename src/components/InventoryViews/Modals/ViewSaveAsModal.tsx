@@ -3,9 +3,6 @@ import {
   Button,
   Form,
   FormGroup,
-  FormHelperText,
-  HelperText,
-  HelperTextItem,
   Modal,
   ModalBody,
   ModalFooter,
@@ -18,6 +15,7 @@ import type {
 } from '../../../api/inventoryViewsApi';
 import { useCreateViewMutation } from '../hooks/useCreateViewMutation';
 import { validateViewName } from '../hooks/useViewNameValidation';
+import { ValidationErrorText } from './ValidationErrorText';
 
 export interface ViewSaveAsModalProps {
   isOpen: boolean;
@@ -36,10 +34,10 @@ const ViewSaveAsModal = ({
 }: ViewSaveAsModalProps) => {
   const [viewName, setViewName] = useState('');
   const createView = useCreateViewMutation();
-  const { isDuplicate, validated } = validateViewName(viewsList, viewName);
+  const validation = validateViewName(viewsList, viewName);
 
   const handleSave = () => {
-    if (!viewName.trim() || isDuplicate) {
+    if (!validation.isValid) {
       return;
     }
 
@@ -64,7 +62,7 @@ const ViewSaveAsModal = ({
   };
 
   const isLoading = createView.isPending;
-  const isSaveDisabled = !viewName.trim() || isDuplicate || isLoading;
+  const isSaveDisabled = !validation.isValid || isLoading;
 
   return (
     <Modal
@@ -86,18 +84,10 @@ const ViewSaveAsModal = ({
               value={viewName}
               onChange={(_event, value) => setViewName(value)}
               isDisabled={isLoading}
-              validated={validated}
+              validated={validation.validated}
               autoFocus
             />
-            {isDuplicate && (
-              <FormHelperText>
-                <HelperText>
-                  <HelperTextItem variant="error">
-                    A view with this name already exists.
-                  </HelperTextItem>
-                </HelperText>
-              </FormHelperText>
-            )}
+            <ValidationErrorText error={validation.error} />
           </FormGroup>
         </Form>
       </ModalBody>

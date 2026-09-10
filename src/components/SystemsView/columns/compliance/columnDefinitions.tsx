@@ -22,7 +22,7 @@ const policiesSpec: ColumnSpec<ComplianceAppData | undefined> = {
   appName: APP_NAME,
   title: 'Policies',
   key: ApiHostViewsGetHostViewsOrderByEnum.CompliancepoliciesCount,
-  minWidth: '7rem',
+  minWidth: '9rem',
   sortBy: ApiHostViewsGetHostViewsOrderByEnum.CompliancepoliciesCount,
   renderCell: (value) => <Policies appData={value} />,
 };

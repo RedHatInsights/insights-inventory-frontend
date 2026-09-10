@@ -1,8 +1,7 @@
-import React, { Ref, useState } from 'react';
+import React, { Ref, useState, useMemo } from 'react';
 import {
   Divider,
   Label,
-  MenuToggle,
   MenuToggleElement,
   Select,
   SelectList,
@@ -11,6 +10,9 @@ import {
 } from '@patternfly/react-core';
 import type { ViewOut } from '../../../api/inventoryViewsApi';
 import { DEFAULT_PAGE_SIZE } from '../hooks/useViewsQuery';
+import { TypeaheadMenuToggle } from '../../SystemsView/filters/TypeaheadMenuToggle';
+import { useDebouncedValue } from '../../../Utilities/hooks/useDebouncedValue';
+import { DEBOUNCE_TIMEOUT_MS } from '../../../constants';
 
 export interface ViewSelectorProps {
   views: ViewOut[];
@@ -34,38 +36,63 @@ const ViewSelector = ({
 }: ViewSelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [visibleSize, setVisibleSize] = useState(PAGE_SIZE);
+  const [search, setSearch] = useState('');
+  const debouncedSearch = useDebouncedValue(search, DEBOUNCE_TIMEOUT_MS);
 
   const activeView = views.find((v) => v.id === activeViewId);
   const toggleLabel = activeView?.name ?? 'All systems';
 
-  const { allSystemsView, userViews, systemViews } = views.reduce<{
-    allSystemsView: ViewOut | undefined;
-    userViews: ViewOut[];
-    systemViews: ViewOut[];
-  }>(
-    (acc, view) => {
-      if (view.is_system_view) {
-        if (!acc.allSystemsView) {
-          acc.allSystemsView = view;
-        } else {
-          acc.systemViews.push(view);
+  // Group and filter views based on search
+  const { allSystemsView, userViews, systemViews } = useMemo(() => {
+    const searchLower = debouncedSearch.toLowerCase();
+
+    return views.reduce<{
+      allSystemsView: ViewOut | undefined;
+      userViews: ViewOut[];
+      systemViews: ViewOut[];
+    }>(
+      (acc, view) => {
+        // Identify "All systems" view by name before filtering
+        const isAllSystemsView = view.name === 'All systems';
+
+        // Filter by search term
+        const matchesSearch =
+          !searchLower || view.name.toLowerCase().includes(searchLower);
+
+        if (!matchesSearch) {
+          return acc;
         }
-      } else {
-        acc.userViews.push(view);
-      }
-      return acc;
-    },
-    { allSystemsView: undefined, userViews: [], systemViews: [] },
-  );
+
+        if (isAllSystemsView) {
+          // Hide "All systems" view when filtering, similar to "Ungrouped Hosts" in WorkspaceFilter
+          if (!debouncedSearch) {
+            acc.allSystemsView = view;
+          }
+        } else if (view.is_system_view) {
+          acc.systemViews.push(view);
+        } else {
+          acc.userViews.push(view);
+        }
+        return acc;
+      },
+      { allSystemsView: undefined, userViews: [], systemViews: [] },
+    );
+  }, [views, debouncedSearch]);
 
   const onToggleClick = () => {
-    setIsOpen((prev) => !prev);
+    if (!isOpen) {
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
+      setSearch('');
+    }
   };
 
   const onSelect = (_event: unknown, value: string | undefined) => {
     if (!value || value === LOADER_ID) return;
     onSelectView(value);
     setIsOpen(false);
+    setSearch('');
   };
 
   const visibleUserViews = userViews.slice(0, visibleSize);
@@ -82,15 +109,16 @@ const ViewSelector = ({
   };
 
   const toggle = (toggleRef: Ref<MenuToggleElement>) => (
-    <MenuToggle
-      ref={toggleRef}
-      onClick={onToggleClick}
+    <TypeaheadMenuToggle
+      toggleRef={toggleRef}
       isExpanded={isOpen}
-      aria-label="Select a view"
+      onToggleClick={onToggleClick}
+      searchValue={isOpen ? search : toggleLabel}
+      onSearchChange={setSearch}
+      placeholder={isOpen ? 'Search views...' : ''}
+      inputId="view-selector-typeahead-input"
       data-testid="manage-view-select-view"
-    >
-      {toggleLabel}
-    </MenuToggle>
+    />
   );
 
   return (
@@ -100,7 +128,10 @@ const ViewSelector = ({
       onSelect={onSelect}
       onOpenChange={(open) => {
         setIsOpen(open);
-        if (!open) setVisibleSize(PAGE_SIZE);
+        if (!open) {
+          setVisibleSize(PAGE_SIZE);
+          setSearch('');
+        }
       }}
       toggle={toggle}
       data-testid="manage-view-select-view-dropdown"
@@ -108,6 +139,12 @@ const ViewSelector = ({
       isScrollable
     >
       <SelectList>
+        {!allSystemsView &&
+          userViews.length === 0 &&
+          systemViews.length === 0 &&
+          debouncedSearch && (
+            <SelectOption isDisabled>No matching views</SelectOption>
+          )}
         {allSystemsView && (
           <SelectOption key={allSystemsView.id} value={allSystemsView.id}>
             {allSystemsView.name}
@@ -115,7 +152,7 @@ const ViewSelector = ({
         )}
         {userViews.length > 0 && (
           <>
-            <Divider />
+            {allSystemsView && <Divider />}
             {visibleUserViews.map((view) => (
               <SelectOption key={view.id} value={view.id}>
                 {view.name}
@@ -137,7 +174,7 @@ const ViewSelector = ({
         )}
         {systemViews.length > 0 && (
           <>
-            <Divider />
+            {(allSystemsView || userViews.length > 0) && <Divider />}
             {systemViews.map((view) => (
               <SelectOption
                 key={view.id}
