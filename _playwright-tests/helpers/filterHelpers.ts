@@ -146,10 +146,17 @@ export const expectAllRowsHaveText = async (
  * @example
  * await searchByName(page, 'my-system-name');
  */
-export const searchByName = async (page: Page, name: string): Promise<void> => {
+export const searchByName = async (
+  page: Page,
+  name: string,
+  isWorkspacesPage: boolean = false,
+): Promise<void> => {
   const searchInput = page.locator('input[placeholder="Filter by name"]');
   await page.reload({
-    waitUntil: isLegacyInventoryTableEnabled ? 'networkidle' : 'load',
+    waitUntil:
+      isLegacyInventoryTableEnabled || isWorkspacesPage
+        ? 'networkidle'
+        : 'load',
   });
   await expect(searchInput).toBeVisible({ timeout: 30000 });
   await searchInput.fill(name);

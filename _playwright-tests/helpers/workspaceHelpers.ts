@@ -1,5 +1,6 @@
 import { Response, expect, type Page } from '@playwright/test';
 import { INVENTORY_API_BASE } from './apiHelpers';
+import { recordWorkspaceToManifest } from './cleanup';
 
 /**
  * Locator for the workspace details page header "Actions" menu toggle (not table bulk Actions).
@@ -89,7 +90,11 @@ export const generateUniqueWorkspaceName = async () => {
 };
 
 /**
- * Help function to create a new workspace via the UI modal
+ * Help function to create a new workspace via the UI modal.
+ *
+ * The id from the create response is recorded so global teardown can delete
+ * the workspace at the end of the run. Tracking by id rather than name keeps
+ * cleanup working for tests that rename the workspace afterwards.
  *
  *  @param                   page - The Playwright Page object for interaction.
  *  @param                   name - The unique name to be given to the new workspace.
@@ -102,7 +107,22 @@ export const createNewWorkspace = async (page: Page, name: string) => {
   const dialog = page.locator('[role="dialog"]');
   await expect(dialog).toBeVisible({ timeout: 100000 });
   await dialog.locator('input').first().fill(name);
+
+  // never fail the test just because the id could not be read.
+  const createResponse = page
+    .waitForResponse(isWorkspaceResponse('POST'), { timeout: 60000 })
+    .catch(() => null);
   await dialog.getByRole('button', { name: 'Create' }).click();
+
+  const response = await createResponse;
+  const body = await response?.json().catch(() => null);
+  if (body?.id) {
+    recordWorkspaceToManifest({ id: body.id, name });
+  } else {
+    console.warn(
+      `Could not capture id for workspace "${name}"; skipping cleanup.`,
+    );
+  }
 };
 
 type Method = 'GET' | 'POST' | 'DELETE' | 'PATCH';
