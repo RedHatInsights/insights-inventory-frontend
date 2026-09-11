@@ -16,11 +16,11 @@ import {
   Truncate,
 } from '@patternfly/react-core';
 import xor from 'lodash/xor';
-import { useDebouncedValue } from '../../../Utilities/hooks/useDebouncedValue';
-import { useSystemActionModalsContext } from '../SystemActionModalsContext';
-import { useTagsQuery } from '../hooks/useTagsQuery';
-import { DEBOUNCE_TIMEOUT_MS, PER_PAGE } from '../../../constants';
-import { FILTER_DROPDOWN_WIDTH, LOADER_ID } from '../constants';
+import { useDebouncedValue } from '../../../../../Utilities/hooks/useDebouncedValue';
+import { useSystemActionModalsContext } from '../../../SystemActionModalsContext';
+import { useTagsQuery } from '../../../hooks/useTagsQuery';
+import { DEBOUNCE_TIMEOUT_MS, PER_PAGE } from '../../../../../constants';
+import { FILTER_DROPDOWN_WIDTH, LOADER_ID } from '../../../constants';
 
 interface TagsFilterProps {
   placeholder?: string;

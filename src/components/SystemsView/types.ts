@@ -7,15 +7,15 @@ export type LastSeenCustomRange = {
   end?: string;
 } | null;
 
-export type SystemsViewFetchParams<
-  TFilters extends Record<string, unknown> = Record<string, unknown>,
-> = {
+/** Toolbar filters keys match FilterSpec `filterId`. */
+export type SystemsViewFilterState = Record<string, unknown>;
+
+export type SystemsViewFetchParams<TFilterParams = unknown> = {
   page: number;
   perPage: number;
   sortBy: string | undefined;
   direction: SortDirection | undefined;
-  filters: TFilters;
-  lastSeenCustomRange: LastSeenCustomRange;
+  filterParams: TFilterParams;
 };
 
 export type SystemsViewItem = {
