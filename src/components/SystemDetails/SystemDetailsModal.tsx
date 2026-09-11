@@ -18,6 +18,7 @@ export interface ModalData {
     type?: string;
     options?: Array<{ value?: React.ReactNode; label?: React.ReactNode }>;
   }>;
+  content?: React.ReactNode;
 }
 
 export interface SystemDetailsModalProps {
@@ -58,13 +59,15 @@ const SystemDetailsModal = ({
         }
       />
       <ModalBody>
-        <InfoTable
-          cells={modalData.cells as []}
-          rows={modalData.rows as []}
-          expandable={modalData.expandable}
-          onSort={onSort as undefined}
-          filters={modalData.filters as []}
-        />
+        {modalData.content ?? (
+          <InfoTable
+            cells={modalData.cells as []}
+            rows={modalData.rows as []}
+            expandable={modalData.expandable}
+            onSort={onSort as undefined}
+            filters={modalData.filters as []}
+          />
+        )}
       </ModalBody>
       <ModalFooter>
         <Button

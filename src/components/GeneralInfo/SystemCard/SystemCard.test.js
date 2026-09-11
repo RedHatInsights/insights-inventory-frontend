@@ -505,6 +505,7 @@ describe('SystemCard', () => {
         workloads,
         expectedClickTitle,
         expectedData,
+        expectedVariant,
       }) => {
         const handleClick = jest.fn();
 
@@ -539,6 +540,7 @@ describe('SystemCard', () => {
         expect(handleClick).toHaveBeenCalledWith(
           expectedClickTitle,
           expectedData,
+          ...(expectedVariant ? [expectedVariant] : []),
         );
       },
     );

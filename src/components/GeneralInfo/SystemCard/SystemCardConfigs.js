@@ -1,12 +1,16 @@
 import React from 'react';
 import { generalMapper, workloadsDataMapper } from '../dataMapper';
-import { Icon, Tooltip } from '@patternfly/react-core';
+import { Icon, ModalVariant, Tooltip } from '@patternfly/react-core';
 import {
   CheckCircleIcon,
   ExclamationTriangleIcon,
 } from '@patternfly/react-icons';
+import {
+  AnsibleWorkloadsContent,
+  SatelliteWorkloadsContent,
+} from './WorkloadsModalContent';
 
-export const workloadConfigs = (handleClick, workloadsData) => [
+export const workloadConfigs = (handleClick, workloadsData, entity) => [
   {
     type: 'sap',
     title: 'SAP',
@@ -23,21 +27,15 @@ export const workloadConfigs = (handleClick, workloadsData) => [
     onClick: () =>
       handleClick(
         'Ansible Automation Platform',
-        workloadsDataMapper({
-          data: [workloadsData.ansible],
-          fieldKeys: [
-            'catalog_worker_version',
-            'controller_version',
-            'hub_version',
-            'sso_version',
-          ],
-          columnTitles: [
-            'Catalog worker version',
-            'Controller version',
-            'Hub version',
-            'SSO version',
-          ],
-        }),
+        {
+          content: (
+            <AnsibleWorkloadsContent
+              ansible={workloadsData.ansible}
+              entity={entity}
+            />
+          ),
+        },
+        ModalVariant.medium,
       ),
     target: 'ansible',
   },
@@ -145,11 +143,15 @@ export const workloadConfigs = (handleClick, workloadsData) => [
     onClick: () =>
       handleClick(
         'Satellite',
-        workloadsDataMapper({
-          data: [workloadsData.satellite],
-          fieldKeys: ['type', 'version'],
-          columnTitles: ['Type', 'Version'],
-        }),
+        {
+          content: (
+            <SatelliteWorkloadsContent
+              satellite={workloadsData.satellite}
+              entity={entity}
+            />
+          ),
+        },
+        ModalVariant.medium,
       ),
     target: 'satellite',
   },
