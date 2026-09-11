@@ -32,6 +32,8 @@ export type {
 
 /**
  * Public federated contract. Internal-only props are not exposed.
+ *
+ *  @tutorial systems_view
  */
 export type SystemsViewProps<
   TItem extends SystemsViewItem,
@@ -50,20 +52,28 @@ export type SystemsViewProps<
   queryKeyPrefix: string;
   /**
    * Loads table rows. Receives pagination, sort, and folded `TFilterParams`.
+   * See {@tutorial systems_view_fetch_data}.
    */
   fetchData: SystemsViewFetchData<TItem, TFilterParams>;
   /**
    * Selects columns from the shared catalog. Use a stable reference,
    * not an inline function.
+   * See {@tutorial systems_view_columns}.
    */
   columns: ColumnSelector<TItem>;
   /**
    * Selects filters from the shared catalog and maps them onto `TFilterParams`.
    * Use a stable reference, not an inline function.
+   * See {@tutorial systems_view_filters}.
    */
   filters: FilterSelector<TFilterParams>;
 };
 
+/**
+ * Federated SystemsView table.
+ *
+ *  @tutorial systems_view
+ */
 function SystemsView<TItem extends SystemsViewItem, TFilterParams = unknown>({
   queryClient,
   queryKeyPrefix,

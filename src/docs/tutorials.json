@@ -1,0 +1,42 @@
+{
+  "systems_view": {
+    "title": "SystemsView",
+    "children": {
+      "systems_view_fetch_data": {
+        "title": "fetchData"
+      },
+      "systems_view_columns": {
+        "title": "columns"
+      },
+      "systems_view_filters": {
+        "title": "filters"
+      }
+    }
+  },
+  "inventory": {
+    "title": "InventoryTable",
+    "children": {
+      "props_table": {
+        "title": "Props"
+      },
+      "custom_fetch": {
+        "title": "custom fetch"
+      },
+      "hide_filters": {
+        "title": "hideFilters"
+      }
+    }
+  },
+  "inventory_detail": {
+    "title": "inventory_detail"
+  },
+  "inventory_header": {
+    "title": "inventory_header"
+  },
+  "props_detail": {
+    "title": "props_detail"
+  },
+  "general_info": {
+    "title": "general_info"
+  }
+}
