@@ -2,340 +2,134 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { expect } from '@jest/globals';
-import { SystemActionModalsContext } from './SystemActionModalsContext';
-import { MOVE_SYSTEM_MENU_TEXT } from '../../constants';
-import {
-  createSystem,
-  createSystemWithPermissions,
-  expectMenuItemDisabled,
-  mockOpenAddToWorkspaceModal,
-  mockOpenDeleteModal,
-  mockOpenEditModal,
-  mockOpenMoveSystemsToWorkspaceModal,
-  mockOpenRemoveFromWorkspaceModal,
-  mockSystemActionModalsContextValue,
-  mockUseKesselMigrationFeatureFlag,
-  resetSystemsViewActionsTestState,
-  setConditionalRBAC,
-  testWorkspaceGroup,
-} from './__fixtures__/systemsViewActionsTestHelpers';
+import { expect, jest } from '@jest/globals';
+import SystemsViewRowActions from './SystemsViewRowActions';
+import type {
+  ActionHelpers,
+  ActionSpec,
+  SystemsViewRowAction,
+} from './actions/types';
+import type { SystemsViewItem } from './types';
 
-function renderWithProvider(ui: React.ReactElement) {
+const system: SystemsViewItem = { id: 'host-1' };
+
+const actionHelpers: ActionHelpers = {
+  invalidateQuery: jest.fn(async () => {}),
+  clearSelection: jest.fn(),
+};
+
+function createAction(
+  overrides: Partial<ActionSpec<SystemsViewItem>> &
+    Pick<ActionSpec<SystemsViewItem>, 'id' | 'label'>,
+): ActionSpec<SystemsViewItem> {
+  return {
+    onAction: jest.fn(),
+    ...overrides,
+  };
+}
+
+function renderRowActions(
+  rowActions: readonly SystemsViewRowAction<SystemsViewItem>[],
+) {
   return render(
-    <SystemActionModalsContext.Provider
-      value={mockSystemActionModalsContextValue}
-    >
-      {ui}
-    </SystemActionModalsContext.Provider>,
+    <SystemsViewRowActions
+      system={system}
+      rowActions={rowActions}
+      actionHelpers={actionHelpers}
+    />,
   );
 }
 
-const SystemsViewRowActions = require('./SystemsViewRowActions')
-  .default as typeof import('./SystemsViewRowActions').default;
-
-function expectMoveMenuItemDisabled() {
-  expectMenuItemDisabled(MOVE_SYSTEM_MENU_TEXT);
+async function openKebabMenu() {
+  await userEvent.click(screen.getByRole('button', { name: /kebab toggle/i }));
 }
 
 describe('SystemsViewRowActions', () => {
   beforeEach(() => {
-    resetSystemsViewActionsTestState();
+    (actionHelpers.invalidateQuery as jest.Mock).mockClear();
+    (actionHelpers.clearSelection as jest.Mock).mockClear();
   });
 
-  async function openKebabMenu() {
-    await userEvent.click(
-      screen.getByRole('button', { name: /kebab toggle/i }),
+  it('maps action definitions to kebab menu items', async () => {
+    renderRowActions([
+      createAction({ id: 'edit', label: 'Edit' }),
+      createAction({ id: 'delete', label: 'Delete' }),
+    ]);
+    await openKebabMenu();
+
+    expect(screen.getByRole('menuitem', { name: 'Edit' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('menuitem', { name: 'Delete' }),
+    ).toBeInTheDocument();
+  });
+
+  it('calls onAction with the row item and actionHelpers', async () => {
+    const onAction = jest.fn();
+
+    renderRowActions([
+      createAction({ id: 'delete', label: 'Delete', onAction }),
+    ]);
+    await openKebabMenu();
+    await userEvent.click(screen.getByRole('menuitem', { name: 'Delete' }));
+
+    expect(onAction).toHaveBeenCalledWith([system], actionHelpers);
+  });
+
+  it('renders a separator between actions', async () => {
+    renderRowActions([
+      createAction({ id: 'edit', label: 'Edit' }),
+      { id: 'divider', isSeparator: true },
+      createAction({ id: 'delete', label: 'Delete' }),
+    ]);
+    await openKebabMenu();
+
+    expect(screen.getByRole('separator')).toBeInTheDocument();
+  });
+
+  it('applies danger styling when isDanger is true', async () => {
+    renderRowActions([
+      createAction({ id: 'delete', label: 'Delete', isDanger: true }),
+    ]);
+    await openKebabMenu();
+
+    expect(screen.getByRole('menuitem', { name: 'Delete' })).toHaveClass(
+      'pf-v6-u-danger-color-100',
     );
-  }
-
-  describe('when Kessel migration is enabled', () => {
-    beforeEach(() => {
-      mockUseKesselMigrationFeatureFlag.mockReturnValue(true);
-    });
-
-    it('shows Move system and hides legacy workspace menu items', async () => {
-      const system = createSystemWithPermissions({
-        hasWorkspaceEdit: true,
-        hasUpdate: true,
-        hasDelete: true,
-      });
-
-      renderWithProvider(<SystemsViewRowActions system={system} />);
-      await openKebabMenu();
-
-      expect(
-        screen.getByRole('menuitem', { name: MOVE_SYSTEM_MENU_TEXT }),
-      ).toBeInTheDocument();
-      expect(
-        screen.queryByRole('menuitem', { name: 'Add to workspace' }),
-      ).not.toBeInTheDocument();
-      expect(
-        screen.queryByRole('menuitem', { name: 'Remove from workspace' }),
-      ).not.toBeInTheDocument();
-    });
-
-    describe('Move system', () => {
-      it('opens move modal when clicked', async () => {
-        const system = createSystemWithPermissions({
-          hasWorkspaceEdit: true,
-          hasUpdate: true,
-          hasDelete: true,
-        });
-
-        renderWithProvider(<SystemsViewRowActions system={system} />);
-        await openKebabMenu();
-
-        await userEvent.click(
-          screen.getByRole('menuitem', { name: MOVE_SYSTEM_MENU_TEXT }),
-        );
-        expect(mockOpenMoveSystemsToWorkspaceModal).toHaveBeenCalledWith([
-          system,
-        ]);
-      });
-
-      it('is disabled when missing workspace edit permission', async () => {
-        const system = createSystemWithPermissions({
-          hasWorkspaceEdit: false,
-          hasUpdate: true,
-          hasDelete: true,
-        });
-
-        renderWithProvider(<SystemsViewRowActions system={system} />);
-        await openKebabMenu();
-
-        expectMoveMenuItemDisabled();
-      });
-    });
-
-    describe('Edit display name', () => {
-      it('opens edit modal when clicked', async () => {
-        const system = createSystemWithPermissions({
-          hasWorkspaceEdit: true,
-          hasUpdate: true,
-          hasDelete: true,
-        });
-
-        renderWithProvider(<SystemsViewRowActions system={system} />);
-        await openKebabMenu();
-
-        await userEvent.click(screen.getByRole('menuitem', { name: 'Edit' }));
-        expect(mockOpenEditModal).toHaveBeenCalledWith([system]);
-      });
-
-      it('is disabled when missing update permission', async () => {
-        const system = createSystemWithPermissions({
-          hasWorkspaceEdit: true,
-          hasUpdate: false,
-          hasDelete: true,
-        });
-
-        renderWithProvider(<SystemsViewRowActions system={system} />);
-        await openKebabMenu();
-
-        expect(screen.getByRole('menuitem', { name: 'Edit' })).toHaveAttribute(
-          'aria-disabled',
-          'true',
-        );
-      });
-    });
-
-    describe('Delete from inventory', () => {
-      it('opens delete modal when clicked', async () => {
-        const system = createSystemWithPermissions({
-          hasWorkspaceEdit: true,
-          hasUpdate: true,
-          hasDelete: true,
-        });
-
-        renderWithProvider(<SystemsViewRowActions system={system} />);
-        await openKebabMenu();
-
-        await userEvent.click(screen.getByRole('menuitem', { name: 'Delete' }));
-        expect(mockOpenDeleteModal).toHaveBeenCalledWith([system]);
-      });
-
-      it('is disabled when missing delete permission', async () => {
-        const system = createSystemWithPermissions({
-          hasWorkspaceEdit: true,
-          hasUpdate: true,
-          hasDelete: false,
-        });
-
-        renderWithProvider(<SystemsViewRowActions system={system} />);
-        await openKebabMenu();
-
-        expect(
-          screen.getByRole('menuitem', { name: 'Delete' }),
-        ).toHaveAttribute('aria-disabled', 'true');
-      });
-    });
   });
 
-  describe('when Kessel migration is disabled', () => {
-    beforeEach(() => {
-      mockUseKesselMigrationFeatureFlag.mockReturnValue(false);
-    });
+  it('aria-disables the item and attaches a tooltip when disabled with a tooltip', async () => {
+    renderRowActions([
+      createAction({
+        id: 'delete',
+        label: 'Delete',
+        isDisabled: () => true,
+        tooltip: () => 'No permission',
+      }),
+    ]);
+    await openKebabMenu();
 
-    it('shows Add and Remove from workspace and hides Move system', async () => {
-      const system = createSystem();
+    const deleteItem = screen.getByRole('menuitem', { name: 'Delete' });
+    expect(deleteItem).toHaveAttribute('aria-disabled', 'true');
 
-      renderWithProvider(<SystemsViewRowActions system={system} />);
-      await openKebabMenu();
+    await userEvent.hover(deleteItem);
+    expect(await screen.findByText('No permission')).toBeInTheDocument();
+  });
 
-      expect(
-        screen.getByRole('menuitem', { name: 'Add to workspace' }),
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole('menuitem', { name: 'Remove from workspace' }),
-      ).toBeInTheDocument();
-      expect(
-        screen.queryByRole('menuitem', { name: MOVE_SYSTEM_MENU_TEXT }),
-      ).not.toBeInTheDocument();
-    });
+  it('disables the item without a tooltip when isDisabled returns true', async () => {
+    renderRowActions([
+      createAction({
+        id: 'edit',
+        label: 'Edit',
+        isDisabled: () => true,
+      }),
+    ]);
+    await openKebabMenu();
 
-    describe('Add to workspace', () => {
-      it('opens add to workspace modal when clicked', async () => {
-        setConditionalRBAC(true, false);
-
-        const system = createSystem();
-
-        renderWithProvider(<SystemsViewRowActions system={system} />);
-        await openKebabMenu();
-
-        await userEvent.click(
-          screen.getByRole('menuitem', { name: 'Add to workspace' }),
-        );
-        expect(mockOpenAddToWorkspaceModal).toHaveBeenCalledWith([system]);
-      });
-
-      it('is disabled when user lacks groups write permission', async () => {
-        setConditionalRBAC(false, false);
-
-        const system = createSystem();
-
-        renderWithProvider(<SystemsViewRowActions system={system} />);
-        await openKebabMenu();
-
-        expect(
-          screen.getByRole('menuitem', { name: 'Add to workspace' }),
-        ).toHaveAttribute('aria-disabled', 'true');
-      });
-
-      it('is disabled when the host is already in a workspace', async () => {
-        setConditionalRBAC(true, false);
-
-        const system = createSystem({
-          groups: [testWorkspaceGroup],
-        });
-
-        renderWithProvider(<SystemsViewRowActions system={system} />);
-        await openKebabMenu();
-
-        expectMenuItemDisabled('Add to workspace');
-      });
-    });
-
-    describe('Remove from workspace', () => {
-      it('opens remove from workspace modal when clicked', async () => {
-        setConditionalRBAC(true, false);
-
-        const system = createSystem({
-          groups: [testWorkspaceGroup],
-        });
-
-        renderWithProvider(<SystemsViewRowActions system={system} />);
-        await openKebabMenu();
-
-        await userEvent.click(
-          screen.getByRole('menuitem', { name: 'Remove from workspace' }),
-        );
-        expect(mockOpenRemoveFromWorkspaceModal).toHaveBeenCalledWith([system]);
-      });
-
-      it('is disabled when user lacks groups write permission', async () => {
-        setConditionalRBAC(false, false);
-
-        const system = createSystem({
-          groups: [testWorkspaceGroup],
-        });
-
-        renderWithProvider(<SystemsViewRowActions system={system} />);
-        await openKebabMenu();
-
-        expect(
-          screen.getByRole('menuitem', { name: 'Remove from workspace' }),
-        ).toHaveAttribute('aria-disabled', 'true');
-      });
-
-      it('is disabled when the host is not in a workspace', async () => {
-        setConditionalRBAC(true, false);
-
-        const system = createSystem();
-
-        renderWithProvider(<SystemsViewRowActions system={system} />);
-        await openKebabMenu();
-
-        expectMenuItemDisabled('Remove from workspace');
-      });
-    });
-
-    describe('Edit display name', () => {
-      it('opens edit modal when clicked', async () => {
-        setConditionalRBAC(false, true);
-
-        const system = createSystem();
-
-        renderWithProvider(<SystemsViewRowActions system={system} />);
-        await openKebabMenu();
-
-        await userEvent.click(
-          screen.getByRole('menuitem', { name: 'Edit display name' }),
-        );
-        expect(mockOpenEditModal).toHaveBeenCalledWith([system]);
-      });
-
-      it('is disabled when user lacks hosts write permission', async () => {
-        setConditionalRBAC(false, false);
-
-        const system = createSystem();
-
-        renderWithProvider(<SystemsViewRowActions system={system} />);
-        await openKebabMenu();
-
-        expect(
-          screen.getByRole('menuitem', { name: 'Edit display name' }),
-        ).toHaveAttribute('aria-disabled', 'true');
-      });
-    });
-
-    describe('Delete from inventory', () => {
-      it('opens delete modal when clicked', async () => {
-        setConditionalRBAC(false, true);
-
-        const system = createSystem();
-
-        renderWithProvider(<SystemsViewRowActions system={system} />);
-        await openKebabMenu();
-
-        await userEvent.click(
-          screen.getByRole('menuitem', { name: 'Delete from inventory' }),
-        );
-        expect(mockOpenDeleteModal).toHaveBeenCalledWith([system]);
-      });
-
-      it('is disabled when user lacks hosts write permission', async () => {
-        setConditionalRBAC(false, false);
-
-        const system = createSystem();
-
-        renderWithProvider(<SystemsViewRowActions system={system} />);
-        await openKebabMenu();
-
-        expect(
-          screen.getByRole('menuitem', { name: 'Delete from inventory' }),
-        ).toHaveAttribute('aria-disabled', 'true');
-      });
-    });
+    const editItem = screen.getByRole('menuitem', { name: 'Edit' });
+    expect(
+      editItem.hasAttribute('aria-disabled') ||
+        editItem.hasAttribute('disabled') ||
+        editItem.className.includes('disabled'),
+    ).toBe(true);
   });
 });

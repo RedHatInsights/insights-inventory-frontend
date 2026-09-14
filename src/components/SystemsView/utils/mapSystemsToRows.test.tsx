@@ -7,6 +7,7 @@ import { DEFAULT_NAME_COLUMN_MIN_WIDTH } from './columnMinWidths';
 import { mapSystemsToRows } from './mapSystemsToRows';
 import { STICKY_ACTIONS_BODY_PROPS } from './stickyActionsColumn';
 import { getStickyNameBodyProps } from './stickyNameColumn';
+import type { ActionHelpers, SystemsViewRowAction } from '../actions/types';
 
 jest.mock('../SystemsViewRowActions', () => ({
   __esModule: true,
@@ -19,6 +20,19 @@ const mockSystem = {
   id: 'host-1',
   display_name: 'Test Host',
 } as System;
+
+const noopActionHelpers: ActionHelpers = {
+  invalidateQuery: jest.fn(async () => {}),
+  clearSelection: jest.fn(),
+};
+
+const dummyRowActions: readonly SystemsViewRowAction<System>[] = [
+  {
+    id: 'delete',
+    label: 'Delete',
+    onAction: jest.fn(),
+  },
+];
 
 function createColumn(
   overrides: Partial<Column<System>> &
@@ -34,6 +48,22 @@ function createColumn(
   } as Column<System>;
 }
 
+function mapRows({
+  rowActions = [],
+  ...params
+}: Omit<
+  Parameters<typeof mapSystemsToRows<System>>[0],
+  'actionHelpers' | 'rowActions'
+> & {
+  rowActions?: readonly SystemsViewRowAction<System>[];
+}) {
+  return mapSystemsToRows({
+    actionHelpers: noopActionHelpers,
+    rowActions,
+    ...params,
+  });
+}
+
 describe('mapSystemsToRows', () => {
   it('returns an empty array when data is undefined or empty', () => {
     const columns = [
@@ -44,19 +74,19 @@ describe('mapSystemsToRows', () => {
     ];
 
     expect(
-      mapSystemsToRows({
+      mapRows({
         data: undefined,
         columns,
         isInventoryViewsEnabled: false,
       }),
     ).toEqual([]);
     expect(
-      mapSystemsToRows({ data: [], columns, isInventoryViewsEnabled: false }),
+      mapRows({ data: [], columns, isInventoryViewsEnabled: false }),
     ).toEqual([]);
   });
 
   it('maps each system to a row with id, meta, and a trailing actions cell', () => {
-    const rows = mapSystemsToRows({
+    const rows = mapRows({
       data: [mockSystem],
       columns: [
         createColumn({
@@ -65,6 +95,7 @@ describe('mapSystemsToRows', () => {
         }),
       ],
       isInventoryViewsEnabled: false,
+      rowActions: dummyRowActions,
     });
 
     expect(rows).toHaveLength(1);
@@ -79,6 +110,22 @@ describe('mapSystemsToRows', () => {
     }
   });
 
+  it('omits the trailing actions cell when rowActions is empty', () => {
+    const rows = mapRows({
+      data: [mockSystem],
+      columns: [
+        createColumn({
+          key: 'display_name',
+          renderCell: () => 'Name',
+        }),
+      ],
+      isInventoryViewsEnabled: false,
+    });
+
+    expect(rows[0].row).toHaveLength(1);
+    expect(rows[0].row[0]).toBe('Name');
+  });
+
   it('renders column only when isShown is true', () => {
     const getShownValue = jest.fn((_item: System) => 'shown-dto');
     const renderShownCell = jest.fn<Column<System>['renderCell']>(
@@ -89,7 +136,7 @@ describe('mapSystemsToRows', () => {
       () => 'Hidden',
     );
 
-    mapSystemsToRows({
+    mapRows({
       data: [mockSystem],
       columns: [
         createColumn({
@@ -115,7 +162,7 @@ describe('mapSystemsToRows', () => {
 
   describe('when inventory views are disabled', () => {
     it('returns plain cells without sticky or min-width props', () => {
-      const rows = mapSystemsToRows({
+      const rows = mapRows({
         data: [mockSystem],
         columns: [
           createColumn({
@@ -130,6 +177,7 @@ describe('mapSystemsToRows', () => {
           }),
         ],
         isInventoryViewsEnabled: false,
+        rowActions: dummyRowActions,
       });
 
       const [nameCell, workspaceCell, actionsCell] = rows[0].row;
@@ -146,7 +194,7 @@ describe('mapSystemsToRows', () => {
 
   describe('when inventory views are enabled', () => {
     it('wraps the name column with sticky body props', () => {
-      const rows = mapSystemsToRows({
+      const rows = mapRows({
         data: [mockSystem],
         columns: [
           createColumn({
@@ -167,7 +215,7 @@ describe('mapSystemsToRows', () => {
     });
 
     it('wraps the actions cell with sticky props', () => {
-      const rows = mapSystemsToRows({
+      const rows = mapRows({
         data: [mockSystem],
         columns: [
           createColumn({
@@ -176,6 +224,7 @@ describe('mapSystemsToRows', () => {
           }),
         ],
         isInventoryViewsEnabled: true,
+        rowActions: dummyRowActions,
       });
 
       const actionsCell = rows[0].row[1];
@@ -189,7 +238,7 @@ describe('mapSystemsToRows', () => {
     });
 
     it('uses the default name min-width when the column omits minWidth', () => {
-      const rows = mapSystemsToRows({
+      const rows = mapRows({
         data: [mockSystem],
         columns: [
           createColumn({
@@ -217,7 +266,7 @@ describe('mapSystemsToRows', () => {
         () => 'lock icon',
       );
 
-      mapSystemsToRows({
+      mapRows({
         data: [mockSystem],
         columns: [
           createColumn({

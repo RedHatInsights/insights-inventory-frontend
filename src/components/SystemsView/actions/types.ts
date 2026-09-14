@@ -1,3 +1,4 @@
+import type { ButtonProps } from '@patternfly/react-core';
 import type { ReactNode } from 'react';
 
 /**
@@ -18,11 +19,23 @@ export type ActionSpec<TItem = unknown> = {
   isDisabled?: (items: TItem[]) => boolean;
   isDanger?: boolean;
   isPersistent?: boolean;
+  variant?: ButtonProps['variant'];
   ouiaId?: string;
   tooltip?: (items: TItem[]) => ReactNode;
   onAction: (items: TItem[], actionHelpers: ActionHelpers) => void;
 };
 
+export type SystemsViewRowActionSeparator = {
+  id: string;
+  isSeparator: true;
+};
+
 export type SystemsViewRowAction<TItem = unknown> =
   | ActionSpec<TItem>
-  | { id: string; isSeparator: true };
+  | SystemsViewRowActionSeparator;
+
+export function isRowActionSeparator<TItem>(
+  action: SystemsViewRowAction<TItem>,
+): action is SystemsViewRowActionSeparator {
+  return 'isSeparator' in action && action.isSeparator;
+}

@@ -4,113 +4,58 @@ import {
   ResponsiveActions,
 } from '@patternfly/react-component-groups';
 import { SystemsViewExport } from './SystemsViewExport';
-import type { System } from '../InventoryViews/hostsQueryOptions';
-import { useSystemActionModalsContext } from './SystemActionModalsContext';
 import { useColumnManagementModalContext } from './ColumnManagementModalContext';
-import { useKesselMigrationFeatureFlag } from '../../Utilities/hooks/useKesselMigrationFeatureFlag';
 import useInventoryViewsFeatureFlag from '../../Utilities/useInventoryViewsFeatureFlag';
-import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
-import {
-  GENERAL_GROUPS_WRITE_PERMISSION,
-  GENERAL_HOSTS_WRITE_PERMISSIONS,
-} from '../../constants';
-import { hasWorkspace } from './utils/systemHelpers';
+import type { ActionHelpers, ActionSpec } from './actions/types';
+import type { SystemsViewActiveState } from './utils/deriveActiveState';
 
-interface SystemsViewBulkActionsProps {
-  selectedSystems: System[];
-  activeState: string;
+interface SystemsViewBulkActionsProps<TItem> {
+  selectedSystems: TItem[];
+  activeState: SystemsViewActiveState;
+  bulkActions: readonly ActionSpec<TItem>[];
+  actionHelpers: ActionHelpers;
 }
 
-export const SystemsViewBulkActions = ({
+export const SystemsViewBulkActions = <TItem,>({
   selectedSystems,
   activeState,
-}: SystemsViewBulkActionsProps) => {
-  const isKesselEnabled = useKesselMigrationFeatureFlag();
+  bulkActions,
+  actionHelpers,
+}: SystemsViewBulkActionsProps<TItem>) => {
   const isInventoryViewsEnabled = useInventoryViewsFeatureFlag();
-  const { hasAccess: hasGroupsWrite } = useConditionalRBAC(
-    [GENERAL_GROUPS_WRITE_PERMISSION],
-    false,
-    false,
-  );
-  const { hasAccess: hasHostsWrite } = useConditionalRBAC(
-    [GENERAL_HOSTS_WRITE_PERMISSIONS],
-    false,
-    false,
-  );
-  const {
-    openDeleteModal,
-    openAddToWorkspaceModal,
-    openMoveSystemsToWorkspaceModal,
-    openRemoveFromWorkspaceModal,
-  } = useSystemActionModalsContext();
   const { openColumnManagementModal } = useColumnManagementModalContext();
-
-  const moveDisabled = activeState !== 'active' || selectedSystems.length === 0;
 
   return (
     <Fragment>
       <SystemsViewExport />
-      {isKesselEnabled ? (
-        <ResponsiveActions ouiaId="systems-view-toolbar-actions">
-          <ResponsiveAction
-            isPersistent
-            onClick={() => openMoveSystemsToWorkspaceModal(selectedSystems)}
-            isDisabled={moveDisabled}
-          >
-            Move
-          </ResponsiveAction>
-          <ResponsiveAction
-            isPersistent
-            variant="secondary"
-            ouiaId="bulk-delete-button"
-            onClick={() => openDeleteModal(selectedSystems)}
-            isDisabled={moveDisabled}
-          >
-            Delete
-          </ResponsiveAction>
-          {isInventoryViewsEnabled && (
-            <ResponsiveAction onClick={() => openColumnManagementModal()}>
-              Manage columns
+      <ResponsiveActions ouiaId="systems-view-toolbar-actions">
+        {bulkActions.map((action) => {
+          const tooltip = action.tooltip?.(selectedSystems);
+          const isActionDisabled =
+            activeState !== 'active' ||
+            (action.isDisabled?.(selectedSystems) ?? false);
+
+          return (
+            <ResponsiveAction
+              key={action.id}
+              isPersistent={action.isPersistent}
+              ouiaId={action.ouiaId}
+              isDanger={action.isDanger}
+              variant={action.variant}
+              isDisabled={isActionDisabled}
+              isAriaDisabled={Boolean(isActionDisabled && tooltip)}
+              onClick={() => action.onAction(selectedSystems, actionHelpers)}
+            >
+              {action.label}
             </ResponsiveAction>
-          )}
-        </ResponsiveActions>
-      ) : (
-        <ResponsiveActions ouiaId="systems-view-toolbar-actions">
-          <ResponsiveAction
-            isPersistent
-            ouiaId="bulk-delete-button"
-            onClick={() => openDeleteModal(selectedSystems)}
-            isDisabled={moveDisabled || !hasHostsWrite}
-          >
-            Delete
+          );
+        })}
+        {isInventoryViewsEnabled && (
+          <ResponsiveAction onClick={() => openColumnManagementModal()}>
+            Manage columns
           </ResponsiveAction>
-          <ResponsiveAction
-            onClick={() => openAddToWorkspaceModal(selectedSystems)}
-            isDisabled={
-              moveDisabled ||
-              !hasGroupsWrite ||
-              selectedSystems.some((s) => hasWorkspace(s))
-            }
-          >
-            Add to workspace
-          </ResponsiveAction>
-          <ResponsiveAction
-            onClick={() => openRemoveFromWorkspaceModal(selectedSystems)}
-            isDisabled={
-              moveDisabled ||
-              !hasGroupsWrite ||
-              selectedSystems.some((s) => !hasWorkspace(s))
-            }
-          >
-            Remove from workspace
-          </ResponsiveAction>
-          {isInventoryViewsEnabled && (
-            <ResponsiveAction onClick={() => openColumnManagementModal()}>
-              Manage columns
-            </ResponsiveAction>
-          )}
-        </ResponsiveActions>
-      )}
+        )}
+      </ResponsiveActions>
     </Fragment>
   );
 };

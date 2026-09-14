@@ -3,22 +3,11 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { expect, jest } from '@jest/globals';
-import { SystemActionModalsContext } from './SystemActionModalsContext';
-import type { System } from '../InventoryViews/hostsQueryOptions';
-import {
-  createSystem,
-  mockOpenAddToWorkspaceModal,
-  mockOpenDeleteModal,
-  mockOpenMoveSystemsToWorkspaceModal,
-  mockOpenRemoveFromWorkspaceModal,
-  mockSystemActionModalsContextValue,
-  mockUseKesselMigrationFeatureFlag,
-  resetSystemsViewActionsTestState,
-  setConditionalRBAC,
-  testWorkspaceGroup,
-} from './__fixtures__/systemsViewActionsTestHelpers';
+import type { ActionHelpers, ActionSpec } from './actions/types';
+import type { SystemsViewItem } from './types';
 
 const mockOpenColumnManagementModal = jest.fn();
+const mockUseInventoryViewsFeatureFlag = jest.fn(() => false);
 
 jest.mock('./ColumnManagementModalContext', () => ({
   useColumnManagementModalContext: () => ({
@@ -27,33 +16,51 @@ jest.mock('./ColumnManagementModalContext', () => ({
 }));
 
 jest.mock('./SystemsViewExport', () => ({
-  SystemsViewExport: () => null,
+  SystemsViewExport: () =>
+    React.createElement('div', { 'data-testid': 'systems-view-export' }),
 }));
 
 jest.mock('../../Utilities/useInventoryViewsFeatureFlag', () => ({
   __esModule: true,
-  default: () => false,
+  default: () => mockUseInventoryViewsFeatureFlag(),
 }));
 
 const { SystemsViewBulkActions } =
   require('./SystemsViewBulkActions') as typeof import('./SystemsViewBulkActions');
 
+const selectedSystems: SystemsViewItem[] = [{ id: 'host-1' }, { id: 'host-2' }];
+
+const actionHelpers: ActionHelpers = {
+  invalidateQuery: jest.fn(async () => {}),
+  clearSelection: jest.fn(),
+};
+
+function createAction(
+  overrides: Partial<ActionSpec<SystemsViewItem>> &
+    Pick<ActionSpec<SystemsViewItem>, 'id' | 'label'>,
+): ActionSpec<SystemsViewItem> {
+  return {
+    onAction: jest.fn(),
+    ...overrides,
+  };
+}
+
 function renderBulkActions({
-  selectedSystems = [createSystem()],
-  activeState = 'active',
+  bulkActions = [] as readonly ActionSpec<SystemsViewItem>[],
+  selected = selectedSystems,
+  activeState = 'active' as const,
 }: {
-  selectedSystems?: System[];
-  activeState?: string;
+  bulkActions?: readonly ActionSpec<SystemsViewItem>[];
+  selected?: SystemsViewItem[];
+  activeState?: 'loading' | 'error' | 'empty' | 'active';
 } = {}) {
   return render(
-    <SystemActionModalsContext.Provider
-      value={mockSystemActionModalsContextValue}
-    >
-      <SystemsViewBulkActions
-        selectedSystems={selectedSystems}
-        activeState={activeState}
-      />
-    </SystemActionModalsContext.Provider>,
+    <SystemsViewBulkActions
+      selectedSystems={selected}
+      activeState={activeState}
+      bulkActions={bulkActions}
+      actionHelpers={actionHelpers}
+    />,
   );
 }
 
@@ -61,278 +68,201 @@ function getActionsOverflowMenuButton() {
   return screen.getByRole('button', { name: /actions overflow menu/i });
 }
 
-async function openActionsOverflowMenu() {
-  await userEvent.click(getActionsOverflowMenuButton());
-}
-
 describe('SystemsViewBulkActions', () => {
   beforeEach(() => {
-    resetSystemsViewActionsTestState();
     mockOpenColumnManagementModal.mockClear();
+    mockUseInventoryViewsFeatureFlag.mockReturnValue(false);
+    (actionHelpers.invalidateQuery as jest.Mock).mockClear();
+    (actionHelpers.clearSelection as jest.Mock).mockClear();
   });
 
-  describe('when Kessel migration is enabled', () => {
-    beforeEach(() => {
-      mockUseKesselMigrationFeatureFlag.mockReturnValue(true);
-    });
+  it('always renders Export chrome', () => {
+    renderBulkActions();
 
-    it('shows Move and Delete and hides legacy workspace actions', () => {
-      renderBulkActions();
-
-      expect(screen.getByRole('button', { name: 'Move' })).toBeInTheDocument();
-      expect(
-        screen.getByRole('button', { name: 'Delete' }),
-      ).toBeInTheDocument();
-      expect(
-        screen.queryByRole('button', { name: 'Add to workspace' }),
-      ).not.toBeInTheDocument();
-      expect(
-        screen.queryByRole('button', { name: 'Remove from workspace' }),
-      ).not.toBeInTheDocument();
-    });
-
-    describe('Move', () => {
-      it('opens move modal when clicked', async () => {
-        const selectedSystems = [
-          createSystem(),
-          createSystem({ id: 'host-2' }),
-        ];
-
-        renderBulkActions({ selectedSystems });
-
-        await userEvent.click(screen.getByRole('button', { name: 'Move' }));
-        expect(mockOpenMoveSystemsToWorkspaceModal).toHaveBeenCalledWith(
-          selectedSystems,
-        );
-      });
-
-      it('is disabled when no systems are selected', () => {
-        renderBulkActions({ selectedSystems: [] });
-
-        expect(screen.getByRole('button', { name: 'Move' })).toBeDisabled();
-      });
-
-      it('is disabled when the table is is in the loading state', () => {
-        renderBulkActions({ activeState: 'loading' });
-
-        expect(screen.getByRole('button', { name: 'Move' })).toBeDisabled();
-      });
-    });
-
-    describe('Delete', () => {
-      it('opens delete modal when clicked', async () => {
-        const selectedSystems = [createSystem()];
-
-        renderBulkActions({ selectedSystems });
-
-        await userEvent.click(screen.getByRole('button', { name: 'Delete' }));
-        expect(mockOpenDeleteModal).toHaveBeenCalledWith(selectedSystems);
-      });
-
-      it('is disabled when no systems are selected', () => {
-        renderBulkActions({ selectedSystems: [] });
-
-        expect(screen.getByRole('button', { name: 'Delete' })).toBeDisabled();
-      });
-
-      it('is disabled when the table is in the loading state', () => {
-        renderBulkActions({ activeState: 'loading' });
-
-        expect(screen.getByRole('button', { name: 'Delete' })).toBeDisabled();
-      });
-    });
+    expect(screen.getByTestId('systems-view-export')).toBeInTheDocument();
   });
 
-  describe('when Kessel migration is disabled', () => {
-    beforeEach(() => {
-      mockUseKesselMigrationFeatureFlag.mockReturnValue(false);
+  it('renders persistent actions as toolbar buttons', () => {
+    renderBulkActions({
+      bulkActions: [
+        createAction({ id: 'move', label: 'Move', isPersistent: true }),
+        createAction({ id: 'delete', label: 'Delete', isPersistent: true }),
+      ],
     });
 
-    it('shows Add and Remove from workspace and hides Move', async () => {
-      setConditionalRBAC(true, true);
+    expect(screen.getByRole('button', { name: 'Move' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Delete' })).toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: /actions overflow menu/i }),
+    ).not.toBeInTheDocument();
+  });
 
-      renderBulkActions();
-
-      await openActionsOverflowMenu();
-
-      expect(
-        screen.getByRole('menuitem', { name: 'Add to workspace' }),
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole('menuitem', { name: 'Remove from workspace' }),
-      ).toBeInTheDocument();
-      expect(
-        screen.queryByRole('button', { name: 'Move' }),
-      ).not.toBeInTheDocument();
+  it('puts non-persistent actions in the overflow menu', async () => {
+    renderBulkActions({
+      bulkActions: [
+        createAction({ id: 'add', label: 'Add to workspace' }),
+        createAction({
+          id: 'delete',
+          label: 'Delete',
+          isPersistent: true,
+        }),
+      ],
     });
 
-    describe('Add to workspace', () => {
-      it('opens add to workspace modal when clicked', async () => {
-        setConditionalRBAC(true, true);
+    expect(screen.getByRole('button', { name: 'Delete' })).toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'Add to workspace' }),
+    ).not.toBeInTheDocument();
 
-        const selectedSystems = [createSystem()];
+    await userEvent.click(getActionsOverflowMenuButton());
 
-        renderBulkActions({ selectedSystems });
+    expect(
+      screen.getByRole('menuitem', { name: 'Add to workspace' }),
+    ).toBeInTheDocument();
+  });
 
-        await openActionsOverflowMenu();
-        await userEvent.click(
-          screen.getByRole('menuitem', { name: 'Add to workspace' }),
-        );
-        expect(mockOpenAddToWorkspaceModal).toHaveBeenCalledWith(
-          selectedSystems,
-        );
-      });
+  it('calls onAction with selected items and actionHelpers', async () => {
+    const onAction = jest.fn();
 
-      it('is disabled when user lacks groups write permission', () => {
-        setConditionalRBAC(false, true);
-
-        renderBulkActions();
-
-        expect(getActionsOverflowMenuButton()).toBeDisabled();
-      });
-
-      it('is disabled when any selected host is already in a workspace', () => {
-        setConditionalRBAC(true, true);
-
-        const selectedSystems = [
-          createSystem({
-            id: 'host-in-workspace',
-            groups: [testWorkspaceGroup],
-          }),
-          createSystem({ id: 'host-not-in-workspace' }),
-        ];
-
-        renderBulkActions({ selectedSystems });
-
-        expect(getActionsOverflowMenuButton()).toBeDisabled();
-      });
-
-      it('is disabled when no systems are selected', () => {
-        setConditionalRBAC(true, true);
-
-        renderBulkActions({ selectedSystems: [] });
-
-        expect(getActionsOverflowMenuButton()).toBeDisabled();
-      });
-
-      it('is disabled when the table is in the loading state', () => {
-        setConditionalRBAC(true, true);
-
-        renderBulkActions({ activeState: 'loading' });
-
-        expect(getActionsOverflowMenuButton()).toBeDisabled();
-      });
+    renderBulkActions({
+      bulkActions: [
+        createAction({
+          id: 'delete',
+          label: 'Delete',
+          isPersistent: true,
+          onAction,
+        }),
+      ],
     });
 
-    describe('Remove from workspace', () => {
-      it('opens remove from workspace modal when clicked', async () => {
-        setConditionalRBAC(true, true);
+    await userEvent.click(screen.getByRole('button', { name: 'Delete' }));
 
-        const selectedSystems = [
-          createSystem({
-            groups: [testWorkspaceGroup],
-          }),
-        ];
+    expect(onAction).toHaveBeenCalledWith(selectedSystems, actionHelpers);
+  });
 
-        renderBulkActions({ selectedSystems });
-
-        await openActionsOverflowMenu();
-        await userEvent.click(
-          screen.getByRole('menuitem', { name: 'Remove from workspace' }),
-        );
-        expect(mockOpenRemoveFromWorkspaceModal).toHaveBeenCalledWith(
-          selectedSystems,
-        );
-      });
-
-      it('is disabled when user lacks groups write permission', () => {
-        setConditionalRBAC(false, true);
-
-        const selectedSystems = [
-          createSystem({
-            groups: [testWorkspaceGroup],
-          }),
-        ];
-
-        renderBulkActions({ selectedSystems });
-
-        expect(getActionsOverflowMenuButton()).toBeDisabled();
-      });
-
-      it('is disabled when any selected host is not in a workspace', () => {
-        setConditionalRBAC(true, true);
-
-        const selectedSystems = [
-          createSystem({
-            id: 'host-in-workspace',
-            groups: [testWorkspaceGroup],
-          }),
-          createSystem({ id: 'host-not-in-workspace' }),
-        ];
-
-        renderBulkActions({ selectedSystems });
-
-        expect(getActionsOverflowMenuButton()).toBeDisabled();
-      });
-
-      it('is disabled when no systems are selected', () => {
-        setConditionalRBAC(true, true);
-
-        renderBulkActions({ selectedSystems: [] });
-
-        expect(getActionsOverflowMenuButton()).toBeDisabled();
-      });
-
-      it('is disabled when the table is in the loading state', () => {
-        setConditionalRBAC(true, true);
-
-        const selectedSystems = [
-          createSystem({
-            groups: [testWorkspaceGroup],
-          }),
-        ];
-
-        renderBulkActions({ selectedSystems, activeState: 'loading' });
-
-        expect(getActionsOverflowMenuButton()).toBeDisabled();
-      });
+  it('disables an action when isDisabled returns true', () => {
+    renderBulkActions({
+      bulkActions: [
+        createAction({
+          id: 'delete',
+          label: 'Delete',
+          isPersistent: true,
+          isDisabled: () => true,
+        }),
+      ],
     });
 
-    describe('Delete', () => {
-      it('opens delete modal when clicked', async () => {
-        setConditionalRBAC(false, true);
+    expect(screen.getByRole('button', { name: 'Delete' })).toBeDisabled();
+  });
 
-        const selectedSystems = [createSystem()];
-
-        renderBulkActions({ selectedSystems });
-
-        await userEvent.click(screen.getByRole('button', { name: 'Delete' }));
-        expect(mockOpenDeleteModal).toHaveBeenCalledWith(selectedSystems);
-      });
-
-      it('is disabled when user lacks hosts write permission', () => {
-        setConditionalRBAC(false, false);
-
-        renderBulkActions();
-
-        expect(screen.getByRole('button', { name: 'Delete' })).toBeDisabled();
-      });
-
-      it('is disabled when no systems are selected', () => {
-        setConditionalRBAC(false, true);
-
-        renderBulkActions({ selectedSystems: [] });
-
-        expect(screen.getByRole('button', { name: 'Delete' })).toBeDisabled();
-      });
-
-      it('is disabled when the table is in the loading state', () => {
-        setConditionalRBAC(false, true);
-
-        renderBulkActions({ activeState: 'loading' });
-
-        expect(screen.getByRole('button', { name: 'Delete' })).toBeDisabled();
-      });
+  it('disables consumer actions when the table is not in the active state', () => {
+    renderBulkActions({
+      activeState: 'loading',
+      bulkActions: [
+        createAction({
+          id: 'delete',
+          label: 'Delete',
+          isPersistent: true,
+          isDisabled: () => false,
+        }),
+      ],
     });
+
+    expect(screen.getByRole('button', { name: 'Delete' })).toBeDisabled();
+  });
+
+  it('applies danger styling when isDanger is true', () => {
+    renderBulkActions({
+      bulkActions: [
+        createAction({
+          id: 'delete',
+          label: 'Delete',
+          isPersistent: true,
+          isDanger: true,
+          variant: 'secondary',
+        }),
+      ],
+    });
+
+    expect(screen.getByRole('button', { name: 'Delete' })).toHaveClass(
+      'pf-m-danger',
+    );
+  });
+
+  it('uses variant from the action definition', () => {
+    renderBulkActions({
+      bulkActions: [
+        createAction({
+          id: 'delete',
+          label: 'Delete',
+          isPersistent: true,
+          variant: 'secondary',
+        }),
+      ],
+    });
+
+    expect(screen.getByRole('button', { name: 'Delete' })).toHaveClass(
+      'pf-m-secondary',
+    );
+  });
+
+  it('uses ouiaId from the action definition', () => {
+    renderBulkActions({
+      bulkActions: [
+        createAction({
+          id: 'delete',
+          label: 'Delete',
+          isPersistent: true,
+          ouiaId: 'bulk-delete-button',
+        }),
+      ],
+    });
+
+    expect(screen.getByRole('button', { name: 'Delete' })).toHaveAttribute(
+      'data-ouia-component-id',
+      'bulk-delete-button',
+    );
+  });
+
+  it('aria-disables the action when a tooltip is provided', () => {
+    renderBulkActions({
+      bulkActions: [
+        createAction({
+          id: 'delete',
+          label: 'Delete',
+          isPersistent: true,
+          isDisabled: () => true,
+          tooltip: () => 'No permission',
+        }),
+      ],
+    });
+
+    const deleteButton = screen.getByRole('button', { name: 'Delete' });
+    expect(deleteButton).toHaveAttribute('aria-disabled', 'true');
+    expect(deleteButton).toBeDisabled();
+  });
+
+  it('renders Manage columns when inventory views are enabled', async () => {
+    mockUseInventoryViewsFeatureFlag.mockReturnValue(true);
+
+    renderBulkActions();
+
+    await userEvent.click(getActionsOverflowMenuButton());
+    await userEvent.click(
+      screen.getByRole('menuitem', { name: 'Manage columns' }),
+    );
+
+    expect(mockOpenColumnManagementModal).toHaveBeenCalled();
+  });
+
+  it('does not render Manage columns when inventory views are disabled', () => {
+    renderBulkActions();
+
+    expect(
+      screen.queryByRole('button', { name: /actions overflow menu/i }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('menuitem', { name: 'Manage columns' }),
+    ).not.toBeInTheDocument();
   });
 });

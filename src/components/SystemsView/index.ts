@@ -14,7 +14,6 @@ export type {
   SortDirection,
   LastSeenCustomRange,
 } from './types';
-export type { OnInvalidate } from './SystemActionModalsContext';
 export type { SystemsViewActiveState } from './utils/deriveActiveState';
 export type { BoundColumn } from './columns/inventoryViewColumns';
 export type { ColumnSelector } from './columns/resolveColumnSelector';
