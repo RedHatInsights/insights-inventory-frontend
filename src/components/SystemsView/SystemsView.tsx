@@ -75,7 +75,14 @@ import {
 import { buildFilterParams } from './filters/buildFilterParams';
 import { hasActiveFilterChips } from './filters/defaultValuesFrom';
 import type { BoundFilter } from './filters/types';
+import type { ActionSpec, SystemsViewRowAction } from './actions/types';
 import useInventoryViewsColumnsRbacFeatureFlag from '../../Utilities/useInventoryViewsColumnsRbacFeatureFlag';
+
+export type {
+  ActionHelpers,
+  ActionSpec,
+  SystemsViewRowAction,
+} from './actions/types';
 
 export type { SortDirection } from './types';
 export type { SystemsViewItem, SystemsViewQueryData } from './types';
@@ -118,6 +125,16 @@ export type SystemsViewProps<
    * inline definition.
    */
   filters?: FilterSelector<TFilterParams>;
+  /**
+   * Toolbar bulk actions. For optimal performance use a stable reference, not an
+   * inline array.
+   */
+  bulkActions?: readonly ActionSpec<TItem>[];
+  /**
+   * Per-row kebab actions. For optimal performance use a stable reference, not an
+   * inline array.
+   */
+  rowActions?: readonly SystemsViewRowAction<TItem>[];
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   initialLastSeenCustomRange?: LastSeenCustomRange;
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
@@ -131,6 +148,8 @@ interface SystemsViewInnerProps<TItem extends SystemsViewItem, TFilterParams> {
   fetchData: SystemsViewFetchData<TItem, TFilterParams>;
   resolvedDefaultColumns: readonly Column<TItem>[];
   resolvedFilters: readonly BoundFilter<TFilterParams>[];
+  bulkActions: readonly ActionSpec<TItem>[];
+  rowActions: readonly SystemsViewRowAction<TItem>[];
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
   onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
@@ -425,6 +444,8 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
   );
 }
 
+const EMPTY_ACTIONS = [] as const;
+
 export function SystemsView<
   TItem extends SystemsViewItem,
   TFilterParams = unknown,
@@ -433,6 +454,8 @@ export function SystemsView<
   fetchData,
   columns,
   filters,
+  bulkActions = EMPTY_ACTIONS,
+  rowActions = EMPTY_ACTIONS,
   initialSort,
   initialLastSeenCustomRange,
   onColumnsChange,
@@ -462,6 +485,8 @@ export function SystemsView<
         fetchData={fetchData}
         resolvedDefaultColumns={resolvedDefaultColumns}
         resolvedFilters={resolvedFilters}
+        bulkActions={bulkActions}
+        rowActions={rowActions}
         initialSort={initialSort}
         onColumnsChange={onColumnsChange}
         onLastSeenCustomRangeChange={onLastSeenCustomRangeChange}

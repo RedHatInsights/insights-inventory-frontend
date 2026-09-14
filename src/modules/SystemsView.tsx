@@ -8,6 +8,10 @@ import {
 } from '../components/SystemsView/SystemsView';
 import type { ColumnSelector } from '../components/SystemsView/columns/resolveColumnSelector';
 import type { FilterSelector } from '../components/SystemsView/filters/resolveFilterSelector';
+import type {
+  ActionSpec,
+  SystemsViewRowAction,
+} from '../components/SystemsView/actions/types';
 import type { SystemsViewItem } from '../components/SystemsView/types';
 import { useKesselMigrationFeatureFlag } from '../Utilities/hooks/useKesselMigrationFeatureFlag';
 import { KESSEL_API_PATH } from '../constants';
@@ -29,6 +33,11 @@ export type {
   FilterBinding,
   FilterSpec,
 } from '../components/SystemsView/filters/types';
+export type {
+  ActionHelpers,
+  ActionSpec,
+  SystemsViewRowAction,
+} from '../components/SystemsView/actions/types';
 
 /**
  * Public federated contract. Internal-only props are not exposed.
@@ -62,6 +71,14 @@ export type SystemsViewProps<
    * Use a stable reference, not an inline function.
    */
   filters: FilterSelector<TFilterParams>;
+  /**
+   * Toolbar bulk actions. Use a stable reference, not an inline array.
+   */
+  bulkActions?: readonly ActionSpec<TItem>[];
+  /**
+   * Per-row kebab actions. Use a stable reference, not an inline array.
+   */
+  rowActions?: readonly SystemsViewRowAction<TItem>[];
 };
 
 function SystemsView<TItem extends SystemsViewItem, TFilterParams = unknown>({
@@ -70,6 +87,8 @@ function SystemsView<TItem extends SystemsViewItem, TFilterParams = unknown>({
   fetchData,
   columns,
   filters,
+  bulkActions,
+  rowActions,
 }: SystemsViewProps<TItem, TFilterParams>) {
   const [internalQueryClient] = useState(
     () => queryClient ?? new QueryClient(),
@@ -82,6 +101,8 @@ function SystemsView<TItem extends SystemsViewItem, TFilterParams = unknown>({
       fetchData={fetchData}
       columns={columns}
       filters={filters}
+      bulkActions={bulkActions}
+      rowActions={rowActions}
     />
   );
 

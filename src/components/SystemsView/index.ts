@@ -1,5 +1,11 @@
 export { default } from './SystemsView';
-export type { SystemsViewProps, SystemsViewFetchData } from './SystemsView';
+export type {
+  ActionHelpers,
+  ActionSpec,
+  SystemsViewFetchData,
+  SystemsViewProps,
+  SystemsViewRowAction,
+} from './SystemsView';
 export type {
   SystemsViewFetchParams,
   SystemsViewFilterState,
