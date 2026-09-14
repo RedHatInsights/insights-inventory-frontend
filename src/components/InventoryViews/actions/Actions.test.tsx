@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
 import { act, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { expect, jest } from '@jest/globals';
@@ -47,11 +48,85 @@ jest.mock(
   }),
 );
 
+jest.mock('../../InventoryGroups/Modals/AddSelectedHostsToGroupModal', () => ({
+  __esModule: true,
+  default: ({
+    modalState,
+    reloadData,
+  }: {
+    modalState: ActionItem[];
+    reloadData: () => void | Promise<void>;
+  }) => (
+    <div>
+      <h1>Add to workspace</h1>
+      {modalState.map((system) => (
+        <p key={system.id}>{system.display_name}</p>
+      ))}
+      <button type="button" onClick={() => void reloadData()}>
+        Confirm add
+      </button>
+    </div>
+  ),
+}));
+
+jest.mock('../../InventoryTable/MoveSystemsToWorkspaceModal', () => ({
+  __esModule: true,
+  default: ({
+    modalState,
+    reloadData,
+  }: {
+    modalState: ActionItem[];
+    reloadData: () => void | Promise<void>;
+  }) => (
+    <div>
+      <h1>Move system</h1>
+      {modalState.map((system) => (
+        <div key={system.id}>
+          <p>{system.display_name}</p>
+          <p>{system.groups?.[0]?.name}</p>
+        </div>
+      ))}
+      <button type="button" onClick={() => void reloadData()}>
+        Confirm move
+      </button>
+    </div>
+  ),
+}));
+
+jest.mock('../../InventoryGroups/Modals/RemoveHostsFromGroupModal', () => ({
+  __esModule: true,
+  default: ({
+    modalState,
+    reloadData,
+  }: {
+    modalState: ActionItem[];
+    reloadData: () => void | Promise<void>;
+  }) => (
+    <div>
+      <h1>Remove from workspace</h1>
+      {modalState.map((system) => (
+        <div key={system.id}>
+          <p>{system.display_name}</p>
+          <p>{system.groups?.[0]?.name}</p>
+        </div>
+      ))}
+      <button type="button" onClick={() => void reloadData()}>
+        Confirm remove
+      </button>
+    </div>
+  ),
+}));
+
 const { Actions } = require('./Actions') as typeof import('./Actions');
 
 const { useDeleteSystemsMutation } =
   require('../../SystemsView/hooks/useDeleteSystemsMutation') as {
     useDeleteSystemsMutation: jest.Mock;
+  };
+
+const { usePatchSystemsMutation } =
+  require('../../SystemsView/hooks/usePatchSystemsMutation') as {
+    usePatchSystemsMutation: jest.Mock;
   };
 
 const testSystem: ActionItem = {
@@ -112,6 +187,7 @@ describe('Actions', () => {
   beforeEach(() => {
     mockUseKesselMigrationFeatureFlag.mockReturnValue(false);
     useDeleteSystemsMutation.mockClear();
+    usePatchSystemsMutation.mockClear();
     (actionHelpers.invalidateQuery as jest.Mock).mockClear();
     (actionHelpers.clearSelection as jest.Mock).mockClear();
   });
@@ -222,6 +298,40 @@ describe('Actions', () => {
 
     params.onSuccess?.();
     void params.onInvalidate();
+
+    expect(actionHelpers.clearSelection).toHaveBeenCalled();
+    expect(actionHelpers.invalidateQuery).toHaveBeenCalled();
+  });
+
+  it('uses stashed actionHelpers when the edit mutation succeeds', () => {
+    let rowActions: readonly ActionSpec<ActionItem>[] = [];
+    renderHostActions((actions) => {
+      rowActions = actions.rowActions;
+    });
+
+    runAction(findAction(rowActions, ACTION_IDS.edit), [testSystem]);
+
+    const params = usePatchSystemsMutation.mock.calls.at(-1)?.[0] as {
+      onInvalidate: () => void | Promise<void>;
+      onSuccess?: () => void;
+    };
+
+    params.onSuccess?.();
+    void params.onInvalidate();
+
+    expect(actionHelpers.clearSelection).toHaveBeenCalled();
+    expect(actionHelpers.invalidateQuery).toHaveBeenCalled();
+  });
+
+  it('uses stashed actionHelpers when a workspace modal reloads data', async () => {
+    let bulkActions: readonly ActionSpec<ActionItem>[] = [];
+    renderHostActions((actions) => {
+      bulkActions = actions.bulkActions;
+    });
+
+    runAction(findAction(bulkActions, ACTION_IDS.addToWorkspace), [testSystem]);
+
+    await userEvent.click(screen.getByRole('button', { name: 'Confirm add' }));
 
     expect(actionHelpers.clearSelection).toHaveBeenCalled();
     expect(actionHelpers.invalidateQuery).toHaveBeenCalled();

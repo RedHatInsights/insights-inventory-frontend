@@ -82,6 +82,17 @@ describe('SystemsViewBulkActions', () => {
     expect(screen.getByTestId('systems-view-export')).toBeInTheDocument();
   });
 
+  it('does not render consumer actions when bulkActions is empty', () => {
+    renderBulkActions();
+
+    expect(
+      screen.queryByRole('button', { name: 'Delete' }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: /actions overflow menu/i }),
+    ).not.toBeInTheDocument();
+  });
+
   it('renders persistent actions as toolbar buttons', () => {
     renderBulkActions({
       bulkActions: [
@@ -225,6 +236,8 @@ describe('SystemsViewBulkActions', () => {
   });
 
   it('aria-disables the action when a tooltip is provided', () => {
+    const tooltip = jest.fn((_: SystemsViewItem[]) => 'No permission');
+
     renderBulkActions({
       bulkActions: [
         createAction({
@@ -232,7 +245,7 @@ describe('SystemsViewBulkActions', () => {
           label: 'Delete',
           isPersistent: true,
           isDisabled: () => true,
-          tooltip: () => 'No permission',
+          tooltip,
         }),
       ],
     });
@@ -240,6 +253,7 @@ describe('SystemsViewBulkActions', () => {
     const deleteButton = screen.getByRole('button', { name: 'Delete' });
     expect(deleteButton).toHaveAttribute('aria-disabled', 'true');
     expect(deleteButton).toBeDisabled();
+    expect(tooltip).toHaveBeenCalledWith(selectedSystems);
   });
 
   it('renders Manage columns when inventory views are enabled', async () => {

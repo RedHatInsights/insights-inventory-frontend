@@ -98,18 +98,21 @@ describe('SystemsViewRowActions', () => {
   });
 
   it('aria-disables the item and attaches a tooltip when disabled with a tooltip', async () => {
+    const tooltip = jest.fn((_: SystemsViewItem[]) => 'No permission');
+
     renderRowActions([
       createAction({
         id: 'delete',
         label: 'Delete',
         isDisabled: () => true,
-        tooltip: () => 'No permission',
+        tooltip,
       }),
     ]);
     await openKebabMenu();
 
     const deleteItem = screen.getByRole('menuitem', { name: 'Delete' });
     expect(deleteItem).toHaveAttribute('aria-disabled', 'true');
+    expect(tooltip).toHaveBeenCalledWith([system]);
 
     await userEvent.hover(deleteItem);
     expect(await screen.findByText('No permission')).toBeInTheDocument();
