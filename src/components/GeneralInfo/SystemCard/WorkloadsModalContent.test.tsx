@@ -1,6 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import type {
   SystemProfileAnsible,
   SystemProfileWorkloadsSatellite,
@@ -75,13 +76,38 @@ describe('AnsibleWorkloadsContent', () => {
     render(<AnsibleWorkloadsContent ansible={ansible} entity={entity} />);
 
     const table = screen.getByRole('grid', {
-      name: 'Containerized Ansible workloads',
+      name: /general information dialog table/i,
     });
     expect(
-      within(table).getByRole('columnheader', { name: 'Name' }),
+      within(table).getByRole('columnheader', { name: /name/i }),
     ).toBeVisible();
     expect(within(table).getByText('automation-controller')).toBeVisible();
     expect(within(table).getByText('Running')).toBeVisible();
+  });
+
+  it('paginates and filters the containers table', async () => {
+    const containers = Array.from({ length: 12 }, (_, index) => ({
+      name: `container-${String(index).padStart(2, '0')}`,
+      image: `registry.redhat.io/ansible/container:${index}`,
+      state: 'running',
+    }));
+
+    render(<AnsibleWorkloadsContent ansible={{ containers }} />);
+
+    const table = screen.getByRole('grid', {
+      name: /general information dialog table/i,
+    });
+    // Header row plus the first page of 10
+    expect(within(table).getAllByRole('row')).toHaveLength(11);
+    expect(within(table).queryByText('container-11')).not.toBeInTheDocument();
+
+    await userEvent.type(
+      screen.getByRole('textbox', { name: /text input/i }),
+      'container-11',
+    );
+
+    expect(within(table).getAllByRole('row')).toHaveLength(2);
+    expect(within(table).getByText('container-11')).toBeVisible();
   });
 
   it('omits the containers section when none are reported', () => {
@@ -146,7 +172,7 @@ describe('SatelliteWorkloadsContent', () => {
     render(<SatelliteWorkloadsContent satellite={satellite} />);
 
     const table = screen.getByRole('grid', {
-      name: 'Containerized Satellite workloads',
+      name: /general information dialog table/i,
     });
     expect(within(table).getByText('satellite')).toBeVisible();
     expect(

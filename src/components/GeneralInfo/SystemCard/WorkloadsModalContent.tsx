@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   Content,
   ContentVariants,
@@ -9,7 +9,14 @@ import {
   Stack,
   StackItem,
 } from '@patternfly/react-core';
-import { Table, Tbody, Td, Th, Thead, Tr } from '@patternfly/react-table';
+import {
+  SortByDirection,
+  breakWord,
+  cellWidth,
+  nowrap,
+  sortable,
+} from '@patternfly/react-table';
+import type { ICell } from '@patternfly/react-table';
 import { DateFormat } from '@redhat-cloud-services/frontend-components/DateFormat';
 import type {
   HostOut,
@@ -17,6 +24,23 @@ import type {
   SystemProfileContainer,
   SystemProfileWorkloadsSatellite,
 } from '@redhat-cloud-services/host-inventory-client';
+import UntypedInfoTable from '../InfoTable';
+
+interface InfoTableProps {
+  cells: ICell[];
+  rows: React.ReactNode[][];
+  filters?: Array<{ index?: number; type?: string }>;
+  onSort?: (
+    event: React.MouseEvent,
+    index: number,
+    direction: SortByDirection,
+  ) => void;
+}
+
+/** `InfoTable` is untyped JS */
+const InfoTable = UntypedInfoTable as unknown as (
+  props: InfoTableProps,
+) => React.JSX.Element;
 
 const NOT_AVAILABLE = '--';
 
@@ -120,6 +144,14 @@ const RpmVersionsSection = ({ fields }: { fields: RpmField[] }) => {
   );
 };
 
+const containerCells = [
+  { title: 'Name', transforms: [sortable] },
+  { title: 'Image', transforms: [sortable], cellTransforms: [breakWord] },
+  { title: 'State', transforms: [sortable, cellWidth(15), nowrap] },
+];
+
+const containerFilters = [{ type: 'text' }];
+
 const ContainersSection = ({
   title,
   containers = [],
@@ -127,6 +159,27 @@ const ContainersSection = ({
   title: string;
   containers?: SystemProfileContainer[];
 }) => {
+  const [sortBy, setSortBy] = useState({
+    index: 0,
+    direction: SortByDirection.asc,
+  });
+
+  const rows = useMemo(() => {
+    const sorted = containers
+      .map(({ name, image, state }) => [
+        name || NOT_AVAILABLE,
+        image || NOT_AVAILABLE,
+        capitalize(state) || NOT_AVAILABLE,
+      ])
+      .sort((a, b) =>
+        a[sortBy.index].localeCompare(b[sortBy.index], undefined, {
+          sensitivity: 'base',
+        }),
+      );
+
+    return sortBy.direction === SortByDirection.asc ? sorted : sorted.reverse();
+  }, [containers, sortBy]);
+
   if (containers.length === 0) {
     return null;
   }
@@ -134,24 +187,12 @@ const ContainersSection = ({
   return (
     <StackItem>
       <Content component={ContentVariants.h3}>{title}</Content>
-      <Table aria-label={title} variant="compact">
-        <Thead>
-          <Tr>
-            <Th>Name</Th>
-            <Th>Image</Th>
-            <Th>State</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {containers.map(({ name, image, state }, index) => (
-            <Tr key={`${name || 'container'}-${index}`}>
-              <Td dataLabel="Name">{name || NOT_AVAILABLE}</Td>
-              <Td dataLabel="Image">{image || NOT_AVAILABLE}</Td>
-              <Td dataLabel="State">{capitalize(state) || NOT_AVAILABLE}</Td>
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
+      <InfoTable
+        cells={containerCells}
+        rows={rows}
+        filters={containerFilters}
+        onSort={(_event, index, direction) => setSortBy({ index, direction })}
+      />
     </StackItem>
   );
 };
