@@ -30,6 +30,7 @@ import { SystemsViewFilters } from './filters/SystemsViewFilters';
 import { INITIAL_SORT, useColumns } from './hooks/useColumns';
 import { SetURLSearchParams, useSearchParams } from 'react-router-dom';
 import { SystemActionModalsProvider } from './SystemActionModalsContext';
+import { TagsModalProvider } from './TagsModalContext';
 import { SystemsViewBulkActions } from './SystemsViewBulkActions';
 import { useBulkSelect } from './hooks/useBulkSelect';
 import {
@@ -364,83 +365,87 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
   );
 
   return (
-    <SystemActionModalsProvider
-      onInvalidate={onInvalidate}
-      onSelectionClear={() => setSelected([])}
-    >
-      <ColumnManagementModalProvider
-        columns={columns}
-        defaultColumns={annotatedDefaults}
-        setColumns={handleApplyColumns}
+    <TagsModalProvider>
+      <SystemActionModalsProvider
+        onInvalidate={onInvalidate}
+        onSelectionClear={() => setSelected([])}
       >
-        <DataView selection={selection} activeState={activeState}>
-          <PageSection hasBodyWrapper={false}>
-            <DataViewToolbar
-              className={
-                !hasFilterChips && filtersDifferFromDefaults
-                  ? 'ins-c-systems-view-toolbar ins-c-systems-view-toolbar--with-reset-row'
-                  : 'ins-c-systems-view-toolbar'
-              }
-              ouiaId="systems-view-header"
-              clearAllFilters={clearAllFilters}
-              customLabelGroupContent={
-                // Always pass a node so DataViewToolbar does not fall back to
-                // "Clear filters", which would no-op at spec defaults.
-                <>{hasFilterChips ? resetFiltersButton : null}</>
-              }
-              bulkSelect={
-                <BulkSelect
-                  pageCount={rows.length}
-                  // canSelectAll disabled see JIRA: RHINENG-22312 for details
-                  totalCount={total}
-                  selectedCount={selected.length}
-                  pagePartiallySelected={isPartiallySelected}
-                  pageSelected={isPageSelected}
-                  onSelect={onBulkSelect}
-                />
-              }
-              filters={
-                resolvedFilters.length > 0 ? <SystemsViewFilters /> : undefined
-              }
-              actions={
-                <SystemsViewBulkActions
-                  // FIXME remove type casting
-                  selectedSystems={selectedSystems as unknown as System[]}
-                  activeState={activeState}
-                />
-              }
-              pagination={
-                <Pagination isCompact itemCount={total} {...pagination} />
-              }
-            />
-            {/* PF hides the chip row at 0 chips; this row matches that chip-row layout. */}
-            {!hasFilterChips && resetFiltersButton ? (
-              <Toolbar
-                className="ins-c-systems-view-reset-filters-row"
-                ouiaId="systems-view-header-reset-row"
-              >
-                <ToolbarContent>
-                  <ToolbarGroup variant="action-group-inline">
-                    {resetFiltersButton}
-                  </ToolbarGroup>
-                </ToolbarContent>
-              </Toolbar>
-            ) : null}
-            {isInventoryViewsEnabled ? (
-              <InnerScrollContainer className="ins-c-systems-view-table-scroll">
-                {systemsTable}
-              </InnerScrollContainer>
-            ) : (
-              systemsTable
-            )}
-            <DataViewToolbar
-              ouiaId="systems-view-footer"
-              pagination={<Pagination itemCount={total} {...pagination} />}
-            />
-          </PageSection>
-        </DataView>
-      </ColumnManagementModalProvider>
-    </SystemActionModalsProvider>
+        <ColumnManagementModalProvider
+          columns={columns}
+          defaultColumns={annotatedDefaults}
+          setColumns={handleApplyColumns}
+        >
+          <DataView selection={selection} activeState={activeState}>
+            <PageSection hasBodyWrapper={false}>
+              <DataViewToolbar
+                className={
+                  !hasFilterChips && filtersDifferFromDefaults
+                    ? 'ins-c-systems-view-toolbar ins-c-systems-view-toolbar--with-reset-row'
+                    : 'ins-c-systems-view-toolbar'
+                }
+                ouiaId="systems-view-header"
+                clearAllFilters={clearAllFilters}
+                customLabelGroupContent={
+                  // Always pass a node so DataViewToolbar does not fall back to
+                  // "Clear filters", which would no-op at spec defaults.
+                  <>{hasFilterChips ? resetFiltersButton : null}</>
+                }
+                bulkSelect={
+                  <BulkSelect
+                    pageCount={rows.length}
+                    // canSelectAll disabled see JIRA: RHINENG-22312 for details
+                    totalCount={total}
+                    selectedCount={selected.length}
+                    pagePartiallySelected={isPartiallySelected}
+                    pageSelected={isPageSelected}
+                    onSelect={onBulkSelect}
+                  />
+                }
+                filters={
+                  resolvedFilters.length > 0 ? (
+                    <SystemsViewFilters />
+                  ) : undefined
+                }
+                actions={
+                  <SystemsViewBulkActions
+                    // FIXME remove type casting
+                    selectedSystems={selectedSystems as unknown as System[]}
+                    activeState={activeState}
+                  />
+                }
+                pagination={
+                  <Pagination isCompact itemCount={total} {...pagination} />
+                }
+              />
+              {/* PF hides the chip row at 0 chips; this row matches that chip-row layout. */}
+              {!hasFilterChips && resetFiltersButton ? (
+                <Toolbar
+                  className="ins-c-systems-view-reset-filters-row"
+                  ouiaId="systems-view-header-reset-row"
+                >
+                  <ToolbarContent>
+                    <ToolbarGroup variant="action-group-inline">
+                      {resetFiltersButton}
+                    </ToolbarGroup>
+                  </ToolbarContent>
+                </Toolbar>
+              ) : null}
+              {isInventoryViewsEnabled ? (
+                <InnerScrollContainer className="ins-c-systems-view-table-scroll">
+                  {systemsTable}
+                </InnerScrollContainer>
+              ) : (
+                systemsTable
+              )}
+              <DataViewToolbar
+                ouiaId="systems-view-footer"
+                pagination={<Pagination itemCount={total} {...pagination} />}
+              />
+            </PageSection>
+          </DataView>
+        </ColumnManagementModalProvider>
+      </SystemActionModalsProvider>
+    </TagsModalProvider>
   );
 }
 

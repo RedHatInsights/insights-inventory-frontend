@@ -15,20 +15,10 @@ import TextInputModal from '../GeneralInfo/TextInputModal/TextInputModal';
 import { useDeleteSystemsMutation } from './hooks/useDeleteSystemsMutation';
 import { usePatchSystemsMutation } from './hooks/usePatchSystemsMutation';
 import type { System } from '../InventoryViews/hostsQueryOptions';
-import { AllTagsModal } from './TagsModal/AllTagsModal';
-import { SingleHostTagsModal } from './TagsModal/SingleHostTagsModal';
+
 export type OnInvalidate = () => void | Promise<void>;
 
 type OpenModalFn = (systems: System[]) => void;
-
-export interface OpenTagsModalOptions {
-  initialTagSearch?: string;
-}
-
-export type OpenTagsModalFn = (
-  systems: System[],
-  options?: OpenTagsModalOptions,
-) => void;
 
 interface SystemActionModalsContextValue {
   openDeleteModal: OpenModalFn;
@@ -36,7 +26,6 @@ interface SystemActionModalsContextValue {
   openMoveSystemsToWorkspaceModal: OpenModalFn;
   openRemoveFromWorkspaceModal: OpenModalFn;
   openEditModal: OpenModalFn;
-  openTagsModal: OpenTagsModalFn;
 }
 
 const SystemActionModalsContext =
@@ -74,8 +63,6 @@ export const SystemActionModalsProvider = ({
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
     useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [tagsModalOpen, setTagsModalOpen] = useState(false);
-  const [tagsModalInitialSearch, setTagsModalInitialSearch] = useState('');
 
   const { onDeleteConfirm } = useDeleteSystemsMutation({
     systems: systemsForAction,
@@ -129,12 +116,6 @@ export const SystemActionModalsProvider = ({
     setEditModalOpen(true);
   }, []);
 
-  const openTagsModal = useCallback<OpenTagsModalFn>((systems, options) => {
-    setSystemsForAction(systems);
-    setTagsModalInitialSearch(options?.initialTagSearch ?? '');
-    setTagsModalOpen(true);
-  }, []);
-
   const systemsForMoveModal = useMemo(
     () =>
       systemsForAction.filter(
@@ -150,7 +131,6 @@ export const SystemActionModalsProvider = ({
       openMoveSystemsToWorkspaceModal,
       openRemoveFromWorkspaceModal,
       openEditModal,
-      openTagsModal,
     }),
     [
       openDeleteModal,
@@ -158,7 +138,6 @@ export const SystemActionModalsProvider = ({
       openMoveSystemsToWorkspaceModal,
       openRemoveFromWorkspaceModal,
       openEditModal,
-      openTagsModal,
     ],
   );
 
@@ -206,26 +185,6 @@ export const SystemActionModalsProvider = ({
           onSubmit={onPatchConfirm}
         />
       )}
-      {tagsModalOpen &&
-        (systemsForAction.length === 0 ? (
-          <AllTagsModal
-            isOpen={tagsModalOpen}
-            initialTagSearch={tagsModalInitialSearch}
-            onClose={() => {
-              setTagsModalInitialSearch('');
-              setTagsModalOpen(false);
-            }}
-          />
-        ) : (
-          <SingleHostTagsModal
-            isOpen={tagsModalOpen}
-            system={systemsForAction[0]!}
-            onClose={() => {
-              setTagsModalInitialSearch('');
-              setTagsModalOpen(false);
-            }}
-          />
-        ))}
     </SystemActionModalsContext.Provider>
   );
 };

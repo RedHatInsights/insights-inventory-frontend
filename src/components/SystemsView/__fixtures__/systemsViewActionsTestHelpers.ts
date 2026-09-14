@@ -35,7 +35,6 @@ export const mockOpenAddToWorkspaceModal = jest.fn();
 export const mockOpenMoveSystemsToWorkspaceModal = jest.fn();
 export const mockOpenRemoveFromWorkspaceModal = jest.fn();
 export const mockOpenEditModal = jest.fn();
-export const mockOpenTagsModal = jest.fn();
 
 export const mockSystemActionModalsContextValue = {
   openDeleteModal: mockOpenDeleteModal,
@@ -43,7 +42,6 @@ export const mockSystemActionModalsContextValue = {
   openMoveSystemsToWorkspaceModal: mockOpenMoveSystemsToWorkspaceModal,
   openRemoveFromWorkspaceModal: mockOpenRemoveFromWorkspaceModal,
   openEditModal: mockOpenEditModal,
-  openTagsModal: mockOpenTagsModal,
 };
 
 export function createSystem(systemOverrides: Partial<System> = {}): System {
@@ -96,7 +94,6 @@ export function resetSystemActionModalMocks() {
   mockOpenMoveSystemsToWorkspaceModal.mockClear();
   mockOpenRemoveFromWorkspaceModal.mockClear();
   mockOpenEditModal.mockClear();
-  mockOpenTagsModal.mockClear();
 }
 
 export function resetSystemsViewActionsTestState() {
