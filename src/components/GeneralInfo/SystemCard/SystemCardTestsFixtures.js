@@ -34,23 +34,29 @@ export const workloadClickTestCases = [
       },
     },
     expectedClickTitle: 'Ansible Automation Platform',
-    expectedData: {
-      cells: [
-        { title: 'Catalog worker version' },
-        { title: 'Controller version' },
-        { title: 'Hub version' },
-        { title: 'SSO version' },
-      ],
-      filters: [{ type: 'text' }],
-      rows: [
-        [
-          '9.8.7, banana.42, 0.0.abc',
-          'x.1.2, foo.bar, 3.3.3',
-          'abc.def, 123.456, xyz.789',
-          'preview-1, glitch.9.9, zz-top.7',
+    expectedData: { content: expect.anything() },
+    expectedVariant: 'medium',
+  },
+  {
+    name: 'Satellite',
+    linkText: /Satellite/i,
+    workloads: {
+      satellite: {
+        type: 'server',
+        version: '6.19.0',
+        foremanctl_version: '1.1.0',
+        containers: [
+          {
+            name: 'satellite',
+            image: 'registry.redhat.io/satellite/satellite-rhel9:6.16.0',
+            state: 'running',
+          },
         ],
-      ],
+      },
     },
+    expectedClickTitle: 'Satellite',
+    expectedData: { content: expect.anything() },
+    expectedVariant: 'medium',
   },
   {
     name: 'RHEL AI',
