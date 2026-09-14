@@ -11,7 +11,7 @@ import {
 import {
   LAST_SEEN_OPTIONS as selectOptions,
   type LastSeenKey,
-} from '../constants';
+} from '../../../constants';
 
 export interface LastSeenFilterProps {
   value?: LastSeenKey | '';

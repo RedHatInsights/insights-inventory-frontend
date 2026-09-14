@@ -1,15 +1,18 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { INITIAL_PAGE } from '../../InventoryViews/constants';
-import { INITIAL_INVENTORY_FILTERS } from '../DataViewFiltersContext';
+import { defaultValuesFrom } from '../filters/defaultValuesFrom';
+import { inventoryFilterSpecs } from '../filters/inventory/filterDefinitions';
 import { useResetPage } from './useResetPage';
 import { jest, expect } from '@jest/globals';
 import '@testing-library/jest-dom';
+
+const emptyFilters = defaultValuesFrom(inventoryFilterSpecs);
 
 describe('useResetPage (SystemsView pagination reset on filter change)', () => {
   it('does not reset page on initial render', async () => {
     const setSearchParams = jest.fn();
 
-    renderHook(() => useResetPage(INITIAL_INVENTORY_FILTERS, setSearchParams));
+    renderHook(() => useResetPage(emptyFilters, setSearchParams));
 
     await waitFor(() => {
       expect(setSearchParams).not.toHaveBeenCalled();
@@ -23,13 +26,13 @@ describe('useResetPage (SystemsView pagination reset on filter change)', () => {
       ({ filters }) => useResetPage(filters, setSearchParams),
       {
         initialProps: {
-          filters: INITIAL_INVENTORY_FILTERS,
+          filters: emptyFilters,
         },
       },
     );
 
     rerender({
-      filters: { ...INITIAL_INVENTORY_FILTERS, status: ['fresh'] },
+      filters: { ...emptyFilters, status: ['fresh'] },
     });
 
     await waitFor(() => {
@@ -44,11 +47,7 @@ describe('useResetPage (SystemsView pagination reset on filter change)', () => {
 
     const { rerender } = renderHook(
       ({ additionalSignature }) =>
-        useResetPage(
-          INITIAL_INVENTORY_FILTERS,
-          setSearchParams,
-          additionalSignature,
-        ),
+        useResetPage(emptyFilters, setSearchParams, additionalSignature),
       {
         initialProps: {
           additionalSignature: null as { start?: string } | null,

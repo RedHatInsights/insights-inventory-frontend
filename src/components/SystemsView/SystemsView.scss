@@ -1,3 +1,11 @@
+.ins-c-systems-view-toolbar--with-reset-row {
+  padding-block-end: 0;
+}
+
+.ins-c-systems-view-reset-filters-row {
+  padding-block-start: var(--pf-t--global--spacer--md);
+}
+
 .ins-c-systems-view-table-scroll {
   overflow-x: auto;
   overflow-y: visible;

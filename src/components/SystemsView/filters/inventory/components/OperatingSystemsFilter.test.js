@@ -5,14 +5,14 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React, { useState } from 'react';
 import { OperatingSystemsFilter } from './OperatingSystemsFilter';
-import { useOperatingSystemsQuery } from '../hooks/useOperatingSystemsQuery';
+import { useOperatingSystemsQuery } from '../../../hooks/useOperatingSystemsQuery';
 
-jest.mock('../hooks/useOperatingSystemsQuery', () => ({
+jest.mock('../../../hooks/useOperatingSystemsQuery', () => ({
   useOperatingSystemsQuery: jest.fn(),
 }));
 
-jest.mock('../../../constants', () => ({
-  ...jest.requireActual('../../../constants'),
+jest.mock('../../../../../constants', () => ({
+  ...jest.requireActual('../../../../../constants'),
   DEBOUNCE_TIMEOUT_MS: 0,
 }));
 

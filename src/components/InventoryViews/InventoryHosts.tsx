@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import SystemsView from '../SystemsView/SystemsView';
 import { fetchHosts, HOSTS_QUERY_KEY } from './hostsQueryOptions';
-import { useAnsibleWorkloadDefault } from './hooks/useAnsibleWorkloadDefault';
+import { useAnsibleWorkloadsSearchParam } from './hooks/useAnsibleWorkloadsSearchParam';
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
+import { selectLegacyInventoryFilters } from './selectLegacyInventoryFilters';
+import { selectAnsibleWorkload } from './stampAnsibleWorkloadDefault';
 
 const InventoryHosts = () => {
-  const { isReady, defaultFilters } = useAnsibleWorkloadDefault();
+  const { isReady, isAnsibleBundle } = useAnsibleWorkloadsSearchParam();
+  const filtersSelector = useMemo(
+    () =>
+      isAnsibleBundle
+        ? selectAnsibleWorkload(selectLegacyInventoryFilters)
+        : selectLegacyInventoryFilters,
+    [isAnsibleBundle],
+  );
 
   if (!isReady) {
     return null;
@@ -14,9 +23,9 @@ const InventoryHosts = () => {
   return (
     <SystemsView
       columns={selectLegacyInventoryColumns}
+      filters={filtersSelector}
       queryKeyPrefix={HOSTS_QUERY_KEY}
       fetchData={fetchHosts}
-      defaultFilters={defaultFilters}
     />
   );
 };

@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react';
 import type { SetURLSearchParams } from 'react-router-dom';
-import type { InventoryFilters } from '../filters/SystemsViewFilters';
 import { INITIAL_PAGE } from '../../InventoryViews/constants';
 
 /**
@@ -12,7 +11,7 @@ import { INITIAL_PAGE } from '../../InventoryViews/constants';
  *  @param additionalSignature - Optional extra value merged into the serialized signature (e.g. last-seen custom range).
  */
 export const useResetPage = (
-  filters: InventoryFilters,
+  filters: Record<string, unknown>,
   setSearchParams: SetURLSearchParams,
   additionalSignature?: unknown,
 ) => {
