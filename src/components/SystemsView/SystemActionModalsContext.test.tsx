@@ -11,10 +11,9 @@ import {
   useSystemActionModalsContext,
 } from './SystemActionModalsContext';
 import type { OpenTagsModalOptions } from './SystemActionModalsContext';
-import {
-  DataViewFiltersContext,
-  INITIAL_INVENTORY_FILTERS,
-} from './DataViewFiltersContext';
+import { DataViewFiltersContext } from './DataViewFiltersContext';
+import { defaultValuesFrom } from './filters/defaultValuesFrom';
+import { inventoryFilterSpecs } from './filters/inventory/filterDefinitions';
 
 jest.mock('./hooks/useDeleteSystemsMutation', () => ({
   useDeleteSystemsMutation: jest.fn(() => ({
@@ -169,10 +168,11 @@ function renderWithProvider(
   const tree = withFilters ? (
     <DataViewFiltersContext.Provider
       value={{
-        filters: { ...INITIAL_INVENTORY_FILTERS },
+        filters: { ...defaultValuesFrom(inventoryFilterSpecs) },
+        resolvedFilters: [],
         onSetFilters,
         clearAllFilters: jest.fn(),
-        hasDefaultFilters: false,
+        filtersDifferFromDefaults: false,
         lastSeenCustomRange: null,
         setLastSeenCustomRange: jest.fn(),
         ungroupedWorkspaceId: undefined,

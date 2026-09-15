@@ -14,11 +14,12 @@ jest.mock('../../../api/hostInventoryApiTyped', () => ({
 
 import { AllTagsModal } from './AllTagsModal';
 import { FIRST_TAG_FILTER_TOKEN, TAGS_100 } from './__fixtures__/tags';
-import {
-  DataViewFiltersContext,
-  INITIAL_INVENTORY_FILTERS,
-} from '../DataViewFiltersContext';
+import { DataViewFiltersContext } from '../DataViewFiltersContext';
+import { defaultValuesFrom } from '../filters/defaultValuesFrom';
+import { inventoryFilterSpecs } from '../filters/inventory/filterDefinitions';
 import { getTagList } from '../../../api/hostInventoryApiTyped';
+
+const emptyFilters = defaultValuesFrom(inventoryFilterSpecs);
 
 const defaultApiTags = {
   results: [{ tag: TAGS_100[0] }],
@@ -49,6 +50,7 @@ function renderWithFilters(ui, options) {
         <DataViewFiltersContext.Provider
           value={{
             filters,
+            resolvedFilters: [],
             onSetFilters,
             clearAllFilters,
             lastSeenCustomRange,
@@ -71,7 +73,7 @@ describe('AllTagsModal', () => {
 
   it('does not request tags when modal is closed', async () => {
     renderWithFilters(<AllTagsModal isOpen={false} onClose={jest.fn()} />, {
-      filters: { ...INITIAL_INVENTORY_FILTERS },
+      filters: { ...emptyFilters },
     });
     await waitFor(() => {
       expect(getTagList).not.toHaveBeenCalled();
@@ -80,7 +82,7 @@ describe('AllTagsModal', () => {
 
   it('requests tags when modal is open', async () => {
     renderWithFilters(<AllTagsModal isOpen onClose={jest.fn()} />, {
-      filters: { ...INITIAL_INVENTORY_FILTERS },
+      filters: { ...emptyFilters },
     });
     await waitFor(() => {
       expect(getTagList).toHaveBeenCalled();
@@ -89,7 +91,7 @@ describe('AllTagsModal', () => {
 
   it('renders inventory title and server-driven modal body flag', () => {
     renderWithFilters(<AllTagsModal isOpen onClose={jest.fn()} />, {
-      filters: { ...INITIAL_INVENTORY_FILTERS },
+      filters: { ...emptyFilters },
     });
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
       /All tags in inventory/,
@@ -102,7 +104,7 @@ describe('AllTagsModal', () => {
 
   it('renders tag rows from API after query settles', async () => {
     renderWithFilters(<AllTagsModal isOpen onClose={jest.fn()} />, {
-      filters: { ...INITIAL_INVENTORY_FILTERS },
+      filters: { ...emptyFilters },
     });
     await waitFor(() => {
       expect(screen.getByRole('cell', { name: 'key-0' })).toBeInTheDocument();
@@ -115,7 +117,7 @@ describe('AllTagsModal', () => {
 
   it('disables Apply when selection matches initial filter tags', async () => {
     const filters = {
-      ...INITIAL_INVENTORY_FILTERS,
+      ...emptyFilters,
       tags: [FIRST_TAG_FILTER_TOKEN],
     };
     renderWithFilters(<AllTagsModal isOpen onClose={jest.fn()} />, {
@@ -132,7 +134,7 @@ describe('AllTagsModal', () => {
     const onSetFilters = jest.fn();
     const onClose = jest.fn();
     const filters = {
-      ...INITIAL_INVENTORY_FILTERS,
+      ...emptyFilters,
       tags: [],
     };
     renderWithFilters(<AllTagsModal isOpen onClose={onClose} />, {

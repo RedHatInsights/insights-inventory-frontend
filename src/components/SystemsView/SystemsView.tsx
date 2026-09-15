@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import {
   keepPreviousData,
   useQuery,
@@ -15,6 +15,9 @@ import {
   Button,
   PageSection,
   Pagination,
+  Toolbar,
+  ToolbarContent,
+  ToolbarGroup,
   ToolbarItem,
 } from '@patternfly/react-core';
 import { DataViewToolbar } from '@patternfly/react-data-view/dist/dynamic/DataViewToolbar';
@@ -23,10 +26,7 @@ import { useHostIdsWithKessel } from '../../Utilities/hooks/useHostIdsWithKessel
 import { ErrorState } from '@redhat-cloud-services/frontend-components/ErrorState';
 import SkeletonTable from '@patternfly/react-component-groups/dist/dynamic/SkeletonTable';
 import NoEntitiesFound from '../InventoryTable/NoEntitiesFound';
-import {
-  InventoryFilters,
-  SystemsViewFilters,
-} from './filters/SystemsViewFilters';
+import { SystemsViewFilters } from './filters/SystemsViewFilters';
 import { INITIAL_SORT, useColumns } from './hooks/useColumns';
 import { SetURLSearchParams, useSearchParams } from 'react-router-dom';
 import { SystemActionModalsProvider } from './SystemActionModalsContext';
@@ -43,11 +43,10 @@ import {
   DataViewFiltersProvider,
   useDataViewFiltersContext,
 } from './DataViewFiltersContext';
-import { useDebouncedValue } from '../../Utilities/hooks/useDebouncedValue';
 import { useResetPage } from './hooks/useResetPage';
 import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
 import { PER_PAGE } from '../../constants';
-import { DEBOUNCE_TIMEOUT_MS } from '../../constants';
+import { useDebouncedFilters } from './filters/useDebouncedFilters';
 import { normalizeLegacySortSearchParams } from './utils/normalizeLegacySortSearchParams';
 import {
   EMPTY_SERVICES,
@@ -58,6 +57,7 @@ import useInventoryViewsFeatureFlag from '../../Utilities/useInventoryViewsFeatu
 import type { Column } from './columns/types';
 import type { System } from '../InventoryViews/hostsQueryOptions';
 import type {
+  LastSeenCustomRange,
   SortDirection,
   SystemsViewFetchParams,
   SystemsViewItem,
@@ -68,13 +68,22 @@ import {
   resolveColumnSelector,
   type ColumnSelector,
 } from './columns/resolveColumnSelector';
+import {
+  resolveFilterSelector,
+  type FilterSelector,
+} from './filters/resolveFilterSelector';
+import { buildFilterParams } from './filters/buildFilterParams';
+import { hasActiveFilterChips } from './filters/defaultValuesFrom';
+import type { BoundFilter } from './filters/types';
 import useInventoryViewsColumnsRbacFeatureFlag from '../../Utilities/useInventoryViewsColumnsRbacFeatureFlag';
-import { Resolve } from '../../types/utility-types';
 
 export type { SortDirection } from './types';
 export type { SystemsViewItem, SystemsViewQueryData } from './types';
-export type SystemsViewFetchData<TItem extends SystemsViewItem> = (
-  params: SystemsViewFetchParams<InventoryFilters>,
+export type SystemsViewFetchData<
+  TItem extends SystemsViewItem,
+  TFilterParams = unknown,
+> = (
+  params: SystemsViewFetchParams<TFilterParams>,
 ) => Promise<SystemsViewQueryData<TItem>>;
 export type OnSort = (
   _event: React.MouseEvent | React.KeyboardEvent | MouseEvent | undefined,
@@ -83,7 +92,10 @@ export type OnSort = (
 ) => void;
 export type Pagination = ReturnType<typeof useDataViewPagination>;
 
-export type SystemsViewProps<TItem extends SystemsViewItem> = {
+export type SystemsViewProps<
+  TItem extends SystemsViewItem,
+  TFilterParams = unknown,
+> = {
   /**
    * Unique & stable queryKey prefix (`'hosts'`, `'inventory-views'`). SystemsView keys the
    * inner query as `[queryKeyPrefix, fetchParams]` and invalidates by this prefix after mutations.
@@ -93,41 +105,77 @@ export type SystemsViewProps<TItem extends SystemsViewItem> = {
    * Fetches the data for table. Receives table state for pagination, sorting, and
    * filtering, and should use those values to fetch from backend.
    */
-  fetchData: SystemsViewFetchData<TItem>;
+  fetchData: SystemsViewFetchData<TItem, TFilterParams>;
   /**
    * Selects view's columns from the shared catalog. The returned bound columns are
    * what SystemsView uses. For optimal performance use a stable reference, not an
    * inline definition.
    */
   columns?: ColumnSelector<TItem>;
-  defaultFilters?: Partial<InventoryFilters>;
+  /**
+   * Selects view's filters from the shared catalog. The returned bound filters are
+   * what SystemsView uses. For optimal performance use a stable reference, not an
+   * inline definition.
+   */
+  filters?: FilterSelector<TFilterParams>;
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
-  initialFilters?: Partial<InventoryFilters>;
+  initialLastSeenCustomRange?: LastSeenCustomRange;
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
+  onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
 };
 
-interface SystemsViewInnerProps<TItem extends SystemsViewItem> {
+interface SystemsViewInnerProps<TItem extends SystemsViewItem, TFilterParams> {
   searchParams: URLSearchParams;
   setSearchParams: SetURLSearchParams;
   queryKeyPrefix: string;
-  fetchData: SystemsViewFetchData<TItem>;
+  fetchData: SystemsViewFetchData<TItem, TFilterParams>;
   resolvedDefaultColumns: readonly Column<TItem>[];
+  resolvedFilters: readonly BoundFilter<TFilterParams>[];
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
+  onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
 }
 
-function SystemsViewInner<TItem extends SystemsViewItem>({
+function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
   searchParams,
   setSearchParams,
   queryKeyPrefix,
   fetchData,
   resolvedDefaultColumns,
+  resolvedFilters,
   initialSort,
   onColumnsChange,
-}: SystemsViewInnerProps<TItem>) {
+  onLastSeenCustomRangeChange,
+}: SystemsViewInnerProps<TItem, TFilterParams>) {
   const queryClient = useQueryClient();
-  const { filters, clearAllFilters, hasDefaultFilters, lastSeenCustomRange } =
-    useDataViewFiltersContext();
+  const {
+    filters,
+    clearAllFilters,
+    filtersDifferFromDefaults,
+    lastSeenCustomRange,
+  } = useDataViewFiltersContext();
+
+  const hasFilterChips = useMemo(
+    () => hasActiveFilterChips(filters, resolvedFilters),
+    [filters, resolvedFilters],
+  );
+
+  const resetFiltersButton = filtersDifferFromDefaults ? (
+    <ToolbarItem>
+      <Button
+        ouiaId="systems-view-header-reset-filters"
+        variant="link"
+        onClick={clearAllFilters}
+        isInline
+      >
+        Reset filters
+      </Button>
+    </ToolbarItem>
+  ) : null;
+
+  useEffect(() => {
+    onLastSeenCustomRangeChange?.(lastSeenCustomRange);
+  }, [lastSeenCustomRange, onLastSeenCustomRangeChange]);
 
   const pagination = useDataViewPagination({
     perPage: PER_PAGE,
@@ -139,16 +187,14 @@ function SystemsViewInner<TItem extends SystemsViewItem>({
 
   useResetPage(filters, setSearchParams, lastSeenCustomRange);
 
-  const debouncedName = useDebouncedValue(
-    filters.hostname_or_id,
-    DEBOUNCE_TIMEOUT_MS,
-  );
-  const queryFilters: InventoryFilters = useMemo(
-    () => ({
-      ...filters,
-      hostname_or_id: debouncedName,
-    }),
-    [filters, debouncedName],
+  const debouncedFilters = useDebouncedFilters(filters, resolvedFilters);
+
+  const filterParams = useMemo(
+    () =>
+      buildFilterParams(resolvedFilters, debouncedFilters, {
+        lastSeenCustomRange,
+      }),
+    [resolvedFilters, debouncedFilters, lastSeenCustomRange],
   );
 
   const selection = useDataViewSelection<SystemsViewTableRow<TItem>>({
@@ -179,22 +225,14 @@ function SystemsViewInner<TItem extends SystemsViewItem>({
   const { direction, onSort } = sort;
 
   const fetchParams = useMemo(
-    (): SystemsViewFetchParams<InventoryFilters> => ({
+    (): SystemsViewFetchParams<TFilterParams> => ({
       page: pagination.page,
       perPage: pagination.perPage,
-      filters: queryFilters,
       sortBy,
       direction,
-      lastSeenCustomRange,
+      filterParams,
     }),
-    [
-      pagination.page,
-      pagination.perPage,
-      queryFilters,
-      sortBy,
-      direction,
-      lastSeenCustomRange,
-    ],
+    [pagination.page, pagination.perPage, sortBy, direction, filterParams],
   );
 
   const { data, isLoading, isFetching, isError } = useQuery({
@@ -319,21 +357,17 @@ function SystemsViewInner<TItem extends SystemsViewItem>({
         <DataView selection={selection} activeState={activeState}>
           <PageSection hasBodyWrapper={false}>
             <DataViewToolbar
+              className={
+                !hasFilterChips && filtersDifferFromDefaults
+                  ? 'ins-c-systems-view-toolbar ins-c-systems-view-toolbar--with-reset-row'
+                  : 'ins-c-systems-view-toolbar'
+              }
               ouiaId="systems-view-header"
               clearAllFilters={clearAllFilters}
               customLabelGroupContent={
-                hasDefaultFilters ? (
-                  <ToolbarItem>
-                    <Button
-                      ouiaId="systems-view-header-reset-filters"
-                      variant="link"
-                      onClick={clearAllFilters}
-                      isInline
-                    >
-                      Reset filters
-                    </Button>
-                  </ToolbarItem>
-                ) : undefined
+                // Always pass a node so DataViewToolbar does not fall back to
+                // "Clear filters", which would no-op at spec defaults.
+                <>{hasFilterChips ? resetFiltersButton : null}</>
               }
               bulkSelect={
                 <BulkSelect
@@ -346,7 +380,9 @@ function SystemsViewInner<TItem extends SystemsViewItem>({
                   onSelect={onBulkSelect}
                 />
               }
-              filters={<SystemsViewFilters />}
+              filters={
+                resolvedFilters.length > 0 ? <SystemsViewFilters /> : undefined
+              }
               actions={
                 <SystemsViewBulkActions
                   // FIXME remove type casting
@@ -358,6 +394,19 @@ function SystemsViewInner<TItem extends SystemsViewItem>({
                 <Pagination isCompact itemCount={total} {...pagination} />
               }
             />
+            {/* PF hides the chip row at 0 chips; this row matches that chip-row layout. */}
+            {!hasFilterChips && resetFiltersButton ? (
+              <Toolbar
+                className="ins-c-systems-view-reset-filters-row"
+                ouiaId="systems-view-header-reset-row"
+              >
+                <ToolbarContent>
+                  <ToolbarGroup variant="action-group-inline">
+                    {resetFiltersButton}
+                  </ToolbarGroup>
+                </ToolbarContent>
+              </Toolbar>
+            ) : null}
             {isInventoryViewsEnabled ? (
               <InnerScrollContainer className="ins-c-systems-view-table-scroll">
                 {systemsTable}
@@ -376,27 +425,35 @@ function SystemsViewInner<TItem extends SystemsViewItem>({
   );
 }
 
-export function SystemsView<TItem extends SystemsViewItem>({
+export function SystemsView<
+  TItem extends SystemsViewItem,
+  TFilterParams = unknown,
+>({
   queryKeyPrefix,
   fetchData,
   columns,
-  defaultFilters,
+  filters,
   initialSort,
-  initialFilters,
+  initialLastSeenCustomRange,
   onColumnsChange,
-}: SystemsViewProps<TItem>) {
+  onLastSeenCustomRangeChange,
+}: SystemsViewProps<TItem, TFilterParams>) {
   const [searchParams, setSearchParams] = useSearchParams();
   const resolvedDefaultColumns = useMemo(
     () => resolveColumnSelector(columns),
     [columns],
+  );
+  const resolvedFilters = useMemo(
+    () => resolveFilterSelector(filters),
+    [filters],
   );
 
   return (
     <DataViewFiltersProvider
       searchParams={searchParams}
       setSearchParams={setSearchParams}
-      defaultFilters={defaultFilters}
-      initialFilters={initialFilters}
+      resolvedFilters={resolvedFilters}
+      initialLastSeenCustomRange={initialLastSeenCustomRange}
     >
       <SystemsViewInner
         searchParams={searchParams}
@@ -404,8 +461,10 @@ export function SystemsView<TItem extends SystemsViewItem>({
         queryKeyPrefix={queryKeyPrefix}
         fetchData={fetchData}
         resolvedDefaultColumns={resolvedDefaultColumns}
+        resolvedFilters={resolvedFilters}
         initialSort={initialSort}
         onColumnsChange={onColumnsChange}
+        onLastSeenCustomRangeChange={onLastSeenCustomRangeChange}
       />
     </DataViewFiltersProvider>
   );

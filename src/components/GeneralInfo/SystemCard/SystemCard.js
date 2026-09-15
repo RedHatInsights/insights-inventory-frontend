@@ -117,6 +117,7 @@ const SystemCard = ({
                 handleClick={handleClick}
                 workloadsData={workloadsData}
                 workloadsTypes={workloadsTypes}
+                entity={entity}
               />
             ),
           },
