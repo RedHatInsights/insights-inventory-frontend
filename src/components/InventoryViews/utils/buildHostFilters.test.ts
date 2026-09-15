@@ -1,17 +1,7 @@
 import { expect } from '@jest/globals';
-import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import { buildHostFilters } from './buildHostFilters';
 
-const EMPTY_FILTERS: Pick<
-  InventoryFilters,
-  | 'hostname_or_id'
-  | 'status'
-  | 'source'
-  | 'tags'
-  | 'group_id'
-  | 'system_type'
-  | 'last_seen'
-> = {
+const EMPTY_FILTERS = {
   hostname_or_id: '',
   status: [],
   source: [],

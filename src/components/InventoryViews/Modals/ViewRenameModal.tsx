@@ -3,9 +3,6 @@ import {
   Button,
   Form,
   FormGroup,
-  FormHelperText,
-  HelperText,
-  HelperTextItem,
   Modal,
   ModalBody,
   ModalFooter,
@@ -15,6 +12,7 @@ import {
 import type { ViewOut } from '../../../api/inventoryViewsApi';
 import { useUpdateViewMutation } from '../hooks/useUpdateViewMutation';
 import { validateViewName } from '../hooks/useViewNameValidation';
+import { ValidationErrorText } from './ValidationErrorText';
 
 export interface ViewRenameModalProps {
   isOpen: boolean;
@@ -36,7 +34,7 @@ const ViewRenameModal = ({
   const [viewName, setViewName] = useState(currentName);
   const updateView = useUpdateViewMutation();
   const trimmedName = viewName.trim();
-  const { isDuplicate, validated } = validateViewName(viewsList, trimmedName, {
+  const validation = validateViewName(viewsList, trimmedName, {
     excludeViewId: viewId,
   });
 
@@ -46,7 +44,7 @@ const ViewRenameModal = ({
 
   const isLoading = updateView.isPending;
   const isUnchanged = trimmedName === currentName.trim();
-  const canSave = !!trimmedName && !isDuplicate && !isLoading && !isUnchanged;
+  const canSave = validation.isValid && !isLoading && !isUnchanged;
 
   const handleSave = () => {
     if (!canSave) {
@@ -92,18 +90,10 @@ const ViewRenameModal = ({
               value={viewName}
               onChange={(_event, value) => setViewName(value)}
               isDisabled={isLoading}
-              validated={validated}
+              validated={validation.validated}
               autoFocus
             />
-            {isDuplicate && (
-              <FormHelperText>
-                <HelperText>
-                  <HelperTextItem variant="error">
-                    A view with this name already exists.
-                  </HelperTextItem>
-                </HelperText>
-              </FormHelperText>
-            )}
+            <ValidationErrorText error={validation.error} />
           </FormGroup>
         </Form>
       </ModalBody>

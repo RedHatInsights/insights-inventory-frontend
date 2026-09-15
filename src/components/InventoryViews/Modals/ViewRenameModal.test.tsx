@@ -27,13 +27,44 @@ jest.mock(
   }),
 );
 
-let mockValidation: { isDuplicate: boolean; validated: 'default' | 'error' } = {
-  isDuplicate: false,
-  validated: 'default',
+let mockValidation: {
+  isValid: boolean;
+  validated: 'default' | 'error' | 'success';
+  error:
+    | 'INVALID_CHARACTERS'
+    | 'NO_ALPHANUMERIC'
+    | 'TOO_LONG'
+    | 'DUPLICATE'
+    | null;
+} = {
+  isValid: true,
+  validated: 'success',
+  error: null,
 };
 
 jest.mock('../hooks/useViewNameValidation', () => ({
   validateViewName: () => mockValidation,
+  VIEW_NAME_VALIDATION_ERRORS: {
+    INVALID_CHARACTERS:
+      'View name must contain only letters, numbers, spaces, hyphens, underscores, periods, and apostrophes.',
+    NO_ALPHANUMERIC: 'View name must contain at least one letter or number.',
+    TOO_LONG: 'View name must be 255 characters or less.',
+    DUPLICATE: 'A view with this name already exists.',
+  },
+}));
+
+jest.mock('./ValidationErrorText', () => ({
+  ValidationErrorText: ({ error }: { error: string | null }) => {
+    if (!error) return null;
+    const messages = {
+      INVALID_CHARACTERS:
+        'View name must contain only letters, numbers, spaces, hyphens, underscores, periods, and apostrophes.',
+      NO_ALPHANUMERIC: 'View name must contain at least one letter or number.',
+      TOO_LONG: 'View name must be 255 characters or less.',
+      DUPLICATE: 'A view with this name already exists.',
+    };
+    return <div>{messages[error as keyof typeof messages]}</div>;
+  },
 }));
 
 const createTestQueryClient = () =>
@@ -65,7 +96,11 @@ function renderRenameModal(props = {}) {
 
 describe('ViewRenameModal', () => {
   beforeEach(() => {
-    mockValidation = { isDuplicate: false, validated: 'default' as const };
+    mockValidation = {
+      isValid: true,
+      validated: 'success' as const,
+      error: null,
+    };
   });
 
   it('should render the modal when open', () => {
@@ -109,7 +144,11 @@ describe('ViewRenameModal', () => {
   });
 
   it('should disable Save and show error when name is a duplicate', async () => {
-    mockValidation = { isDuplicate: true, validated: 'error' as const };
+    mockValidation = {
+      isValid: false,
+      validated: 'error' as const,
+      error: 'DUPLICATE',
+    };
 
     const user = userEvent.setup();
     renderRenameModal({ currentName: 'My View' });
@@ -125,7 +164,11 @@ describe('ViewRenameModal', () => {
   });
 
   it('should not call mutate when name is a duplicate', async () => {
-    mockValidation = { isDuplicate: true, validated: 'error' as const };
+    mockValidation = {
+      isValid: false,
+      validated: 'error' as const,
+      error: 'DUPLICATE',
+    };
 
     const user = userEvent.setup();
     const onSuccess = jest.fn();
