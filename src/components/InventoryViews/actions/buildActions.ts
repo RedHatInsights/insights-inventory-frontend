@@ -9,7 +9,8 @@ import { isKesselMoveSystemRowDisabled } from '../../InventoryTable/helpers';
 import { hasWorkspace } from '../../SystemsView/utils/systemHelpers';
 import type {
   ActionSpec,
-  SystemsViewRowAction,
+  BulkAction,
+  RowAction,
 } from '../../SystemsView/actions/types';
 import { ACTION_IDS, type ActionItem } from './types';
 
@@ -37,7 +38,7 @@ export const buildBulkActions = <TItem extends ActionItem>({
   hasGroupsWrite,
   hasHostsWrite,
   callbacks,
-}: BuildHostActionsParams<TItem>): ActionSpec<TItem>[] => {
+}: BuildHostActionsParams<TItem>): BulkAction<TItem>[] => {
   if (isKesselEnabled) {
     return [
       {
@@ -96,7 +97,7 @@ export const buildRowActions = <TItem extends ActionItem>({
   hasGroupsWrite,
   hasHostsWrite,
   callbacks,
-}: BuildHostActionsParams<TItem>): SystemsViewRowAction<TItem>[] => {
+}: BuildHostActionsParams<TItem>): RowAction<TItem>[] => {
   if (isKesselEnabled) {
     return [
       {

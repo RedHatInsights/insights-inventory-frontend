@@ -7,7 +7,7 @@ import { DEFAULT_NAME_COLUMN_MIN_WIDTH } from './columnMinWidths';
 import { mapSystemsToRows } from './mapSystemsToRows';
 import { STICKY_ACTIONS_BODY_PROPS } from './stickyActionsColumn';
 import { getStickyNameBodyProps } from './stickyNameColumn';
-import type { ActionHelpers, SystemsViewRowAction } from '../actions/types';
+import type { ActionHelpers, RowAction } from '../actions/types';
 
 jest.mock('../SystemsViewRowActions', () => ({
   __esModule: true,
@@ -26,7 +26,7 @@ const noopActionHelpers: ActionHelpers = {
   clearSelection: jest.fn(),
 };
 
-const dummyRowActions: readonly SystemsViewRowAction<System>[] = [
+const dummyRowActions: readonly RowAction<System>[] = [
   {
     id: 'delete',
     label: 'Delete',
@@ -55,7 +55,7 @@ function mapRows({
   Parameters<typeof mapSystemsToRows<System>>[0],
   'actionHelpers' | 'rowActions'
 > & {
-  rowActions?: readonly SystemsViewRowAction<System>[];
+  rowActions?: readonly RowAction<System>[];
 }) {
   return mapSystemsToRows({
     actionHelpers: noopActionHelpers,

@@ -4,11 +4,7 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { expect, jest } from '@jest/globals';
 import SystemsViewRowActions from './SystemsViewRowActions';
-import type {
-  ActionHelpers,
-  ActionSpec,
-  SystemsViewRowAction,
-} from './actions/types';
+import type { ActionHelpers, ActionSpec, RowAction } from './actions/types';
 import type { SystemsViewItem } from './types';
 
 const system: SystemsViewItem = { id: 'host-1' };
@@ -28,9 +24,7 @@ function createAction(
   };
 }
 
-function renderRowActions(
-  rowActions: readonly SystemsViewRowAction<SystemsViewItem>[],
-) {
+function renderRowActions(rowActions: readonly RowAction<SystemsViewItem>[]) {
   return render(
     <SystemsViewRowActions
       system={system}

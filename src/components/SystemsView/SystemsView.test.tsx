@@ -9,11 +9,7 @@ import {
   type SystemsViewFetchData,
   type SystemsViewQueryData,
 } from './SystemsView';
-import type {
-  ActionHelpers,
-  ActionSpec,
-  SystemsViewRowAction,
-} from './actions/types';
+import type { ActionHelpers, ActionSpec, RowAction } from './actions/types';
 import type { ColumnSelector } from './columns/resolveColumnSelector';
 import type { FilterSelector } from './filters/resolveFilterSelector';
 import { bindInventoryViewColumns } from './columns/inventoryViewColumns';
@@ -91,7 +87,7 @@ const renderSystemsView = <TFilterParams = unknown,>(
     filters?: FilterSelector<TFilterParams>;
     initialRoute?: string;
     bulkActions?: readonly ActionSpec<System>[];
-    rowActions?: readonly SystemsViewRowAction<System>[];
+    rowActions?: readonly RowAction<System>[];
   },
 ) =>
   render(

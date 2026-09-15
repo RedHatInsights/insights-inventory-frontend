@@ -2,9 +2,10 @@ export { default } from './SystemsView';
 export type {
   ActionHelpers,
   ActionSpec,
+  BulkAction,
   SystemsViewFetchData,
   SystemsViewProps,
-  SystemsViewRowAction,
+  RowAction,
 } from './SystemsView';
 export type {
   SystemsViewFetchParams,

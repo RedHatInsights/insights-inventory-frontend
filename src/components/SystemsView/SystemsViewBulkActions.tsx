@@ -6,13 +6,13 @@ import {
 import { SystemsViewExport } from './SystemsViewExport';
 import { useColumnManagementModalContext } from './ColumnManagementModalContext';
 import useInventoryViewsFeatureFlag from '../../Utilities/useInventoryViewsFeatureFlag';
-import type { ActionHelpers, ActionSpec } from './actions/types';
+import type { ActionHelpers, BulkAction } from './actions/types';
 import type { SystemsViewActiveState } from './utils/deriveActiveState';
 
 interface SystemsViewBulkActionsProps<TItem> {
   selectedSystems: TItem[];
   activeState: SystemsViewActiveState;
-  bulkActions: readonly ActionSpec<TItem>[];
+  bulkActions: readonly BulkAction<TItem>[];
   actionHelpers: ActionHelpers;
 }
 

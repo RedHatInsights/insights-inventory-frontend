@@ -3,12 +3,12 @@ import React from 'react';
 import {
   isRowActionSeparator,
   type ActionHelpers,
-  type SystemsViewRowAction,
+  type RowAction,
 } from './actions/types';
 
 interface SystemsViewRowActionsProps<TItem> {
   system: TItem;
-  rowActions: readonly SystemsViewRowAction<TItem>[];
+  rowActions: readonly RowAction<TItem>[];
   actionHelpers: ActionHelpers;
 }
 

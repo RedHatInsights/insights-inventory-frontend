@@ -9,7 +9,7 @@ import { STICKY_ACTIONS_BODY_PROPS } from './stickyActionsColumn';
 import { getStickyNameBodyProps } from './stickyNameColumn';
 import type { Column } from '../columns/types';
 import type { SystemsViewItem } from '../types';
-import type { ActionHelpers, SystemsViewRowAction } from '../actions/types';
+import type { ActionHelpers, RowAction } from '../actions/types';
 
 /** DataViewTrObject Extension, `meta` points to associated system objects. */
 export type SystemsViewTableRow<TItem extends SystemsViewItem> =
@@ -24,7 +24,7 @@ interface MapSystemsToRowsParams<TItem extends SystemsViewItem> {
    * When true (inventory views feature): sticky Name/actions cells and column min-widths.
    */
   isInventoryViewsEnabled: boolean;
-  rowActions: readonly SystemsViewRowAction<TItem>[];
+  rowActions: readonly RowAction<TItem>[];
   actionHelpers: ActionHelpers;
 }
 

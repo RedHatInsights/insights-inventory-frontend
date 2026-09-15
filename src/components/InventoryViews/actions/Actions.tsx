@@ -13,8 +13,8 @@ import type { SystemForWorkspace } from '../../InventoryTable/MoveSystemsToWorks
 import TextInputModal from '../../GeneralInfo/TextInputModal/TextInputModal';
 import type {
   ActionHelpers,
-  ActionSpec,
-  SystemsViewRowAction,
+  BulkAction,
+  RowAction,
 } from '../../SystemsView/actions/types';
 import { useDeleteSystemsMutation } from '../../SystemsView/hooks/useDeleteSystemsMutation';
 import { usePatchSystemsMutation } from '../../SystemsView/hooks/usePatchSystemsMutation';
@@ -23,8 +23,8 @@ import { buildBulkActions, buildRowActions } from './buildActions';
 import type { ActionItem } from './types';
 
 export type ActionsRenderProps<TItem extends ActionItem> = {
-  bulkActions: readonly ActionSpec<TItem>[];
-  rowActions: readonly SystemsViewRowAction<TItem>[];
+  bulkActions: readonly BulkAction<TItem>[];
+  rowActions: readonly RowAction<TItem>[];
 };
 
 export type ActionsProps<TItem extends ActionItem> = {

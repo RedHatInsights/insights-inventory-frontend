@@ -25,17 +25,17 @@ export type ActionSpec<TItem = unknown> = {
   onAction: (items: TItem[], actionHelpers: ActionHelpers) => void;
 };
 
-export type SystemsViewRowActionSeparator = {
+export type ActionSeparator = {
   id: string;
   isSeparator: true;
 };
 
-export type SystemsViewRowAction<TItem = unknown> =
-  | ActionSpec<TItem>
-  | SystemsViewRowActionSeparator;
+export type BulkAction<TItem = unknown> = ActionSpec<TItem>;
+
+export type RowAction<TItem = unknown> = ActionSpec<TItem> | ActionSeparator;
 
 export function isRowActionSeparator<TItem>(
-  action: SystemsViewRowAction<TItem>,
-): action is SystemsViewRowActionSeparator {
+  action: RowAction<TItem>,
+): action is ActionSeparator {
   return 'isSeparator' in action && action.isSeparator;
 }

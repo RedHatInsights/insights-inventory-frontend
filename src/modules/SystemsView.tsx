@@ -9,8 +9,8 @@ import {
 import type { ColumnSelector } from '../components/SystemsView/columns/resolveColumnSelector';
 import type { FilterSelector } from '../components/SystemsView/filters/resolveFilterSelector';
 import type {
-  ActionSpec,
-  SystemsViewRowAction,
+  BulkAction,
+  RowAction,
 } from '../components/SystemsView/actions/types';
 import type { SystemsViewItem } from '../components/SystemsView/types';
 import { useKesselMigrationFeatureFlag } from '../Utilities/hooks/useKesselMigrationFeatureFlag';
@@ -36,7 +36,8 @@ export type {
 export type {
   ActionHelpers,
   ActionSpec,
-  SystemsViewRowAction,
+  BulkAction,
+  RowAction,
 } from '../components/SystemsView/actions/types';
 
 /**
@@ -74,11 +75,11 @@ export type SystemsViewProps<
   /**
    * Toolbar bulk actions. Use a stable reference, not an inline array.
    */
-  bulkActions?: readonly ActionSpec<TItem>[];
+  bulkActions?: readonly BulkAction<TItem>[];
   /**
    * Per-row kebab actions. Use a stable reference, not an inline array.
    */
-  rowActions?: readonly SystemsViewRowAction<TItem>[];
+  rowActions?: readonly RowAction<TItem>[];
 };
 
 function SystemsView<TItem extends SystemsViewItem, TFilterParams = unknown>({
