@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
-import DateRangePicker from '../../filters/components/DateRangePicker';
+import DateRangePicker from '../../../../filters/components/DateRangePicker';
 import moment from 'moment';
-import { useDataViewFiltersContext } from '../DataViewFiltersContext';
+import { useDataViewFiltersContext } from '../../../DataViewFiltersContext';
 
 export const LastSeenFilterExtension: FC = () => {
   const { filters, lastSeenCustomRange, setLastSeenCustomRange } =

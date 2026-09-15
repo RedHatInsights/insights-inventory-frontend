@@ -1,12 +1,18 @@
 import { expect } from '@jest/globals';
 import moment from 'moment';
-import type { InventoryFilters } from '../../SystemsView/filters/SystemsViewFilters';
 import type { ViewConfiguration } from '../../../api/inventoryViewsApi';
+import {
+  hostnameSpec,
+  inventoryFilterSpecs,
+  statusSpec,
+  tagsSpec,
+} from '../../SystemsView/filters/inventory/filterDefinitions';
 import {
   isSortDirty,
   areFiltersDirty,
   areColumnsDirty,
   isLastSeenCustomRangeDirty,
+  FILTER_PARAM_KEYS,
 } from './useViewDirtyState';
 
 const makeParams = (entries: Record<string, string | string[]> = {}) => {
@@ -80,17 +86,17 @@ describe('areFiltersDirty', () => {
     expect(areFiltersDirty(params, undefined)).toBe(true);
   });
 
-  it('returns false when URL filters match initial filters', () => {
+  it('returns false when URL filters match defaultValues', () => {
     const params = makeParams({ operating_system: ['RHEL9.6'] });
-    const initial: Partial<InventoryFilters> = {
+    const defaults = {
       operating_system: ['RHEL9.6'],
     };
-    expect(areFiltersDirty(params, initial)).toBe(false);
+    expect(areFiltersDirty(params, defaults)).toBe(false);
   });
 
   it('returns true when URL filter value differs from initial', () => {
     const params = makeParams({ operating_system: ['RHEL8.4'] });
-    const initial: Partial<InventoryFilters> = {
+    const initial = {
       operating_system: ['RHEL9.6'],
     };
     expect(areFiltersDirty(params, initial)).toBe(true);
@@ -98,7 +104,7 @@ describe('areFiltersDirty', () => {
 
   it('returns true when URL has additional filter values', () => {
     const params = makeParams({ operating_system: ['RHEL9.6', 'RHEL8.4'] });
-    const initial: Partial<InventoryFilters> = {
+    const initial = {
       operating_system: ['RHEL9.6'],
     };
     expect(areFiltersDirty(params, initial)).toBe(true);
@@ -106,7 +112,7 @@ describe('areFiltersDirty', () => {
 
   it('returns true when initial filter is removed from URL', () => {
     const params = makeParams();
-    const initial: Partial<InventoryFilters> = {
+    const initial = {
       operating_system: ['RHEL9.6'],
     };
     expect(areFiltersDirty(params, initial)).toBe(true);
@@ -117,7 +123,7 @@ describe('areFiltersDirty', () => {
       operating_system: ['RHEL9.6'],
       tags: ['env=prod'],
     });
-    const initial: Partial<InventoryFilters> = {
+    const initial = {
       operating_system: ['RHEL9.6'],
       tags: ['env=prod'],
     };
@@ -126,7 +132,7 @@ describe('areFiltersDirty', () => {
 
   it('ignores order of multi-value filters', () => {
     const params = makeParams({ tags: ['b', 'a'] });
-    const initial: Partial<InventoryFilters> = { tags: ['a', 'b'] };
+    const initial = { tags: ['a', 'b'] };
     expect(areFiltersDirty(params, initial)).toBe(false);
   });
 
@@ -149,14 +155,76 @@ describe('areFiltersDirty', () => {
 
   it('is dirty when a boundless custom replaces a saved preset last_seen', () => {
     const params = makeParams({ last_seen: 'custom' });
-    const initial: Partial<InventoryFilters> = { last_seen: 'last24' };
+    const initial = { last_seen: 'last24' };
     expect(areFiltersDirty(params, initial)).toBe(true);
   });
 
   it('is not dirty for a non-custom last_seen that matches the saved value', () => {
     const params = makeParams({ last_seen: 'last24' });
-    const initial: Partial<InventoryFilters> = { last_seen: 'last24' };
+    const initial = { last_seen: 'last24' };
     expect(areFiltersDirty(params, initial)).toBe(false);
+  });
+
+  it('is not dirty when URL matches a stamped ansible defaultValue', () => {
+    const params = makeParams({ workloads: ['ansible'] });
+    expect(areFiltersDirty(params, { workloads: ['ansible'] })).toBe(false);
+  });
+
+  it('is dirty when URL drops a stamped ansible defaultValue', () => {
+    expect(areFiltersDirty(makeParams(), { workloads: ['ansible'] })).toBe(
+      true,
+    );
+  });
+
+  it('uses FILTER_PARAM_KEYS from the inventory spec list', () => {
+    expect(FILTER_PARAM_KEYS).toEqual(
+      inventoryFilterSpecs.map((spec) => spec.filterId),
+    );
+  });
+
+  it('ignores a URL key when that spec is not in the list', () => {
+    const params = makeParams({
+      hostname_or_id: 'foo',
+      tags: ['env=prod'],
+    });
+    const keysWithoutTags = [hostnameSpec, statusSpec].map(
+      (spec) => spec.filterId,
+    );
+
+    expect(
+      areFiltersDirty(
+        params,
+        { hostname_or_id: 'foo' },
+        undefined,
+        keysWithoutTags,
+      ),
+    ).toBe(false);
+  });
+
+  it('treats a URL key as dirty once that spec is added', () => {
+    const params = makeParams({ tags: ['env=prod'] });
+    const withoutTags = [hostnameSpec, statusSpec].map((spec) => spec.filterId);
+    const withTags = [hostnameSpec, statusSpec, tagsSpec].map(
+      (spec) => spec.filterId,
+    );
+
+    expect(areFiltersDirty(params, undefined, undefined, withoutTags)).toBe(
+      false,
+    );
+    expect(areFiltersDirty(params, undefined, undefined, withTags)).toBe(true);
+  });
+
+  it('drops a URL key from dirty detection when that spec is removed', () => {
+    const params = makeParams({ status: ['fresh'] });
+    const withStatus = [hostnameSpec, statusSpec].map((spec) => spec.filterId);
+    const withoutStatus = [hostnameSpec].map((spec) => spec.filterId);
+
+    expect(areFiltersDirty(params, undefined, undefined, withStatus)).toBe(
+      true,
+    );
+    expect(areFiltersDirty(params, undefined, undefined, withoutStatus)).toBe(
+      false,
+    );
   });
 });
 

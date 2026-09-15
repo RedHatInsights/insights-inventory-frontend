@@ -7,33 +7,30 @@ import React, {
   useState,
 } from 'react';
 import { useDataViewFilters } from '@patternfly/react-data-view';
-import type { InventoryFilters } from './filters/SystemsViewFilters';
-import { normalizeLastSeenFilterValue } from './constants';
+import type { FilterSpec } from './filters/types';
+import {
+  defaultValuesFrom,
+  filtersDifferFromDefaults as specFiltersDiffer,
+  isEmptyFilterValue,
+} from './filters/defaultValuesFrom';
+import {
+  normalizeLastSeenFilterValue,
+  SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM,
+} from './constants';
 import { useConditionalRBAC } from '../../Utilities/hooks/useConditionalRBAC';
 import { GENERAL_GROUPS_READ_PERMISSION } from '../../constants';
 import { useUngroupedWorkspaceId } from '../../hooks/useUngroupedWorkspaceId';
-import type { LastSeenCustomRange } from './types';
+import type { LastSeenCustomRange, SystemsViewFilterState } from './types';
 
 export type { LastSeenCustomRange } from './types';
 
-export const INITIAL_INVENTORY_FILTERS: InventoryFilters = {
-  hostname_or_id: '',
-  status: [],
-  source: [],
-  rhcStatus: [],
-  system_type: [],
-  group_id: [],
-  last_seen: '',
-  tags: [],
-  operating_system: [],
-  workloads: [],
-};
-
 export interface DataViewFiltersContextValue {
-  filters: InventoryFilters;
-  onSetFilters: (_: Partial<InventoryFilters>) => void;
+  filters: SystemsViewFilterState;
+  resolvedFilters: readonly FilterSpec[];
+  onSetFilters: (_: Partial<SystemsViewFilterState>) => void;
   clearAllFilters: () => void;
-  hasDefaultFilters: boolean;
+  /** True once live toolbar values differ from resolved spec `defaultValue`s. */
+  filtersDifferFromDefaults: boolean;
   lastSeenCustomRange: LastSeenCustomRange;
   setLastSeenCustomRange: React.Dispatch<
     React.SetStateAction<LastSeenCustomRange>
@@ -64,19 +61,17 @@ type SearchParamsTuple = ReturnType<
 
 interface DataViewFiltersProviderProps {
   children: React.ReactNode;
+  resolvedFilters: readonly FilterSpec[];
   searchParams: SearchParamsTuple[0];
   setSearchParams: SearchParamsTuple[1];
-  defaultFilters?: Partial<InventoryFilters>;
-  initialFilters?: Partial<InventoryFilters>;
   initialLastSeenCustomRange?: LastSeenCustomRange;
 }
 
 export const DataViewFiltersProvider = ({
   children,
+  resolvedFilters,
   searchParams,
   setSearchParams,
-  defaultFilters,
-  initialFilters,
   initialLastSeenCustomRange,
 }: DataViewFiltersProviderProps) => {
   const [lastSeenCustomRange, setLastSeenCustomRange] =
@@ -88,28 +83,42 @@ export const DataViewFiltersProvider = ({
     false,
   );
 
-  const { data: ungroupedWorkspaceId } = useUngroupedWorkspaceId(
-    Boolean(hasAccess),
+  const hasWorkspaceFilter = resolvedFilters.some(
+    (spec) => spec.filterId === SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM,
+  );
+  const hasLastSeenFilter = resolvedFilters.some(
+    (spec) => spec.filterId === 'last_seen',
   );
 
-  const {
-    filters: rawFilters,
-    onSetFilters,
-    clearAllFilters: hookClearAll,
-  } = useDataViewFilters<InventoryFilters>({
-    initialFilters: initialFilters
-      ? { ...INITIAL_INVENTORY_FILTERS, ...initialFilters }
-      : INITIAL_INVENTORY_FILTERS,
-    searchParams,
-    setSearchParams,
-  });
+  const specDefaultValues = useMemo(
+    () => defaultValuesFrom(resolvedFilters),
+    [resolvedFilters],
+  );
+
+  const { data: ungroupedWorkspaceId } = useUngroupedWorkspaceId(
+    hasAccess && hasWorkspaceFilter,
+  );
+
+  const { filters: rawFilters, onSetFilters } =
+    useDataViewFilters<SystemsViewFilterState>({
+      initialFilters: specDefaultValues,
+      searchParams,
+      setSearchParams,
+    });
+
+  const [hasHydratedDefaults, setHasHydratedDefaults] = useState(false);
+
+  const workspaceFilterIds = rawFilters[SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM];
 
   const filters = useMemo(
-    () => ({
-      ...rawFilters,
-      last_seen: normalizeLastSeenFilterValue(rawFilters.last_seen),
-    }),
-    [rawFilters],
+    () =>
+      hasLastSeenFilter
+        ? {
+            ...rawFilters,
+            last_seen: normalizeLastSeenFilterValue(rawFilters.last_seen),
+          }
+        : rawFilters,
+    [hasLastSeenFilter, rawFilters],
   );
 
   useEffect(() => {
@@ -119,44 +128,74 @@ export const DataViewFiltersProvider = ({
   }, [rawFilters.last_seen]);
 
   useEffect(() => {
-    if (!ungroupedWorkspaceId) {
+    if (!hasWorkspaceFilter || !ungroupedWorkspaceId) {
       return;
     }
-    const ids = rawFilters.group_id;
-    if (!ids?.includes('')) {
+    if (
+      !Array.isArray(workspaceFilterIds) ||
+      !workspaceFilterIds.includes('')
+    ) {
       return;
     }
     onSetFilters({
-      group_id: ids.map((id) => (id === '' ? ungroupedWorkspaceId : id)),
+      [SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM]: workspaceFilterIds.map((id) =>
+        id === '' ? ungroupedWorkspaceId : id,
+      ),
     });
-  }, [ungroupedWorkspaceId, rawFilters.group_id, onSetFilters]);
+  }, [
+    hasWorkspaceFilter,
+    ungroupedWorkspaceId,
+    workspaceFilterIds,
+    onSetFilters,
+  ]);
+
+  useEffect(() => {
+    if (hasHydratedDefaults) {
+      return;
+    }
+
+    const updates: Partial<SystemsViewFilterState> = {};
+    for (const spec of resolvedFilters) {
+      if (
+        isEmptyFilterValue(rawFilters[spec.filterId]) &&
+        !isEmptyFilterValue(spec.defaultValue)
+      ) {
+        updates[spec.filterId] = spec.defaultValue;
+      }
+    }
+    if (Object.keys(updates).length > 0) {
+      onSetFilters(updates);
+    }
+    setHasHydratedDefaults(true);
+  }, [hasHydratedDefaults, rawFilters, resolvedFilters, onSetFilters]);
 
   const clearAllFilters = useCallback(() => {
     setLastSeenCustomRange(null);
-    if (defaultFilters) {
-      onSetFilters({ ...INITIAL_INVENTORY_FILTERS, ...defaultFilters });
-    } else {
-      hookClearAll();
-    }
-  }, [hookClearAll, defaultFilters, onSetFilters]);
+    onSetFilters({ ...specDefaultValues });
+  }, [specDefaultValues, onSetFilters]);
 
-  const hasDefaultFilters = Boolean(defaultFilters);
+  const filtersDifferFromDefaults = useMemo(
+    () => hasHydratedDefaults && specFiltersDiffer(filters, resolvedFilters),
+    [hasHydratedDefaults, filters, resolvedFilters],
+  );
 
   const value = useMemo(
     () => ({
       filters,
+      resolvedFilters,
       onSetFilters,
       clearAllFilters,
-      hasDefaultFilters,
+      filtersDifferFromDefaults,
       lastSeenCustomRange,
       setLastSeenCustomRange,
       ungroupedWorkspaceId,
     }),
     [
       filters,
+      resolvedFilters,
       onSetFilters,
       clearAllFilters,
-      hasDefaultFilters,
+      filtersDifferFromDefaults,
       lastSeenCustomRange,
       setLastSeenCustomRange,
       ungroupedWorkspaceId,
