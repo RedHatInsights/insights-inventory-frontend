@@ -285,7 +285,7 @@ describe('LoadingCard', () => {
 
     expect(screen.getByRole('link', { name: /15/i })).toHaveAttribute(
       'href',
-      'localhost:3000/example/path/some-target',
+      '/localhost:3000/example/path/some-target',
     );
   });
 
