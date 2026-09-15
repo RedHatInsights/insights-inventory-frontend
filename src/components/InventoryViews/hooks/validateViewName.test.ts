@@ -16,81 +16,259 @@ const makeView = (id: string, name: string): ViewOut => ({
 });
 
 describe('validateViewName', () => {
-  it('should not flag an empty name as duplicate', () => {
-    const views = [makeView('1', 'My View')];
-    const result = validateViewName(views, '');
+  describe('empty names', () => {
+    it('should invalidate an empty name', () => {
+      const views = [makeView('1', 'My View')];
+      const result = validateViewName(views, '');
 
-    expect(result.isDuplicate).toBe(false);
-    expect(result.validated).toBe('default');
-  });
-
-  it('should not flag a whitespace-only name as duplicate', () => {
-    const views = [makeView('1', 'My View')];
-    const result = validateViewName(views, '   ');
-
-    expect(result.isDuplicate).toBe(false);
-    expect(result.validated).toBe('default');
-  });
-
-  it('should not flag a unique name as duplicate', () => {
-    const views = [makeView('1', 'Existing View')];
-    const result = validateViewName(views, 'New View');
-
-    expect(result.isDuplicate).toBe(false);
-    expect(result.validated).toBe('default');
-  });
-
-  it('should flag an exact duplicate name', () => {
-    const views = [makeView('1', 'My View')];
-    const result = validateViewName(views, 'My View');
-
-    expect(result.isDuplicate).toBe(true);
-    expect(result.validated).toBe('error');
-  });
-
-  it('should be case-insensitive', () => {
-    const views = [makeView('1', 'My View')];
-    const result = validateViewName(views, 'my view');
-
-    expect(result.isDuplicate).toBe(true);
-    expect(result.validated).toBe('error');
-  });
-
-  it('should trim whitespace before comparing', () => {
-    const views = [makeView('1', 'My View')];
-    const result = validateViewName(views, '  My View  ');
-
-    expect(result.isDuplicate).toBe(true);
-    expect(result.validated).toBe('error');
-  });
-
-  it('should exclude a view by ID (for Rename modal)', () => {
-    const views = [makeView('view-1', 'My View')];
-    const result = validateViewName(views, 'My View', {
-      excludeViewId: 'view-1',
+      expect(result.isValid).toBe(false);
+      expect(result.validated).toBe('default');
+      expect(result.error).toBeNull();
     });
 
-    expect(result.isDuplicate).toBe(false);
-    expect(result.validated).toBe('default');
+    it('should invalidate a whitespace-only name', () => {
+      const views = [makeView('1', 'My View')];
+      const result = validateViewName(views, '   ');
+
+      expect(result.isValid).toBe(false);
+      expect(result.validated).toBe('default');
+      expect(result.error).toBeNull();
+    });
   });
 
-  it('should still flag duplicates when excludeViewId does not match', () => {
-    const views = [
-      makeView('view-1', 'My View'),
-      makeView('view-2', 'Other View'),
-    ];
-    const result = validateViewName(views, 'My View', {
-      excludeViewId: 'view-2',
+  describe('length validation', () => {
+    it('should accept names at max length (255 characters)', () => {
+      const maxLengthName = 'a'.repeat(255);
+      const result = validateViewName([], maxLengthName);
+
+      expect(result.isValid).toBe(true);
+      expect(result.validated).toBe('success');
+      expect(result.error).toBeNull();
     });
 
-    expect(result.isDuplicate).toBe(true);
-    expect(result.validated).toBe('error');
+    it('should reject names longer than 255 characters', () => {
+      const tooLongName = 'a'.repeat(256);
+      const result = validateViewName([], tooLongName);
+
+      expect(result.isValid).toBe(false);
+      expect(result.validated).toBe('error');
+      expect(result.error).toBe('TOO_LONG');
+    });
+
+    it('should reject names much longer than max length', () => {
+      const wayTooLongName = 'a'.repeat(500);
+      const result = validateViewName([], wayTooLongName);
+
+      expect(result.isValid).toBe(false);
+      expect(result.validated).toBe('error');
+      expect(result.error).toBe('TOO_LONG');
+    });
   });
 
-  it('should handle an empty views list', () => {
-    const result = validateViewName([], 'Any Name');
+  describe('character validation', () => {
+    it('should accept names with letters, numbers, and allowed characters', () => {
+      const result = validateViewName([], "Bob's RHEL 9.4 view_test-123");
 
-    expect(result.isDuplicate).toBe(false);
-    expect(result.validated).toBe('default');
+      expect(result.isValid).toBe(true);
+      expect(result.validated).toBe('success');
+      expect(result.error).toBeNull();
+    });
+
+    it('should accept names with periods', () => {
+      const result = validateViewName([], 'RHEL 9.4');
+
+      expect(result.isValid).toBe(true);
+      expect(result.validated).toBe('success');
+      expect(result.error).toBeNull();
+    });
+
+    it('should accept names with apostrophes', () => {
+      const result = validateViewName([], "Bob's View");
+
+      expect(result.isValid).toBe(true);
+      expect(result.validated).toBe('success');
+      expect(result.error).toBeNull();
+    });
+
+    it('should accept names with hyphens and underscores', () => {
+      const result = validateViewName([], 'my-view_2024');
+
+      expect(result.isValid).toBe(true);
+      expect(result.validated).toBe('success');
+      expect(result.error).toBeNull();
+    });
+
+    it('should reject names with invalid special characters (@)', () => {
+      const result = validateViewName([], 'my@view');
+
+      expect(result.isValid).toBe(false);
+      expect(result.validated).toBe('error');
+      expect(result.error).toBe('INVALID_CHARACTERS');
+    });
+
+    it('should reject names with invalid special characters (!)', () => {
+      const result = validateViewName([], 'my!view');
+
+      expect(result.isValid).toBe(false);
+      expect(result.validated).toBe('error');
+      expect(result.error).toBe('INVALID_CHARACTERS');
+    });
+
+    it('should reject names with invalid special characters (#)', () => {
+      const result = validateViewName([], 'view#123');
+
+      expect(result.isValid).toBe(false);
+      expect(result.validated).toBe('error');
+      expect(result.error).toBe('INVALID_CHARACTERS');
+    });
+
+    it('should reject names with invalid special characters ($)', () => {
+      const result = validateViewName([], 'view$name');
+
+      expect(result.isValid).toBe(false);
+      expect(result.validated).toBe('error');
+      expect(result.error).toBe('INVALID_CHARACTERS');
+    });
+  });
+
+  describe('alphanumeric requirement', () => {
+    it('should reject names with only punctuation (periods)', () => {
+      const result = validateViewName([], '...');
+
+      expect(result.isValid).toBe(false);
+      expect(result.validated).toBe('error');
+      expect(result.error).toBe('NO_ALPHANUMERIC');
+    });
+
+    it('should reject names with only punctuation (hyphens)', () => {
+      const result = validateViewName([], '---');
+
+      expect(result.isValid).toBe(false);
+      expect(result.validated).toBe('error');
+      expect(result.error).toBe('NO_ALPHANUMERIC');
+    });
+
+    it('should reject names with only punctuation (apostrophes)', () => {
+      const result = validateViewName([], "'''");
+
+      expect(result.isValid).toBe(false);
+      expect(result.validated).toBe('error');
+      expect(result.error).toBe('NO_ALPHANUMERIC');
+    });
+
+    it('should reject names with only spaces and punctuation', () => {
+      const result = validateViewName([], '  - . -  ');
+
+      expect(result.isValid).toBe(false);
+      expect(result.validated).toBe('error');
+      expect(result.error).toBe('NO_ALPHANUMERIC');
+    });
+
+    it('should accept names with at least one letter', () => {
+      const result = validateViewName([], 'a...');
+
+      expect(result.isValid).toBe(true);
+      expect(result.validated).toBe('success');
+      expect(result.error).toBeNull();
+    });
+
+    it('should accept names with at least one number', () => {
+      const result = validateViewName([], '...1');
+
+      expect(result.isValid).toBe(true);
+      expect(result.validated).toBe('success');
+      expect(result.error).toBeNull();
+    });
+  });
+
+  describe('duplicate detection', () => {
+    it('should validate a unique name', () => {
+      const views = [makeView('1', 'Existing View')];
+      const result = validateViewName(views, 'New View');
+
+      expect(result.isValid).toBe(true);
+      expect(result.validated).toBe('success');
+      expect(result.error).toBeNull();
+    });
+
+    it('should flag an exact duplicate name', () => {
+      const views = [makeView('1', 'My View')];
+      const result = validateViewName(views, 'My View');
+
+      expect(result.isValid).toBe(false);
+      expect(result.validated).toBe('error');
+      expect(result.error).toBe('DUPLICATE');
+    });
+
+    it('should be case-insensitive for duplicates', () => {
+      const views = [makeView('1', 'My View')];
+      const result = validateViewName(views, 'my view');
+
+      expect(result.isValid).toBe(false);
+      expect(result.validated).toBe('error');
+      expect(result.error).toBe('DUPLICATE');
+    });
+
+    it('should trim whitespace before comparing duplicates', () => {
+      const views = [makeView('1', 'My View')];
+      const result = validateViewName(views, '  My View  ');
+
+      expect(result.isValid).toBe(false);
+      expect(result.validated).toBe('error');
+      expect(result.error).toBe('DUPLICATE');
+    });
+
+    it('should exclude a view by ID (for Rename modal)', () => {
+      const views = [makeView('view-1', 'My View')];
+      const result = validateViewName(views, 'My View', {
+        excludeViewId: 'view-1',
+      });
+
+      expect(result.isValid).toBe(true);
+      expect(result.validated).toBe('success');
+      expect(result.error).toBeNull();
+    });
+
+    it('should still flag duplicates when excludeViewId does not match', () => {
+      const views = [
+        makeView('view-1', 'My View'),
+        makeView('view-2', 'Other View'),
+      ];
+      const result = validateViewName(views, 'My View', {
+        excludeViewId: 'view-2',
+      });
+
+      expect(result.isValid).toBe(false);
+      expect(result.validated).toBe('error');
+      expect(result.error).toBe('DUPLICATE');
+    });
+
+    it('should handle an empty views list', () => {
+      const result = validateViewName([], 'Any Name');
+
+      expect(result.isValid).toBe(true);
+      expect(result.validated).toBe('success');
+      expect(result.error).toBeNull();
+    });
+  });
+
+  describe('validation order', () => {
+    it('should check invalid characters before duplicates', () => {
+      const views = [makeView('1', 'valid@name')];
+      const result = validateViewName(views, 'valid@name');
+
+      // Should fail on invalid characters, not duplicates
+      expect(result.isValid).toBe(false);
+      expect(result.error).toBe('INVALID_CHARACTERS');
+    });
+
+    it('should check alphanumeric requirement before duplicates', () => {
+      const views = [makeView('1', '---')];
+      const result = validateViewName(views, '---');
+
+      // Should fail on alphanumeric requirement, not duplicates
+      expect(result.isValid).toBe(false);
+      expect(result.error).toBe('NO_ALPHANUMERIC');
+    });
   });
 });
