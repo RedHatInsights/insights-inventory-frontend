@@ -3,7 +3,6 @@ export * from './useStalenessFilter';
 export * from './useRegisteredWithFilter';
 export * from './useTagsFilter';
 export * from './useOperatingSystemFilter';
-export * from './useRhcdFilter';
 export * from './useLastSeenFilter';
 export * from './useGroupFilter';
 export * from './useSystemTypeFilter';

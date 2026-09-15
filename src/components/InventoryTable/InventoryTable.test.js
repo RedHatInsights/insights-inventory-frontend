@@ -44,7 +44,6 @@ const DEFAULT_FILTER_NAMES = [
   'Status',
   'Operating system',
   'Data collector',
-  'RHC status',
   'Last seen',
   'Workspace',
 ];
