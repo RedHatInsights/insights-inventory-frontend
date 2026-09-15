@@ -17,6 +17,7 @@ import { manageViewHelper } from './helpers/views/manageViewsHelper';
 
 const DEFAULT_PREFIX = 'automated-test';
 const ALL_SYSTEMS_VIEW = 'All systems';
+const RESET_FILTERS = 'Reset filters';
 
 test.describe(
   'Inventory Views: Manage views CRUD operations',
@@ -54,7 +55,7 @@ test.describe(
       });
 
       await test.step(`Verifies active view now is default view after deletion`, async () => {
-        await expect(manageView.selectedView).toContainText(ALL_SYSTEMS_VIEW);
+        await manageView.verifyActiveView(ALL_SYSTEMS_VIEW);
       });
     });
   },
@@ -80,7 +81,7 @@ test.describe(
 
     const configurationA = {
       columns: [...vulnerabilityColumns, ...allSystemsColumns],
-      columnsCount: vulnerabilityColumns.length + totalDefaultColumns - 1, // tags columns currenlty not be able to be added to custom view
+      columnsCount: vulnerabilityColumns.length + totalDefaultColumns,
       filters: [
         {
           filter: 'System type',
@@ -97,8 +98,7 @@ test.describe(
       columnsCount:
         vulnerabilityColumns.length +
         malwareColumns.length +
-        totalDefaultColumns -
-        1, // tags columns currenlty not be able to be added to custom view
+        totalDefaultColumns,
       filters: [],
     };
 
@@ -155,12 +155,6 @@ test.describe(
         }
         await manageColumnsModal.save();
 
-        const resetFiltersButton = page.getByRole('button', {
-          name: 'Clear filters',
-        });
-        await expect(resetFiltersButton).toBeVisible();
-        await resetFiltersButton.click();
-
         await manageView.saveAs(viewB);
         await manageView.verifyActiveView(viewB);
       });
@@ -201,7 +195,7 @@ test.describe(
 
         // Verify no filters are applied
         const resetFiltersButton = page.getByRole('button', {
-          name: 'Clear filters',
+          name: RESET_FILTERS,
         });
         await expect(resetFiltersButton).toBeHidden();
       });

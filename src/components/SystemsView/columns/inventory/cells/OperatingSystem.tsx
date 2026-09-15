@@ -21,7 +21,8 @@ const formatOperatingSystem = (
 
   if (
     operatingSystem.name === 'RHEL' ||
-    operatingSystem.name === 'CentOS Linux'
+    operatingSystem.name === 'CentOS Linux' ||
+    operatingSystem.name === 'CentOS'
   ) {
     const { name, major, minor } = operatingSystem;
     const hasVersion = typeof major === 'number' && typeof minor === 'number';

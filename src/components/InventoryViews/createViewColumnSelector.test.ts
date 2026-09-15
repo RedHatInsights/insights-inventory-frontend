@@ -23,7 +23,7 @@ describe('createViewColumnSelector', () => {
       columns: [
         { key: 'display_name' },
         { key: 'operating_system' },
-        { key: 'vulnerability:total_cves' },
+        { key: 'vulnerability:important_cves' },
       ],
     });
     const result = selector!(columnCatalog);
@@ -32,7 +32,7 @@ describe('createViewColumnSelector', () => {
     expect(shownKeys).toEqual([
       'display_name',
       'operating_system',
-      'vulnerability:total_cves',
+      'vulnerability:important_cves',
     ]);
   });
 
@@ -74,7 +74,7 @@ describe('createViewColumnSelector', () => {
     const selector = createViewColumnSelector({
       columns: [
         { key: 'last_check_in' },
-        { key: 'vulnerability:total_cves' },
+        { key: 'vulnerability:important_cves' },
         { key: 'display_name' },
       ],
     });
@@ -83,7 +83,7 @@ describe('createViewColumnSelector', () => {
     const firstThree = result.slice(0, 3).map((c) => c.key);
     expect(firstThree).toEqual([
       'last_check_in',
-      'vulnerability:total_cves',
+      'vulnerability:important_cves',
       'display_name',
     ]);
   });

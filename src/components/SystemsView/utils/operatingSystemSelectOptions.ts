@@ -123,6 +123,7 @@ export const buildOperatingSystemSelectGroups = (
   osData: OperatingSystemVersionRow[],
 ): OperatingSystemSelectGroup[] => [
   ...getOsSelectOptions('CentOS Linux', osData),
+  ...getOsSelectOptions('CentOS', osData),
   ...getOsSelectOptions('RHEL', osData),
 ];
 

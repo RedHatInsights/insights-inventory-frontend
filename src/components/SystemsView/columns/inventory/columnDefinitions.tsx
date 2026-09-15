@@ -2,6 +2,7 @@ import React from 'react';
 import { ApiHostViewsGetHostViewsOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 import type {
   HostViewHost,
+  PerReporterStaleness,
   StructuredTag,
   SystemProfileWorkloads,
 } from '@redhat-cloud-services/host-inventory-client';
@@ -22,6 +23,7 @@ import Workload from './cells/Workload';
 import Vendor from './cells/Vendor';
 import Infrastructure from './cells/Infrastructure';
 import Created, { type CreatedValue } from './cells/Created';
+import DataCollector from './cells/DataCollector';
 
 /**
  * Fields inventory column bindings for both InventoryHosts and InventoryViews can use
@@ -70,7 +72,7 @@ export const tagsSpec: ColumnSpec<TagsValue> = {
   appName: APP_NAME,
   title: 'Tags',
   key: 'tags',
-  minWidth: '6rem',
+  minWidth: '7rem',
   renderCell: (value) => <Tags value={value} />,
 };
 
@@ -87,7 +89,7 @@ export const lastSeenSpec: ColumnSpec<LastSeenValue> = {
   appName: APP_NAME,
   title: <LastSeenColumnHeader />,
   key: ApiOrderByEnum.LastCheckIn,
-  minWidth: '9rem',
+  minWidth: '10rem',
   sortBy: ApiOrderByEnum.LastCheckIn,
   renderCell: (value) => <LastSeen value={value} />,
 };
@@ -105,6 +107,7 @@ export const infrastructureSpec: ColumnSpec<string | undefined> = {
   appName: APP_NAME,
   title: 'Infrastructure',
   key: 'infrastructure',
+  minWidth: '9rem',
   renderCell: (value) => <Infrastructure value={value} />,
 };
 
@@ -112,6 +115,7 @@ export const vendorSpec: ColumnSpec<string | undefined> = {
   appName: APP_NAME,
   title: 'Vendor',
   key: 'vendor',
+  minWidth: '9rem',
   renderCell: (value) => <Vendor value={value} />,
 };
 
@@ -119,6 +123,7 @@ export const workloadSpec: ColumnSpec<SystemProfileWorkloads | undefined> = {
   appName: APP_NAME,
   title: 'Workload',
   key: 'workload',
+  minWidth: '9rem',
   renderCell: (value) => <Workload value={value} />,
 };
 
@@ -126,7 +131,18 @@ export const createdSpec: ColumnSpec<CreatedValue> = {
   appName: APP_NAME,
   title: 'Created',
   key: 'created',
+  minWidth: '9rem',
   renderCell: (value) => <Created value={value} />,
+};
+
+export const dataCollectorSpec: ColumnSpec<
+  Record<string, PerReporterStaleness> | undefined
+> = {
+  appName: APP_NAME,
+  title: 'Data collector',
+  key: 'per_reporter_staleness',
+  minWidth: '9rem',
+  renderCell: (value) => <DataCollector value={value} />,
 };
 
 const isImageBasedSystem = (item: InventoryBindableItem) =>
@@ -193,6 +209,9 @@ export const bindInventoryColumns = <
   }),
   bindColumn(createdSpec, {
     getValue: (item) => item.created,
+  }),
+  bindColumn(dataCollectorSpec, {
+    getValue: (item) => item.per_reporter_staleness,
   }),
 ];
 

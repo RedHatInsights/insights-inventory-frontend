@@ -18,21 +18,24 @@ import ApplicationTab from '../ApplicationTab';
 import { useLightspeedFeatureFlag } from '../Utilities/hooks/useLightspeedFeatureFlag';
 import { getEntities as defaultGetEntities } from '../api';
 
+const centosApps = [
+  {
+    title: 'Overview',
+    name: 'overview',
+    component: OverviewTab,
+    systemProfilePrefetched: true,
+  },
+  {
+    title: 'Details',
+    name: 'details',
+    component: DetailsTab,
+    systemProfilePrefetched: true,
+  },
+];
+
 const appList = {
-  'CENTOS-LINUX': [
-    {
-      title: 'Overview',
-      name: 'overview',
-      component: OverviewTab,
-      systemProfilePrefetched: true,
-    },
-    {
-      title: 'Details',
-      name: 'details',
-      component: DetailsTab,
-      systemProfilePrefetched: true,
-    },
-  ],
+  'CENTOS-LINUX': centosApps,
+  CENTOS: centosApps,
   RHEL: [
     {
       title: 'Overview',
