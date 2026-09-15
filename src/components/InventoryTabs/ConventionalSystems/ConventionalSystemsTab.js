@@ -162,7 +162,6 @@ const ConventionalSystemsTab = ({
   filterbyName,
   tagsFilter,
   operatingSystem,
-  rhcdFilter,
   updateMethodFilter,
   lastSeenFilter,
   page,
@@ -186,7 +185,6 @@ const ConventionalSystemsTab = ({
       tagsFilter,
       filterbyName,
       operatingSystem,
-      rhcdFilter,
       updateMethodFilter,
       hostGroupFilter,
       lastSeenFilter,
@@ -473,10 +471,6 @@ ConventionalSystemsTab.propTypes = {
     direction: PropTypes.string,
   }),
   initialLoading: PropTypes.bool,
-  rhcdFilter: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.string),
-    PropTypes.string,
-  ]),
   updateMethodFilter: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.string,

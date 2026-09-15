@@ -7,7 +7,6 @@ import {
   mergeArraysByKey,
 } from '@redhat-cloud-services/frontend-components-utilities/helpers';
 import {
-  RHCD_FILTER_KEY,
   UPDATE_METHOD_KEY,
   WORKLOAD_API_MAP,
   allStaleFilters,
@@ -157,7 +156,6 @@ const mapWorkloadFilter = (workloadFilter = []) => {
 export const calculateSystemProfile = (
   {
     osFilter,
-    rhcdFilter,
     updateMethodFilter,
     hostTypeFilter,
     workloadFilter,
@@ -178,7 +176,6 @@ export const calculateSystemProfile = (
           },
         }
       : {}),
-    ...(rhcdFilter ? { [RHCD_FILTER_KEY]: rhcdFilter } : {}),
     ...(Object.keys(operating_system).length ? { operating_system } : {}),
     ...(Object.keys(workloads).length ? { workloads } : {}),
   };
@@ -199,7 +196,6 @@ export const filtersReducer = (acc, filter = {}) => ({
     registeredWithFilter: filter.registeredWithFilter,
   }),
   ...('osFilter' in filter && { osFilter: filter.osFilter }),
-  ...('rhcdFilter' in filter && { rhcdFilter: filter.rhcdFilter }),
   ...('hostTypeFilter' in filter && { hostTypeFilter: filter.hostTypeFilter }),
   ...('lastSeenFilter' in filter && { lastSeenFilter: filter.lastSeenFilter }),
   ...('updateMethodFilter' in filter && {

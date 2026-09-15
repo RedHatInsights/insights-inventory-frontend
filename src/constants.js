@@ -1,13 +1,10 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { t_global_text_color_disabled } from '@patternfly/react-tokens';
 import {
   HOST_GROUP_CHIP,
-  RHCD_FILTER_KEY,
   UPDATE_METHOD_KEY,
   WORKLOAD_FILTER_KEY,
 } from './Utilities/constants';
-import InsightsLink from '@redhat-cloud-services/frontend-components/InsightsLink';
 
 export const tagsMapper = (acc, curr) => {
   let [namespace, keyValue] = curr.split('/');
@@ -189,7 +186,6 @@ export const getSearchParams = (searchParams) => {
       }
     }, {});
 
-  const rhcdFilter = searchParams.getAll(RHCD_FILTER_KEY);
   const updateMethodFilter = searchParams.getAll(UPDATE_METHOD_KEY);
   const hostGroupFilter = searchParams.getAll(HOST_GROUP_CHIP);
   const page = searchParams.get('page');
@@ -213,7 +209,6 @@ export const getSearchParams = (searchParams) => {
     tagsFilter,
     filterbyName,
     operatingSystem,
-    rhcdFilter,
     updateMethodFilter,
     lastSeenFilter,
     page,
@@ -313,23 +308,6 @@ export const NO_MANAGE_USER_ACCESS_TOOLTIP_MESSAGE =
   'You must be an organization administrator to modify User Access configuration.';
 export const noServicePermissionTooltip = (appName) =>
   `To view this data, contact your Organization Administrator to request ${appName} read access.`;
-const REMEDIATIONS_DISPLAY = 'Automation Toolkit > Remediations';
-const REMEDIATIONS_LINK = (
-  <InsightsLink aria-label="rhc-remediations-link" to={'/'} app="remediations">
-    {REMEDIATIONS_DISPLAY}
-  </InsightsLink>
-);
-export const RHC_TOOLTIP_MESSAGE = (
-  <span>
-    The RHC client was installed and configured but may not reflect actual
-    connectivity.
-    <br />
-    <br /> To view the remediation status of your system, go to{' '}
-    {REMEDIATIONS_LINK} and open a remediation that your system is associated
-    with. Under the <b>Systems</b> tab, you will find the{' '}
-    <b>Connection Status</b>.
-  </span>
-);
 export const GENERAL_GROUPS_WRITE_PERMISSION = 'inventory:groups:write';
 export const GROUPS_WILDCARD = 'inventory:groups:*';
 export const INVENTORY_WILDCARD = 'inventory:*:*';
