@@ -15,6 +15,7 @@ export interface ManageViewButtonProps {
   isSystemView?: boolean;
   /** Whether the view is dirty */
   isViewDirty?: boolean;
+  isSaving?: boolean;
   isOwner?: boolean;
   /** Callback when Save As is clicked */
   onSaveAs: () => void;
@@ -47,6 +48,7 @@ export const ManageViewButton = ({
   currentViewId,
   isSystemView = true,
   isViewDirty = false,
+  isSaving = false,
   isOwner = false,
   onSaveAs,
   onRename,
@@ -83,11 +85,13 @@ export const ManageViewButton = ({
             ref={toggleRef}
             onClick={onToggle}
             isExpanded={isOpen}
+            isDisabled={isSaving}
             aria-label="Manage view actions"
             data-testid="manage-view-toggle"
             splitButtonItems={[
               <MenuToggleAction
                 key="primary-action"
+                isDisabled={isSaving}
                 // Stop the click from bubbling into the split button's toggle /
                 // dropdown so the primary action can never open the menu.
                 onClick={(event) => {
@@ -123,7 +127,7 @@ export const ManageViewButton = ({
         <DropdownItem
           key="save"
           onClick={onSave}
-          isDisabled={!isViewDirty || isSystemView || !isOwner}
+          isDisabled={!isViewDirty || isSystemView || !isOwner || isSaving}
         >
           Save
         </DropdownItem>

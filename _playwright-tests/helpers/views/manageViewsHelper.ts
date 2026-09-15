@@ -4,6 +4,7 @@ import { Page, Locator, expect } from '@playwright/test';
 export type ManageViewHelper = {
   manageViewToggle: Locator;
   selectedView: Locator;
+  selectedViewInput: Locator;
   selectedViewMenu: Locator;
   selectView: (view: string) => Promise<void>;
   saveAs: (view: string) => Promise<void>;
@@ -25,13 +26,16 @@ export type ManageViewHelper = {
 export function manageViewHelper(page: Page): ManageViewHelper {
   const manageViewToggle = page.getByTestId('manage-view-toggle');
   const selectedView = page.getByTestId('manage-view-select-view');
+  // The active view name is rendered as the typeahead input's value (not text
+  // content), so assertions must read the value rather than the element text.
+  const selectedViewInput = selectedView.getByRole('textbox');
   const selectedViewMenu = page.getByTestId('manage-view-select-view-dropdown');
 
   const verifyActiveView = async (
     expectedViewName: string,
     { timeout = 5000 }: { timeout?: number } = {},
   ): Promise<void> => {
-    await expect(selectedView).toContainText(expectedViewName, {
+    await expect(selectedViewInput).toHaveValue(expectedViewName, {
       timeout,
     });
   };
@@ -39,6 +43,7 @@ export function manageViewHelper(page: Page): ManageViewHelper {
   return {
     manageViewToggle,
     selectedView,
+    selectedViewInput,
     selectedViewMenu,
 
     /**
@@ -125,7 +130,7 @@ export function manageViewHelper(page: Page): ManageViewHelper {
 
       // The UI falls back to another view after deletion; the title can take a
       // moment to update, so give this a longer timeout than the default.
-      await expect(selectedView).not.toContainText(view, {
+      await expect(selectedViewInput).not.toHaveValue(view, {
         timeout: 10000,
       });
     },

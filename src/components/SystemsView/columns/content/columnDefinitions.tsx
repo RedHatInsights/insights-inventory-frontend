@@ -29,6 +29,7 @@ const templateSpec: ColumnSpec<PatchAppData | undefined> = {
   title: 'Template',
   key: ApiHostViewsGetHostViewsOrderByEnum.PatchtemplateName,
   sortBy: ApiHostViewsGetHostViewsOrderByEnum.PatchtemplateName,
+  minWidth: '9rem',
   renderCell: (value) => <Template appData={value} />,
 };
 
