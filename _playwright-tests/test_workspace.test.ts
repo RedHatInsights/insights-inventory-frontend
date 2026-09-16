@@ -20,6 +20,8 @@ import {
 } from './helpers/constants';
 import { isSystemsViewEnabled } from './helpers/constants';
 
+const isWorkspacesPage = true; // Used to determine if the searchByName function is being called from the Workspaces page or not
+
 test.describe('Workspace CRUD - Details Page', () => {
   test('User can create, rename, and delete a workspace from Workspace Details page', async ({
     page,
@@ -45,11 +47,7 @@ test.describe('Workspace CRUD - Details Page', () => {
     const renamedWorkspace = `${workspaceName}_Renamed`;
 
     await test.step('Create a new workspace', async () => {
-      await page.click('button:has-text("Create workspace")');
-      const dialog = page.locator('[role="dialog"]');
-      await expect(dialog).toBeVisible({ timeout: 100000 });
-      await dialog.locator('input').first().fill(workspaceName);
-      await dialog.getByRole('button', { name: 'Create' }).click();
+      await createNewWorkspace(page, workspaceName);
     });
 
     await test.step('Search and open newly created workspace', async () => {
@@ -191,7 +189,7 @@ test.describe('Workspace CRUD - List Page', () => {
 
     await test.step('Search for empty workspaces and bulk delete', async () => {
       await expect(searchInput).toBeVisible();
-      await searchByName(page, 'empty');
+      await searchByName(page, 'empty', isWorkspacesPage);
 
       const bulkSelectCheckbox = page.locator(
         '[data-ouia-component-id="BulkSelectCheckbox"]',
@@ -247,7 +245,7 @@ test.describe('Workspace CRUD - List Page', () => {
       await navigateToWorkspacesFunc(page);
       await createNewWorkspace(page, workspaceName);
       // search for workspace and via 'Name' column make sure only 1 workspace is found
-      await searchByName(page, workspaceName);
+      await searchByName(page, workspaceName, isWorkspacesPage);
       await expect(nameCell).toHaveCount(1, { timeout: 10000 });
       await expect(nameCell).toHaveText(workspaceName);
     });
@@ -255,7 +253,7 @@ test.describe('Workspace CRUD - List Page', () => {
     await test.step('Rename workspace via per-row action from Workspaces page and verify renaming via search', async () => {
       await expect(async () => {
         await page.reload({ waitUntil: 'load' });
-        await searchByName(page, workspaceName);
+        await searchByName(page, workspaceName, isWorkspacesPage);
         const kebab = await waitForTableKebabReady(
           page,
           new RegExp(workspaceName, 'i'),
@@ -275,7 +273,7 @@ test.describe('Workspace CRUD - List Page', () => {
       await dialogModal.getByRole('button', { name: 'Save' }).click();
 
       // search for the new name to confirm rename worked
-      await searchByName(page, renamedWorkspace);
+      await searchByName(page, renamedWorkspace, isWorkspacesPage);
       await expect(nameCell).toHaveCount(1, { timeout: 10000 });
       await expect(nameCell).toHaveText(renamedWorkspace);
     });
@@ -283,7 +281,7 @@ test.describe('Workspace CRUD - List Page', () => {
     await test.step('Delete workspace via per-row action from Workspaces page and verify deletion via search', async () => {
       await expect(async () => {
         await page.reload({ waitUntil: 'load' });
-        await searchByName(page, renamedWorkspace);
+        await searchByName(page, renamedWorkspace, isWorkspacesPage);
         const kebab = await waitForTableKebabReady(
           page,
           new RegExp(renamedWorkspace, 'i'),
@@ -302,7 +300,7 @@ test.describe('Workspace CRUD - List Page', () => {
       await dialogModal.getByRole('button', { name: 'Delete' }).click();
 
       // search for the workspace to confirm workspace is removed
-      await searchByName(page, renamedWorkspace);
+      await searchByName(page, renamedWorkspace, isWorkspacesPage);
       await expect(
         page.locator('text=No matching workspaces found'),
       ).toBeVisible();
@@ -334,7 +332,7 @@ test.describe('Workspace System Management', () => {
       await navigateToWorkspacesFunc(page);
       await createNewWorkspace(page, workspaceName);
 
-      await searchByName(page, workspaceName);
+      await searchByName(page, workspaceName, isWorkspacesPage);
       const nameCell = page.locator('td[data-label="Name"]');
       await expect(nameCell).toHaveCount(1);
 
@@ -391,7 +389,7 @@ test.describe('Workspace System Management', () => {
 
     await test.step('Verify workspace has 1 system', async () => {
       await navigateToWorkspacesFunc(page);
-      await searchByName(page, workspaceName);
+      await searchByName(page, workspaceName, isWorkspacesPage);
       const workspaceNameCell = page.locator('td[data-label="Name"]');
       await expect(workspaceNameCell).toHaveCount(1);
 
@@ -551,7 +549,7 @@ test.describe('Workspace Navigation', () => {
   test('User can navigate to Workspace Info Tab', async ({ page }) => {
     await test.step('Navigate to existing workspace', async () => {
       await navigateToWorkspacesFunc(page);
-      await searchByName(page, WORKSPACE_WITH_SYSTEMS);
+      await searchByName(page, WORKSPACE_WITH_SYSTEMS, isWorkspacesPage);
       const workspaceLink = page.getByRole('link', {
         name: WORKSPACE_WITH_SYSTEMS,
       });
@@ -616,7 +614,7 @@ test.describe('Workspace Sorting', () => {
         });
 
         await test.step('Filter to show only test workspaces', async () => {
-          await searchByName(page, column.searchTerm);
+          await searchByName(page, column.searchTerm, isWorkspacesPage);
 
           // Wait for the filter to be applied
           await expect(async () => {
