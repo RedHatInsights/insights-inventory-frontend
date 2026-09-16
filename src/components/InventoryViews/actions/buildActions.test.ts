@@ -31,7 +31,11 @@ const workspaceGroup = {
   ungrouped: false,
 } as const;
 
-const ungroupedHost: ActionItem = { id: 'host-1', display_name: 'Host 1' };
+const ungroupedHost: ActionItem = {
+  id: 'host-1',
+  display_name: 'Host 1',
+  groups: [{ id: 'g0', name: 'Ungrouped Hosts', ungrouped: true }],
+};
 const groupedHost: ActionItem = {
   id: 'host-2',
   display_name: 'Host 2',
