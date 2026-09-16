@@ -1,11 +1,15 @@
 import {
   MOVE_SYSTEM_MENU_TEXT,
+  NO_MODIFY_HOSTS_TOOLTIP_MESSAGE,
   NO_MODIFY_HOST_TOOLTIP_MESSAGE,
   NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE,
   NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE,
   NO_MOVE_SYSTEM_KESSEL_TOOLTIP_MESSAGE,
 } from '../../../constants';
-import { isKesselMoveSystemRowDisabled } from '../../InventoryTable/helpers';
+import {
+  isKesselBulkMoveSystemsDisabled,
+  isKesselMoveSystemRowDisabled,
+} from '../../InventoryTable/helpers';
 import { hasWorkspace } from '../../SystemsView/utils/systemHelpers';
 import type {
   ActionSpec,
@@ -33,6 +37,10 @@ const isEmptySelection = <TItem>(items: TItem[]) => items.length === 0;
 
 const firstItem = <TItem>(items: TItem[]) => items[0];
 
+const isKesselBulkDeleteDisabled = <TItem extends ActionItem>(items: TItem[]) =>
+  isEmptySelection(items) ||
+  items.some((item) => !(item.permissions?.hasDelete ?? false));
+
 export const buildBulkActions = <TItem extends ActionItem>({
   isKesselEnabled,
   hasGroupsWrite,
@@ -46,7 +54,16 @@ export const buildBulkActions = <TItem extends ActionItem>({
         label: 'Move',
         isPersistent: true,
         variant: 'primary',
-        isDisabled: isEmptySelection,
+        isDisabled: (items) => isKesselBulkMoveSystemsDisabled(true, items),
+        tooltip: (items) => {
+          if (
+            isEmptySelection(items) ||
+            !isKesselBulkMoveSystemsDisabled(true, items)
+          ) {
+            return undefined;
+          }
+          return NO_MOVE_SYSTEM_KESSEL_TOOLTIP_MESSAGE;
+        },
         onAction: callbacks.onMove,
       },
       {
@@ -55,7 +72,13 @@ export const buildBulkActions = <TItem extends ActionItem>({
         isPersistent: true,
         variant: 'secondary',
         ouiaId: 'bulk-delete-button',
-        isDisabled: isEmptySelection,
+        isDisabled: isKesselBulkDeleteDisabled,
+        tooltip: (items) => {
+          if (isEmptySelection(items) || !isKesselBulkDeleteDisabled(items)) {
+            return undefined;
+          }
+          return NO_MODIFY_HOSTS_TOOLTIP_MESSAGE;
+        },
         onAction: callbacks.onDelete,
       },
     ];

@@ -1,6 +1,7 @@
 import { expect, jest } from '@jest/globals';
 import {
   MOVE_SYSTEM_MENU_TEXT,
+  NO_MODIFY_HOSTS_TOOLTIP_MESSAGE,
   NO_MODIFY_HOST_TOOLTIP_MESSAGE,
   NO_MODIFY_WORKSPACE_TOOLTIP_MESSAGE,
   NO_MODIFY_WORKSPACES_TOOLTIP_MESSAGE,
@@ -90,17 +91,61 @@ describe('buildBulkActions', () => {
       expect(findAction(actions, ACTION_IDS.delete)?.isDisabled?.([])).toBe(
         true,
       );
+      expect(
+        findAction(actions, ACTION_IDS.move)?.tooltip?.([]),
+      ).toBeUndefined();
+      expect(
+        findAction(actions, ACTION_IDS.delete)?.tooltip?.([]),
+      ).toBeUndefined();
     });
 
-    it('enables Move and Delete when systems are selected', () => {
+    it('enables Move and Delete when every selected system is permitted', () => {
       const actions = bulkActions();
 
       expect(
-        findAction(actions, ACTION_IDS.move)?.isDisabled?.([ungroupedHost]),
+        findAction(actions, ACTION_IDS.move)?.isDisabled?.([permittedHost]),
       ).toBe(false);
       expect(
-        findAction(actions, ACTION_IDS.delete)?.isDisabled?.([ungroupedHost]),
+        findAction(actions, ACTION_IDS.delete)?.isDisabled?.([permittedHost]),
       ).toBe(false);
+      expect(
+        findAction(actions, ACTION_IDS.move)?.tooltip?.([permittedHost]),
+      ).toBeUndefined();
+      expect(
+        findAction(actions, ACTION_IDS.delete)?.tooltip?.([permittedHost]),
+      ).toBeUndefined();
+    });
+
+    it('disables Move when any selected system lacks workspace edit', () => {
+      const actions = bulkActions();
+      const denied = {
+        ...permittedHost,
+        permissions: { ...permittedHost.permissions, hasWorkspaceEdit: false },
+      };
+      const selected = [permittedHost, denied];
+
+      expect(findAction(actions, ACTION_IDS.move)?.isDisabled?.(selected)).toBe(
+        true,
+      );
+      expect(findAction(actions, ACTION_IDS.move)?.tooltip?.(selected)).toBe(
+        NO_MOVE_SYSTEM_KESSEL_TOOLTIP_MESSAGE,
+      );
+    });
+
+    it('disables Delete when any selected system lacks delete permission', () => {
+      const actions = bulkActions();
+      const denied = {
+        ...permittedHost,
+        permissions: { ...permittedHost.permissions, hasDelete: false },
+      };
+      const selected = [permittedHost, denied];
+
+      expect(
+        findAction(actions, ACTION_IDS.delete)?.isDisabled?.(selected),
+      ).toBe(true);
+      expect(findAction(actions, ACTION_IDS.delete)?.tooltip?.(selected)).toBe(
+        NO_MODIFY_HOSTS_TOOLTIP_MESSAGE,
+      );
     });
 
     it('calls onMove and onDelete with the selected systems', () => {
