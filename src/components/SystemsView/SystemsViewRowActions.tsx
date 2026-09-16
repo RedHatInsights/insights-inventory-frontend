@@ -26,13 +26,14 @@ const SystemsViewRowActions = <TItem,>({
 
     const isDisabled = action.isDisabled?.(itemsForAction) ?? false;
     const tooltip = action.tooltip?.(itemsForAction);
+    const isDanger = Boolean(action.isDanger && !isDisabled);
 
     return {
       title: action.label,
       itemKey: action.id,
       ouiaId: action.ouiaId,
       onClick: () => action.onAction(itemsForAction, actionHelpers),
-      ...(action.isDanger && {
+      ...(isDanger && {
         isDanger: true,
         className: 'pf-v6-u-danger-color-100',
       }),
