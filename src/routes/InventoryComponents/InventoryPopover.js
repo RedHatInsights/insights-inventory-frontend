@@ -80,7 +80,7 @@ export const InventoryPopover = () => {
             <span>
               <a
                 href={
-                  'https://docs.redhat.com/en/documentation/red_hat_lightspeed/1-latest/html/viewing_and_managing_system_inventory/configuring-inventory-events_user-access'
+                  'https://docs.redhat.com/en/documentation/red_hat_lightspeed/1-latest/html/viewing_and_managing_system_inventory/configuring-inventory-events'
                 }
                 target="_blank"
                 rel="noreferrer"

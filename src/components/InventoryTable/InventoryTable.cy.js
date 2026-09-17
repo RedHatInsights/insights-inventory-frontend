@@ -67,7 +67,6 @@ const AVAILABLE_FILTER_NAMES = [
   'Status',
   'Operating system',
   'Data collector',
-  'RHC status',
   'Last seen',
   'Workspace',
 ];
@@ -303,13 +302,6 @@ describe('hiding filters', () => {
     waitForTable();
     cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
     cy.get(DROPDOWN_ITEM).should('not.contain', 'Data collector');
-  });
-
-  it('can hide rhcd filter', () => {
-    mountTable({ hasAccess: true, hideFilters: { rhcdFilter: true } });
-    waitForTable();
-    cy.get('[aria-label="Conditional filter toggle"]').click(); // TODO: return to OUIA-based selectors
-    cy.get(DROPDOWN_ITEM).should('not.contain', 'RHC status');
   });
 
   it('can hide os filter', () => {
