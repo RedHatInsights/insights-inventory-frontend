@@ -9,6 +9,7 @@ import React, {
 import { useSearchParams } from 'react-router-dom';
 import SystemsView from '../SystemsView/SystemsView';
 import type { SortDirection } from '../SystemsView/SystemsView';
+import { Actions } from './actions';
 import {
   fetchInventoryViews,
   INVENTORY_VIEWS_QUERY_KEY,
@@ -367,17 +368,23 @@ const InventoryViews = () => {
         </>
       )}
       {isReady && (
-        <SystemsView
-          key={`${activeViewId}-${viewsLoaded}`}
-          columns={columnSelector ?? selectLegacyInventoryColumns}
-          filters={filterSelector}
-          initialSort={initialSort}
-          initialLastSeenCustomRange={initialLastSeenCustomRange}
-          onColumnsChange={handleColumnsChange}
-          onLastSeenCustomRangeChange={setCurrentLastSeenCustomRange}
-          queryKeyPrefix={INVENTORY_VIEWS_QUERY_KEY}
-          fetchData={fetchInventoryViews}
-        />
+        <Actions<InventoryBindableItem>>
+          {({ bulkActions, rowActions }) => (
+            <SystemsView
+              key={`${activeViewId}-${viewsLoaded}`}
+              columns={columnSelector ?? selectLegacyInventoryColumns}
+              filters={filterSelector}
+              initialSort={initialSort}
+              initialLastSeenCustomRange={initialLastSeenCustomRange}
+              onColumnsChange={handleColumnsChange}
+              onLastSeenCustomRangeChange={setCurrentLastSeenCustomRange}
+              queryKeyPrefix={INVENTORY_VIEWS_QUERY_KEY}
+              fetchData={fetchInventoryViews}
+              bulkActions={bulkActions}
+              rowActions={rowActions}
+            />
+          )}
+        </Actions>
       )}
     </>
   );

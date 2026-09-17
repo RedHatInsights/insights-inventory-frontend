@@ -1,5 +1,12 @@
 export { default } from './SystemsView';
-export type { SystemsViewProps, SystemsViewFetchData } from './SystemsView';
+export type {
+  ActionHelpers,
+  ActionSpec,
+  BulkAction,
+  SystemsViewFetchData,
+  SystemsViewProps,
+  RowAction,
+} from './SystemsView';
 export type {
   SystemsViewFetchParams,
   SystemsViewFilterState,
@@ -8,7 +15,6 @@ export type {
   SortDirection,
   LastSeenCustomRange,
 } from './types';
-export type { OnInvalidate } from './SystemActionModalsContext';
 export type { SystemsViewActiveState } from './utils/deriveActiveState';
 export type { BoundColumn } from './columns/inventoryViewColumns';
 export type { ColumnSelector } from './columns/resolveColumnSelector';

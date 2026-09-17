@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react';
+import type { InventoryBindableItem } from '../SystemsView/columns/inventory/columnDefinitions';
 import SystemsView from '../SystemsView/SystemsView';
+import { Actions } from './actions';
 import { fetchHosts, HOSTS_QUERY_KEY } from './hostsQueryOptions';
 import { useAnsibleWorkloadsSearchParam } from './hooks/useAnsibleWorkloadsSearchParam';
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
@@ -21,12 +23,18 @@ const InventoryHosts = () => {
   }
 
   return (
-    <SystemsView
-      columns={selectLegacyInventoryColumns}
-      filters={filtersSelector}
-      queryKeyPrefix={HOSTS_QUERY_KEY}
-      fetchData={fetchHosts}
-    />
+    <Actions<InventoryBindableItem>>
+      {({ bulkActions, rowActions }) => (
+        <SystemsView
+          columns={selectLegacyInventoryColumns}
+          filters={filtersSelector}
+          queryKeyPrefix={HOSTS_QUERY_KEY}
+          fetchData={fetchHosts}
+          bulkActions={bulkActions}
+          rowActions={rowActions}
+        />
+      )}
+    </Actions>
   );
 };
 
