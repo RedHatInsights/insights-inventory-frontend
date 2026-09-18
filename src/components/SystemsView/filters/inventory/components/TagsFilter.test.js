@@ -3,7 +3,7 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { TagsFilter } from './TagsFilter';
-import { SystemActionModalsContext } from '../../../SystemActionModalsContext';
+import { TagsModalContext } from '../../../TagsModalContext';
 import { useTagsQuery } from '../../../hooks/useTagsQuery';
 
 jest.mock('../../../../../Utilities/hooks/useDebouncedValue', () => ({
@@ -18,18 +18,13 @@ const mockOpenTagsModal = jest.fn();
 
 function renderTagsFilter(props = {}) {
   return render(
-    <SystemActionModalsContext.Provider
+    <TagsModalContext.Provider
       value={{
-        openDeleteModal: jest.fn(),
-        openAddToWorkspaceModal: jest.fn(),
-        openMoveSystemsToWorkspaceModal: jest.fn(),
-        openRemoveFromWorkspaceModal: jest.fn(),
-        openEditModal: jest.fn(),
         openTagsModal: mockOpenTagsModal,
       }}
     >
       <TagsFilter placeholder="Filter by tags" {...props} />
-    </SystemActionModalsContext.Provider>,
+    </TagsModalContext.Provider>,
   );
 }
 

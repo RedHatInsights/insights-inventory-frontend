@@ -1,7 +1,6 @@
 import flatMap from 'lodash/flatMap';
 import {
   HOST_GROUP_CHIP,
-  RHCD_FILTER_KEY,
   UPDATE_METHOD_KEY,
   SYSTEM_TYPE_KEY,
   WORKLOAD_FILTER_KEY,
@@ -47,8 +46,6 @@ const filterMapper = {
   tagFilters: ({ tagFilters }, searchParams) =>
     tagFilters?.length > 0 &&
     searchParams.append('tags', flatMap(tagFilters, mapTags)),
-  rhcdFilter: ({ rhcdFilter }, searchParams) =>
-    rhcdFilter?.forEach((item) => searchParams.append(RHCD_FILTER_KEY, item)),
   lastSeenFilter: ({ lastSeenFilter }, searchParams) =>
     Object.keys(lastSeenFilter || {})?.forEach(
       (item) =>

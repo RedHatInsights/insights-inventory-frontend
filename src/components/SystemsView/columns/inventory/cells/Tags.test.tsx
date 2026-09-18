@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import type { StructuredTag } from '@redhat-cloud-services/host-inventory-client';
 import Tags, { type TagsValue } from './Tags';
-import { SystemActionModalsContext } from '../../../SystemActionModalsContext';
+import { TagsModalContext } from '../../../TagsModalContext';
 import { NOT_AVAILABLE } from '../../CellValue';
 
 const SYSTEM_ID = 'test-system-id';
@@ -12,19 +12,14 @@ const SYSTEM_ID = 'test-system-id';
 const mockOpenTagsModal = jest.fn();
 
 const mockContextValue = {
-  openDeleteModal: jest.fn(),
-  openAddToWorkspaceModal: jest.fn(),
-  openMoveSystemsToWorkspaceModal: jest.fn(),
-  openRemoveFromWorkspaceModal: jest.fn(),
-  openEditModal: jest.fn(),
   openTagsModal: mockOpenTagsModal,
 };
 
 function renderTags(value: TagsValue) {
   return render(
-    <SystemActionModalsContext.Provider value={mockContextValue}>
+    <TagsModalContext.Provider value={mockContextValue}>
       <Tags value={value} />
-    </SystemActionModalsContext.Provider>,
+    </TagsModalContext.Provider>,
   );
 }
 

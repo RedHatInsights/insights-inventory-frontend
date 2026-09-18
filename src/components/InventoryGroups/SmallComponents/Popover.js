@@ -31,7 +31,7 @@ const InventoryGroupsPopover = () => (
         <span>
           <a
             href={
-              'https://docs.redhat.com/en/documentation/red_hat_lightspeed/1-latest/html/viewing_and_managing_system_inventory/deploying-insights-with-rhca_user-access'
+              'https://docs.redhat.com/en/documentation/red_hat_lightspeed/1-latest/html/viewing_and_managing_system_inventory/deploying-insights-with-rhca'
             }
             target="_blank"
             rel="noopener noreferrer"

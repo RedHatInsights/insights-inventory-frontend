@@ -7,7 +7,6 @@ export const TAG_CHIP = 'tags';
 export const STALE_CHIP = 'staleness';
 export const REGISTERED_CHIP = 'registered_with';
 export const OS_CHIP = 'operating_system';
-export const RHCD_FILTER_KEY = 'rhc_client_id';
 export const UPDATE_METHOD_KEY = 'system_update_method';
 export const SYSTEM_TYPE_KEY = 'system_type';
 export const WORKLOAD_FILTER_KEY = 'workloads';
@@ -121,11 +120,6 @@ export const registered = [
   { label: 'insights-client not connected', value: '!puptoo' },
 ];
 export const InventoryContext = createContext({});
-
-export const rhcdOptions = [
-  { label: 'Active', value: 'not_nil' },
-  { label: 'Inactive', value: 'nil' },
-];
 
 const initUpdateMethodOptions = [
   { label: 'yum', value: 'yum' },
@@ -243,7 +237,6 @@ export function reduceFilters(filters = []) {
         'staleFilter',
         'registeredWithFilter',
         'osFilter',
-        'rhcdFilter',
         'updateMethodFilter',
         'lastSeenFilter',
         'hostGroupFilter',
@@ -282,7 +275,6 @@ export const generateFilter = (
   tagsFilter,
   filterbyName,
   operatingSystem,
-  rhcdFilter,
   updateMethodFilter,
   hostGroupFilter,
   lastSeenFilter,
@@ -315,9 +307,6 @@ export const generateFilter = (
       Object.keys(operatingSystem).length && {
         osFilter: operatingSystem,
       },
-    !isEmpty(rhcdFilter) && {
-      rhcdFilter: Array.isArray(rhcdFilter) ? rhcdFilter : [rhcdFilter],
-    },
     !isEmpty(lastSeenFilter) && {
       lastSeenFilter: Array.isArray(lastSeenFilter)
         ? { mark: lastSeenFilter[0], ...lastSeenDefaults[lastSeenFilter[0]] }
