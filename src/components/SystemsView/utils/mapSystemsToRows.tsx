@@ -7,9 +7,9 @@ import {
 } from './columnMinWidths';
 import { STICKY_ACTIONS_BODY_PROPS } from './stickyActionsColumn';
 import { getStickyNameBodyProps } from './stickyNameColumn';
-import type { System } from '../../InventoryViews/hostsQueryOptions';
 import type { Column } from '../columns/types';
 import type { SystemsViewItem } from '../types';
+import type { ActionHelpers, RowAction } from '../actions/types';
 
 /** DataViewTrObject Extension, `meta` points to associated system objects. */
 export type SystemsViewTableRow<TItem extends SystemsViewItem> =
@@ -24,13 +24,19 @@ interface MapSystemsToRowsParams<TItem extends SystemsViewItem> {
    * When true (inventory views feature): sticky Name/actions cells and column min-widths.
    */
   isInventoryViewsEnabled: boolean;
+  rowActions: readonly RowAction<TItem>[];
+  actionHelpers: ActionHelpers;
 }
 
 export const mapSystemsToRows = <TItem extends SystemsViewItem>({
   data,
   columns,
   isInventoryViewsEnabled,
+  rowActions,
+  actionHelpers,
 }: MapSystemsToRowsParams<TItem>): SystemsViewTableRow<TItem>[] => {
+  const hasRowActions = rowActions.length > 0;
+
   const mapSystemToRow = (system: TItem): SystemsViewTableRow<TItem> => {
     const selectableColumnCells = columns
       .filter((col) => col.isShown)
@@ -55,19 +61,26 @@ export const mapSystemsToRows = <TItem extends SystemsViewItem>({
     return {
       id: system.id,
       meta: system,
-      row: [
-        ...selectableColumnCells,
-        {
-          // FIXME remove type casting
-          cell: <SystemsViewRowActions system={system as unknown as System} />,
-          props: isInventoryViewsEnabled
-            ? {
-                ...STICKY_ACTIONS_BODY_PROPS,
-                isActionCell: true,
-              }
-            : { isActionCell: true },
-        },
-      ],
+      row: hasRowActions
+        ? [
+            ...selectableColumnCells,
+            {
+              cell: (
+                <SystemsViewRowActions
+                  system={system}
+                  rowActions={rowActions}
+                  actionHelpers={actionHelpers}
+                />
+              ),
+              props: isInventoryViewsEnabled
+                ? {
+                    ...STICKY_ACTIONS_BODY_PROPS,
+                    isActionCell: true,
+                  }
+                : { isActionCell: true },
+            },
+          ]
+        : selectableColumnCells,
     };
   };
 

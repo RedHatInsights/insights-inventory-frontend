@@ -12,7 +12,7 @@ const selectTestColumns = () => {
     'operating_system',
     'last_check_in',
     'advisor:critical', // Changed from advisor:recommendations due to RHINENG-30055
-    'vulnerability:total_cves',
+    'vulnerability:important_cves',
     'compliance:policies_count',
   ];
   const showKeys = new Set(columnsToShow);
@@ -183,19 +183,19 @@ describe('Per-service RBAC column gating', () => {
   });
 
   it('automatically falls back to display_name sort when sorted column is denied', () => {
-    // Mount with URL params that set sort to vulnerability:total_cves
+    // Mount with URL params that set sort to vulnerability:important_cves
     // AND with vulnerability denied - the useEffect should detect the locked
     // sort column on mount and automatically fall back to display_name ascending
     mountSystemsView(['vulnerability'], {
       routerProps: {
-        initialEntries: ['/?sort=vulnerability:total_cves&sort_dir=desc'],
+        initialEntries: ['/?sort=vulnerability:important_cves&sort_dir=desc'],
       },
     });
 
     // Wait for table to load
     cy.contains('test-host-1.example.com').should('be.visible');
 
-    // Verify: Total CVEs column shows lock icons (denied)
+    // Verify: Important CVEs column shows lock icons (denied)
     cy.get('td span[aria-label*="request Vulnerability read access"]').should(
       'have.length',
       2,
@@ -220,8 +220,8 @@ describe('Per-service RBAC column gating', () => {
     cy.get('td span[aria-label*="To view this data"]').should('not.exist');
 
     // Verify real vulnerability data is shown
-    cy.contains('td', '12').should('be.visible'); // total_cves for host 1
-    cy.contains('td', '8').should('be.visible'); // total_cves for host 2
+    cy.contains('td', '3').should('be.visible'); // important_cves for host 1
+    cy.contains('td', '2').should('be.visible'); // important_cves for host 2
 
     // Verify real advisor data is shown (individual severity counts)
     cy.contains('td', '2').should('be.visible'); // important/moderate counts

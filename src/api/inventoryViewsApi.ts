@@ -4,7 +4,7 @@ import {
   apiViewsGetViewsList,
   apiViewsGetViewById,
   apiViewsCreateView,
-  apiViewsUpdateView,
+  apiViewsPatchView,
   apiViewsDeleteView,
 } from '@redhat-cloud-services/host-inventory-client';
 import type { AxiosInstance } from 'axios';
@@ -17,7 +17,7 @@ import type {
   ApiViewsGetViewByIdReturnType,
 } from '@redhat-cloud-services/host-inventory-client/ApiViewsGetViewById';
 import type { ApiViewsCreateViewReturnType } from '@redhat-cloud-services/host-inventory-client/ApiViewsCreateView';
-import type { ApiViewsUpdateViewReturnType } from '@redhat-cloud-services/host-inventory-client/ApiViewsUpdateView';
+import type { ApiViewsPatchViewReturnType } from '@redhat-cloud-services/host-inventory-client/ApiViewsPatchView';
 import type {
   ViewConfiguration,
   ViewIn,
@@ -35,6 +35,9 @@ export type InventoryView = ViewOut;
 
 export const ALL_SYSTEMS_VIEW_ID = 'all-systems';
 
+/** URL query key tracking which saved view is active, so a refresh restores it. */
+export const VIEW_ID_URL_PARAM = 'view_id';
+
 export const ALL_SYSTEMS_CONFIGURATION: ViewConfiguration = {
   columns: [
     { key: 'display_name' },
@@ -49,7 +52,7 @@ const endpoints = {
   apiViewsGetViewsList,
   apiViewsGetViewById,
   apiViewsCreateView,
-  apiViewsUpdateView,
+  apiViewsPatchView,
   apiViewsDeleteView,
 };
 
@@ -83,11 +86,11 @@ export const createViewApi = async (
 export const updateViewApi = async (
   id: string,
   data: UpdateViewRequest,
-): Promise<ApiViewsUpdateViewReturnType> => {
-  return (await inventoryApi().apiViewsUpdateView({
+): Promise<ApiViewsPatchViewReturnType> => {
+  return (await inventoryApi().apiViewsPatchView({
     viewId: id,
     viewPatch: data,
-  })) as unknown as ApiViewsUpdateViewReturnType;
+  })) as unknown as ApiViewsPatchViewReturnType;
 };
 
 export const deleteViewApi = async (id: string): Promise<void> => {

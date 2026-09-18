@@ -6,7 +6,7 @@ The system details view is split into two tabs: **Overview** and **Details**. Ea
 
 Cards shown:
 
-- **System status** (`system-status-card`) – RHC status, last seen, stale timestamp
+- **System status** (`system-status-card`) – Current state, Registered, Last seen, Last updated
 - **System properties** (`system-card`) – Host name, Workloads, Display name, Workspace, Ansible hostname (editable when permitted)
 - **Data collectors** (`dataCollector-card`) – Reporters that collect data from hosts (e.g. puptoo, RHSM, Yupana)
 - **Subscriptions** (`subscriptions-card`) – Subscription and entitlement information

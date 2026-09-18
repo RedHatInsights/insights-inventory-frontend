@@ -42,7 +42,6 @@ const expectDefaultFiltersVisible = async () => {
     'Status',
     'Operating system',
     'Data collector',
-    'RHC status',
     'Last seen',
   ];
 
@@ -510,7 +509,7 @@ describe('EntityTableToolbar', () => {
             customFilters={{
               filters: [
                 {
-                  rhcdFilter: ['not_nil'],
+                  staleFilter: ['fresh'],
                 },
               ],
             }}
@@ -519,12 +518,12 @@ describe('EntityTableToolbar', () => {
         </TestWrapper>,
       );
 
-      const category = screen.getByRole('list', { name: 'RHC status' });
+      const category = screen.getByRole('list', { name: 'Status' });
       expect(category).toBeVisible();
-      expect(category).toContainElement(screen.getByText('Active'));
+      expect(category).toContainElement(screen.getByText('Fresh'));
       expect(
         screen.getByRole('button', {
-          name: /close active/i,
+          name: /close fresh/i,
         }),
       ).toBeVisible();
       expect(

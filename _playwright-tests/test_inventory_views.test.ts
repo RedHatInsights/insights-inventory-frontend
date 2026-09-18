@@ -85,11 +85,11 @@ test.describe('Inventory Views application columns', () => {
     },
     {
       name: 'Vulnerability',
-      appColumns: [
-        { name: 'Total CVEs' },
-        { name: 'Critical CVEs' },
-        { name: 'Important CVEs' },
-      ],
+      // 'Vulnerabilities' is intentionally omitted: it shares a sortBy field
+      // with 'Critical CVEs' (Phase 1), so its sort caret is ambiguous until
+      // composite sorting lands. Sort validation uses columns with distinct
+      // sortBy fields.
+      appColumns: [{ name: 'Critical CVEs' }, { name: 'Important CVEs' }],
     },
   ];
 

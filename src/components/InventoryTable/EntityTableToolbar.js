@@ -24,7 +24,6 @@ import {
   LAST_SEEN_CHIP,
   OS_CHIP,
   REGISTERED_CHIP,
-  RHCD_FILTER_KEY,
   STALE_CHIP,
   TAG_CHIP,
   TEXTUAL_CHIP,
@@ -46,8 +45,6 @@ import {
   operatingSystemFilterState,
   registeredWithFilterReducer,
   registeredWithFilterState,
-  rhcdFilterReducer,
-  rhcdFilterState,
   stalenessFilterReducer,
   stalenessFilterState,
   textFilterReducer,
@@ -55,7 +52,6 @@ import {
   useLastSeenFilter,
   useOperatingSystemFilter,
   useRegisteredWithFilter,
-  useRhcdFilter,
   useStalenessFilter,
   useTagsFilter,
   useTextFilter,
@@ -148,7 +144,6 @@ const EntityTableToolbar = ({
       registeredWithFilterReducer,
       tagsFilterReducer,
       operatingSystemFilterReducer,
-      rhcdFilterReducer,
       lastSeenFilterReducer,
       groupFilterReducer,
       systemTypeFilterReducer,
@@ -160,7 +155,6 @@ const EntityTableToolbar = ({
       ...registeredWithFilterState,
       ...tagsFilterState,
       ...operatingSystemFilterState,
-      ...rhcdFilterState,
       ...lastSeenFilterState,
       ...groupFilterState,
       ...systemTypeFilterState,
@@ -168,7 +162,6 @@ const EntityTableToolbar = ({
     },
   );
 
-  const isHideRHCFilterFlagEnabled = useFeatureFlag('hbi.ui.hide_rhc_filter');
   const isHideWorkloadFilterFlagEnabled = useFeatureFlag(
     'hbi.ui.hide_workload_filter',
   );
@@ -193,12 +186,6 @@ const EntityTableToolbar = ({
     registeredWithFilter,
     setRegisteredWithFilter,
   ] = useRegisteredWithFilter(reducer);
-  const [
-    rhcdFilterConfig,
-    rhcdFilterChips,
-    rhcdFilterValue,
-    setRhcdFilterValue,
-  ] = useRhcdFilter(reducer);
   const [
     workloadFilterConfig,
     workloadFilterChips,
@@ -257,10 +244,6 @@ const EntityTableToolbar = ({
       !(hideFilters.all && hideFilters.operatingSystem !== false) &&
       !hideFilters.operatingSystem,
     tags: !(hideFilters.all && hideFilters.tags !== false) && !hideFilters.tags,
-    rhcdFilter:
-      !(hideFilters.all && hideFilters.rhcdFilter !== false) &&
-      !hideFilters.rhcdFilter &&
-      !isHideRHCFilterFlagEnabled,
     lastSeenFilter:
       !(hideFilters.all && hideFilters.lastSeen !== false) &&
       !hideFilters.lastSeen,
@@ -368,7 +351,6 @@ const EntityTableToolbar = ({
       staleFilter,
       registeredWithFilter,
       osFilter,
-      rhcdFilter,
       lastSeenFilter,
       hostGroupFilter,
       systemTypeFilter,
@@ -386,7 +368,6 @@ const EntityTableToolbar = ({
       setRegisteredWithFilter(registeredWithFilter);
     enabledFilters.tags && setSelectedTags(tagFilters);
     enabledFilters.operatingSystem && setOsFilterValue(osFilter);
-    enabledFilters.rhcdFilter && setRhcdFilterValue(rhcdFilter);
     enabledFilters.lastSeenFilter && setLastSeenFilterValue(lastSeenFilter);
     enabledFilters.hostGroupFilter && setHostGroupValue(hostGroupFilter);
     enabledFilters.systemTypeFilter && setSystemTypeValue(systemTypeFilter);
@@ -483,12 +464,6 @@ const EntityTableToolbar = ({
   }, [osFilterValue, enabledFilters.operatingSystem]);
 
   useEffect(() => {
-    if (shouldReload && enabledFilters.rhcdFilter) {
-      onSetFilter(rhcdFilterValue, 'rhcdFilter', debouncedRefresh);
-    }
-  }, [rhcdFilterValue, enabledFilters.rhcdFilter]);
-
-  useEffect(() => {
     if (shouldReload && enabledFilters.lastSeenFilter) {
       onSetFilter(lastSeenFilterValue, 'lastSeenFilter', debouncedRefresh);
     }
@@ -529,8 +504,6 @@ const EntityTableToolbar = ({
       setRegisteredWithFilter(onDeleteFilter(deleted, registeredWithFilter)),
     [OS_CHIP]: (deleted) =>
       setOsFilterValue(onDeleteGroupFilter(deleted, osFilterValue)),
-    [RHCD_FILTER_KEY]: (deleted) =>
-      setRhcdFilterValue(onDeleteFilter(deleted, rhcdFilterValue)),
     [LAST_SEEN_CHIP]: (deleted) => {
       setLastSeenFilterValue(
         onDeleteFilter(deleted, [lastSeenFilterValue.mark]),
@@ -555,7 +528,6 @@ const EntityTableToolbar = ({
     [STALE_CHIP]: () => setStaleFilter([]),
     [REGISTERED_CHIP]: () => setRegisteredWithFilter([]),
     [OS_CHIP]: () => setOsFilterValue([]),
-    [RHCD_FILTER_KEY]: () => setRhcdFilterValue([]),
     [LAST_SEEN_CHIP]: () => {
       setLastSeenFilterValue([]);
       setStartDate();
@@ -574,7 +546,6 @@ const EntityTableToolbar = ({
     enabledFilters.registeredWith && setRegisteredWithFilter([]);
     enabledFilters.tags && setSelectedTags({});
     enabledFilters.operatingSystem && setOsFilterValue([]);
-    enabledFilters.rhcdFilter && setRhcdFilterValue([]);
     enabledFilters.lastSeenFilter && setLastSeenFilterValue([]);
     enabledFilters.hostGroupFilter && setHostGroupValue([]);
     enabledFilters.systemTypeFilter && setSystemTypeValue([]);
@@ -598,7 +569,6 @@ const EntityTableToolbar = ({
         ...(!hasItems && enabledFilters.stale ? stalenessChip : []),
         ...(!hasItems && enabledFilters.registeredWith ? registeredChip : []),
         ...(!hasItems && enabledFilters.operatingSystem ? osFilterChips : []),
-        ...(!hasItems && enabledFilters.rhcdFilter ? rhcdFilterChips : []),
         ...(!hasItems && enabledFilters.updateMethodFilter
           ? updateMethodChips
           : []),
@@ -642,7 +612,6 @@ const EntityTableToolbar = ({
           ...(enabledFilters.stale ? [stalenessFilter] : []),
           ...(enabledFilters.operatingSystem ? [osFilterConfig] : []),
           ...(enabledFilters.registeredWith ? [registeredFilter] : []),
-          ...(enabledFilters.rhcdFilter ? [rhcdFilterConfig] : []),
           ...(enabledFilters.updateMethodFilter ? [updateMethodConfig] : []),
           ...(enabledFilters.lastSeenFilter ? [lastSeenFilter] : []),
           ...(enabledFilters.hostGroupFilter ? [hostGroupConfig] : []),
@@ -861,7 +830,6 @@ EntityTableToolbar.propTypes = {
     registeredWith: PropTypes.bool,
     stale: PropTypes.bool,
     operatingSystem: PropTypes.bool,
-    rhcdFilter: PropTypes.bool,
     lastSeen: PropTypes.bool,
     updateMethodFilter: PropTypes.bool,
     hostGroupFilter: PropTypes.bool,

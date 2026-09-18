@@ -10,17 +10,16 @@ export const useUpdateViewMutation = () => {
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateViewRequest }) =>
       updateViewApi(id, data),
-    onSuccess: (updatedView) => {
+    onSuccess: async (updatedView) => {
       addNotification({
         variant: 'success',
         title: `View "${updatedView.name}" updated successfully`,
         dismissable: true,
       });
-
-      void queryClient.invalidateQueries({ queryKey: ['views'] });
-      void queryClient.invalidateQueries({
-        queryKey: ['view', updatedView.id],
-      });
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['views'] }),
+        queryClient.invalidateQueries({ queryKey: ['view', updatedView.id] }),
+      ]);
     },
     onError: (error) => {
       console.error(error);
