@@ -76,6 +76,7 @@ export const inventoryColumns = [
   'Status',
   'Vendor',
   'Infrastructure',
+  'Data collector',
 ];
 
 export const advisorColumns = ['Recommendations', 'Incidents'];
