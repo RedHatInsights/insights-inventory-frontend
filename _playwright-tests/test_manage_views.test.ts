@@ -16,6 +16,7 @@ import {
   toolbarFilterHelper,
 } from './helpers/filterHelpers';
 import { manageViewHelper } from './helpers/views/manageViewsHelper';
+import { deleteViewsByName } from './helpers/apiHelpers';
 
 const DEFAULT_PREFIX = 'automated-test';
 const ALL_SYSTEMS_VIEW = 'All systems';
@@ -35,15 +36,20 @@ test.describe(
     },
   },
   () => {
+    const viewName = `${DEFAULT_PREFIX}-${randomUUID()}`;
+    const renamedView = `${viewName}-renamed`;
+
     test.beforeEach(async ({ page }) => {
       await navigateToInventorySystemsFunc(page);
+    });
+
+    test.afterAll(async () => {
+      await deleteViewsByName([viewName, renamedView]);
     });
 
     test('User creates a new view, renames it, and deletes it', async ({
       page,
     }) => {
-      const viewName = `${DEFAULT_PREFIX}-${randomUUID()}`;
-      const renamedView = `${viewName}-renamed`;
       const manageView = manageViewHelper(page);
 
       await test.step(`Creates new view`, async () => {
@@ -84,6 +90,10 @@ test.describe(
     const viewA = `${DEFAULT_PREFIX}-${randomUUID()}`;
     const viewB = `${DEFAULT_PREFIX}-${randomUUID()}`;
     const viewC = `${DEFAULT_PREFIX}-${randomUUID()}`;
+
+    test.afterAll(async () => {
+      await deleteViewsByName([viewA, viewB, viewC]);
+    });
 
     const configurationA = {
       columns: [...vulnerabilityColumns, ...allSystemsColumns],
@@ -263,14 +273,6 @@ test.describe(
           configurationA.sort.direction,
         );
       });
-
-      await test.step(`Cleans up test view`, async () => {
-        await manageView.selectView(viewA);
-        await manageView.delete(viewA);
-
-        await manageView.selectView(viewB);
-        await manageView.delete(viewB);
-      });
     });
 
     test('User updates custom view with new configuration', async ({
@@ -390,11 +392,6 @@ test.describe(
           configurationUpdatedC.sort.column,
           configurationUpdatedC.sort.direction,
         );
-      });
-
-      await test.step(`Cleans up test view`, async () => {
-        await manageView.selectView(viewC);
-        await manageView.delete(viewC);
       });
     });
   },
