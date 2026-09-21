@@ -12,6 +12,7 @@ export type ManageViewHelper = {
   rename: (newName: string) => Promise<void>;
   delete: (view: string) => Promise<void>;
   verifyActiveView: (expectedViewName: string, options?: { timeout?: number }) => Promise<void>;
+  verifyNoUnsavedChanges: (options?: { timeout?: number }) => Promise<void>;
 };
 
 /**
@@ -38,6 +39,17 @@ export function manageViewHelper(page: Page): ManageViewHelper {
     await expect(selectedViewInput).toHaveValue(expectedViewName, {
       timeout,
     });
+  };
+
+  // A dirty view shows "Save" / "Save as" as the split button's primary action;
+  // a clean one falls back to "Manage view". Waiting on that swap is how we know
+  // an update mutation settled, since the modal-less Save gives no other signal.
+  const verifyNoUnsavedChanges = async ({
+    timeout = 10000,
+  }: { timeout?: number } = {}): Promise<void> => {
+    await expect(
+      page.getByRole('button', { name: 'Manage view', exact: true }),
+    ).toBeVisible({ timeout });
   };
 
   return {
@@ -136,5 +148,6 @@ export function manageViewHelper(page: Page): ManageViewHelper {
     },
 
     verifyActiveView,
+    verifyNoUnsavedChanges,
   };
 }
