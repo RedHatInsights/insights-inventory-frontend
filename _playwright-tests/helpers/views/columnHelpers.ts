@@ -7,6 +7,10 @@ export { columnManagementModal } from './columnManagementModal';
 
 const NOT_AVAILABLE = '--';
 
+// Placeholder rendered by the Recommendations column when a system has zero counts
+// across all four severities. See AdvisorRecommendations.tsx.
+const NO_RECOMMENDATIONS = 'No recommendations';
+
 const SKELETON_TABLE = '[data-ouia-component-id="SkeletonTable"]';
 
 // Default columns from inventory/columnDefinitions.tsx
@@ -312,7 +316,7 @@ const COLUMN_VALIDATIONS: Record<string, ColumnValidationConfig> = {
   },
   Recommendations: {
     type: 'numeric',
-    ignoreValues: [NOT_AVAILABLE, 'No recommendations'],
+    ignoreValues: [NOT_AVAILABLE],
   },
   Incidents: {
     type: 'numeric',
@@ -381,6 +385,8 @@ export async function validateDataColumnSortOrder(
 
   // Get all rows
   const rows = await page.locator('tbody tr').all();
+  expect(rows.length).toBeGreaterThan(0);
+
   const columnValues: string[] = [];
 
   for (const row of rows) {
@@ -513,9 +519,6 @@ function validateNumericOrder(
 
 /**
  * Validates Recommendations column order.
- * The column displays severity icons (Critical, Important, Moderate, Low) but sorts by Critical count.
- * Since icons for 0 counts are not rendered, we skip detailed validation and just verify
- * the data changes across rows (not all the same value).
  *  @param {string[]} values    - Array of values from the table.
  *  @param {string}   direction - Sort direction ('ascending' or 'descending').
  */
@@ -523,11 +526,16 @@ function validateRecommendationsOrder(
   values: string[],
   direction: 'ascending' | 'descending',
 ) {
-  // For the new multi-icon Recommendations column, the displayed values don't directly
-  // correspond to the sort key (critical count), so we just verify the column is sortable
-  // by checking that not all values are identical
-  const uniqueValues = new Set(values);
-  expect(uniqueValues.size).toBeGreaterThan(1);
+  // Normalize to ascending severity so one partition check covers both directions.
+  const ascending = direction === 'ascending' ? values : [...values].reverse();
+  const firstWithRecs = ascending.findIndex((v) => v !== NO_RECOMMENDATIONS);
+
+  // A whole page of zero-severity systems is a valid result in either direction.
+  if (firstWithRecs === -1) return;
+
+  expect(
+    ascending.slice(firstWithRecs).every((v) => v !== NO_RECOMMENDATIONS),
+  ).toBe(true);
 }
 
 /**
