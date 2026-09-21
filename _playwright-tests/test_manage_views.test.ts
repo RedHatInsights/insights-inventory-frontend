@@ -356,9 +356,6 @@ test.describe(
 
         await manageView.save(viewC);
         await manageView.verifyActiveView(viewC);
-        // Save only settles once the toolbar drops back to its clean state;
-        // switching views before then would race the update mutation.
-        await manageView.verifyNoUnsavedChanges();
       });
 
       await test.step(`Switches between views and verifies ${viewC} has new configuration`, async () => {

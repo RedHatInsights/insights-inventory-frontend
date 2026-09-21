@@ -12,7 +12,6 @@ export type ManageViewHelper = {
   rename: (newName: string) => Promise<void>;
   delete: (view: string) => Promise<void>;
   verifyActiveView: (expectedViewName: string, options?: { timeout?: number }) => Promise<void>;
-  verifyNoUnsavedChanges: (options?: { timeout?: number }) => Promise<void>;
 };
 
 /**
@@ -99,15 +98,18 @@ export function manageViewHelper(page: Page): ManageViewHelper {
     },
 
     /**
-     * Updates the current view's configuration.
+     * Saves new configuration for the current view.
      */
     async save(view: string): Promise<void> {
       await verifyActiveView(view);
-      await expect(manageViewToggle).toBeVisible();
-      await manageViewToggle.click();
-      await page
-        .getByRole('menuitem', { name: 'Save', exact: true })
-        .click();
+
+      const saveAction = page.getByRole('button', {
+        name: 'Save',
+        exact: true,
+      });
+      await expect(saveAction).toBeVisible();
+      await saveAction.click();
+      await verifyNoUnsavedChanges();
     },
 
     /**
@@ -148,6 +150,5 @@ export function manageViewHelper(page: Page): ManageViewHelper {
     },
 
     verifyActiveView,
-    verifyNoUnsavedChanges,
   };
 }
