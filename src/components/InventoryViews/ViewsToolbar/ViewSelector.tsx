@@ -17,6 +17,7 @@ import { DEBOUNCE_TIMEOUT_MS } from '../../../constants';
 export interface ViewSelectorProps {
   views: ViewOut[];
   activeViewId: string;
+  defaultViewId?: string;
   onSelectView: (viewId: string) => void;
   onFetchNextPage?: () => Promise<unknown>;
   hasNextPage?: boolean;
@@ -26,9 +27,27 @@ export interface ViewSelectorProps {
 const PAGE_SIZE = DEFAULT_PAGE_SIZE;
 const LOADER_ID = '__view-selector-show-more__';
 
+const ViewOptionContent = ({
+  name,
+  isDefault,
+}: {
+  name: string;
+  isDefault: boolean;
+}) => (
+  <span style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+    {name}
+    {isDefault && (
+      <Label isCompact color="grey" style={{ marginInlineStart: 'auto' }}>
+        Default
+      </Label>
+    )}
+  </span>
+);
+
 const ViewSelector = ({
   views,
   activeViewId,
+  defaultViewId,
   onSelectView,
   onFetchNextPage,
   hasNextPage,
@@ -147,7 +166,10 @@ const ViewSelector = ({
           )}
         {allSystemsView && (
           <SelectOption key={allSystemsView.id} value={allSystemsView.id}>
-            {allSystemsView.name}
+            <ViewOptionContent
+              name={allSystemsView.name}
+              isDefault={allSystemsView.id === defaultViewId}
+            />
           </SelectOption>
         )}
         {userViews.length > 0 && (
@@ -155,7 +177,10 @@ const ViewSelector = ({
             {allSystemsView && <Divider />}
             {visibleUserViews.map((view) => (
               <SelectOption key={view.id} value={view.id}>
-                {view.name}
+                <ViewOptionContent
+                  name={view.name}
+                  isDefault={view.id === defaultViewId}
+                />
               </SelectOption>
             ))}
           </>
@@ -185,7 +210,10 @@ const ViewSelector = ({
                   </Label>
                 }
               >
-                {view.name}
+                <ViewOptionContent
+                  name={view.name}
+                  isDefault={view.id === defaultViewId}
+                />
               </SelectOption>
             ))}
           </>

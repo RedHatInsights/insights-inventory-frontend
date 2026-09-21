@@ -17,6 +17,7 @@ import {
 } from './inventoryViewsQueryOptions';
 import { useAnsibleWorkloadsSearchParam } from './hooks/useAnsibleWorkloadsSearchParam';
 import { useViewsQuery } from './hooks/useViewsQuery';
+import { useViewQuery } from './hooks/useViewQuery';
 import useInventoryViewsPrivateFeatureFlag from '../../Utilities/useInventoryViewsPrivateFeatureFlag';
 import ViewsToolbar from './ViewsToolbar/ViewsToolbar';
 import ViewSaveAsModal from './Modals/ViewSaveAsModal';
@@ -30,6 +31,7 @@ import {
 import { createViewColumnSelector } from './createViewColumnSelector';
 import { createViewFilterSelector } from './createViewFilterSelector';
 import { resolveDefaultViewId } from './resolveDefaultViewId';
+import { resolveViewIdAfterDelete } from './resolveViewIdAfterDelete';
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
 import { selectInventoryViewsFilters } from './selectInventoryViewsFilters';
 import {
@@ -50,6 +52,7 @@ import {
 } from './utils/viewConfigFilters';
 import { useViewDirtyState } from './hooks/useViewDirtyState';
 import { useUpdateViewMutation } from './hooks/useUpdateViewMutation';
+import { useSetDefaultViewMutation } from './hooks/useSetDefaultViewMutation';
 import type {
   LastSeenCustomRange,
   SystemsViewFilterState,
@@ -122,10 +125,12 @@ const InventoryViews = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const queryClient = useQueryClient();
   const updateView = useUpdateViewMutation();
+  const setDefaultView = useSetDefaultViewMutation();
   const isInventoryViewsPrivateEnabled = useInventoryViewsPrivateFeatureFlag();
   const [currentLastSeenCustomRange, setCurrentLastSeenCustomRange] = useState<
     LastSeenCustomRange | undefined
   >(undefined);
+
   const {
     data: viewsData,
     fetchNextPage: fetchNextViewsPage,
@@ -133,30 +138,22 @@ const InventoryViews = () => {
     isFetchingNextPage: isFetchingNextViewsPage,
     isPending: isViewsPending,
   } = useViewsQuery();
+
   const viewsList = useMemo(
     () => viewsData?.pages.flatMap((page) => page.results) ?? [],
     [viewsData],
   );
-  // The view to load when the URL has no view_id (fresh /insights/inventory, or
-  // an old bookmark). Today this is the All Systems system view; see
-  // resolveDefaultViewId for how a user-pinned default will slot in later.
+
+  const backendDefaultViewId = viewsData?.pages[0]?.default_view_id;
+
   const defaultViewId = useMemo(
-    () => resolveDefaultViewId(viewsList),
-    [viewsList],
+    () => resolveDefaultViewId(viewsList, backendDefaultViewId),
+    [viewsList, backendDefaultViewId],
   );
 
   const viewsLoaded = !!viewsData;
   const urlViewId = searchParams.get(VIEW_ID_URL_PARAM);
 
-  // The active view is derived from the URL, reconciled against the loaded views.
-  // Deriving (rather than mirroring the URL into state) means the correct view is
-  // resolved on the first render after views load, so it paints right the first
-  // time, no flash and no layout effect needed. The URL itself is normalized by
-  // the effect below, which runs after paint since it's only cosmetic.
-  //  - No view_id in the URL: use the default view (once it's known).
-  //  - Unknown view_id while more pages may load: keep it (optimistic) since the
-  //    view might be on a later page.
-  //  - Stale view_id once fully loaded: fall back to the default.
   const activeViewId = useMemo(() => {
     if (!viewsLoaded) return urlViewId ?? ALL_SYSTEMS_VIEW_ID;
     if (urlViewId && viewsList.some((v) => v.id === urlViewId))
@@ -165,15 +162,18 @@ const InventoryViews = () => {
     return defaultViewId;
   }, [viewsLoaded, urlViewId, viewsList, hasNextViewsPage, defaultViewId]);
 
-  const activeView = viewsList.find((v) => v.id === activeViewId);
+  const activeViewInList = viewsList.find((v) => v.id === activeViewId);
+
+  const { data: fetchedActiveView } = useViewQuery(
+    !activeViewInList && activeViewId !== ALL_SYSTEMS_VIEW_ID
+      ? activeViewId
+      : undefined,
+  );
+  const activeView = activeViewInList ?? fetchedActiveView;
   const isSystemView = activeView?.is_system_view ?? true;
 
-  // Normalize the URL to match the derived active view, keeping any filter params:
-  //  - No view_id present: stamp the default in (a dirty default view survives a
-  //    refresh) once the default is known.
-  //  - Stale view_id (deleted view / old bookmark): drop it, or swap in the
-  //    default, once views are fully loaded. Runs after paint; rendering already
-  //    uses the derived activeViewId, so there's nothing to reconcile visually.
+  const isDefaultView = activeViewId === defaultViewId;
+
   useEffect(() => {
     if (!viewsLoaded) return;
 
@@ -233,23 +233,14 @@ const InventoryViews = () => {
     [resolvedFilters],
   );
 
-  // Baseline columns = the view's saved configuration, resolved to the same
-  // Column[] shape the modal produces. Deriving it from the saved config (rather
-  // than lazily seeding it from the first onColumnsChange) is what makes the
-  // first edit count as dirty — otherwise the first edit becomes its own baseline.
   const baselineColumns = useMemo(
     () => resolveColumnSelector(columnSelector ?? selectLegacyInventoryColumns),
     [columnSelector],
   );
 
-  // The user's live column edits from the Manage columns modal. `undefined` means
-  // "no edits yet", so areColumnsDirty compares against the saved config baseline.
   const [currentColumns, setCurrentColumns] =
     useState<readonly Column<InventoryBindableItem>[]>();
 
-  // Reset edits synchronously when the active view (or views data) changes so a
-  // freshly selected view starts clean. Render-time reset avoids the one-frame
-  // stale-dirty flash a useEffect would introduce.
   const prevViewKeyRef = useRef(`${activeViewId}-${viewsLoaded}`);
   const viewKey = `${activeViewId}-${viewsLoaded}`;
   if (viewKey !== prevViewKeyRef.current) {
@@ -347,17 +338,27 @@ const InventoryViews = () => {
     setIsRenameModalOpen(false);
   };
 
+  const handleSetDefault = () => {
+    if (!activeView || setDefaultView.isPending) return;
+    setDefaultView.mutate(activeView.id);
+  };
+
   const handleDelete = () => {
     setIsDeleteModalOpen(true);
   };
 
   const handleDeleteSuccess = (viewId: string) => {
     setIsDeleteModalOpen(false);
-    if (viewId === activeViewId) {
-      // Clear the URL to its defaults; the derived activeViewId falls back to the
-      // default view and the normalize effect re-stamps view_id after paint.
-      setSearchParams(new URLSearchParams(), { replace: true });
-    }
+    if (viewId !== activeViewId) return;
+
+    const fallbackViewId = resolveViewIdAfterDelete(
+      viewId,
+      backendDefaultViewId,
+      viewsList,
+    );
+    const next = new URLSearchParams();
+    if (fallbackViewId) next.set(VIEW_ID_URL_PARAM, fallbackViewId);
+    setSearchParams(next, { replace: true });
   };
 
   const getCurrentConfiguration = (): ViewConfiguration => {
@@ -380,10 +381,6 @@ const InventoryViews = () => {
     };
   };
 
-  // Hold off rendering the whole views UI (toolbar + table) until the views
-  // query settles. Rendering the toolbar against an empty viewsList would show
-  // "All systems" as the selected view before it resolves to the URL's view_id,
-  // producing a flash on refresh.
   if (isViewsPending) {
     return (
       <Bullseye>
@@ -399,14 +396,18 @@ const InventoryViews = () => {
           <ViewsToolbar
             viewsList={viewsList}
             activeViewId={activeViewId}
+            defaultViewId={defaultViewId}
             isSystemView={isSystemView}
             isViewDirty={isViewDirty}
             isSaving={updateView.isPending}
             isOwner={activeView?.is_owner ?? false}
+            isDefaultView={isDefaultView}
+            isSettingDefault={setDefaultView.isPending}
             onSelectView={handleSelectView}
             onSaveAs={handleSaveAs}
             onRename={handleRename}
             onDelete={handleDelete}
+            onSetDefault={handleSetDefault}
             onFetchNextViewsPage={fetchNextViewsPage}
             hasNextViewsPage={hasNextViewsPage}
             isFetchingNextViewsPage={isFetchingNextViewsPage}

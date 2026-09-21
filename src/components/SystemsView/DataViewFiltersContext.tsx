@@ -156,10 +156,12 @@ export const DataViewFiltersProvider = ({
 
     const updates: Partial<SystemsViewFilterState> = {};
     for (const spec of resolvedFilters) {
-      if (
-        isEmptyFilterValue(rawFilters[spec.filterId]) &&
-        !isEmptyFilterValue(spec.defaultValue)
-      ) {
+      // Decide from the URL, not rawFilters: PF's useDataViewFilters seeds text
+      // filters from initialFilters when the param is absent (get() -> null),
+      // so rawFilters already carries the default and would never look "empty".
+      // Array filters seed from getAll() -> [], so they read empty as expected.
+      const hasUrlValue = searchParams.getAll(spec.filterId).length > 0;
+      if (!hasUrlValue && !isEmptyFilterValue(spec.defaultValue)) {
         updates[spec.filterId] = spec.defaultValue;
       }
     }
@@ -167,7 +169,7 @@ export const DataViewFiltersProvider = ({
       onSetFilters(updates);
     }
     setHasHydratedDefaults(true);
-  }, [hasHydratedDefaults, rawFilters, resolvedFilters, onSetFilters]);
+  }, [hasHydratedDefaults, searchParams, resolvedFilters, onSetFilters]);
 
   const clearAllFilters = useCallback(() => {
     setLastSeenCustomRange(null);
