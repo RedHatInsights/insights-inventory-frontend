@@ -17,7 +17,7 @@ import {
 } from '@patternfly/react-core';
 import xor from 'lodash/xor';
 import { useDebouncedValue } from '../../../../../Utilities/hooks/useDebouncedValue';
-import { useSystemActionModalsContext } from '../../../SystemActionModalsContext';
+import { useTagsModalContext } from '../../../TagsModalContext';
 import { useTagsQuery } from '../../../hooks/useTagsQuery';
 import { DEBOUNCE_TIMEOUT_MS, PER_PAGE } from '../../../../../constants';
 import { FILTER_DROPDOWN_WIDTH, LOADER_ID } from '../../../constants';
@@ -36,7 +36,7 @@ export const TagsFilter = ({
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
   const debouncedSearch = useDebouncedValue(search, DEBOUNCE_TIMEOUT_MS);
-  const { openTagsModal } = useSystemActionModalsContext();
+  const { openTagsModal } = useTagsModalContext();
 
   const { data, total, isLoading, isFetching } = useTagsQuery({
     search: debouncedSearch,
