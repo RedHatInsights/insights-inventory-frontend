@@ -4,11 +4,10 @@ import { type System } from '../../InventoryViews/hostsQueryOptions';
 import { useMemo } from 'react';
 import { patchHostById } from '../../../api/hostInventoryApiTyped';
 import { PatchHostIn } from '@redhat-cloud-services/host-inventory-client';
-import type { OnInvalidate } from '../SystemActionModalsContext';
 
 interface usePatchSystemsMutationParams {
   systems: System[];
-  onInvalidate: OnInvalidate;
+  onInvalidate: () => void | Promise<void>;
   onSuccess?: () => void;
   onError?: () => void;
   onMutate?: () => void;

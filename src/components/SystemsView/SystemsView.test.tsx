@@ -9,6 +9,7 @@ import {
   type SystemsViewFetchData,
   type SystemsViewQueryData,
 } from './SystemsView';
+import type { ActionHelpers, ActionSpec, RowAction } from './actions/types';
 import type { ColumnSelector } from './columns/resolveColumnSelector';
 import type { FilterSelector } from './filters/resolveFilterSelector';
 import { bindInventoryViewColumns } from './columns/inventoryViewColumns';
@@ -85,6 +86,8 @@ const renderSystemsView = <TFilterParams = unknown,>(
   extra?: {
     filters?: FilterSelector<TFilterParams>;
     initialRoute?: string;
+    bulkActions?: readonly ActionSpec<System>[];
+    rowActions?: readonly RowAction<System>[];
   },
 ) =>
   render(
@@ -97,9 +100,33 @@ const renderSystemsView = <TFilterParams = unknown,>(
         fetchData={fetchData}
         columns={selectNameColumn}
         filters={extra?.filters}
+        bulkActions={extra?.bulkActions}
+        rowActions={extra?.rowActions}
       />
     </TestWrapper>,
   );
+
+function createPersistentAction(
+  onAction: ActionSpec<System>['onAction'],
+): ActionSpec<System> {
+  return {
+    id: 'delete',
+    label: 'Delete',
+    isPersistent: true,
+    onAction,
+  };
+}
+
+function getCalledActionHelpers(onAction: jest.Mock): ActionHelpers {
+  const helpers = onAction.mock.calls.at(-1)?.[1] as ActionHelpers | undefined;
+  expect(helpers).toEqual(
+    expect.objectContaining({
+      invalidateQuery: expect.any(Function),
+      clearSelection: expect.any(Function),
+    }),
+  );
+  return helpers as ActionHelpers;
+}
 
 describe('SystemsView', () => {
   beforeEach(() => {
@@ -349,5 +376,155 @@ describe('SystemsView', () => {
     expect(
       await screen.findByRole('button', { name: 'Reset filters' }),
     ).toBeInTheDocument();
+  });
+
+  it('omits bulk and row actions when action props are omitted', async () => {
+    renderSystemsView(() => Promise.resolve(successData));
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Export' })).toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'Delete' }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: /kebab toggle/i }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('columnheader', { name: /actions/i }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('omits bulk and row actions when action props are empty arrays', async () => {
+    renderSystemsView(
+      () => Promise.resolve(successData),
+      createTestQueryClient(),
+      { bulkActions: [], rowActions: [] },
+    );
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'Delete' }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: /kebab toggle/i }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('calls bulk onAction with selected items and actionHelpers', async () => {
+    const onAction = jest.fn();
+    const user = userEvent.setup();
+
+    renderSystemsView(
+      () => Promise.resolve(successData),
+      createTestQueryClient(),
+      { bulkActions: [createPersistentAction(onAction)] },
+    );
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    await user.click(screen.getByRole('checkbox', { name: 'Select row 0' }));
+    await user.click(screen.getByRole('button', { name: 'Delete' }));
+
+    expect(onAction).toHaveBeenCalledTimes(1);
+    expect(onAction).toHaveBeenCalledWith(
+      [
+        expect.objectContaining({
+          id: mockSystem.id,
+          display_name: mockSystem.display_name,
+        }),
+      ],
+      expect.objectContaining({
+        invalidateQuery: expect.any(Function),
+        clearSelection: expect.any(Function),
+      }),
+    );
+  });
+
+  it('calls row onAction with the row item and actionHelpers', async () => {
+    const onAction = jest.fn();
+    const user = userEvent.setup();
+
+    renderSystemsView(
+      () => Promise.resolve(successData),
+      createTestQueryClient(),
+      {
+        rowActions: [{ id: 'delete', label: 'Delete', onAction }],
+      },
+    );
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /kebab toggle/i }));
+    await user.click(screen.getByRole('menuitem', { name: 'Delete' }));
+
+    expect(onAction).toHaveBeenCalledWith(
+      [
+        expect.objectContaining({
+          id: mockSystem.id,
+          display_name: mockSystem.display_name,
+        }),
+      ],
+      expect.objectContaining({
+        invalidateQuery: expect.any(Function),
+        clearSelection: expect.any(Function),
+      }),
+    );
+  });
+
+  it('invalidates the table query by queryKeyPrefix when actionHelpers.invalidateQuery runs', async () => {
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(() =>
+      Promise.resolve(successData),
+    );
+    const onAction = jest.fn();
+    const client = createTestQueryClient();
+    const invalidateSpy = jest.spyOn(client, 'invalidateQueries');
+    const user = userEvent.setup();
+
+    renderSystemsView(fetchData, client, {
+      bulkActions: [createPersistentAction(onAction)],
+    });
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    const fetchCountAfterLoad = fetchData.mock.calls.length;
+
+    await user.click(screen.getByRole('button', { name: 'Delete' }));
+    const helpers = getCalledActionHelpers(onAction);
+
+    await act(async () => {
+      await helpers.invalidateQuery();
+    });
+
+    expect(invalidateSpy).toHaveBeenCalledWith({
+      queryKey: [TEST_QUERY_KEY],
+    });
+    await waitFor(() => {
+      expect(fetchData.mock.calls.length).toBeGreaterThan(fetchCountAfterLoad);
+    });
+  });
+
+  it('clears bulk selection when actionHelpers.clearSelection runs', async () => {
+    const onAction = jest.fn();
+    const user = userEvent.setup();
+
+    renderSystemsView(
+      () => Promise.resolve(successData),
+      createTestQueryClient(),
+      { bulkActions: [createPersistentAction(onAction)] },
+    );
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    const rowCheckbox = screen.getByRole('checkbox', { name: 'Select row 0' });
+    await user.click(rowCheckbox);
+
+    expect(rowCheckbox).toBeChecked();
+    expect(screen.getByText('1 selected')).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Delete' }));
+    const helpers = getCalledActionHelpers(onAction);
+
+    act(() => {
+      helpers.clearSelection();
+    });
+
+    expect(rowCheckbox).not.toBeChecked();
+    expect(screen.queryByText('1 selected')).not.toBeInTheDocument();
   });
 });

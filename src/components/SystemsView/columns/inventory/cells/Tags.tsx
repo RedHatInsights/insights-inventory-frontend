@@ -1,6 +1,6 @@
 import React from 'react';
 import { TagCount } from '@redhat-cloud-services/frontend-components/TagCount';
-import { useSystemActionModalsContext } from '../../../SystemActionModalsContext';
+import { useTagsModalContext } from '../../../TagsModalContext';
 import type { System } from '../../../../InventoryViews/hostsQueryOptions';
 import type { StructuredTag } from '@redhat-cloud-services/host-inventory-client';
 import CellValue from '../../CellValue';
@@ -16,7 +16,7 @@ interface TagsProps {
 }
 
 export const Tags = ({ value }: TagsProps) => {
-  const { openTagsModal } = useSystemActionModalsContext();
+  const { openTagsModal } = useTagsModalContext();
 
   if (value.tags === undefined) {
     return (
