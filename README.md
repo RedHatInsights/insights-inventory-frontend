@@ -8,7 +8,7 @@ It is based on the [insights-frontend-starter-app](git@github.com:RedHatInsights
 ## Table of contents
 
 - [Getting started](#getting-started)
-    - [Quick start](#quick-start)
+    - [Prerequisites](#prerequisites)
     - [Running locally](#running-locally)
 - [Testing](#testing)
   - [Unit testing](#unit-testing)
@@ -32,13 +32,17 @@ It is based on the [insights-frontend-starter-app](git@github.com:RedHatInsights
 
 ## Getting started
 
-### Quick start
+### Prerequisites
 
-1. Make sure you have [`Node.js`](https://nodejs.org/en/) (current LTS) and [`npm`](https://www.npmjs.com/) installed.
-2. Run [script to patch your `/etc/hosts`](https://github.com/RedHatInsights/insights-proxy/blob/master/scripts/patch-etc-hosts.sh).
-3. Make sure you are using [Red Hat proxy](http://hdn.corp.redhat.com/proxy.pac).
+Make sure you have:
+
+1. Installed [Node.js](https://nodejs.org/en/) (current LTS) and [npm](https://www.npmjs.com/).
+2. Patched your `/etc/hosts` with this [script](https://github.com/RedHatInsights/insights-proxy/blob/master/scripts/patch-etc-hosts.sh).
+3. Set up the [Red Hat proxy](http://hdn.corp.redhat.com/proxy.pac).
 
 ### Running locally
+
+See [Prerequisites](#prerequisites) first.
 
 1. Clone the repository.
 2. Install dependencies with `npm install`.
