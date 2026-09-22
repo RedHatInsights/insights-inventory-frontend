@@ -119,6 +119,69 @@ export const deleteWorkspacesByPrefix = async (prefix: string) => {
 };
 
 /**
+ * Deletes an inventory view by its ID.
+ * Silently ignores 404 (already deleted).
+ *  @param viewId
+ */
+export const deleteViewById = async (viewId: string) => {
+  const client = getPlaywrightApiClient();
+  try {
+    await client.delete(`/api/inventory/v1/beta/views/${viewId}`);
+  } catch (err) {
+    if (axios.isAxiosError(err) && err.response?.status === 404) {
+      return;
+    }
+    throw err;
+  }
+};
+
+/**
+ * Looks up inventory views by exact name and deletes them.
+ *
+ * Matches on exact names rather than a prefix because tests run fullyParallel:
+ * a prefix sweep from one worker would delete views another worker is still
+ * using. Names that no longer exist are skipped, so this is safe to call from
+ * an afterAll that runs after a test already cleaned up after itself.
+ *  @param names - Exact view names to delete
+ */
+export const deleteViewsByName = async (names: string[]): Promise<void> => {
+  if (names.length === 0) {
+    return;
+  }
+
+  const wanted = new Set(names);
+  const client = getPlaywrightApiClient();
+  const ids: string[] = [];
+
+  try {
+    for (let page = 1; ; page++) {
+      const response = await client.get('/api/inventory/v1/beta/views', {
+        params: { page, per_page: 50 },
+      });
+      const views = response.data?.results || [];
+
+      for (const view of views) {
+        // System views cannot be deleted, so never try.
+        if (view.id && !view.is_system_view && wanted.has(view.name)) {
+          ids.push(view.id);
+        }
+      }
+
+      const { page: current, per_page: perPage, total } = response.data || {};
+      if (views.length === 0 || perPage * current >= total) {
+        break;
+      }
+    }
+
+    for (const id of ids) {
+      await deleteViewById(id);
+    }
+  } catch (err) {
+    console.warn(`View cleanup for "${names.join('", "')}" failed:`, err);
+  }
+};
+
+/**
  * Gets a workspace (group) by exact name.
  * Returns the workspace ID if found, null otherwise.
  *  @param name - Exact workspace name to find

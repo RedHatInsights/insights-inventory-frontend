@@ -19,7 +19,7 @@ export const useViewsQuery = (pageSize = DEFAULT_PAGE_SIZE) => {
       listViewsApi({ page: pageParam, perPage: pageSize }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) =>
-      lastPage.per_page * lastPage.page < lastPage.total
+      lastPage.per_page * lastPage.page < (lastPage.total ?? 0)
         ? lastPage.page + 1
         : null,
   });

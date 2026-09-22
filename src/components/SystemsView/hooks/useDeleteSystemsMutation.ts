@@ -4,11 +4,10 @@ import { deleteSystemsById } from '../../InventoryTable/utils/api';
 import { getDeleteErrorDescription } from '../../InventoryTable/utils/errorUtils';
 import { type System } from '../../InventoryViews/hostsQueryOptions';
 import { useMemo } from 'react';
-import type { OnInvalidate } from '../SystemActionModalsContext';
 
 interface UseDeleteSystemsMutationParams {
   systems: System[];
-  onInvalidate: OnInvalidate;
+  onInvalidate: () => void | Promise<void>;
   onSuccess?: () => void;
   onError?: () => void;
   onMutate?: () => void;

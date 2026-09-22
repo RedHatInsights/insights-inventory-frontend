@@ -29,7 +29,7 @@ import NoEntitiesFound from '../InventoryTable/NoEntitiesFound';
 import { SystemsViewFilters } from './filters/SystemsViewFilters';
 import { INITIAL_SORT, useColumns } from './hooks/useColumns';
 import { SetURLSearchParams, useSearchParams } from 'react-router-dom';
-import { SystemActionModalsProvider } from './SystemActionModalsContext';
+import { TagsModalProvider } from './TagsModalContext';
 import { SystemsViewBulkActions } from './SystemsViewBulkActions';
 import { useBulkSelect } from './hooks/useBulkSelect';
 import {
@@ -75,7 +75,20 @@ import {
 import { buildFilterParams } from './filters/buildFilterParams';
 import { hasActiveFilterChips } from './filters/defaultValuesFrom';
 import type { BoundFilter } from './filters/types';
+import type {
+  ActionSeparator,
+  ActionSpec,
+  BulkAction,
+  RowAction,
+} from './actions/types';
 import useInventoryViewsColumnsRbacFeatureFlag from '../../Utilities/useInventoryViewsColumnsRbacFeatureFlag';
+
+export type {
+  ActionHelpers,
+  ActionSpec,
+  BulkAction,
+  RowAction,
+} from './actions/types';
 
 export type { SortDirection } from './types';
 export type { SystemsViewItem, SystemsViewQueryData } from './types';
@@ -118,6 +131,16 @@ export type SystemsViewProps<
    * inline definition.
    */
   filters?: FilterSelector<TFilterParams>;
+  /**
+   * Toolbar bulk actions. For optimal performance use a stable reference, not an
+   * inline array.
+   */
+  bulkActions?: readonly BulkAction<TItem>[];
+  /**
+   * Per-row kebab actions. For optimal performance use a stable reference, not an
+   * inline array.
+   */
+  rowActions?: readonly RowAction<TItem>[];
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   initialLastSeenCustomRange?: LastSeenCustomRange;
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
@@ -131,6 +154,8 @@ interface SystemsViewInnerProps<TItem extends SystemsViewItem, TFilterParams> {
   fetchData: SystemsViewFetchData<TItem, TFilterParams>;
   resolvedDefaultColumns: readonly Column<TItem>[];
   resolvedFilters: readonly BoundFilter<TFilterParams>[];
+  bulkActions: readonly BulkAction<TItem>[];
+  rowActions: readonly RowAction<TItem>[];
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
   onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
@@ -143,6 +168,8 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
   fetchData,
   resolvedDefaultColumns,
   resolvedFilters,
+  bulkActions,
+  rowActions,
   initialSort,
   onColumnsChange,
   onLastSeenCustomRangeChange,
@@ -252,6 +279,18 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
     return queryClient.invalidateQueries({ queryKey: [queryKeyPrefix] });
   }, [queryClient, queryKeyPrefix]);
 
+  const clearSelection = useCallback(() => {
+    setSelected([]);
+  }, [setSelected]);
+
+  const actionHelpers = useMemo(
+    () => ({
+      invalidateQuery: onInvalidate,
+      clearSelection,
+    }),
+    [onInvalidate, clearSelection],
+  );
+
   const activeState = deriveActiveState({
     data: rowsData,
     isLoading,
@@ -269,6 +308,7 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
       direction,
       isInventoryViewsEnabled,
       deniedServices: deniedServices ?? [],
+      hasRowActions: rowActions.length > 0,
     });
 
   // Wrapper to call both setColumns and onColumnsChange when user applies columns in modal.
@@ -294,6 +334,8 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
     data: (hostsWithPermissions ?? rowsData) as TItem[] | undefined,
     columns,
     isInventoryViewsEnabled,
+    rowActions,
+    actionHelpers,
   });
 
   const selectedSystems = selected.map((row) => row.meta);
@@ -345,10 +387,7 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
   );
 
   return (
-    <SystemActionModalsProvider
-      onInvalidate={onInvalidate}
-      onSelectionClear={() => setSelected([])}
-    >
+    <TagsModalProvider>
       <ColumnManagementModalProvider
         columns={columns}
         defaultColumns={annotatedDefaults}
@@ -385,9 +424,10 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
               }
               actions={
                 <SystemsViewBulkActions
-                  // FIXME remove type casting
-                  selectedSystems={selectedSystems as unknown as System[]}
+                  selectedSystems={selectedSystems}
                   activeState={activeState}
+                  bulkActions={bulkActions}
+                  actionHelpers={actionHelpers}
                 />
               }
               pagination={
@@ -421,9 +461,11 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
           </PageSection>
         </DataView>
       </ColumnManagementModalProvider>
-    </SystemActionModalsProvider>
+    </TagsModalProvider>
   );
 }
+
+const EMPTY_ACTIONS = [] as const;
 
 export function SystemsView<
   TItem extends SystemsViewItem,
@@ -433,6 +475,8 @@ export function SystemsView<
   fetchData,
   columns,
   filters,
+  bulkActions = EMPTY_ACTIONS,
+  rowActions = EMPTY_ACTIONS,
   initialSort,
   initialLastSeenCustomRange,
   onColumnsChange,
@@ -462,6 +506,8 @@ export function SystemsView<
         fetchData={fetchData}
         resolvedDefaultColumns={resolvedDefaultColumns}
         resolvedFilters={resolvedFilters}
+        bulkActions={bulkActions}
+        rowActions={rowActions}
         initialSort={initialSort}
         onColumnsChange={onColumnsChange}
         onLastSeenCustomRangeChange={onLastSeenCustomRangeChange}
