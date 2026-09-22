@@ -60,5 +60,5 @@ export const fetchInventoryViews = async (
     ...(hostsTags[host.id] ? { tags: hostsTags[host.id] } : {}),
   }));
 
-  return { results, total, deniedServices };
+  return { results, total: total ?? 0, deniedServices };
 };
