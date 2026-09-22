@@ -7,6 +7,8 @@ import {
   malwareColumns,
   vulnerabilityColumns,
   allSystemsColumns,
+  sortByColumn,
+  expectColumnSortDirection,
 } from './helpers/views/columnHelpers';
 import { randomUUID } from 'crypto';
 import {
@@ -14,9 +16,15 @@ import {
   toolbarFilterHelper,
 } from './helpers/filterHelpers';
 import { manageViewHelper } from './helpers/views/manageViewsHelper';
+import { deleteViewsByName } from './helpers/apiHelpers';
 
 const DEFAULT_PREFIX = 'automated-test';
 const ALL_SYSTEMS_VIEW = 'All systems';
+const RESET_FILTERS = 'Reset filters';
+const ALL_SYSTEMS_DEFAULT_SORT = {
+  column: 'Last seen',
+  direction: 'descending',
+} as const;
 
 test.describe(
   'Inventory Views: Manage views CRUD operations',
@@ -28,15 +36,20 @@ test.describe(
     },
   },
   () => {
+    const viewName = `${DEFAULT_PREFIX}-${randomUUID()}`;
+    const renamedView = `${viewName}-renamed`;
+
     test.beforeEach(async ({ page }) => {
       await navigateToInventorySystemsFunc(page);
+    });
+
+    test.afterAll(async () => {
+      await deleteViewsByName([viewName, renamedView]);
     });
 
     test('User creates a new view, renames it, and deletes it', async ({
       page,
     }) => {
-      const viewName = `${DEFAULT_PREFIX}-${randomUUID()}`;
-      const renamedView = `${viewName}-renamed`;
       const manageView = manageViewHelper(page);
 
       await test.step(`Creates new view`, async () => {
@@ -54,7 +67,7 @@ test.describe(
       });
 
       await test.step(`Verifies active view now is default view after deletion`, async () => {
-        await expect(manageView.selectedView).toContainText(ALL_SYSTEMS_VIEW);
+        await manageView.verifyActiveView(ALL_SYSTEMS_VIEW);
       });
     });
   },
@@ -78,6 +91,10 @@ test.describe(
     const viewB = `${DEFAULT_PREFIX}-${randomUUID()}`;
     const viewC = `${DEFAULT_PREFIX}-${randomUUID()}`;
 
+    test.afterAll(async () => {
+      await deleteViewsByName([viewA, viewB, viewC]);
+    });
+
     const configurationA = {
       columns: [...vulnerabilityColumns, ...allSystemsColumns],
       columnsCount: vulnerabilityColumns.length + totalDefaultColumns,
@@ -87,6 +104,7 @@ test.describe(
           value: 'Package-based system',
         },
       ],
+      sort: { column: 'Name', direction: 'ascending' } as const,
     };
     const configurationB = {
       columns: [
@@ -99,6 +117,7 @@ test.describe(
         malwareColumns.length +
         totalDefaultColumns,
       filters: [],
+      sort: { column: 'OS', direction: 'descending' } as const,
     };
 
     const configurationC = {
@@ -110,11 +129,13 @@ test.describe(
           value: 'Image-based system',
         },
       ],
+      sort: { column: 'Name', direction: 'ascending' } as const,
     };
 
     const configurationUpdatedC = {
       columns: [...vulnerabilityColumns, ...malwareColumns],
       columnsCount: vulnerabilityColumns.length + malwareColumns.length + 3, // +3 for checkbox, name and per-row actions
+      sort: { column: 'Name', direction: 'descending' } as const,
     };
 
     test('User creates custom views with own configuration', async ({
@@ -140,6 +161,13 @@ test.describe(
           configurationA.filters[0].value,
         );
 
+        // Apply sort
+        await sortByColumn(
+          page,
+          configurationA.sort.column,
+          configurationA.sort.direction,
+        );
+
         await manageView.saveAs(viewA);
         await manageView.verifyActiveView(viewA);
       });
@@ -154,11 +182,11 @@ test.describe(
         }
         await manageColumnsModal.save();
 
-        const resetFiltersButton = page.getByRole('button', {
-          name: 'Clear filters',
-        });
-        await expect(resetFiltersButton).toBeVisible();
-        await resetFiltersButton.click();
+        await sortByColumn(
+          page,
+          configurationB.sort.column,
+          configurationB.sort.direction,
+        );
 
         await manageView.saveAs(viewB);
         await manageView.verifyActiveView(viewB);
@@ -180,6 +208,12 @@ test.describe(
         await expect(visibleHeaders).toHaveCount(totalDefaultColumns, {
           timeout: 10000,
         });
+
+        await expectColumnSortDirection(
+          page,
+          ALL_SYSTEMS_DEFAULT_SORT.column,
+          ALL_SYSTEMS_DEFAULT_SORT.direction,
+        );
       });
 
       await test.step(`Navigate to view ${viewB} and verify its configuration persists`, async () => {
@@ -200,9 +234,16 @@ test.describe(
 
         // Verify no filters are applied
         const resetFiltersButton = page.getByRole('button', {
-          name: 'Clear filters',
+          name: RESET_FILTERS,
         });
         await expect(resetFiltersButton).toBeHidden();
+
+        // The saved sort is restored from the view configuration
+        await expectColumnSortDirection(
+          page,
+          configurationB.sort.column,
+          configurationB.sort.direction,
+        );
       });
 
       await test.step(`Navigate to view ${viewA} and verify its configuration persists`, async () => {
@@ -225,14 +266,12 @@ test.describe(
         await filterToolbar.verifyFiltersApplied({
           [configurationA.filters[0].filter]: configurationA.filters[0].value,
         });
-      });
 
-      await test.step(`Cleans up test view`, async () => {
-        await manageView.selectView(viewA);
-        await manageView.delete(viewA);
-
-        await manageView.selectView(viewB);
-        await manageView.delete(viewB);
+        await expectColumnSortDirection(
+          page,
+          configurationA.sort.column,
+          configurationA.sort.direction,
+        );
       });
     });
 
@@ -258,6 +297,13 @@ test.describe(
           page,
           configurationC.filters[0].filter,
           configurationC.filters[0].value,
+        );
+
+        // Applies sort
+        await sortByColumn(
+          page,
+          configurationC.sort.column,
+          configurationC.sort.direction,
         );
 
         await manageView.saveAs(viewC);
@@ -287,6 +333,12 @@ test.describe(
         await filterToolbar.verifyFiltersApplied({
           [configurationC.filters[0].filter]: configurationC.filters[0].value,
         });
+
+        await expectColumnSortDirection(
+          page,
+          configurationC.sort.column,
+          configurationC.sort.direction,
+        );
       });
 
       await test.step(`Modify current view ${viewC} and update its configuration`, async () => {
@@ -296,6 +348,13 @@ test.describe(
           await manageColumnsModal.enableColumn(column);
         }
         await manageColumnsModal.save();
+
+        // flips the sort direction for viewC
+        await sortByColumn(
+          page,
+          configurationUpdatedC.sort.column,
+          configurationUpdatedC.sort.direction,
+        );
 
         await manageView.save(viewC);
         await manageView.verifyActiveView(viewC);
@@ -326,11 +385,13 @@ test.describe(
         await filterToolbar.verifyFiltersApplied({
           [configurationC.filters[0].filter]: configurationC.filters[0].value,
         });
-      });
 
-      await test.step(`Cleans up test view`, async () => {
-        await manageView.selectView(viewC);
-        await manageView.delete(viewC);
+        // new sort direction should be visible after update
+        await expectColumnSortDirection(
+          page,
+          configurationUpdatedC.sort.column,
+          configurationUpdatedC.sort.direction,
+        );
       });
     });
   },

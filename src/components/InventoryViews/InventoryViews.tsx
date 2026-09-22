@@ -7,13 +7,15 @@ import React, {
   useState,
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { Bullseye, Spinner } from '@patternfly/react-core';
 import SystemsView from '../SystemsView/SystemsView';
 import type { SortDirection } from '../SystemsView/SystemsView';
+import { Actions } from './actions';
 import {
   fetchInventoryViews,
   INVENTORY_VIEWS_QUERY_KEY,
 } from './inventoryViewsQueryOptions';
-import { useAnsibleWorkloadDefault } from './hooks/useAnsibleWorkloadDefault';
+import { useAnsibleWorkloadsSearchParam } from './hooks/useAnsibleWorkloadsSearchParam';
 import { useViewsQuery } from './hooks/useViewsQuery';
 import useInventoryViewsPrivateFeatureFlag from '../../Utilities/useInventoryViewsPrivateFeatureFlag';
 import ViewsToolbar from './ViewsToolbar/ViewsToolbar';
@@ -22,20 +24,22 @@ import ViewRenameModal from './Modals/ViewRenameModal';
 import ViewDeleteModal from './Modals/ViewDeleteModal';
 import {
   ALL_SYSTEMS_VIEW_ID,
+  VIEW_ID_URL_PARAM,
   type ViewConfiguration,
 } from '../../api/inventoryViewsApi';
 import { createViewColumnSelector } from './createViewColumnSelector';
+import { createViewFilterSelector } from './createViewFilterSelector';
+import { resolveDefaultViewId } from './resolveDefaultViewId';
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
+import { selectInventoryViewsFilters } from './selectInventoryViewsFilters';
+import {
+  ANSIBLE_WORKLOAD,
+  selectAnsibleWorkload,
+} from './stampAnsibleWorkloadDefault';
 import { resolveColumnSelector } from '../SystemsView/columns/resolveColumnSelector';
-import {
-  SORT_URL_PARAM,
-  SORT_DIR_URL_PARAM,
-  type LastSeenKey,
-} from '../SystemsView/constants';
-import {
-  ApiHostGetHostListRegisteredWithEnum,
-  ApiHostGetHostListStalenessEnum,
-} from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
+import { resolveFilterSelector } from '../SystemsView/filters/resolveFilterSelector';
+import { defaultValuesFrom } from '../SystemsView/filters/defaultValuesFrom';
+import { SORT_URL_PARAM, SORT_DIR_URL_PARAM } from '../SystemsView/constants';
 import { INITIAL_SORT } from '../SystemsView/hooks/useColumns';
 import type { Column } from '../SystemsView/columns/types';
 import type { InventoryBindableItem } from '../SystemsView/columns/inventory/columnDefinitions';
@@ -44,15 +48,15 @@ import {
   parseViewConfigFilters,
   parseViewConfigLastSeenCustomRange,
 } from './utils/viewConfigFilters';
-import {
-  useViewDirtyState,
-  FILTER_PARAM_KEYS,
-} from './hooks/useViewDirtyState';
+import { useViewDirtyState } from './hooks/useViewDirtyState';
 import { useUpdateViewMutation } from './hooks/useUpdateViewMutation';
-import type { LastSeenCustomRange } from '../SystemsView/types';
+import type {
+  LastSeenCustomRange,
+  SystemsViewFilterState,
+} from '../SystemsView/types';
 
 const filtersToSearchParams = (
-  filters?: Partial<Record<string, string | string[]>>,
+  filters?: SystemsViewFilterState,
 ): URLSearchParams => {
   const params = new URLSearchParams();
   if (!filters) return params;
@@ -89,18 +93,13 @@ const getFiltersFromSearchParams = (
     {
       operating_system: searchParams.getAll('operating_system'),
       workloads: searchParams.getAll('workloads'),
-      rhcStatus: searchParams.getAll('rhcStatus'),
       system_type: searchParams.getAll('system_type'),
       hostname_or_id: searchParams.get('hostname_or_id') || '',
-      status: searchParams.getAll(
-        'status',
-      ) as ApiHostGetHostListStalenessEnum[],
-      source: searchParams.getAll(
-        'source',
-      ) as ApiHostGetHostListRegisteredWithEnum[],
+      status: searchParams.getAll('status'),
+      source: searchParams.getAll('source'),
       tags: searchParams.getAll('tags'),
       group_id: searchParams.getAll('group_id'),
-      last_seen: (searchParams.get('last_seen') || '') as LastSeenKey | '',
+      last_seen: searchParams.get('last_seen') || '',
     },
     lastSeenCustomRange ?? undefined,
   );
@@ -116,12 +115,11 @@ const normalizeViewColumns = (
     .map((c) => ({ key: c.key }));
 
 const InventoryViews = () => {
-  const { isReady, defaultFilters } = useAnsibleWorkloadDefault();
+  const { isReady, isAnsibleBundle } = useAnsibleWorkloadsSearchParam();
   const [isViewSaveAsModalOpen, setIsViewSaveAsModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [activeViewId, setActiveViewId] = useState(ALL_SYSTEMS_VIEW_ID);
   const queryClient = useQueryClient();
   const updateView = useUpdateViewMutation();
   const isInventoryViewsPrivateEnabled = useInventoryViewsPrivateFeatureFlag();
@@ -133,32 +131,106 @@ const InventoryViews = () => {
     fetchNextPage: fetchNextViewsPage,
     hasNextPage: hasNextViewsPage,
     isFetchingNextPage: isFetchingNextViewsPage,
+    isPending: isViewsPending,
   } = useViewsQuery();
   const viewsList = useMemo(
     () => viewsData?.pages.flatMap((page) => page.results) ?? [],
     [viewsData],
   );
-  const allSystemsViewId = useMemo(
-    () => viewsList.find((v) => v.is_system_view)?.id ?? ALL_SYSTEMS_VIEW_ID,
+  // The view to load when the URL has no view_id (fresh /insights/inventory, or
+  // an old bookmark). Today this is the All Systems system view; see
+  // resolveDefaultViewId for how a user-pinned default will slot in later.
+  const defaultViewId = useMemo(
+    () => resolveDefaultViewId(viewsList),
     [viewsList],
   );
 
-  useEffect(() => {
-    if (
-      activeViewId === ALL_SYSTEMS_VIEW_ID &&
-      allSystemsViewId !== ALL_SYSTEMS_VIEW_ID
-    ) {
-      setActiveViewId(allSystemsViewId);
-    }
-  }, [activeViewId, allSystemsViewId]);
+  const viewsLoaded = !!viewsData;
+  const urlViewId = searchParams.get(VIEW_ID_URL_PARAM);
+
+  // The active view is derived from the URL, reconciled against the loaded views.
+  // Deriving (rather than mirroring the URL into state) means the correct view is
+  // resolved on the first render after views load, so it paints right the first
+  // time, no flash and no layout effect needed. The URL itself is normalized by
+  // the effect below, which runs after paint since it's only cosmetic.
+  //  - No view_id in the URL: use the default view (once it's known).
+  //  - Unknown view_id while more pages may load: keep it (optimistic) since the
+  //    view might be on a later page.
+  //  - Stale view_id once fully loaded: fall back to the default.
+  const activeViewId = useMemo(() => {
+    if (!viewsLoaded) return urlViewId ?? ALL_SYSTEMS_VIEW_ID;
+    if (urlViewId && viewsList.some((v) => v.id === urlViewId))
+      return urlViewId;
+    if (urlViewId && hasNextViewsPage) return urlViewId;
+    return defaultViewId;
+  }, [viewsLoaded, urlViewId, viewsList, hasNextViewsPage, defaultViewId]);
 
   const activeView = viewsList.find((v) => v.id === activeViewId);
   const isSystemView = activeView?.is_system_view ?? true;
-  const viewsLoaded = !!viewsData;
+
+  // Normalize the URL to match the derived active view, keeping any filter params:
+  //  - No view_id present: stamp the default in (a dirty default view survives a
+  //    refresh) once the default is known.
+  //  - Stale view_id (deleted view / old bookmark): drop it, or swap in the
+  //    default, once views are fully loaded. Runs after paint; rendering already
+  //    uses the derived activeViewId, so there's nothing to reconcile visually.
+  useEffect(() => {
+    if (!viewsLoaded) return;
+
+    if (!urlViewId) {
+      if (defaultViewId === ALL_SYSTEMS_VIEW_ID) return; // default not ready yet
+      const next = new URLSearchParams(searchParams);
+      next.set(VIEW_ID_URL_PARAM, defaultViewId);
+      setSearchParams(next, { replace: true });
+      return;
+    }
+
+    // Known view, or possibly on a later page: nothing to normalize.
+    if (viewsList.some((v) => v.id === urlViewId) || hasNextViewsPage) return;
+
+    // Stale view_id: fall back to the default view, keeping filters.
+    const next = new URLSearchParams(searchParams);
+    if (defaultViewId === ALL_SYSTEMS_VIEW_ID) {
+      next.delete(VIEW_ID_URL_PARAM);
+    } else {
+      next.set(VIEW_ID_URL_PARAM, defaultViewId);
+    }
+    setSearchParams(next, { replace: true });
+  }, [
+    viewsLoaded,
+    urlViewId,
+    viewsList,
+    searchParams,
+    defaultViewId,
+    setSearchParams,
+    hasNextViewsPage,
+  ]);
 
   const columnSelector = useMemo(
     () => createViewColumnSelector(activeView?.configuration),
     [activeView?.configuration],
+  );
+
+  const filterSelector = useMemo(() => {
+    const selector =
+      createViewFilterSelector(activeView?.configuration) ??
+      selectInventoryViewsFilters;
+    const selectorWithWorkloadDefault = selectAnsibleWorkload(selector);
+
+    return isAnsibleBundle ? selectorWithWorkloadDefault : selector;
+  }, [activeView?.configuration, isAnsibleBundle]);
+
+  const resolvedFilters = useMemo(
+    () => resolveFilterSelector(filterSelector),
+    [filterSelector],
+  );
+  const filterDefaultValues = useMemo(
+    () => defaultValuesFrom(resolvedFilters),
+    [resolvedFilters],
+  );
+  const filterParamKeys = useMemo(
+    () => resolvedFilters.map((spec) => spec.filterId),
+    [resolvedFilters],
   );
 
   // Baseline columns = the view's saved configuration, resolved to the same
@@ -203,12 +275,6 @@ const InventoryViews = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- derive from view config on switch or data load
   }, [activeViewId, viewsLoaded]);
 
-  const initialFilters = useMemo(
-    () => parseViewConfigFilters(activeView?.configuration?.filters),
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- derive from view config on switch or data load
-    [activeViewId, viewsLoaded],
-  );
-
   const initialLastSeenCustomRange = useMemo(
     () =>
       parseViewConfigLastSeenCustomRange(activeView?.configuration?.filters),
@@ -223,16 +289,24 @@ const InventoryViews = () => {
     baselineColumns,
     currentColumns,
     currentLastSeenCustomRange,
+    defaultValues: filterDefaultValues,
+    filterParamKeys,
   });
 
   const handleSelectView = useCallback(
     (viewId: string) => {
-      setActiveViewId(viewId);
       const view = viewsList.find((v) => v.id === viewId);
       const filters = parseViewConfigFilters(view?.configuration?.filters);
-      setSearchParams(filtersToSearchParams(filters), { replace: true });
+      // Switching views starts from a clean slate: build fresh params from the
+      // target view's saved filters, dropping any params applied to the old view.
+      const params = filtersToSearchParams(filters);
+      params.set(VIEW_ID_URL_PARAM, viewId);
+      if (isAnsibleBundle && !params.has('workloads')) {
+        params.set('workloads', ANSIBLE_WORKLOAD);
+      }
+      setSearchParams(params, { replace: true });
     },
-    [setSearchParams, viewsList],
+    [isAnsibleBundle, setSearchParams, viewsList],
   );
 
   const handleSaveAs = () => {
@@ -258,7 +332,11 @@ const InventoryViews = () => {
   const handleSaveAsSuccess = async (viewId: string, viewName: string) => {
     setIsViewSaveAsModalOpen(false);
     await queryClient.refetchQueries({ queryKey: ['views'] });
-    setActiveViewId(viewId);
+    // The new view captured the current params, so keep them and point the URL
+    // at the newly created view so a refresh restores it.
+    const next = new URLSearchParams(searchParams);
+    next.set(VIEW_ID_URL_PARAM, viewId);
+    setSearchParams(next, { replace: true });
   };
 
   const handleRename = () => {
@@ -276,7 +354,8 @@ const InventoryViews = () => {
   const handleDeleteSuccess = (viewId: string) => {
     setIsDeleteModalOpen(false);
     if (viewId === activeViewId) {
-      setActiveViewId(allSystemsViewId);
+      // Clear the URL to its defaults; the derived activeViewId falls back to the
+      // default view and the normalize effect re-stamps view_id after paint.
       setSearchParams(new URLSearchParams(), { replace: true });
     }
   };
@@ -301,8 +380,16 @@ const InventoryViews = () => {
     };
   };
 
-  if (!isReady) {
-    return null;
+  // Hold off rendering the whole views UI (toolbar + table) until the views
+  // query settles. Rendering the toolbar against an empty viewsList would show
+  // "All systems" as the selected view before it resolves to the URL's view_id,
+  // producing a flash on refresh.
+  if (isViewsPending) {
+    return (
+      <Bullseye>
+        <Spinner size="xl" />
+      </Bullseye>
+    );
   }
 
   return (
@@ -353,18 +440,25 @@ const InventoryViews = () => {
           )}
         </>
       )}
-      <SystemsView
-        key={`${activeViewId}-${viewsLoaded}`}
-        columns={columnSelector ?? selectLegacyInventoryColumns}
-        initialSort={initialSort}
-        initialFilters={initialFilters}
-        initialLastSeenCustomRange={initialLastSeenCustomRange}
-        onColumnsChange={handleColumnsChange}
-        onLastSeenCustomRangeChange={setCurrentLastSeenCustomRange}
-        queryKeyPrefix={INVENTORY_VIEWS_QUERY_KEY}
-        fetchData={fetchInventoryViews}
-        defaultFilters={defaultFilters}
-      />
+      {isReady && (
+        <Actions<InventoryBindableItem>>
+          {({ bulkActions, rowActions }) => (
+            <SystemsView
+              key={`${activeViewId}-${viewsLoaded}`}
+              columns={columnSelector ?? selectLegacyInventoryColumns}
+              filters={filterSelector}
+              initialSort={initialSort}
+              initialLastSeenCustomRange={initialLastSeenCustomRange}
+              onColumnsChange={handleColumnsChange}
+              onLastSeenCustomRangeChange={setCurrentLastSeenCustomRange}
+              queryKeyPrefix={INVENTORY_VIEWS_QUERY_KEY}
+              fetchData={fetchInventoryViews}
+              bulkActions={bulkActions}
+              rowActions={rowActions}
+            />
+          )}
+        </Actions>
+      )}
     </>
   );
 };

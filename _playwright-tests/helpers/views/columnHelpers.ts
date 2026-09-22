@@ -7,6 +7,8 @@ export { columnManagementModal } from './columnManagementModal';
 
 const NOT_AVAILABLE = '--';
 
+const SKELETON_TABLE = '[data-ouia-component-id="SkeletonTable"]';
+
 // Default columns from inventory/columnDefinitions.tsx
 export const defaultInventoryColumns = [
   'Name',
@@ -211,6 +213,70 @@ export async function validateSortDirection(
       .getAttribute('aria-sort');
     expect(finalSort).toBe(direction);
   }).toPass({ timeout: 5000 });
+}
+
+/**
+ * Clicks a column header until it reaches the requested sort direction.
+ * A column can start unsorted, ascending or descending, so this may take up to
+ * two clicks.
+ *  @param {Page}   page       - The Playwright page instance.
+ *  @param {string} columnName - The name of the column to sort by.
+ *  @param {string} direction  - Target direction ('ascending' or 'descending').
+ */
+export async function sortByColumn(
+  page: Page,
+  columnName: string,
+  direction: 'ascending' | 'descending',
+) {
+  const columnHeader = page
+    .locator('button.pf-v6-c-table__button')
+    .filter({ hasText: new RegExp(`^${columnName}$`) });
+
+  await expect(columnHeader).toBeVisible();
+  await scrollColumnIntoView(columnHeader);
+
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const currentSort = await columnHeader
+      .locator('..')
+      .getAttribute('aria-sort');
+
+    if (currentSort === direction) {
+      break;
+    }
+
+    // Use JavaScript click to bypass sticky column interference
+    await columnHeader.evaluate((button) => (button as HTMLElement).click());
+
+    await expect(page.locator(SKELETON_TABLE)).toBeHidden({ timeout: 10000 });
+  }
+
+  await validateSortDirection(page, columnHeader, direction);
+}
+
+/**
+ * Asserts a column header's sort direction without asserting on the URL.
+ *
+ * A view's saved sort is restored from its configuration rather than from
+ * search params, so after switching views the URL carries no sort param and
+ * only the header's aria-sort reflects the active sort. Use this instead of
+ * validateSortDirection wherever the sort did not come from a user click.
+ *
+ * Only one column is sorted at a time, so asserting the active column also
+ * rules out every other column being sorted.
+ *  @param {Page}   page       - The Playwright page instance.
+ *  @param {string} columnName - The name of the column to check.
+ *  @param {string} direction  - Expected direction ('ascending' or 'descending').
+ */
+export async function expectColumnSortDirection(
+  page: Page,
+  columnName: string,
+  direction: 'ascending' | 'descending',
+) {
+  await expect(page.locator(SKELETON_TABLE)).toBeHidden({ timeout: 10000 });
+
+  await expect(
+    page.getByRole('columnheader', { name: columnName }),
+  ).toHaveAttribute('aria-sort', direction);
 }
 
 /**

@@ -1,7 +1,9 @@
 import { getHostList, getHostTags } from '../../api/hostInventoryApiTyped';
 import { getLegacyInventorySortKey } from '../../constants';
-import { InventoryFilters } from '../SystemsView/filters/SystemsViewFilters';
-import { ApiHostGetHostListOrderByEnum as ApiOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
+import {
+  ApiHostGetHostListOrderByEnum as ApiOrderByEnum,
+  type ApiHostGetHostListParams,
+} from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import type { SystemsViewFetchParams } from '../SystemsView/types';
 import { buildHostListParams } from './utils/buildHostListParams';
 
@@ -15,7 +17,7 @@ const hasHostId = <T extends { id?: string }>(
 ): host is T & { id: string } => typeof host.id === 'string';
 
 export const fetchHosts = async (
-  params: SystemsViewFetchParams<InventoryFilters>,
+  params: SystemsViewFetchParams<ApiHostGetHostListParams>,
 ) => {
   // Cross-app and SystemsView-only sort keys are not valid for the /hosts API. This can
   // happen during the render between ui.inventory-views being toggled off and the
@@ -27,8 +29,7 @@ export const fetchHosts = async (
   const fetchParams = buildHostListParams({
     page: params.page,
     perPage: params.perPage,
-    filters: params.filters,
-    lastSeenCustomRange: params.lastSeenCustomRange,
+    query: params.filterParams,
     sortBy: validSortBy,
     direction: params.direction,
   });
@@ -48,5 +49,5 @@ export const fetchHosts = async (
     ...(hostsTags[host.id] ? { tags: hostsTags[host.id] } : {}),
   }));
 
-  return { results, total };
+  return { results, total: total ?? 0 };
 };

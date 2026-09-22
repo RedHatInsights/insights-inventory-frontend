@@ -4,6 +4,7 @@ import { Page, Locator, expect } from '@playwright/test';
 export type ManageViewHelper = {
   manageViewToggle: Locator;
   selectedView: Locator;
+  selectedViewInput: Locator;
   selectedViewMenu: Locator;
   selectView: (view: string) => Promise<void>;
   saveAs: (view: string) => Promise<void>;
@@ -25,20 +26,35 @@ export type ManageViewHelper = {
 export function manageViewHelper(page: Page): ManageViewHelper {
   const manageViewToggle = page.getByTestId('manage-view-toggle');
   const selectedView = page.getByTestId('manage-view-select-view');
+  // The active view name is rendered as the typeahead input's value (not text
+  // content), so assertions must read the value rather than the element text.
+  const selectedViewInput = selectedView.getByRole('textbox');
   const selectedViewMenu = page.getByTestId('manage-view-select-view-dropdown');
 
   const verifyActiveView = async (
     expectedViewName: string,
     { timeout = 5000 }: { timeout?: number } = {},
   ): Promise<void> => {
-    await expect(selectedView).toContainText(expectedViewName, {
+    await expect(selectedViewInput).toHaveValue(expectedViewName, {
       timeout,
     });
+  };
+
+  // A dirty view shows "Save" / "Save as" as the split button's primary action;
+  // a clean one falls back to "Manage view". Waiting on that swap is how we know
+  // an update mutation settled, since the modal-less Save gives no other signal.
+  const verifyNoUnsavedChanges = async ({
+    timeout = 10000,
+  }: { timeout?: number } = {}): Promise<void> => {
+    await expect(
+      page.getByRole('button', { name: 'Manage view', exact: true }),
+    ).toBeVisible({ timeout });
   };
 
   return {
     manageViewToggle,
     selectedView,
+    selectedViewInput,
     selectedViewMenu,
 
     /**
@@ -82,15 +98,18 @@ export function manageViewHelper(page: Page): ManageViewHelper {
     },
 
     /**
-     * Updates the current view's configuration.
+     * Saves new configuration for the current view.
      */
     async save(view: string): Promise<void> {
       await verifyActiveView(view);
-      await expect(manageViewToggle).toBeVisible();
-      await manageViewToggle.click();
-      await page
-        .getByRole('menuitem', { name: 'Save', exact: true })
-        .click();
+
+      const saveAction = page.getByRole('button', {
+        name: 'Save',
+        exact: true,
+      });
+      await expect(saveAction).toBeVisible();
+      await saveAction.click();
+      await verifyNoUnsavedChanges();
     },
 
     /**
@@ -125,7 +144,7 @@ export function manageViewHelper(page: Page): ManageViewHelper {
 
       // The UI falls back to another view after deletion; the title can take a
       // moment to update, so give this a longer timeout than the default.
-      await expect(selectedView).not.toContainText(view, {
+      await expect(selectedViewInput).not.toHaveValue(view, {
         timeout: 10000,
       });
     },

@@ -33,6 +33,7 @@ interface UseColumnParams<TItem> {
   direction: SortDirection;
   isInventoryViewsEnabled: boolean;
   deniedServices: string[];
+  hasRowActions: boolean;
 }
 
 export const useColumns = <TItem,>({
@@ -42,6 +43,7 @@ export const useColumns = <TItem,>({
   direction,
   isInventoryViewsEnabled,
   deniedServices,
+  hasRowActions,
 }: UseColumnParams<TItem>) => {
   const [rawColumns, setColumns] =
     useState<readonly Column<TItem>[]>(defaultColumns);
@@ -84,58 +86,64 @@ export const useColumns = <TItem,>({
     [columns],
   );
 
-  const tableHeaderNodes = useMemo(
-    () => [
-      ...columns
-        .filter((col) => col.isShown)
-        .map((col, index) => {
-          return {
-            cell: col.title,
-            props: {
-              ...(col.key === 'display_name'
-                ? isInventoryViewsEnabled
-                  ? getStickyNameHeaderProps(getNameColumnMinWidth(col))
-                  : {}
-                : isInventoryViewsEnabled
-                  ? (getColumnMinWidthStyle(col) ?? {})
-                  : {}),
-              ...(col.sortBy &&
-                !col.isPermissionLocked && {
-                  sort: {
-                    sortBy: { index: fromSortByToIndex(sortBy), direction },
-                    onSort: (
-                      _event:
-                        | React.MouseEvent
-                        | React.KeyboardEvent
-                        | MouseEvent
-                        | undefined,
-                      _columnIndex: number,
-                      newDirection: SortDirection,
-                    ) => {
-                      onSort(undefined, col.sortBy!, newDirection);
-                    },
-                    columnIndex: index,
+  const tableHeaderNodes = useMemo(() => {
+    const columnHeaders = columns
+      .filter((col) => col.isShown)
+      .map((col, index) => {
+        return {
+          cell: col.title,
+          props: {
+            ...(col.key === 'display_name'
+              ? isInventoryViewsEnabled
+                ? getStickyNameHeaderProps(getNameColumnMinWidth(col))
+                : {}
+              : isInventoryViewsEnabled
+                ? (getColumnMinWidthStyle(col) ?? {})
+                : {}),
+            ...(col.sortBy &&
+              !col.isPermissionLocked && {
+                sort: {
+                  sortBy: { index: fromSortByToIndex(sortBy), direction },
+                  onSort: (
+                    _event:
+                      | React.MouseEvent
+                      | React.KeyboardEvent
+                      | MouseEvent
+                      | undefined,
+                    _columnIndex: number,
+                    newDirection: SortDirection,
+                  ) => {
+                    onSort(undefined, col.sortBy!, newDirection);
                   },
-                }),
-            },
-          };
-        }),
+                  columnIndex: index,
+                },
+              }),
+          },
+        };
+      });
+
+    if (!hasRowActions) {
+      return columnHeaders;
+    }
+
+    return [
+      ...columnHeaders,
       {
         cell: '',
         props: isInventoryViewsEnabled
           ? STICKY_ACTIONS_HEADER_PROPS
           : { screenReaderText: 'Actions' },
       },
-    ],
-    [
-      columns,
-      fromSortByToIndex,
-      sortBy,
-      direction,
-      onSort,
-      isInventoryViewsEnabled,
-    ],
-  );
+    ];
+  }, [
+    columns,
+    fromSortByToIndex,
+    sortBy,
+    direction,
+    onSort,
+    isInventoryViewsEnabled,
+    hasRowActions,
+  ]);
 
   useEffect(() => {
     if (sortBy) {
