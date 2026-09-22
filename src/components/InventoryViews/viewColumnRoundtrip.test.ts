@@ -107,13 +107,13 @@ describe('View column round-trip (save → restore)', () => {
       isShown: [
         'display_name',
         'vulnerability:critical_cves',
-        'advisor:critical',
+        'advisor:recommendations',
         'compliance:policies_count',
       ].includes(col.key),
       isShownByDefault: [
         'display_name',
         'vulnerability:critical_cves',
-        'advisor:critical',
+        'advisor:recommendations',
         'compliance:policies_count',
       ].includes(col.key),
     }));
@@ -150,7 +150,7 @@ describe('View column round-trip (save → restore)', () => {
         'last_check_in', // Sortable inventory
         'vendor', // Non-sortable inventory
         'vulnerability:critical_cves', // App column
-        'advisor:critical', // App column
+        'advisor:recommendations', // App column
       ].includes(col.key),
       isShownByDefault: [
         'display_name',
@@ -160,7 +160,7 @@ describe('View column round-trip (save → restore)', () => {
         'last_check_in',
         'vendor',
         'vulnerability:critical_cves',
-        'advisor:critical',
+        'advisor:recommendations',
       ].includes(col.key),
     }));
 

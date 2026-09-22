@@ -11,7 +11,7 @@ const selectTestColumns = () => {
     'display_name',
     'operating_system',
     'last_check_in',
-    'advisor:critical', // Changed from advisor:recommendations due to RHINENG-30055
+    'advisor:recommendations',
     'vulnerability:important_cves',
     'compliance:policies_count',
   ];

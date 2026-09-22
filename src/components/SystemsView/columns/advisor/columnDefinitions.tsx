@@ -27,9 +27,9 @@ type AdvisorRecommendationsValue = {
 const recommendationsSpec: ColumnSpec<AdvisorRecommendationsValue> = {
   appName: APP_NAME,
   title: 'Recommendations',
-  key: ApiHostViewsGetHostViewsOrderByEnum.Advisorcritical,
+  key: ApiHostViewsGetHostViewsOrderByEnum.Advisorrecommendations,
   minWidth: '12rem',
-  sortBy: ApiHostViewsGetHostViewsOrderByEnum.Advisorcritical,
+  sortBy: ApiHostViewsGetHostViewsOrderByEnum.AdvisorseverityPriority,
   renderCell: (value) => (
     <AdvisorRecommendations appData={value.appData} systemId={value.systemId} />
   ),

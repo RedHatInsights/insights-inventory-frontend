@@ -110,7 +110,7 @@ describe('normalizeViewColumns', () => {
     const columns = [
       { key: 'display_name', isShown: true },
       { key: 'vulnerability:critical_cves', isShown: true },
-      { key: 'advisor:critical', isShown: true },
+      { key: 'advisor:recommendations', isShown: true },
       { key: 'compliance:policies_count', isShown: true },
       { key: 'patch:advisories_rhsa_installable', isShown: true },
     ] as Column<InventoryBindableItem>[];
@@ -120,7 +120,7 @@ describe('normalizeViewColumns', () => {
     expect(result).toEqual([
       { key: 'display_name' },
       { key: 'vulnerability:critical_cves' },
-      { key: 'advisor:critical' },
+      { key: 'advisor:recommendations' },
       { key: 'compliance:policies_count' },
       { key: 'patch:advisories_rhsa_installable' },
     ]);
