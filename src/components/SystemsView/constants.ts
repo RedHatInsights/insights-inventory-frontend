@@ -131,13 +131,11 @@ const ADVISORY_AVAILABLE = 'advisory_available=true';
 const RULE_PRESENCE = 'rule_presence=true';
 const KNOWN_EXPLOIT = 'known_exploit=true';
 
-/** Vulnerability system link query strings keyed by column concern. */
 export const VULNERABILITY_LINK_SEARCH = {
-  totalCves: ADVISORY_AVAILABLE,
-  criticalCves: 'impact=7',
-  importantCves: 'impact=5',
-  moderateCves: 'impact=4',
-  lowCves: 'impact=2',
+  criticalCves: `${ADVISORY_AVAILABLE}&impact=7`,
+  importantCves: `${ADVISORY_AVAILABLE}&impact=5`,
+  moderateCves: `${ADVISORY_AVAILABLE}&impact=4`,
+  lowCves: `${ADVISORY_AVAILABLE}&impact=2`,
   cvesWithSecurityRules: `${ADVISORY_AVAILABLE}&${RULE_PRESENCE}`,
   cvesWithKnownExploits: `${ADVISORY_AVAILABLE}&${KNOWN_EXPLOIT}`,
 } as const;
