@@ -73,9 +73,6 @@ objects:
                   title: System Configuration
                   expandable: true
                   routes:
-                    - segmentRef:
-                        segmentId: rhc-nav
-                        frontendName: connector
                     - id: activation-keys
                       title: Activation Keys
                       href: /insights/connector/activation-keys
