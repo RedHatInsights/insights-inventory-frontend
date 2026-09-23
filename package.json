@@ -128,6 +128,7 @@
     "babel-plugin-istanbul": "^8.0.0",
     "better-docs": "^2.7.3",
     "cypress": "^15.9.0",
+    "dts-bundle-generator": "^9.5.1",
     "eslint": "^9.39.2",
     "eslint-plugin-cypress": "^6.2.1",
     "eslint-plugin-jest-dom": "^5.5.0",
