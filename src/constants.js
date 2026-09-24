@@ -320,7 +320,10 @@ export const GROUPS_ADMINISTRATOR_PERMISSIONS = [
 export const GENERAL_HOSTS_READ_PERMISSIONS = 'inventory:hosts:read';
 export const GENERAL_HOSTS_WRITE_PERMISSIONS = 'inventory:hosts:write';
 
-/** Normalize permission exports that may be a string or array (e.g. plural-named constants). */
+/**
+ * Normalize permission exports that may be a string or array (e.g. plural-named constants).
+ *  @param permissions
+ */
 export const asPermissionList = (permissions) =>
   Array.isArray(permissions) ? permissions : [permissions];
 export const USER_ACCESS_ADMIN_PERMISSIONS = ['rbac:*:*'];

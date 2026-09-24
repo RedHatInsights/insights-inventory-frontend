@@ -15,6 +15,12 @@ interface NoAccessTooltipWrapProps {
  *
  * Use `wrapTriggerInSpan` for controls that need an inline wrapper so the tooltip
  * can receive hover events (e.g. MenuToggle styled as disabled, or native-disabled buttons).
+ *  @param root0
+ *  @param root0.isEnabled
+ *  @param root0.tooltipContent
+ *  @param root0.children
+ *  @param root0.wrapTriggerInSpan
+ *  @param root0.triggerSpanProps
  */
 const NoAccessTooltipWrap = ({
   isEnabled,

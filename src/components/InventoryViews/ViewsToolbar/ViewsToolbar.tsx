@@ -17,16 +17,20 @@ import './ViewsToolbar.scss';
 export interface ViewsToolbarProps {
   className?: string;
   activeViewId: string;
+  defaultViewId?: string;
   currentViewId?: string | null;
   isSystemView?: boolean;
   isViewDirty?: boolean;
   isSaving?: boolean;
   isOwner?: boolean;
+  isDefaultView?: boolean;
+  isSettingDefault?: boolean;
   viewsList?: ViewOut[];
   onSelectView: (viewId: string) => void;
   onSaveAs: () => void;
   onRename: () => void;
   onDelete: () => void;
+  onSetDefault?: () => void;
   onFetchNextViewsPage?: () => Promise<unknown>;
   hasNextViewsPage?: boolean;
   isFetchingNextViewsPage?: boolean;
@@ -36,16 +40,20 @@ export interface ViewsToolbarProps {
 export const ViewsToolbar = ({
   className,
   activeViewId,
+  defaultViewId,
   currentViewId,
   isSystemView = true,
   isViewDirty = false,
   isSaving = false,
   isOwner = false,
+  isDefaultView = false,
+  isSettingDefault = false,
   viewsList = [],
   onSelectView,
   onSaveAs,
   onRename,
   onDelete,
+  onSetDefault,
   onFetchNextViewsPage,
   hasNextViewsPage,
   isFetchingNextViewsPage,
@@ -76,6 +84,7 @@ export const ViewsToolbar = ({
             <ViewSelector
               views={viewsList}
               activeViewId={activeViewId}
+              defaultViewId={defaultViewId}
               onSelectView={onSelectView}
               onFetchNextPage={onFetchNextViewsPage}
               hasNextPage={hasNextViewsPage}
@@ -89,9 +98,12 @@ export const ViewsToolbar = ({
               isViewDirty={isViewDirty}
               isSaving={isSaving}
               isOwner={isOwner}
+              isDefaultView={isDefaultView}
+              isSettingDefault={isSettingDefault}
               onSaveAs={onSaveAs}
               onRename={onRename}
               onDelete={onDelete}
+              onSetDefault={onSetDefault}
               onSave={onSave}
             />
           </ToolbarItem>

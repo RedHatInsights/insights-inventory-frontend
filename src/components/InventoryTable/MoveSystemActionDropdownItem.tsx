@@ -30,6 +30,14 @@ export type MoveSystemActionDropdownItemProps = Omit<
 /**
  * Row kebab item for moving a host to another workspace (InventoryTable / ActionDropdownItem).
  * Only render when the parent has already gated on `useKesselMigrationFeatureFlag()`.
+ *  @param root0
+ *  @param root0.onClick
+ *  @param root0.isAriaDisabled
+ *  @param root0.requiredPermissions
+ *  @param root0.noAccessTooltip
+ *  @param root0.override
+ *  @param root0.ignoreResourceDefinitions
+ *  @param root0.checkAll
  */
 export const MoveSystemActionDropdownItem = ({
   onClick,
