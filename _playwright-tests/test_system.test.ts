@@ -5,7 +5,7 @@ import { test } from './helpers/fixtures';
 import { searchByName, waitForTableKebabReady } from './helpers/filterHelpers';
 import { isSystemsViewEnabled } from './helpers/constants';
 
-test.describe('System CRUD', { tag: ['@systems-table'] }, () => {
+test.describe('System CRUD', () => {
   test.describe.configure({ mode: 'serial' });
 
   test('User should be able to edit and delete a system from Systems page', async ({

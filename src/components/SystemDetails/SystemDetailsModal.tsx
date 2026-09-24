@@ -34,6 +34,13 @@ export interface SystemDetailsModalProps {
  * Shared modal component for displaying system details information in a table format.
  * Used by both Overview and Details tabs to show expandable data like CPU flags,
  * network interfaces, OS packages, etc.
+ *  @param root0
+ *  @param root0.isModalOpen
+ *  @param root0.modalTitle
+ *  @param root0.modalVariant
+ *  @param root0.modalData
+ *  @param root0.onSort
+ *  @param root0.handleModalToggle
  */
 const SystemDetailsModal = ({
   isModalOpen,

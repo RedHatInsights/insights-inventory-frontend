@@ -139,4 +139,55 @@ describe('ViewSelector', () => {
       expect(within(listbox).getByText('Production view')).toBeInTheDocument();
     });
   });
+
+  it('should show Default badge for the default view', async () => {
+    const user = userEvent.setup();
+    renderViewSelector({ defaultViewId: 'view-production' });
+
+    await user.click(screen.getByRole('textbox'));
+
+    // Find the option containing "Production view"
+    const options = screen.getAllByRole('option');
+    const productionOption = options.find((option) =>
+      within(option).queryByText('Production view'),
+    );
+
+    // The "Default" label should be present in this option
+    expect(productionOption).toBeDefined();
+    expect(within(productionOption!).getByText('Default')).toBeInTheDocument();
+  });
+
+  it('should show Default badge for All systems view when it is the default', async () => {
+    const user = userEvent.setup();
+    renderViewSelector({ defaultViewId: ALL_SYSTEMS_VIEW_ID });
+
+    await user.click(screen.getByRole('textbox'));
+
+    // Find the option containing "All systems"
+    const options = screen.getAllByRole('option');
+    const allSystemsOption = options.find((option) =>
+      within(option).queryByText('All systems'),
+    );
+
+    expect(allSystemsOption).toBeDefined();
+    expect(within(allSystemsOption!).getByText('Default')).toBeInTheDocument();
+  });
+
+  it('should show both System and Default badges for system views that are default', async () => {
+    const user = userEvent.setup();
+    renderViewSelector({ defaultViewId: 'view-security' });
+
+    await user.click(screen.getByRole('textbox'));
+
+    // Find the option containing "Security overview"
+    const options = screen.getAllByRole('option');
+    const securityOption = options.find((option) =>
+      within(option).queryByText('Security overview'),
+    );
+
+    // Should have both System and Default labels
+    expect(securityOption).toBeDefined();
+    expect(within(securityOption!).getByText('System')).toBeInTheDocument();
+    expect(within(securityOption!).getByText('Default')).toBeInTheDocument();
+  });
 });

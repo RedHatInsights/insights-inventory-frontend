@@ -30,12 +30,15 @@ function FiltersHarness({
   children,
   queryClient,
   resolvedFilters = inventoryFilterSpecs,
+  onSearchParams,
 }: {
   children: React.ReactNode;
   queryClient?: QueryClient;
   resolvedFilters?: readonly FilterSpec[];
+  onSearchParams?: (params: URLSearchParams) => void;
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
+  onSearchParams?.(searchParams);
 
   return (
     <QueryClientWrapper client={queryClient}>
@@ -54,6 +57,7 @@ function renderFiltersContext(
   initialRoute = '/',
   queryClient = createTestQueryClient(),
   resolvedFilters: readonly FilterSpec[] = inventoryFilterSpecs,
+  onSearchParams?: (params: URLSearchParams) => void,
 ) {
   return renderHook(() => useDataViewFiltersContext(), {
     wrapper: ({ children }) => (
@@ -65,6 +69,7 @@ function renderFiltersContext(
               <FiltersHarness
                 queryClient={queryClient}
                 resolvedFilters={resolvedFilters}
+                onSearchParams={onSearchParams}
               >
                 {children}
               </FiltersHarness>
@@ -220,6 +225,39 @@ describe('DataViewFiltersProvider', () => {
       });
     });
     expect(result.current.filtersDifferFromDefaults).toBe(false);
+  });
+
+  it('seeds a stamped text defaultValue into the URL when the param is absent', async () => {
+    let latestParams = new URLSearchParams();
+    renderFiltersContext(
+      '/',
+      createTestQueryClient(),
+      [{ ...hostnameSpec, defaultValue: 'web-01' }, statusSpec],
+      (params) => {
+        latestParams = params;
+      },
+    );
+
+    await waitFor(() => {
+      expect(latestParams.get('hostname_or_id')).toBe('web-01');
+    });
+  });
+
+  it('does not overwrite a text filter already present in the URL', async () => {
+    let latestParams = new URLSearchParams();
+    const { result } = renderFiltersContext(
+      '/?hostname_or_id=db-02',
+      createTestQueryClient(),
+      [{ ...hostnameSpec, defaultValue: 'web-01' }, statusSpec],
+      (params) => {
+        latestParams = params;
+      },
+    );
+
+    await waitFor(() => {
+      expect(result.current.filters.hostname_or_id).toBe('db-02');
+    });
+    expect(latestParams.get('hostname_or_id')).toBe('db-02');
   });
 
   it('is true when live filters differ from stamped spec defaults', async () => {
