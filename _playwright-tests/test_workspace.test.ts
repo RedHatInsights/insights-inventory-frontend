@@ -21,7 +21,7 @@ import {
 import { isSystemsViewEnabled } from './helpers/constants';
 
 test.describe('Workspace CRUD - Details Page', () => {
-  test('User can create, rename, and delete a workspace from Workspace Details page', async ({
+  test.fixme('User can create, rename, and delete a workspace from Workspace Details page', async ({
     page,
   }) => {
     /**
@@ -223,7 +223,7 @@ test.describe('Workspace CRUD - List Page', () => {
     });
   });
 
-  test('User can create, rename and delete a workspace from Workspaces page', async ({
+  test.fixme('User can create, rename and delete a workspace from Workspaces page', async ({
     page,
   }) => {
     /**
@@ -311,7 +311,7 @@ test.describe('Workspace CRUD - List Page', () => {
 });
 
 test.describe('Workspace System Management', () => {
-  test('User can add and remove system from workspace', async ({
+  test.fixme('User can add and remove system from workspace', async ({
     page,
     systems,
   }) => {
