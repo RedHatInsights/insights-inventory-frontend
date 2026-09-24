@@ -184,7 +184,8 @@
     "test:pw": "npx playwright test",
     "patch:hosts": "fec patch-etc-hosts",
     "type-check": "tsc --noEmit",
-    "type-check:watch": "tsc --noEmit --watch"
+    "type-check:watch": "tsc --noEmit --watch",
+    "type-gen": "dts-bundle-generator --project tsconfig.json --no-check -o dist/SystemsView.d.ts src/modules/SystemsView.types.ts"
   },
   "insights": {
     "appname": "inventory"
