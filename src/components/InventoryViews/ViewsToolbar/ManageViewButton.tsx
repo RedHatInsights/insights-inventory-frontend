@@ -9,22 +9,18 @@ import {
 } from '@patternfly/react-core';
 
 export interface ManageViewButtonProps {
-  /** Current view ID (null for system views) */
   currentViewId?: string | null;
-  /** Whether current view is a system view (non-editable) */
   isSystemView?: boolean;
-  /** Whether the view is dirty */
   isViewDirty?: boolean;
   isSaving?: boolean;
   isOwner?: boolean;
-  /** Callback when Save As is clicked */
+  isDefaultView?: boolean;
+  isSettingDefault?: boolean;
   onSaveAs: () => void;
-  /** Callback when Rename is clicked */
   onRename: () => void;
-  /** Callback when Delete is clicked */
   onDelete: () => void;
-  /** Callback when Save is clicked */
   onSave?: () => void;
+  onSetDefault?: () => void;
 }
 
 export interface PrimaryAction {
@@ -50,10 +46,13 @@ export const ManageViewButton = ({
   isViewDirty = false,
   isSaving = false,
   isOwner = false,
+  isDefaultView = false,
+  isSettingDefault = false,
   onSaveAs,
   onRename,
   onDelete,
   onSave,
+  onSetDefault,
 }: ManageViewButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -130,6 +129,18 @@ export const ManageViewButton = ({
           isDisabled={!isViewDirty || isSystemView || !isOwner || isSaving}
         >
           Save
+        </DropdownItem>
+        <DropdownItem
+          key="set-default"
+          onClick={onSetDefault}
+          isDisabled={isDefaultView || isSettingDefault}
+          {...(isDefaultView && {
+            tooltipProps: {
+              content: 'This is already your default view.',
+            },
+          })}
+        >
+          Set as default
         </DropdownItem>
         <DropdownItem key="rename" onClick={onRename} isDisabled={isSystemView}>
           Rename

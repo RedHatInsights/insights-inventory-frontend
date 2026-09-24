@@ -62,6 +62,53 @@ describe('resolveDefaultViewId', () => {
     expect(resolveDefaultViewId([])).toBe(ALL_SYSTEMS_VIEW_ID);
   });
 
+  it('trusts the backend default_view_id when provided', () => {
+    const views: InventoryView[] = [
+      {
+        id: 'system-view-uuid',
+        name: 'All systems',
+        is_system_view: true,
+        is_owner: false,
+        org_wide: true,
+        configuration: { columns: [] },
+        created_at: '2026-01-01T00:00:00Z',
+        updated_at: '2026-01-01T00:00:00Z',
+      },
+      {
+        id: 'user-pinned-view',
+        name: 'My Pinned View',
+        is_system_view: false,
+        is_owner: true,
+        org_wide: false,
+        configuration: { columns: [] },
+        created_at: '2026-01-01T00:00:00Z',
+        updated_at: '2026-01-01T00:00:00Z',
+      },
+    ];
+
+    // The backend default wins over the system-view fallback.
+    expect(resolveDefaultViewId(views, 'user-pinned-view')).toBe(
+      'user-pinned-view',
+    );
+  });
+
+  it('falls back to the system view when backendDefaultViewId is undefined', () => {
+    const views: InventoryView[] = [
+      {
+        id: 'system-view-uuid',
+        name: 'All systems',
+        is_system_view: true,
+        is_owner: false,
+        org_wide: true,
+        configuration: { columns: [] },
+        created_at: '2026-01-01T00:00:00Z',
+        updated_at: '2026-01-01T00:00:00Z',
+      },
+    ];
+
+    expect(resolveDefaultViewId(views, undefined)).toBe('system-view-uuid');
+  });
+
   it('returns the first system view when multiple system views exist (edge case)', () => {
     const views: InventoryView[] = [
       {

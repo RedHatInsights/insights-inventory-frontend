@@ -6,6 +6,7 @@ import {
   apiViewsCreateView,
   apiViewsPatchView,
   apiViewsDeleteView,
+  apiViewsSetDefaultView,
 } from '@redhat-cloud-services/host-inventory-client';
 import type { AxiosInstance } from 'axios';
 import type {
@@ -18,6 +19,7 @@ import type {
 } from '@redhat-cloud-services/host-inventory-client/ApiViewsGetViewById';
 import type { ApiViewsCreateViewReturnType } from '@redhat-cloud-services/host-inventory-client/ApiViewsCreateView';
 import type { ApiViewsPatchViewReturnType } from '@redhat-cloud-services/host-inventory-client/ApiViewsPatchView';
+import type { ApiViewsSetDefaultViewReturnType } from '@redhat-cloud-services/host-inventory-client/ApiViewsSetDefaultView';
 import type {
   ViewConfiguration,
   ViewIn,
@@ -54,6 +56,7 @@ const endpoints = {
   apiViewsCreateView,
   apiViewsPatchView,
   apiViewsDeleteView,
+  apiViewsSetDefaultView,
 };
 
 const inventoryApi = (axios: AxiosInstance = axiosInstance) =>
@@ -95,4 +98,12 @@ export const updateViewApi = async (
 
 export const deleteViewApi = async (id: string): Promise<void> => {
   await inventoryApi().apiViewsDeleteView({ viewId: id });
+};
+
+export const setDefaultViewApi = async (
+  viewId: string,
+): Promise<ApiViewsSetDefaultViewReturnType> => {
+  return (await inventoryApi().apiViewsSetDefaultView({
+    defaultViewIn: { view_id: viewId },
+  })) as unknown as ApiViewsSetDefaultViewReturnType;
 };
