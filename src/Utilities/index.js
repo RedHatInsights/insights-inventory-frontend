@@ -3,3 +3,4 @@ export { default as TagsModal } from './TagsModal';
 export { default as RenderWrapper } from './Wrapper';
 export { default as DeleteModal } from './DeleteModal';
 export * from './constants';
+export { STALENESS_OPTIONS as staleness } from './staleness';
