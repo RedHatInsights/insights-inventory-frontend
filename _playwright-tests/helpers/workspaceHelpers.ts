@@ -1,5 +1,5 @@
 import { Response, expect, type Page } from '@playwright/test';
-import { INVENTORY_API_BASE } from './apiHelpers';
+import { INVENTORY_API_BASE } from '../../src/config';
 
 /**
  * Locator for the workspace details page header "Actions" menu toggle (not table bulk Actions).

@@ -11,7 +11,7 @@ export const FILTER_DROPDOWN_WIDTH = '300px';
 
 export const LOADER_ID = 'loader';
 
-export const LAST_SEEN_KEYS = [
+const LAST_SEEN_KEYS = [
   'last24',
   '24more',
   '7more',
@@ -24,7 +24,7 @@ export type LastSeenKey = (typeof LAST_SEEN_KEYS)[number];
 
 const LAST_SEEN_KEY_SET = new Set<string>(LAST_SEEN_KEYS);
 
-export const isLastSeenKey = (key: string): key is LastSeenKey =>
+const isLastSeenKey = (key: string): key is LastSeenKey =>
   LAST_SEEN_KEY_SET.has(key);
 
 /**
