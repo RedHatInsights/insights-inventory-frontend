@@ -4,7 +4,6 @@ import https from 'https';
 import { HttpsProxyAgent } from 'hpagent';
 import path from 'path';
 import * as hostInventoryApi from '../../src/api/hostInventoryApi';
-export { INVENTORY_API_BASE } from '../../src/api/hostInventoryApi';
 
 const ADMIN_STORAGE_STATE = path.join(__dirname, '../../.auth/admin_user.json');
 
