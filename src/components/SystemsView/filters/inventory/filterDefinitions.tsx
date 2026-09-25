@@ -44,19 +44,19 @@ const WorkspaceChip = ({ id }: { id: string }) => {
   );
 };
 
-export const hostnameSpec = {
+export const hostnameSpec: TextFilterSpec = {
   type: 'text',
-  filterId: 'hostname_or_id' as const,
+  filterId: 'hostname_or_id',
   title: 'Name',
   defaultValue: '',
   chipTitle: 'Display name',
   placeholder: 'Filter by name',
   debounceMs: DEBOUNCE_TIMEOUT_MS,
-} satisfies TextFilterSpec;
+};
 
-export const statusSpec = {
+export const statusSpec: CheckboxFilterSpec = {
   type: 'checkbox',
-  filterId: 'status' as const,
+  filterId: 'status',
   title: 'Status',
   defaultValue: [],
   placeholder: 'Filter by status',
@@ -65,11 +65,11 @@ export const statusSpec = {
     { label: 'Stale', value: 'stale' },
     { label: 'Stale warning', value: 'stale_warning' },
   ],
-} satisfies CheckboxFilterSpec;
+};
 
-export const operatingSystemSpec = {
+export const operatingSystemSpec: CustomFilterSpec<string[]> = {
   type: 'custom',
-  filterId: 'operating_system' as const,
+  filterId: 'operating_system',
   title: 'Operating system',
   defaultValue: [],
   placeholder: 'Filter by operating system',
@@ -89,11 +89,11 @@ export const operatingSystemSpec = {
       ),
     );
   },
-} satisfies CustomFilterSpec<string[]>;
+};
 
-export const sourceSpec = {
+export const sourceSpec: CheckboxFilterSpec = {
   type: 'checkbox',
-  filterId: 'source' as const,
+  filterId: 'source',
   title: 'Data collector',
   defaultValue: [],
   placeholder: 'Filter by data collector',
@@ -110,11 +110,11 @@ export const sourceSpec = {
     { label: 'Discovery', value: 'discovery' },
     { label: 'insights-client not connected', value: '!puptoo' },
   ],
-} satisfies CheckboxFilterSpec;
+};
 
-export const systemTypeSpec = {
+export const systemTypeSpec: CheckboxFilterSpec = {
   type: 'checkbox',
-  filterId: 'system_type' as const,
+  filterId: 'system_type',
   title: 'System type',
   defaultValue: [],
   placeholder: 'Filter by system type',
@@ -122,9 +122,9 @@ export const systemTypeSpec = {
     { label: 'Package-based system', value: 'conventional' },
     { label: 'Image-based system', value: 'image' },
   ],
-} satisfies CheckboxFilterSpec;
+};
 
-export const workspaceSpec = {
+export const workspaceSpec: CustomFilterSpec<string[]> = {
   type: 'custom',
   filterId: SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM,
   title: 'Workspace',
@@ -147,11 +147,11 @@ export const workspaceSpec = {
         return item !== label;
       }),
     ),
-} satisfies CustomFilterSpec<string[]>;
+};
 
-export const lastSeenSpec = {
+export const lastSeenSpec: CustomFilterSpec<LastSeenKey | ''> = {
   type: 'custom',
-  filterId: 'last_seen' as const,
+  filterId: 'last_seen',
   title: 'Last seen',
   defaultValue: '',
   placeholder: 'Filter by last seen',
@@ -180,11 +180,11 @@ export const lastSeenSpec = {
         : '',
     range: ctx.lastSeenCustomRange,
   }),
-} satisfies CustomFilterSpec<LastSeenKey | ''>;
+};
 
-export const tagsSpec = {
+export const tagsSpec: CustomFilterSpec<string[]> = {
   type: 'custom',
-  filterId: 'tags' as const,
+  filterId: 'tags',
   title: 'Tags',
   defaultValue: [],
   placeholder: 'Filter by tags',
@@ -217,19 +217,19 @@ export const tagsSpec = {
       value?.filter((item) => item !== `${category}/${label}`),
     );
   },
-} satisfies CustomFilterSpec<string[]>;
+};
 
-export const workloadsSpec = {
+export const workloadsSpec: CheckboxFilterSpec = {
   type: 'checkbox',
-  filterId: 'workloads' as const,
+  filterId: 'workloads',
   title: 'Workload',
   defaultValue: [],
   placeholder: 'Filter by workload',
   options: [...WORKLOAD_FILTER_OPTIONS],
-} satisfies CheckboxFilterSpec;
+};
 
-/** Current inventory toolbar, in display order. `filterId as const` keeps keys inferable. */
-export const inventoryFilterSpecs = [
+/** Current inventory toolbar, in display order. */
+export const inventoryFilterSpecs: readonly FilterSpec[] = [
   hostnameSpec,
   statusSpec,
   operatingSystemSpec,
@@ -239,4 +239,4 @@ export const inventoryFilterSpecs = [
   lastSeenSpec,
   tagsSpec,
   workloadsSpec,
-] as const satisfies readonly FilterSpec[];
+];

@@ -59,9 +59,9 @@ import type { System } from '../InventoryViews/hostsQueryOptions';
 import type {
   LastSeenCustomRange,
   SortDirection,
+  SystemsViewFetchData,
   SystemsViewFetchParams,
   SystemsViewItem,
-  SystemsViewQueryData,
 } from './types';
 import { deriveActiveState } from './utils/deriveActiveState';
 import {
@@ -91,13 +91,11 @@ export type {
 } from './actions/types';
 
 export type { SortDirection } from './types';
-export type { SystemsViewItem, SystemsViewQueryData } from './types';
-export type SystemsViewFetchData<
-  TItem extends SystemsViewItem,
-  TFilterParams = unknown,
-> = (
-  params: SystemsViewFetchParams<TFilterParams>,
-) => Promise<SystemsViewQueryData<TItem>>;
+export type {
+  SystemsViewFetchData,
+  SystemsViewItem,
+  SystemsViewQueryData,
+} from './types';
 export type OnSort = (
   _event: React.MouseEvent | React.KeyboardEvent | MouseEvent | undefined,
   newSortBy: string,
