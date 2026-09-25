@@ -3,11 +3,11 @@ export type {
   ActionHelpers,
   ActionSpec,
   BulkAction,
-  SystemsViewFetchData,
   SystemsViewProps,
   RowAction,
 } from './SystemsView';
 export type {
+  SystemsViewFetchData,
   SystemsViewFetchParams,
   SystemsViewFilterState,
   SystemsViewItem,
