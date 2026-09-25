@@ -16,6 +16,15 @@ export const FILTER_PARAM_KEYS = inventoryFilterSpecs.map(
 
 type ColumnVisibility = Pick<Column, 'key' | 'isShown'>;
 
+/**
+ * Structural sort shape shared by ViewConfiguration['sort'] and the derived
+ * effective default. Values may be undefined, so both are explicitly optional.
+ */
+type SortBaseline = {
+  key?: string | undefined;
+  direction?: string | undefined;
+};
+
 interface UseViewDirtyStateParams {
   activeViewId: string;
   savedConfiguration?: ViewConfiguration;
@@ -26,19 +35,26 @@ interface UseViewDirtyStateParams {
   /** Resolved spec `defaultValue` bag (view / Ansible stamps). */
   defaultValues?: Record<string, unknown>;
   filterParamKeys?: readonly string[];
+  /**
+   * The sort the table actually applies for this view given its column
+   * visibility. When the view's sorted column is hidden, the table falls back
+   * to `FALLBACK_SORT` (display_name/asc), which is not a user edit and must not
+   * count as dirty. When omitted, the saved sort (or INITIAL_SORT) is used.
+   */
+  effectiveDefaultSort?: SortBaseline;
 }
 
 export const isSortDirty = (
   searchParams: URLSearchParams,
-  savedSort?: ViewConfiguration['sort'],
+  effectiveDefaultSort?: SortBaseline,
 ): boolean => {
   const currentKey = searchParams.get(SORT_URL_PARAM);
   const currentDir = searchParams.get(SORT_DIR_URL_PARAM);
 
   if (!currentKey && !currentDir) return false;
 
-  const savedKey = savedSort?.key ?? INITIAL_SORT.sortBy;
-  const savedDir = savedSort?.direction ?? INITIAL_SORT.direction;
+  const savedKey = effectiveDefaultSort?.key ?? INITIAL_SORT.sortBy;
+  const savedDir = effectiveDefaultSort?.direction ?? INITIAL_SORT.direction;
 
   return (
     (currentKey ?? savedKey) !== savedKey ||
@@ -137,6 +153,7 @@ export const useViewDirtyState = ({
   currentLastSeenCustomRange,
   defaultValues,
   filterParamKeys = FILTER_PARAM_KEYS,
+  effectiveDefaultSort,
 }: UseViewDirtyStateParams) =>
   useMemo(() => {
     const effectiveLastSeenCustomRange =
@@ -144,7 +161,10 @@ export const useViewDirtyState = ({
         ? parseViewConfigLastSeenCustomRange(savedConfiguration?.filters)
         : currentLastSeenCustomRange;
 
-    const sortIsDirty = isSortDirty(searchParams, savedConfiguration?.sort);
+    const sortIsDirty = isSortDirty(
+      searchParams,
+      effectiveDefaultSort ?? savedConfiguration?.sort,
+    );
     const filtersAreDirty = areFiltersDirty(
       searchParams,
       defaultValues,
@@ -168,4 +188,5 @@ export const useViewDirtyState = ({
     currentLastSeenCustomRange,
     defaultValues,
     filterParamKeys,
+    effectiveDefaultSort,
   ]);

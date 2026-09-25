@@ -42,7 +42,7 @@ import { resolveColumnSelector } from '../SystemsView/columns/resolveColumnSelec
 import { resolveFilterSelector } from '../SystemsView/filters/resolveFilterSelector';
 import { defaultValuesFrom } from '../SystemsView/filters/defaultValuesFrom';
 import { SORT_URL_PARAM, SORT_DIR_URL_PARAM } from '../SystemsView/constants';
-import { INITIAL_SORT } from '../SystemsView/hooks/useColumns';
+import { INITIAL_SORT, FALLBACK_SORT } from '../SystemsView/hooks/useColumns';
 import type { Column } from '../SystemsView/columns/types';
 import type { InventoryBindableItem } from '../SystemsView/columns/inventory/columnDefinitions';
 import {
@@ -51,6 +51,7 @@ import {
   parseViewConfigLastSeenCustomRange,
 } from './utils/viewConfigFilters';
 import { useViewDirtyState } from './hooks/useViewDirtyState';
+import { applyUrlOverrides } from './utils/applyUrlOverrides';
 import { useUpdateViewMutation } from './hooks/useUpdateViewMutation';
 import { useSetDefaultViewMutation } from './hooks/useSetDefaultViewMutation';
 import type {
@@ -174,14 +175,54 @@ const InventoryViews = () => {
 
   const isDefaultView = activeViewId === defaultViewId;
 
+  const needsDefaultViewHydration =
+    viewsLoaded &&
+    !urlViewId &&
+    defaultViewId !== ALL_SYSTEMS_VIEW_ID &&
+    !activeView;
+
+  // Builds the full URL for a view: its saved filters, sort, and view_id. Used
+  // both when switching views and when hydrating the default view on a bare
+  // load, so every entry path resolves to the same URL-authoritative state.
+  const buildViewSearchParams = useCallback(
+    (
+      configuration: ViewConfiguration | undefined,
+      viewId: string,
+    ): URLSearchParams => {
+      const filters = parseViewConfigFilters(configuration?.filters);
+      const params = filtersToSearchParams(filters);
+      params.set(VIEW_ID_URL_PARAM, viewId);
+
+      const sort = configuration?.sort;
+      if (sort?.key) {
+        params.set(SORT_URL_PARAM, sort.key);
+        if (sort.direction) {
+          params.set(SORT_DIR_URL_PARAM, sort.direction);
+        }
+      }
+
+      if (isAnsibleBundle && !params.has('workloads')) {
+        params.set('workloads', ANSIBLE_WORKLOAD);
+      }
+      return params;
+    },
+    [isAnsibleBundle],
+  );
+
   useEffect(() => {
     if (!viewsLoaded) return;
 
     if (!urlViewId) {
-      if (defaultViewId === ALL_SYSTEMS_VIEW_ID) return; // default not ready yet
-      const next = new URLSearchParams(searchParams);
-      next.set(VIEW_ID_URL_PARAM, defaultViewId);
-      setSearchParams(next, { replace: true });
+      if (defaultViewId === ALL_SYSTEMS_VIEW_ID) return;
+      if (!activeView) return;
+
+      const configParams = buildViewSearchParams(
+        activeView.configuration,
+        defaultViewId,
+      );
+      setSearchParams(applyUrlOverrides(configParams, searchParams), {
+        replace: true,
+      });
       return;
     }
 
@@ -200,10 +241,12 @@ const InventoryViews = () => {
     viewsLoaded,
     urlViewId,
     viewsList,
+    activeView,
     searchParams,
     defaultViewId,
     setSearchParams,
     hasNextViewsPage,
+    buildViewSearchParams,
   ]);
 
   const columnSelector = useMemo(
@@ -273,6 +316,31 @@ const InventoryViews = () => {
     [activeViewId, viewsLoaded],
   );
 
+  // The sort the table actually applies for this view. When the view's sorted
+  // column is hidden, the table auto-corrects to FALLBACK_SORT (display_name/asc);
+  // that is not a user edit, so it becomes the baseline the dirty check compares
+  // against instead of the raw saved sort.
+  const effectiveDefaultSort = useMemo(() => {
+    const saved = activeView?.configuration?.sort;
+    const baseKey = saved?.key ?? INITIAL_SORT.sortBy;
+    const baseDirection = saved?.direction ?? INITIAL_SORT.direction;
+
+    if (currentColumns) {
+      const isBaseColumnSortable = currentColumns.some(
+        (c) => c.sortBy === baseKey && c.isShown && !c.isPermissionLocked,
+      );
+
+      if (!isBaseColumnSortable) {
+        return {
+          key: FALLBACK_SORT.sortBy,
+          direction: FALLBACK_SORT.direction,
+        };
+      }
+    }
+
+    return { key: baseKey, direction: baseDirection };
+  }, [activeView?.configuration?.sort, currentColumns]);
+
   const isViewDirty = useViewDirtyState({
     activeViewId,
     savedConfiguration: activeView?.configuration,
@@ -282,22 +350,19 @@ const InventoryViews = () => {
     currentLastSeenCustomRange,
     defaultValues: filterDefaultValues,
     filterParamKeys,
+    effectiveDefaultSort,
   });
 
   const handleSelectView = useCallback(
     (viewId: string) => {
       const view = viewsList.find((v) => v.id === viewId);
-      const filters = parseViewConfigFilters(view?.configuration?.filters);
       // Switching views starts from a clean slate: build fresh params from the
-      // target view's saved filters, dropping any params applied to the old view.
-      const params = filtersToSearchParams(filters);
-      params.set(VIEW_ID_URL_PARAM, viewId);
-      if (isAnsibleBundle && !params.has('workloads')) {
-        params.set('workloads', ANSIBLE_WORKLOAD);
-      }
+      // target view's saved filters and sort, dropping any params applied to the
+      // old view.
+      const params = buildViewSearchParams(view?.configuration, viewId);
       setSearchParams(params, { replace: true });
     },
-    [isAnsibleBundle, setSearchParams, viewsList],
+    [buildViewSearchParams, setSearchParams, viewsList],
   );
 
   const handleSaveAs = () => {
@@ -441,7 +506,12 @@ const InventoryViews = () => {
           )}
         </>
       )}
-      {isReady && (
+      {isReady && needsDefaultViewHydration && (
+        <Bullseye>
+          <Spinner size="xl" />
+        </Bullseye>
+      )}
+      {isReady && !needsDefaultViewHydration && (
         <Actions<InventoryBindableItem>>
           {({ bulkActions, rowActions }) => (
             <SystemsView
