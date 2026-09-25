@@ -27,3 +27,10 @@ export type SystemsViewQueryData<TItem extends SystemsViewItem> = {
   total: number;
   deniedServices?: string[];
 };
+
+export type SystemsViewFetchData<
+  TItem extends SystemsViewItem,
+  TFilterParams = unknown,
+> = (
+  params: SystemsViewFetchParams<TFilterParams>,
+) => Promise<SystemsViewQueryData<TItem>>;
