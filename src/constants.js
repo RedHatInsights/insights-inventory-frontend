@@ -141,7 +141,7 @@ export const extraShape = PropTypes.shape({
 });
 
 /** Sort URL keys valid in SystemsView but not as legacy InventoryTable / /hosts order_by. */
-export const LEGACY_INVENTORY_INVALID_SORT_KEYS = ['status'];
+const LEGACY_INVENTORY_INVALID_SORT_KEYS = ['status'];
 
 export const getLegacyInventorySortKey = (rawSortKey) => {
   if (!rawSortKey) {
@@ -313,10 +313,6 @@ export const GROUPS_WILDCARD = 'inventory:groups:*';
 export const INVENTORY_WILDCARD = 'inventory:*:*';
 export const INVENTORY_WRITE_WILDCARD = 'inventory:*:write';
 export const GENERAL_GROUPS_READ_PERMISSION = 'inventory:groups:read';
-export const GROUPS_ADMINISTRATOR_PERMISSIONS = [
-  GENERAL_GROUPS_READ_PERMISSION,
-  GENERAL_GROUPS_WRITE_PERMISSION,
-];
 export const GENERAL_HOSTS_READ_PERMISSIONS = 'inventory:hosts:read';
 export const GENERAL_HOSTS_WRITE_PERMISSIONS = 'inventory:hosts:write';
 
@@ -328,7 +324,6 @@ export const asPermissionList = (permissions) =>
   Array.isArray(permissions) ? permissions : [permissions];
 export const USER_ACCESS_ADMIN_PERMISSIONS = ['rbac:*:*'];
 export const PAGINATION_DEFAULT = { perPage: 10, page: 1 };
-export const NO_ACCESS_STATE = 'noAccess';
 
 export const TAB_REQUIRED_PERMISSIONS = {
   /**
@@ -359,8 +354,6 @@ export const HOST_RESOURCE_TYPE = 'host';
 export const HOST_RESOURCE_TYPE_VIEW = 'view';
 export const HOST_RESOURCE_TYPE_UPDATE = 'update';
 export const HOST_RESOURCE_TYPE_DELETE = 'delete';
-export const INVENTORY_STALENESS_READ_PERMISSION = 'inventory:staleness:read';
-export const INVENTORY_STALENESS_WRITE_PERMISSION = 'inventory:staleness:write';
 export const PER_PAGE_MAX = 100;
 export const PER_PAGE = 50;
 export const INITIAL_PAGE = 1;
