@@ -38,13 +38,20 @@ test.describe(
   () => {
     const viewName = `${DEFAULT_PREFIX}-${randomUUID()}`;
     const renamedView = `${viewName}-renamed`;
+    const defaultViewName = `${DEFAULT_PREFIX}-${randomUUID()}`;
+    const tempView = `${DEFAULT_PREFIX}-${randomUUID()}`;
 
     test.beforeEach(async ({ page }) => {
       await navigateToInventorySystemsFunc(page);
     });
 
     test.afterAll(async () => {
-      await deleteViewsByName([viewName, renamedView]);
+      await deleteViewsByName([
+        viewName,
+        renamedView,
+        defaultViewName,
+        tempView,
+      ]);
     });
 
     test('User creates a new view, renames it, and deletes it', async ({
@@ -68,6 +75,39 @@ test.describe(
 
       await test.step(`Verifies active view now is default view after deletion`, async () => {
         await manageView.verifyActiveView(ALL_SYSTEMS_VIEW);
+      });
+    });
+
+    test('User sets a view as default and it becomes the landing view', async ({
+      page,
+    }) => {
+      const manageView = manageViewHelper(page);
+
+      await test.step(`Creates a new view`, async () => {
+        await manageView.saveAs(defaultViewName);
+        await manageView.verifyActiveView(defaultViewName);
+      });
+
+      await test.step(`Sets the view as default`, async () => {
+        await manageView.setDefault(defaultViewName);
+      });
+
+      await test.step(`Reloading the inventory lands on the default view`, async () => {
+        await navigateToInventorySystemsFunc(page);
+        await manageView.verifyActiveView(defaultViewName, { timeout: 15000 });
+      });
+
+      await test.step(`Deleting a non-default active view falls back to the default view`, async () => {
+        await manageView.saveAs(tempView);
+        await manageView.verifyActiveView(tempView);
+
+        await manageView.delete(tempView);
+        await manageView.verifyActiveView(defaultViewName, { timeout: 10000 });
+      });
+
+      await test.step(`Deleting the default view falls back to All systems`, async () => {
+        await manageView.delete(defaultViewName);
+        await manageView.verifyActiveView(ALL_SYSTEMS_VIEW, { timeout: 10000 });
       });
     });
   },

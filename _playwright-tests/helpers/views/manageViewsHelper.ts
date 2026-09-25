@@ -10,6 +10,7 @@ export type ManageViewHelper = {
   saveAs: (view: string) => Promise<void>;
   save: (view: string) => Promise<void>;
   rename: (newName: string) => Promise<void>;
+  setDefault: (view: string) => Promise<void>;
   delete: (view: string) => Promise<void>;
   verifyActiveView: (expectedViewName: string, options?: { timeout?: number }) => Promise<void>;
 };
@@ -40,9 +41,6 @@ export function manageViewHelper(page: Page): ManageViewHelper {
     });
   };
 
-  // A dirty view shows "Save" / "Save as" as the split button's primary action;
-  // a clean one falls back to "Manage view". Waiting on that swap is how we know
-  // an update mutation settled, since the modal-less Save gives no other signal.
   const verifyNoUnsavedChanges = async ({
     timeout = 10000,
   }: { timeout?: number } = {}): Promise<void> => {
@@ -126,6 +124,27 @@ export function manageViewHelper(page: Page): ManageViewHelper {
       await dialog.getByRole('button', { name: 'Save' }).click();
 
       await expect(dialog).toBeHidden();
+    },
+
+    /**
+     * Sets the active view as the user's default view.
+     */
+    async setDefault(view: string): Promise<void> {
+      await verifyActiveView(view);
+      await manageViewToggle.click();
+
+      const setDefaultItem = page.getByRole('menuitem', {
+        name: 'Set as default',
+      });
+      await expect(setDefaultItem).toBeEnabled();
+      await setDefaultItem.click();
+
+      await expect(setDefaultItem).toBeHidden();
+      await manageViewToggle.click();
+      await expect(
+        page.getByRole('menuitem', { name: 'Set as default' }),
+      ).toBeDisabled({ timeout: 10000 });
+      await page.keyboard.press('Escape');
     },
 
     /**

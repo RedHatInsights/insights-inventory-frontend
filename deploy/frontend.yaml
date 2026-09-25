@@ -73,9 +73,6 @@ objects:
                   title: System Configuration
                   expandable: true
                   routes:
-                    - segmentRef:
-                        segmentId: rhc-nav
-                        frontendName: connector
                     - id: activation-keys
                       title: Activation Keys
                       href: /insights/connector/activation-keys
@@ -159,21 +156,6 @@ objects:
             - workspace
             - groups
             - group
-        - id: systemConfiguration-rhc-rhel
-          title: Remote Host Configuration - System Configuration
-          description: "Configure your systems to execute Ansible Playbooks."
-          href: /insights/connector
-          alt_title:
-            - Remote host configuration
-            - remote host configuration
-            - connect systems
-            - connection options
-            - connect settings
-            - settings
-            - Register
-            - rhc
-            - RHC
-            - rhcd
 
 parameters:
   - name: ENV_NAME

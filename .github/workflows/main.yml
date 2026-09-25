@@ -56,7 +56,6 @@ jobs:
             ocp-vulnerability
             patchman-rhel
             registration-assistant-rhel
-            sed-frontend-rhc
             tasks-rhel
             policies-rhel
           )

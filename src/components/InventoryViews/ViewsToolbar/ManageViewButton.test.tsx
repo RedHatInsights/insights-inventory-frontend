@@ -205,4 +205,38 @@ describe('ManageViewButton', () => {
       expect(onSave).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('"Set as default" item', () => {
+    it('enables "Set as default" and calls onSetDefault when clicked on a non-default view', async () => {
+      const onSetDefault = jest.fn();
+      renderManageViewButton({ isDefaultView: false, onSetDefault });
+
+      const user = await openMenu();
+      const setDefaultItem = screen.getByRole('menuitem', {
+        name: 'Set as default',
+      });
+      expect(setDefaultItem).toBeEnabled();
+
+      await user.click(setDefaultItem);
+      expect(onSetDefault).toHaveBeenCalledTimes(1);
+    });
+
+    it('disables "Set as default" when the active view is already the default', async () => {
+      renderManageViewButton({ isDefaultView: true });
+
+      await openMenu();
+      expect(
+        screen.getByRole('menuitem', { name: 'Set as default' }),
+      ).toBeDisabled();
+    });
+
+    it('disables "Set as default" while the request is in flight', async () => {
+      renderManageViewButton({ isDefaultView: false, isSettingDefault: true });
+
+      await openMenu();
+      expect(
+        screen.getByRole('menuitem', { name: 'Set as default' }),
+      ).toBeDisabled();
+    });
+  });
 });

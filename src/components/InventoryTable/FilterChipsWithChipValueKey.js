@@ -15,7 +15,10 @@ function isPlainFilterChip(group) {
   return !isFilterChipGroup(group);
 }
 
-/** Prefer chip.value for React keys so chip.name can be a non-string (e.g. loading spinner). */
+/**
+ * Prefer chip.value for React keys so chip.name can be a non-string (e.g. loading spinner).
+ *  @param chip
+ */
 function chipElementKey(chip) {
   if (Object.prototype.hasOwnProperty.call(chip, 'value')) {
     return String(chip.value);
@@ -27,6 +30,13 @@ function chipElementKey(chip) {
  * Same as frontend-components FilterChips, but Chip keys use chip.value when set
  * so grouped workspace chips can render React nodes in chip.name (RHCS FilterChips
  * uses chip.name as both label and key).
+ *  @param root0
+ *  @param root0.className
+ *  @param root0.filters
+ *  @param root0.onDelete
+ *  @param root0.deleteTitle
+ *  @param root0.showDeleteButton
+ *  @param root0.onDeleteGroup
  */
 const FilterChipsWithChipValueKey = ({
   className,

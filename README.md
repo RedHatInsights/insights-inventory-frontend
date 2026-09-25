@@ -174,7 +174,6 @@ These applications import `InventoryTable` component through federated modules:
 
 - [vulnerability-ui](https://github.com/RedHatInsights/vulnerability-ui)
 - [insights-remediations-frontend](https://github.com/RedHatInsights/insights-remediations-frontend)
-- [sed-frontend](https://github.com/RedHatInsights/sed-frontend)
 - [tasks-frontend](https://github.com/RedHatInsights/tasks-frontend)
 - [compliance-frontend](https://github.com/RedHatInsights/compliance-frontend)
 - [patchman-ui](https://github.com/RedHatInsights/patchman-ui)

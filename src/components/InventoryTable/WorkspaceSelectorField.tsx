@@ -15,6 +15,9 @@ export type WorkspaceSelectorFieldProps = {
  * Federated WorkspaceSelector from insights-rbac-ui (scope `rbac`, module
  * `./modules/WorkspaceSelector`). Extracted so tests can stub this field without
  * replacing AsyncComponent app-wide.
+ *  @param root0
+ *  @param root0.onSelect
+ *  @param root0.menuWidth
  */
 export const WorkspaceSelectorField = ({
   onSelect,
