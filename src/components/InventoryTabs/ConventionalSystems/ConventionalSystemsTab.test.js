@@ -3,7 +3,6 @@ import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import configureStore from 'redux-mock-store';
-import { useGetRegistry } from '../../../Utilities/constants';
 import { mock } from '../../../__mocks__/hostApi';
 import ConventionalSystemsTab from './ConventionalSystemsTab';
 import { calculatePagination } from './Utilities';
@@ -15,12 +14,6 @@ import { useAddNotification } from '@redhat-cloud-services/frontend-components-n
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => () => jest.fn(),
-}));
-jest.mock('../../../Utilities//constants', () => ({
-  ...jest.requireActual('../../../Utilities/constants'),
-  useGetRegistry: jest.fn(() => ({
-    getRegistry: () => ({}),
-  })),
 }));
 jest.mock(
   '@redhat-cloud-services/frontend-components-utilities/RBACHook',
@@ -147,7 +140,6 @@ describe('ConventionalSystemsTab', () => {
 
   beforeEach(() => {
     mockStore = configureStore();
-    useGetRegistry.mockImplementation(() => () => ({ register: () => ({}) }));
     mock.onGet().reply(200, { results: [] });
     useAddNotification.mockImplementation(() => notificationMock);
   });

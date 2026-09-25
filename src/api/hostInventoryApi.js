@@ -1,8 +1,7 @@
 import { APIFactory } from '@redhat-cloud-services/javascript-clients-shared';
 import axiosInstance from '@redhat-cloud-services/frontend-components-utilities/interceptors';
 import * as endpoints from '@redhat-cloud-services/host-inventory-client';
-
-export const INVENTORY_API_BASE = '/api/inventory/v1';
+import { INVENTORY_API_BASE } from '../config';
 
 const hostInventoryApi = (axios = axiosInstance) =>
   APIFactory(INVENTORY_API_BASE, endpoints, {
