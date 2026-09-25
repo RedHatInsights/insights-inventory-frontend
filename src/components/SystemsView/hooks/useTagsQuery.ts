@@ -1,6 +1,7 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { getTagList } from '../../../api/hostInventoryApiTyped';
 import { INITIAL_PAGE, PER_PAGE } from '../../../constants';
+import { STALENESS_VALUES } from '../../../Utilities/staleness';
 
 interface FetchTagsParams {
   search: string;
@@ -14,7 +15,7 @@ const fetchTags = async ({ search, page, perPage }: FetchTagsParams) => {
     perPage,
     orderBy: 'tag',
     orderHow: 'ASC',
-    staleness: ['fresh', 'stale', 'stale_warning'],
+    staleness: [...STALENESS_VALUES],
     ...(search && { search }),
   });
 
