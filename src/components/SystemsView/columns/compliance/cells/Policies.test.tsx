@@ -6,7 +6,7 @@ import { TestWrapper } from '../../../../../Utilities/TestingUtilities';
 import type { ComplianceAppData } from '@redhat-cloud-services/host-inventory-client';
 import { NOT_AVAILABLE } from '../../CellValue';
 
-const COMPLIANCE_REPORTS_PATH = '//compliance/reports';
+const COMPLIANCE_REPORTS_PATH = '/compliance/reports';
 
 function renderPolicies(appData: ComplianceAppData | undefined) {
   return render(

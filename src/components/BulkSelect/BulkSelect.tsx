@@ -39,8 +39,10 @@ const defaultSelectedLabel = (selectedCount: number) =>
   `${selectedCount} selected`;
 
 /** extends DropdownProps */
-export interface BulkSelectProps
-  extends Omit<DropdownProps, 'toggle' | 'onSelect'> {
+export interface BulkSelectProps extends Omit<
+  DropdownProps,
+  'toggle' | 'onSelect'
+> {
   /** BulkSelect className */
   className?: string;
   /** Indicates whether selectable items are paginated */

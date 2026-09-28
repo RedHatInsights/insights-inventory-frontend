@@ -134,8 +134,7 @@ export const SORT_DIR_URL_PARAM = 'sort_dir';
  * enum supports this field.
  */
 export const IMPORTANT_CVES_SORT_KEY = 'vulnerability:important_cves' as
-  | ApiHostViewsGetHostViewsOrderByEnum
-  | 'vulnerability:important_cves';
+  ApiHostViewsGetHostViewsOrderByEnum | 'vulnerability:important_cves';
 
 /**
  * TODO(host-inventory-client): replace with

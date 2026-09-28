@@ -8,7 +8,7 @@ import type { PatchAppData } from '@redhat-cloud-services/host-inventory-client'
 
 const systemId = 'test-system-uuid';
 const getInventoryPatchPath = (advisoryType: string) =>
-  `//inventory/${systemId}?appName=patch&offset=0&filter[advisory_type_name]=${advisoryType}`;
+  `/inventory/${systemId}?appName=patch&offset=0&filter[advisory_type_name]=${advisoryType}`;
 
 function renderInstallableAdvisories(appData: PatchAppData | undefined) {
   return render(
