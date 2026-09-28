@@ -63,6 +63,14 @@
       "!src/entry.js",
       "!src/entry-dev.js"
     ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 74,
+        "branches": 65,
+        "functions": 59,
+        "lines": 73
+      }
+    },
     "transformIgnorePatterns": [
       "node_modules/(?!(@patternfly/|uuid|p-all|p-map|aggregate-error|indent-string|clean-stack|escape-string-regexp|sanitize-html|htmlparser2|entities|domelementtype|domhandler|dom-serializer|domutils))"
     ],
