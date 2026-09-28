@@ -21,7 +21,7 @@ import {
 import { isSystemsViewEnabled } from './helpers/constants';
 
 test.describe('Workspace CRUD - Details Page', () => {
-  test.fixme('User can create, rename, and delete a workspace from Workspace Details page', async ({
+  test('User can create, rename, and delete a workspace from Workspace Details page', async ({
     page,
   }) => {
     /**
@@ -85,7 +85,7 @@ test.describe('Workspace CRUD - Details Page', () => {
       ).toBeVisible({ timeout: 60000 });
     });
 
-    await test.step.skip('Delete the renamed workspace', async () => {
+    await test.step('Delete the renamed workspace', async () => {
       const actionsButton = workspaceHeaderActionsToggle(page);
       await expect(actionsButton).toBeVisible();
       await actionsButton.click();
@@ -100,7 +100,7 @@ test.describe('Workspace CRUD - Details Page', () => {
       await page.getByRole('button', { name: 'Delete' }).click();
     });
 
-    await test.step.skip('Verify workspace deletion', async () => {
+    await test.step('Verify workspace deletion', async () => {
       await navigateToWorkspacesFunc(page);
       const searchInput = page.locator('input[placeholder="Filter by name"]');
       await searchInput.fill(renamedWorkspace);
@@ -223,7 +223,7 @@ test.describe('Workspace CRUD - List Page', () => {
     });
   });
 
-  test.fixme('User can create, rename and delete a workspace from Workspaces page', async ({
+  test('User can create, rename and delete a workspace from Workspaces page', async ({
     page,
   }) => {
     /**
@@ -311,7 +311,7 @@ test.describe('Workspace CRUD - List Page', () => {
 });
 
 test.describe('Workspace System Management', () => {
-  test.fixme('User can add and remove system from workspace', async ({
+  test('User can add and remove system from workspace', async ({
     page,
     systems,
   }) => {
@@ -404,7 +404,7 @@ test.describe('Workspace System Management', () => {
       await expect(nameCell).toHaveCount(1);
     });
 
-    await test.step.skip('Remove system from workspace', async () => {
+    await test.step('Remove system from workspace', async () => {
       await page.locator('[aria-label="Kebab toggle"]').click();
 
       const removeButton = page
