@@ -52,5 +52,4 @@ export const getSystemProfileFilter = (
   query: SystemProfileFragment,
 ): SystemProfileFilter | undefined =>
   query.options?.params?.filter?.system_profile as
-    | SystemProfileFilter
-    | undefined;
+    SystemProfileFilter | undefined;

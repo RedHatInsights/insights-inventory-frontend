@@ -31,11 +31,7 @@ let mockValidation: {
   isValid: boolean;
   validated: 'default' | 'error' | 'success';
   error:
-    | 'INVALID_CHARACTERS'
-    | 'NO_ALPHANUMERIC'
-    | 'TOO_LONG'
-    | 'DUPLICATE'
-    | null;
+    'INVALID_CHARACTERS' | 'NO_ALPHANUMERIC' | 'TOO_LONG' | 'DUPLICATE' | null;
 } = {
   isValid: true,
   validated: 'success',
