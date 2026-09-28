@@ -11,8 +11,10 @@ import {
 } from '@patternfly/react-core';
 import ReactDOM from 'react-dom';
 
-export interface MultiGroupToolbarFilterProps
-  extends Omit<ToolbarFilterProps, 'labels'> {
+export interface MultiGroupToolbarFilterProps extends Omit<
+  ToolbarFilterProps,
+  'labels'
+> {
   groupLabels: {
     category: string | ToolbarLabelGroup;
     labels: (string | ToolbarLabel)[];

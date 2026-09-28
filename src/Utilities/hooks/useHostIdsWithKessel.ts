@@ -135,8 +135,7 @@ export const useHostIdsWithKessel = (hosts: System[] | undefined) => {
   }, [checks]);
 
   const hostsWithPermissions = useMemo(():
-    | SystemWithPermissions[]
-    | undefined => {
+    SystemWithPermissions[] | undefined => {
     if (!hosts) return undefined;
     const defaultPermissions: HostPermissions = {
       hasUpdate: false,
