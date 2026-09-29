@@ -67,7 +67,7 @@ describe('InventoryList', () => {
     screen.getByText(/to continue, edit your filter settings and try again/i);
   });
 
-  it.only('should render correctly - with no access', () => {
+  it('should render correctly - with no access', () => {
     const store = mockStore(initialState);
     render(
       <MemoryRouter>
