@@ -75,8 +75,7 @@ export const parseViewConfigFilters = (
 
   const raw = viewFilters as unknown as Record<string, unknown>;
   const systemProfile = raw.system_profile as
-    | (SystemProfileFilter & { host_type?: unknown })
-    | undefined;
+    (SystemProfileFilter & { host_type?: unknown }) | undefined;
   const hostFilters = raw.host as HostFilters | undefined;
 
   const result: SystemsViewFilterState = {};

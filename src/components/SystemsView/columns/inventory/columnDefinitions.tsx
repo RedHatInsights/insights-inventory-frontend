@@ -148,7 +148,7 @@ export const dataCollectorSpec: ColumnSpec<
 const isImageBasedSystem = (item: InventoryBindableItem) =>
   Boolean(
     item.system_profile?.bootc_status?.booted?.image_digest ||
-      item.system_profile?.host_type === 'edge',
+    item.system_profile?.host_type === 'edge',
   );
 
 const isCentosLinuxSystem = (item: InventoryBindableItem) =>
