@@ -8,7 +8,9 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["\\.tekton/.*\\.yaml$"],
+      "managerFilePatterns": [
+        "/\\.tekton/.*\\.yaml$/"
+      ],
       "matchStrings": [
         "RedHatInsights/konflux-pipelines/raw/v(?<currentValue>[\\d.]+)"
       ],
