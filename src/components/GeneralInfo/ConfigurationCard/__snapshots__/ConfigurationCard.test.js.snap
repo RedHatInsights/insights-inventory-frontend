@@ -303,7 +303,7 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
                   >
                     <div>
                       <a
-                        href="localhost:3000/example/path/installed_packages"
+                        href="/localhost:3000/example/path/installed_packages"
                       >
                         1 package
                       </a>
@@ -333,7 +333,7 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
                   >
                     <div>
                       <a
-                        href="localhost:3000/example/path/services"
+                        href="/localhost:3000/example/path/services"
                       >
                         1 service
                       </a>
@@ -363,7 +363,7 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
                   >
                     <div>
                       <a
-                        href="localhost:3000/example/path/running_processes"
+                        href="/localhost:3000/example/path/running_processes"
                       >
                         1 process
                       </a>
@@ -393,7 +393,7 @@ exports[`ConfigurationCard should render correctly with data 1`] = `
                   >
                     <div>
                       <a
-                        href="localhost:3000/example/path/repositories"
+                        href="/localhost:3000/example/path/repositories"
                       >
                         1 enabled
                       </a>
@@ -508,7 +508,7 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
                   >
                     <div>
                       <a
-                        href="localhost:3000/example/path/installed_packages"
+                        href="/localhost:3000/example/path/installed_packages"
                       >
                         1 package
                       </a>
@@ -538,7 +538,7 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
                   >
                     <div>
                       <a
-                        href="localhost:3000/example/path/services"
+                        href="/localhost:3000/example/path/services"
                       >
                         1 service
                       </a>
@@ -568,7 +568,7 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
                   >
                     <div>
                       <a
-                        href="localhost:3000/example/path/running_processes"
+                        href="/localhost:3000/example/path/running_processes"
                       >
                         1 process
                       </a>
@@ -598,7 +598,7 @@ exports[`ConfigurationCard should render enabled/disabled 1`] = `
                   >
                     <div>
                       <a
-                        href="localhost:3000/example/path/repositories"
+                        href="/localhost:3000/example/path/repositories"
                       >
                         1 enabled / 1 disabled
                       </a>
@@ -713,7 +713,7 @@ exports[`ConfigurationCard should render extra 1`] = `
                   >
                     <div>
                       <a
-                        href="localhost:3000/example/path/installed_packages"
+                        href="/localhost:3000/example/path/installed_packages"
                       >
                         1 package
                       </a>
@@ -743,7 +743,7 @@ exports[`ConfigurationCard should render extra 1`] = `
                   >
                     <div>
                       <a
-                        href="localhost:3000/example/path/services"
+                        href="/localhost:3000/example/path/services"
                       >
                         1 service
                       </a>
@@ -773,7 +773,7 @@ exports[`ConfigurationCard should render extra 1`] = `
                   >
                     <div>
                       <a
-                        href="localhost:3000/example/path/running_processes"
+                        href="/localhost:3000/example/path/running_processes"
                       >
                         1 process
                       </a>
@@ -803,7 +803,7 @@ exports[`ConfigurationCard should render extra 1`] = `
                   >
                     <div>
                       <a
-                        href="localhost:3000/example/path/repositories"
+                        href="/localhost:3000/example/path/repositories"
                       >
                         1 enabled
                       </a>
@@ -857,7 +857,7 @@ exports[`ConfigurationCard should render extra 1`] = `
                   >
                     <div>
                       <a
-                        href="localhost:3000/example/path/undefined"
+                        href="/localhost:3000/example/path/undefined"
                       >
                         1 tests
                       </a>
