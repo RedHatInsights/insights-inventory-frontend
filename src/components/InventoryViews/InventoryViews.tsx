@@ -79,12 +79,12 @@ const filtersToSearchParams = (
 const getSortFromSearchParams = (
   searchParams: URLSearchParams,
 ): ViewConfiguration['sort'] => {
-  const key =
-    searchParams.get(SORT_URL_PARAM) ?? INITIAL_SORT.sortBy ?? 'last_check_in';
+  const key = searchParams.get(SORT_URL_PARAM);
+  const direction = searchParams.get(SORT_DIR_URL_PARAM);
 
-  const direction =
-    (searchParams.get(SORT_DIR_URL_PARAM) as 'asc' | 'desc') ??
-    INITIAL_SORT.direction;
+  if (key == null || (direction !== 'asc' && direction !== 'desc')) {
+    return undefined;
+  }
 
   return { key, direction };
 };
@@ -388,7 +388,8 @@ const InventoryViews = () => {
   };
 
   const getCurrentConfiguration = (): ViewConfiguration => {
-    const sort = getSortFromSearchParams(searchParams);
+    const sort =
+      getSortFromSearchParams(searchParams) || activeView?.configuration?.sort;
     const filters = getFiltersFromSearchParams(
       searchParams,
       currentLastSeenCustomRange === undefined
@@ -402,7 +403,7 @@ const InventoryViews = () => {
 
     return {
       columns,
-      sort,
+      ...(sort && { sort }),
       ...(filters && { filters }),
     };
   };
