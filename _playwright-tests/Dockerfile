@@ -1,5 +1,5 @@
 # Playwright test image for insights-inventory-frontend
-ARG NODE_IMAGE_TAG=9.8-1789548198
+ARG NODE_IMAGE_TAG=9.8-1790730922
 FROM registry.access.redhat.com/ubi9/nodejs-22:${NODE_IMAGE_TAG}
 
 # Chromium headless-shell runtime dependencies for UBI9
