@@ -3,7 +3,7 @@
 exports[`LoadingCard Clickable should render - 0 value 1`] = `
 <DocumentFragment>
   <a
-    href="localhost:3000/example/path/some-target"
+    href="/localhost:3000/example/path/some-target"
   >
     None
   </a>
@@ -13,7 +13,7 @@ exports[`LoadingCard Clickable should render - 0 value 1`] = `
 exports[`LoadingCard Clickable should render - no data 1`] = `
 <DocumentFragment>
   <a
-    href="localhost:3000/example/path/undefined"
+    href="/localhost:3000/example/path/undefined"
   >
     Not available
   </a>

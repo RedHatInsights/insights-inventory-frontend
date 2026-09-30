@@ -23,8 +23,7 @@ export const fetchHosts = async (
   // happen during the render between ui.inventory-views being toggled off and the
   // useColumns useEffect resetting the URL to a valid sort key.
   const validSortBy = getLegacyInventorySortKey(params.sortBy) as
-    | ApiOrderByEnum
-    | undefined;
+    ApiOrderByEnum | undefined;
 
   const fetchParams = buildHostListParams({
     page: params.page,

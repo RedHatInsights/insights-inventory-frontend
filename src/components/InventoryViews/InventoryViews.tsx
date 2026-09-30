@@ -31,6 +31,7 @@ import {
 import { createViewColumnSelector } from './createViewColumnSelector';
 import { createViewFilterSelector } from './createViewFilterSelector';
 import { resolveDefaultViewId } from './resolveDefaultViewId';
+import { resolveSystemViewId } from './resolveSystemViewId';
 import { resolveViewIdAfterDelete } from './resolveViewIdAfterDelete';
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
 import { selectInventoryViewsFilters } from './selectInventoryViewsFilters';
@@ -79,12 +80,12 @@ const filtersToSearchParams = (
 const getSortFromSearchParams = (
   searchParams: URLSearchParams,
 ): ViewConfiguration['sort'] => {
-  const key =
-    searchParams.get(SORT_URL_PARAM) ?? INITIAL_SORT.sortBy ?? 'last_check_in';
+  const key = searchParams.get(SORT_URL_PARAM);
+  const direction = searchParams.get(SORT_DIR_URL_PARAM);
 
-  const direction =
-    (searchParams.get(SORT_DIR_URL_PARAM) as 'asc' | 'desc') ??
-    INITIAL_SORT.direction;
+  if (key == null || (direction !== 'asc' && direction !== 'desc')) {
+    return undefined;
+  }
 
   return { key, direction };
 };
@@ -155,13 +156,28 @@ const InventoryViews = () => {
   const viewsLoaded = !!viewsData;
   const urlViewId = searchParams.get(VIEW_ID_URL_PARAM);
 
+  const isAllSystemsAlias = urlViewId === ALL_SYSTEMS_VIEW_ID;
+  const systemViewId = useMemo(
+    () => resolveSystemViewId(viewsList),
+    [viewsList],
+  );
+
   const activeViewId = useMemo(() => {
     if (!viewsLoaded) return urlViewId ?? ALL_SYSTEMS_VIEW_ID;
+    if (isAllSystemsAlias) return systemViewId ?? ALL_SYSTEMS_VIEW_ID;
     if (urlViewId && viewsList.some((v) => v.id === urlViewId))
       return urlViewId;
     if (urlViewId && hasNextViewsPage) return urlViewId;
     return defaultViewId;
-  }, [viewsLoaded, urlViewId, viewsList, hasNextViewsPage, defaultViewId]);
+  }, [
+    viewsLoaded,
+    urlViewId,
+    isAllSystemsAlias,
+    systemViewId,
+    viewsList,
+    hasNextViewsPage,
+    defaultViewId,
+  ]);
 
   const activeViewInList = viewsList.find((v) => v.id === activeViewId);
 
@@ -226,6 +242,14 @@ const InventoryViews = () => {
       return;
     }
 
+    if (isAllSystemsAlias) {
+      if (!systemViewId) return;
+      const next = new URLSearchParams(searchParams);
+      next.set(VIEW_ID_URL_PARAM, systemViewId);
+      setSearchParams(next, { replace: true });
+      return;
+    }
+
     // Known view, or possibly on a later page: nothing to normalize.
     if (viewsList.some((v) => v.id === urlViewId) || hasNextViewsPage) return;
 
@@ -240,6 +264,8 @@ const InventoryViews = () => {
   }, [
     viewsLoaded,
     urlViewId,
+    isAllSystemsAlias,
+    systemViewId,
     viewsList,
     activeView,
     searchParams,
@@ -427,7 +453,8 @@ const InventoryViews = () => {
   };
 
   const getCurrentConfiguration = (): ViewConfiguration => {
-    const sort = getSortFromSearchParams(searchParams);
+    const sort =
+      getSortFromSearchParams(searchParams) || activeView?.configuration?.sort;
     const filters = getFiltersFromSearchParams(
       searchParams,
       currentLastSeenCustomRange === undefined
@@ -441,7 +468,7 @@ const InventoryViews = () => {
 
     return {
       columns,
-      sort,
+      ...(sort && { sort }),
       ...(filters && { filters }),
     };
   };
