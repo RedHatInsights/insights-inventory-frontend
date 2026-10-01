@@ -8,7 +8,9 @@ export type {
 } from './SystemsView';
 export type {
   SystemsViewFetchData,
-  SystemsViewFetchParams,
+  PaginationParams,
+  SortingParams,
+  ToQueryParams,
   SystemsViewFilterState,
   SystemsViewItem,
   SystemsViewQueryData,

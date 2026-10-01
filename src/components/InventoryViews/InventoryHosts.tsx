@@ -3,7 +3,11 @@ import { useSearchParams } from 'react-router-dom';
 import type { InventoryBindableItem } from '../SystemsView/columns/inventory/columnDefinitions';
 import SystemsView from '../SystemsView/SystemsView';
 import { Actions } from './actions';
-import { fetchHosts, HOSTS_QUERY_KEY } from './hostsQueryOptions';
+import {
+  fetchHosts,
+  HOSTS_QUERY_KEY,
+  toHostListQuery,
+} from './hostsQueryOptions';
 import { useAnsibleWorkloadsSearchParam } from './hooks/useAnsibleWorkloadsSearchParam';
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
 import { selectLegacyInventoryFilters } from './selectLegacyInventoryFilters';
@@ -44,6 +48,7 @@ const InventoryHosts = () => {
           filters={filtersSelector}
           queryKeyPrefix={HOSTS_QUERY_KEY}
           fetchData={fetchHosts}
+          toQueryParams={toHostListQuery}
           bulkActions={bulkActions}
           rowActions={rowActions}
         />

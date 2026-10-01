@@ -11,10 +11,12 @@ import {
 } from './SystemsView';
 import type { ActionHelpers, ActionSpec, RowAction } from './actions/types';
 import type { ColumnSelector } from './columns/resolveColumnSelector';
+import type { SortDirection } from './types';
 import type { FilterSelector } from './filters/resolveFilterSelector';
 import { bindInventoryViewColumns } from './columns/inventoryViewColumns';
 import { selectLegacyInventoryFilters } from '../InventoryViews/selectLegacyInventoryFilters';
 import type { System } from '../InventoryViews/hostsQueryOptions';
+import type { ToQueryParams } from './types';
 import {
   createTestQueryClient,
   TestWrapper,
@@ -80,11 +82,29 @@ const stampHostnameDefault: FilterSelector<ApiHostGetHostListParams> = (
       : filter,
   );
 
-const renderSystemsView = <TFilterParams = unknown,>(
-  fetchData: SystemsViewFetchData<System, TFilterParams>,
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null;
+
+const readQuery = (params: unknown): Record<string, unknown> =>
+  isRecord(params) ? params : {};
+
+const defaultToQueryParams = <TQueryParams,>(
+  state: Parameters<ToQueryParams<TQueryParams>>[0],
+): Partial<TQueryParams> =>
+  ({
+    page: state.page,
+    perPage: state.perPage,
+    sortBy: state.sortBy,
+    direction: state.direction,
+  }) as unknown as Partial<TQueryParams>;
+
+const renderSystemsView = <TQueryParams = unknown,>(
+  fetchData: SystemsViewFetchData<System, TQueryParams>,
   client = createTestQueryClient(),
   extra?: {
-    filters?: FilterSelector<TFilterParams>;
+    filters?: FilterSelector<TQueryParams>;
+    toQueryParams?: ToQueryParams<TQueryParams>;
+    initialSort?: { sortBy: string; direction: SortDirection };
     initialRoute?: string;
     bulkActions?: readonly ActionSpec<System>[];
     rowActions?: readonly RowAction<System>[];
@@ -100,6 +120,8 @@ const renderSystemsView = <TFilterParams = unknown,>(
         fetchData={fetchData}
         columns={selectNameColumn}
         filters={extra?.filters}
+        toQueryParams={extra?.toQueryParams ?? defaultToQueryParams}
+        initialSort={extra?.initialSort}
         bulkActions={extra?.bulkActions}
         rowActions={extra?.rowActions}
       />
@@ -152,12 +174,16 @@ describe('SystemsView', () => {
 
     expect(fetchData).toHaveBeenCalledWith(
       expect.objectContaining({
-        filterParams: expect.any(Object),
+        page: 1,
+        perPage: 50,
+        sortBy: 'last_check_in',
+        direction: 'desc',
       }),
     );
     expect(fetchData.mock.calls[0][0]).not.toHaveProperty(
       'lastSeenCustomRange',
     );
+    expect(fetchData.mock.calls[0][0]).not.toHaveProperty('filterParams');
   });
 
   it('omitting filters does not fold inventory query fields', async () => {
@@ -168,9 +194,9 @@ describe('SystemsView', () => {
 
     await screen.findByRole('columnheader', { name: 'Name' });
 
-    const { filterParams } = fetchData.mock.calls.at(-1)?.[0] ?? {};
-    expect(filterParams).toEqual({});
-    expect(filterParams).not.toHaveProperty('tags');
+    const query = readQuery(fetchData.mock.calls.at(-1)?.[0]);
+    expect(query).not.toHaveProperty('tags');
+    expect(query).not.toHaveProperty('staleness');
     expect(
       screen.queryByRole('button', { name: 'Status' }),
     ).not.toBeInTheDocument();
@@ -190,9 +216,9 @@ describe('SystemsView', () => {
 
     await screen.findByRole('columnheader', { name: 'Name' });
 
-    const { filterParams } = fetchData.mock.calls.at(-1)?.[0] ?? {};
-    expect(filterParams).toEqual({});
-    expect(filterParams).not.toHaveProperty('tags');
+    const query = readQuery(fetchData.mock.calls.at(-1)?.[0]);
+    expect(query).not.toHaveProperty('tags');
+    expect(query).not.toHaveProperty('staleness');
   });
 
   it('folds catalog.custom filters into fetch params', async () => {
@@ -225,8 +251,54 @@ describe('SystemsView', () => {
     await screen.findByRole('columnheader', { name: 'Name' });
 
     expect(screen.getByRole('button', { name: 'Extra' })).toBeInTheDocument();
-    expect(fetchData.mock.calls.at(-1)?.[0].filterParams).toEqual({
+    expect(readQuery(fetchData.mock.calls.at(-1)?.[0])).toEqual(
+      expect.objectContaining({ extra: 'abc' }),
+    );
+  });
+
+  it('merges a custom toQueryParams beside folded filters', async () => {
+    type SortedQuery = {
+      extra?: string;
+      orderBy?: string;
+      orderHow?: string;
+    };
+    const fetchData = jest.fn<SystemsViewFetchData<System, SortedQuery>>(() =>
+      Promise.resolve(successData),
+    );
+    const filters: FilterSelector<SortedQuery> = (catalog) => [
+      catalog.custom(
+        {
+          type: 'text',
+          filterId: 'extra',
+          title: 'Extra',
+          defaultValue: '',
+        },
+        {
+          updateFilterParams: (params, value: string) => ({
+            ...params,
+            ...(value ? { extra: value } : {}),
+          }),
+        },
+      ),
+    ];
+    const toQueryParams: ToQueryParams<SortedQuery> = ({ direction }) => ({
+      orderBy: 'display_name',
+      ...(direction ? { orderHow: direction.toUpperCase() } : {}),
+    });
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      filters,
+      toQueryParams,
+      initialSort: { sortBy: 'display_name', direction: 'desc' },
+      initialRoute: '/?extra=abc',
+    });
+
+    await screen.findByRole('columnheader', { name: 'Name' });
+
+    expect(readQuery(fetchData.mock.calls.at(-1)?.[0])).toEqual({
       extra: 'abc',
+      orderBy: 'display_name',
+      orderHow: 'DESC',
     });
   });
 
@@ -246,11 +318,9 @@ describe('SystemsView', () => {
 
     await screen.findByRole('columnheader', { name: 'Name' });
 
-    const { filterParams } = fetchData.mock.calls.at(-1)?.[0] ?? {};
-    expect(filterParams).not.toHaveProperty('tags');
-    expect(filterParams).toEqual(
-      expect.objectContaining({ staleness: ['fresh'] }),
-    );
+    const query = readQuery(fetchData.mock.calls.at(-1)?.[0]);
+    expect(query).not.toHaveProperty('tags');
+    expect(query).toEqual(expect.objectContaining({ staleness: ['fresh'] }));
   });
 
   it('shows a loading state when the query is pending', () => {
