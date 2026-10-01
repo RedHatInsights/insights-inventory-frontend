@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React from 'react';
 import { Content } from '@patternfly/react-core';
 
 export const TEXT_FILTER = 'hostname_or_id';
@@ -21,20 +21,17 @@ export const APP_NAME_VULNERABILITY = 'vulnerabilities';
 export const APP_NAME_ADVISOR = 'advisor';
 export const APP_NAME_PATCH = 'patch';
 // HOST_TYPE
-export const TYPE_CONVENTIONAL = '=conventional';
-export const TYPE_EDGE = '=edge';
-export const TYPE_BOOTC = '=bootc';
+const TYPE_CONVENTIONAL = '=conventional';
+const TYPE_EDGE = '=edge';
+const TYPE_BOOTC = '=bootc';
 
 export const INVENTORY_TOTAL_FETCH_URL_SERVER = '/api/inventory/v1/hosts';
-export const INVENTORY_TOTAL_FETCH_EDGE_PARAMS =
-  '?filter[system_profile][host_type]=edge&page=1&per_page=1';
 export const INVENTORY_TOTAL_FETCH_CONVENTIONAL_PARAMS = '?page=1&per_page=1';
 export const INVENTORY_PACKAGE_BASED_SYSTEMS = `?${SYSTEM_TYPE_KEY}${TYPE_CONVENTIONAL}`;
-export const INVENTORY_IMAGE_BASED_SYSTEMS = `?${SYSTEM_TYPE_KEY}${TYPE_BOOTC}&${SYSTEM_TYPE_KEY}${TYPE_EDGE}`;
 export const INVENTORY_FETCH_BOOTC = `?${SYSTEM_TYPE_KEY}${TYPE_BOOTC}`;
 export const INVENTORY_FETCH_EDGE = `?${SYSTEM_TYPE_KEY}${TYPE_EDGE}`;
 
-export function subtractDate(days) {
+function subtractDate(days) {
   const date = new Date();
   date.setDate(date.getDate() - days);
   return date.toISOString();
@@ -46,7 +43,7 @@ export const staleness = [
   { label: 'Stale warning', value: 'stale_warning' },
 ];
 
-export const currentDate = new Date().toISOString();
+const currentDate = new Date().toISOString();
 export const lastSeenFilterItems = [
   {
     value: 'last24',
@@ -119,15 +116,6 @@ export const registered = [
   },
   { label: 'insights-client not connected', value: '!puptoo' },
 ];
-export const InventoryContext = createContext({});
-
-const initUpdateMethodOptions = [
-  { label: 'yum', value: 'yum' },
-  { label: 'dnf', value: 'dnf' },
-  { label: 'rpm-ostree', value: 'rpm-ostree' },
-];
-
-export const updateMethodOptions = initUpdateMethodOptions;
 
 export const systemTypeOptions = [
   {
@@ -167,7 +155,7 @@ export const WORKLOAD_API_MAP = {
   satellite: { is: 'not_nil' },
 };
 
-export function filterToGroup(filter = [], valuesKey = 'values') {
+function filterToGroup(filter = [], valuesKey = 'values') {
   return filter.reduce(
     (accGroup, group) => ({
       ...accGroup,
@@ -237,6 +225,7 @@ export function reduceFilters(filters = []) {
         'staleFilter',
         'registeredWithFilter',
         'osFilter',
+        'rhcdFilter',
         'updateMethodFilter',
         'lastSeenFilter',
         'hostGroupFilter',
@@ -275,6 +264,7 @@ export const generateFilter = (
   tagsFilter,
   filterbyName,
   operatingSystem,
+  rhcdFilter,
   updateMethodFilter,
   hostGroupFilter,
   lastSeenFilter,
@@ -307,6 +297,9 @@ export const generateFilter = (
       Object.keys(operatingSystem).length && {
         osFilter: operatingSystem,
       },
+    !isEmpty(rhcdFilter) && {
+      rhcdFilter: Array.isArray(rhcdFilter) ? rhcdFilter : [rhcdFilter],
+    },
     !isEmpty(lastSeenFilter) && {
       lastSeenFilter: Array.isArray(lastSeenFilter)
         ? { mark: lastSeenFilter[0], ...lastSeenDefaults[lastSeenFilter[0]] }
