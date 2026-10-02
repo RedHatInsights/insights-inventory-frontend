@@ -7,6 +7,7 @@ import RegistryContext from './store/registeryContext';
 import App from './App';
 import Fallback from './components/SpinnerFallback';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const InventoryApp = ({ logger }) => {
       <Provider store={registry.getStore()}>
         <QueryClientProvider client={queryClient}>
           <App />
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </Provider>
     </RegistryContext.Provider>
