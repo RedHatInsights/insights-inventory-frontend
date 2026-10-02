@@ -3,6 +3,7 @@ import {
   ApiHostViewsGetHostViewsOrderByEnum,
   ApiHostViewsGetHostViewsStalenessEnum,
   ApiHostViewsGetHostViewsSystemTypeEnum,
+  type ApiHostViewsGetHostViewsParams,
 } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 import { filterCatalog } from '../../SystemsView/filters/catalog';
 import { defaultValuesFrom } from '../../SystemsView/filters/defaultValuesFrom';
@@ -13,7 +14,6 @@ import type {
   LastSeenCustomRange,
   SystemsViewFilterState,
 } from '../../SystemsView/types';
-import type { BuildHostViewsParamsInput } from './buildHostViewsParams';
 import { buildHostViewsParams } from './buildHostViewsParams';
 import { hostQueryParamsSerializer } from './buildHostListOptions';
 
@@ -32,71 +32,36 @@ const foldQuery = (
     { lastSeenCustomRange },
   );
 
-const buildParams = (
-  overrides: Omit<Partial<BuildHostViewsParamsInput>, 'query'> & {
-    filters?: SystemsViewFilterState;
-    lastSeenCustomRange?: LastSeenCustomRange;
-  } = {},
-) => {
-  const { filters: filterOverrides, lastSeenCustomRange, ...rest } = overrides;
-
-  return buildHostViewsParams({
-    page: 1,
-    perPage: 20,
-    query: foldQuery(filterOverrides, lastSeenCustomRange ?? null),
-    sortBy: undefined,
-    direction: undefined,
-    ...rest,
+const buildParams = ({
+  filters: filterOverrides,
+  lastSeenCustomRange = null,
+  query,
+}: {
+  filters?: SystemsViewFilterState;
+  lastSeenCustomRange?: LastSeenCustomRange;
+  query?: ApiHostViewsGetHostViewsParams;
+} = {}) =>
+  buildHostViewsParams({
+    ...foldQuery(filterOverrides, lastSeenCustomRange),
+    ...query,
   });
-};
 
 describe('buildHostViewsParams', () => {
-  describe('pagination', () => {
-    it('sets page and perPage', () => {
-      const params = buildParams({ page: 3, perPage: 40 });
+  describe('passthrough', () => {
+    it('keeps page and sort already on the query', () => {
+      const params = buildParams({
+        query: {
+          page: 3,
+          perPage: 40,
+          orderBy: ApiHostViewsGetHostViewsOrderByEnum.DisplayName,
+          orderHow: 'ASC',
+        },
+      });
 
       expect(params.page).toBe(3);
       expect(params.perPage).toBe(40);
-    });
-  });
-
-  describe('sortBy', () => {
-    it('remaps status column sort to last_check_in', () => {
-      const params = buildParams({
-        sortBy: 'status' as ApiHostViewsGetHostViewsOrderByEnum,
-      });
-
-      expect(params.orderBy).toBe(
-        ApiHostViewsGetHostViewsOrderByEnum.LastCheckIn,
-      );
-    });
-
-    it('passes through API orderBy values that do not need remapping', () => {
-      const params = buildParams({
-        sortBy: ApiHostViewsGetHostViewsOrderByEnum.DisplayName,
-      });
-
       expect(params.orderBy).toBe('display_name');
-    });
-
-    it('omits orderBy when sortBy is undefined', () => {
-      const params = buildParams({ sortBy: undefined });
-
-      expect(params.orderBy).toBeUndefined();
-    });
-  });
-
-  describe('direction', () => {
-    it('sets orderHow from direction', () => {
-      const params = buildParams({ direction: 'asc' });
-
       expect(params.orderHow).toBe('ASC');
-    });
-
-    it('omits orderHow when direction is undefined', () => {
-      const params = buildParams({ direction: undefined });
-
-      expect(params.orderHow).toBeUndefined();
     });
   });
 

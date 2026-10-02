@@ -60,8 +60,8 @@ import type {
   LastSeenCustomRange,
   SortDirection,
   SystemsViewFetchData,
-  SystemsViewFetchParams,
   SystemsViewItem,
+  ToQueryParams,
 } from './types';
 import { deriveActiveState } from './utils/deriveActiveState';
 import {
@@ -105,18 +105,18 @@ export type Pagination = ReturnType<typeof useDataViewPagination>;
 
 export type SystemsViewProps<
   TItem extends SystemsViewItem,
-  TFilterParams = unknown,
+  TQueryParams = unknown,
 > = {
   /**
    * Unique & stable queryKey prefix (`'hosts'`, `'inventory-views'`). SystemsView keys the
-   * inner query as `[queryKeyPrefix, fetchParams]` and invalidates by this prefix after mutations.
+   * inner query as `[queryKeyPrefix, queryParams]` and invalidates by this prefix after mutations.
    */
   queryKeyPrefix: string;
   /**
-   * Fetches the data for table. Receives table state for pagination, sorting, and
-   * filtering, and should use those values to fetch from backend.
+   * Fetches table rows. Receives the view's query params and should use them
+   * to fetch from the backend.
    */
-  fetchData: SystemsViewFetchData<TItem, TFilterParams>;
+  fetchData: SystemsViewFetchData<TItem, TQueryParams>;
   /**
    * Selects view's columns from the shared catalog. The returned bound columns are
    * what SystemsView uses. For optimal performance use a stable reference, not an
@@ -128,7 +128,12 @@ export type SystemsViewProps<
    * what SystemsView uses. For optimal performance use a stable reference, not an
    * inline definition.
    */
-  filters?: FilterSelector<TFilterParams>;
+  filters?: FilterSelector<TQueryParams>;
+  /**
+   * Maps pagination and sort onto the query passed to `fetchData`.
+   * For optimal performance use a stable reference, not an inline definition.
+   */
+  toQueryParams: ToQueryParams<TQueryParams>;
   /**
    * Toolbar bulk actions. For optimal performance use a stable reference, not an
    * inline array.
@@ -145,13 +150,14 @@ export type SystemsViewProps<
   onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
 };
 
-interface SystemsViewInnerProps<TItem extends SystemsViewItem, TFilterParams> {
+interface SystemsViewInnerProps<TItem extends SystemsViewItem, TQueryParams> {
   searchParams: URLSearchParams;
   setSearchParams: SetURLSearchParams;
   queryKeyPrefix: string;
-  fetchData: SystemsViewFetchData<TItem, TFilterParams>;
+  fetchData: SystemsViewFetchData<TItem, TQueryParams>;
+  toQueryParams: ToQueryParams<TQueryParams>;
   resolvedDefaultColumns: readonly Column<TItem>[];
-  resolvedFilters: readonly BoundFilter<TFilterParams>[];
+  resolvedFilters: readonly BoundFilter<TQueryParams>[];
   bulkActions: readonly BulkAction<TItem>[];
   rowActions: readonly RowAction<TItem>[];
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
@@ -159,11 +165,12 @@ interface SystemsViewInnerProps<TItem extends SystemsViewItem, TFilterParams> {
   onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
 }
 
-function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
+function SystemsViewInner<TItem extends SystemsViewItem, TQueryParams>({
   searchParams,
   setSearchParams,
   queryKeyPrefix,
   fetchData,
+  toQueryParams,
   resolvedDefaultColumns,
   resolvedFilters,
   bulkActions,
@@ -171,7 +178,7 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
   initialSort,
   onColumnsChange,
   onLastSeenCustomRangeChange,
-}: SystemsViewInnerProps<TItem, TFilterParams>) {
+}: SystemsViewInnerProps<TItem, TQueryParams>) {
   const queryClient = useQueryClient();
   const {
     filters,
@@ -249,20 +256,29 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
   const sortBy = sort?.sortBy as Column['sortBy'];
   const { direction, onSort } = sort;
 
-  const fetchParams = useMemo(
-    (): SystemsViewFetchParams<TFilterParams> => ({
-      page: pagination.page,
-      perPage: pagination.perPage,
+  const queryParams = useMemo(
+    () => ({
+      ...filterParams,
+      ...toQueryParams({
+        page: pagination.page,
+        perPage: pagination.perPage,
+        sortBy,
+        direction,
+      }),
+    }),
+    [
+      filterParams,
+      toQueryParams,
+      pagination.page,
+      pagination.perPage,
       sortBy,
       direction,
-      filterParams,
-    }),
-    [pagination.page, pagination.perPage, sortBy, direction, filterParams],
+    ],
   );
 
   const { data, isLoading, isFetching, isError } = useQuery({
-    queryKey: [queryKeyPrefix, fetchParams],
-    queryFn: () => fetchData(fetchParams),
+    queryKey: [queryKeyPrefix, queryParams],
+    queryFn: () => fetchData(queryParams),
     placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
   });
@@ -467,19 +483,20 @@ const EMPTY_ACTIONS = [] as const;
 
 export function SystemsView<
   TItem extends SystemsViewItem,
-  TFilterParams = unknown,
+  TQueryParams = unknown,
 >({
   queryKeyPrefix,
   fetchData,
   columns,
   filters,
+  toQueryParams,
   bulkActions = EMPTY_ACTIONS,
   rowActions = EMPTY_ACTIONS,
   initialSort,
   initialLastSeenCustomRange,
   onColumnsChange,
   onLastSeenCustomRangeChange,
-}: SystemsViewProps<TItem, TFilterParams>) {
+}: SystemsViewProps<TItem, TQueryParams>) {
   const [searchParams, setSearchParams] = useSearchParams();
   const resolvedDefaultColumns = useMemo(
     () => resolveColumnSelector(columns),
@@ -502,6 +519,7 @@ export function SystemsView<
         setSearchParams={setSearchParams}
         queryKeyPrefix={queryKeyPrefix}
         fetchData={fetchData}
+        toQueryParams={toQueryParams}
         resolvedDefaultColumns={resolvedDefaultColumns}
         resolvedFilters={resolvedFilters}
         bulkActions={bulkActions}
