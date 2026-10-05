@@ -139,11 +139,6 @@ export type SystemsViewProps<
    * inline array.
    */
   rowActions?: readonly RowAction<TItem>[];
-  /**
-   * Shows the Manage columns toolbar action when inventory views are enabled.
-   * Defaults to true for in-app consumers. The federated module forces this off.
-   */
-  showColumnManagement?: boolean;
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   initialLastSeenCustomRange?: LastSeenCustomRange;
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
@@ -159,7 +154,6 @@ interface SystemsViewInnerProps<TItem extends SystemsViewItem, TFilterParams> {
   resolvedFilters: readonly BoundFilter<TFilterParams>[];
   bulkActions: readonly BulkAction<TItem>[];
   rowActions: readonly RowAction<TItem>[];
-  showColumnManagement: boolean;
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
   onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
@@ -174,7 +168,6 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
   resolvedFilters,
   bulkActions,
   rowActions,
-  showColumnManagement,
   initialSort,
   onColumnsChange,
   onLastSeenCustomRangeChange,
@@ -433,7 +426,6 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
                   activeState={activeState}
                   bulkActions={bulkActions}
                   actionHelpers={actionHelpers}
-                  showColumnManagement={showColumnManagement}
                 />
               }
               pagination={
@@ -483,7 +475,6 @@ export function SystemsView<
   filters,
   bulkActions = EMPTY_ACTIONS,
   rowActions = EMPTY_ACTIONS,
-  showColumnManagement = true,
   initialSort,
   initialLastSeenCustomRange,
   onColumnsChange,
@@ -515,7 +506,6 @@ export function SystemsView<
         resolvedFilters={resolvedFilters}
         bulkActions={bulkActions}
         rowActions={rowActions}
-        showColumnManagement={showColumnManagement}
         initialSort={initialSort}
         onColumnsChange={onColumnsChange}
         onLastSeenCustomRangeChange={onLastSeenCustomRangeChange}

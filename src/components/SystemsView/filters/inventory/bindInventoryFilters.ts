@@ -8,7 +8,9 @@ import {
   ApiHostViewsGetHostViewsRegisteredWithEnum,
   ApiHostViewsGetHostViewsStalenessEnum,
   ApiHostViewsGetHostViewsSystemTypeEnum,
+  type ApiHostViewsGetHostViewsIncidentStatusEnum,
   type ApiHostViewsGetHostViewsParams,
+  type ApiHostViewsGetHostViewsRecommendationSeverityEnum,
 } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 import { buildGroupIdParam } from '../../../InventoryViews/utils/buildGroupIdParam';
 import { buildSystemType } from '../../../InventoryViews/utils/buildSystemType';
@@ -18,6 +20,10 @@ import { buildWorkloadsFilter } from '../../utils/workloadsFilter';
 import type { FilterCatalog } from '../catalog';
 import type { BoundFilter } from '../types';
 import { buildSystemProfileParam } from './buildSystemProfileParam';
+import {
+  incidentStatusSpec,
+  recommendationSeveritySpec,
+} from '../advisor/filterDefinitions';
 
 /**
  * Full inventory toolbar bound to `/hosts` list `updateFilterParams`.
@@ -99,7 +105,7 @@ export const bindInventoryHostListFilters = (
 ];
 
 /**
- * Base inventory toolbar bound to `/hosts/views` `updateFilterParams`.
+ * Full inventory toolbar bound to `/hosts/views` `updateFilterParams`.
  *  @param catalog - Shared filter catalog of named factories
  *  @returns       Bound host-views filters in toolbar order
  */
@@ -177,5 +183,22 @@ export const bindInventoryHostViewsFilters = (
         ? buildSystemProfileParam(params, { workloads })
         : params;
     },
+  }),
+  catalog.custom(recommendationSeveritySpec, {
+    updateFilterParams: (params, value: string[]) => ({
+      ...params,
+      ...(value?.length && {
+        recommendationSeverity:
+          value as ApiHostViewsGetHostViewsRecommendationSeverityEnum[],
+      }),
+    }),
+  }),
+  catalog.custom(incidentStatusSpec, {
+    updateFilterParams: (params, value: string[]) => ({
+      ...params,
+      ...(value?.length && {
+        incidentStatus: value[0] as ApiHostViewsGetHostViewsIncidentStatusEnum,
+      }),
+    }),
   }),
 ];

@@ -1,8 +1,10 @@
 import { expect } from '@jest/globals';
 import { filterCatalog } from '../catalog';
 import { buildFilterParams } from '../buildFilterParams';
-import { bindInventoryHostListFilters } from '../inventory/bindInventoryFilters';
-import { bindAdvisorFilters } from './bindAdvisorFilters';
+import {
+  bindInventoryHostListFilters,
+  bindInventoryHostViewsFilters,
+} from '../inventory/bindInventoryFilters';
 
 const ctx = { lastSeenCustomRange: null };
 
@@ -20,13 +22,15 @@ const EMPTY_FILTER_STATE = {
   incident_status: [],
 };
 
-describe('Advisor filters', () => {
-  const filters = bindAdvisorFilters(filterCatalog);
+describe('Advisor filters (RHINENG-31144)', () => {
+  const filters = bindInventoryHostViewsFilters(filterCatalog);
 
-  it('binds exactly the two Advisor filters, in toolbar order', () => {
+  it('includes the Advisor filters in the views toolbar', () => {
     const filterIds = filters.map((filter) => filter.filterId);
 
-    expect(filterIds).toEqual(['recommendation_severity', 'incident_status']);
+    expect(filterIds).toEqual(
+      expect.arrayContaining(['recommendation_severity', 'incident_status']),
+    );
   });
 
   it('maps multiple severities to an OR-semantics param list', () => {
