@@ -58,9 +58,6 @@ type CreateWorkspaceMode = 'legacy' | 'loading' | 'ready';
  * When the Kessel migration feature flag is removed, delete `isKesselMigrationEnabled`
  * branches and keep the Kessel-only paths (or fold `isKesselMigrationEnabled` to `true`
  * at the call site of `useKesselMigrationFeatureFlag`).
- *  @param root0
- *  @param root0.groups
- *  @param root0.selectedIds
  */
 export const useGroupsTableWorkspaceActionPermissions = ({
   groups,

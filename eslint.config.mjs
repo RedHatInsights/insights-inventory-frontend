@@ -44,6 +44,10 @@ export default defineConfig([
       'jsdoc/require-returns-type': 'off',
       'jsdoc/require-property-type': 'off',
       'jsdoc/require-type': 'off',
+      'jsdoc/require-param-description': 'off',
+      'jsdoc/require-param': 'off',
+      'jsdoc/check-param-names': 'off',
+      'jsdoc/require-returns': 'off',
     },
   },
   {
