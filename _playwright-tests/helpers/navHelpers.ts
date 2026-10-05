@@ -4,7 +4,7 @@ import { test as base, expect } from '@playwright/test';
 /**
  * Navigates the browser to the Systems inventory page and waits for the
  * main 'Systems' heading to become visible.
- *  @param {Page} page - The Playwright page object
+ *  @param page - The Playwright page object
  */
 export const navigateToInventorySystemsFunc = async (page: Page) => {
   await page.goto('/insights/inventory/', { timeout: 100000 });
@@ -19,7 +19,7 @@ export const navigateToInventorySystemsFunc = async (page: Page) => {
 /**
  * Navigates the browser to the Workspaces inventory page and waits for the
  * main 'Workspaces' heading to become visible.
- *  @param {Page} page - The Playwright page object
+ *  @param page - The Playwright page object
  */
 export const navigateToWorkspacesFunc = async (page: Page) => {
   await page.goto('/insights/inventory/workspaces', { timeout: 100000 });
@@ -34,7 +34,7 @@ export const navigateToWorkspacesFunc = async (page: Page) => {
 /**
  * Navigates the browser to the Staleness and Deletion page and waits for the
  * main 'Staleness and Deletion' heading to become visible.
- *  @param {Page} page - The Playwright page object
+ *  @param page - The Playwright page object
  */
 export const navigateToStalenessPageFunc = async (page: Page) => {
   await page.goto('/insights/inventory/staleness-and-deletion', {
@@ -63,8 +63,8 @@ export const navigateToStalenessPageFunc = async (page: Page) => {
 /**
  * Navigates the browser to the System's details page and waits for the
  * main 'UUID' to become visible.
- *  @param {Page}   page - The Playwright page object
- *  @param {string} uuid - The system UUID to navigate to
+ *  @param page - The Playwright page object
+ *  @param uuid - The system UUID to navigate to
  */
 export const navigateToSystemDetails = async (page: Page, uuid: string) => {
   await page.goto(`/insights/inventory/${uuid}`);
