@@ -6,11 +6,8 @@ import {
   generateFilter,
   mergeArraysByKey,
 } from '@redhat-cloud-services/frontend-components-utilities/helpers';
-import {
-  UPDATE_METHOD_KEY,
-  WORKLOAD_API_MAP,
-  allStaleFilters,
-} from '../Utilities/constants';
+import { UPDATE_METHOD_KEY, WORKLOAD_API_MAP } from '../Utilities/constants';
+import { STALENESS_VALUES } from '../Utilities/staleness';
 import { ApiTagGetTagsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiTagGetTags';
 import {
   createStaleness as apiCreateStaleness,
@@ -401,7 +398,7 @@ export function getAllTags(search, pagination = {}) {
     orderHow: 'ASC',
     perPage: pagination.perPage || 10,
     page: pagination.page || 1,
-    staleness: allStaleFilters,
+    staleness: STALENESS_VALUES,
     search,
   });
 }
