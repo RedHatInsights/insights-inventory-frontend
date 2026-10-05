@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 import {
   Button,
   Form,
@@ -32,6 +33,7 @@ const ViewSaveAsModal = ({
   viewsList,
   onSuccess,
 }: ViewSaveAsModalProps) => {
+  const { analytics } = useChrome();
   const [viewName, setViewName] = useState('');
   const createView = useCreateViewMutation();
   const validation = validateViewName(viewsList, viewName);
@@ -41,6 +43,11 @@ const ViewSaveAsModal = ({
       return;
     }
 
+    analytics.track('systems_view.views.saved', {
+      viewName: viewName.trim(),
+      columns: currentConfiguration.columns.map((c) => c.key),
+      filters: currentConfiguration.filters?.keys,
+    });
     createView.mutate(
       {
         name: viewName.trim(),
