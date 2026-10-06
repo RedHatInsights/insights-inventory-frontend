@@ -40,12 +40,6 @@ export function subtractDate(days) {
   return date.toISOString();
 }
 
-export const staleness = [
-  { label: 'Fresh', value: 'fresh' },
-  { label: 'Stale', value: 'stale' },
-  { label: 'Stale warning', value: 'stale_warning' },
-];
-
 export const currentDate = new Date().toISOString();
 export const lastSeenFilterItems = [
   {
@@ -333,8 +327,6 @@ export const generateFilter = (
         : [workloadFilter],
     },
   ].filter(Boolean);
-
-export const allStaleFilters = ['fresh', 'stale', 'stale_warning'];
 
 export const systemTypeContent = {
   imageLabel: 'Image-based',
