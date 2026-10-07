@@ -18,25 +18,28 @@ export type {
   FilterSelector,
   FilterSpec,
   RowAction,
+  PaginationParams,
+  SortingParams,
   SystemsViewFetchData,
-  SystemsViewFetchParams,
   SystemsViewFilterState,
   SystemsViewItem,
   SystemsViewProps,
   SystemsViewQueryData,
+  ToQueryParams,
 } from './SystemsView.types';
 export { filterCatalog } from '../components/SystemsView/filters/catalog';
 export { bindFilter as custom } from '../components/SystemsView/filters/bindFilter';
 
-function SystemsView<TItem extends SystemsViewItem, TFilterParams = unknown>({
+function SystemsView<TItem extends SystemsViewItem, TQueryParams = unknown>({
   queryClient,
   queryKeyPrefix,
   fetchData,
   columns,
   filters,
+  toQueryParams,
   bulkActions,
   rowActions,
-}: SystemsViewProps<TItem, TFilterParams>) {
+}: SystemsViewProps<TItem, TQueryParams>) {
   const [internalQueryClient] = useState(
     () => queryClient ?? new QueryClient(),
   );
@@ -48,6 +51,7 @@ function SystemsView<TItem extends SystemsViewItem, TFilterParams = unknown>({
       fetchData={fetchData}
       columns={columns}
       filters={filters}
+      toQueryParams={toQueryParams}
       bulkActions={bulkActions}
       rowActions={rowActions}
     />
