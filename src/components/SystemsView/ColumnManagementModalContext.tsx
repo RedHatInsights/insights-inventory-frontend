@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
+import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 import { ColumnManagementModal } from '../ColumnManagementModal';
 import type { Column } from './columns/types';
 
@@ -32,10 +33,12 @@ export const ColumnManagementModalProvider = <TItem,>({
   defaultColumns,
   setColumns,
 }: ColumnManagementModalProviderProps<TItem>) => {
+  const { analytics } = useChrome();
   const [isOpen, setIsOpen] = useState(false);
   const openColumnManagementModal = useCallback(() => {
+    analytics.track('systems_view.columns.modal_opened');
     setIsOpen(true);
-  }, []);
+  }, [analytics]);
 
   const contextValue: SystemsViewColumnManagementContextValue = useMemo(
     () => ({

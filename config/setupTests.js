@@ -25,6 +25,9 @@ const useChrome = () => ({
   getApp: jest.fn(),
   getBundle: jest.fn(),
   hideGlobalFilter: jest.fn(),
+  analytics: {
+    track: jest.fn(),
+  },
 });
 
 jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({

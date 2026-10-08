@@ -47,20 +47,25 @@ jest.mock('../../Utilities/useInventoryViewsFeatureFlag', () => ({
   default: () => false,
 }));
 
+const useChrome = () => ({
+  auth: {
+    getUser: () =>
+      Promise.resolve({
+        identity: {
+          account_number: '1234567',
+          type: 'User',
+          user: { username: 'systems-view-test-user', is_org_admin: true },
+        },
+      }),
+  },
+  analytics: {
+    track: jest.fn(),
+  },
+});
 jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({
   __esModule: true,
-  default: () => ({
-    auth: {
-      getUser: () =>
-        Promise.resolve({
-          identity: {
-            account_number: '1234567',
-            type: 'User',
-            user: { username: 'systems-view-test-user', is_org_admin: true },
-          },
-        }),
-    },
-  }),
+  default: useChrome,
+  useChrome,
 }));
 
 jest.mock('../../Utilities/useFeatureFlag', () => ({
