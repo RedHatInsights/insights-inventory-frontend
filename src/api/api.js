@@ -1,4 +1,3 @@
-export const INVENTORY_API_BASE = '/api/inventory/v1';
 import flatMap from 'lodash/flatMap';
 
 import axiosInstance from '@redhat-cloud-services/frontend-components-utilities/interceptors';
