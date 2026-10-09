@@ -91,9 +91,9 @@ export const generateUniqueWorkspaceName = async () => {
 /**
  * Help function to create a new workspace via the UI modal
  *
- *  @param                   page - The Playwright Page object for interaction.
- *  @param                   name - The unique name to be given to the new workspace.
- *  @returns {Promise<void>}
+ *  @param page - The Playwright Page object for interaction.
+ *  @param name - The unique name to be given to the new workspace.
+ *  @returns
  */
 export const createNewWorkspace = async (page: Page, name: string) => {
   // 1. Click the "Create Workspace" button

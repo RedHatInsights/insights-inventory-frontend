@@ -1,9 +1,9 @@
 name: Test runner
 on:
   push:
-    branches: ['master']
+    branches: ["master"]
   pull_request:
-    branches: ['master']
+    branches: ["master"]
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -14,10 +14,22 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 22.x
-          cache: 'npm'
+          cache: "npm"
       - run: npm ci
+      - name: No new JavaScript files in src/
+        if: github.event_name == 'pull_request'
+        run: |
+          ADDED=$(git diff --name-only --diff-filter=AR \
+            ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} \
+            | grep -E '^src/.*\.jsx?$' || true)
+          if [ -n "$ADDED" ]; then
+            echo "::error::New .js files are not allowed in src/. This repo is migrating to TypeScript."
+            echo "$ADDED"
+            exit 1
+          fi
+          echo "No new .js files in src/."
       - run: npm run lint
-      - run: npm run type-check 
+      - run: npm run type-check
       - name: Validate current commit (last commit) with commitlint
         if: github.event_name == 'push'
         run: npx commitlint --last --verbose
@@ -40,7 +52,7 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 22.x
-          cache: 'npm'
+          cache: "npm"
       - run: npm ci
       - name: Build with JSDoc
         run: npm run docs

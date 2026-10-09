@@ -10,10 +10,6 @@ type Options = {
 
 /**
  * Loads inventory workspaces (standard groups) with pagination for workspace pickers.
- *  @param debouncedSearch
- *  @param root0
- *  @param root0.enabled
- *  @param root0.pageSize
  */
 export function useWorkspaceGroupsInfiniteQuery(
   debouncedSearch: string,

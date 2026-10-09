@@ -10,10 +10,10 @@ const SKELETON_TABLE = '[data-ouia-component-id="SkeletonTable"]';
  * Opens the "Conditional filter" menu, selects the specified filter category,
  * and applies the given filter option. Some filters may not yet be implemented.
  *
- *  @param   {Page}          page       - The Playwright Page object representing the browser page.
- *  @param   {string}        filterName - The name of the filter to apply (e.g., "Status", "System type").
- *  @param   {string}        option     - The value to select for the given filter (e.g., "Active", "Package-based").
- *  @returns {Promise<void>}            - A promise that resolves when the filter is applied.
+ *  @param page       - The Playwright Page object representing the browser page.
+ *  @param filterName - The name of the filter to apply (e.g., "Status", "System type").
+ *  @param option     - The value to select for the given filter (e.g., "Active", "Package-based").
+ *  @returns          - A promise that resolves when the filter is applied.
  *
  * @example
  * await filterSystemsWithConditionalFilter(page, 'Workspace', 'My Workspace');
@@ -115,9 +115,9 @@ export const filterSystemsWithConditionalFilter = async (
  * and verifies that every element has the expected value.
  * TODO: Add check if we excpect to find 0 rows
  *
- *  @param   {Locator}       rowLocator   - A Playwright Locator representing a group of elements to check (e.g., all 'td[data-label="Workspace"]').
- *  @param   {string}        expectedText - The exact text expected in each matching element (e.g., system name "rhel_test", OS "RHEL 9.5").
- *  @returns {Promise<void>}              - A promise that resolves when the assertion passes or rejects if any element's text does not match.
+ *  @param rowLocator   - A Playwright Locator representing a group of elements to check (e.g., all 'td[data-label="Workspace"]').
+ *  @param expectedText - The exact text expected in each matching element (e.g., system name "rhel_test", OS "RHEL 9.5").
+ *  @returns            - A promise that resolves when the assertion passes or rejects if any element's text does not match.
  *
  * @example
  * await expectAllRowsHaveText(page.locator('td[data-label="Name"]'), 'test_host');
@@ -139,9 +139,9 @@ export const expectAllRowsHaveText = async (
  * This function ensures the search input is visible, reloads the page to guarantee a clean state
  * (waiting for the network to be idle), and then fills the specified name into the input field.
  *
- *  @param   {Page}          page - The Playwright Page object to interact with.
- *  @param   {string}        name - The name to enter into the "Filter by name" input field.
- *  @returns {Promise<void>}      A promise that resolves once the name has been filled in.
+ *  @param page - The Playwright Page object to interact with.
+ *  @param name - The name to enter into the "Filter by name" input field.
+ *  @returns    A promise that resolves once the name has been filled in.
  *
  * @example
  * await searchByName(page, 'my-system-name');
@@ -178,9 +178,9 @@ export const waitForTableKebabReady = async (
 /**
  * Checks if all elements matched by a locator have text that matches a given pattern.
  *
- *  @param   {Locator}       locator - Playwright Locator object (must point to multiple elements).
- *  @param   {RegExp}        pattern - Regular expression to test against each element's text.
- *  @returns {Promise<void>}         - A promise that resolves when the assertion passes.
+ *  @param locator - Playwright Locator object (must point to multiple elements).
+ *  @param pattern - Regular expression to test against each element's text.
+ *  @returns       - A promise that resolves when the assertion passes.
  */
 export async function assertAllContain(
   locator: Locator,
@@ -208,8 +208,8 @@ export async function assertAllContain(
 /**
  * Parses relative time text (e.g., "3 hours ago", "5 days ago") to approximate days.
  *
- *  @param   {string} text - The relative time text to parse.
- *  @returns {number}      - The number of days represented by the text, or -1 if unknown format.
+ *  @param text - The relative time text to parse.
+ *  @returns    - The number of days represented by the text, or -1 if unknown format.
  *
  * @example
  * parseLastSeenToDays('3 hours ago'); // returns 0
