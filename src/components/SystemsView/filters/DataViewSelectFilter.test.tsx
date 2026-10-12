@@ -53,12 +53,16 @@ describe('DataView select filters', () => {
       />,
     );
 
-    await user.click(screen.getByRole('button', { name: 'Status' }));
+    const toggle = screen.getByRole('button', { name: 'Status' });
+
+    await user.click(toggle);
     await user.click(screen.getByRole('menuitem', { name: 'Active' }));
     expect(onChange).not.toHaveBeenCalled();
+    expect(toggle).toHaveFocus();
 
-    await user.click(screen.getByRole('button', { name: 'Status' }));
+    await user.click(toggle);
     await user.click(screen.getByRole('menuitem', { name: 'Stale' }));
     expect(onChange).toHaveBeenCalledWith(expect.anything(), ['stale']);
+    expect(toggle).toHaveFocus();
   });
 });

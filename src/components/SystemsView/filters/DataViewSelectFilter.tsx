@@ -110,6 +110,7 @@ export const DataViewSelectFilter: FC<DataViewSelectFilterProps> = ({
     onSelect(event, itemId);
     if (isSingleSelect) {
       setIsOpen(false);
+      toggleRef.current?.focus();
     }
   };
 
