@@ -1,8 +1,6 @@
 import React, { type ReactElement } from 'react';
-import {
-  DataViewCheckboxFilter,
-  DataViewTextFilter,
-} from '@patternfly/react-data-view';
+import { DataViewTextFilter } from '@patternfly/react-data-view';
+import { DataViewCheckboxFilter } from './DataViewCheckboxFilter';
 import {
   DataViewCustomFilter,
   type DataViewCustomFilterProps,
