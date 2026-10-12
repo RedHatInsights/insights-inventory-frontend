@@ -21,13 +21,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-
-export interface DataViewFilterOption {
-  /** Filter option label */
-  label: React.ReactNode;
-  /** Filter option value */
-  value: string;
-}
+import { FilterOption as DataViewFilterOption } from './types';
 
 const isToolbarLabel = (label: string | ToolbarLabel): label is ToolbarLabel =>
   typeof label === 'object' && 'key' in label;

@@ -5,7 +5,12 @@ import type { LastSeenCustomRange, SystemsViewFilterState } from '../types';
 import type { Resolve } from '../../../types/utility-types';
 import type { DataViewCustomFilterProps } from './DataViewCustomFilter';
 
-type CheckboxOption = { label: ReactNode; value: string };
+export type FilterOption = {
+  /** Filter option label */
+  label: React.ReactNode;
+  /** Filter option value */
+  value: string;
+};
 
 /**
  * Extra state `selectValue` may read that is not on the URL UI bag
@@ -62,7 +67,13 @@ export type TextFilterSpec = FilterIdentity & {
 export type CheckboxFilterSpec = FilterIdentity & {
   type: 'checkbox';
   placeholder?: string;
-  options: CheckboxOption[];
+  options: FilterOption[];
+};
+
+export type SingleSelectFilterSpec = FilterIdentity & {
+  type: 'single-select';
+  placeholder?: string;
+  options: FilterOption[];
 };
 
 export type CustomFilterSpec<TValue = unknown> = FilterIdentity & {
@@ -78,6 +89,7 @@ export type CustomFilterSpec<TValue = unknown> = FilterIdentity & {
 export type FilterSpec =
   | TextFilterSpec
   | CheckboxFilterSpec
+  | SingleSelectFilterSpec
   | CustomFilterSpec<string[]>
   | CustomFilterSpec<LastSeenKey | ''>;
 

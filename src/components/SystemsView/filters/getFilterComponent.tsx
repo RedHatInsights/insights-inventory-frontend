@@ -36,6 +36,16 @@ export const getFilterComponent = (spec: FilterSpec): ReactElement => {
           options={spec.options}
         />
       );
+    case 'single-select':
+      return (
+        <DataViewCheckboxFilter
+          key={spec.filterId}
+          filterId={spec.filterId}
+          title={spec.title}
+          placeholder={spec.placeholder}
+          options={spec.options}
+        />
+      );
     case 'custom':
       return (
         <DataViewCustomFilter<unknown>
