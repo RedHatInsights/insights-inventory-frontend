@@ -1,6 +1,7 @@
 import React, { type ReactElement } from 'react';
 import { DataViewTextFilter } from '@patternfly/react-data-view';
 import { DataViewCheckboxFilter } from './DataViewCheckboxFilter';
+import { DataViewSingleSelectFilter } from './DataViewSingleSelectFilter';
 import {
   DataViewCustomFilter,
   type DataViewCustomFilterProps,
@@ -12,7 +13,7 @@ import type { FilterSpec } from './types';
  * itself so `value` / `onChange` / `showToolbarItem` inject onto that node.
  *
  *  @param spec - Discriminated filter spec (`text` | `checkbox` | `custom`)
- *  @returns    A `DataViewTextFilter`, `DataViewCheckboxFilter`, or `DataViewCustomFilter` element
+ *  @returns    A `DataViewTextFilter`, `DataViewCheckboxFilter`, `DataViewSingleSelectFilter`, or `DataViewCustomFilter` element
  */
 export const getFilterComponent = (spec: FilterSpec): ReactElement => {
   switch (spec.type) {
@@ -38,7 +39,7 @@ export const getFilterComponent = (spec: FilterSpec): ReactElement => {
       );
     case 'single-select':
       return (
-        <DataViewCheckboxFilter
+        <DataViewSingleSelectFilter
           key={spec.filterId}
           filterId={spec.filterId}
           title={spec.title}
