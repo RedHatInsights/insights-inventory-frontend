@@ -30,7 +30,7 @@ const singleSelectSpec: SingleSelectFilterSpec = {
   type: 'single-select',
   filterId: 'status',
   title: 'Status',
-  defaultValue: '',
+  defaultValue: [],
   options: [{ label: 'Active', value: 'active' }],
 };
 

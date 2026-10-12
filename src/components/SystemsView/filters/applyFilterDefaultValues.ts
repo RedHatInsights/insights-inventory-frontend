@@ -17,6 +17,10 @@ export const applyFilterDefaultValues = <TFilterParams>(
   return (catalog) =>
     selector(catalog).map((spec) => {
       const stamped = defaults[spec.filterId];
-      return stamped !== undefined ? { ...spec, defaultValue: stamped } : spec;
+      // `defaults` is keyed only by filterId, so the value is the shared
+      // `string | string[]` union. The spread is still the same spec.
+      return stamped !== undefined
+        ? ({ ...spec, defaultValue: stamped } as typeof spec)
+        : spec;
     });
 };
