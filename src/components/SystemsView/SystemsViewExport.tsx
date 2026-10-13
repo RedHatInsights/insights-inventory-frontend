@@ -9,8 +9,15 @@ import {
 } from '@patternfly/react-core';
 import { ExportIcon } from '@patternfly/react-icons';
 import useInventoryExport from '../InventoryTable/hooks/useInventoryExport/useInventoryExport';
+import type { ViewConfiguration } from '../../api/inventoryViewsApi';
 
-export const SystemsViewExport = () => {
+interface SystemsViewExportProps {
+  configuration?: ViewConfiguration;
+}
+
+export const SystemsViewExport = ({
+  configuration,
+}: SystemsViewExportProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   type Format = 'csv' | 'json';
@@ -19,7 +26,7 @@ export const SystemsViewExport = () => {
     itemTexts: { csv: string; json: string };
     onSelect: (event: MouseEvent<Element> | undefined, format: Format) => void;
   }
-  const exportConfig = useInventoryExport() as ExportConfig;
+  const exportConfig = useInventoryExport({ configuration }) as ExportConfig;
 
   const onToggle = () => {
     setIsOpen(!isOpen);
