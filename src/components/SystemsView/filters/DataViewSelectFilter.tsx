@@ -83,7 +83,6 @@ export const DataViewSelectFilter: FC<DataViewSelectFilterProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
   const categoryName = chipTitle ?? title;
   const isSingleSelect = selectionMode === 'single';
 
@@ -200,7 +199,6 @@ export const DataViewSelectFilter: FC<DataViewSelectFilterProps> = ({
           </Menu>
         }
         popperRef={menuRef}
-        appendTo={containerRef.current || undefined}
         aria-label={`${title ?? filterId} filter`}
         isVisible={isOpen}
       />

@@ -18,7 +18,7 @@ import {
 import { DEBOUNCE_TIMEOUT_MS } from '../../../../constants';
 import {
   isToolbarLabel,
-  SingleSelectFilterSpec,
+  type SingleSelectFilterSpec,
   type CheckboxFilterSpec,
   type CustomFilterSpec,
   type FilterSpec,
