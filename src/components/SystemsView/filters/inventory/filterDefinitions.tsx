@@ -18,6 +18,7 @@ import {
 import { DEBOUNCE_TIMEOUT_MS } from '../../../../constants';
 import {
   isToolbarLabel,
+  type SingleSelectFilterSpec,
   type CheckboxFilterSpec,
   type CustomFilterSpec,
   type FilterSpec,
@@ -112,8 +113,8 @@ export const sourceSpec: CheckboxFilterSpec = {
   ],
 };
 
-export const systemTypeSpec: CheckboxFilterSpec = {
-  type: 'checkbox',
+export const systemTypeSpec: SingleSelectFilterSpec = {
+  type: 'single-select',
   filterId: 'system_type',
   title: 'System type',
   defaultValue: [],
