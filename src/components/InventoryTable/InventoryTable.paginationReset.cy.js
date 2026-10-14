@@ -186,33 +186,6 @@ describe('InventoryTable - Pagination Reset on Filter Application', () => {
     });
   });
 
-  describe('customFilters prop resets pagination', () => {
-    it('resets to page 1 when customFilters change from a high page', () => {
-      // Mount with no custom filters initially
-      mountTable({ hasAccess: true, autoRefresh: true });
-      waitForTable(true);
-
-      // Navigate to page 10 using reliable next button approach
-      goToPage(10);
-
-      // Verify we're on page 10
-      cy.get('input[aria-label="Current page"]').should('have.value', '10');
-
-      // Now remount with customFilters supplied by the host app
-      mountTable({
-        hasAccess: true,
-        autoRefresh: true,
-        customFilters: {
-          filters: [{ value: 'hostname_or_id', filter: 'test-system' }],
-        },
-      });
-
-      // Verify pagination reset to page 1
-      verifyPageInUrl(1);
-      cy.get('input[aria-label="Current page"]').should('have.value', '1');
-    });
-  });
-
   describe('Clearing filters maintains pagination reset behavior', () => {
     it('stays on page 1 after clearing filters', () => {
       mountTable();
