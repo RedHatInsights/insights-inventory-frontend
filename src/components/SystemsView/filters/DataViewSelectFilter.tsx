@@ -138,7 +138,7 @@ export const DataViewSelectFilter: FC<DataViewSelectFilterProps> = ({
         );
         return {
           key: activeOption?.value as string,
-          node: activeOption?.label,
+          node: activeOption?.label || item,
         };
       })}
       deleteLabel={(_, label) =>
