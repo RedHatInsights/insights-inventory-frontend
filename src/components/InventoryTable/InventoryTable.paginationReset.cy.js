@@ -186,7 +186,7 @@ describe('InventoryTable - Pagination Reset on Filter Application', () => {
     });
   });
 
-  describe('GlobalFilter (customFilters) resets pagination', () => {
+  describe('customFilters prop resets pagination', () => {
     it('resets to page 1 when customFilters change from a high page', () => {
       // Mount with no custom filters initially
       mountTable({ hasAccess: true, autoRefresh: true });
@@ -198,47 +198,12 @@ describe('InventoryTable - Pagination Reset on Filter Application', () => {
       // Verify we're on page 10
       cy.get('input[aria-label="Current page"]').should('have.value', '10');
 
-      // Now remount with customFilters (simulating global filter change)
-      mountTable({
-        hasAccess: true,
-        autoRefresh: true,
-        customFilters: {
-          globalFilter: {
-            filter: {
-              system_profile: {
-                sap_system: true,
-              },
-            },
-          },
-        },
-      });
-
-      // Verify pagination reset to page 1
-      verifyPageInUrl(1);
-      cy.get('input[aria-label="Current page"]').should('have.value', '1');
-    });
-
-    it('resets to page 1 when both globalFilter and filters change from page 7', () => {
-      mountTable({ hasAccess: true, autoRefresh: true });
-      waitForTable(true);
-
-      // Navigate to page 7 using reliable next button approach
-      goToPage(7);
-      cy.get('input[aria-label="Current page"]').should('have.value', '7');
-
-      // Remount with both customFilters and globalFilter
+      // Now remount with customFilters supplied by the host app
       mountTable({
         hasAccess: true,
         autoRefresh: true,
         customFilters: {
           filters: [{ value: 'hostname_or_id', filter: 'test-system' }],
-          globalFilter: {
-            filter: {
-              system_profile: {
-                sap_system: true,
-              },
-            },
-          },
         },
       });
 

@@ -40,7 +40,6 @@ const AddSystemsToGroupModal = ({
     difference(displayedIds, selected ? [...selected.keys()] : []).length === 0;
   const bulkSelectConfig = useBulkSelectConfig(
     selected,
-    null,
     total,
     rows,
     true,
