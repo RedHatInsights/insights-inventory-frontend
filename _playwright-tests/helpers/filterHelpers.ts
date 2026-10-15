@@ -72,7 +72,7 @@ export const filterSystemsWithConditionalFilter = async (
       .getByRole('button', { name: 'Options menu' })
       .or(
         page.locator(
-          'button[data-ouia-component-id="DataViewCheckboxFilter-toggle"]',
+          'button[data-ouia-component-id="DataViewSingleSelectFilter-toggle"]',
         ),
       )
       .click();

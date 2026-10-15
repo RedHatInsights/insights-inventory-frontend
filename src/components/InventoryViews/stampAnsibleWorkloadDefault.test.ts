@@ -23,7 +23,7 @@ describe('stampAnsibleWorkloadDefault', () => {
     const fromView: typeof selectInventoryViewsFilters = (catalog) =>
       selectInventoryViewsFilters(catalog).map((spec) =>
         spec.filterId === 'workloads'
-          ? { ...spec, defaultValue: ['sap'] }
+          ? ({ ...spec, defaultValue: ['sap'] } as typeof spec)
           : spec,
       );
 
