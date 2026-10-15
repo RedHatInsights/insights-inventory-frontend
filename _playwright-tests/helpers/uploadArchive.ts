@@ -93,9 +93,9 @@ function getAccessToken(): string {
  *
  * Jira References: https://issues.redhat.com/browse/RHINENG-21146
  *
- *  @param   {string}                        archivePath - Relative path to the archive in host_archives/.
- *  @param   {number}                        maxRetries  - Number of upload attempts (default 3).
- *  @returns {Promise<{ httpCode: number }>}             Object containing the HTTP response code.
+ *  @param    archivePath - Relative path to the archive in host_archives/.
+ *  @param    maxRetries  - Number of upload attempts (default 3).
+ *  @returns              Object containing the HTTP response code.
  * @throws {Error} Missing credentials, curl failure, or non-201 response.
  */
 export async function uploadArchive(
@@ -176,9 +176,9 @@ export async function uploadArchive(
 /**
  * Prepares a test-specific copy of the base archive, modifies its files, and compresses it for upload.
  * Updates: machine-id, subscription-manager identity, and hostname.
- *  @param   {string}          baseArchiveName - Base filename to clone .
- *  @param   {string}          prefix          - String to prepend to the new hostname/filename.
- *  @returns {ModifiedArchive}                 - The new hostname, archive name
+ *  @param    baseArchiveName - Base filename to clone .
+ *  @param    prefix          - String to prepend to the new hostname/filename.
+ *  @returns                  - The new hostname, archive name
  * @throws {Error} If extraction or compression fails, or required files are missing.
  */
 export function prepareTestArchive(

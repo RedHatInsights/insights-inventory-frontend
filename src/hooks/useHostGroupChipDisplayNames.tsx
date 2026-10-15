@@ -50,12 +50,6 @@ export type HostGroupChipNodeProps = {
 
 /**
  * Workspace / host-group chip label: resolved name, loading spinner, or raw id.
- *  @param root0
- *  @param root0.id
- *  @param root0.names
- *  @param root0.isFetching
- *  @param root0.ids
- *  @param root0.pendingLabelFetchIds
  */
 export function HostGroupChipNode({
   id,
