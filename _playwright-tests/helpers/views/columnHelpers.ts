@@ -118,8 +118,8 @@ export const openManageColumnsModal = (page: Page, timeout = 45000) =>
 
 /**
  * Checks if the systems table is horizontally scrollable.
- *  @param   {Page}             page - The Playwright page instance.
- *  @returns {Promise<boolean>}      - True if the table is scrollable, false otherwise.
+ *  @param page - The Playwright page instance.
+ *  @returns    - True if the table is scrollable, false otherwise.
  */
 export async function isTableHorizontallyScrollable(
   page: Page,
@@ -135,8 +135,8 @@ export async function isTableHorizontallyScrollable(
 
 /**
  * Scrolls the table horizontally to a specific position.
- *  @param {Page}   page     - The Playwright page instance.
- *  @param {number} position - Position to scroll to (0 = left, 0.5 = middle, 1 = right).
+ *  @param page     - The Playwright page instance.
+ *  @param position - Position to scroll to (0 = left, 0.5 = middle, 1 = right).
  */
 export async function scrollTableToPosition(page: Page, position: number) {
   await page.evaluate((pos) => {
@@ -151,7 +151,7 @@ export async function scrollTableToPosition(page: Page, position: number) {
 
 /**
  * Scrolls the table horizontally to bring a column into view, avoiding sticky column interference.
- *  @param {Locator} element - The element to scroll into view (column header button or table cell).
+ *  @param element - The element to scroll into view (column header button or table cell).
  */
 export async function scrollColumnIntoView(element: Locator) {
   await element.evaluate((el) => {
@@ -202,9 +202,9 @@ export async function scrollColumnIntoView(element: Locator) {
 
 /**
  * Validates that the column is sorted in the expected direction.
- *  @param {Page}    page         - The Playwright page instance.
- *  @param {Locator} columnHeader - The column header button locator.
- *  @param {string}  direction    - Expected sort direction ('ascending' or 'descending').
+ *  @param page         - The Playwright page instance.
+ *  @param columnHeader - The column header button locator.
+ *  @param direction    - Expected sort direction ('ascending' or 'descending').
  */
 export async function validateSortDirection(
   page: Page,
@@ -224,9 +224,9 @@ export async function validateSortDirection(
  * Clicks a column header until it reaches the requested sort direction.
  * A column can start unsorted, ascending or descending, so this may take up to
  * two clicks.
- *  @param {Page}   page       - The Playwright page instance.
- *  @param {string} columnName - The name of the column to sort by.
- *  @param {string} direction  - Target direction ('ascending' or 'descending').
+ *  @param page       - The Playwright page instance.
+ *  @param columnName - The name of the column to sort by.
+ *  @param direction  - Target direction ('ascending' or 'descending').
  */
 export async function sortByColumn(
   page: Page,
@@ -268,9 +268,9 @@ export async function sortByColumn(
  *
  * Only one column is sorted at a time, so asserting the active column also
  * rules out every other column being sorted.
- *  @param {Page}   page       - The Playwright page instance.
- *  @param {string} columnName - The name of the column to check.
- *  @param {string} direction  - Expected direction ('ascending' or 'descending').
+ *  @param page       - The Playwright page instance.
+ *  @param columnName - The name of the column to check.
+ *  @param direction  - Expected direction ('ascending' or 'descending').
  */
 export async function expectColumnSortDirection(
   page: Page,
@@ -350,9 +350,9 @@ const COLUMN_VALIDATIONS: Record<string, ColumnValidationConfig> = {
 
 /**
  * Validates column sorting order based on column type.
- *  @param {Page}   page       - The Playwright page instance.
- *  @param {string} columnName - The name of the column to validate.
- *  @param {string} direction  - Sort direction ('ascending' or 'descending').
+ *  @param page       - The Playwright page instance.
+ *  @param columnName - The name of the column to validate.
+ *  @param direction  - Sort direction ('ascending' or 'descending').
  */
 export async function validateDataColumnSortOrder(
   page: Page,
@@ -426,9 +426,9 @@ export async function validateDataColumnSortOrder(
 
 /**
  * Validates status column order.
- *  @param {string[]} values        - Array of status values from the table.
- *  @param {string[]} expectedOrder - Expected order of status values.
- *  @param {string}   direction     - Sort direction ('ascending' or 'descending').
+ *  @param values        - Array of status values from the table.
+ *  @param expectedOrder - Expected order of status values.
+ *  @param direction     - Sort direction ('ascending' or 'descending').
  */
 function validateStatusOrder(
   values: string[],
@@ -453,8 +453,8 @@ function validateStatusOrder(
 
 /**
  * Validates date column order (ascending = oldest first, descending = newest first).
- *  @param {string[]} values    - Array of date values from the table.
- *  @param {string}   direction - Sort direction ('ascending' or 'descending').
+ *  @param values    - Array of date values from the table.
+ *  @param direction - Sort direction ('ascending' or 'descending').
  */
 function validateDateOrder(
   values: string[],
@@ -486,8 +486,8 @@ function validateDateOrder(
 
 /**
  * Validates numeric column order.
- *  @param {string[]} values    - Array of numeric values from the table.
- *  @param {string}   direction - Sort direction ('ascending' or 'descending').
+ *  @param values    - Array of numeric values from the table.
+ *  @param direction - Sort direction ('ascending' or 'descending').
  */
 function validateNumericOrder(
   values: string[],
@@ -519,8 +519,8 @@ function validateNumericOrder(
 
 /**
  * Validates Recommendations column order.
- *  @param {string[]} values    - Array of values from the table.
- *  @param {string}   direction - Sort direction ('ascending' or 'descending').
+ *  @param values    - Array of values from the table.
+ *  @param direction - Sort direction ('ascending' or 'descending').
  */
 function validateRecommendationsOrder(
   values: string[],
@@ -547,8 +547,8 @@ function validateRecommendationsOrder(
  * TODO: Once backend provides moderate_cves and low_cves data and implements proper sorting,
  * update this to do full numeric validation by parsing the critical CVE count from the composite display.
  *
- *  @param {string[]} values    - Array of values from the table.
- *  @param {string}   direction - Sort direction ('ascending' or 'descending').
+ *  @param values    - Array of values from the table.
+ *  @param direction - Sort direction ('ascending' or 'descending').
  */
 function validateVulnerabilitiesOrder(
   values: string[],
@@ -565,8 +565,8 @@ function validateVulnerabilitiesOrder(
 /**
  * Parses Installable advisories text to extract RHSA (security) count.
  * The column sorts by security advisories count (patch:advisories_rhsa_installable).
- *  @param   {string} text - Text from the cell (e.g., "No installable advisories" or "Security advisories 5 Bug fixes 3").
- *  @returns {number}      - RHSA count, or 0 if "No installable advisories"
+ *  @param text - Text from the cell (e.g., "No installable advisories" or "Security advisories 5 Bug fixes 3").
+ *  @returns    - RHSA count, or 0 if "No installable advisories"
  */
 function parseInstallableAdvisories(text: string): number {
   const trimmedText = text.trim();
@@ -590,8 +590,8 @@ function parseInstallableAdvisories(text: string): number {
 /**
  * Validates Installable advisories column order.
  * This column sorts by RHSA (security advisories) count.
- *  @param {string[]} values    - Array of values from the table.
- *  @param {string}   direction - Sort direction ('ascending' or 'descending').
+ *  @param values    - Array of values from the table.
+ *  @param direction - Sort direction ('ascending' or 'descending').
  */
 function validateInstallableAdvisoriesOrder(
   values: string[],

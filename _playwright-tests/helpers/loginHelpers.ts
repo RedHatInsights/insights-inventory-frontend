@@ -281,7 +281,7 @@ export const ensureInPreview = async (page: Page) => {
  * common intrusive pop-ups, such as toast notifications, Pendo guides,
  * and consent banners, before test actions proceed.
  *
- *  @param {Page} page - The Playwright Page object.
+ *  @param page - The Playwright Page object.
  */
 export const closePopupsIfExist = async (page: Page) => {
   await page.route('https://consent.trustarc.com/**', (route) => route.abort());
