@@ -5,7 +5,12 @@ import type { LastSeenCustomRange, SystemsViewFilterState } from '../types';
 import type { Resolve } from '../../../types/utility-types';
 import type { DataViewCustomFilterProps } from './DataViewCustomFilter';
 
-type CheckboxOption = { label: ReactNode; value: string };
+export type FilterOption = {
+  /** Filter option label */
+  label: React.ReactNode;
+  /** Filter option value */
+  value: string;
+};
 
 /**
  * Extra state `selectValue` may read that is not on the URL UI bag
@@ -27,10 +32,6 @@ export type LastSeenSelectValue = {
 type FilterIdentity = {
   filterId: string;
   title: string;
-  /**
-   * Starting value and clear target for this key
-   */
-  defaultValue: string | string[];
   /** When set, SystemsView debounces this key in the fetch */
   debounceMs?: number;
   /**
@@ -55,18 +56,34 @@ export type FilterBinding<TFilterParams, TValue> = {
 
 export type TextFilterSpec = FilterIdentity & {
   type: 'text';
+  /** Starting value and clear target for this key */
+  defaultValue: string;
   chipTitle?: string;
   placeholder?: string;
 };
 
 export type CheckboxFilterSpec = FilterIdentity & {
   type: 'checkbox';
+  /** Starting value and clear target for this key */
+  defaultValue: string[];
   placeholder?: string;
-  options: CheckboxOption[];
+  options: FilterOption[];
 };
 
-export type CustomFilterSpec<TValue = unknown> = FilterIdentity & {
+export type SingleSelectFilterSpec = FilterIdentity & {
+  type: 'single-select';
+  /** Starting value and clear target for this key */
+  defaultValue: string[];
+  placeholder?: string;
+  options: FilterOption[];
+};
+
+export type CustomFilterSpec<
+  TValue extends string | string[] = string | string[],
+> = FilterIdentity & {
   type: 'custom';
+  /** Starting value and clear target for this key */
+  defaultValue: TValue;
   placeholder?: string;
   ouiaId?: string;
   isMultiGroup?: boolean;
@@ -78,6 +95,7 @@ export type CustomFilterSpec<TValue = unknown> = FilterIdentity & {
 export type FilterSpec =
   | TextFilterSpec
   | CheckboxFilterSpec
+  | SingleSelectFilterSpec
   | CustomFilterSpec<string[]>
   | CustomFilterSpec<LastSeenKey | ''>;
 
