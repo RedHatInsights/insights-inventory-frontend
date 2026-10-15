@@ -13,6 +13,11 @@ const emptyBulkParams = {
   resources: [],
 } as unknown as BulkSelfAccessCheckNestedRelationsParams;
 
+type UseWorkspaceDetailKesselPermissionsOptions = {
+  /** When true, no API checks are made (ungrouped workspace) */
+  skipKessel?: boolean;
+};
+
 export type WorkspaceDetailKesselPermissions = {
   /** When false, callers should use RBAC only (Kessel off or ungrouped hosts workspace). */
   appliesKesselWorkspaceChecks: boolean;
@@ -31,14 +36,12 @@ export type WorkspaceDetailKesselPermissions = {
  * When the Kessel migration flag is off, or `skipKessel` is true (e.g. ungrouped hosts),
  * returns inactive flags so callers fall back to RBAC.
  *
- *  @param workspaceId      - RBAC workspace id from the route
- *  @param root0            - Options object
- *  @param root0.skipKessel - When true, no API checks are made (ungrouped workspace)
- *  @returns                View/edit flags, loading, and whether Kessel should gate the page
+ *  @param workspaceId - RBAC workspace id from the route
+ *  @returns           View/edit flags, loading, and whether Kessel should gate the page
  */
 export const useWorkspaceDetailKesselPermissions = (
   workspaceId: string | undefined,
-  { skipKessel = false }: { skipKessel?: boolean } = {},
+  { skipKessel = false }: UseWorkspaceDetailKesselPermissionsOptions = {},
 ): WorkspaceDetailKesselPermissions => {
   const isKesselEnabled = useKesselMigrationFeatureFlag();
   const appliesKesselWorkspaceChecks =

@@ -44,6 +44,11 @@ export default defineConfig([
       'jsdoc/require-returns-type': 'off',
       'jsdoc/require-property-type': 'off',
       'jsdoc/require-type': 'off',
+      'jsdoc/require-param-description': 'off',
+      'jsdoc/require-param': 'off',
+      'jsdoc/check-param-names': 'off',
+      'jsdoc/require-returns': 'off',
+      'jsdoc/no-types': 'warn',
     },
   },
   {
@@ -108,12 +113,8 @@ export default defineConfig([
   {
     files: ['_playwright-tests/**'],
     rules: {
-      'jsdoc/require-param-description': 'off',
-      'jsdoc/require-returns': 'off',
       'jsdoc/require-returns-description': 'off',
-      'jsdoc/require-param': 'off',
       'jsdoc/require-description': 'off',
-      'jsdoc/check-param-names': 'off',
       'jsdoc/check-line-alignment': 'off',
       'jsdoc/check-tag-names': 'off',
     },

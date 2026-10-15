@@ -143,6 +143,7 @@
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
     "jsdoc": "^4.0.5",
+    "lint-staged": "^16.4.0",
     "node-fetch": "^2.6.7",
     "npm-run-all2": "^5.0.0",
     "playwright-ctrf-json-reporter": "^0.0.29",

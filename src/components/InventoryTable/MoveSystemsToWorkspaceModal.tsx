@@ -31,7 +31,9 @@ export interface SystemForWorkspace {
 export interface MoveSystemsToWorkspaceModalProps {
   isModalOpen: boolean;
   setIsModalOpen: (open: boolean) => void;
+  /** The system or systems to move to a workspace. */
   modalState: SystemForWorkspace[] | SystemForWorkspace;
+  /** Refreshes inventory data after a successful move. */
   reloadData: () => void | Promise<void>;
 }
 
@@ -39,13 +41,6 @@ export interface MoveSystemsToWorkspaceModalProps {
  * Integrates the federated WorkspaceSelector from insights-rbac-ui (PR 2097).
  * The RBAC app exposes ./modules/WorkspaceSelector; the platform/chrome
  * must provide the "rbac" scope at runtime.
- *
- *  @param root0                Props for the modal.
- *  @param root0.isModalOpen    Whether the modal is visible.
- *  @param root0.setIsModalOpen Callback to set the modal open state.
- *  @param root0.modalState     The system or systems to move to a workspace.
- *  @param root0.reloadData     Callback to refresh inventory data after a successful move.
- *  @returns                    Modal for moving one or more systems to a selected workspace
  */
 const MoveSystemsToWorkspaceModal = ({
   isModalOpen,
