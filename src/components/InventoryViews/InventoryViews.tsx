@@ -14,6 +14,7 @@ import { Actions } from './actions';
 import {
   fetchInventoryViews,
   INVENTORY_VIEWS_QUERY_KEY,
+  toHostViewsQuery,
 } from './inventoryViewsQueryOptions';
 import { useAnsibleWorkloadsSearchParam } from './hooks/useAnsibleWorkloadsSearchParam';
 import { useViewsQuery } from './hooks/useViewsQuery';
@@ -481,6 +482,7 @@ const InventoryViews = () => {
               onLastSeenCustomRangeChange={setCurrentLastSeenCustomRange}
               queryKeyPrefix={INVENTORY_VIEWS_QUERY_KEY}
               fetchData={fetchInventoryViews}
+              toQueryParams={toHostViewsQuery}
               bulkActions={bulkActions}
               rowActions={rowActions}
             />

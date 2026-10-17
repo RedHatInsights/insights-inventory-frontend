@@ -7,6 +7,7 @@ import type { QueryClient } from '@tanstack/react-query';
 import type {
   SystemsViewFetchData,
   SystemsViewItem,
+  ToQueryParams,
 } from '../components/SystemsView/types';
 import type { ColumnSelector } from '../components/SystemsView/columns/resolveColumnSelector';
 import type { FilterSelector } from '../components/SystemsView/filters/resolveFilterSelector';
@@ -16,11 +17,13 @@ import type {
 } from '../components/SystemsView/actions/types';
 
 export type {
+  PaginationParams,
+  SortingParams,
   SystemsViewFetchData,
-  SystemsViewFetchParams,
   SystemsViewFilterState,
   SystemsViewItem,
   SystemsViewQueryData,
+  ToQueryParams,
 } from '../components/SystemsView/types';
 
 export type { ColumnSelector } from '../components/SystemsView/columns/resolveColumnSelector';
@@ -61,7 +64,7 @@ export type {
  */
 export type SystemsViewProps<
   TItem extends SystemsViewItem,
-  TFilterParams = unknown,
+  TQueryParams = unknown,
 > = {
   /**
    * Host `QueryClient` to share cache and `invalidateQueries`.
@@ -75,19 +78,24 @@ export type SystemsViewProps<
    */
   queryKeyPrefix: string;
   /**
-   * Loads table rows. Receives pagination, sort, and folded `TFilterParams`.
+   * Loads table rows. Receives the view's query params.
    */
-  fetchData: SystemsViewFetchData<TItem, TFilterParams>;
+  fetchData: SystemsViewFetchData<TItem, TQueryParams>;
   /**
    * Selects columns from the shared catalog. Use a stable reference,
    * not an inline function.
    */
   columns: ColumnSelector<TItem>;
   /**
-   * Selects filters from the shared catalog and maps them onto `TFilterParams`.
+   * Selects filters from the shared catalog and maps them onto `TQueryParams`.
    * Use a stable reference, not an inline function.
    */
-  filters: FilterSelector<TFilterParams>;
+  filters: FilterSelector<TQueryParams>;
+  /**
+   * Maps pagination and sort onto `TQueryParams`.
+   * Use a stable reference, not an inline function.
+   */
+  toQueryParams: ToQueryParams<TQueryParams>;
   /**
    * Toolbar bulk actions. Use a stable reference, not an inline array.
    */

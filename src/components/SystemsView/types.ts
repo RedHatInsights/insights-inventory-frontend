@@ -10,13 +10,19 @@ export type LastSeenCustomRange = {
 /** Toolbar filters keys match FilterSpec `filterId`. */
 export type SystemsViewFilterState = Record<string, unknown>;
 
-export type SystemsViewFetchParams<TFilterParams = unknown> = {
+export type PaginationParams = {
   page: number;
   perPage: number;
+};
+
+export type SortingParams = {
   sortBy: string | undefined;
   direction: SortDirection | undefined;
-  filterParams: TFilterParams;
 };
+
+export type ToQueryParams<TQueryParams> = (
+  state: PaginationParams & SortingParams,
+) => Partial<TQueryParams>;
 
 export type SystemsViewItem = {
   id: string;
@@ -30,7 +36,5 @@ export type SystemsViewQueryData<TItem extends SystemsViewItem> = {
 
 export type SystemsViewFetchData<
   TItem extends SystemsViewItem,
-  TFilterParams = unknown,
-> = (
-  params: SystemsViewFetchParams<TFilterParams>,
-) => Promise<SystemsViewQueryData<TItem>>;
+  TQueryParams = unknown,
+> = (params: TQueryParams) => Promise<SystemsViewQueryData<TItem>>;

@@ -3,16 +3,33 @@ import {
   ApiHostViewsGetHostViewsOrderByEnum as ApiOrderByEnum,
   type ApiHostViewsGetHostViewsParams,
 } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
-import type {
-  SystemsViewFetchParams,
-  SystemsViewFilterState,
-} from '../SystemsView/types';
+import type { ToQueryParams } from '../SystemsView/types';
 import { buildHostViewsParams } from './utils/buildHostViewsParams';
 
 export const INVENTORY_VIEWS_QUERY_KEY = 'inventory-views' as const;
 
 const BACKEND_SERVICE_TO_APP_NAME: Record<string, string> = {
   patch: 'content',
+};
+
+const COLUMN_SORT_BY_TO_API_ORDER_BY: Partial<Record<string, ApiOrderByEnum>> =
+  {
+    status: ApiOrderByEnum.LastCheckIn,
+  };
+
+export const toHostViewsQuery: ToQueryParams<
+  ApiHostViewsGetHostViewsParams
+> = ({ page, perPage, sortBy, direction }) => {
+  const orderBy = sortBy
+    ? (COLUMN_SORT_BY_TO_API_ORDER_BY[sortBy] ?? (sortBy as ApiOrderByEnum))
+    : undefined;
+
+  return {
+    page,
+    perPage,
+    ...(orderBy ? { orderBy } : {}),
+    ...(direction ? { orderHow: direction.toUpperCase() } : {}),
+  };
 };
 
 type FetchInventoryViewsReturnedValue = Awaited<
@@ -31,15 +48,9 @@ const hasHostId = <T extends { id?: string }>(
 ): host is T & { id: string } => typeof host.id === 'string';
 
 export const fetchInventoryViews = async (
-  params: SystemsViewFetchParams<ApiHostViewsGetHostViewsParams>,
+  params: ApiHostViewsGetHostViewsParams,
 ) => {
-  const fetchParams = buildHostViewsParams({
-    page: params.page,
-    perPage: params.perPage,
-    query: params.filterParams,
-    sortBy: params.sortBy as ApiOrderByEnum | undefined,
-    direction: params.direction,
-  });
+  const fetchParams = buildHostViewsParams(params);
 
   const response = await getHostViews(fetchParams);
   const { results: hosts, total } = response;
