@@ -6,11 +6,6 @@ export const GENERAL_HOST_STALENESS_WRITE_PERMISSION =
 export const GENERAL_HOST_STALENESS_READ_PERMISSION =
   'staleness:staleness:read';
 
-export const HOST_STALENESS_ADMINISTRATOR_PERMISSIONS = [
-  GENERAL_HOST_STALENESS_READ_PERMISSION,
-  GENERAL_HOST_STALENESS_WRITE_PERMISSION,
-];
-
 const DAY_IN_SECONDS = 86400;
 
 //backend requires a buffer specifically for 1 this option
