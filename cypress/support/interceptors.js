@@ -7,6 +7,8 @@ import groupDetailFixtures from '../fixtures/groups/620f9ae75A8F6b83d78F3B55Af1c
 import hostsFixtures from '../fixtures/hosts.json';
 import edgeSystemProfile from '../fixtures/edgeSystemProfile.json';
 import hostDetail from '../fixtures/hostDetail.json';
+import activationKeysFixtures from '../fixtures/activationKeysFixtures.json';
+import singleActivationKeyFixtures from '../fixtures/singleActivationKeyFixtures.json';
 
 export { hostsFixtures, groupDetailFixtures };
 
@@ -379,4 +381,21 @@ export const featureFlagsInterceptors = {
       },
     }).as('getKesselFeatureFlag');
   },
+};
+
+export const activationKeysInterceptors = {
+  keys: (fixtures = activationKeysFixtures) =>
+    cy
+      .intercept('GET', '/api/rhsm/v2/activation_keys', {
+        statusCode: 200,
+        body: fixtures,
+      })
+      .as('getActivationKeys'),
+  'successful with one key': (fixtures = singleActivationKeyFixtures) =>
+    cy
+      .intercept('GET', '/api/rhsm/v2/activation_keys', {
+        statusCode: 200,
+        body: fixtures,
+      })
+      .as('getSingleActivationKey'),
 };
