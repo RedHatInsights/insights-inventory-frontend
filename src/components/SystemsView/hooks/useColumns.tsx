@@ -18,7 +18,7 @@ export const INITIAL_SORT: {
   direction: 'desc',
 };
 
-const FALLBACK_SORT: {
+export const FALLBACK_SORT: {
   sortBy: Column['sortBy'];
   direction: SortDirection;
 } = {

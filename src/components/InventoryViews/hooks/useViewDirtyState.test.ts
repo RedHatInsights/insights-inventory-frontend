@@ -74,6 +74,24 @@ describe('isSortDirty', () => {
     const params = makeParams({ sort: 'display_name', sort_dir: 'asc' });
     expect(isSortDirty(params, undefined)).toBe(true);
   });
+
+  // Regression (RHINENG-31619): when the view's sorted column is hidden, the
+  // table auto-corrects to FALLBACK_SORT (display_name/asc). That URL sort must
+  // be treated as clean against the effective default, not flagged dirty just
+  // because it differs from INITIAL_SORT (last_check_in/desc).
+  it('is not dirty when the URL sort matches the effective FALLBACK_SORT baseline', () => {
+    const params = makeParams({ sort: 'display_name', sort_dir: 'asc' });
+    expect(isSortDirty(params, { key: 'display_name', direction: 'asc' })).toBe(
+      false,
+    );
+  });
+
+  it('is dirty when the URL sort differs from the effective FALLBACK_SORT baseline', () => {
+    const params = makeParams({ sort: 'last_check_in', sort_dir: 'desc' });
+    expect(isSortDirty(params, { key: 'display_name', direction: 'asc' })).toBe(
+      true,
+    );
+  });
 });
 
 describe('areFiltersDirty', () => {
