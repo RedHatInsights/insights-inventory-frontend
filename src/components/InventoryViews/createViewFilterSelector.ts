@@ -1,9 +1,9 @@
-import type { ApiHostViewsGetHostViewsParams } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 import type { ViewConfiguration } from '../../api/inventoryViewsApi';
 import type { FilterSelector } from '../SystemsView/filters/resolveFilterSelector';
 import { applyFilterDefaultValues } from '../SystemsView/filters/applyFilterDefaultValues';
 import type { FilterSpec } from '../SystemsView/filters/types';
 import { selectInventoryViewsFilters } from './selectInventoryViewsFilters';
+import type { ApiHostViewsGetHostViewsParams } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 import { parseViewConfigFilters } from './utils/viewConfigFilters';
 
 /**
