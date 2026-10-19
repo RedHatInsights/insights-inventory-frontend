@@ -33,23 +33,32 @@ jobs:
             exit 1
           fi
 
-          # Base64-encode every file under deploy/api for createCommitOnBranch.
-          # FileAddition.contents must be RFC 4648 base64 (GitHub decodes when
-          # creating the blob). Only api/ is updated so metrics and other
-          # gh-pages content (data.json, index.html, etc.) are left alone.
-          ADDITIONS=$(
-            find deploy/api -type f -print0 \
-              | sort -z \
-              | while IFS= read -r -d '' f; do
-                  rel="${f#deploy/}"
-                  contents=$(base64 -w0 "$f")
-                  jq -n --arg path "$rel" --arg contents "$contents" \
-                    '{path: $path, contents: $contents}'
-                done \
-              | jq -s '.'
-          )
+          # Build FileAddition payloads on disk. Passing multi-MB base64 through
+          # jq --arg/--argjson hits ARG_MAX ("Argument list too long") on the
+          # larger JSDoc assets (e.g. app.min.js). --rawfile/--slurpfile keep
+          # large blobs out of argv.
+          #
+          # Only api/ is updated so metrics and other gh-pages content
+          # (data.json, index.html, etc.) are left alone.
+          WORKDIR=$(mktemp -d)
+          ADDITIONS_NDJSON="$WORKDIR/additions.ndjson"
+          ADDITIONS_JSON="$WORKDIR/additions.json"
+          VARIABLES_JSON="$WORKDIR/variables.json"
+          REQUEST_JSON="$WORKDIR/request.json"
+          : > "$ADDITIONS_NDJSON"
 
-          FILE_COUNT=$(echo "$ADDITIONS" | jq 'length')
+          while IFS= read -r -d '' f; do
+            rel="${f#deploy/}"
+            b64=$(mktemp "$WORKDIR/b64.XXXXXX")
+            # FileAddition.contents must be RFC 4648 base64 (GitHub decodes
+            # when creating the blob).
+            base64 -w0 "$f" > "$b64"
+            jq -n --arg path "$rel" --rawfile contents "$b64" \
+              '{path: $path, contents: $contents}' >> "$ADDITIONS_NDJSON"
+          done < <(find deploy/api -type f -print0 | sort -z)
+
+          jq -s '.' "$ADDITIONS_NDJSON" > "$ADDITIONS_JSON"
+          FILE_COUNT=$(jq 'length' "$ADDITIONS_JSON")
           echo "Preparing to update $FILE_COUNT file(s) under api/ on gh-pages"
 
           # createCommitOnBranch produces a GitHub-signed (verified) commit.
@@ -63,28 +72,29 @@ jobs:
             fi
 
             SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-7)
-            VARIABLES=$(jq -n \
+            jq -n \
                 --arg repo "$REPO" \
                 --arg oid "$BRANCH_SHA" \
                 --arg msg "docs: update API documentation ($SHORT_SHA)" \
-                --argjson additions "$ADDITIONS" \
+                --slurpfile additions "$ADDITIONS_JSON" \
                 '{input: {
                   branch: {repositoryNameWithOwner: $repo, branchName: "gh-pages"},
                   message: {headline: $msg},
-                  fileChanges: {additions: $additions},
+                  fileChanges: {additions: $additions[0]},
                   expectedHeadOid: $oid
-                }}')
+                }}' > "$VARIABLES_JSON"
 
             # gh api graphql treats each -f field as an individual GraphQL
             # variable, so the payload must be sent as a full request body
             # via --input. Success is decided by the returned commit oid —
             # a failed mutation can come back as GraphQL errors with HTTP 200.
             COMMIT_OID=""
-            if output=$(jq -n \
+            jq -n \
                 --arg query 'mutation($input: CreateCommitOnBranchInput!) { createCommitOnBranch(input: $input) { commit { oid } } }' \
-                --argjson variables "$VARIABLES" \
-                '{query: $query, variables: $variables}' \
-                | gh api graphql --input - 2>&1); then
+                --slurpfile variables "$VARIABLES_JSON" \
+                '{query: $query, variables: $variables[0]}' > "$REQUEST_JSON"
+
+            if output=$(gh api graphql --input "$REQUEST_JSON" 2>&1); then
               COMMIT_OID=$(printf '%s' "$output" \
                 | jq -r '.data.createCommitOnBranch.commit.oid // empty' 2>/dev/null || true)
             fi
