@@ -35,6 +35,10 @@ coverage-*
 .env.sentry-build-plugin
 
 docs/*
+# ...but keep the source of the PR metrics dashboard deployed to gh-pages
+!docs/metrics/
+docs/metrics/*
+!docs/metrics/index.html
 
 # Playwright
 /test-results/
