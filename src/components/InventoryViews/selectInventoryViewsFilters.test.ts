@@ -24,7 +24,7 @@ describe('selectInventoryViewsFilters', () => {
     ).toEqual(inventoryViewsFilterSpecs.map((spec) => spec.filterId));
   });
 
-  it('adds the Advisor app-data filters on top of the legacy toolbar', () => {
+  it('adds app-data filters on top of the legacy toolbar', () => {
     const viewsFilterIds = selectInventoryViewsFilters(filterCatalog).map(
       (filter) => filter.filterId,
     );
@@ -39,6 +39,8 @@ describe('selectInventoryViewsFilters', () => {
       ...legacyFilterIds,
       'recommendation_severity',
       'incident_status',
+      'cve_severity',
+      'known_exploit',
     ]);
   });
 

@@ -36,8 +36,8 @@ const parseHostTypeFilter = (hostType: unknown): string[] | undefined => {
  * for ViewConfiguration.filters. Supports system_profile filters
  * (operating_system, workloads), host-level filters
  * (hostname_or_id, staleness, tags, registered_with, workspace_name, system_type,
- * last_check_in dates), and the Advisor app-data filters
- * (recommendation_severity, incident_status — RHINENG-31144).
+ * last_check_in dates), and app-specific filters (recommendationSeverity,
+ * incidentStatus, cveSeverity, knownExploit).
  *
  *  @param filters             - Toolbar filter state
  *  @param lastSeenCustomRange - Custom date range when last_seen is 'custom'.
@@ -143,6 +143,14 @@ export const parseViewConfigFilters = (
 
     if (hostFilters.incident_status) {
       result.incident_status = [hostFilters.incident_status];
+    }
+
+    if (hostFilters.cve_severity?.length) {
+      result.cve_severity = hostFilters.cve_severity;
+    }
+
+    if (hostFilters.known_exploit) {
+      result.known_exploit = [hostFilters.known_exploit];
     }
 
     const lastSeenKey = resolveLastSeenKeyFromBounds(

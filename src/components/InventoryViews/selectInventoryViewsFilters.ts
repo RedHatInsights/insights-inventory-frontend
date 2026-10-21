@@ -2,6 +2,7 @@ import type { ApiHostViewsGetHostViewsParams } from '@redhat-cloud-services/host
 import { bindInventoryHostViewsFilters } from '../SystemsView/filters/inventory/bindInventoryFilters';
 import { bindAdvisorFilters } from '../SystemsView/filters/advisor/bindAdvisorFilters';
 import type { FilterSelector } from '../SystemsView/filters/resolveFilterSelector';
+import { bindVulnerabilityFilters } from '../SystemsView/filters/vulnerability/bindVulnerabilityFilter';
 
 /**
  * Configuration for the `/hosts/views` toolbar filter groups.
@@ -15,4 +16,5 @@ export const selectInventoryViewsFilters: FilterSelector<
 > = (catalog) => [
   ...bindInventoryHostViewsFilters(catalog),
   ...bindAdvisorFilters(catalog),
+  ...bindVulnerabilityFilters(catalog),
 ];

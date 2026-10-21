@@ -90,6 +90,39 @@ describe('buildHostFilters', () => {
     });
   });
 
+  it('maps multiple CVE severities to the host filter list', () => {
+    expect(
+      buildHostFilters({
+        ...EMPTY_FILTERS,
+        cve_severity: ['critical', 'low'],
+      }),
+    ).toEqual({ cve_severity: ['critical', 'low'] });
+  });
+
+  it('unwraps the single-select known exploit value to a single string', () => {
+    expect(
+      buildHostFilters({
+        ...EMPTY_FILTERS,
+        known_exploit: ['no_known_exploit'],
+      }),
+    ).toEqual({ known_exploit: 'no_known_exploit' });
+  });
+
+  it('combines the Vulnerability filters with the other host filters', () => {
+    expect(
+      buildHostFilters({
+        ...EMPTY_FILTERS,
+        status: ['fresh'],
+        cve_severity: ['critical', 'important'],
+        known_exploit: ['has_known_exploit'],
+      }),
+    ).toEqual({
+      staleness: ['fresh'],
+      cve_severity: ['critical', 'important'],
+      known_exploit: 'has_known_exploit',
+    });
+  });
+
   it('maps a custom last_seen range to both last_check_in bounds', () => {
     const result = buildHostFilters(
       { ...EMPTY_FILTERS, last_seen: 'custom' },
