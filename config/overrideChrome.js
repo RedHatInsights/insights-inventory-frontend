@@ -6,7 +6,12 @@ const chromeMock = {
   on: () => () => {},
   getApp: () => 'inventory',
   getBundle: () => 'insights',
-  getUserPermissions: () => [{ permission: 'inventory:*:*' }],
+  getUserPermissions: () => [
+    { permission: 'inventory:*:*' },
+    // Registration Assistant (activation keys) permissions
+    { permission: 'config-manager:activation_keys:read' },
+    { permission: 'config-manager:activation_keys:write' },
+  ],
   auth: {
     getUser: () =>
       Promise.resolve({

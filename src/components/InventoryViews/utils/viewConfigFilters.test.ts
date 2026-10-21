@@ -316,6 +316,28 @@ describe('parseViewConfigFilters', () => {
       system_type: ['conventional', 'image'],
     });
   });
+
+  it('round-trips the Advisor filters through build and parse', () => {
+    const input = {
+      ...EMPTY_FILTERS,
+      recommendation_severity: ['critical', 'low'],
+      incident_status: ['no_incident'],
+    };
+
+    const built = buildViewConfigFilters(input);
+    expect(built).toEqual({
+      host: {
+        recommendation_severity: ['critical', 'low'],
+        incident_status: 'no_incident',
+      },
+    });
+
+    const parsed = parseViewConfigFilters(built as never);
+    expect(parsed).toEqual({
+      recommendation_severity: ['critical', 'low'],
+      incident_status: ['no_incident'],
+    });
+  });
 });
 
 describe('parseViewConfigLastSeenCustomRange', () => {
