@@ -1,0 +1,94 @@
+// Importing Global Variables
+
+@import '~@redhat-cloud-services/frontend-components-utilities/styles/all';
+
+// Base
+.ins-c-registration-assistant {
+    height: 86vh;
+    .pf-v6-c-clipboard-copy {
+        padding-bottom: var(--pf-global--spacer--md);
+    }
+    .pf-v6-c-form-control[readonly] {
+        background-color: var(--pf-global--palette--black-150);
+    }
+}
+
+// Step title
+.pf-v6-c-title.ins-c-step-title,
+.pf-v6-c-content .pf-v6-c-title.ins-c-step-title {
+    margin-bottom: var(--pf-global--spacer--md);
+    font-weight: var(--pf-global--FontWeight--semi-bold);
+}
+
+// Content title
+.pf-v6-c-title.ins-c-content-title,
+.ins-c-content-title {
+    font-family: var(--pf-global--FontFamily--sans-serif);
+    font-size: var(--pf-global--FontSize--lg);
+
+    .pf-v6-c-drawer__panel & {
+        margin-bottom: var(--pf-global--spacer--md);
+    }
+
+    &.ins-m-font-light {
+        font-weight: var(--pf-global--FontWeight--light);
+    }
+
+    &.ins-m-font-normal {
+        font-weight: var(--pf-global--FontWeight--normal);
+    }
+
+    &.ins-m-font-semi-bold {
+        font-weight: var(--pf-global--FontWeight--semi-bold);
+    }
+
+    &.ins-m-font-bold {
+        font-weight: var(--pf-global--FontWeight--bold);
+    }  
+}
+
+// Title group
+.ins-c-title-group {
+    display: grid;
+    gap: var(--pf-global--spacer--sm);
+    grid-template-columns: 2rem auto;
+    align-items: center;
+
+    .pf-v6-c-title,
+    .ins-c-title {
+        display: inline;
+        font-family: var(--pf-global--FontFamily--sans-serif);
+        font-size: var(--pf-global--FontSize--sm);
+        font-weight: var(--pf-global--FontWeight--semi-bold);
+    }
+
+    .ins-c-icon {
+        margin-right: var(--pf-global--spacer--sm);
+    }
+}
+
+// Learn more link
+.ins-c-learn-more {
+    font-size: var(--pf-global--FontSize--sm);
+    white-space: nowrap;
+
+    p & {
+        margin-left: var(--pf-global--spacer--sm);
+    }
+}
+
+// Dashboard link
+.ins-c-dashboard-link {
+    margin: var(--pf-global--spacer--xl) 0;
+}
+
+// Drawer panel
+.pf-v6-c-drawer__panel {
+    &.ins-m-light-300 {
+        background-color: var(--pf-global--BackgroundColor--light-300);
+    }
+}
+
+.progress-step-font-weight {
+    --pf-v6-c-progress-stepper__step-title--FontWeight: bold;
+}

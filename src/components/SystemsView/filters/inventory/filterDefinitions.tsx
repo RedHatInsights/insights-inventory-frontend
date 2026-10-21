@@ -3,6 +3,10 @@ import WorkspaceFilter from './components/WorkspaceFilter';
 import LastSeenFilter from './components/LastSeenFilter';
 import TagsFilter from './components/TagsFilter';
 import OperatingSystemsFilter from './components/OperatingSystemsFilter';
+import {
+  incidentStatusSpec,
+  recommendationSeveritySpec,
+} from '../advisor/filterDefinitions';
 import { useDataViewFiltersContext } from '../../DataViewFiltersContext';
 import {
   LAST_SEEN_OPTIONS,
@@ -18,6 +22,7 @@ import {
 import { DEBOUNCE_TIMEOUT_MS } from '../../../../constants';
 import {
   isToolbarLabel,
+  type SingleSelectFilterSpec,
   type CheckboxFilterSpec,
   type CustomFilterSpec,
   type FilterSpec,
@@ -112,8 +117,8 @@ export const sourceSpec: CheckboxFilterSpec = {
   ],
 };
 
-export const systemTypeSpec: CheckboxFilterSpec = {
-  type: 'checkbox',
+export const systemTypeSpec: SingleSelectFilterSpec = {
+  type: 'single-select',
   filterId: 'system_type',
   title: 'System type',
   defaultValue: [],
@@ -239,4 +244,10 @@ export const inventoryFilterSpecs: readonly FilterSpec[] = [
   lastSeenSpec,
   tagsSpec,
   workloadsSpec,
+];
+
+export const inventoryViewsFilterSpecs: readonly FilterSpec[] = [
+  ...inventoryFilterSpecs,
+  recommendationSeveritySpec,
+  incidentStatusSpec,
 ];

@@ -34,8 +34,10 @@ const parseHostTypeFilter = (hostType: unknown): string[] | undefined => {
 /**
  * Converts flat toolbar filter state into the nested backend format
  * for ViewConfiguration.filters. Supports system_profile filters
- * (operating_system, workloads) and host-level filters
- * (hostname_or_id, staleness, tags, registered_with, workspace_name, system_type, last_check_in dates).
+ * (operating_system, workloads), host-level filters
+ * (hostname_or_id, staleness, tags, registered_with, workspace_name, system_type,
+ * last_check_in dates), and the Advisor app-data filters
+ * (recommendation_severity, incident_status — RHINENG-31144).
  *
  *  @param filters             - Toolbar filter state
  *  @param lastSeenCustomRange - Custom date range when last_seen is 'custom'.
@@ -133,6 +135,14 @@ export const parseViewConfigFilters = (
         eq: hostFilters.system_type,
       });
       if (systemTypes?.length) result.system_type = systemTypes;
+    }
+
+    if (hostFilters.recommendation_severity?.length) {
+      result.recommendation_severity = hostFilters.recommendation_severity;
+    }
+
+    if (hostFilters.incident_status) {
+      result.incident_status = [hostFilters.incident_status];
     }
 
     const lastSeenKey = resolveLastSeenKeyFromBounds(

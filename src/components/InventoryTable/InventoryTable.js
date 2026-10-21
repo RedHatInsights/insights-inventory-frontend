@@ -251,7 +251,6 @@ const InventoryTable = forwardRef(
         activeFiltersConfig: cachedProps.activeFiltersConfig,
         ...customFilters,
         ...options,
-        globalFilter: cachedProps?.customFilters?.globalFilter,
       };
 
       //Check for the rbac permissions
