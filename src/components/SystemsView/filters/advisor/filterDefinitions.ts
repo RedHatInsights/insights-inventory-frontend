@@ -1,11 +1,9 @@
-import type { CheckboxFilterSpec, SingleSelectFilterSpec } from '../types';
+import type {
+  CheckboxFilterSpec,
+  FilterSpec,
+  SingleSelectFilterSpec,
+} from '../types';
 
-/**
- * Advisor app-data filter specs (RHINENG-31144), bound to the `/hosts/views`
- * toolbar only — the classic `/hosts` list endpoint does not support
- * app-data filtering. Per-service specs live in their own directory,
- * mirroring the per-app layout under `columns/` (columns/advisor, ...).
- */
 export const recommendationSeveritySpec: CheckboxFilterSpec = {
   type: 'checkbox',
   filterId: 'recommendation_severity',
@@ -31,3 +29,8 @@ export const incidentStatusSpec: SingleSelectFilterSpec = {
     { label: 'No incidents', value: 'no_incident' },
   ],
 };
+
+export const advisorFilterSpecs: readonly FilterSpec[] = [
+  recommendationSeveritySpec,
+  incidentStatusSpec,
+];

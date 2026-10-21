@@ -3,9 +3,9 @@ import type { ViewConfiguration } from '../../api/inventoryViewsApi';
 import { filterCatalog } from '../SystemsView/filters/catalog';
 import {
   hostnameSpec,
-  inventoryViewsFilterSpecs,
   workloadsSpec,
 } from '../SystemsView/filters/inventory/filterDefinitions';
+import { inventoryViewsFilterSpecs } from './inventoryViewsFilterSpecs';
 import { createViewFilterSelector } from './createViewFilterSelector';
 import { selectInventoryViewsFilters } from './selectInventoryViewsFilters';
 

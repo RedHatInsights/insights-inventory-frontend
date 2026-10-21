@@ -3,10 +3,10 @@ import moment from 'moment';
 import type { ViewConfiguration } from '../../../api/inventoryViewsApi';
 import {
   hostnameSpec,
-  inventoryViewsFilterSpecs,
   statusSpec,
   tagsSpec,
 } from '../../SystemsView/filters/inventory/filterDefinitions';
+import { inventoryViewsFilterSpecs } from '../inventoryViewsFilterSpecs';
 import {
   isSortDirty,
   areFiltersDirty,

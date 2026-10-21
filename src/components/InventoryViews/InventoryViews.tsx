@@ -42,7 +42,7 @@ import {
 import { resolveColumnSelector } from '../SystemsView/columns/resolveColumnSelector';
 import { resolveFilterSelector } from '../SystemsView/filters/resolveFilterSelector';
 import { defaultValuesFrom } from '../SystemsView/filters/defaultValuesFrom';
-import { inventoryViewsFilterSpecs } from '../SystemsView/filters/inventory/filterDefinitions';
+import { inventoryViewsFilterSpecs } from './inventoryViewsFilterSpecs';
 import { SORT_URL_PARAM, SORT_DIR_URL_PARAM } from '../SystemsView/constants';
 import { INITIAL_SORT } from '../SystemsView/hooks/useColumns';
 import type { Column } from '../SystemsView/columns/types';

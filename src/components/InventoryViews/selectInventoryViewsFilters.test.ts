@@ -2,10 +2,8 @@ import { expect } from '@jest/globals';
 import { filterCatalog } from '../SystemsView/filters/catalog';
 import { buildFilterParams } from '../SystemsView/filters/buildFilterParams';
 import { defaultValuesFrom } from '../SystemsView/filters/defaultValuesFrom';
-import {
-  inventoryFilterSpecs,
-  inventoryViewsFilterSpecs,
-} from '../SystemsView/filters/inventory/filterDefinitions';
+import { inventoryFilterSpecs } from '../SystemsView/filters/inventory/filterDefinitions';
+import { inventoryViewsFilterSpecs } from './inventoryViewsFilterSpecs';
 import type { FilterSelector } from '../SystemsView/filters/resolveFilterSelector';
 import { selectLegacyInventoryFilters } from './selectLegacyInventoryFilters';
 import { selectInventoryViewsFilters } from './selectInventoryViewsFilters';

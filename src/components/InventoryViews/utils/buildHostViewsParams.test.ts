@@ -7,8 +7,8 @@ import {
 import { filterCatalog } from '../../SystemsView/filters/catalog';
 import { defaultValuesFrom } from '../../SystemsView/filters/defaultValuesFrom';
 import { buildFilterParams } from '../../SystemsView/filters/buildFilterParams';
-import { bindInventoryHostViewsFilters } from '../../SystemsView/filters/inventory/bindInventoryFilters';
-import { inventoryViewsFilterSpecs } from '../../SystemsView/filters/inventory/filterDefinitions';
+import { selectInventoryViewsFilters } from '../selectInventoryViewsFilters';
+import { inventoryViewsFilterSpecs } from '../inventoryViewsFilterSpecs';
 import type {
   LastSeenCustomRange,
   SystemsViewFilterState,
@@ -24,7 +24,7 @@ const foldQuery = (
   lastSeenCustomRange: LastSeenCustomRange = null,
 ) =>
   buildFilterParams(
-    bindInventoryHostViewsFilters(filterCatalog),
+    selectInventoryViewsFilters(filterCatalog),
     {
       ...defaultValuesFrom(inventoryViewsFilterSpecs),
       ...filterOverrides,
