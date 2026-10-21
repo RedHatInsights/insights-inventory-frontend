@@ -60,6 +60,36 @@ describe('buildHostFilters', () => {
     expect(result?.last_check_in_start).toBeUndefined();
   });
 
+  it('maps multiple recommendation severities to the host filter list', () => {
+    expect(
+      buildHostFilters({
+        ...EMPTY_FILTERS,
+        recommendation_severity: ['critical', 'low'],
+      }),
+    ).toEqual({ recommendation_severity: ['critical', 'low'] });
+  });
+
+  it('unwraps the single-select incident value to a single string', () => {
+    expect(
+      buildHostFilters({ ...EMPTY_FILTERS, incident_status: ['no_incident'] }),
+    ).toEqual({ incident_status: 'no_incident' });
+  });
+
+  it('combines the Advisor filters with the other host filters', () => {
+    expect(
+      buildHostFilters({
+        ...EMPTY_FILTERS,
+        status: ['fresh'],
+        recommendation_severity: ['critical', 'important'],
+        incident_status: ['incident'],
+      }),
+    ).toEqual({
+      staleness: ['fresh'],
+      recommendation_severity: ['critical', 'important'],
+      incident_status: 'incident',
+    });
+  });
+
   it('maps a custom last_seen range to both last_check_in bounds', () => {
     const result = buildHostFilters(
       { ...EMPTY_FILTERS, last_seen: 'custom' },

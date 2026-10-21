@@ -21,7 +21,7 @@
     "@redhat-cloud-services/frontend-components": "^7.10.12",
     "@redhat-cloud-services/frontend-components-notifications": "^6.11.12",
     "@redhat-cloud-services/frontend-components-utilities": "^7.5.8",
-    "@redhat-cloud-services/host-inventory-client": "^7.3.0",
+    "@redhat-cloud-services/host-inventory-client": "^7.4.0",
     "@redhat-cloud-services/javascript-clients-shared": "^2.0.17",
     "@sentry/webpack-plugin": "^2.23.1",
     "@tanstack/react-query": "^5.90.21",
@@ -43,7 +43,8 @@
     "redux-logger": "^3.0.6",
     "redux-promise-middleware": "^6.2.0",
     "semver": "^7.7.3",
-    "use-deep-compare": "^1.3.0"
+    "use-deep-compare": "^1.3.0",
+    "uuid": "^11.1.0"
   },
   "overrides": {
     "better-docs": {
@@ -66,6 +67,9 @@
     ],
     "transformIgnorePatterns": [
       "node_modules/(?!(@patternfly/|@faker-js/faker|uuid|p-all|p-map|aggregate-error|indent-string|clean-stack|escape-string-regexp|sanitize-html|htmlparser2|entities|domelementtype|domhandler|dom-serializer|domutils))"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/.+fixtures.+"
     ],
     "setupFiles": [
       "<rootDir>/config/setupTests.js"
@@ -124,6 +128,7 @@
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.7",
     "@typescript-eslint/parser": "^8.26.0",
+    "axios": "^1.11.0",
     "axios-mock-adapter": "^1.20.0",
     "babel-loader": "^10.1.1",
     "babel-plugin-istanbul": "^8.0.0",

@@ -3,7 +3,7 @@ import moment from 'moment';
 import type { ViewConfiguration } from '../../../api/inventoryViewsApi';
 import {
   hostnameSpec,
-  inventoryFilterSpecs,
+  inventoryViewsFilterSpecs,
   statusSpec,
   tagsSpec,
 } from '../../SystemsView/filters/inventory/filterDefinitions';
@@ -178,8 +178,45 @@ describe('areFiltersDirty', () => {
 
   it('uses FILTER_PARAM_KEYS from the inventory spec list', () => {
     expect(FILTER_PARAM_KEYS).toEqual(
-      inventoryFilterSpecs.map((spec) => spec.filterId),
+      inventoryViewsFilterSpecs.map((spec) => spec.filterId),
     );
+  });
+
+  // The tests above only compare the key constant against the spec list —
+  // they pass even if areFiltersDirty stops using it. These pin the actual
+  // behavior through the DEFAULT keys (no explicit filterParamKeys), so a
+  // regression to the base toolbar spec list would fail here.
+  it('detects a changed recommendation_severity URL value with the default keys', () => {
+    expect(
+      areFiltersDirty(makeParams({ recommendation_severity: ['critical'] })),
+    ).toBe(true);
+    expect(
+      areFiltersDirty(
+        makeParams({ recommendation_severity: ['critical', 'low'] }),
+        { recommendation_severity: ['critical'] },
+      ),
+    ).toBe(true);
+    expect(
+      areFiltersDirty(makeParams({ recommendation_severity: ['critical'] }), {
+        recommendation_severity: ['critical'],
+      }),
+    ).toBe(false);
+  });
+
+  it('detects a changed incident_status URL value with the default keys', () => {
+    expect(areFiltersDirty(makeParams({ incident_status: 'incident' }))).toBe(
+      true,
+    );
+    expect(
+      areFiltersDirty(makeParams({ incident_status: 'incident' }), {
+        incident_status: ['no_incident'],
+      }),
+    ).toBe(true);
+    expect(
+      areFiltersDirty(makeParams({ incident_status: 'no_incident' }), {
+        incident_status: ['no_incident'],
+      }),
+    ).toBe(false);
   });
 
   it('ignores a URL key when that spec is not in the list', () => {

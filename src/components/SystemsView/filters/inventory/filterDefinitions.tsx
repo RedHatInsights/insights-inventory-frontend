@@ -3,6 +3,10 @@ import WorkspaceFilter from './components/WorkspaceFilter';
 import LastSeenFilter from './components/LastSeenFilter';
 import TagsFilter from './components/TagsFilter';
 import OperatingSystemsFilter from './components/OperatingSystemsFilter';
+import {
+  incidentStatusSpec,
+  recommendationSeveritySpec,
+} from '../advisor/filterDefinitions';
 import { useDataViewFiltersContext } from '../../DataViewFiltersContext';
 import {
   LAST_SEEN_OPTIONS,
@@ -240,4 +244,10 @@ export const inventoryFilterSpecs: readonly FilterSpec[] = [
   lastSeenSpec,
   tagsSpec,
   workloadsSpec,
+];
+
+export const inventoryViewsFilterSpecs: readonly FilterSpec[] = [
+  ...inventoryFilterSpecs,
+  recommendationSeveritySpec,
+  incidentStatusSpec,
 ];

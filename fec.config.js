@@ -49,6 +49,12 @@ module.exports = {
         __dirname,
         `/src/${process.env.NODE_ENV !== 'production' ? 'Dev' : ''}AppEntry`,
       ),
+      // Registration Assistant module (RHINENG-32539).
+      // Dormant until the Frontend CR claims /insights/registration (RHINENG-32540).
+      './RegistrationApp': resolve(
+        __dirname,
+        '/src/Registration/RegistrationAppEntry',
+      ),
       './SystemCard': resolve(
         __dirname,
         '/src/components/GeneralInfo/SystemCard/SystemCard.js',
