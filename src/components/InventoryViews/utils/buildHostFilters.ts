@@ -1,6 +1,8 @@
 import {
-  type HostFilters,
   HostFiltersSystemTypeEnum,
+  type HostFilters,
+  type HostFiltersIncidentStatusEnum,
+  type HostFiltersRecommendationSeverityEnum,
 } from '@redhat-cloud-services/host-inventory-client';
 import { normalizeLastSeenFilterValue } from '../../SystemsView/constants';
 import type {
@@ -16,8 +18,9 @@ const asStringList = (value: unknown): string[] =>
 /**
  * Maps flat toolbar host-level filters to the nested `host` HostFilters block of a
  * view configuration. Covers hostname_or_id, staleness, registered_with, tags,
- * workspace_name, system_type and the last_check_in date range derived from the
- * Last seen selection.
+ * workspace_name, system_type, the last_check_in date range derived from the
+ * Last seen selection, and the Advisor app-data filters
+ * (recommendation_severity, incident_status — RHINENG-31144).
  *
  *  @param filters             - Toolbar filter state for host-level filters
  *  @param lastSeenCustomRange - Custom date range when `last_seen` is 'custom'.
@@ -36,6 +39,8 @@ export const buildHostFilters = (
   const tags = asStringList(filters.tags);
   const groupId = asStringList(filters.group_id);
   const systemType = asStringList(filters.system_type);
+  const recommendationSeverity = asStringList(filters.recommendation_severity);
+  const incidentStatus = asStringList(filters.incident_status);
 
   if (hostnameOrId) {
     hostFilters.hostname_or_id = hostnameOrId;
@@ -65,6 +70,16 @@ export const buildHostFilters = (
     if (mapped.length) {
       hostFilters.system_type = mapped;
     }
+  }
+
+  if (recommendationSeverity.length) {
+    hostFilters.recommendation_severity =
+      recommendationSeverity as HostFiltersRecommendationSeverityEnum[];
+  }
+
+  if (incidentStatus.length) {
+    hostFilters.incident_status =
+      incidentStatus[0] as HostFiltersIncidentStatusEnum;
   }
 
   const lastSeenParams = lastSeenKeysToApiParams(

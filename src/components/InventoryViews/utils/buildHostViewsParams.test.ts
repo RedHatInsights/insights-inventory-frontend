@@ -8,7 +8,7 @@ import { filterCatalog } from '../../SystemsView/filters/catalog';
 import { defaultValuesFrom } from '../../SystemsView/filters/defaultValuesFrom';
 import { buildFilterParams } from '../../SystemsView/filters/buildFilterParams';
 import { bindInventoryHostViewsFilters } from '../../SystemsView/filters/inventory/bindInventoryFilters';
-import { inventoryFilterSpecs } from '../../SystemsView/filters/inventory/filterDefinitions';
+import { inventoryViewsFilterSpecs } from '../../SystemsView/filters/inventory/filterDefinitions';
 import type {
   LastSeenCustomRange,
   SystemsViewFilterState,
@@ -26,7 +26,7 @@ const foldQuery = (
   buildFilterParams(
     bindInventoryHostViewsFilters(filterCatalog),
     {
-      ...defaultValuesFrom(inventoryFilterSpecs),
+      ...defaultValuesFrom(inventoryViewsFilterSpecs),
       ...filterOverrides,
     },
     { lastSeenCustomRange },
@@ -257,6 +257,29 @@ describe('buildHostViewsParams', () => {
       const params = buildParams();
 
       expect(params.options?.params?.filter).toBeUndefined();
+    });
+  });
+
+  describe('Advisor filters (RHINENG-31144)', () => {
+    it('carries the Advisor filters through as named params', () => {
+      const params = buildParams({
+        filters: {
+          recommendation_severity: ['critical', 'low'],
+          incident_status: ['no_incident'],
+        },
+      });
+
+      // The generated client models these as named params and serializes
+      // them natively as repeated no-bracket params (RHINENG-30753).
+      expect(params.recommendationSeverity).toEqual(['critical', 'low']);
+      expect(params.incidentStatus).toBe('no_incident');
+    });
+
+    it('omits the Advisor params when nothing is selected', () => {
+      const params = buildParams();
+
+      expect(params.recommendationSeverity).toBeUndefined();
+      expect(params.incidentStatus).toBeUndefined();
     });
   });
 

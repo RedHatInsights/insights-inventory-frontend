@@ -3,7 +3,7 @@ import type { ViewConfiguration } from '../../api/inventoryViewsApi';
 import { filterCatalog } from '../SystemsView/filters/catalog';
 import {
   hostnameSpec,
-  inventoryFilterSpecs,
+  inventoryViewsFilterSpecs,
   workloadsSpec,
 } from '../SystemsView/filters/inventory/filterDefinitions';
 import { createViewFilterSelector } from './createViewFilterSelector';
@@ -20,7 +20,7 @@ describe('createViewFilterSelector', () => {
 
     const result = selector!(filterCatalog);
     expect(result.map((spec) => spec.filterId)).toEqual(
-      inventoryFilterSpecs.map((spec) => spec.filterId),
+      inventoryViewsFilterSpecs.map((spec) => spec.filterId),
     );
     expect(
       result.find((spec) => spec.filterId === 'hostname_or_id')?.defaultValue,
