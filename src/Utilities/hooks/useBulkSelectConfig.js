@@ -9,7 +9,6 @@ import useFetchBatched from './useFetchBatched';
 
 export const useBulkSelectConfig = (
   selected,
-  globalFilter,
   total,
   rows,
   loaded,
@@ -52,7 +51,6 @@ export const useBulkSelectConfig = (
         filters: groupId
           ? [...activeFilters, { hostGroupFilter: [groupId] }]
           : activeFilters,
-        globalFilter: globalFilter ?? {},
       },
       total,
     );

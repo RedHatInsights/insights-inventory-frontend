@@ -293,7 +293,6 @@ export async function getEntities(
     return data;
   } else if (!hasItems) {
     const combinedFilters = {
-      ...(options?.globalFilter?.filter || {}),
       ...(options?.filter || {}),
       ...(filters || {}),
     };
@@ -343,10 +342,7 @@ export async function getEntities(
       staleness: filters.staleFilter,
       lastCheckInStart: filters.lastSeenFilter?.lastCheckInStart,
       lastCheckInEnd: filters.lastSeenFilter?.lastCheckInEnd,
-      tags: [
-        ...constructTags(filters?.tagFilters),
-        ...(options?.globalFilter?.tags || []),
-      ],
+      tags: constructTags(filters?.tagFilters),
       registeredWith: filters?.registeredWithFilter,
       systemType: filters?.systemTypeFilter,
       options: {

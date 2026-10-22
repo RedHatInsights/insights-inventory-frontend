@@ -42,6 +42,7 @@ import {
 import { resolveColumnSelector } from '../SystemsView/columns/resolveColumnSelector';
 import { resolveFilterSelector } from '../SystemsView/filters/resolveFilterSelector';
 import { defaultValuesFrom } from '../SystemsView/filters/defaultValuesFrom';
+import { inventoryViewsFilterSpecs } from '../SystemsView/filters/inventory/filterDefinitions';
 import { SORT_URL_PARAM, SORT_DIR_URL_PARAM } from '../SystemsView/constants';
 import { INITIAL_SORT } from '../SystemsView/hooks/useColumns';
 import type { Column } from '../SystemsView/columns/types';
@@ -93,20 +94,15 @@ const getFiltersFromSearchParams = (
   searchParams: URLSearchParams,
   lastSeenCustomRange?: LastSeenCustomRange,
 ): ViewConfiguration['filters'] | undefined => {
-  return buildViewConfigFilters(
-    {
-      operating_system: searchParams.getAll('operating_system'),
-      workloads: searchParams.getAll('workloads'),
-      system_type: searchParams.getAll('system_type'),
-      hostname_or_id: searchParams.get('hostname_or_id') || '',
-      status: searchParams.getAll('status'),
-      source: searchParams.getAll('source'),
-      tags: searchParams.getAll('tags'),
-      group_id: searchParams.getAll('group_id'),
-      last_seen: searchParams.get('last_seen') || '',
-    },
-    lastSeenCustomRange ?? undefined,
-  );
+  const filters: SystemsViewFilterState = {};
+
+  for (const spec of inventoryViewsFilterSpecs) {
+    filters[spec.filterId] = Array.isArray(spec.defaultValue)
+      ? searchParams.getAll(spec.filterId)
+      : (searchParams.get(spec.filterId) ?? '');
+  }
+
+  return buildViewConfigFilters(filters, lastSeenCustomRange ?? undefined);
 };
 
 // Converts visible columns to ViewConfiguration format.

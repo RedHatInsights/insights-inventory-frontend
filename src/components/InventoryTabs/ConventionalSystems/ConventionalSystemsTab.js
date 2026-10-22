@@ -28,7 +28,6 @@ import {
   ActionDropdownItem,
 } from '../../InventoryTable/ActionWithRBAC';
 import useTableActions from './useTableActions';
-import useGlobalFilter from '../../filters/useGlobalFilter';
 import useOnRefresh from '../../filters/useOnRefresh';
 import useFeatureFlag from '../../../Utilities/useFeatureFlag';
 import { useKesselMigrationFeatureFlag } from '../../../Utilities/hooks/useKesselMigrationFeatureFlag';
@@ -196,19 +195,12 @@ const ConventionalSystemsTab = ({
   const [addHostGroupModalOpen, setAddHostGroupModalOpen] = useState(false);
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
     useState(false);
-  const globalFilter = useGlobalFilter();
   const rows = useSelector(({ entities }) => entities?.rows, shallowEqual);
   const loaded = useSelector(({ entities }) => entities?.loaded);
   const selected = useSelector(({ entities }) => entities?.selected);
   const total = useSelector(({ entities }) => entities?.total);
   const dispatch = useDispatch();
-  const bulkSelectConfig = useBulkSelectConfig(
-    selected,
-    globalFilter,
-    total,
-    rows,
-    loaded,
-  );
+  const bulkSelectConfig = useBulkSelectConfig(selected, total, rows, loaded);
   const isExportEnabled = useFeatureFlag('hbi.export-data');
   const isKesselEnabled = useKesselMigrationFeatureFlag();
 
@@ -315,7 +307,7 @@ const ConventionalSystemsTab = ({
         showSystemTypeFilter={hasBootcImages}
         hasAccess={hasAccess}
         isRbacEnabled
-        customFilters={{ filters, globalFilter }}
+        customFilters={{ filters }}
         sortBy={sortBy}
         isFullView
         showTags

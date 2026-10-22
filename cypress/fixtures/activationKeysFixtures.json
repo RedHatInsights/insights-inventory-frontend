@@ -1,0 +1,163 @@
+{
+    "body": [
+        {
+            "id": "2c941d8795905fb40195b2beee2616ea",
+            "name": "new_sat_test_key",
+            "additionalRepositories": [],
+            "updatedAt": "2025-03-20T08:50:12.000Z"
+        },
+        {
+            "id": "2c94781f8d40f946018d5c4b1fac020b",
+            "name": "anferrei-test",
+            "serviceLevel": "Self-Support",
+            "role": "Red Hat Enterprise Linux Server",
+            "usage": "Production",
+            "additionalRepositories": [],
+            "updatedAt": "2024-01-30T21:34:38.000Z"
+        },
+        {
+            "id": "2c9493b0872e5d92018732a82a6273e8",
+            "name": "image-builder-test-key",
+            "serviceLevel": "Self-Support",
+            "role": "Red Hat Enterprise Linux Server",
+            "usage": "Development/Test",
+            "additionalRepositories": [],
+            "updatedAt": "2023-03-30T13:14:54.000Z"
+        },
+        {
+            "id": "2c94b5a282fecd9d01833815b0790361",
+            "name": "edgemgmt",
+            "serviceLevel": "Self-Support",
+            "role": "Red Hat Enterprise Linux Server",
+            "usage": "Development/Test",
+            "additionalRepositories": [],
+            "updatedAt": "2022-09-13T18:21:29.000Z"
+        },
+        {
+            "id": "2c94b5ac94d7409a01953e1ecbe65063",
+            "name": "edgedemo",
+            "serviceLevel": "Self-Support",
+            "role": "Red Hat Enterprise Linux Server",
+            "usage": "Development/Test",
+            "additionalRepositories": [],
+            "description": "demo for edge",
+            "updatedAt": "2025-02-25T17:19:20.000Z"
+        },
+        {
+            "id": "2c94cc4e8ee7d488018ef81673cf3bd8",
+            "name": "dajo",
+            "role": "Red Hat Enterprise Linux Server",
+            "usage": "Production",
+            "additionalRepositories": [],
+            "updatedAt": "2024-04-19T20:40:04.000Z"
+        },
+        {
+            "id": "2c94cf118f36787a018f3b373da0573f",
+            "name": "bootc-test",
+            "serviceLevel": "Self-Support",
+            "role": "Red Hat Enterprise Linux Server",
+            "usage": "Production",
+            "additionalRepositories": [],
+            "updatedAt": "2024-05-02T21:30:27.000Z"
+        },
+        {
+            "id": "2c94d175917f0f3a0191d85fc7c8064a",
+            "name": "activation-test-key",
+            "additionalRepositories": [],
+            "updatedAt": "2024-09-09T20:00:41.000Z"
+        },
+        {
+            "id": "2c94d21a951482e001953e5801717a0f",
+            "name": "edgedemo2",
+            "serviceLevel": "Self-Support",
+            "role": "Red Hat Enterprise Linux Server",
+            "usage": "Development/Test",
+            "additionalRepositories": [],
+            "description": "demo actkey",
+            "updatedAt": "2025-02-25T18:21:49.000Z"
+        },
+        {
+            "id": "2c94d27493e4f26901940126d9941ca1",
+            "name": "rhel9key",
+            "serviceLevel": "Self-Support",
+            "role": "Red Hat Enterprise Linux Server",
+            "usage": "Development/Test",
+            "additionalRepositories": [],
+            "updatedAt": "2024-12-26T04:09:13.000Z"
+        },
+        {
+            "id": "2c94d5c68e575005018e63f14fa037cf",
+            "name": "bootc-workflow-test",
+            "serviceLevel": "Self-Support",
+            "role": "Red Hat Enterprise Linux Server",
+            "usage": "Development/Test",
+            "additionalRepositories": [],
+            "updatedAt": "2024-03-22T02:15:42.000Z"
+        },
+        {
+            "id": "2c94da4c9541ce480195435c5ce33119",
+            "name": "test-eus-edge-wizard",
+            "serviceLevel": "Self-Support",
+            "role": "Red Hat Enterprise Linux Server",
+            "usage": "Development/Test",
+            "additionalRepositories": [
+                {
+                    "repositoryLabel": "rhel-9-for-x86_64-appstream-eus-rpms"
+                },
+                {
+                    "repositoryLabel": "rhel-9-for-x86_64-baseos-eus-rpms"
+                }
+            ],
+            "releaseVersion": "9.4",
+            "description": "does this show in the wizard actkey dropdown?",
+            "updatedAt": "2025-02-26T17:44:41.000Z"
+        },
+        {
+            "id": "2c94db758f35e3f6018f5e0b330f17a0",
+            "name": "mclinton",
+            "serviceLevel": "Standard",
+            "role": "Red Hat Enterprise Linux Server",
+            "usage": "Production",
+            "additionalRepositories": [],
+            "updatedAt": "2024-05-09T15:49:03.000Z"
+        },
+        {
+            "id": "2c94e8958a1e0a23018a293dbdca11b0",
+            "name": "sat",
+            "serviceLevel": "Self-Support",
+            "additionalRepositories": [],
+            "updatedAt": "2023-08-24T20:32:21.000Z"
+        },
+        {
+            "id": "2c94eb96938c2c1e01938cc1bfea2b99",
+            "name": "vrefcdx",
+            "additionalRepositories": [],
+            "updatedAt": "2024-12-03T13:42:08.000Z"
+        },
+        {
+            "id": "2c94ee358d40fbe0018d559d236070be",
+            "name": "testing",
+            "serviceLevel": "Self-Support",
+            "role": "RHEL Server",
+            "usage": "Development/Test",
+            "additionalRepositories": [],
+            "updatedAt": "2024-01-29T14:26:18.000Z"
+        },
+        {
+            "id": "2c94f6049541eca10195430b35d341fa",
+            "name": "edgedemo3",
+            "serviceLevel": "Self-Support",
+            "role": "Red Hat Enterprise Linux Server",
+            "usage": "Development/Test",
+            "additionalRepositories": [],
+            "description": "testing visibility of a new actkey",
+            "updatedAt": "2025-02-26T16:16:03.000Z"
+        },
+        {
+            "id": "8a85f98d7ae474c1017aedded1636c90",
+            "name": "rhc",
+            "additionalRepositories": [],
+            "updatedAt": "2021-07-28T16:07:20.000Z"
+        }
+    ]
+}
