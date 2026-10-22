@@ -415,6 +415,7 @@ const EntityTableToolbar = ({
       ),
       { [filterKey]: value },
     ];
+    dispatch(setFilter(newFilters));
     refresh({ page: 1, perPage, filters: newFilters });
   };
 

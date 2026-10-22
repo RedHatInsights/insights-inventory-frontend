@@ -22,7 +22,6 @@ export const isInventoryViewsRbacEnabled =
 // Base archives
 export const CENTOS_ARCHIVE = 'centos79.tar.gz';
 export const BOOTC_ARCHIVE = 'image-mode-rhel94.tar.gz';
-export const EDGE_ARCHIVE = 'edge-hbi-ui-stage.tar.gz';
 export const PACKAGE_BASED_ARCHIVE = 'rhel94_core_collect.tar.gz';
 
 // Hosts searching constants
