@@ -81,7 +81,7 @@ const stampHostnameDefault: FilterSelector<ApiHostGetHostListParams> = (
 ) =>
   selectLegacyInventoryFilters(catalog).map((filter) =>
     filter.filterId === 'hostname_or_id'
-      ? { ...filter, defaultValue: 'web-01' }
+      ? ({ ...filter, defaultValue: 'web-01' } as typeof filter)
       : filter,
   );
 

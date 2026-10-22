@@ -16,7 +16,7 @@ export const selectAnsibleWorkload = <TFilterParams>(
   return (catalog) =>
     selector(catalog).map((spec) =>
       spec.filterId === 'workloads' && isEmptyFilterValue(spec.defaultValue)
-        ? { ...spec, defaultValue: [ANSIBLE_WORKLOAD] }
+        ? ({ ...spec, defaultValue: [ANSIBLE_WORKLOAD] } as typeof spec)
         : spec,
     );
 };

@@ -30,7 +30,6 @@ import { fetchGroupDetail } from '../../store/inventory-actions';
 import { useBulkSelectConfig } from '../../Utilities/hooks/useBulkSelectConfig';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
-import useGlobalFilter from '../filters/useGlobalFilter';
 import useOnRefresh from '../filters/useOnRefresh';
 import { generateFilter } from '../../Utilities/constants';
 import { prepareColumns } from './helpers';
@@ -55,7 +54,6 @@ const GroupSystems = ({
     gateActive: workspaceKesselGateActive,
   } = workspaceAccess;
   const dispatch = useDispatch();
-  const globalFilter = useGlobalFilter();
   const [removeHostsFromGroupModalOpen, setRemoveHostsFromGroupModalOpen] =
     useState(false);
   const [currentSystem, setCurrentSystem] = useState([]);
@@ -135,7 +133,6 @@ const GroupSystems = ({
 
   const bulkSelectConfig = useBulkSelectConfig(
     selected,
-    globalFilter,
     total,
     rows,
     true,
@@ -285,7 +282,7 @@ const GroupSystems = ({
           showTags
           ref={inventory}
           showCentosVersions
-          customFilters={{ filters: initialFilters, globalFilter }}
+          customFilters={{ filters: initialFilters }}
           autoRefresh
           onRefresh={onRefresh}
           ignoreRefresh
