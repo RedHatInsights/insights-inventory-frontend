@@ -2,10 +2,8 @@ import { expect } from '@jest/globals';
 import { filterCatalog } from '../SystemsView/filters/catalog';
 import { buildFilterParams } from '../SystemsView/filters/buildFilterParams';
 import { defaultValuesFrom } from '../SystemsView/filters/defaultValuesFrom';
-import {
-  inventoryFilterSpecs,
-  inventoryViewsFilterSpecs,
-} from '../SystemsView/filters/inventory/filterDefinitions';
+import { inventoryFilterSpecs } from '../SystemsView/filters/inventory/filterDefinitions';
+import { inventoryViewsFilterSpecs } from './inventoryViewsFilterSpecs';
 import type { FilterSelector } from '../SystemsView/filters/resolveFilterSelector';
 import { selectLegacyInventoryFilters } from './selectLegacyInventoryFilters';
 import { selectInventoryViewsFilters } from './selectInventoryViewsFilters';
@@ -26,7 +24,7 @@ describe('selectInventoryViewsFilters', () => {
     ).toEqual(inventoryViewsFilterSpecs.map((spec) => spec.filterId));
   });
 
-  it('adds the Advisor app-data filters on top of the legacy toolbar', () => {
+  it('adds app-data filters on top of the legacy toolbar', () => {
     const viewsFilterIds = selectInventoryViewsFilters(filterCatalog).map(
       (filter) => filter.filterId,
     );
@@ -41,6 +39,8 @@ describe('selectInventoryViewsFilters', () => {
       ...legacyFilterIds,
       'recommendation_severity',
       'incident_status',
+      'cve_severity',
+      'known_exploit',
     ]);
   });
 

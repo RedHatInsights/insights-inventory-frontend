@@ -338,6 +338,28 @@ describe('parseViewConfigFilters', () => {
       incident_status: ['no_incident'],
     });
   });
+
+  it('round-trips the Vulnerability filters through build and parse', () => {
+    const input = {
+      ...EMPTY_FILTERS,
+      cve_severity: ['critical', 'low'],
+      known_exploit: ['no_known_exploit'],
+    };
+
+    const built = buildViewConfigFilters(input);
+    expect(built).toEqual({
+      host: {
+        cve_severity: ['critical', 'low'],
+        known_exploit: 'no_known_exploit',
+      },
+    });
+
+    const parsed = parseViewConfigFilters(built as never);
+    expect(parsed).toEqual({
+      cve_severity: ['critical', 'low'],
+      known_exploit: ['no_known_exploit'],
+    });
+  });
 });
 
 describe('parseViewConfigLastSeenCustomRange', () => {

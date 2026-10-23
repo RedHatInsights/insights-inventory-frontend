@@ -6,7 +6,7 @@ import {
   SORT_DIR_URL_PARAM,
 } from '../../SystemsView/constants';
 import { INITIAL_SORT } from '../../SystemsView/hooks/useColumns';
-import { inventoryViewsFilterSpecs } from '../../SystemsView/filters/inventory/filterDefinitions';
+import { inventoryViewsFilterSpecs } from '../inventoryViewsFilterSpecs';
 import { parseViewConfigLastSeenCustomRange } from '../utils/viewConfigFilters';
 import type { LastSeenCustomRange } from '../../SystemsView/types';
 
