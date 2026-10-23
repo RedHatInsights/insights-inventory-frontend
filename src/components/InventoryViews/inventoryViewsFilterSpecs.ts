@@ -1,6 +1,7 @@
 import { inventoryFilterSpecs } from '../SystemsView/filters/inventory/filterDefinitions';
 import { advisorFilterSpecs } from '../SystemsView/filters/advisor/filterDefinitions';
 import { vulnerabilityFilterSpecs } from '../SystemsView/filters/vulnerability/filterDefinitions';
+import { contentFilterSpecs } from '../SystemsView/filters/content/filterDefinitions';
 import type { FilterSpec } from '../SystemsView/filters/types';
 
 /**
@@ -16,4 +17,5 @@ export const inventoryViewsFilterSpecs: readonly FilterSpec[] = [
   ...inventoryFilterSpecs,
   ...advisorFilterSpecs,
   ...vulnerabilityFilterSpecs,
+  ...contentFilterSpecs,
 ];

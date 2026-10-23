@@ -108,6 +108,26 @@ describe('buildHostFilters', () => {
     ).toEqual({ known_exploit: 'no_known_exploit' });
   });
 
+  it('maps multiple installable advisory types to the host filter list', () => {
+    expect(
+      buildHostFilters({
+        ...EMPTY_FILTERS,
+        installable_advisory_type: ['security_advisories', 'enhancements'],
+      }),
+    ).toEqual({
+      installable_advisory_type: ['security_advisories', 'enhancements'],
+    });
+  });
+
+  it('unwraps the single-select content template value to a single string', () => {
+    expect(
+      buildHostFilters({
+        ...EMPTY_FILTERS,
+        content_template: ['not_assigned'],
+      }),
+    ).toEqual({ content_template: 'not_assigned' });
+  });
+
   it('combines the Vulnerability filters with the other host filters', () => {
     expect(
       buildHostFilters({
