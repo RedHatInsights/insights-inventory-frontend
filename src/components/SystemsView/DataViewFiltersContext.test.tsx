@@ -8,6 +8,17 @@ import {
   DataViewFiltersProvider,
   useDataViewFiltersContext,
 } from './DataViewFiltersContext';
+
+const mockAnalytics = {
+  track: jest.fn(),
+};
+
+jest.mock('@redhat-cloud-services/frontend-components/useChrome', () => ({
+  useChrome: () => ({
+    analytics: mockAnalytics,
+  }),
+}));
+
 import {
   hostnameSpec,
   inventoryFilterSpecs,
@@ -87,6 +98,10 @@ const LAST_SEEN_CUSTOM_RANGE = {
 };
 
 describe('useDataViewFiltersContext', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('throws when used outside DataViewFiltersProvider', () => {
     expect(() => renderHook(() => useDataViewFiltersContext())).toThrow(
       'useDataViewFiltersContext must be used within DataViewFiltersProvider',
