@@ -320,13 +320,16 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
   const exportConfiguration = useMemo(
     () =>
       buildExportConfiguration({
-        filters,
+        // Use the same debounced filters the table query runs on — otherwise an
+        // export during the debounce window would apply filters the table has
+        // not displayed yet.
+        filters: debouncedFilters,
         lastSeenCustomRange,
         columns,
         sortBy,
         direction,
       }),
-    [filters, lastSeenCustomRange, columns, sortBy, direction],
+    [debouncedFilters, lastSeenCustomRange, columns, sortBy, direction],
   );
 
   // Wrapper to call both setColumns and onColumnsChange when user applies columns in modal.

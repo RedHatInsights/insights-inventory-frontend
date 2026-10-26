@@ -1,14 +1,6 @@
 import type { Column } from '../SystemsView/columns/types';
 import type { InventoryBindableItem } from '../SystemsView/columns/inventory/columnDefinitions';
-import type { ViewConfiguration } from '../../api/inventoryViewsApi';
-
-// This is the function we're testing (extracted from InventoryViews.tsx)
-const normalizeViewColumns = (
-  columns: readonly Column<InventoryBindableItem>[],
-): ViewConfiguration['columns'] =>
-  columns
-    .filter((c) => c.isShown === true && typeof c.key === 'string')
-    .map((c) => ({ key: c.key }));
+import { normalizeViewColumns } from './utils/normalizeViewColumns';
 
 describe('normalizeViewColumns', () => {
   it('saves columns with sortBy field', () => {
@@ -123,6 +115,25 @@ describe('normalizeViewColumns', () => {
       { key: 'advisor:recommendations' },
       { key: 'compliance:policies_count' },
       { key: 'patch:advisories_rhsa_installable' },
+    ]);
+  });
+
+  it('excludes shown columns that are permission-locked', () => {
+    const columns = [
+      { key: 'display_name', isShown: true },
+      {
+        key: 'advisor:recommendations',
+        isShown: true,
+        isPermissionLocked: true,
+      },
+      { key: 'operating_system', isShown: true },
+    ] as Column<InventoryBindableItem>[];
+
+    const result = normalizeViewColumns(columns);
+
+    expect(result).toEqual([
+      { key: 'display_name' },
+      { key: 'operating_system' },
     ]);
   });
 

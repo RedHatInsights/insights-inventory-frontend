@@ -12,7 +12,14 @@ const normalizeColumns = <TItem extends SystemsViewItem>(
   columns: readonly Column<TItem>[],
 ): ViewConfiguration['columns'] =>
   columns
-    .filter((c) => c.isShown === true && typeof c.key === 'string')
+    .filter(
+      (c) =>
+        c.isShown === true &&
+        // Permission-locked columns render as "unauthorized" placeholders in the
+        // table and must not leak their data through the export.
+        !c.isPermissionLocked &&
+        typeof c.key === 'string',
+    )
     .map((c) => ({ key: c.key }));
 
 const normalizeSort = (
