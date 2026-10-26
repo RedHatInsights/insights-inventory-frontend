@@ -52,6 +52,7 @@ import {
   parseViewConfigFilters,
   parseViewConfigLastSeenCustomRange,
 } from './utils/viewConfigFilters';
+import { normalizeViewColumns } from './utils/normalizeViewColumns';
 import { useViewDirtyState } from './hooks/useViewDirtyState';
 import { useUpdateViewMutation } from './hooks/useUpdateViewMutation';
 import { useSetDefaultViewMutation } from './hooks/useSetDefaultViewMutation';
@@ -104,15 +105,6 @@ const getFiltersFromSearchParams = (
 
   return buildViewConfigFilters(filters, lastSeenCustomRange ?? undefined);
 };
-
-// Converts visible columns to ViewConfiguration format.
-// Backend validates column keys server-side against its field registry.
-const normalizeViewColumns = (
-  columns: readonly Column<InventoryBindableItem>[],
-): ViewConfiguration['columns'] =>
-  columns
-    .filter((c) => c.isShown === true && typeof c.key === 'string')
-    .map((c) => ({ key: c.key }));
 
 const InventoryViews = () => {
   const { isReady, isAnsibleBundle } = useAnsibleWorkloadsSearchParam();
