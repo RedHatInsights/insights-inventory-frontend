@@ -6,10 +6,12 @@ import type { SystemsViewItem } from '../types';
 const col = (
   key: string,
   isShown: boolean | undefined,
+  isPermissionLocked?: boolean,
 ): Column<SystemsViewItem> =>
   ({
     key,
     isShown,
+    isPermissionLocked,
     title: key,
     getValue: () => undefined,
     renderCell: () => null,
@@ -24,6 +26,24 @@ describe('buildExportConfiguration', () => {
       columns: [
         col('display_name', true),
         col('tags', false),
+        col('operating_system', true),
+      ],
+      sortBy: undefined,
+      direction: undefined,
+    });
+
+    expect(config.columns).toEqual([
+      { key: 'display_name' },
+      { key: 'operating_system' },
+    ]);
+  });
+
+  it('excludes shown columns that are permission-locked', () => {
+    const config = buildExportConfiguration({
+      filters: {},
+      columns: [
+        col('display_name', true),
+        col('advisor:recommendations', true, true),
         col('operating_system', true),
       ],
       sortBy: undefined,
