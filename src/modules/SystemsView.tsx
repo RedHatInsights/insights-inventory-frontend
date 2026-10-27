@@ -50,6 +50,7 @@ function SystemsView<TItem extends SystemsViewItem, TFilterParams = unknown>({
       filters={filters}
       bulkActions={bulkActions}
       rowActions={rowActions}
+      showColumnManagement={false}
     />
   );
 
