@@ -8,7 +8,7 @@ The 'Default settings' helper popover (`HostStalenessResetPopover`) does not hav
 
 ## Plan
 
-- `src/components/InventoryHostStaleness/HostStalenessResetPopover.tsx` (modify): Add the `hasAutoWidth` prop to the `Popover` component, matching the pattern already used in `HostStalenessPopover.tsx` in the same directory.
+- `src/components/InventoryHostStaleness/HostStalenessResetPopover.tsx` (modify): Add the `hasAutoWidth` prop to the `Popover` component. Without this prop, PatternFly keeps the constrained default width, causing helper bullets to wrap instead of appearing on single lines. This matches the pattern already used in `HostStalenessPopover.tsx` in the same directory.
 
 ## Constraints
 - The bullet points in the 'Default settings' popover must each render on a single line without wrapping.
