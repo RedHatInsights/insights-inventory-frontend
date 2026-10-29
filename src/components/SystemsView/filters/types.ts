@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react';
 import type { ToolbarLabel } from '@patternfly/react-core';
 import type { LastSeenKey } from '../constants';
 import type { LastSeenCustomRange, SystemsViewFilterState } from '../types';
@@ -50,8 +49,14 @@ type FilterIdentity = {
  * Consumer adapter passed to `bindFilter`, named catalog factories, and `catalog.custom`
  * while `TValue` is still known.
  */
-export type FilterBinding<TFilterParams, TValue> = {
+export type FilterBinding<
+  TFilterParams,
+  TValue,
+  TFilterProps extends object = Record<string, never>,
+> = {
   updateFilterParams: (params: TFilterParams, value: TValue) => TFilterParams;
+  /** Extra props forwarded to a custom filter component. */
+  filterProps?: TFilterProps;
 };
 
 export type TextFilterSpec = FilterIdentity & {

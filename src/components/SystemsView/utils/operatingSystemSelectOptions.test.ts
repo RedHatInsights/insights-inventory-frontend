@@ -3,6 +3,7 @@ import '@testing-library/jest-dom';
 import type { OperatingSystemVersionRow } from './operatingSystemSelectOptions';
 import {
   buildOperatingSystemProfileFilter,
+  buildOperatingSystemSelectGroups,
   getOsSelectOptions,
   mapOperatingSystemApiResultsToVersionRows,
   osVersionSorter,
@@ -74,6 +75,28 @@ describe('buildOperatingSystemProfileFilter', () => {
     ).toEqual({
       OK: { version: { eq: ['1.0'] } },
     });
+  });
+});
+
+describe('buildOperatingSystemSelectGroups', () => {
+  const rows: OperatingSystemVersionRow[] = [
+    { name: 'RHEL', major: 9, minor: 0 },
+    { name: 'CentOS Linux', major: 7, minor: 9 },
+    { name: 'CentOS', major: 8, minor: 1 },
+  ];
+
+  it('includes CentOS groups by default', () => {
+    expect(
+      buildOperatingSystemSelectGroups(rows).map((group) => group.label),
+    ).toEqual(['CentOS Linux 7', 'CentOS 8', 'RHEL 9']);
+  });
+
+  it('omits CentOS groups when showCentosOptions is false', () => {
+    expect(
+      buildOperatingSystemSelectGroups(rows, {
+        showCentosOptions: false,
+      }).map((group) => group.label),
+    ).toEqual(['RHEL 9']);
   });
 });
 

@@ -1,3 +1,5 @@
+import type { ReactElement } from 'react';
+import { operatingSystemSpec } from './inventory/filterDefinitions';
 import { bindFilter } from './bindFilter';
 import { filterCatalog } from './catalog';
 import { buildFilterParams } from './buildFilterParams';
@@ -15,6 +17,34 @@ const nameSpec: FilterSpec = {
   title: 'Name',
   defaultValue: '',
 };
+
+describe('filterCatalog.operatingSystem', () => {
+  it('forwards showCentosOptions onto the filter component', () => {
+    const shown = filterCatalog.operatingSystem({
+      updateFilterParams: (params) => params,
+      filterProps: { showCentosOptions: false },
+    });
+    const hiddenByDefault = filterCatalog.operatingSystem({
+      updateFilterParams: (params) => params,
+    });
+
+    expect(shown.type).toBe('custom');
+    expect(hiddenByDefault.type).toBe('custom');
+    if (shown.type !== 'custom' || hiddenByDefault.type !== 'custom') {
+      return;
+    }
+
+    const element = (
+      shown.filterComponent as (props: object) => ReactElement<{
+        showCentosOptions?: boolean;
+      }>
+    )({});
+    expect(element.props.showCentosOptions).toBe(false);
+    expect(hiddenByDefault.filterComponent).toBe(
+      operatingSystemSpec.filterComponent,
+    );
+  });
+});
 
 describe('filterCatalog.custom', () => {
   it('is bindFilter', () => {
