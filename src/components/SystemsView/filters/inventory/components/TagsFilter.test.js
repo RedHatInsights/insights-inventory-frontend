@@ -97,6 +97,107 @@ describe('TagsFilter', () => {
     expect(last[1]).toEqual(['insights/env=prod']);
   });
 
+  it('renders tag options with full width flex container, minWidth 0 for truncate, and non-shrinking badge', async () => {
+    useTagsQuery.mockReturnValue({
+      data: [
+        {
+          tag: {
+            namespace: 'insights',
+            key: 'very-long-tag-name-key',
+            value: 'very-long-tag-name-value-that-needs-truncation',
+          },
+          count: 5,
+        },
+      ],
+      total: 1,
+      isLoading: false,
+      isFetching: false,
+    });
+    const user = userEvent.setup();
+    renderTagsFilter();
+    await user.click(screen.getByPlaceholderText('Filter by tags'));
+
+    const row = screen.getByRole('menuitem', {
+      name: /very-long-tag-name-key=very-long-tag-name-value/i,
+    });
+    expect(row).toBeInTheDocument();
+
+    // The option content should be wrapped in a full-width flex container
+    // eslint-disable-next-line testing-library/no-node-access
+    const flexContainer = row.querySelector('.pf-v6-l-flex');
+    expect(flexContainer).toBeInTheDocument();
+    expect(flexContainer).toHaveClass('pf-m-justify-content-space-between');
+    expect(flexContainer).toHaveClass('pf-m-full-width');
+    expect(flexContainer).toHaveClass('pf-m-nowrap');
+    expect(flexContainer).toHaveStyle({ width: '100%' });
+
+    // The tag name flex item has minWidth: 0 to allow Truncate to shrink
+    const nameFlexItem = flexContainer.children[0];
+    expect(nameFlexItem).toHaveStyle({ minWidth: 0 });
+    // eslint-disable-next-line testing-library/no-node-access
+    const truncate = nameFlexItem.querySelector('.pf-v6-c-truncate');
+    expect(truncate).toBeInTheDocument();
+    expect(truncate).toHaveTextContent(
+      'very-long-tag-name-key=very-long-tag-name-value-that-needs-truncation',
+    );
+
+    // The badge flex item has flexNone and flexShrink: 0 to prevent shrinking
+    const badgeFlexItem = flexContainer.children[1];
+    expect(badgeFlexItem).toHaveClass('pf-m-flex-none');
+    expect(badgeFlexItem).toHaveStyle({ flexShrink: '0' });
+
+    // The badge shows the count
+    const badge = within(badgeFlexItem).getByText('5');
+    expect(badge).toBeInTheDocument();
+    expect(badge).toHaveClass('pf-v6-c-badge');
+  });
+
+  it('displays tooltip with singular system count when count is 1', async () => {
+    useTagsQuery.mockReturnValue({
+      data: [
+        {
+          tag: { namespace: 'insights', key: 'env', value: 'stage' },
+          count: 1,
+        },
+      ],
+      total: 1,
+      isLoading: false,
+      isFetching: false,
+    });
+    const user = userEvent.setup();
+    renderTagsFilter();
+    await user.click(screen.getByPlaceholderText('Filter by tags'));
+
+    const badge = screen.getByText('1');
+    await user.hover(badge);
+    expect(
+      await screen.findByText('Applicable to 1 system.'),
+    ).toBeInTheDocument();
+  });
+
+  it('displays tooltip with plural systems count when count is greater than 1', async () => {
+    useTagsQuery.mockReturnValue({
+      data: [
+        {
+          tag: { namespace: 'insights', key: 'env', value: 'prod' },
+          count: 3,
+        },
+      ],
+      total: 1,
+      isLoading: false,
+      isFetching: false,
+    });
+    const user = userEvent.setup();
+    renderTagsFilter();
+    await user.click(screen.getByPlaceholderText('Filter by tags'));
+
+    const badge = screen.getByText('3');
+    await user.hover(badge);
+    expect(
+      await screen.findByText('Applicable to 3 systems.'),
+    ).toBeInTheDocument();
+  });
+
   it('opens the all-tags modal when "more tags" is chosen', async () => {
     useTagsQuery.mockReturnValue({
       data: Array.from({ length: 50 }, (_, i) => ({
