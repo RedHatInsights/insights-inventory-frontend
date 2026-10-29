@@ -114,6 +114,7 @@ export type BoundFilter<TFilterParams = unknown> = Resolve<
       params: TFilterParams,
       value: unknown,
     ) => TFilterParams;
+    filterProps?: Record<string, unknown>;
   }
 >;
 

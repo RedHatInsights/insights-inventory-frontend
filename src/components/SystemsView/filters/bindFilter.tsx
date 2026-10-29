@@ -1,4 +1,3 @@
-import React from 'react';
 import type { BoundFilter, FilterBinding, FilterSpec } from './types';
 
 /**
@@ -20,15 +19,11 @@ export const bindFilter = <
   const updateFilterParams = (params: TFilterParams, value: unknown) =>
     binding.updateFilterParams(params, value as TValue);
 
-  if (spec.type !== 'custom' || binding.filterProps === undefined) {
-    return { ...spec, updateFilterParams };
-  }
-
   return {
     ...spec,
-    filterComponent: (props: Record<string, unknown>) => (
-      <spec.filterComponent {...binding.filterProps} {...props} />
-    ),
+    ...(spec.type === 'custom' && binding.filterProps !== undefined
+      ? { filterProps: binding.filterProps as Record<string, unknown> }
+      : {}),
     updateFilterParams,
   };
 };

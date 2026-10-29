@@ -1,4 +1,3 @@
-import type { ReactElement } from 'react';
 import { operatingSystemSpec } from './inventory/filterDefinitions';
 import { bindFilter } from './bindFilter';
 import { filterCatalog } from './catalog';
@@ -34,15 +33,12 @@ describe('filterCatalog.operatingSystem', () => {
       return;
     }
 
-    const element = (
-      shown.filterComponent as (props: object) => ReactElement<{
-        showCentosOptions?: boolean;
-      }>
-    )({});
-    expect(element.props.showCentosOptions).toBe(false);
+    expect(shown.filterComponent).toBe(operatingSystemSpec.filterComponent);
+    expect(shown.filterProps).toEqual({ showCentosOptions: false });
     expect(hiddenByDefault.filterComponent).toBe(
       operatingSystemSpec.filterComponent,
     );
+    expect(hiddenByDefault.filterProps).toBeUndefined();
   });
 });
 
