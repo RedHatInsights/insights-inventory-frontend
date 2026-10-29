@@ -7,6 +7,7 @@ export const HostStalenessResetPopover = () => {
     <Popover
       aria-label="Organization level popover"
       headerContent={<Title headingLevel="h4">Default settings</Title>}
+      hasAutoWidth
       position="left"
       bodyContent={
         <Flex
