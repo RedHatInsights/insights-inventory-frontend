@@ -146,27 +146,11 @@ export const TagsFilter = ({
                           flexWrap={{
                             default: 'nowrap',
                           }}
-                          justifyContent={{
-                            default: 'justifyContentSpaceBetween',
-                          }}
-                          fullWidth={{
-                            default: 'fullWidth',
-                          }}
-                          style={{
-                            width: '100%',
-                          }}
                         >
-                          <FlexItem style={{ minWidth: 0 }}>
+                          <FlexItem>
                             <Truncate content={tag.name}>{tag.name}</Truncate>
                           </FlexItem>
-                          <FlexItem
-                            flex={{
-                              default: 'flexNone',
-                            }}
-                            style={{
-                              flexShrink: 0,
-                            }}
-                          >
+                          <FlexItem>
                             <Tooltip
                               position="right"
                               enableFlip
