@@ -115,4 +115,80 @@ describe('TagsFilter', () => {
       initialTagSearch: '',
     });
   });
+
+  it('renders tag option with full-width flex layout, truncated name with min-width 0, and uncompressed badge', async () => {
+    useTagsQuery.mockReturnValue({
+      data: [
+        {
+          tag: {
+            namespace: 'insights',
+            key: 'very-long-tag-key-that-needs-truncation',
+            value: 'very-long-tag-value-for-testing-compression',
+          },
+          count: 42,
+        },
+      ],
+      total: 1,
+      isLoading: false,
+      isFetching: false,
+    });
+    const user = userEvent.setup();
+    renderTagsFilter();
+    await user.click(screen.getByPlaceholderText('Filter by tags'));
+
+    const badge = screen.getByText('42');
+    expect(badge).toBeInTheDocument();
+
+    // eslint-disable-next-line testing-library/no-node-access
+    const badgeFlexItem = badge.closest('.pf-m-flex-none');
+    expect(badgeFlexItem).toBeInTheDocument();
+    expect(badgeFlexItem).toHaveStyle({ flexShrink: 0 });
+
+    await user.hover(badge);
+    expect(
+      await screen.findByRole('tooltip', { name: 'Applicable to 42 systems.' }),
+    ).toBeInTheDocument();
+
+    const tagName = screen.getByText(
+      'very-long-tag-key-that-needs-truncation=very-long-tag-value-for-testing-compression',
+    );
+    // eslint-disable-next-line testing-library/no-node-access
+    const nameFlexItem = tagName.parentElement?.parentElement;
+    expect(nameFlexItem).toHaveStyle({ minWidth: 0 });
+
+    // eslint-disable-next-line testing-library/no-node-access
+    const flexContainer = nameFlexItem?.parentElement;
+    expect(flexContainer).toHaveStyle({ width: '100%' });
+    expect(flexContainer).toHaveClass(
+      'pf-m-justify-content-space-between',
+      'pf-m-nowrap',
+    );
+  });
+
+  it('formats singular tooltip message when tag count is 1', async () => {
+    useTagsQuery.mockReturnValue({
+      data: [
+        {
+          tag: {
+            namespace: 'insights',
+            key: 'single',
+            value: 'system',
+          },
+          count: 1,
+        },
+      ],
+      total: 1,
+      isLoading: false,
+      isFetching: false,
+    });
+    const user = userEvent.setup();
+    renderTagsFilter();
+    await user.click(screen.getByPlaceholderText('Filter by tags'));
+
+    const badge = screen.getByText('1');
+    await user.hover(badge);
+    expect(
+      await screen.findByRole('tooltip', { name: 'Applicable to 1 system.' }),
+    ).toBeInTheDocument();
+  });
 });
