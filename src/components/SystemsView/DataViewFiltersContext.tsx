@@ -7,6 +7,7 @@ import React, {
   useState,
 } from 'react';
 import { useDataViewFilters } from '@patternfly/react-data-view';
+import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 import type { FilterSpec } from './filters/types';
 import {
   defaultValuesFrom,
@@ -74,6 +75,7 @@ export const DataViewFiltersProvider = ({
   setSearchParams,
   initialLastSeenCustomRange,
 }: DataViewFiltersProviderProps) => {
+  const { analytics } = useChrome();
   const [lastSeenCustomRange, setLastSeenCustomRange] =
     useState<LastSeenCustomRange>(initialLastSeenCustomRange ?? null);
 
@@ -99,7 +101,7 @@ export const DataViewFiltersProvider = ({
     hasAccess && hasWorkspaceFilter,
   );
 
-  const { filters: rawFilters, onSetFilters } =
+  const { filters: rawFilters, onSetFilters: onSetFiltersRaw } =
     useDataViewFilters<SystemsViewFilterState>({
       initialFilters: specDefaultValues,
       searchParams,
@@ -107,6 +109,20 @@ export const DataViewFiltersProvider = ({
     });
 
   const [hasHydratedDefaults, setHasHydratedDefaults] = useState(false);
+
+  const onSetFilters = useCallback(
+    (updates: Partial<SystemsViewFilterState>) => {
+      onSetFiltersRaw(updates);
+
+      // Don't track initial hydration/defaults
+      if (hasHydratedDefaults) {
+        analytics.track('systems_view.filters.changed', {
+          filters: Object.keys(updates),
+        });
+      }
+    },
+    [onSetFiltersRaw, hasHydratedDefaults, analytics],
+  );
 
   const workspaceFilterIds = rawFilters[SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM];
 
@@ -166,15 +182,18 @@ export const DataViewFiltersProvider = ({
       }
     }
     if (Object.keys(updates).length > 0) {
-      onSetFilters(updates);
+      onSetFiltersRaw(updates);
     }
     setHasHydratedDefaults(true);
-  }, [hasHydratedDefaults, searchParams, resolvedFilters, onSetFilters]);
+  }, [hasHydratedDefaults, searchParams, resolvedFilters, onSetFiltersRaw]);
 
   const clearAllFilters = useCallback(() => {
     setLastSeenCustomRange(null);
-    onSetFilters({ ...specDefaultValues });
-  }, [specDefaultValues, onSetFilters]);
+    onSetFiltersRaw({ ...specDefaultValues });
+    if (hasHydratedDefaults) {
+      analytics.track('systems_view.filters.cleared');
+    }
+  }, [specDefaultValues, onSetFiltersRaw, hasHydratedDefaults, analytics]);
 
   const filtersDifferFromDefaults = useMemo(
     () => hasHydratedDefaults && specFiltersDiffer(filters, resolvedFilters),
