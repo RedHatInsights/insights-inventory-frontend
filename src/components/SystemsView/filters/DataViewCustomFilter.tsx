@@ -34,7 +34,7 @@ export interface DataViewCustomFilterProps<TValue> {
     placeholder?: string;
     filterId?: string;
   }>;
-  /** Props passed to filterComponent, writtable from filter binding */
+  /** Props passed to filterComponent, writable from filter binding */
   filterProps?: Record<string, unknown>;
   createLabel: (
     value: TValue | undefined,
