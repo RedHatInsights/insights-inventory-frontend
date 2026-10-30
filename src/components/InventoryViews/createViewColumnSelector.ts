@@ -23,6 +23,7 @@ export const createViewColumnSelector = (
 
     for (const configCol of configColumns) {
       const catalogCol = catalogByKey.get(configCol.key);
+      // tag: columns are not in the static catalog. Restoring them is RHINENG-28297.
       if (!catalogCol) continue;
 
       result.push({
