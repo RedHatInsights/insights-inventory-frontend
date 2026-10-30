@@ -34,6 +34,30 @@ describe('SingleHostTagsModal', () => {
     ).toBeInTheDocument();
   });
 
+  it('falls back gracefully without "undefined" when display_name is missing or falsy', () => {
+    const { rerender } = render(
+      <SingleHostTagsModal
+        isOpen
+        system={minimalSystem({ display_name: undefined, tags: [] })}
+        onClose={mockOnClose}
+      />,
+    );
+    const heading = screen.getByRole('heading', { name: '(0)' });
+    expect(heading).toBeInTheDocument();
+    expect(heading).not.toHaveTextContent(/undefined/);
+
+    rerender(
+      <SingleHostTagsModal
+        isOpen
+        system={minimalSystem({ display_name: '', tags: TAGS_SAMPLE })}
+        onClose={mockOnClose}
+      />,
+    );
+    const headingSample = screen.getByRole('heading', { name: '(2)' });
+    expect(headingSample).toBeInTheDocument();
+    expect(headingSample).not.toHaveTextContent(/undefined/);
+  });
+
   it('renders Close footer without Apply', async () => {
     const user = userEvent.setup();
     const system = minimalSystem();

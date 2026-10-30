@@ -46,6 +46,7 @@ export const TagsModalProvider = ({ children }: TagsModalProviderProps) => {
   const [systemsForTags, setSystemsForTags] = useState<System[]>([]);
   const [tagsModalOpen, setTagsModalOpen] = useState(false);
   const [tagsModalInitialSearch, setTagsModalInitialSearch] = useState('');
+  const [modalKey, setModalKey] = useState(0);
 
   const closeTagsModal = useCallback(() => {
     setTagsModalInitialSearch('');
@@ -55,6 +56,7 @@ export const TagsModalProvider = ({ children }: TagsModalProviderProps) => {
   const openTagsModal = useCallback<OpenTagsModalFn>((systems, options) => {
     setSystemsForTags(systems);
     setTagsModalInitialSearch(options?.initialTagSearch ?? '');
+    setModalKey((prev) => prev + 1);
     setTagsModalOpen(true);
   }, []);
 
@@ -71,12 +73,14 @@ export const TagsModalProvider = ({ children }: TagsModalProviderProps) => {
       {tagsModalOpen &&
         (systemsForTags.length === 0 ? (
           <AllTagsModal
+            key={modalKey}
             isOpen={tagsModalOpen}
             initialTagSearch={tagsModalInitialSearch}
             onClose={closeTagsModal}
           />
         ) : (
           <SingleHostTagsModal
+            key={modalKey}
             isOpen={tagsModalOpen}
             system={systemsForTags[0]!}
             onClose={closeTagsModal}

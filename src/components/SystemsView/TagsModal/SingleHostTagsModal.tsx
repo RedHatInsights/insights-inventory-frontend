@@ -15,7 +15,7 @@ export const SingleHostTagsModal = ({
   system,
 }: SingleHostTagsModalProps) => {
   const title = useMemo(
-    () => `${system.display_name ?? ''} (${system.tags?.length ?? 0})`,
+    () => `${system.display_name || ''} (${system.tags?.length ?? 0})`,
     [system.display_name, system.tags?.length],
   );
 

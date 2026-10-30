@@ -107,6 +107,81 @@ describe('TagsModalProvider (single-host tags modal)', () => {
       screen.getByRole('heading', { name: 'Test Host (0)' }),
     ).toBeInTheDocument();
   });
+
+  it('does not include "undefined" in modal title when system display_name is undefined or null', async () => {
+    const { unmount } = renderWithProvider(
+      <OpenTagsModalButton
+        systems={[
+          {
+            id: 'host-undefined',
+            display_name: undefined,
+            tags: [],
+          } as unknown as System,
+        ]}
+      />,
+    );
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /open tags modal/i }),
+    );
+
+    const headingUndefined = screen.getByRole('heading', { name: /\(0\)/ });
+    expect(headingUndefined).toBeInTheDocument();
+    expect(headingUndefined).not.toHaveTextContent(/undefined/);
+
+    unmount();
+
+    renderWithProvider(
+      <OpenTagsModalButton
+        systems={[
+          {
+            id: 'host-null',
+            display_name: null,
+            tags: [],
+          } as unknown as System,
+        ]}
+      />,
+    );
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /open tags modal/i }),
+    );
+
+    const headingNull = screen.getByRole('heading', { name: /\(0\)/ });
+    expect(headingNull).toBeInTheDocument();
+    expect(headingNull).not.toHaveTextContent(/undefined/);
+  });
+
+  it('resets the search input when the modal is closed and re-opened', async () => {
+    renderWithProvider(<OpenTagsModalButton />);
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /open tags modal/i }),
+    );
+
+    const searchInput = screen.getByRole('textbox', {
+      name: /tags search input/i,
+    });
+    expect(searchInput).toHaveValue('');
+
+    await userEvent.type(searchInput, 'production');
+    expect(searchInput).toHaveValue('production');
+
+    const closeButtons = screen.getAllByRole('button', { name: 'Close' });
+    const footerClose = closeButtons.find((b) =>
+      b.classList.contains('pf-m-primary'),
+    );
+    await userEvent.click(footerClose!);
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /open tags modal/i }),
+    );
+
+    const reOpenedSearchInput = screen.getByRole('textbox', {
+      name: /tags search input/i,
+    });
+    expect(reOpenedSearchInput).toHaveValue('');
+  });
 });
 
 describe('TagsModalProvider (all tags modal)', () => {
@@ -132,5 +207,35 @@ describe('TagsModalProvider (all tags modal)', () => {
     expect(
       screen.getByRole('heading', { name: /all tags in inventory/i }),
     ).toBeInTheDocument();
+  });
+
+  it('resets the search input when the all-tags modal is closed and re-opened', async () => {
+    renderWithProvider(<OpenTagsModalButton systems={[]} />, {
+      withFilters: true,
+    });
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /open tags modal/i }),
+    );
+
+    const searchInput = screen.getByRole('textbox', {
+      name: /tags search input/i,
+    });
+    expect(searchInput).toHaveValue('');
+
+    await userEvent.type(searchInput, 'production');
+    expect(searchInput).toHaveValue('production');
+
+    const cancelButton = screen.getByRole('button', { name: 'Cancel' });
+    await userEvent.click(cancelButton);
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /open tags modal/i }),
+    );
+
+    const reOpenedSearchInput = screen.getByRole('textbox', {
+      name: /tags search input/i,
+    });
+    expect(reOpenedSearchInput).toHaveValue('');
   });
 });
