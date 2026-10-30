@@ -10,7 +10,7 @@ In the 'Filter by tags' dropdown menu, the Flex container wrapping the tag name 
 
 - `src/components/SystemsView/filters/inventory/components/TagsFilter.tsx` (modify): In the Flex container wrapping each tag option (around line 139), add fullWidth and justifyContent space-between props so the tag name and badge span the full menu option width. On the tag-name FlexItem, add a style with minWidth 0 so the Truncate component can shrink properly. On the badge FlexItem, add flex none (or flexShrink 0) so the badge is never compressed.
 
-- `src/components/SystemsView/filters/inventory/components/TagsFilter.test.js` (modify): Add a test case that renders a tag with a long name, opens the dropdown, and asserts that the Badge element is visible and present in the document (ensuring it is not clipped). This verifies the layout fix keeps the count badge accessible regardless of tag name length.
+- `src/components/SystemsView/filters/inventory/components/TagsFilter.test.js` (modify): Add a test case that renders a tag with a long name and opens the dropdown. Instead of only asserting the Badge is present in the DOM (which would pass even without the fix since JSDOM does not compute layout/overflow clipping), assert on the applied layout styles and props that prevent clipping: verify the Flex container element has `width: 100%` and `justify-content: space-between` styles, verify the tag-name FlexItem has a `min-width: 0` style, and verify the badge FlexItem has `flex-shrink: 0` (or `flex: none`) style. Also confirm the Badge element is rendered. This ensures the specific CSS fix is in place.
 
 ## Constraints
 - The tag name must truncate (via Truncate component) when space is constrained rather than pushing the badge off-screen.
