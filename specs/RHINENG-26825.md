@@ -4,7 +4,7 @@
 On the system detail page, there is no margin/spacing between the alert info banner ('Your insights-client is not reporting') and the tab bar below it, causing them to touch.
 
 ## Root Cause
-The alert banner (InsightsPrompt) is rendered as the last element inside the PageHeader (DetailHeader) on the system detail page. Because the PageHeader has its padding-bottom set to 0 (to allow the tab bar to sit flush with the header), and the Alert component inside InsightsPrompt does not have any bottom margin by default, the alert banner and the tab bar touch each other with no visual separation.
+The alert banner (InsightsPrompt) is rendered as the last element inside the PageHeader (DetailHeader) on the system detail page. `InsightsPrompt`'s `Alert` component has no `className` prop and therefore no bottom-margin class. Because the PageHeader has its padding-bottom set to 0 (to allow the tab bar to sit flush with the header), `DetailHeader` renders the alert directly before the tab-bar children and the banner touches the tabs with no visual separation.
 
 ## Plan
 
