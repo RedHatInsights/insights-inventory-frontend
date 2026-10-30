@@ -115,4 +115,97 @@ describe('TagsFilter', () => {
       initialTagSearch: '',
     });
   });
+
+  it('prevents badge clipping for long tag names by setting proper flex layout', async () => {
+    useTagsQuery.mockReturnValue({
+      data: [
+        {
+          tag: {
+            namespace: 'insights',
+            key: 'very-long-tag-key-that-might-overflow-the-menu-option',
+            value: 'very-long-tag-value-that-needs-truncation',
+          },
+          count: 10,
+        },
+      ],
+      total: 1,
+      isLoading: false,
+      isFetching: false,
+    });
+    const user = userEvent.setup();
+    renderTagsFilter();
+    await user.click(screen.getByPlaceholderText('Filter by tags'));
+    const badge = screen.getByText('10');
+    expect(badge).toBeInTheDocument();
+    // eslint-disable-next-line testing-library/no-node-access
+    const flexContainer = badge.closest('.pf-v6-l-flex');
+    expect(flexContainer).toHaveClass(
+      'pf-m-full-width',
+      'pf-m-justify-content-space-between',
+    );
+    expect(flexContainer).toHaveStyle({
+      width: '100%',
+      justifyContent: 'space-between',
+    });
+    // eslint-disable-next-line testing-library/no-node-access
+    expect(flexContainer.children).toHaveLength(2);
+    // eslint-disable-next-line testing-library/no-node-access
+    const [tagNameFlexItem, badgeFlexItem] = flexContainer.children;
+    expect(tagNameFlexItem).toHaveStyle({ minWidth: 0 });
+    expect(badgeFlexItem).toHaveClass('pf-m-flex-none');
+    expect(badgeFlexItem).toHaveStyle({ flexShrink: 0 });
+    expect(badgeFlexItem).toContainElement(badge);
+  });
+
+  it('preserves non-shrinking badge layout across multiple tags with different counts and name lengths', async () => {
+    useTagsQuery.mockReturnValue({
+      data: [
+        {
+          tag: {
+            namespace: 'namespace-one',
+            key: 'short',
+            value: 'val',
+          },
+          count: 1,
+        },
+        {
+          tag: {
+            namespace: 'namespace-two',
+            key: 'a-very-long-tag-key-with-extended-characters',
+            value: 'and-a-very-long-value-that-stretches-the-row-width',
+          },
+          count: 99999,
+        },
+      ],
+      total: 2,
+      isLoading: false,
+      isFetching: false,
+    });
+    const user = userEvent.setup();
+    renderTagsFilter();
+    await user.click(screen.getByPlaceholderText('Filter by tags'));
+
+    const badgeOne = screen.getByText('1');
+    const badgeTwo = screen.getByText('99999');
+
+    [badgeOne, badgeTwo].forEach((badge) => {
+      // eslint-disable-next-line testing-library/no-node-access
+      const flexContainer = badge.closest('.pf-v6-l-flex');
+      expect(flexContainer).toHaveClass(
+        'pf-m-nowrap',
+        'pf-m-full-width',
+        'pf-m-justify-content-space-between',
+      );
+      expect(flexContainer).toHaveStyle({
+        width: '100%',
+        justifyContent: 'space-between',
+      });
+      // eslint-disable-next-line testing-library/no-node-access
+      const [nameItem, badgeItem] = flexContainer.children;
+      expect(nameItem).toHaveStyle({ minWidth: 0 });
+      expect(badgeItem).toHaveClass('pf-m-flex-none');
+      expect(badgeItem).toHaveStyle({ flexShrink: 0 });
+      expect(badgeItem).toContainElement(badge);
+    });
+  });
 });
