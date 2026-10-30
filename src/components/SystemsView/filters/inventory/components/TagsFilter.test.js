@@ -97,6 +97,51 @@ describe('TagsFilter', () => {
     expect(last[1]).toEqual(['insights/env=prod']);
   });
 
+  it('renders tag options with full width, space-between layout and non-shrinking badge container', async () => {
+    useTagsQuery.mockReturnValue({
+      data: [
+        {
+          tag: {
+            namespace: 'insights',
+            key: 'very-long-tag-name-key',
+            value: 'very-long-tag-name-value-that-needs-truncation',
+          },
+          count: 42,
+        },
+      ],
+      total: 1,
+      isLoading: false,
+      isFetching: false,
+    });
+    const user = userEvent.setup();
+    renderTagsFilter();
+    await user.click(screen.getByPlaceholderText('Filter by tags'));
+
+    const row = screen.getByRole('menuitem', {
+      name: /very-long-tag-name-key=very-long-tag-name-value-that-needs-truncation/i,
+    });
+    expect(row).toBeInTheDocument();
+
+    // eslint-disable-next-line testing-library/no-node-access
+    const flexContainer = row.querySelector('.pf-v6-l-flex');
+    expect(flexContainer).toBeInTheDocument();
+    expect(flexContainer).toHaveClass('pf-m-full-width');
+    expect(flexContainer).toHaveClass('pf-m-justify-content-space-between');
+    expect(flexContainer).toHaveClass('pf-m-nowrap');
+
+    // eslint-disable-next-line testing-library/no-node-access
+    const [nameFlexItem, badgeFlexItem] = flexContainer.children;
+    expect(nameFlexItem).toHaveStyle({ minWidth: '0' });
+    expect(
+      within(nameFlexItem).getByText(
+        'very-long-tag-name-key=very-long-tag-name-value-that-needs-truncation',
+      ),
+    ).toBeInTheDocument();
+
+    expect(badgeFlexItem).toHaveClass('pf-m-flex-none');
+    expect(within(badgeFlexItem).getByText('42')).toBeInTheDocument();
+  });
+
   it('opens the all-tags modal when "more tags" is chosen', async () => {
     useTagsQuery.mockReturnValue({
       data: Array.from({ length: 50 }, (_, i) => ({
