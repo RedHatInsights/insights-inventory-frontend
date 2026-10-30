@@ -17,13 +17,20 @@ import { buildSystemType } from './buildSystemType';
 const asStringList = (value: unknown): string[] =>
   Array.isArray(value) ? value.map(String) : [];
 
+// TODO: remove once backend is ready
+export type ContentHostFilters = HostFilters & {
+  installable_advisory_type?: string[];
+  content_template?: string;
+};
+
 /**
  * Maps flat toolbar host-level filters to the nested `host` HostFilters block of a
  * view configuration.
  *
  * Covers hostname_or_id, staleness, registered_with, tags, workspace_name,
  * system_type, the last_check_in date range derived from the Last seen selection,
- * alongside app-specific filters (recommendationSeverity, incidentStatus, cveSeverity, knownExploit).
+ * alongside app-specific filters (recommendationSeverity, incidentStatus, cveSeverity,
+ * knownExploit, installableAdvisoryType, contentTemplate).
  *
  *  @param filters             - Toolbar filter state for host-level filters
  *  @param lastSeenCustomRange - Custom date range when `last_seen` is 'custom'.
@@ -34,7 +41,7 @@ export const buildHostFilters = (
   filters: SystemsViewFilterState,
   lastSeenCustomRange?: LastSeenCustomRange,
 ): HostFilters | undefined => {
-  const hostFilters: HostFilters = {};
+  const hostFilters: ContentHostFilters = {};
   const hostnameOrId =
     typeof filters.hostname_or_id === 'string' ? filters.hostname_or_id : '';
   const status = asStringList(filters.status);
@@ -46,6 +53,10 @@ export const buildHostFilters = (
   const incidentStatus = asStringList(filters.incident_status);
   const cveSeverity = asStringList(filters.cve_severity);
   const knownExploit = asStringList(filters.known_exploit);
+  const installableAdvisoryType = asStringList(
+    filters.installable_advisory_type,
+  );
+  const contentTemplate = asStringList(filters.content_template);
 
   if (hostnameOrId) {
     hostFilters.hostname_or_id = hostnameOrId;
@@ -93,6 +104,14 @@ export const buildHostFilters = (
 
   if (knownExploit.length) {
     hostFilters.known_exploit = knownExploit[0] as HostFiltersKnownExploitEnum;
+  }
+
+  if (installableAdvisoryType.length) {
+    hostFilters.installable_advisory_type = installableAdvisoryType;
+  }
+
+  if (contentTemplate.length) {
+    hostFilters.content_template = contentTemplate[0];
   }
 
   const lastSeenParams = lastSeenKeysToApiParams(

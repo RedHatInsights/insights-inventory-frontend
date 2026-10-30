@@ -360,6 +360,28 @@ describe('parseViewConfigFilters', () => {
       known_exploit: ['no_known_exploit'],
     });
   });
+
+  it('round-trips the Content filters through build and parse', () => {
+    const input = {
+      ...EMPTY_FILTERS,
+      installable_advisory_type: ['security_advisories', 'bug_fixes'],
+      content_template: ['assigned'],
+    };
+
+    const built = buildViewConfigFilters(input);
+    expect(built).toEqual({
+      host: {
+        installable_advisory_type: ['security_advisories', 'bug_fixes'],
+        content_template: 'assigned',
+      },
+    });
+
+    const parsed = parseViewConfigFilters(built as never);
+    expect(parsed).toEqual({
+      installable_advisory_type: ['security_advisories', 'bug_fixes'],
+      content_template: ['assigned'],
+    });
+  });
 });
 
 describe('parseViewConfigLastSeenCustomRange', () => {
