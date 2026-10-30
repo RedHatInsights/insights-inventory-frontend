@@ -73,6 +73,7 @@ import {
   type FilterSelector,
 } from './filters/resolveFilterSelector';
 import { buildFilterParams } from './filters/buildFilterParams';
+import { buildExportConfiguration } from './utils/buildExportConfiguration';
 import { hasActiveFilterChips } from './filters/defaultValuesFrom';
 import type { BoundFilter } from './filters/types';
 import type {
@@ -316,6 +317,21 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
       hasRowActions: rowActions.length > 0,
     });
 
+  const exportConfiguration = useMemo(
+    () =>
+      buildExportConfiguration({
+        // Use the same debounced filters the table query runs on — otherwise an
+        // export during the debounce window would apply filters the table has
+        // not displayed yet.
+        filters: debouncedFilters,
+        lastSeenCustomRange,
+        columns,
+        sortBy,
+        direction,
+      }),
+    [debouncedFilters, lastSeenCustomRange, columns, sortBy, direction],
+  );
+
   // Wrapper to call both setColumns and onColumnsChange when user applies columns in modal.
   // Note: ColumnManagementModal always calls this with direct column array, never with updater function.
   const handleApplyColumns = useCallback(
@@ -434,6 +450,7 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
                   bulkActions={bulkActions}
                   actionHelpers={actionHelpers}
                   showColumnManagement={showColumnManagement}
+                  exportConfiguration={exportConfiguration}
                 />
               }
               pagination={

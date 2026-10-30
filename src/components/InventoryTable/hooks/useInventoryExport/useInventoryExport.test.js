@@ -100,6 +100,25 @@ describe('useInventoryExport', () => {
     expect(result.current.onSelect).toBeDefined();
   });
 
+  it('should use the legacy menu labels without a configuration', () => {
+    const { result } = renderHook(() => useInventoryExport());
+
+    expect(result.current.itemTexts).toEqual({
+      csv: 'Export all systems to CSV',
+      json: 'Export all systems to JSON',
+    });
+  });
+
+  it('should use the WYSIWYG menu labels with a configuration', () => {
+    const configuration = { columns: [{ key: 'display_name' }] };
+    const { result } = renderHook(() => useInventoryExport({ configuration }));
+
+    expect(result.current.itemTexts).toEqual({
+      csv: 'Export to CSV',
+      json: 'Export to JSON',
+    });
+  });
+
   it('should call the API onSelect for ' + FORMAT.toUpperCase(), async () => {
     jest.useFakeTimers({ advanceTimers: true });
     const { result } = renderHook(() => useInventoryExport());
@@ -147,6 +166,36 @@ describe('useInventoryExport', () => {
       title: 'The requested export is being downloaded.',
       variant: 'success',
     });
+  });
+
+  it('should include the configuration in the export request when provided', async () => {
+    jest.useFakeTimers({ advanceTimers: true });
+    const configuration = {
+      columns: [{ key: 'display_name' }],
+      sort: { key: 'display_name', direction: 'asc' },
+      filters: { host: { staleness: { eq: ['fresh'] } } },
+    };
+    const { result } = renderHook(() => useInventoryExport({ configuration }));
+
+    result.current.onSelect(undefined, FORMAT);
+
+    await waitFor(() =>
+      expect(axiosPostMock).toHaveBeenNthCalledWith(
+        1,
+        EXPORT_SERVICE_PATH + '/exports',
+        {
+          format: FORMAT,
+          name: 'inventory-export',
+          sources: [
+            {
+              application: EXPORT_SERVICE_APPLICATON,
+              filters: { configuration },
+              resource: EXPORT_SERVICE_RESOURCE,
+            },
+          ],
+        },
+      ),
+    );
   });
 
   it('should disable the button after initiating an export', async () => {

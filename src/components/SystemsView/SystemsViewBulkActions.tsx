@@ -8,6 +8,7 @@ import { useColumnManagementModalContext } from './ColumnManagementModalContext'
 import useInventoryViewsFeatureFlag from '../../Utilities/useInventoryViewsFeatureFlag';
 import type { ActionHelpers, BulkAction } from './actions/types';
 import type { SystemsViewActiveState } from './utils/deriveActiveState';
+import type { ViewConfiguration } from '../../api/inventoryViewsApi';
 
 interface SystemsViewBulkActionsProps<TItem> {
   selectedSystems: TItem[];
@@ -16,6 +17,7 @@ interface SystemsViewBulkActionsProps<TItem> {
   actionHelpers: ActionHelpers;
   /** Inventory-owned tables keep Manage columns. Module consumers pass false. */
   showColumnManagement?: boolean;
+  exportConfiguration?: ViewConfiguration;
 }
 
 export const SystemsViewBulkActions = <TItem,>({
@@ -24,13 +26,14 @@ export const SystemsViewBulkActions = <TItem,>({
   bulkActions,
   actionHelpers,
   showColumnManagement = true,
+  exportConfiguration,
 }: SystemsViewBulkActionsProps<TItem>) => {
   const isInventoryViewsEnabled = useInventoryViewsFeatureFlag();
   const { openColumnManagementModal } = useColumnManagementModalContext();
 
   return (
     <Fragment>
-      <SystemsViewExport />
+      <SystemsViewExport configuration={exportConfiguration} />
       <ResponsiveActions ouiaId="systems-view-toolbar-actions">
         {bulkActions.map((action) => {
           const tooltip = action.tooltip?.(selectedSystems);
