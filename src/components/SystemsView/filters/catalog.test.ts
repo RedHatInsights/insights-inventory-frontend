@@ -1,3 +1,4 @@
+import { operatingSystemSpec } from './inventory/filterDefinitions';
 import { bindFilter } from './bindFilter';
 import { filterCatalog } from './catalog';
 import { buildFilterParams } from './buildFilterParams';
@@ -15,6 +16,31 @@ const nameSpec: FilterSpec = {
   title: 'Name',
   defaultValue: '',
 };
+
+describe('filterCatalog.operatingSystem', () => {
+  it('forwards showCentosOptions onto the filter component', () => {
+    const shown = filterCatalog.operatingSystem({
+      updateFilterParams: (params) => params,
+      filterProps: { showCentosOptions: false },
+    });
+    const hiddenByDefault = filterCatalog.operatingSystem({
+      updateFilterParams: (params) => params,
+    });
+
+    expect(shown.type).toBe('custom');
+    expect(hiddenByDefault.type).toBe('custom');
+    if (shown.type !== 'custom' || hiddenByDefault.type !== 'custom') {
+      return;
+    }
+
+    expect(shown.filterComponent).toBe(operatingSystemSpec.filterComponent);
+    expect(shown.filterProps).toEqual({ showCentosOptions: false });
+    expect(hiddenByDefault.filterComponent).toBe(
+      operatingSystemSpec.filterComponent,
+    );
+    expect(hiddenByDefault.filterProps).toBeUndefined();
+  });
+});
 
 describe('filterCatalog.custom', () => {
   it('is bindFilter', () => {
