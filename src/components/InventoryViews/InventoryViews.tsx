@@ -1,4 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
+import type { ApiHostViewsGetHostViewsParams } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 import React, {
   useCallback,
   useEffect,
@@ -29,6 +30,9 @@ import {
   type ViewConfiguration,
 } from '../../api/inventoryViewsApi';
 import { createViewColumnSelector } from './createViewColumnSelector';
+import { uniqueTagKeys } from './tagKeys';
+import { bindTagKeyColumns } from '../SystemsView/columns/inventory/tagKeyColumns';
+import { useTagsQuery } from '../SystemsView/hooks/useTagsQuery';
 import { createViewFilterSelector } from './createViewFilterSelector';
 import { resolveDefaultViewId } from './resolveDefaultViewId';
 import { resolveSystemViewId } from './resolveSystemViewId';
@@ -39,7 +43,10 @@ import {
   ANSIBLE_WORKLOAD,
   selectAnsibleWorkload,
 } from './stampAnsibleWorkloadDefault';
-import { resolveColumnSelector } from '../SystemsView/columns/resolveColumnSelector';
+import {
+  resolveColumnSelector,
+  type ColumnSelector,
+} from '../SystemsView/columns/resolveColumnSelector';
 import { resolveFilterSelector } from '../SystemsView/filters/resolveFilterSelector';
 import { defaultValuesFrom } from '../SystemsView/filters/defaultValuesFrom';
 import { inventoryViewsFilterSpecs } from './inventoryViewsFilterSpecs';
@@ -228,10 +235,24 @@ const InventoryViews = () => {
     hasNextViewsPage,
   ]);
 
-  const columnSelector = useMemo(
+  const { data: accountTags } = useTagsQuery({ search: '' });
+  const tagKeyIdentities = useMemo(
+    () => uniqueTagKeys(accountTags ?? []),
+    [accountTags],
+  );
+
+  const savedColumnSelector = useMemo(
     () => createViewColumnSelector(activeView?.configuration),
     [activeView?.configuration],
   );
+
+  const columnSelector = useMemo((): ColumnSelector<InventoryBindableItem> => {
+    const base = savedColumnSelector ?? selectLegacyInventoryColumns;
+    return (catalog) => [
+      ...base(catalog),
+      ...bindTagKeyColumns(tagKeyIdentities),
+    ];
+  }, [savedColumnSelector, tagKeyIdentities]);
 
   const filterSelector = useMemo(() => {
     const selector =
@@ -467,7 +488,7 @@ const InventoryViews = () => {
       {isReady && (
         <Actions<InventoryBindableItem>>
           {({ bulkActions, rowActions }) => (
-            <SystemsView
+            <SystemsView<InventoryBindableItem, ApiHostViewsGetHostViewsParams>
               key={`${activeViewId}-${viewsLoaded}`}
               columns={columnSelector ?? selectLegacyInventoryColumns}
               filters={filterSelector}

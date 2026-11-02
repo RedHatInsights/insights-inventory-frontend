@@ -28,7 +28,8 @@ import DataCollector from './cells/DataCollector';
 /**
  * Fields inventory column bindings for both InventoryHosts and InventoryViews can use
  * `id` is required for the table;
- * `tags` is merged client-side from `getHostTags`.
+ * `tags` comes from the hosts-view row, or from `getHostTags` when that field is absent.
+ * `tagsByKey` is that array grouped by namespace and key for tag columns.
  */
 export type InventoryBindableItem = SystemsViewItem &
   Pick<
@@ -45,6 +46,7 @@ export type InventoryBindableItem = SystemsViewItem &
     | 'app_data'
   > & {
     tags?: StructuredTag[];
+    tagsByKey?: Record<string, string[]>;
   };
 
 const APP_NAME = 'inventory' as const;
