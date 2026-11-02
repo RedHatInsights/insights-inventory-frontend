@@ -8,7 +8,7 @@ The `Alert` component inside `InsightsPrompt` does not have any bottom margin or
 
 ## Plan
 
-- `src/components/InventoryDetail/InsightsPrompt.js` (modify): Add the PatternFly utility class for medium bottom margin to the Alert component via its className prop, matching the existing pattern used elsewhere in the codebase (e.g., in HostStalenessSettings and BaseDropdown). This introduces visual spacing between the alert banner and the tab bar below it.
+- `src/components/InventoryDetail/InsightsPrompt.js` (modify): Add `pf-v6-u-mb-md` to the `Alert`'s `className` prop so the alert has a medium bottom margin. This matches the existing pattern used elsewhere in the codebase (e.g., in HostStalenessSettings and BaseDropdown) and introduces visual spacing between the alert banner and the tab bar below it.
 
 ## Constraints
 - The className must use the PatternFly v6 utility class pf-v6-u-mb-md for consistency with existing usage in the codebase.
