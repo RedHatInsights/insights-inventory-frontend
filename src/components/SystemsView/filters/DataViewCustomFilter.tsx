@@ -34,6 +34,8 @@ export interface DataViewCustomFilterProps<TValue> {
     placeholder?: string;
     filterId?: string;
   }>;
+  /** Props passed to filterComponent, writable from filter binding */
+  filterProps?: Record<string, unknown>;
   createLabel: (
     value: TValue | undefined,
     title: string,
@@ -57,12 +59,14 @@ export const DataViewCustomFilter = <TValue,>({
   showToolbarItem,
   ouiaId = 'DataViewCustomFilter',
   filterComponent: FilterComponent,
+  filterProps,
   createLabel,
   deleteLabel,
   isMultiGroup = false,
 }: DataViewCustomFilterProps<TValue>) => {
   const filter = (
     <FilterComponent
+      {...filterProps}
       filterId={filterId}
       value={value}
       onChange={onChange}

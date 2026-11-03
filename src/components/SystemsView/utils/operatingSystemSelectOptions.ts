@@ -121,9 +121,10 @@ export const mapOperatingSystemApiResultsToVersionRows = (
 
 export const buildOperatingSystemSelectGroups = (
   osData: OperatingSystemVersionRow[],
+  { showCentosOptions = true }: { showCentosOptions?: boolean } = {},
 ): OperatingSystemSelectGroup[] => [
-  ...getOsSelectOptions('CentOS Linux', osData),
-  ...getOsSelectOptions('CentOS', osData),
+  ...(showCentosOptions ? getOsSelectOptions('CentOS Linux', osData) : []),
+  ...(showCentosOptions ? getOsSelectOptions('CentOS', osData) : []),
   ...getOsSelectOptions('RHEL', osData),
 ];
 

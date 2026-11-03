@@ -1,4 +1,9 @@
+import '@testing-library/jest-dom';
+import React, { useState } from 'react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { bindFilter } from './bindFilter';
+import { getFilterComponent } from './getFilterComponent';
 import { filterCatalog } from './catalog';
 import { buildFilterParams } from './buildFilterParams';
 import type { BoundFilter, FilterSpec } from './types';
@@ -55,6 +60,69 @@ describe('bindFilter', () => {
         { lastSeenCustomRange: null },
       ),
     ).toEqual({ hostnameOrId: 'host-a', tags: ['env/prod'] });
+  });
+
+  it('keeps the custom filter component type when the binding is rebuilt', async () => {
+    const user = userEvent.setup();
+    const SpecFilter = ({
+      showCentosOptions = true,
+    }: {
+      showCentosOptions?: boolean;
+      value?: string[];
+      onChange?: (event?: React.MouseEvent, values?: string[]) => void;
+      placeholder?: string;
+      filterId?: string;
+    }) => {
+      const [query, setQuery] = useState('');
+      return (
+        <input
+          aria-label="os search"
+          value={query}
+          data-centos={String(showCentosOptions)}
+          onChange={(event) => setQuery(event.target.value)}
+        />
+      );
+    };
+    const spec: FilterSpec = {
+      type: 'custom',
+      filterId: 'operating_system',
+      title: 'Operating system',
+      defaultValue: [],
+      filterComponent: SpecFilter,
+      createLabel: () => [],
+    };
+
+    const Harness = () => {
+      const [showCentosOptions, setShowCentosOptions] = useState(true);
+      const bound = bindFilter(spec, {
+        updateFilterParams: (params: HostQuery) => params,
+        filterProps: { showCentosOptions },
+      });
+      return (
+        <>
+          <button type="button" onClick={() => setShowCentosOptions(false)}>
+            rebind
+          </button>
+          {getFilterComponent(bound)}
+        </>
+      );
+    };
+
+    render(<Harness />);
+    await user.type(screen.getByRole('textbox', { name: 'os search' }), 'rhel');
+    expect(screen.getByRole('textbox', { name: 'os search' })).toHaveValue(
+      'rhel',
+    );
+
+    await user.click(screen.getByRole('button', { name: 'rebind' }));
+
+    expect(screen.getByRole('textbox', { name: 'os search' })).toHaveValue(
+      'rhel',
+    );
+    expect(screen.getByRole('textbox', { name: 'os search' })).toHaveAttribute(
+      'data-centos',
+      'false',
+    );
   });
 });
 
