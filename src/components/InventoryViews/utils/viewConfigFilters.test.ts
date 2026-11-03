@@ -344,6 +344,7 @@ describe('parseViewConfigFilters', () => {
       ...EMPTY_FILTERS,
       cve_severity: ['critical', 'low'],
       known_exploit: ['no_known_exploit'],
+      security_rule: ['present'],
     };
 
     const built = buildViewConfigFilters(input);
@@ -351,6 +352,7 @@ describe('parseViewConfigFilters', () => {
       host: {
         cve_severity: ['critical', 'low'],
         known_exploit: 'no_known_exploit',
+        security_rule: 'present',
       },
     });
 
@@ -358,6 +360,7 @@ describe('parseViewConfigFilters', () => {
     expect(parsed).toEqual({
       cve_severity: ['critical', 'low'],
       known_exploit: ['no_known_exploit'],
+      security_rule: ['present'],
     });
   });
 });
