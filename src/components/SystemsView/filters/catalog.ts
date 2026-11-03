@@ -1,3 +1,4 @@
+import type { OperatingSystemsFilterExtraProps } from './inventory/components/OperatingSystemsFilter';
 import { bindFilter } from './bindFilter';
 import type {
   BoundFilter,
@@ -31,7 +32,11 @@ export type FilterCatalog = {
     binding: FilterBinding<TFilterParams, string[]>,
   ) => BoundFilter<TFilterParams>;
   operatingSystem: <TFilterParams>(
-    binding: FilterBinding<TFilterParams, string[]>,
+    binding: FilterBinding<
+      TFilterParams,
+      string[],
+      OperatingSystemsFilterExtraProps
+    >,
   ) => BoundFilter<TFilterParams>;
   source: <TFilterParams>(
     binding: FilterBinding<TFilterParams, string[]>,
@@ -55,9 +60,13 @@ export type FilterCatalog = {
    * Escape hatch for filters that are not in the shared catalog.
    * Same as `bindFilter`; keeps ad-hoc definitions inside the selector.
    */
-  custom: <TFilterParams, TValue>(
+  custom: <
+    TFilterParams,
+    TValue,
+    TFilterProps extends object = Record<string, never>,
+  >(
     spec: FilterSpec,
-    binding: FilterBinding<TFilterParams, TValue>,
+    binding: FilterBinding<TFilterParams, TValue, TFilterProps>,
   ) => BoundFilter<TFilterParams>;
 };
 

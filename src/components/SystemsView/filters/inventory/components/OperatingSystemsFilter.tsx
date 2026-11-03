@@ -22,11 +22,17 @@ import {
 import { FILTER_DROPDOWN_WIDTH } from '../../../constants';
 import { DEBOUNCE_TIMEOUT_MS } from '../../../../../constants';
 
-interface OperatingSystemsFilterProps {
+/** Extra props a caller may pass through `catalog.operatingSystem` `filterProps`. */
+export type OperatingSystemsFilterExtraProps = {
+  /** When false, CentOS and CentOS Linux groups are omitted. Defaults to true. */
+  showCentosOptions?: boolean;
+};
+
+type OperatingSystemsFilterProps = {
   placeholder?: string;
   value?: string[];
   onChange?: (event?: React.MouseEvent, values?: string[]) => void;
-}
+} & OperatingSystemsFilterExtraProps;
 
 /* PF MenuItem doesn't support indeterminate checkbox state,
  so we've re-created custom OsFilterOption which does */
@@ -72,6 +78,7 @@ export const OperatingSystemsFilter = ({
   placeholder,
   value = [],
   onChange,
+  showCentosOptions = true,
 }: OperatingSystemsFilterProps) => {
   const idPrefix = useId();
   const [isOpen, setIsOpen] = useState(false);
@@ -85,8 +92,8 @@ export const OperatingSystemsFilter = ({
 
   const groups = useMemo(() => {
     const rows = mapOperatingSystemApiResultsToVersionRows(data);
-    return buildOperatingSystemSelectGroups(rows);
-  }, [data]);
+    return buildOperatingSystemSelectGroups(rows, { showCentosOptions });
+  }, [data, showCentosOptions]);
 
   // Filter groups and items based on search text
   const filteredGroups = useMemo(() => {
