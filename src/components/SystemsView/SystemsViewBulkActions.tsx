@@ -14,6 +14,8 @@ interface SystemsViewBulkActionsProps<TItem> {
   activeState: SystemsViewActiveState;
   bulkActions: readonly BulkAction<TItem>[];
   actionHelpers: ActionHelpers;
+  /** Inventory-owned tables keep Manage columns. Module consumers pass false. */
+  showColumnManagement?: boolean;
 }
 
 export const SystemsViewBulkActions = <TItem,>({
@@ -21,6 +23,7 @@ export const SystemsViewBulkActions = <TItem,>({
   activeState,
   bulkActions,
   actionHelpers,
+  showColumnManagement = true,
 }: SystemsViewBulkActionsProps<TItem>) => {
   const isInventoryViewsEnabled = useInventoryViewsFeatureFlag();
   const { openColumnManagementModal } = useColumnManagementModalContext();
@@ -50,7 +53,7 @@ export const SystemsViewBulkActions = <TItem,>({
             </ResponsiveAction>
           );
         })}
-        {isInventoryViewsEnabled && (
+        {showColumnManagement && isInventoryViewsEnabled && (
           <ResponsiveAction onClick={() => openColumnManagementModal()}>
             Manage columns
           </ResponsiveAction>

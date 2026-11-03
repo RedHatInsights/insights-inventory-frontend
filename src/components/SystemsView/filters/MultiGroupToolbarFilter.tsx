@@ -109,7 +109,7 @@ export const MultiGroupToolbarFilter = ({
   return (
     <>
       {showToolbarItem && <ToolbarItem {...props}>{children}</ToolbarItem>}
-      {labelContainerRef.current &&
+      {labelContainerRef?.current &&
         ReactDOM.createPortal(groupLabelsRendered, labelContainerRef.current)}
       {expandableLabelContainerRef &&
         expandableLabelContainerRef.current &&

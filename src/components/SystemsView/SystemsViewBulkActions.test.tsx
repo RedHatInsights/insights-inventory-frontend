@@ -49,10 +49,12 @@ function renderBulkActions({
   bulkActions = [] as readonly ActionSpec<SystemsViewItem>[],
   selected = selectedSystems,
   activeState = 'active' as const,
+  showColumnManagement = true,
 }: {
   bulkActions?: readonly ActionSpec<SystemsViewItem>[];
   selected?: SystemsViewItem[];
   activeState?: 'loading' | 'error' | 'empty' | 'active';
+  showColumnManagement?: boolean;
 } = {}) {
   return render(
     <SystemsViewBulkActions
@@ -60,6 +62,7 @@ function renderBulkActions({
       activeState={activeState}
       bulkActions={bulkActions}
       actionHelpers={actionHelpers}
+      showColumnManagement={showColumnManagement}
     />,
   );
 }
@@ -267,6 +270,19 @@ describe('SystemsViewBulkActions', () => {
     );
 
     expect(mockOpenColumnManagementModal).toHaveBeenCalled();
+  });
+
+  it('does not render Manage columns when column management is disabled', () => {
+    mockUseInventoryViewsFeatureFlag.mockReturnValue(true);
+
+    renderBulkActions({ showColumnManagement: false });
+
+    expect(
+      screen.queryByRole('button', { name: /actions overflow menu/i }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('menuitem', { name: 'Manage columns' }),
+    ).not.toBeInTheDocument();
   });
 
   it('does not render Manage columns when inventory views are disabled', () => {
