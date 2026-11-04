@@ -5,8 +5,12 @@ type MergeableColumn = {
 };
 
 /**
- * Keep the current column order and visibility, refresh definitions from
- * `incoming`, and append keys that were not already present.
+ * Refresh column definitions after the table is already showing a column set.
+ * Visibility stays with the current columns so a tag-catalog refresh can append
+ * keys without replacing a saved view or the user's toggles.
+ * The saved view's visibility has to be the initial list. InventoryViews waits
+ * for a deep-linked view before mounting the table so this merge is not how
+ * that first configuration is applied.
  * A shown column that disappears from `incoming` stays so a refetch cannot hide it.
  */
 export const mergeColumns = <T extends MergeableColumn>(
@@ -35,6 +39,7 @@ export const mergeColumns = <T extends MergeableColumn>(
       return [
         {
           ...next,
+          // A later catalog must not overwrite the columns already on screen.
           isShown: col.isShown ?? next.isShown,
           isShownByDefault: col.isShownByDefault ?? next.isShownByDefault,
         },

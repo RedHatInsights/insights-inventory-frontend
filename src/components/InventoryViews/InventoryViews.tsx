@@ -19,6 +19,8 @@ import {
 import { useAnsibleWorkloadsSearchParam } from './hooks/useAnsibleWorkloadsSearchParam';
 import { useViewsQuery } from './hooks/useViewsQuery';
 import { useViewQuery } from './hooks/useViewQuery';
+import { useAccountTagCatalog } from './hooks/useAccountTagCatalog';
+import { shouldWaitForFetchedView } from './shouldWaitForFetchedView';
 import useInventoryViewsPrivateFeatureFlag from '../../Utilities/useInventoryViewsPrivateFeatureFlag';
 import ViewsToolbar from './ViewsToolbar/ViewsToolbar';
 import ViewSaveAsModal from './Modals/ViewSaveAsModal';
@@ -32,7 +34,6 @@ import {
 import { createViewColumnSelector } from './createViewColumnSelector';
 import { uniqueTagKeys } from './tagKeys';
 import { bindTagKeyColumns } from '../SystemsView/columns/inventory/tagKeyColumns';
-import { useTagsQuery } from '../SystemsView/hooks/useTagsQuery';
 import { createViewFilterSelector } from './createViewFilterSelector';
 import { resolveDefaultViewId } from './resolveDefaultViewId';
 import { resolveSystemViewId } from './resolveSystemViewId';
@@ -182,13 +183,20 @@ const InventoryViews = () => {
   ]);
 
   const activeViewInList = viewsList.find((v) => v.id === activeViewId);
+  const shouldFetchActiveView =
+    !activeViewInList && activeViewId !== ALL_SYSTEMS_VIEW_ID;
 
-  const { data: fetchedActiveView } = useViewQuery(
-    !activeViewInList && activeViewId !== ALL_SYSTEMS_VIEW_ID
-      ? activeViewId
-      : undefined,
-  );
+  const {
+    data: fetchedActiveView,
+    isLoading: isFetchedViewLoading,
+    isError: isFetchedViewError,
+  } = useViewQuery(shouldFetchActiveView ? activeViewId : undefined);
   const activeView = activeViewInList ?? fetchedActiveView;
+  const isResolvingActiveView = shouldWaitForFetchedView({
+    shouldFetch: shouldFetchActiveView,
+    isLoading: isFetchedViewLoading,
+    isError: isFetchedViewError,
+  });
   const isSystemView = activeView?.is_system_view ?? true;
 
   const isDefaultView = activeViewId === defaultViewId;
@@ -235,7 +243,7 @@ const InventoryViews = () => {
     hasNextViewsPage,
   ]);
 
-  const { data: accountTags } = useTagsQuery({ search: '' });
+  const { data: accountTags } = useAccountTagCatalog();
   const tagKeyIdentities = useMemo(
     () => uniqueTagKeys(accountTags ?? []),
     [accountTags],
@@ -425,7 +433,7 @@ const InventoryViews = () => {
     };
   };
 
-  if (isViewsPending) {
+  if (isViewsPending || isResolvingActiveView) {
     return (
       <Bullseye>
         <Spinner size="xl" />

@@ -16,23 +16,35 @@ export const tagColumnKey = (identity: string): string => `tag:${identity}`;
 /**
  * Group a host's StructuredTag array once, by namespace and key.
  * Null and missing namespaces share the bare key. Null values are omitted.
+ *
+ * Identities are stored in a Map so a key named `constructor` or `toString`
+ * is not read from Object.prototype.
  */
 export const groupTagsByIdentity = (
   tags: StructuredTag[] | undefined,
 ): Record<string, string[]> => {
-  const grouped: Record<string, string[]> = {};
+  const grouped = new Map<string, string[]>();
 
   for (const tag of tags ?? []) {
     if (!tag.key) continue;
     const identity = tagIdentity(tag.namespace, tag.key);
-    const values = grouped[identity] ?? [];
+    const values = grouped.get(identity) ?? [];
     if (tag.value != null && tag.value !== '') {
       values.push(tag.value);
     }
-    grouped[identity] = values;
+    grouped.set(identity, values);
   }
 
-  return grouped;
+  return Object.fromEntries(grouped);
+};
+
+const ownTagValues = (
+  tagsByKey: Record<string, string[]> | undefined,
+  identity: string,
+): string[] => {
+  if (!tagsByKey || !Object.hasOwn(tagsByKey, identity)) return [];
+  const values = tagsByKey[identity];
+  return Array.isArray(values) ? values : [];
 };
 
 export const valuesForTagIdentity = (
@@ -40,8 +52,8 @@ export const valuesForTagIdentity = (
   tags: StructuredTag[] | undefined,
   identity: string,
 ): string[] => {
-  if (tagsByKey) return tagsByKey[identity] ?? [];
-  return groupTagsByIdentity(tags)[identity] ?? [];
+  if (tagsByKey) return ownTagValues(tagsByKey, identity);
+  return ownTagValues(groupTagsByIdentity(tags), identity);
 };
 
 /** One entry per namespace/key. GET /tags returns one row per full namespace/key=value. */

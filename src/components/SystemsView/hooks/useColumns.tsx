@@ -49,6 +49,9 @@ export const useColumns = <TItem,>({
   const [rawColumns, setColumns] =
     useState<readonly Column<TItem>[]>(defaultColumns);
 
+  // Append columns that show up after mount, such as a later tag catalog.
+  // This keeps the visibility already on screen. A saved view has to be the
+  // initial `defaultColumns`, not a later merge.
   useEffect(() => {
     setColumns((current) => mergeColumns(current, defaultColumns));
   }, [defaultColumns]);

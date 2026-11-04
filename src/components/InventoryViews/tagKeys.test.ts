@@ -3,6 +3,7 @@ import {
   tagColumnKey,
   tagIdentity,
   uniqueTagKeys,
+  valuesForTagIdentity,
 } from './tagKeys';
 
 describe('tag keys', () => {
@@ -28,6 +29,23 @@ describe('tag keys', () => {
     ).toEqual({
       owner: ['alice', 'bob'],
     });
+  });
+
+  it('groups keys that match inherited object properties', () => {
+    const tags = [
+      { namespace: null, key: 'constructor', value: 'yes' },
+      { namespace: null, key: 'toString', value: 'text' },
+    ];
+
+    expect(groupTagsByIdentity(tags)).toEqual({
+      constructor: ['yes'],
+      toString: ['text'],
+    });
+    expect(valuesForTagIdentity(undefined, tags, 'constructor')).toEqual([
+      'yes',
+    ]);
+    expect(valuesForTagIdentity({}, undefined, 'toString')).toEqual([]);
+    expect(valuesForTagIdentity({}, undefined, 'constructor')).toEqual([]);
   });
 
   it('keeps the same key in two namespaces distinct', () => {
