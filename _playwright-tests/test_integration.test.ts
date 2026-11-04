@@ -12,7 +12,6 @@ const systemsPageUrls = [
   { name: 'Vulnerability', url: '/insights/vulnerability/systems' },
   { name: 'Compliance', url: '/insights/compliance/systems' },
   { name: 'Malware', url: '/insights/malware/systems' },
-  { name: 'Tasks', url: '/insights/tasks/available/insights-client' },
   {
     name: 'Remediation Plan',
     url: '/insights/remediations/e444a91d-17ae-4cd3-94cf-e5b472d3c50a?activeTab=plannedRemediations',
