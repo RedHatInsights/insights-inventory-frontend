@@ -108,6 +108,15 @@ describe('buildHostFilters', () => {
     ).toEqual({ known_exploit: 'no_known_exploit' });
   });
 
+  it('unwraps the single-select security rule value to a single string', () => {
+    expect(
+      buildHostFilters({
+        ...EMPTY_FILTERS,
+        security_rule: ['not_present'],
+      }),
+    ).toEqual({ security_rule: 'not_present' });
+  });
+
   it('combines the Vulnerability filters with the other host filters', () => {
     expect(
       buildHostFilters({
@@ -115,11 +124,13 @@ describe('buildHostFilters', () => {
         status: ['fresh'],
         cve_severity: ['critical', 'important'],
         known_exploit: ['has_known_exploit'],
+        security_rule: ['present'],
       }),
     ).toEqual({
       staleness: ['fresh'],
       cve_severity: ['critical', 'important'],
       known_exploit: 'has_known_exploit',
+      security_rule: 'present',
     });
   });
 
