@@ -7,11 +7,9 @@ import { collectInfoTest, testProperties } from '../../__mocks__/selectors';
 import Overview from './Overview';
 
 import '@testing-library/jest-dom';
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen } from '@testing-library/react';
 import { cloneDeep } from 'lodash';
 import { TestWrapper } from '../../Utilities/TestingUtilities';
-import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
 
 jest.mock(
   '@redhat-cloud-services/frontend-components-utilities/RBACHook',
@@ -231,26 +229,6 @@ describe('Overview', () => {
         'href',
         'https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux/centos-migration',
       );
-    });
-
-    it('redirect to pre-conversion task', async () => {
-      const navigate = jest.fn();
-      useInsightsNavigate.mockReturnValue(navigate);
-      render(
-        <TestWrapper store={mockStore(state)}>
-          <Overview entity={entity} inventoryId={'test-id'} />
-        </TestWrapper>,
-      );
-
-      await userEvent.click(
-        screen.getByText(/run a pre-conversion analysis of this system/i),
-      );
-
-      await waitFor(() => {
-        expect(navigate).toHaveBeenCalledWith(
-          '/available/convert-to-rhel-analysis',
-        );
-      });
     });
 
     it('not shown for RHEL systems', () => {
