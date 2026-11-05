@@ -1,10 +1,7 @@
 import { Alert, Content, ContentVariants } from '@patternfly/react-core';
-import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
 import React from 'react';
 
 const ConversionAlert = (props) => {
-  const navigate = useInsightsNavigate('tasks');
-
   return (
     <Alert
       variant="custom"
@@ -30,11 +27,6 @@ const ConversionAlert = (props) => {
             rel="noreferrer"
           >
             Learn more about CentOS Migration here.
-          </a>
-        </Content>
-        <Content component={ContentVariants.p}>
-          <a onClick={() => navigate('/available/convert-to-rhel-analysis')}>
-            Run a Pre-conversion analysis of this system
           </a>
         </Content>
       </Content>

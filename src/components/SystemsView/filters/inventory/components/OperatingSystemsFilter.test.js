@@ -84,6 +84,23 @@ describe('OperatingSystemsFilter', () => {
     ).toBeInTheDocument();
   });
 
+  it('hides CentOS groups when showCentosOptions is false', async () => {
+    mockLoadedOperatingSystems([
+      ...rhel9Results,
+      { value: { name: 'CentOS Linux', major: 7, minor: 9 } },
+      { value: { name: 'CentOS', major: 8, minor: 1 } },
+    ]);
+    const user = userEvent.setup();
+    render(<OperatingSystemsFilter showCentosOptions={false} />);
+    await openOperatingSystemsMenu(user);
+    expect(
+      screen.getByRole('checkbox', { name: /^RHEL 9$/ }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('checkbox', { name: /CentOS/ }),
+    ).not.toBeInTheDocument();
+  });
+
   it('shows a loading spinner while operating systems are loading', async () => {
     useOperatingSystemsQuery.mockReturnValue({
       data: undefined,
