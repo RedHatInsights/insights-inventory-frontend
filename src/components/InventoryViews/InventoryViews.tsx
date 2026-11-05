@@ -19,6 +19,7 @@ import { useAnsibleWorkloadsSearchParam } from './hooks/useAnsibleWorkloadsSearc
 import { useViewsQuery } from './hooks/useViewsQuery';
 import { useViewQuery } from './hooks/useViewQuery';
 import useInventoryViewsPrivateFeatureFlag from '../../Utilities/useInventoryViewsPrivateFeatureFlag';
+import useInventoryViewsFiltersFeatureFlag from '../../Utilities/useInventoryViewsFiltersFeatureFlag';
 import ViewsToolbar from './ViewsToolbar/ViewsToolbar';
 import ViewSaveAsModal from './Modals/ViewSaveAsModal';
 import ViewRenameModal from './Modals/ViewRenameModal';
@@ -34,7 +35,7 @@ import { resolveDefaultViewId } from './resolveDefaultViewId';
 import { resolveSystemViewId } from './resolveSystemViewId';
 import { resolveViewIdAfterDelete } from './resolveViewIdAfterDelete';
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
-import { selectInventoryViewsFilters } from './selectInventoryViewsFilters';
+import { getInventoryViewsFilterSelector } from './selectInventoryViewsFilters';
 import {
   ANSIBLE_WORKLOAD,
   selectAnsibleWorkload,
@@ -42,11 +43,12 @@ import {
 import { resolveColumnSelector } from '../SystemsView/columns/resolveColumnSelector';
 import { resolveFilterSelector } from '../SystemsView/filters/resolveFilterSelector';
 import { defaultValuesFrom } from '../SystemsView/filters/defaultValuesFrom';
-import { inventoryViewsFilterSpecs } from './inventoryViewsFilterSpecs';
+import { getInventoryViewsFilterSpecs } from './inventoryViewsFilterSpecs';
 import { SORT_URL_PARAM, SORT_DIR_URL_PARAM } from '../SystemsView/constants';
 import { INITIAL_SORT } from '../SystemsView/hooks/useColumns';
 import type { Column } from '../SystemsView/columns/types';
 import type { InventoryBindableItem } from '../SystemsView/columns/inventory/columnDefinitions';
+import type { FilterSpec } from '../SystemsView/filters/types';
 import {
   buildViewConfigFilters,
   parseViewConfigFilters,
@@ -62,10 +64,14 @@ import type {
 
 const filtersToSearchParams = (
   filters?: SystemsViewFilterState,
+  allowedKeys?: ReadonlySet<string>,
 ): URLSearchParams => {
   const params = new URLSearchParams();
   if (!filters) return params;
   for (const [key, value] of Object.entries(filters)) {
+    // A view saved with filters that are now hidden (feature flag off) must not
+    // leak its values into the URL — there would be no control to clear them.
+    if (allowedKeys && !allowedKeys.has(key)) continue;
     if (Array.isArray(value)) {
       for (const v of value) {
         if (v) params.append(key, String(v));
@@ -92,11 +98,12 @@ const getSortFromSearchParams = (
 
 const getFiltersFromSearchParams = (
   searchParams: URLSearchParams,
+  filterSpecs: readonly FilterSpec[],
   lastSeenCustomRange?: LastSeenCustomRange,
 ): ViewConfiguration['filters'] | undefined => {
   const filters: SystemsViewFilterState = {};
 
-  for (const spec of inventoryViewsFilterSpecs) {
+  for (const spec of filterSpecs) {
     filters[spec.filterId] = Array.isArray(spec.defaultValue)
       ? searchParams.getAll(spec.filterId)
       : (searchParams.get(spec.filterId) ?? '');
@@ -124,6 +131,7 @@ const InventoryViews = () => {
   const updateView = useUpdateViewMutation();
   const setDefaultView = useSetDefaultViewMutation();
   const isInventoryViewsPrivateEnabled = useInventoryViewsPrivateFeatureFlag();
+  const isAppDataFiltersEnabled = useInventoryViewsFiltersFeatureFlag();
   const [currentLastSeenCustomRange, setCurrentLastSeenCustomRange] = useState<
     LastSeenCustomRange | undefined
   >(undefined);
@@ -233,14 +241,22 @@ const InventoryViews = () => {
     [activeView?.configuration],
   );
 
+  const filterSpecs = useMemo(
+    () => getInventoryViewsFilterSpecs(isAppDataFiltersEnabled),
+    [isAppDataFiltersEnabled],
+  );
+
   const filterSelector = useMemo(() => {
+    const baseSelector = getInventoryViewsFilterSelector(
+      isAppDataFiltersEnabled,
+    );
     const selector =
-      createViewFilterSelector(activeView?.configuration) ??
-      selectInventoryViewsFilters;
+      createViewFilterSelector(activeView?.configuration, baseSelector) ??
+      baseSelector;
     const selectorWithWorkloadDefault = selectAnsibleWorkload(selector);
 
     return isAnsibleBundle ? selectorWithWorkloadDefault : selector;
-  }, [activeView?.configuration, isAnsibleBundle]);
+  }, [activeView?.configuration, isAnsibleBundle, isAppDataFiltersEnabled]);
 
   const resolvedFilters = useMemo(
     () => resolveFilterSelector(filterSelector),
@@ -253,6 +269,10 @@ const InventoryViews = () => {
   const filterParamKeys = useMemo(
     () => resolvedFilters.map((spec) => spec.filterId),
     [resolvedFilters],
+  );
+  const filterParamKeySet = useMemo(
+    () => new Set(filterParamKeys),
+    [filterParamKeys],
   );
 
   const baselineColumns = useMemo(
@@ -312,14 +332,14 @@ const InventoryViews = () => {
       const filters = parseViewConfigFilters(view?.configuration?.filters);
       // Switching views starts from a clean slate: build fresh params from the
       // target view's saved filters, dropping any params applied to the old view.
-      const params = filtersToSearchParams(filters);
+      const params = filtersToSearchParams(filters, filterParamKeySet);
       params.set(VIEW_ID_URL_PARAM, viewId);
       if (isAnsibleBundle && !params.has('workloads')) {
         params.set('workloads', ANSIBLE_WORKLOAD);
       }
       setSearchParams(params, { replace: true });
     },
-    [isAnsibleBundle, setSearchParams, viewsList],
+    [isAnsibleBundle, setSearchParams, viewsList, filterParamKeySet],
   );
 
   const handleSaveAs = () => {
@@ -388,6 +408,7 @@ const InventoryViews = () => {
       getSortFromSearchParams(searchParams) || activeView?.configuration?.sort;
     const filters = getFiltersFromSearchParams(
       searchParams,
+      filterSpecs,
       currentLastSeenCustomRange === undefined
         ? (initialLastSeenCustomRange ?? undefined)
         : currentLastSeenCustomRange,

@@ -5,6 +5,15 @@ import type { FilterSelector } from '../SystemsView/filters/resolveFilterSelecto
 import { bindVulnerabilityFilters } from '../SystemsView/filters/vulnerability/bindVulnerabilityFilter';
 
 /**
+ * Base `/hosts/views` toolbar: inventory filters only, no app-data groups.
+ *
+ * Used when the `ui.inventory-views-filters` feature flag is off.
+ */
+export const selectInventoryViewsBaseFilters: FilterSelector<
+  ApiHostViewsGetHostViewsParams
+> = (catalog) => [...bindInventoryHostViewsFilters(catalog)];
+
+/**
  * Configuration for the `/hosts/views` toolbar filter groups.
  *
  * Combines base inventory filters with app-specific data groups for display in `InventoryViews`.
@@ -14,7 +23,20 @@ import { bindVulnerabilityFilters } from '../SystemsView/filters/vulnerability/b
 export const selectInventoryViewsFilters: FilterSelector<
   ApiHostViewsGetHostViewsParams
 > = (catalog) => [
-  ...bindInventoryHostViewsFilters(catalog),
+  ...selectInventoryViewsBaseFilters(catalog),
   ...bindAdvisorFilters(catalog),
   ...bindVulnerabilityFilters(catalog),
 ];
+
+/**
+ * Picks the toolbar selector matching the `ui.inventory-views-filters` flag.
+ *
+ *  @param isAppDataFiltersEnabled - Whether Advisor/Vulnerability filters show
+ *  @returns                       Selector for the `/hosts/views` toolbar
+ */
+export const getInventoryViewsFilterSelector = (
+  isAppDataFiltersEnabled: boolean,
+): FilterSelector<ApiHostViewsGetHostViewsParams> =>
+  isAppDataFiltersEnabled
+    ? selectInventoryViewsFilters
+    : selectInventoryViewsBaseFilters;
