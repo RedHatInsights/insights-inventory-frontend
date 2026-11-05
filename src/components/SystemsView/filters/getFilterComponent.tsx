@@ -6,7 +6,7 @@ import {
   DataViewCustomFilter,
   type DataViewCustomFilterProps,
 } from './DataViewCustomFilter';
-import type { FilterSpec } from './types';
+import type { BoundFilter, FilterSpec } from './types';
 
 /**
  * PatternFly child for `DataViewFilters`. Returns the PF filter element
@@ -15,7 +15,9 @@ import type { FilterSpec } from './types';
  *  @param spec - Discriminated filter spec (`text` | `checkbox` | `custom`)
  *  @returns    A `DataViewTextFilter`, `DataViewCheckboxFilter`, `DataViewSingleSelectFilter`, or `DataViewCustomFilter` element
  */
-export const getFilterComponent = (spec: FilterSpec): ReactElement => {
+export const getFilterComponent = (
+  spec: FilterSpec | BoundFilter,
+): ReactElement => {
   switch (spec.type) {
     case 'text':
       return (
@@ -59,6 +61,7 @@ export const getFilterComponent = (spec: FilterSpec): ReactElement => {
           filterComponent={
             spec.filterComponent as DataViewCustomFilterProps<unknown>['filterComponent']
           }
+          filterProps={'filterProps' in spec ? spec.filterProps : undefined}
           createLabel={
             spec.createLabel as DataViewCustomFilterProps<unknown>['createLabel']
           }
