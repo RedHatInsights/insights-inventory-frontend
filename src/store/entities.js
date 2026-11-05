@@ -198,7 +198,7 @@ function entitiesLoaded(
 
   return {
     ...state,
-    activeFilters: filters || [],
+    activeFilters: filters ?? state.activeFilters ?? [],
     loaded: loaded === undefined || loaded,
     // filter data only if we are loaded
     rows: mergeArraysByKey([state.rows, results]).filter((item) =>
