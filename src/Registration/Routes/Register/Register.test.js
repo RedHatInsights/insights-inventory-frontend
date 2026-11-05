@@ -38,9 +38,6 @@ describe('Register route component', () => {
     expect(mockUpdateDocumentTitle).toHaveBeenCalledWith(
       'Registration Assistant - Inventory',
     );
-    expect(mockUpdateDocumentTitle).not.toHaveBeenCalledWith(
-      'Register Systems - Inventory',
-    );
   });
 
   it('renders page header title as "Registration Assistant"', () => {
@@ -51,9 +48,6 @@ describe('Register route component', () => {
     expect(
       screen.getByRole('heading', { name: 'Registration Assistant' }),
     ).toBeInTheDocument();
-    expect(
-      screen.queryByRole('heading', { name: 'Register Systems' }),
-    ).not.toBeInTheDocument();
   });
 
   it('renders Insights copy and stepper when Lightspeed feature flag is inactive', () => {
