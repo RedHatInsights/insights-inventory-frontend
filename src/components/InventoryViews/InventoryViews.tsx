@@ -1,4 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
+import type { ApiHostViewsGetHostViewsParams } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 import React, {
   useCallback,
   useEffect,
@@ -18,6 +19,7 @@ import {
 import { useAnsibleWorkloadsSearchParam } from './hooks/useAnsibleWorkloadsSearchParam';
 import { useViewsQuery } from './hooks/useViewsQuery';
 import { useViewQuery } from './hooks/useViewQuery';
+import { shouldWaitForFetchedView } from './shouldWaitForFetchedView';
 import useInventoryViewsPrivateFeatureFlag from '../../Utilities/useInventoryViewsPrivateFeatureFlag';
 import useInventoryViewsFiltersFeatureFlag from '../../Utilities/useInventoryViewsFiltersFeatureFlag';
 import ViewsToolbar from './ViewsToolbar/ViewsToolbar';
@@ -30,6 +32,7 @@ import {
   type ViewConfiguration,
 } from '../../api/inventoryViewsApi';
 import { createViewColumnSelector } from './createViewColumnSelector';
+import { normalizeViewColumns } from './normalizeViewColumns';
 import { createViewFilterSelector } from './createViewFilterSelector';
 import { resolveDefaultViewId } from './resolveDefaultViewId';
 import { resolveSystemViewId } from './resolveSystemViewId';
@@ -40,7 +43,10 @@ import {
   ANSIBLE_WORKLOAD,
   selectAnsibleWorkload,
 } from './stampAnsibleWorkloadDefault';
-import { resolveColumnSelector } from '../SystemsView/columns/resolveColumnSelector';
+import {
+  resolveColumnSelector,
+  type ColumnSelector,
+} from '../SystemsView/columns/resolveColumnSelector';
 import { resolveFilterSelector } from '../SystemsView/filters/resolveFilterSelector';
 import { defaultValuesFrom } from '../SystemsView/filters/defaultValuesFrom';
 import { getInventoryViewsFilterSpecs } from './inventoryViewsFilterSpecs';
@@ -112,15 +118,6 @@ const getFiltersFromSearchParams = (
   return buildViewConfigFilters(filters, lastSeenCustomRange ?? undefined);
 };
 
-// Converts visible columns to ViewConfiguration format.
-// Backend validates column keys server-side against its field registry.
-const normalizeViewColumns = (
-  columns: readonly Column<InventoryBindableItem>[],
-): ViewConfiguration['columns'] =>
-  columns
-    .filter((c) => c.isShown === true && typeof c.key === 'string')
-    .map((c) => ({ key: c.key }));
-
 const InventoryViews = () => {
   const { isReady, isAnsibleBundle } = useAnsibleWorkloadsSearchParam();
   const [isViewSaveAsModalOpen, setIsViewSaveAsModalOpen] = useState(false);
@@ -183,13 +180,20 @@ const InventoryViews = () => {
   ]);
 
   const activeViewInList = viewsList.find((v) => v.id === activeViewId);
+  const shouldFetchActiveView =
+    !activeViewInList && activeViewId !== ALL_SYSTEMS_VIEW_ID;
 
-  const { data: fetchedActiveView } = useViewQuery(
-    !activeViewInList && activeViewId !== ALL_SYSTEMS_VIEW_ID
-      ? activeViewId
-      : undefined,
-  );
+  const {
+    data: fetchedActiveView,
+    isLoading: isFetchedViewLoading,
+    isError: isFetchedViewError,
+  } = useViewQuery(shouldFetchActiveView ? activeViewId : undefined);
   const activeView = activeViewInList ?? fetchedActiveView;
+  const isResolvingActiveView = shouldWaitForFetchedView({
+    shouldFetch: shouldFetchActiveView,
+    isLoading: isFetchedViewLoading,
+    isError: isFetchedViewError,
+  });
   const isSystemView = activeView?.is_system_view ?? true;
 
   const isDefaultView = activeViewId === defaultViewId;
@@ -236,9 +240,15 @@ const InventoryViews = () => {
     hasNextViewsPage,
   ]);
 
-  const columnSelector = useMemo(
+  const savedColumnSelector = useMemo(
     () => createViewColumnSelector(activeView?.configuration),
     [activeView?.configuration],
+  );
+
+  const columnSelector = useMemo(
+    (): ColumnSelector<InventoryBindableItem> =>
+      savedColumnSelector ?? selectLegacyInventoryColumns,
+    [savedColumnSelector],
   );
 
   const filterSpecs = useMemo(
@@ -425,7 +435,7 @@ const InventoryViews = () => {
     };
   };
 
-  if (isViewsPending) {
+  if (isViewsPending || isResolvingActiveView) {
     return (
       <Bullseye>
         <Spinner size="xl" />
@@ -488,7 +498,7 @@ const InventoryViews = () => {
       {isReady && (
         <Actions<InventoryBindableItem>>
           {({ bulkActions, rowActions }) => (
-            <SystemsView
+            <SystemsView<InventoryBindableItem, ApiHostViewsGetHostViewsParams>
               key={`${activeViewId}-${viewsLoaded}`}
               columns={columnSelector ?? selectLegacyInventoryColumns}
               filters={filterSelector}

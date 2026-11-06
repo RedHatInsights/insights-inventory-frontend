@@ -3,11 +3,18 @@ import {
   bindInventoryViewColumns,
   type BoundColumn,
 } from '../SystemsView/columns/inventoryViewColumns';
+import { bindTagKeyColumns } from '../SystemsView/columns/inventory/tagKeyColumns';
 import type { ColumnSelector } from '../SystemsView/columns/resolveColumnSelector';
 import type { InventoryBindableItem } from '../SystemsView/columns/inventory/columnDefinitions';
+import { isTagColumnKey, parseTagColumnKey } from './tagKeys';
+import type { SavedViewColumn } from './normalizeViewColumns';
+
+type ViewColumnSource = Omit<ViewConfiguration, 'columns'> & {
+  columns: readonly SavedViewColumn[];
+};
 
 export const createViewColumnSelector = (
-  configuration?: ViewConfiguration,
+  configuration?: ViewColumnSource,
 ): ColumnSelector<InventoryBindableItem> | undefined => {
   if (!configuration) {
     return undefined;
@@ -22,6 +29,19 @@ export const createViewColumnSelector = (
     const result: BoundColumn<InventoryBindableItem>[] = [];
 
     for (const configCol of configColumns) {
+      if (isTagColumnKey(configCol.key)) {
+        const identity = parseTagColumnKey(configCol.key);
+        if (!identity) continue;
+        const shown = configCol.shown !== false;
+        const [tagColumn] = bindTagKeyColumns([identity]);
+        result.push({
+          ...tagColumn,
+          isShown: shown,
+          isShownByDefault: shown,
+        });
+        continue;
+      }
+
       const catalogCol = catalogByKey.get(configCol.key);
       if (!catalogCol) continue;
 
