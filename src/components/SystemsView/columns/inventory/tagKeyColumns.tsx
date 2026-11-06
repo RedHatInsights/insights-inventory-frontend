@@ -10,7 +10,7 @@ import {
   type TagKeyIdentity,
 } from '../../../InventoryViews/tagKeys';
 
-const APP_NAME = 'inventory' as const;
+const APP_NAME = 'tag' as const;
 
 export const bindTagKeyColumns = (
   identities: readonly TagKeyIdentity[],
@@ -18,20 +18,23 @@ export const bindTagKeyColumns = (
   identities.map(({ namespace, key }) => {
     const identity = tagIdentity(namespace, key);
 
-    return bindColumn(
-      {
-        appName: APP_NAME,
-        title: identity,
-        key: tagColumnKey(identity),
-        minWidth: '8rem',
-        renderCell: (values: string[]) => (
-          <TagKeyValues identity={identity} values={values} />
-        ),
-      },
-      {
-        isShownByDefault: false,
-        getValue: (item) =>
-          valuesForTagIdentity(item.tagsByKey, item.tags, identity),
-      },
-    );
+    return {
+      ...bindColumn(
+        {
+          appName: APP_NAME,
+          title: identity,
+          key: tagColumnKey(identity),
+          minWidth: '8rem',
+          renderCell: (values: string[]) => (
+            <TagKeyValues identity={identity} values={values} />
+          ),
+        },
+        {
+          isShownByDefault: false,
+          getValue: (item) =>
+            valuesForTagIdentity(item.tagsByKey, item.tags, identity),
+        },
+      ),
+      isRemovable: true,
+    };
   });

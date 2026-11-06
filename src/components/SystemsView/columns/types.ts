@@ -9,7 +9,8 @@ export type ConsumerAppName =
   | 'malware'
   | 'content'
   | 'remediations'
-  | 'vulnerability';
+  | 'vulnerability'
+  | 'tag';
 
 /**
  * Shared column identity independent of any backend.
@@ -47,5 +48,7 @@ export type Column<TItem = unknown> = Resolve<
     minWidth?: string;
     appName: ConsumerAppName;
     isPermissionLocked?: boolean;
+    /** Tag columns can be removed from the configured list. Service columns cannot. */
+    isRemovable?: boolean;
   }
 >;

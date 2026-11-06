@@ -1,14 +1,6 @@
 import type { Column } from '../SystemsView/columns/types';
 import type { InventoryBindableItem } from '../SystemsView/columns/inventory/columnDefinitions';
-import type { ViewConfiguration } from '../../api/inventoryViewsApi';
-
-// This is the function we're testing (extracted from InventoryViews.tsx)
-const normalizeViewColumns = (
-  columns: readonly Column<InventoryBindableItem>[],
-): ViewConfiguration['columns'] =>
-  columns
-    .filter((c) => c.isShown === true && typeof c.key === 'string')
-    .map((c) => ({ key: c.key }));
+import { normalizeViewColumns } from './normalizeViewColumns';
 
 describe('normalizeViewColumns', () => {
   it('saves columns with sortBy field', () => {
@@ -54,6 +46,21 @@ describe('normalizeViewColumns', () => {
       { key: 'vendor' },
       { key: 'workload' },
       { key: 'created' },
+    ]);
+  });
+
+  it('keeps a hidden tag column and drops a hidden service column', () => {
+    const columns = [
+      { key: 'display_name', isShown: true },
+      { key: 'tag:owner', isShown: false },
+      { key: 'operating_system', isShown: false },
+      { key: 'tag:insights-client/env', isShown: true },
+    ] as Column<InventoryBindableItem>[];
+
+    expect(normalizeViewColumns(columns)).toEqual([
+      { key: 'display_name' },
+      { key: 'tag:owner', shown: false },
+      { key: 'tag:insights-client/env' },
     ]);
   });
 

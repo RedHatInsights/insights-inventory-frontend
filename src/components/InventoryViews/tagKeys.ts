@@ -11,7 +11,27 @@ export const tagIdentity = (
   key: string,
 ): string => (namespace ? `${namespace}/${key}` : key);
 
-export const tagColumnKey = (identity: string): string => `tag:${identity}`;
+export const TAG_COLUMN_PREFIX = 'tag:';
+
+export const tagColumnKey = (identity: string): string =>
+  `${TAG_COLUMN_PREFIX}${identity}`;
+
+export const isTagColumnKey = (key: string): boolean =>
+  key.startsWith(TAG_COLUMN_PREFIX) && key.length > TAG_COLUMN_PREFIX.length;
+
+/** Inverse of `tagColumnKey`. A slash separates namespace from key; otherwise the key is bare. */
+export const parseTagColumnKey = (
+  columnKey: string,
+): TagKeyIdentity | undefined => {
+  if (!isTagColumnKey(columnKey)) return undefined;
+  const identity = columnKey.slice(TAG_COLUMN_PREFIX.length);
+  const slash = identity.indexOf('/');
+  if (slash === -1) return { namespace: null, key: identity };
+  const namespace = identity.slice(0, slash);
+  const key = identity.slice(slash + 1);
+  if (!namespace || !key) return undefined;
+  return { namespace, key };
+};
 
 /**
  * Group a host's StructuredTag array once, by namespace and key.
@@ -73,4 +93,28 @@ export const uniqueTagKeys = (
   }
 
   return identities;
+};
+
+/** Catalog entries the user can still add, filtered by namespace, key, or `namespace/key`. */
+export const matchingTagIdentities = (
+  tags: readonly { tag?: StructuredTag | null }[],
+  search: string,
+  takenColumnKeys: ReadonlySet<string>,
+): TagKeyIdentity[] => {
+  const query = search.trim().toLowerCase();
+
+  return uniqueTagKeys(tags).filter((identity) => {
+    const columnKey = tagColumnKey(
+      tagIdentity(identity.namespace, identity.key),
+    );
+    if (takenColumnKeys.has(columnKey)) return false;
+    if (!query) return true;
+    const label = tagIdentity(identity.namespace, identity.key).toLowerCase();
+    const namespace = (identity.namespace ?? '').toLowerCase();
+    return (
+      label.includes(query) ||
+      namespace.includes(query) ||
+      identity.key.toLowerCase().includes(query)
+    );
+  });
 };

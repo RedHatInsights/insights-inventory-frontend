@@ -1,5 +1,7 @@
 import {
   groupTagsByIdentity,
+  matchingTagIdentities,
+  parseTagColumnKey,
   tagColumnKey,
   tagIdentity,
   uniqueTagKeys,
@@ -78,5 +80,48 @@ describe('tag keys', () => {
         tagColumnKey(tagIdentity(identity.namespace, identity.key)),
       ),
     ).toEqual(['tag:insights-client/env', 'tag:owner', 'tag:satellite/env']);
+  });
+
+  it('parses a stored tag column key', () => {
+    expect(parseTagColumnKey('tag:insights-client/env')).toEqual({
+      namespace: 'insights-client',
+      key: 'env',
+    });
+    expect(parseTagColumnKey('tag:owner')).toEqual({
+      namespace: null,
+      key: 'owner',
+    });
+    expect(parseTagColumnKey('display_name')).toBeUndefined();
+    expect(parseTagColumnKey('tag:')).toBeUndefined();
+  });
+
+  it('matches tag search on namespace and key, excluding columns already added', () => {
+    const tags = [
+      {
+        tag: {
+          namespace: 'insights-client',
+          key: 'environment',
+          value: 'prod',
+        },
+      },
+      { tag: { namespace: 'satellite', key: 'environment', value: 'stage' } },
+      { tag: { namespace: 'satellite', key: 'owner', value: 'alice' } },
+    ];
+
+    expect(
+      matchingTagIdentities(tags, 'environment', new Set()).map(
+        (identity) => identity.namespace,
+      ),
+    ).toEqual(['insights-client', 'satellite']);
+    expect(
+      matchingTagIdentities(tags, 'satellite', new Set()).map(
+        (identity) => identity.key,
+      ),
+    ).toEqual(['environment', 'owner']);
+    expect(
+      matchingTagIdentities(tags, '', new Set(['tag:satellite/owner'])).map(
+        (identity) => tagIdentity(identity.namespace, identity.key),
+      ),
+    ).toEqual(['insights-client/environment', 'satellite/environment']);
   });
 });

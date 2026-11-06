@@ -38,7 +38,8 @@ describe('tag key columns', () => {
       expect(column.isShown).toBe(false);
       expect(column.isShownByDefault).toBe(false);
       expect(column.sortBy).toBeUndefined();
-      expect(column.appName).toBe('inventory');
+      expect(column.appName).toBe('tag');
+      expect(column.isRemovable).toBe(true);
     });
   });
 

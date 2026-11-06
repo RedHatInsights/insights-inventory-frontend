@@ -19,7 +19,6 @@ import {
 import { useAnsibleWorkloadsSearchParam } from './hooks/useAnsibleWorkloadsSearchParam';
 import { useViewsQuery } from './hooks/useViewsQuery';
 import { useViewQuery } from './hooks/useViewQuery';
-import { useAccountTagCatalog } from './hooks/useAccountTagCatalog';
 import { shouldWaitForFetchedView } from './shouldWaitForFetchedView';
 import useInventoryViewsPrivateFeatureFlag from '../../Utilities/useInventoryViewsPrivateFeatureFlag';
 import ViewsToolbar from './ViewsToolbar/ViewsToolbar';
@@ -32,8 +31,7 @@ import {
   type ViewConfiguration,
 } from '../../api/inventoryViewsApi';
 import { createViewColumnSelector } from './createViewColumnSelector';
-import { uniqueTagKeys } from './tagKeys';
-import { bindTagKeyColumns } from '../SystemsView/columns/inventory/tagKeyColumns';
+import { normalizeViewColumns } from './normalizeViewColumns';
 import { createViewFilterSelector } from './createViewFilterSelector';
 import { resolveDefaultViewId } from './resolveDefaultViewId';
 import { resolveSystemViewId } from './resolveSystemViewId';
@@ -112,15 +110,6 @@ const getFiltersFromSearchParams = (
 
   return buildViewConfigFilters(filters, lastSeenCustomRange ?? undefined);
 };
-
-// Converts visible columns to ViewConfiguration format.
-// Backend validates column keys server-side against its field registry.
-const normalizeViewColumns = (
-  columns: readonly Column<InventoryBindableItem>[],
-): ViewConfiguration['columns'] =>
-  columns
-    .filter((c) => c.isShown === true && typeof c.key === 'string')
-    .map((c) => ({ key: c.key }));
 
 const InventoryViews = () => {
   const { isReady, isAnsibleBundle } = useAnsibleWorkloadsSearchParam();
@@ -243,24 +232,16 @@ const InventoryViews = () => {
     hasNextViewsPage,
   ]);
 
-  const { data: accountTags } = useAccountTagCatalog();
-  const tagKeyIdentities = useMemo(
-    () => uniqueTagKeys(accountTags ?? []),
-    [accountTags],
-  );
-
   const savedColumnSelector = useMemo(
     () => createViewColumnSelector(activeView?.configuration),
     [activeView?.configuration],
   );
 
-  const columnSelector = useMemo((): ColumnSelector<InventoryBindableItem> => {
-    const base = savedColumnSelector ?? selectLegacyInventoryColumns;
-    return (catalog) => [
-      ...base(catalog),
-      ...bindTagKeyColumns(tagKeyIdentities),
-    ];
-  }, [savedColumnSelector, tagKeyIdentities]);
+  const columnSelector = useMemo(
+    (): ColumnSelector<InventoryBindableItem> =>
+      savedColumnSelector ?? selectLegacyInventoryColumns,
+    [savedColumnSelector],
+  );
 
   const filterSelector = useMemo(() => {
     const selector =
