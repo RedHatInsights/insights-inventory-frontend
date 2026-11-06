@@ -245,6 +245,7 @@ const SearchableGroupFilter = ({
           setSearchQuery('');
         }}
         toggle={toggle}
+        isScrollable
       >
         <SelectList isAriaMultiselectable>
           {selectOptions.length === 0 && !isLoading ? (
