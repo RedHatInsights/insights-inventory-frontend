@@ -1,10 +1,7 @@
-import { Button, Label, Popover, Content } from '@patternfly/react-core';
-import useInsightsNavigate from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
+import { Label, Popover, Content } from '@patternfly/react-core';
 import React from 'react';
 
 const ConversionPopover = () => {
-  const navigate = useInsightsNavigate('tasks');
-
   return (
     <Popover
       hasAutoWidth
@@ -36,14 +33,6 @@ const ConversionPopover = () => {
             </a>
           </Content>
         </Content>
-      }
-      footerContent={
-        <Button
-          variant="secondary"
-          onClick={() => navigate('/available/convert-to-rhel-analysis')}
-        >
-          Run a pre-conversion analysis of this system
-        </Button>
       }
     >
       <Label

@@ -15,7 +15,7 @@ const Register = () => {
   const platformName = useLightspeedFeatureFlag();
 
   useEffect(() => {
-    chrome?.updateDocumentTitle?.('Register Systems - Inventory');
+    chrome?.updateDocumentTitle?.('Registration Assistant - Inventory');
   }, [chrome]);
 
   return (
