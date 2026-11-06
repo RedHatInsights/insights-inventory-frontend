@@ -53,6 +53,7 @@ import {
   parseViewConfigLastSeenCustomRange,
 } from './utils/viewConfigFilters';
 import { normalizeViewColumns } from './utils/normalizeViewColumns';
+import { useWysiwygExportConfig } from './hooks/useWysiwygExportConfig';
 import { useViewDirtyState } from './hooks/useViewDirtyState';
 import { useUpdateViewMutation } from './hooks/useUpdateViewMutation';
 import { useSetDefaultViewMutation } from './hooks/useSetDefaultViewMutation';
@@ -119,6 +120,11 @@ const InventoryViews = () => {
   const [currentLastSeenCustomRange, setCurrentLastSeenCustomRange] = useState<
     LastSeenCustomRange | undefined
   >(undefined);
+
+  // WYSIWYG export: serialize the live table state into a ViewConfiguration
+  // and let the export service replay it across all pages. The SystemsView
+  // export menu owns the toast lifecycle around the returned promise.
+  const exportConfig = useWysiwygExportConfig<InventoryBindableItem>();
 
   const {
     data: viewsData,
@@ -471,6 +477,7 @@ const InventoryViews = () => {
               fetchData={fetchInventoryViews}
               bulkActions={bulkActions}
               rowActions={rowActions}
+              exportConfig={exportConfig}
             />
           )}
         </Actions>

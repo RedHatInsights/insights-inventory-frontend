@@ -1,7 +1,7 @@
 import { expect } from '@jest/globals';
 import { buildExportConfiguration } from './buildExportConfiguration';
-import type { Column } from '../columns/types';
-import type { SystemsViewItem } from '../types';
+import type { Column } from '../../SystemsView/columns/types';
+import type { SystemsViewItem } from '../../SystemsView/types';
 
 const col = (
   key: string,
@@ -65,6 +65,20 @@ describe('buildExportConfiguration', () => {
     });
 
     expect(config.sort).toEqual({ key: 'display_name', direction: 'desc' });
+  });
+
+  it('maps the Status column sort key to the backend sortable field', () => {
+    // The UI sorts the Status column by 'status', but the backend's view
+    // configuration has no ORDER BY for it — the table's own query maps it
+    // to last_check_in, and the export must send the same.
+    const config = buildExportConfiguration({
+      filters: {},
+      columns: [col('display_name', true)],
+      sortBy: 'status',
+      direction: 'asc',
+    });
+
+    expect(config.sort).toEqual({ key: 'last_check_in', direction: 'asc' });
   });
 
   it('omits sort when direction is missing', () => {

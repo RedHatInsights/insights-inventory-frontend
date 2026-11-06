@@ -63,6 +63,10 @@ import type {
   SystemsViewFetchParams,
   SystemsViewItem,
 } from './types';
+import type {
+  SystemsViewExportConfig,
+  SystemsViewExportState,
+} from './export/types';
 import { deriveActiveState } from './utils/deriveActiveState';
 import {
   resolveColumnSelector,
@@ -73,7 +77,6 @@ import {
   type FilterSelector,
 } from './filters/resolveFilterSelector';
 import { buildFilterParams } from './filters/buildFilterParams';
-import { buildExportConfiguration } from './utils/buildExportConfiguration';
 import { hasActiveFilterChips } from './filters/defaultValuesFrom';
 import type { BoundFilter } from './filters/types';
 import type {
@@ -149,6 +152,8 @@ export type SystemsViewProps<
   initialLastSeenCustomRange?: LastSeenCustomRange;
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
   onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
+  /** Export menu config. The export menu renders only when this is provided. */
+  exportConfig?: SystemsViewExportConfig<TItem>;
 };
 
 interface SystemsViewInnerProps<TItem extends SystemsViewItem, TFilterParams> {
@@ -164,6 +169,7 @@ interface SystemsViewInnerProps<TItem extends SystemsViewItem, TFilterParams> {
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
   onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
+  exportConfig?: SystemsViewExportConfig<TItem>;
 }
 
 function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
@@ -179,6 +185,7 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
   initialSort,
   onColumnsChange,
   onLastSeenCustomRangeChange,
+  exportConfig,
 }: SystemsViewInnerProps<TItem, TFilterParams>) {
   const queryClient = useQueryClient();
   const {
@@ -317,19 +324,28 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
       hasRowActions: rowActions.length > 0,
     });
 
-  const exportConfiguration = useMemo(
-    () =>
-      buildExportConfiguration({
-        // Use the same debounced filters the table query runs on — otherwise an
-        // export during the debounce window would apply filters the table has
-        // not displayed yet.
-        filters: debouncedFilters,
-        lastSeenCustomRange,
-        columns,
-        sortBy,
-        direction,
-      }),
-    [debouncedFilters, lastSeenCustomRange, columns, sortBy, direction],
+  // Snapshot of the live table state handed to the consumer's onExport so
+  // the consumer — not the table — decides the export scope. Uses the same
+  // debounced filters the table query runs on.
+  const exportState = useMemo<SystemsViewExportState<TItem>>(
+    () => ({
+      filters: debouncedFilters,
+      lastSeenCustomRange,
+      columns,
+      sortBy,
+      direction,
+      selectedItems: selected.map((row) => row.meta),
+      total: total ?? 0,
+    }),
+    [
+      debouncedFilters,
+      lastSeenCustomRange,
+      columns,
+      sortBy,
+      direction,
+      selected,
+      total,
+    ],
   );
 
   // Wrapper to call both setColumns and onColumnsChange when user applies columns in modal.
@@ -450,7 +466,8 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
                   bulkActions={bulkActions}
                   actionHelpers={actionHelpers}
                   showColumnManagement={showColumnManagement}
-                  exportConfiguration={exportConfiguration}
+                  exportConfig={exportConfig}
+                  exportState={exportState}
                 />
               }
               pagination={
@@ -505,6 +522,7 @@ export function SystemsView<
   initialLastSeenCustomRange,
   onColumnsChange,
   onLastSeenCustomRangeChange,
+  exportConfig,
 }: SystemsViewProps<TItem, TFilterParams>) {
   const [searchParams, setSearchParams] = useSearchParams();
   const resolvedDefaultColumns = useMemo(
@@ -536,6 +554,7 @@ export function SystemsView<
         initialSort={initialSort}
         onColumnsChange={onColumnsChange}
         onLastSeenCustomRangeChange={onLastSeenCustomRangeChange}
+        exportConfig={exportConfig}
       />
     </DataViewFiltersProvider>
   );

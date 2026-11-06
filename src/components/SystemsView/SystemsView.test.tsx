@@ -9,6 +9,11 @@ import {
   type SystemsViewFetchData,
   type SystemsViewQueryData,
 } from './SystemsView';
+import type {
+  ExportFormat,
+  SystemsViewExportConfig,
+  SystemsViewExportState,
+} from './export/types';
 import type { ActionHelpers, ActionSpec, RowAction } from './actions/types';
 import type { ColumnSelector } from './columns/resolveColumnSelector';
 import type { FilterSelector } from './filters/resolveFilterSelector';
@@ -88,6 +93,7 @@ const renderSystemsView = <TFilterParams = unknown,>(
     initialRoute?: string;
     bulkActions?: readonly ActionSpec<System>[];
     rowActions?: readonly RowAction<System>[];
+    exportConfig?: SystemsViewExportConfig<System>;
   },
 ) =>
   render(
@@ -102,6 +108,7 @@ const renderSystemsView = <TFilterParams = unknown,>(
         filters={extra?.filters}
         bulkActions={extra?.bulkActions}
         rowActions={extra?.rowActions}
+        exportConfig={extra?.exportConfig}
       />
     </TestWrapper>,
   );
@@ -382,7 +389,10 @@ describe('SystemsView', () => {
     renderSystemsView(() => Promise.resolve(successData));
 
     expect(await screen.findByText('Test Host')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Export' })).toBeInTheDocument();
+    // The export menu renders only when an export config is provided.
+    expect(
+      screen.queryByRole('button', { name: 'Export' }),
+    ).not.toBeInTheDocument();
     expect(
       screen.queryByRole('button', { name: 'Delete' }),
     ).not.toBeInTheDocument();
@@ -392,6 +402,37 @@ describe('SystemsView', () => {
     expect(
       screen.queryByRole('columnheader', { name: /actions/i }),
     ).not.toBeInTheDocument();
+  });
+
+  it('passes the live table state snapshot to onExport', async () => {
+    const onExport = jest.fn(
+      async (
+        _format: ExportFormat,
+        _state: SystemsViewExportState<System>,
+      ) => {},
+    );
+    renderSystemsView(() => Promise.resolve(successData), undefined, {
+      exportConfig: { onExport },
+    });
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('button', { name: 'Export' }));
+    await user.click(screen.getByRole('menuitem', { name: 'Export to CSV' }));
+
+    await waitFor(() => expect(onExport).toHaveBeenCalledTimes(1));
+    const [format, state] = onExport.mock.calls[0];
+    expect(format).toBe('csv');
+    // The snapshot reflects the table the user sees: the debounced filter
+    // state, the runtime columns, and the total from the query.
+    expect(state.filters).toEqual({});
+    expect(state.columns.map((column) => column.key)).toContain('display_name');
+    expect(state.selectedItems).toEqual([]);
+    expect(state.total).toBe(1);
+    // The table applies a default sort by display name.
+    expect(state.sortBy).toBe('display_name');
+    expect(state.direction).toBe('asc');
   });
 
   it('omits bulk and row actions when action props are empty arrays', async () => {

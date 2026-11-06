@@ -4,6 +4,7 @@
  * those to consumers).
  */
 import type { QueryClient } from '@tanstack/react-query';
+import type { SystemsViewExportConfig } from '../components/SystemsView/export/types';
 import type {
   SystemsViewFetchData,
   SystemsViewItem,
@@ -56,6 +57,12 @@ export type {
   RowAction,
 } from '../components/SystemsView/actions/types';
 
+export type {
+  ExportFormat,
+  SystemsViewExportConfig,
+  SystemsViewExportState,
+} from '../components/SystemsView/export/types';
+
 /**
  * Public federated contract. Internal-only props are not exposed.
  */
@@ -96,4 +103,16 @@ export type SystemsViewProps<
    * Per-row kebab actions. Use a stable reference, not an inline array.
    */
   rowActions?: readonly RowAction<TItem>[];
+  /**
+   * Export menu configuration. Omit to hide the export menu entirely.
+   * The table renders the menu, owns the toast lifecycle around `onExport`
+   * (preparing → downloaded / failed), and passes its live state to
+   * `onExport` — the consumer decides the export scope and mechanism
+   * (export service or client-side).
+   *
+   * `onExport` is optional: omitting it exports all systems through the
+   * inventory backend (with "Export all systems …" labels), matching what
+   * the Gen 1 InventoryTable offered via `enableExport`.
+   */
+  exportConfig?: SystemsViewExportConfig<TItem>;
 };

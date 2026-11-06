@@ -17,11 +17,18 @@ import { buildSystemType } from './buildSystemType';
 const asStringList = (value: unknown): string[] =>
   Array.isArray(value) ? value.map(String) : [];
 
+// The generated client's HostFilters predates the backend's workspace_id
+// filter (matched by workspace UUID, like the table's own workspaceId query
+// param). Extend it locally until the regenerated client lands.
+export type HostFiltersWithWorkspaceId = HostFilters & {
+  workspace_id?: Array<string>;
+};
+
 /**
  * Maps flat toolbar host-level filters to the nested `host` HostFilters block of a
  * view configuration.
  *
- * Covers hostname_or_id, staleness, registered_with, tags, workspace_name,
+ * Covers hostname_or_id, staleness, registered_with, tags, workspace_id,
  * system_type, the last_check_in date range derived from the Last seen selection,
  * alongside app-specific filters (recommendationSeverity, incidentStatus, cveSeverity, knownExploit).
  *
@@ -33,8 +40,8 @@ const asStringList = (value: unknown): string[] =>
 export const buildHostFilters = (
   filters: SystemsViewFilterState,
   lastSeenCustomRange?: LastSeenCustomRange,
-): HostFilters | undefined => {
-  const hostFilters: HostFilters = {};
+): HostFiltersWithWorkspaceId | undefined => {
+  const hostFilters: HostFiltersWithWorkspaceId = {};
   const hostnameOrId =
     typeof filters.hostname_or_id === 'string' ? filters.hostname_or_id : '';
   const status = asStringList(filters.status);
@@ -64,7 +71,10 @@ export const buildHostFilters = (
   }
 
   if (groupId.length) {
-    hostFilters.workspace_name = groupId;
+    // The workspace filter selects workspace UUIDs, and the backend matches
+    // workspace_id by UUID (like the table's own workspaceId query param).
+    // workspace_name is name-matched server-side and must not carry UUIDs.
+    hostFilters.workspace_id = groupId;
   }
 
   if (systemType.length) {
