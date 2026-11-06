@@ -1,29 +1,30 @@
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import { useCallback, useState } from 'react';
-import { EXPORT_SERVICE_PATH, EXPORT_FILE_FORMAT } from './constants';
-import { buildExportRequestJson, downloadFile } from './helpers';
-import useExportApi from './useExportApi';
-import useExportDownloadCheck from './useExportDownloadCheck';
+import {
+  EXPORT_SERVICE_PATH,
+  EXPORT_FILE_FORMAT,
+} from '../../../../services/exportService/constants';
+import {
+  buildExportRequestJson,
+  downloadFile,
+} from '../../../../services/exportService/helpers';
+import useExportApi from '../../../../services/exportService/useExportApi';
+import useExportDownloadCheck from '../../../../services/exportService/useExportDownloadCheck';
 
 const CSV_ITEM_TEXT = 'Export all systems to CSV';
 const JSON_ITEM_TEXT = 'Export all systems to JSON';
-const WYSIWYG_CSV_ITEM_TEXT = 'Export to CSV';
-const WYSIWYG_JSON_ITEM_TEXT = 'Export to JSON';
 
 /**
  * A hook encapsulating functionality to provide an export configuration for the InventoryTable to request an export.
  *
- *  @param   {object} [options]               Options
- *  @param   {object} [options.filters]       (legacy, unused by backend) Filters passed along to the export request
- *  @param   {object} [options.configuration] ViewConfiguration describing the table's current filters,
- *                                            columns, and sort. When provided, the export service replays it
- *                                            for a WYSIWYG export across all pages (SystemsView-based tables).
- *  @param   {object} [options.axios]         Axios instance
+ *  @param   {object} [options]         Options
+ *  @param   {object} [options.filters] (unused) Filters currently active in the InventoryTable and passed along to the export request
+ *  @param   {object} [options.axios]   Axios instance
  *
- *  @returns {object}                         [exportConfig] An object to pass to exportConfig
+ *  @returns {object}                   [exportConfig] An object to pass to exportConfig
  *
  */
-const useInventoryExport = ({ filters = {}, configuration, axios } = {}) => {
+const useInventoryExport = ({ filters = {}, axios } = {}) => {
   const { create } = useExportApi(axios);
   const addNotification = useAddNotification();
   const [isDisabled, setIsDisabled] = useState(false);
@@ -61,10 +62,7 @@ const useInventoryExport = ({ filters = {}, configuration, axios } = {}) => {
   const onSelect = useCallback(
     (_, format) => {
       setIsDisabled(true);
-      const requestFilters = configuration
-        ? { ...filters, configuration }
-        : filters;
-      create(buildExportRequestJson(requestFilters, format), {
+      create(buildExportRequestJson(filters, format), {
         onError,
         onSuccess: (data) => {
           addNotification({
@@ -77,13 +75,13 @@ const useInventoryExport = ({ filters = {}, configuration, axios } = {}) => {
         },
       });
     },
-    [filters, configuration, setIsDisabled],
+    [filters, setIsDisabled],
   );
 
   return {
     itemTexts: {
-      csv: configuration ? WYSIWYG_CSV_ITEM_TEXT : CSV_ITEM_TEXT,
-      json: configuration ? WYSIWYG_JSON_ITEM_TEXT : JSON_ITEM_TEXT,
+      csv: CSV_ITEM_TEXT,
+      json: JSON_ITEM_TEXT,
     },
     onSelect,
     isDisabled,

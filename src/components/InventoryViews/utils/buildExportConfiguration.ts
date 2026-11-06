@@ -1,26 +1,32 @@
 import type { ViewConfiguration } from '../../../api/inventoryViewsApi';
-import { buildViewConfigFilters } from '../../InventoryViews/utils/viewConfigFilters';
-import type { Column } from '../columns/types';
+import { buildViewConfigFilters } from './viewConfigFilters';
+import { normalizeViewColumns } from './normalizeViewColumns';
+
+import type { Column } from '../../SystemsView/columns/types';
 import type {
   LastSeenCustomRange,
   SortDirection,
   SystemsViewFilterState,
   SystemsViewItem,
-} from '../types';
+} from '../../SystemsView/types';
+
+// The Status column sorts by 'status' in the UI, but the backend's view
+// configuration contract has no ORDER BY for that key — the table's own
+// query maps it to 'last_check_in' (buildHostViewsParams), and the export
+// must serialize the same value.
+const SORT_KEY_TO_EXPORT_SORT_KEY: Record<string, string> = {
+  status: 'last_check_in',
+};
 
 const normalizeColumns = <TItem extends SystemsViewItem>(
   columns: readonly Column<TItem>[],
 ): ViewConfiguration['columns'] =>
-  columns
-    .filter(
-      (c) =>
-        c.isShown === true &&
-        // Permission-locked columns render as "unauthorized" placeholders in the
-        // table and must not leak their data through the export.
-        !c.isPermissionLocked &&
-        typeof c.key === 'string',
-    )
-    .map((c) => ({ key: c.key }));
+  // Permission-locked columns render as "unauthorized" placeholders in the
+  // table and must not leak their data through the export. Unlike the save
+  // path (normalizeViewColumns), which keeps them so saved views stay valid
+  // across users with different permissions, the export strips them
+  // according to the exporter's own permissions.
+  normalizeViewColumns(columns.filter((column) => !column.isPermissionLocked));
 
 const normalizeSort = (
   sortBy: string | undefined,
@@ -28,7 +34,8 @@ const normalizeSort = (
 ): ViewConfiguration['sort'] | undefined => {
   if (!sortBy || (direction !== 'asc' && direction !== 'desc'))
     return undefined;
-  return { key: sortBy, direction };
+  const key = SORT_KEY_TO_EXPORT_SORT_KEY[sortBy] ?? sortBy;
+  return { key, direction };
 };
 
 /**

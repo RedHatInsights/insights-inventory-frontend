@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import {
   EXPORT_SERVICE_APPLICATON,
   EXPORT_SERVICE_RESOURCE,
-} from '../components/InventoryTable/hooks/useInventoryExport/constants';
+} from '../services/exportService/constants';
 
 const exportObject = ({ format, status } = {}) => ({
   id: faker.string.uuid(),

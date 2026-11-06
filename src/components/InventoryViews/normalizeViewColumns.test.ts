@@ -118,7 +118,7 @@ describe('normalizeViewColumns', () => {
     ]);
   });
 
-  it('excludes shown columns that are permission-locked', () => {
+  it('keeps shown permission-locked columns — permissions are enforced per-viewer, not at save time', () => {
     const columns = [
       { key: 'display_name', isShown: true },
       {
@@ -133,6 +133,7 @@ describe('normalizeViewColumns', () => {
 
     expect(result).toEqual([
       { key: 'display_name' },
+      { key: 'advisor:recommendations' },
       { key: 'operating_system' },
     ]);
   });

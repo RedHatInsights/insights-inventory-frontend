@@ -18,6 +18,8 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run type-check
+      - name: Generate federated type declarations
+        run: npm run type-gen
       - name: Validate current commit (last commit) with commitlint
         if: github.event_name == 'push'
         run: npx commitlint --last --verbose
