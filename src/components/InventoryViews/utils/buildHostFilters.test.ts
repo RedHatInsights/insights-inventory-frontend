@@ -31,7 +31,7 @@ describe('buildHostFilters', () => {
       staleness: ['fresh', 'stale'],
       registered_with: ['puptoo', 'yupana'],
       tags: ['env/prod'],
-      workspace_name: ['workspace-1'],
+      workspace_id: ['workspace-1'],
     });
   });
 

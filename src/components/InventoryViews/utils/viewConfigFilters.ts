@@ -9,8 +9,10 @@ import type {
   LastSeenCustomRange,
   SystemsViewFilterState,
 } from '../../SystemsView/types';
-import type { HostFilters } from '@redhat-cloud-services/host-inventory-client';
-import { buildHostFilters } from './buildHostFilters';
+import {
+  buildHostFilters,
+  type HostFiltersWithWorkspaceId,
+} from './buildHostFilters';
 
 type ViewFilters = NonNullable<ViewConfiguration['filters']>;
 
@@ -35,7 +37,7 @@ const parseHostTypeFilter = (hostType: unknown): string[] | undefined => {
  * Converts flat toolbar filter state into the nested backend format
  * for ViewConfiguration.filters. Supports system_profile filters
  * (operating_system, workloads), host-level filters
- * (hostname_or_id, staleness, tags, registered_with, workspace_name, system_type,
+ * (hostname_or_id, staleness, tags, registered_with, workspace_id, system_type,
  * last_check_in dates), and app-specific filters (recommendationSeverity,
  * incidentStatus, cveSeverity, knownExploit, securityRule).
  *
@@ -78,7 +80,7 @@ export const parseViewConfigFilters = (
   const raw = viewFilters as unknown as Record<string, unknown>;
   const systemProfile = raw.system_profile as
     (SystemProfileFilter & { host_type?: unknown }) | undefined;
-  const hostFilters = raw.host as HostFilters | undefined;
+  const hostFilters = raw.host as HostFiltersWithWorkspaceId | undefined;
 
   const result: SystemsViewFilterState = {};
 
@@ -126,8 +128,12 @@ export const parseViewConfigFilters = (
       result.tags = hostFilters.tags;
     }
 
-    if (hostFilters.workspace_name?.length) {
-      result.group_id = hostFilters.workspace_name;
+    // Prefer workspace_id (UUID-matched, what the table and new saves use).
+    // Fall back to workspace_name for views saved before the split — the
+    // frontend has always written workspace UUIDs there.
+    const workspaceIds = hostFilters.workspace_id ?? hostFilters.workspace_name;
+    if (workspaceIds?.length) {
+      result.group_id = workspaceIds;
     }
 
     if (hostFilters.system_type?.length) {

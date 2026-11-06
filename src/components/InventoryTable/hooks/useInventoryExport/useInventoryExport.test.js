@@ -6,7 +6,7 @@ import {
   EXPORT_SERVICE_APPLICATON,
   EXPORT_SERVICE_RESOURCE,
   EXPORT_SERVICE_PATH,
-} from './constants';
+} from '../../../../services/exportService/constants';
 import exports from '../../../../__factories__/exports';
 import useInventoryExport from './useInventoryExport';
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';

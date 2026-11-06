@@ -1,17 +1,8 @@
 import { createViewColumnSelector } from './createViewColumnSelector';
 import { bindInventoryViewColumns } from '../SystemsView/columns/inventoryViewColumns';
 import { columnCatalog } from '../SystemsView/columns/catalog';
-import type { Column } from '../SystemsView/columns/types';
-import type { InventoryBindableItem } from '../SystemsView/columns/inventory/columnDefinitions';
+import { normalizeViewColumns } from './utils/normalizeViewColumns';
 import type { ViewConfiguration } from '../../api/inventoryViewsApi';
-
-// This is the function we're testing (extracted from InventoryViews.tsx)
-const normalizeViewColumns = (
-  columns: readonly Column<InventoryBindableItem>[],
-): ViewConfiguration['columns'] =>
-  columns
-    .filter((c) => c.isShown === true && typeof c.key === 'string')
-    .map((c) => ({ key: c.key }));
 
 describe('View column round-trip (save → restore)', () => {
   it('round-trips sortable columns correctly', () => {
