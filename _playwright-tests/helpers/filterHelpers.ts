@@ -4,27 +4,130 @@ import { isLegacyInventoryTableEnabled } from './constants';
 
 const SKELETON_TABLE = '[data-ouia-component-id="SkeletonTable"]';
 
+/** Pass as the `option` to pick whatever the first available choice happens to be. */
+export const FIRST_AVAILABLE = '__first_available__';
+
+/** Picks one option for an already-active filter attribute. */
+type SelectFilterOption = (page: Page, option: string) => Promise<void>;
+
 /**
- * Applies a conditional filter to the systems list in the UI.
- *
- * Opens the "Conditional filter" menu, selects the specified filter category,
- * and applies the given filter option. Some filters may not yet be implemented.
- *
- *  @param page       - The Playwright Page object representing the browser page.
- *  @param filterName - The name of the filter to apply (e.g., "Status", "System type").
- *  @param option     - The value to select for the given filter (e.g., "Active", "Package-based").
- *  @returns          - A promise that resolves when the filter is applied.
- *
- * @example
- * await filterSystemsWithConditionalFilter(page, 'Workspace', 'My Workspace');
+ * Checkbox and single-select filters all render through DataViewSelectFilter,
+ * so one routine drives every one of them. Only the active attribute's control
+ * is mounted, which is what makes the shared default ouiaIds unambiguous.
  */
-export const filterSystemsWithConditionalFilter = async (
-  page: Page,
-  filterName: string,
-  option: string,
-) => {
-  let optionCheckbox: Locator | undefined = undefined;
-  // 1. SELECT FILER
+const chooseFromSelectMenu: SelectFilterOption = async (page, option) => {
+  await page
+    .locator(
+      '[data-ouia-component-id="DataViewCheckboxFilter-toggle"], [data-ouia-component-id="DataViewSingleSelectFilter-toggle"]',
+    )
+    .click();
+  const menuOption = page
+    .locator('[role="menu"]:visible')
+    .getByText(option, { exact: true })
+    .first();
+  await expect(menuOption).toBeVisible({ timeout: 10000 });
+  await menuOption.click();
+};
+
+const typeIntoNameFilter: SelectFilterOption = async (page, option) => {
+  const input = page.getByPlaceholder('Filter by name');
+  await expect(input).toBeVisible({ timeout: 10000 });
+  await input.fill(option);
+};
+
+const chooseWorkspace: SelectFilterOption = async (page, option) => {
+  const search = page.getByPlaceholder('Filter by workspace');
+  await search.click();
+
+  const workspaceOption = page.locator(
+    '[data-ouia-component-id="FilterByGroupOption"]',
+  );
+  if (option !== 'Ungrouped hosts' && option !== FIRST_AVAILABLE) {
+    await search.fill(option);
+    await expect(workspaceOption).toHaveCount(1);
+  }
+
+  await expect(workspaceOption.first()).toBeVisible({ timeout: 100000 });
+  await workspaceOption.first().click();
+};
+
+const chooseTag: SelectFilterOption = async (page, option) => {
+  const input = page.getByPlaceholder('Filter by tags');
+  await input.click();
+
+  if (option === FIRST_AVAILABLE) {
+    const firstTag = page
+      .locator('[role="menuitem"]')
+      .filter({
+        has: page.locator('input[type="checkbox"]:not([aria-disabled="true"])'),
+      })
+      .first();
+    await expect(firstTag).toBeVisible({ timeout: 100000 });
+    await firstTag.getByRole('checkbox').check();
+    return;
+  }
+
+  await input.fill(option);
+  const tagOption = page.getByText(option, { exact: true }).first();
+  await expect(tagOption).toBeVisible({ timeout: 100000 });
+  await tagOption.click();
+};
+
+const chooseOperatingSystem: SelectFilterOption = async (page, option) => {
+  await page
+    .getByRole('button', { name: 'Group filter' })
+    .or(
+      page.locator(
+        '[data-ouia-component-id="SystemsViewOperatingSystemsFilter"]',
+      ),
+    )
+    .click();
+
+  if (option !== FIRST_AVAILABLE) {
+    await page.getByRole('checkbox', { name: option, exact: true }).check();
+    return;
+  }
+
+  const firstVersion = page.locator('li[role="option"].pf-v6-u-pl-lg').first();
+  await expect(firstVersion).toBeVisible({ timeout: 30000 });
+  await firstVersion.getByRole('checkbox').check();
+};
+
+const chooseLastSeen: SelectFilterOption = async (page, option) => {
+  const toggle = page.locator('button', { hasText: 'Filter by last seen' });
+  await expect(toggle).toBeVisible({ timeout: 10000 });
+  await toggle.click();
+
+  const preset = page.getByRole('option', { name: option });
+  await expect(preset).toBeVisible({ timeout: 10000 });
+  await preset.click();
+};
+
+/**
+ * Keys are the filter titles shown in the attribute dropdown.
+ */
+const FILTER_OPTION_SELECTORS: Record<string, SelectFilterOption> = {
+  Name: typeIntoNameFilter,
+  Status: chooseFromSelectMenu,
+  'Operating system': chooseOperatingSystem,
+  'Data collector': chooseFromSelectMenu,
+  'System type': chooseFromSelectMenu,
+  Workspace: chooseWorkspace,
+  'Last seen': chooseLastSeen,
+  Tags: chooseTag,
+  Workload: chooseFromSelectMenu,
+  'Recommendation severity': chooseFromSelectMenu,
+  Incidents: chooseFromSelectMenu,
+  'Vulnerability severity': chooseFromSelectMenu,
+  'Known exploit': chooseFromSelectMenu,
+  'CVEs with security rules': chooseFromSelectMenu,
+};
+
+/** Names accepted by `filterSystemsWithConditionalFilter`. */
+export const SUPPORTED_FILTERS = Object.keys(FILTER_OPTION_SELECTORS);
+
+/** Makes `filterName` the active attribute, revealing its value control. */
+const activateFilterAttribute = async (page: Page, filterName: string) => {
   await page
     .locator(
       '[data-ouia-component-id="DataViewFilters"] button.pf-v6-c-menu-toggle',
@@ -32,76 +135,46 @@ export const filterSystemsWithConditionalFilter = async (
     .first()
     .or(page.getByRole('button', { name: 'Conditional filter toggle' }))
     .click();
-  // Wait for the filter menu to be visible before proceeding
-  await page
-    .getByRole('menuitem', { name: filterName })
-    .waitFor({ state: 'visible' });
-  await page.getByRole('menuitem', { name: filterName }).click();
 
-  // 2. SELECT OPTION
-  if (filterName === 'Workspace') {
-    await page.getByRole('textbox', { name: 'Type to filter' }).click();
-    const menuOption = page.locator(
-      '[data-ouia-component-id="FilterByGroupOption"]',
+  const attribute = page.getByRole('menuitem', { name: filterName });
+  await attribute.waitFor({ state: 'visible' });
+  await attribute.click();
+};
+
+/**
+ * Applies a toolbar filter to the systems list.
+ *
+ * The toolbar is an attribute-value control: an attribute dropdown chooses
+ * which filter is active, and only that filter renders a value control. So
+ * this selects the attribute, then delegates to that filter's own routine.
+ *
+ *  @param page       - The Playwright Page object representing the browser page.
+ *  @param filterName - Filter title as shown in the attribute dropdown (e.g. "Status").
+ *  @param option     - Value to select (e.g. "Stale"), or `FIRST_AVAILABLE` to take whatever is offered.
+ *  @returns          - A promise that resolves once the table has re-filtered.
+ *  @throws {Error}    If `filterName` is not a filter this helper knows how to drive.
+ *
+ * @example
+ * await filterSystemsWithConditionalFilter(page, 'Workspace', 'My Workspace');
+ * await filterSystemsWithConditionalFilter(page, 'Tags', FIRST_AVAILABLE);
+ */
+export const filterSystemsWithConditionalFilter = async (
+  page: Page,
+  filterName: string,
+  option: string,
+) => {
+  const selectOption = FILTER_OPTION_SELECTORS[filterName];
+  if (!selectOption) {
+    throw new Error(
+      `No option selector for filter "${filterName}". ` +
+        `Supported filters: ${SUPPORTED_FILTERS.join(', ')}.`,
     );
-    if (!(option === 'Ungrouped hosts')) {
-      await page.getByRole('textbox', { name: 'Type to filter' }).fill(option);
-
-      await expect(menuOption).toHaveCount(1);
-    }
-    optionCheckbox = menuOption.first();
-    await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
-    await optionCheckbox.click();
-  } else if (filterName === 'Data collector') {
-    // TODO: Implement logic to select the Data collector filter option.
-    // Logic not implemented yet. Test continues without filtering.
-  } else if (filterName === 'Status') {
-    // TODO: Implement logic to select the Status filter option.
-    // Logic not implemented yet. Test continues without filtering.
-  } else if (filterName === 'Tags') {
-    const inputLocator = page.getByPlaceholder('Filter by tags');
-    await inputLocator.click();
-    await inputLocator.fill(option);
-
-    // Wait for the tag option to appear and click it
-    optionCheckbox = page.getByText(option, { exact: true }).first();
-    await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
-    await optionCheckbox.click();
-  } else if (filterName === 'System type') {
-    await page
-      .getByRole('button', { name: 'Options menu' })
-      .or(
-        page.locator(
-          'button[data-ouia-component-id="DataViewSingleSelectFilter-toggle"]',
-        ),
-      )
-      .click();
-    optionCheckbox = page.getByText(option, { exact: true });
-    await expect(optionCheckbox).toBeVisible({ timeout: 100000 });
-    await optionCheckbox.click();
-  } else if (filterName === 'Operating system') {
-    await page
-      .getByRole('button', { name: 'Group filter' })
-      .or(
-        page.locator(
-          '[data-ouia-component-id="SystemsViewOperatingSystemsFilter"]',
-        ),
-      )
-      .click();
-    await page.getByRole('checkbox', { name: option, exact: true }).check();
-  } else if (filterName === 'Last seen') {
-    const lastSeenToggle = page.locator('button', {
-      hasText: 'Filter by last seen',
-    });
-    await expect(lastSeenToggle).toBeVisible({ timeout: 10000 });
-    await lastSeenToggle.click();
-    optionCheckbox = page.getByRole('option', { name: option });
-    await expect(optionCheckbox).toBeVisible({ timeout: 10000 });
-    await optionCheckbox.click();
   }
 
-  await page.mouse.click(0, 0); //to make sure menu is closed
-  // wait for table to be filtered
+  await activateFilterAttribute(page, filterName);
+  await selectOption(page, option);
+
+  await page.mouse.click(0, 0); // make sure the menu is closed
   await page
     .locator(SKELETON_TABLE)
     .waitFor({ state: 'hidden', timeout: 10000 });
@@ -255,6 +328,32 @@ export const parseLastSeenToDays = (text: string): number => {
 
   // Default: return -1 to indicate unknown format
   return -1;
+};
+
+/**
+ * Reads every applied filter chip off the toolbar, keyed by filter category.
+ *
+ *  @param page - The Playwright Page object.
+ *  @returns    Applied values per category, each sorted for stable comparison.
+ */
+export const getAppliedFilterChips = async (
+  page: Page,
+): Promise<Record<string, string[]>> => {
+  const groups = page.locator('.pf-v6-c-toolbar__group .pf-v6-c-label-group');
+  const applied: Record<string, string[]> = {};
+
+  for (let i = 0; i < (await groups.count()); i++) {
+    const group = groups.nth(i);
+    const category = (
+      await group.locator('.pf-v6-c-label-group__label').innerText()
+    ).trim();
+    const values = (
+      await group.locator('.pf-v6-c-label__text').allInnerTexts()
+    ).map((text) => text.trim());
+    applied[category] = values.sort();
+  }
+
+  return applied;
 };
 
 export type ToolbarFilterHelper = {

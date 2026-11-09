@@ -12,7 +12,9 @@ import {
 } from './helpers/views/columnHelpers';
 import { randomUUID } from 'crypto';
 import {
+  FIRST_AVAILABLE,
   filterSystemsWithConditionalFilter,
+  getAppliedFilterChips,
   toolbarFilterHelper,
 } from './helpers/filterHelpers';
 import { manageViewHelper } from './helpers/views/manageViewsHelper';
@@ -432,6 +434,107 @@ test.describe(
           configurationUpdatedC.sort.column,
           configurationUpdatedC.sort.direction,
         );
+      });
+    });
+  },
+);
+
+test.describe(
+  'Inventory Views: Saving every available filter to a view',
+  {
+    tag: ['@inventory-views'],
+    annotation: {
+      type: 'jira',
+      description: 'https://redhat.atlassian.net/browse/RHINENG-32937',
+    },
+  },
+  () => {
+    const allFiltersView = `${DEFAULT_PREFIX}-${randomUUID()}`;
+
+    const inventoryFilters = [
+      { filter: 'Name', value: 'automated-test-no-match' },
+      { filter: 'Status', value: 'Fresh' },
+      { filter: 'Data collector', value: 'insights-client' },
+      { filter: 'System type', value: 'Package-based system' },
+      { filter: 'Workload', value: 'SAP' },
+      { filter: 'Last seen', value: 'More than 7 days ago' },
+      // Options come from live data, so take whatever is first and read the
+      // applied value back off the chip instead of hardcoding it.
+      { filter: 'Operating system', value: FIRST_AVAILABLE },
+      { filter: 'Workspace', value: FIRST_AVAILABLE },
+      { filter: 'Tags', value: FIRST_AVAILABLE },
+    ];
+
+    const appServicesFilters = [
+      { filter: 'Recommendation severity', value: 'Critical' },
+      { filter: 'Incidents', value: 'Has incidents' },
+      { filter: 'Vulnerability severity', value: 'Critical' },
+      { filter: 'Known exploit', value: 'Has a known exploit' },
+      { filter: 'CVEs with security rules', value: 'Present' },
+    ];
+
+    const allFilters = [...inventoryFilters, ...appServicesFilters];
+
+    // Name filter has a different label on the chip
+    const CHIP_CATEGORY = { Name: 'Display name' } as Record<string, string>;
+    const DYNAMIC_CHIP_CATEGORY = new Set(['Tags']);
+
+    const expectedChipCategories = allFilters
+      .filter(({ filter }) => !DYNAMIC_CHIP_CATEGORY.has(filter))
+      .map(({ filter }) => CHIP_CATEGORY[filter] ?? filter);
+
+    test.beforeEach(async ({ page }) => {
+      await navigateToInventorySystemsFunc(page);
+    });
+
+    test.afterAll(async () => {
+      await deleteViewsByName([allFiltersView]);
+    });
+
+    test('User saves a view with every filter applied and it persists', async ({
+      page,
+    }) => {
+      test.setTimeout(180_000);
+      const manageView = manageViewHelper(page);
+      // Filled in once the filters are applied, then compared after each
+      // round trip through the saved view.
+      let appliedChips: Record<string, string[]> = {};
+
+      await test.step('Applies every inventory and app-services filter', async () => {
+        await manageView.verifyActiveView(ALL_SYSTEMS_VIEW);
+
+        for (const { filter, value } of allFilters) {
+          await filterSystemsWithConditionalFilter(page, filter, value);
+        }
+
+        appliedChips = await getAppliedFilterChips(page);
+        expect(Object.keys(appliedChips)).toEqual(
+          expect.arrayContaining(expectedChipCategories),
+        );
+        // One chip group per filter: catches a filter that silently no-ops,
+        // and covers the tag group whose name is only known at runtime.
+        expect(Object.keys(appliedChips)).toHaveLength(allFilters.length);
+      });
+
+      await test.step(`Saves the configuration as ${allFiltersView}`, async () => {
+        await manageView.saveAs(allFiltersView);
+        await manageView.verifyActiveView(allFiltersView);
+      });
+
+      await test.step(`Switches away to ${ALL_SYSTEMS_VIEW} and back`, async () => {
+        await manageView.selectView(ALL_SYSTEMS_VIEW);
+        await manageView.verifyActiveView(ALL_SYSTEMS_VIEW);
+
+        // All systems carries no saved filters.
+        await expect(
+          page.getByRole('button', { name: RESET_FILTERS }),
+        ).toBeHidden();
+      });
+
+      await test.step('Every filter is restored from the saved view', async () => {
+        await manageView.selectView(allFiltersView);
+        await manageView.verifyActiveView(allFiltersView);
+        expect(await getAppliedFilterChips(page)).toEqual(appliedChips);
       });
     });
   },
