@@ -17,8 +17,11 @@ type SelectFilterOption = (page: Page, option: string) => Promise<void>;
  */
 const chooseFromSelectMenu: SelectFilterOption = async (page, option) => {
   await page
-    .locator(
-      '[data-ouia-component-id="DataViewCheckboxFilter-toggle"], [data-ouia-component-id="DataViewSingleSelectFilter-toggle"]',
+    .getByRole('button', { name: 'Options menu' })
+    .or(
+      page.locator(
+        '[data-ouia-component-id="DataViewCheckboxFilter-toggle"], [data-ouia-component-id="DataViewSingleSelectFilter-toggle"]',
+      ),
     )
     .click();
   const menuOption = page
