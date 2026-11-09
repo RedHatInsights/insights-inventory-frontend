@@ -22,7 +22,8 @@ export const isInventoryViewsRbacEnabled =
 // Base archives
 export const CENTOS_ARCHIVE = 'centos79.tar.gz';
 export const BOOTC_ARCHIVE = 'image-mode-rhel94.tar.gz';
-export const PACKAGE_BASED_ARCHIVE = 'rhel94_core_collect.tar.gz';
+// export const PACKAGE_BASED_ARCHIVE = 'rhel94_core_collect.tar.gz';
+export const PACKAGE_BASED_ARCHIVE = 'rhel90-malware-fips.tar.gz';
 
 // Hosts searching constants
 export const DEFAULT_PREFIX = 'insights-pw-vm';
