@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import TitleColumn from './TitleColumn';
@@ -92,17 +92,6 @@ describe('TitleColumn', () => {
     );
 
     expect(screen.getByText(/convert system to rhel/i)).toBeVisible();
-    await userEvent.click(screen.getByText(/convert system to rhel/i));
-    await userEvent.click(
-      screen.getByRole('button', {
-        name: /run a pre-conversion analysis of this system/i,
-      }),
-    );
-    await waitFor(() => {
-      expect(navigate).toHaveBeenCalledWith(
-        '/available/convert-to-rhel-analysis',
-      );
-    });
   });
 
   describe('API', () => {

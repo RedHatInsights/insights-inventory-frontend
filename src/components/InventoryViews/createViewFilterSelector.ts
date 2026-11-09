@@ -10,10 +10,15 @@ import { parseViewConfigFilters } from './utils/viewConfigFilters';
  * Restores a saved view's toolbar
  *
  *  @param configuration - Active view configuration; `undefined` skips restore
+ *  @param baseSelector  - Toolbar membership to restore onto; defaults to the
+ *                       full toolbar. Pass the flag-resolved selector so a
+ *                       view saved with app-data filters does not reintroduce
+ *                       them while `ui.inventory-views-filters` is off.
  *  @returns             Selector, or `undefined` when there is no configuration
  */
 export const createViewFilterSelector = (
   configuration?: ViewConfiguration,
+  baseSelector: FilterSelector<ApiHostViewsGetHostViewsParams> = selectInventoryViewsFilters,
 ): FilterSelector<ApiHostViewsGetHostViewsParams> | undefined => {
   if (!configuration) {
     return undefined;
@@ -21,11 +26,11 @@ export const createViewFilterSelector = (
 
   const applied = parseViewConfigFilters(configuration.filters);
   if (!applied) {
-    return selectInventoryViewsFilters;
+    return baseSelector;
   }
 
   return applyFilterDefaultValues(
-    selectInventoryViewsFilters,
+    baseSelector,
     applied as Readonly<Record<string, FilterSpec['defaultValue']>>,
   );
 };
