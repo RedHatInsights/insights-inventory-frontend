@@ -218,11 +218,25 @@ const createFetchStub = (hosts = MOCK_SYSTEMS) => {
 
 let fetchStub;
 
-// The `filterParams` of the most recent fetch the table issued.
-const lastFilterParams = () =>
-  cy.wrap(null).then(() => {
-    expect(fetchStub.calls, 'table issued at least one fetch').to.not.be.empty;
-    return fetchStub.calls[fetchStub.calls.length - 1].filterParams;
+/*
+ * Asserts on the filters the table last sent to the API.
+ *
+ *   expectRequestedFilters({ cveSeverity: ['critical'] }); // must be present
+ *   expectRequestedFilters((params) => { ... });           // custom assertion
+ *
+ * The fetch happens shortly after the click, so this retries until it arrives.
+ */
+const expectRequestedFilters = (expected) =>
+  cy.wrap(null, { log: false }).should(() => {
+    const { calls } = fetchStub;
+    expect(calls, 'table issued at least one fetch').to.not.be.empty;
+
+    const filterParams = calls[calls.length - 1].filterParams;
+    if (typeof expected === 'function') {
+      expected(filterParams);
+    } else {
+      expect(filterParams).to.deep.include(expected);
+    }
   });
 
 // ------------------------------------------------------------------- mounting
@@ -358,7 +372,7 @@ describe('InventoryViews app-services filters', () => {
       mountTable();
       chooseFilterOption('cveSeverity', 'Critical');
 
-      lastFilterParams().should('deep.include', { cveSeverity: ['critical'] });
+      expectRequestedFilters({ cveSeverity: ['critical'] });
       expectVisibleSystems(['vuln-critical', 'vuln-exploit-and-rule']);
       expectSystemsAbsent(['vuln-low', 'vuln-important', 'no-app-data']);
     });
@@ -368,7 +382,7 @@ describe('InventoryViews app-services filters', () => {
       chooseFilterOption('cveSeverity', 'Critical');
       chooseFilterOption('cveSeverity', 'Low');
 
-      lastFilterParams().then((params) => {
+      expectRequestedFilters((params) => {
         expect(params.cveSeverity).to.have.members(['critical', 'low']);
       });
       expectVisibleSystems([
@@ -385,7 +399,7 @@ describe('InventoryViews app-services filters', () => {
       mountTable();
       chooseFilterOption('knownExploit', 'Has a known exploit');
 
-      lastFilterParams().should('deep.include', {
+      expectRequestedFilters({
         knownExploit: 'has_known_exploit',
       });
       expectVisibleSystems(['vuln-exploit-and-rule']);
@@ -395,7 +409,7 @@ describe('InventoryViews app-services filters', () => {
       mountTable();
       chooseFilterOption('knownExploit', 'No known exploit');
 
-      lastFilterParams().should('deep.include', {
+      expectRequestedFilters({
         knownExploit: 'no_known_exploit',
       });
       expectVisibleSystems(['vuln-critical', 'vuln-low', 'vuln-important']);
@@ -412,8 +426,19 @@ describe('InventoryViews app-services filters', () => {
       mountTable();
       chooseFilterOption('securityRule', 'Present');
 
-      lastFilterParams().should('deep.include', { securityRule: 'present' });
+      expectRequestedFilters({ securityRule: 'present' });
       expectVisibleSystems(['vuln-exploit-and-rule']);
+    });
+
+    it('not_present excludes systems with no vulnerability data', () => {
+      mountTable();
+      chooseFilterOption('securityRule', 'Not present');
+
+      expectRequestedFilters({ securityRule: 'not_present' });
+      expectVisibleSystems(['vuln-critical', 'vuln-low', 'vuln-important']);
+      expectSystemsAbsent(['no-app-data', 'vuln-exploit-and-rule']);
+      // 0 rather than `--`: zero security rules, not absent vulnerability data.
+      expectColumnCells('CVEs with security rules', '0');
     });
   });
 
@@ -422,7 +447,7 @@ describe('InventoryViews app-services filters', () => {
       mountTable();
       chooseFilterOption('recommendationSeverity', 'Critical');
 
-      lastFilterParams().should('deep.include', {
+      expectRequestedFilters({
         recommendationSeverity: ['critical'],
       });
       expectVisibleSystems(['adv-critical-incident', 'adv-critical-clean']);
@@ -435,7 +460,7 @@ describe('InventoryViews app-services filters', () => {
       mountTable();
       chooseFilterOption('incidentStatus', 'Has incidents');
 
-      lastFilterParams().should('deep.include', { incidentStatus: 'incident' });
+      expectRequestedFilters({ incidentStatus: 'incident' });
       expectVisibleSystems(['adv-critical-incident', 'adv-low-incident']);
     });
 
@@ -443,7 +468,7 @@ describe('InventoryViews app-services filters', () => {
       mountTable();
       chooseFilterOption('incidentStatus', 'No incidents');
 
-      lastFilterParams().should('deep.include', {
+      expectRequestedFilters({
         incidentStatus: 'no_incident',
       });
       expectVisibleSystems(['adv-critical-clean']);
@@ -459,7 +484,7 @@ describe('InventoryViews app-services filters', () => {
       chooseFilterOption('recommendationSeverity', 'Critical');
       chooseFilterOption('incidentStatus', 'Has incidents');
 
-      lastFilterParams().should('deep.include', {
+      expectRequestedFilters({
         recommendationSeverity: ['critical'],
         incidentStatus: 'incident',
       });
@@ -485,7 +510,9 @@ describe('InventoryViews app-services filters', () => {
 
       removeFilterLabel('Critical');
 
-      lastFilterParams().should('not.have.property', 'cveSeverity');
+      expectRequestedFilters((params) => {
+        expect(params).to.not.have.property('cveSeverity');
+      });
       cy.get('tbody tr').should('have.length', MOCK_SYSTEMS.length);
     });
   });

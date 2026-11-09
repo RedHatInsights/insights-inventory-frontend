@@ -56,6 +56,7 @@ test.describe(
       ]);
     });
 
+    // eslint-disable-next-line playwright/expect-expect
     test('User creates a new view, renames it, and deletes it', async ({
       page,
     }) => {
@@ -80,6 +81,7 @@ test.describe(
       });
     });
 
+    // eslint-disable-next-line playwright/expect-expect
     test('User sets a view as default and it becomes the landing view', async ({
       page,
     }) => {
