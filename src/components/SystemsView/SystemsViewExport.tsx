@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Dropdown,
   DropdownItem,
@@ -44,6 +44,10 @@ interface SystemsViewExportProps<TItem extends SystemsViewItem> {
  * export config. Owns the toast lifecycle around the consumer's `onExport`
  * so every export mechanism (export service or client-side) gets the same
  * preparing → downloaded / failed experience.
+ *
+ * The toasts live in a global store that outlives this component: when the
+ * table unmounts mid-export the download never runs, so the pending toast
+ * is removed and no outcome is reported.
  */
 export const SystemsViewExport = <TItem extends SystemsViewItem>({
   exportConfig,
@@ -53,6 +57,29 @@ export const SystemsViewExport = <TItem extends SystemsViewItem>({
   const [isExporting, setIsExporting] = useState(false);
   const { addNotification, removeNotification, notifications } =
     useNotifications();
+  const isMounted = useRef(true);
+  // Kept current for the unmount cleanup below.
+  const latestNotifications = useRef(notifications);
+
+  useEffect(() => {
+    latestNotifications.current = notifications;
+  }, [notifications]);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+      // Drop any export toast left behind by an in-flight export so it
+      // cannot keep promising a download that will never happen.
+      latestNotifications.current
+        .filter((notification) =>
+          (EXPORT_TOAST_TITLES as readonly string[]).includes(
+            String(notification.title),
+          ),
+        )
+        .forEach((notification) => removeNotification(notification.id));
+    };
+  }, [removeNotification]);
 
   const itemTexts = { ...DEFAULT_ITEM_TEXTS, ...exportConfig.itemTexts };
   const isDisabledByConfig =
@@ -91,16 +118,22 @@ export const SystemsViewExport = <TItem extends SystemsViewItem>({
     });
     try {
       await exportConfig.onExport(format, exportState);
-      replaceExportToasts({
-        variant: 'success',
-        title: 'Downloading export',
-      });
+      // The request hook resolves quietly when its host unmounted mid-export
+      // (the download never ran) — only report success while still mounted.
+      if (isMounted.current) {
+        replaceExportToasts({
+          variant: 'success',
+          title: 'Downloading export',
+        });
+      }
     } catch {
-      replaceExportToasts({
-        variant: 'danger',
-        title: 'Couldn’t download export',
-        description: 'Reinitiate this export to try again.',
-      });
+      if (isMounted.current) {
+        replaceExportToasts({
+          variant: 'danger',
+          title: 'Couldn’t download export',
+          description: 'Reinitiate this export to try again.',
+        });
+      }
     } finally {
       setIsExporting(false);
     }

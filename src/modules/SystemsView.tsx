@@ -49,19 +49,6 @@ function SystemsView<TItem extends SystemsViewItem, TFilterParams = unknown>({
   // deal the Gen 1 InventoryTable offered via enableExport.
   const inventoryExport = useAllSystemsExportConfig<TItem>();
 
-  if (
-    process.env.NODE_ENV !== 'production' &&
-    exportConfig &&
-    ('onSelect' in exportConfig || 'extraItems' in exportConfig)
-  ) {
-    // The Gen 1 InventoryTable's exportConfig used onSelect/extraItems; this
-    // contract uses onExport. Warn instead of silently substituting the
-    // inventory all-systems export for a migrating (untyped JS) consumer.
-    console.warn(
-      'SystemsView exportConfig: the Gen 1 export config keys (onSelect, extraItems) are not supported — use onExport instead.',
-    );
-  }
-
   const systemsView = (
     <SystemsViewImpl
       queryKeyPrefix={queryKeyPrefix}

@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { expect, jest } from '@jest/globals';
@@ -154,6 +154,61 @@ describe('SystemsViewExport', () => {
       expect(mockRemoveNotification).toHaveBeenCalledWith('old-export-toast'),
     );
     expect(mockRemoveNotification).not.toHaveBeenCalledWith('unrelated-toast');
+  });
+
+  it('removes the pending toast and reports nothing when unmounted mid-export', async () => {
+    // The request hook resolves quietly when its host unmounts mid-poll —
+    // fulfillment must not be reported as a completed download.
+    let resolveExport: (() => void) | undefined;
+    const onExport = jest.fn(
+      () =>
+        new Promise<void>((resolve) => {
+          resolveExport = resolve;
+        }),
+    );
+    const { rerender, unmount } = render(
+      <SystemsViewExport
+        exportConfig={{ onExport }}
+        exportState={exportState}
+      />,
+    );
+
+    await openMenu();
+    await userEvent.click(screen.getByText('Export to CSV'));
+
+    await waitFor(() =>
+      expect(mockAddNotification).toHaveBeenCalledWith(
+        expect.objectContaining({
+          variant: 'info',
+          title: 'Preparing export',
+        }),
+      ),
+    );
+
+    // The toast now exists in the (global) notification store; the user
+    // navigates away, unmounting the table.
+    mockNotifications = [{ id: 'preparing-toast', title: 'Preparing export' }];
+    rerender(
+      <SystemsViewExport
+        exportConfig={{ onExport }}
+        exportState={exportState}
+      />,
+    );
+    unmount();
+
+    // The pending toast promising an automatic download is swept…
+    expect(mockRemoveNotification).toHaveBeenCalledWith('preparing-toast');
+
+    // …and the export resolving afterwards reports no success.
+    await act(async () => {
+      resolveExport?.();
+    });
+    expect(mockAddNotification).not.toHaveBeenCalledWith(
+      expect.objectContaining({
+        variant: 'success',
+        title: 'Downloading export',
+      }),
+    );
   });
 
   it('shows the failure toast when onExport rejects', async () => {

@@ -111,21 +111,6 @@ describe('modules/SystemsView (federated wrapper)', () => {
     expect(exportConfig?.itemTexts).toBeUndefined();
   });
 
-  it('warns in dev mode when a Gen 1-shaped export config is passed', () => {
-    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
-    try {
-      renderWrapper({
-        exportConfig: {
-          onSelect: jest.fn(),
-        } as unknown as SystemsViewExportConfig<SystemsViewItem>,
-      });
-
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('onSelect'));
-    } finally {
-      warnSpy.mockRestore();
-    }
-  });
-
   it('the resolved fallback exports all systems with empty filters', async () => {
     renderWrapper({ exportConfig: {} });
 

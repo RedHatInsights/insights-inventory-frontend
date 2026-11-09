@@ -24,7 +24,9 @@ export const MAX_POLL_DURATION_MS = 10 * 60 * 1000;
  * Resolves when the download has started and rejects on failure — the caller
  * (the SystemsView export menu) owns the toast lifecycle around this promise.
  * Polling (and the download) stop quietly if the host component unmounts
- * mid-export, e.g. when the user navigates away.
+ * mid-export, e.g. when the user navigates away — the promise still resolves
+ * in that case, so callers reporting outcomes must check their own mount
+ * state rather than treat fulfillment as a completed download.
  */
 export const useInventoryExportRequest = () => {
   const axios = useAxiosWithPlatformInterceptors();
