@@ -19,6 +19,7 @@ const InsightsPrompt = () => {
   const platformName = useLightspeedFeatureFlag();
   return (
     <Alert
+      className="pf-v6-u-mb-md"
       variant="info"
       isInline
       title="Your insights-client is not reporting"
