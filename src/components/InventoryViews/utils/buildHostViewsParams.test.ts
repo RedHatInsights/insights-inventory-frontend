@@ -265,14 +265,14 @@ describe('buildHostViewsParams', () => {
       const params = buildParams({
         filters: {
           recommendation_severity: ['critical', 'low'],
-          incident_status: ['no_incident'],
+          incident_status: ['not_present'],
         },
       });
 
       // The generated client models these as named params and serializes
       // them natively as repeated no-bracket params (RHINENG-30753).
       expect(params.recommendationSeverity).toEqual(['critical', 'low']);
-      expect(params.incidentStatus).toBe('no_incident');
+      expect(params.incidentStatus).toEqual(['not_present']);
     });
 
     it('omits the Advisor params when nothing is selected', () => {

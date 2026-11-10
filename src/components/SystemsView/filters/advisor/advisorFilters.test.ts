@@ -39,14 +39,24 @@ describe('Advisor filters', () => {
     expect(params.recommendationSeverity).toEqual(['critical', 'low']);
   });
 
-  it('unwraps the single-select incident value to a single param', () => {
+  it('accepts the not-analyzed severity', () => {
     const params = buildFilterParams(
       filters,
-      { ...EMPTY_FILTER_STATE, incident_status: ['no_incident'] },
+      { ...EMPTY_FILTER_STATE, recommendation_severity: ['not_analyzed'] },
       ctx,
     );
 
-    expect(params.incidentStatus).toBe('no_incident');
+    expect(params.recommendationSeverity).toEqual(['not_analyzed']);
+  });
+
+  it('maps multiple incident statuses to an OR-semantics param list', () => {
+    const params = buildFilterParams(
+      filters,
+      { ...EMPTY_FILTER_STATE, incident_status: ['present', 'not_analyzed'] },
+      ctx,
+    );
+
+    expect(params.incidentStatus).toEqual(['present', 'not_analyzed']);
   });
 
   it('omits the Advisor params when no values are selected', () => {

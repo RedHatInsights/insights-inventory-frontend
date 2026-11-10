@@ -204,17 +204,17 @@ describe('areFiltersDirty', () => {
   });
 
   it('detects a changed incident_status URL value with the default keys', () => {
-    expect(areFiltersDirty(makeParams({ incident_status: 'incident' }))).toBe(
+    expect(areFiltersDirty(makeParams({ incident_status: 'present' }))).toBe(
       true,
     );
     expect(
-      areFiltersDirty(makeParams({ incident_status: 'incident' }), {
-        incident_status: ['no_incident'],
+      areFiltersDirty(makeParams({ incident_status: 'present' }), {
+        incident_status: ['not_present'],
       }),
     ).toBe(true);
     expect(
-      areFiltersDirty(makeParams({ incident_status: 'no_incident' }), {
-        incident_status: ['no_incident'],
+      areFiltersDirty(makeParams({ incident_status: 'not_present' }), {
+        incident_status: ['not_present'],
       }),
     ).toBe(false);
   });

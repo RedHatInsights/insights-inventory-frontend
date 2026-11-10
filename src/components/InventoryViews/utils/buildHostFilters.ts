@@ -87,7 +87,7 @@ export const buildHostFilters = (
 
   if (incidentStatus.length) {
     hostFilters.incident_status =
-      incidentStatus[0] as HostFiltersIncidentStatusEnum;
+      incidentStatus as HostFiltersIncidentStatusEnum[];
   }
 
   if (cveSeverity.length) {
@@ -95,11 +95,11 @@ export const buildHostFilters = (
   }
 
   if (knownExploit.length) {
-    hostFilters.known_exploit = knownExploit[0] as HostFiltersKnownExploitEnum;
+    hostFilters.known_exploit = knownExploit as HostFiltersKnownExploitEnum[];
   }
 
   if (securityRule.length) {
-    hostFilters.security_rule = securityRule[0] as HostFiltersSecurityRuleEnum;
+    hostFilters.security_rule = securityRule as HostFiltersSecurityRuleEnum[];
   }
 
   const lastSeenParams = lastSeenKeysToApiParams(

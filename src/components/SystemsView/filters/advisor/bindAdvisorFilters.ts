@@ -31,7 +31,7 @@ export const bindAdvisorFilters = (
     updateFilterParams: (params, value: string[]) => ({
       ...params,
       ...(value?.length && {
-        incidentStatus: value[0] as ApiHostViewsGetHostViewsIncidentStatusEnum,
+        incidentStatus: value as ApiHostViewsGetHostViewsIncidentStatusEnum[],
       }),
     }),
   }),
