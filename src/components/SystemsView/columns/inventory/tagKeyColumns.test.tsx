@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { NOT_AVAILABLE } from '../CellValue';
 import { bindTagKeyColumns } from './tagKeyColumns';
@@ -40,6 +41,23 @@ describe('tag key columns', () => {
       expect(column.sortBy).toBeUndefined();
       expect(column.appName).toBe('tag');
       expect(column.isRemovable).toBe(true);
+    });
+    expect(columns[2].tableHeader).toBeUndefined();
+  });
+
+  it('shows the key in the table header and the full identity in a tooltip', async () => {
+    const user = userEvent.setup();
+    render(<>{columns[0].tableHeader}</>);
+
+    expect(screen.getByText('env')).toBeInTheDocument();
+    expect(screen.queryByText('insights-client/env')).not.toBeInTheDocument();
+
+    await user.hover(screen.getByText('env'));
+
+    await waitFor(() => {
+      expect(screen.getByRole('tooltip')).toHaveTextContent(
+        'insights-client/env',
+      );
     });
   });
 

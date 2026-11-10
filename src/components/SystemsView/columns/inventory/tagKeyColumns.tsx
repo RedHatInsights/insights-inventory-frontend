@@ -1,4 +1,5 @@
 import React from 'react';
+import { Tooltip } from '@patternfly/react-core';
 import type { Column } from '../types';
 import { bindColumn } from '../bindColumn';
 import type { InventoryBindableItem } from './columnDefinitions';
@@ -36,5 +37,11 @@ export const bindTagKeyColumns = (
         },
       ),
       isRemovable: true,
+      // Manage columns keeps namespace/key via `title`. The table shows the key.
+      tableHeader: namespace ? (
+        <Tooltip content={identity}>
+          <span>{key}</span>
+        </Tooltip>
+      ) : undefined,
     };
   });
