@@ -36,6 +36,11 @@ objects:
             routes:
               - pathname: /insights/inventory
               - pathname: /ansible/inventory
+          - id: registration
+            module: ./RegistrationApp
+            routes:
+              - pathname: /insights/registration
+              - pathname: /ansible/registration
 
       navigationSegments:
         - segmentId: systems-nav
@@ -89,6 +94,20 @@ objects:
               id: inventory
               href: /ansible/inventory
               product: Red Hat Insights
+        - segmentId: registration-assistant-insights
+          bundleId: insights
+          position: 5000
+          navItems:
+            - id: registration
+              title: Registration Assistant
+              href: /insights/registration
+        - segmentId: registration-assistant-ansible
+          bundleId: ansible
+          position: 5000
+          navItems:
+            - id: registration
+              title: Registration Assistant
+              href: /ansible/registration
 
       serviceTiles:
         - id: inventory-ansible-automation
@@ -126,6 +145,27 @@ objects:
           group: rhel
           section: systemConfiguration
           icon: InsightsIcon
+        - id: registration-assistant-automation
+          section: automation
+          group: ansible
+          title: Registration Assistant
+          href: /ansible/registration
+          description: Register your Ansible Automation Platform systems with the Red Hat Insights Client to view them on the Red Hat Hybrid Cloud Console.
+          icon: AnsibleIcon
+        - id: registration-assistant-rhel-system-configuration
+          section: systemConfiguration
+          group: rhel
+          title: Registration Assistant
+          href: /insights/registration
+          description: Register your systems with the Red Hat Insights Client to view them on the Red Hat Hybrid Cloud Console.
+          icon: InsightsIcon
+        - id: registration-assistant-ansible-system-configuration
+          section: systemConfiguration
+          group: ansible
+          title: Registration Assistant
+          href: /ansible/registration
+          description: Register your systems with the Red Hat Insights Client to view them on the Red Hat Hybrid Cloud Console.
+          icon: AnsibleIcon
 
       searchEntries:
         - id: inventory-systems-rhel
@@ -156,6 +196,24 @@ objects:
             - workspace
             - groups
             - group
+        - id: registration-assistant-insights
+          title: Registration Assistant
+          href: /insights/registration
+          description: Register your systems with the Red Hat Insights Client to view them on the Red Hat Hybrid Cloud Console.
+          alt_title:
+            - register rhel
+            - Register RHEL
+            - rhel
+            - RHEL
+        - id: registration-assistant-ansible
+          title: Registration Assistant
+          href: /ansible/registration
+          description: Register your systems with the Red Hat Insights Client to view them on the Red Hat Hybrid Cloud Console.
+          alt_title:
+            - register rhel
+            - Register RHEL
+            - rhel
+            - RHEL
 
 parameters:
   - name: ENV_NAME
