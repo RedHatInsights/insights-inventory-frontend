@@ -2,6 +2,7 @@ import '@testing-library/jest-dom';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, jest } from '@jest/globals';
+import { useLocation, useNavigate } from 'react-router-dom';
 import type { ApiHostGetHostListParams } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import React from 'react';
 import {
@@ -12,6 +13,7 @@ import {
 import type { ActionHelpers, ActionSpec, RowAction } from './actions/types';
 import type { ColumnSelector } from './columns/resolveColumnSelector';
 import type { FilterSelector } from './filters/resolveFilterSelector';
+import { markPaginatedRequestNotFound } from './utils/paginatedRequestError';
 import { bindInventoryViewColumns } from './columns/inventoryViewColumns';
 import { selectLegacyInventoryFilters } from '../InventoryViews/selectLegacyInventoryFilters';
 import type { System } from '../InventoryViews/hostsQueryOptions';
@@ -30,6 +32,21 @@ const mockSystem = {
 const successData: SystemsViewQueryData<System> = {
   results: [mockSystem],
   total: 1,
+};
+
+const HistoryControls = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  return (
+    <>
+      <button onClick={() => navigate(-1)}>Back</button>
+      <span data-testid="current-location">
+        {location.pathname}
+        {location.search}
+      </span>
+    </>
+  );
 };
 
 jest.mock('../../Utilities/hooks/useHostIdsWithKessel', () => ({
@@ -498,6 +515,277 @@ describe('SystemsView', () => {
     await waitFor(() => {
       expect(fetchData.mock.calls.length).toBeGreaterThan(fetchCountAfterLoad);
     });
+  });
+
+  it('returns to the previous page when deletion makes the list page return 404', async () => {
+    let deletionComplete = false;
+    const currentPageSystem = {
+      ...mockSystem,
+      id: 'host-current-page',
+      display_name: 'Current Page Host',
+    };
+    const previousPageSystem = {
+      ...mockSystem,
+      id: 'host-previous-page',
+      display_name: 'Previous Page Host',
+    };
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(({ page }) => {
+      if (page === 3 && deletionComplete) {
+        return Promise.reject(
+          markPaginatedRequestNotFound(
+            Object.assign(new Error('Page not found'), {
+              response: { status: 404 },
+            }),
+          ),
+        );
+      }
+      if (page === 3) {
+        return Promise.resolve({ results: [currentPageSystem], total: 101 });
+      }
+      if (page === 2) {
+        return Promise.resolve({ results: [previousPageSystem], total: 100 });
+      }
+      return Promise.resolve({ results: [], total: 100 });
+    });
+    const onAction = jest.fn();
+    const client = createTestQueryClient();
+    const user = userEvent.setup();
+
+    renderSystemsView(fetchData, client, {
+      bulkActions: [createPersistentAction(onAction)],
+      initialRoute: '/?page=3&per_page=50',
+    });
+
+    expect(await screen.findByText('Current Page Host')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Delete' }));
+    deletionComplete = true;
+    const helpers = getCalledActionHelpers(onAction);
+
+    await act(async () => {
+      await helpers.invalidateQuery();
+    });
+
+    expect(await screen.findByText('Previous Page Host')).toBeInTheDocument();
+    expect(fetchData).toHaveBeenCalledWith(
+      expect.objectContaining({ page: 2 }),
+    );
+  });
+
+  it('keeps the requested page and shows an error after a 404', async () => {
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(() =>
+      Promise.reject(
+        Object.assign(new Error('Not found'), {
+          response: { status: 404 },
+        }),
+      ),
+    );
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      initialRoute: '/?page=5&per_page=50',
+    });
+
+    expect(await screen.findByText(/Unable to load data/i)).toBeInTheDocument();
+    expect(fetchData).not.toHaveBeenCalledWith(
+      expect.objectContaining({ page: 4 }),
+    );
+    expect(fetchData).not.toHaveBeenCalledWith(
+      expect.objectContaining({ page: 2 }),
+    );
+  });
+
+  it('jumps to the last known page when several pages are out of range', async () => {
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(({ page }) => {
+      if (page === 5) {
+        return Promise.resolve({ results: [], total: 51 });
+      }
+      if (page === 2) {
+        return Promise.resolve({ results: [mockSystem], total: 51 });
+      }
+      return Promise.resolve({ results: [], total: 51 });
+    });
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      initialRoute: '/?page=5&per_page=50',
+    });
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    expect(fetchData).toHaveBeenCalledWith(
+      expect.objectContaining({ page: 2 }),
+    );
+    expect(fetchData).not.toHaveBeenCalledWith(
+      expect.objectContaining({ page: 4 }),
+    );
+    expect(fetchData).not.toHaveBeenCalledWith(
+      expect.objectContaining({ page: 3 }),
+    );
+  });
+
+  it('keeps an empty page when the API total shows that the page is valid', async () => {
+    const nextPageSystem = {
+      ...mockSystem,
+      id: 'host-next-page',
+      display_name: 'Next Page Host',
+    };
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(({ page }) =>
+      page === 2
+        ? Promise.resolve({ results: [], total: 151 })
+        : Promise.resolve({ results: [nextPageSystem], total: 151 }),
+    );
+    const user = userEvent.setup();
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      initialRoute: '/?page=2&per_page=50',
+    });
+
+    expect(
+      await screen.findByText(/No matching systems found/i),
+    ).toBeInTheDocument();
+    expect(fetchData).not.toHaveBeenCalledWith(
+      expect.objectContaining({ page: 1 }),
+    );
+
+    await user.click(
+      screen.getAllByRole('button', { name: 'Go to next page' })[0],
+    );
+
+    expect(await screen.findByText('Next Page Host')).toBeInTheDocument();
+    expect(fetchData).toHaveBeenCalledWith(
+      expect.objectContaining({ page: 3 }),
+    );
+  });
+
+  it('preserves the requested page when the API omits the total', async () => {
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(() =>
+      Promise.resolve({ results: [mockSystem], total: undefined }),
+    );
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      initialRoute: '/?page=3&per_page=50',
+    });
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    expect(fetchData).not.toHaveBeenCalledWith(
+      expect.objectContaining({ page: 1 }),
+    );
+  });
+
+  it('keeps the requested page when a refetch fails with cached empty results', async () => {
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(() =>
+      Promise.resolve({ results: [mockSystem], total: 101 }),
+    );
+    const client = createTestQueryClient();
+
+    renderSystemsView(fetchData, client, {
+      initialRoute: '/?page=3&per_page=50',
+    });
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    const fetchParams = fetchData.mock.calls.at(-1)?.[0];
+    expect(fetchParams).toBeDefined();
+    fetchData.mockImplementation(() => Promise.reject(new Error('temporary')));
+
+    await act(async () => {
+      client.setQueryData([TEST_QUERY_KEY, fetchParams], {
+        results: [],
+        total: 0,
+      });
+      await client.invalidateQueries({
+        queryKey: [TEST_QUERY_KEY, fetchParams],
+      });
+    });
+
+    expect(await screen.findByText(/Unable to load data/i)).toBeInTheDocument();
+    expect(fetchData).not.toHaveBeenCalledWith(
+      expect.objectContaining({ page: 2 }),
+    );
+  });
+
+  it('replaces history when falling back from an empty page', async () => {
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(({ page }) =>
+      page === 2
+        ? Promise.resolve({ results: [], total: 0 })
+        : Promise.resolve({ results: [mockSystem], total: 1 }),
+    );
+    const user = userEvent.setup();
+
+    render(
+      <TestWrapper
+        client={createTestQueryClient()}
+        routerProps={{
+          initialEntries: ['/previous', '/?page=2&per_page=50'],
+          initialIndex: 1,
+        }}
+      >
+        <>
+          <HistoryControls />
+          <SystemsView
+            queryKeyPrefix={TEST_QUERY_KEY}
+            fetchData={fetchData}
+            columns={selectNameColumn}
+          />
+        </>
+      </TestWrapper>,
+    );
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId('current-location')).toHaveTextContent(
+        '/?page=1&per_page=50',
+      );
+    });
+
+    for (let attempt = 0; attempt < 6; attempt++) {
+      if (screen.getByTestId('current-location').textContent === '/previous') {
+        break;
+      }
+      await user.click(screen.getByRole('button', { name: 'Back' }));
+      await waitFor(() => {
+        const currentLocation =
+          screen.getByTestId('current-location').textContent ?? '';
+        expect(
+          currentLocation === '/previous' || currentLocation.includes('page=1'),
+        ).toBe(true);
+      });
+    }
+    expect(screen.getByTestId('current-location')).toHaveTextContent(
+      '/previous',
+    );
+  });
+
+  it('shows the empty state when deletion leaves all pages empty', async () => {
+    let deletionComplete = false;
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(({ page }) => {
+      if (deletionComplete) {
+        return Promise.resolve({ results: [], total: 0 });
+      }
+      return Promise.resolve({ results: [mockSystem], total: 101 });
+    });
+    const onAction = jest.fn();
+    const client = createTestQueryClient();
+    const user = userEvent.setup();
+
+    renderSystemsView(fetchData, client, {
+      bulkActions: [createPersistentAction(onAction)],
+      initialRoute: '/?page=3&per_page=50',
+    });
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Delete' }));
+    deletionComplete = true;
+    const helpers = getCalledActionHelpers(onAction);
+
+    await act(async () => {
+      await helpers.invalidateQuery();
+    });
+
+    await waitFor(() => {
+      expect(fetchData).toHaveBeenCalledWith(
+        expect.objectContaining({ page: 1 }),
+      );
+    });
+    expect(
+      await screen.findByText(/No matching systems found/i),
+    ).toBeInTheDocument();
   });
 
   it('clears bulk selection when actionHelpers.clearSelection runs', async () => {

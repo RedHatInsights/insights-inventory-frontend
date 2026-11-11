@@ -7,6 +7,7 @@ import type {
   SystemsViewFetchParams,
   SystemsViewFilterState,
 } from '../SystemsView/types';
+import { markPaginatedRequestNotFound } from '../SystemsView/utils/paginatedRequestError';
 import { buildHostViewsParams } from './utils/buildHostViewsParams';
 
 export const INVENTORY_VIEWS_QUERY_KEY = 'inventory-views' as const;
@@ -41,7 +42,10 @@ export const fetchInventoryViews = async (
     direction: params.direction,
   });
 
-  const response = await getHostViews(fetchParams);
+  // Mark only list-request 404s so SystemsView can recover from an out-of-range page.
+  const response = await getHostViews(fetchParams).catch((error) => {
+    throw markPaginatedRequestNotFound(error);
+  });
   const { results: hosts, total } = response;
   const deniedServices: string[] = (response.denied_services ?? []).map(
     (s) => BACKEND_SERVICE_TO_APP_NAME[s] ?? s,
@@ -51,14 +55,18 @@ export const fetchInventoryViews = async (
 
   const hostsWithId = hosts.filter(hasHostId);
 
-  const { results: hostsTags = {} } = await getHostTags({
-    hostIdList: hostsWithId.map(({ id }) => id),
-  });
+  const hostTagsResponse =
+    hostsWithId.length > 0
+      ? await getHostTags({
+          hostIdList: hostsWithId.map(({ id }) => id),
+        })
+      : undefined;
+  const hostsTags = hostTagsResponse?.results ?? {};
 
   const results = hostsWithId.map((host) => ({
     ...host,
     ...(hostsTags[host.id] ? { tags: hostsTags[host.id] } : {}),
   }));
 
-  return { results, total: total ?? 0, deniedServices };
+  return { results, total, deniedServices };
 };
