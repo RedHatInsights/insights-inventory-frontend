@@ -48,5 +48,5 @@ export const fetchHosts = async (
     ...(hostsTags[host.id] ? { tags: hostsTags[host.id] } : {}),
   }));
 
-  return { results, total: total ?? 0 };
+  return { results, total };
 };

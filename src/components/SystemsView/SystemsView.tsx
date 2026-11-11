@@ -274,7 +274,37 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
     refetchOnWindowFocus: false,
   });
   const rowsData = data?.results;
-  const total = data?.total;
+  const total = data?.total ?? undefined;
+  const { page, perPage } = pagination;
+
+  useEffect(() => {
+    if (isFetching || page <= 1 || perPage <= 0) {
+      return;
+    }
+
+    const lastPage =
+      total === undefined ? undefined : Math.max(1, Math.ceil(total / perPage));
+    const setPage = (newPage: number) => {
+      setSearchParams(
+        (currentSearchParams) => {
+          const nextSearchParams = new URLSearchParams(currentSearchParams);
+          nextSearchParams.set('page', `${newPage}`);
+          nextSearchParams.set('per_page', `${perPage}`);
+          return nextSearchParams;
+        },
+        { replace: true },
+      );
+    };
+
+    if (isError) {
+      return;
+    }
+
+    if (lastPage !== undefined && page > lastPage) {
+      setPage(lastPage);
+    }
+  }, [isError, isFetching, page, perPage, setSearchParams, total]);
+
   const isInventoryViewsRbacEnabled = useInventoryViewsColumnsRbacFeatureFlag();
   const deniedServices = isInventoryViewsRbacEnabled
     ? (data?.deniedServices ?? EMPTY_SERVICES)
