@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { ColumnManagementModal } from '../ColumnManagementModal';
 import useTagKeyColumnsFeatureFlag from '../../Utilities/useTagKeyColumnsFeatureFlag';
 import { AddTagColumn } from './AddTagColumn';
@@ -26,6 +32,7 @@ interface ColumnManagementModalProviderProps<TItem = unknown> {
   columns: readonly Column<TItem>[];
   defaultColumns: readonly Column<TItem>[];
   setColumns: React.Dispatch<React.SetStateAction<readonly Column<TItem>[]>>;
+  onModalOpened?: () => void;
 }
 
 export const ColumnManagementModalProvider = <TItem,>({
@@ -33,11 +40,16 @@ export const ColumnManagementModalProvider = <TItem,>({
   columns,
   defaultColumns,
   setColumns,
+  onModalOpened,
 }: ColumnManagementModalProviderProps<TItem>) => {
   const isTagKeyColumnsEnabled = useTagKeyColumnsFeatureFlag();
   const [isOpen, setIsOpen] = useState(false);
+  const onModalOpenedRef = useRef(onModalOpened);
+  onModalOpenedRef.current = onModalOpened;
+
   const openColumnManagementModal = useCallback(() => {
     setIsOpen(true);
+    onModalOpenedRef.current?.();
   }, []);
 
   const contextValue: SystemsViewColumnManagementContextValue = useMemo(

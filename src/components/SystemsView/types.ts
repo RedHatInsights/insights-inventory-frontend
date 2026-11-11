@@ -34,3 +34,10 @@ export type SystemsViewFetchData<
 > = (
   params: SystemsViewFetchParams<TFilterParams>,
 ) => Promise<SystemsViewQueryData<TItem>>;
+
+export type SystemsViewEvents = {
+  onFiltersChanged?: (filterIds: string[]) => void;
+  onFiltersCleared?: () => void;
+  onColumnsModalOpened?: () => void;
+  onColumnsSaved?: (columnKeys: string[]) => void;
+};

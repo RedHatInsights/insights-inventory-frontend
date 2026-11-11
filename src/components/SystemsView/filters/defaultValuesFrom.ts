@@ -60,6 +60,22 @@ export const filtersDifferFromDefaults = (
   );
 
 /**
+ * Returns resolved `filterId`s that currently have a non-empty toolbar value,
+ * preserving resolved spec order.
+ *
+ *  @param filters - Live toolbar bag keyed by `filterId`
+ *  @param specs   - Resolved filter specs to inspect
+ *  @returns       Active `filterId`s in spec order
+ */
+export const getActiveFilterIds = (
+  filters: Record<string, unknown>,
+  specs: readonly Pick<FilterSpec, 'filterId'>[],
+): string[] =>
+  specs
+    .filter((spec) => !isEmptyFilterValue(filters[spec.filterId]))
+    .map((spec) => spec.filterId);
+
+/**
  * True when any resolved spec currently has a non-empty toolbar value (a chip).
  *
  *  @param filters - Live toolbar bag keyed by `filterId`

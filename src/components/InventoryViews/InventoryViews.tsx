@@ -8,9 +8,13 @@ import React, {
   useState,
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 import { Bullseye, Spinner } from '@patternfly/react-core';
 import SystemsView from '../SystemsView/SystemsView';
-import type { SortDirection } from '../SystemsView/SystemsView';
+import type {
+  SortDirection,
+  SystemsViewEvents,
+} from '../SystemsView/SystemsView';
 import { Actions } from './actions';
 import {
   fetchInventoryViews,
@@ -124,6 +128,7 @@ const getFiltersFromSearchParams = (
 };
 
 const InventoryViews = () => {
+  const { analytics } = useChrome();
   const { isReady, isAnsibleBundle } = useAnsibleWorkloadsSearchParam();
   const [isViewSaveAsModalOpen, setIsViewSaveAsModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
@@ -321,6 +326,18 @@ const InventoryViews = () => {
       setCurrentColumns(columns);
     },
     [],
+  );
+
+  const systemsViewEvents = useMemo<SystemsViewEvents>(
+    () => ({
+      onColumnsModalOpened: () => {
+        analytics?.track('inventory_views.columns.opened');
+      },
+      onColumnsSaved: (columns) => {
+        analytics?.track('systems_view.columns.saved', { columns });
+      },
+    }),
+    [analytics],
   );
 
   const initialSort = useMemo(() => {
@@ -532,6 +549,7 @@ const InventoryViews = () => {
               bulkActions={bulkActions}
               rowActions={rowActions}
               exportConfig={exportConfig}
+              events={systemsViewEvents}
             />
           )}
         </Actions>

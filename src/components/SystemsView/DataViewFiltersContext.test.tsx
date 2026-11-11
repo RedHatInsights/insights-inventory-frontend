@@ -31,11 +31,15 @@ function FiltersHarness({
   queryClient,
   resolvedFilters = inventoryFilterSpecs,
   onSearchParams,
+  onUserFilterChange,
+  onFiltersCleared,
 }: {
   children: React.ReactNode;
   queryClient?: QueryClient;
   resolvedFilters?: readonly FilterSpec[];
   onSearchParams?: (params: URLSearchParams) => void;
+  onUserFilterChange?: () => void;
+  onFiltersCleared?: () => void;
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
   onSearchParams?.(searchParams);
@@ -46,6 +50,8 @@ function FiltersHarness({
         searchParams={searchParams}
         setSearchParams={setSearchParams}
         resolvedFilters={resolvedFilters}
+        onUserFilterChange={onUserFilterChange}
+        onFiltersCleared={onFiltersCleared}
       >
         {children}
       </DataViewFiltersProvider>
@@ -58,6 +64,10 @@ function renderFiltersContext(
   queryClient = createTestQueryClient(),
   resolvedFilters: readonly FilterSpec[] = inventoryFilterSpecs,
   onSearchParams?: (params: URLSearchParams) => void,
+  callbacks?: {
+    onUserFilterChange?: () => void;
+    onFiltersCleared?: () => void;
+  },
 ) {
   return renderHook(() => useDataViewFiltersContext(), {
     wrapper: ({ children }) => (
@@ -70,6 +80,8 @@ function renderFiltersContext(
                 queryClient={queryClient}
                 resolvedFilters={resolvedFilters}
                 onSearchParams={onSearchParams}
+                onUserFilterChange={callbacks?.onUserFilterChange}
+                onFiltersCleared={callbacks?.onFiltersCleared}
               >
                 {children}
               </FiltersHarness>
@@ -449,5 +461,61 @@ describe('DataViewFiltersProvider', () => {
         status: ['stale'],
       });
     });
+  });
+
+  it('notifies onUserFilterChange only on user filter edits, not hydration or ungrouped workspace normalization', async () => {
+    const onUserFilterChange = jest.fn();
+    const onFiltersCleared = jest.fn();
+    const queryClient = createTestQueryClient();
+    const { result } = renderFiltersContext(
+      '/?group_id=',
+      queryClient,
+      [
+        hostnameSpec,
+        { ...statusSpec, defaultValue: ['stale'] },
+        ...inventoryFilterSpecs.filter(
+          (s) => s.filterId === 'group_id' || s.filterId === 'last_seen',
+        ),
+      ],
+      undefined,
+      { onUserFilterChange, onFiltersCleared },
+    );
+
+    await waitFor(() => {
+      expect(result.current.filters.status).toEqual(['stale']);
+    });
+
+    queryClient.setQueryData(
+      ['groups', 'ungrouped-hosts-workspace'],
+      'ungrouped-kessel-uuid',
+    );
+    await act(async () => {
+      await flushPromises();
+    });
+
+    await waitFor(() => {
+      expect(result.current.filters.group_id).toEqual([
+        'ungrouped-kessel-uuid',
+      ]);
+    });
+
+    expect(onUserFilterChange).not.toHaveBeenCalled();
+    expect(onFiltersCleared).not.toHaveBeenCalled();
+
+    act(() => {
+      result.current.onSetFilters({ last_seen: 'custom' });
+    });
+    expect(onUserFilterChange).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      result.current.setLastSeenCustomRange(LAST_SEEN_CUSTOM_RANGE);
+    });
+    expect(onUserFilterChange).toHaveBeenCalledTimes(2);
+
+    act(() => {
+      result.current.clearAllFilters();
+    });
+    expect(onUserFilterChange).toHaveBeenCalledTimes(2);
+    expect(onFiltersCleared).toHaveBeenCalledTimes(1);
   });
 });

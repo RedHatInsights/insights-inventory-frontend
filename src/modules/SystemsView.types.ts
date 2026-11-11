@@ -6,6 +6,7 @@
 import type { QueryClient } from '@tanstack/react-query';
 import type { SystemsViewExportConfig } from '../components/SystemsView/export/types';
 import type {
+  SystemsViewEvents,
   SystemsViewFetchData,
   SystemsViewItem,
 } from '../components/SystemsView/types';
@@ -17,6 +18,7 @@ import type {
 } from '../components/SystemsView/actions/types';
 
 export type {
+  SystemsViewEvents,
   SystemsViewFetchData,
   SystemsViewFetchParams,
   SystemsViewFilterState,
@@ -115,4 +117,8 @@ export type SystemsViewProps<
    * the Gen 1 InventoryTable offered via `enableExport`.
    */
   exportConfig?: SystemsViewExportConfig<TItem>;
+  /**
+  * Optional callbacks notified on user-driven filter and column interactions.
+   */
+  events?: SystemsViewEvents;
 };
