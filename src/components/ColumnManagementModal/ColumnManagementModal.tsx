@@ -63,8 +63,8 @@ export interface ColumnManagementModalProps<
   ouiaId?: string | number;
   /** Enable drag and drop functionality for reordering columns */
   enableDragDrop?: boolean;
-  /** Rendered above the checkbox list. Receives the modal's draft columns. */
-  listHeader?: (draft: {
+  /** Rendered below the checkbox list and above the modal actions. */
+  listFooter?: (draft: {
     columns: readonly T[];
     addColumn: (column: T) => void;
   }) => React.ReactNode;
@@ -92,7 +92,7 @@ export function ColumnManagementModal<
   applyColumns,
   ouiaId = 'ColumnManagementModal',
   enableDragDrop = false,
-  listHeader,
+  listFooter,
   ...props
 }: ColumnManagementModalProps<T>) {
   const [currentColumns, setCurrentColumns] = useState<T[]>(() =>
@@ -251,11 +251,6 @@ export function ColumnManagementModal<
         }
       />
       <ModalBody tabIndex={0} aria-label="Column selection list">
-        {listHeader && (
-          <div style={{ paddingBlockEnd: 'var(--pf-t--global--spacer--md)' }}>
-            {listHeader({ columns: currentColumns, addColumn })}
-          </div>
-        )}
         <ListManager
           columns={listManagerItems}
           ouiaId={ouiaId}
@@ -268,6 +263,11 @@ export function ColumnManagementModal<
           enableDragDrop={enableDragDrop}
           showActions={false}
         />
+        {listFooter && (
+          <div style={{ paddingBlockStart: 'var(--pf-t--global--spacer--md)' }}>
+            {listFooter({ columns: currentColumns, addColumn })}
+          </div>
+        )}
       </ModalBody>
       <ModalFooter>
         <Flex>

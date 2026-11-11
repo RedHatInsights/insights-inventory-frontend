@@ -58,7 +58,7 @@ export const ColumnManagementModalProvider = <TItem,>({
           enableDragDrop={true}
           title="Manage columns"
           description="Select which columns you would like to see in your Systems table using the checkboxes. Re-order them using the drag and drop."
-          listHeader={({ columns: draftColumns, addColumn }) => (
+          listFooter={({ columns: draftColumns, addColumn }) => (
             <AddTagColumn
               columns={draftColumns}
               onAdd={(column) => addColumn(column as Column<TItem>)}

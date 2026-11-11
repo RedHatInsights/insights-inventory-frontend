@@ -21,14 +21,23 @@ import { bindTagKeyColumns } from './columns/inventory/tagKeyColumns';
 import type { InventoryBindableItem } from './columns/inventory/columnDefinitions';
 import type { Column } from './columns/types';
 
+/** PatternFly's scrollable menu cap. Keeps a long tag list inside the viewport. */
+const TAG_MENU_MAX_HEIGHT = '18.75rem';
+
 interface AddTagColumnProps {
   columns: readonly { key?: string | number }[];
   onAdd: (column: Column<InventoryBindableItem>) => void;
 }
 
+const labelForColumnKey = (columnKey: string): string => {
+  const identity = parseTagColumnKey(columnKey);
+  return identity ? tagIdentity(identity.namespace, identity.key) : columnKey;
+};
+
 export const AddTagColumn = ({ columns, onAdd }: AddTagColumnProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [search, setSearch] = useState('');
+  const [inputValue, setInputValue] = useState('');
+  const [filterValue, setFilterValue] = useState('');
   const [selectedKey, setSelectedKey] = useState<string>();
   const { data, isLoading, isError } = useAccountTagCatalog();
 
@@ -42,13 +51,23 @@ export const AddTagColumn = ({ columns, onAdd }: AddTagColumnProps) => {
     [columns],
   );
   const matches = useMemo(
-    () => matchingTagIdentities(data ?? [], search, takenColumnKeys),
-    [data, search, takenColumnKeys],
+    () => matchingTagIdentities(data ?? [], filterValue, takenColumnKeys),
+    [data, filterValue, takenColumnKeys],
   );
 
   const onSearchChange = (value: string) => {
-    setSearch(value);
+    setInputValue(value);
+    setFilterValue(value);
+    setIsOpen(true);
+    if (selectedKey && value !== labelForColumnKey(selectedKey)) {
+      setSelectedKey(undefined);
+    }
+  };
+
+  const clearInput = () => {
     setSelectedKey(undefined);
+    setInputValue('');
+    setFilterValue('');
     setIsOpen(true);
   };
 
@@ -57,10 +76,12 @@ export const AddTagColumn = ({ columns, onAdd }: AddTagColumnProps) => {
       toggleRef={toggleRef}
       isExpanded={isOpen}
       onToggleClick={() => setIsOpen((open) => !open)}
-      searchValue={search}
+      searchValue={inputValue}
       onSearchChange={onSearchChange}
-      placeholder="Search tags…"
+      onClear={clearInput}
+      placeholder="Add tag as a column..."
       inputId="add-tag-column-search"
+      inputAriaLabel="Add tag as a column"
       data-testid="add-tag-column-search"
     />
   );
@@ -72,32 +93,36 @@ export const AddTagColumn = ({ columns, onAdd }: AddTagColumnProps) => {
     const [column] = bindTagKeyColumns([identity]);
     onAdd({ ...column, isShown: true, isShownByDefault: true });
     setSelectedKey(undefined);
-    setSearch('');
+    setInputValue('');
+    setFilterValue('');
     setIsOpen(false);
   };
 
   return (
     <Flex
-      alignItems={{ default: 'alignItemsFlexEnd' }}
+      alignItems={{ default: 'alignItemsCenter' }}
       spaceItems={{ default: 'spaceItemsSm' }}
     >
       <FlexItem grow={{ default: 'grow' }}>
-        <label htmlFor="add-tag-column-search">Tag to add as column</label>
         <Select
           isOpen={isOpen}
           selected={selectedKey}
           onSelect={(_event, value) => {
+            if (value == null) return;
             const key = String(value);
-            const identity = parseTagColumnKey(key);
             setSelectedKey(key);
-            setSearch(
-              identity ? tagIdentity(identity.namespace, identity.key) : key,
-            );
+            // The field shows the choice. The filter stays empty so the menu
+            // still lists the other tags, matching a PatternFly typeahead.
+            setInputValue(labelForColumnKey(key));
+            setFilterValue('');
             setIsOpen(false);
           }}
           onOpenChange={(open) => setIsOpen(open)}
           toggle={toggle}
           shouldFocusFirstItemOnOpen={false}
+          isScrollable
+          maxMenuHeight={TAG_MENU_MAX_HEIGHT}
+          popperProps={{ preventOverflow: true }}
         >
           <SelectList>
             {isLoading && (
@@ -129,7 +154,7 @@ export const AddTagColumn = ({ columns, onAdd }: AddTagColumnProps) => {
           onClick={addSelected}
           isDisabled={!selectedKey}
         >
-          Add
+          Add column
         </Button>
       </FlexItem>
     </Flex>

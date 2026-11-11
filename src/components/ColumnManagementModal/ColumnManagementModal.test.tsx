@@ -42,4 +42,27 @@ describe('ColumnManagementModal tag rows', () => {
     ]);
     expect(screen.queryByText('owner')).not.toBeInTheDocument();
   });
+
+  it('places extra controls below the column list and above the actions', () => {
+    render(
+      <ColumnManagementModal
+        isOpen
+        appliedColumns={[nameColumn]}
+        defaultColumns={[nameColumn]}
+        applyColumns={jest.fn()}
+        listFooter={() => <div>tag picker</div>}
+      />,
+    );
+
+    const name = screen.getByText('Name');
+    const picker = screen.getByText('tag picker');
+    const save = screen.getByRole('button', { name: 'Save' });
+
+    expect(
+      name.compareDocumentPosition(picker) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(
+      picker.compareDocumentPosition(save) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
 });

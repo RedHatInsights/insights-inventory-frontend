@@ -35,15 +35,35 @@ describe('AddTagColumn', () => {
     const onAdd = jest.fn();
     render(<AddTagColumn columns={[]} onAdd={onAdd} />);
 
-    expect(screen.getByRole('button', { name: 'Add' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Add column' })).toBeDisabled();
+    expect(screen.queryByText('Tag to add as column')).not.toBeInTheDocument();
 
-    await user.type(screen.getByPlaceholderText('Search tags…'), 'environment');
+    await user.type(
+      screen.getByPlaceholderText('Add tag as a column...'),
+      'environment',
+    );
     expect(screen.getByText('insights-client/environment')).toBeInTheDocument();
     expect(screen.getByText('satellite/environment')).toBeInTheDocument();
     expect(screen.queryByText('satellite/owner')).not.toBeInTheDocument();
 
     await user.click(screen.getByText('satellite/environment'));
-    await user.click(screen.getByRole('button', { name: 'Add' }));
+    expect(
+      screen.getByDisplayValue('satellite/environment'),
+    ).toBeInTheDocument();
+
+    // Selecting fills the field and clears the filter, so reopening lists every tag.
+    screen.getByRole('textbox', { name: 'Add tag as a column' }).focus();
+    expect(
+      screen.getByRole('option', { name: 'insights-client/environment' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('option', { name: 'satellite/environment' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('option', { name: 'satellite/owner' }),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Add column' }));
 
     expect(onAdd).toHaveBeenCalledTimes(1);
     expect(onAdd.mock.calls[0][0].key).toBe('tag:satellite/environment');
@@ -59,7 +79,10 @@ describe('AddTagColumn', () => {
       />,
     );
 
-    await user.type(screen.getByPlaceholderText('Search tags…'), 'satellite');
+    await user.type(
+      screen.getByPlaceholderText('Add tag as a column...'),
+      'satellite',
+    );
 
     expect(screen.getByText('satellite/environment')).toBeInTheDocument();
     expect(screen.queryByText('satellite/owner')).not.toBeInTheDocument();
