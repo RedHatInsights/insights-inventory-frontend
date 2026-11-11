@@ -6,6 +6,7 @@ import type { ApiHostGetHostListParams } from '@redhat-cloud-services/host-inven
 import React from 'react';
 import {
   SystemsView,
+  type SystemsViewEvents,
   type SystemsViewFetchData,
   type SystemsViewQueryData,
 } from './SystemsView';
@@ -84,10 +85,12 @@ const renderSystemsView = <TFilterParams = unknown,>(
   fetchData: SystemsViewFetchData<System, TFilterParams>,
   client = createTestQueryClient(),
   extra?: {
+    columns?: ColumnSelector<System>;
     filters?: FilterSelector<TFilterParams>;
     initialRoute?: string;
     bulkActions?: readonly ActionSpec<System>[];
     rowActions?: readonly RowAction<System>[];
+    events?: SystemsViewEvents;
   },
 ) =>
   render(
@@ -98,10 +101,11 @@ const renderSystemsView = <TFilterParams = unknown,>(
       <SystemsView
         queryKeyPrefix={TEST_QUERY_KEY}
         fetchData={fetchData}
-        columns={selectNameColumn}
+        columns={extra?.columns ?? selectNameColumn}
         filters={extra?.filters}
         bulkActions={extra?.bulkActions}
         rowActions={extra?.rowActions}
+        events={extra?.events}
       />
     </TestWrapper>,
   );
@@ -526,5 +530,129 @@ describe('SystemsView', () => {
 
     expect(rowCheckbox).not.toBeChecked();
     expect(screen.queryByText('1 selected')).not.toBeInTheDocument();
+  });
+
+  describe('events', () => {
+    it('does not call filter events on mount with defaults or URL params', async () => {
+      const events: SystemsViewEvents = {
+        onFiltersChanged: jest.fn(),
+        onFiltersCleared: jest.fn(),
+      };
+
+      renderSystemsView(
+        () => Promise.resolve(successData),
+        createTestQueryClient(),
+        {
+          filters: stampHostnameDefault,
+          initialRoute: '/?status=fresh',
+          events,
+        },
+      );
+
+      expect(await screen.findByText('Test Host')).toBeInTheDocument();
+      expect(events.onFiltersChanged).not.toHaveBeenCalled();
+      expect(events.onFiltersCleared).not.toHaveBeenCalled();
+    });
+
+    it('calls onFiltersChanged after debounce for text filters and onFiltersCleared on Reset filters', async () => {
+      const onFiltersChanged = jest.fn();
+      const onFiltersCleared = jest.fn();
+      const user = userEvent.setup();
+
+      renderSystemsView(
+        () => Promise.resolve(successData),
+        createTestQueryClient(),
+        {
+          filters: selectLegacyInventoryFilters,
+          initialRoute: '/?status=fresh',
+          events: { onFiltersChanged, onFiltersCleared },
+        },
+      );
+
+      expect(await screen.findByText('Test Host')).toBeInTheDocument();
+      expect(onFiltersChanged).not.toHaveBeenCalled();
+
+      const nameInput = screen.getByPlaceholderText('Filter by name');
+      await user.type(nameInput, 'web');
+
+      await waitFor(() => {
+        expect(onFiltersChanged).toHaveBeenCalledTimes(1);
+      });
+      expect(onFiltersChanged).toHaveBeenCalledWith([
+        'hostname_or_id',
+        'status',
+      ]);
+
+      await user.click(screen.getByRole('button', { name: 'Reset filters' }));
+
+      expect(onFiltersCleared).toHaveBeenCalledTimes(1);
+      expect(onFiltersChanged).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls onFiltersChanged with empty array when the last chip is removed via chip-X', async () => {
+      const onFiltersChanged = jest.fn();
+      const onFiltersCleared = jest.fn();
+      const user = userEvent.setup();
+
+      renderSystemsView(
+        () => Promise.resolve(successData),
+        createTestQueryClient(),
+        {
+          filters: selectLegacyInventoryFilters,
+          initialRoute: '/?hostname_or_id=web-01',
+          events: { onFiltersChanged, onFiltersCleared },
+        },
+      );
+
+      expect(await screen.findByText('Test Host')).toBeInTheDocument();
+
+      await user.click(screen.getByRole('button', { name: /close web-01/i }));
+
+      await waitFor(() => {
+        expect(onFiltersChanged).toHaveBeenCalledTimes(1);
+      });
+      expect(onFiltersChanged).toHaveBeenCalledWith([]);
+      expect(onFiltersCleared).not.toHaveBeenCalled();
+    });
+
+    it('calls onColumnsModalOpened and onColumnsSaved with visible column keys', async () => {
+      localStorage.setItem('ui.inventory-views', 'true');
+      const onColumnsModalOpened = jest.fn();
+      const onColumnsSaved = jest.fn();
+      const user = userEvent.setup();
+      const selectTwoColumns: ColumnSelector<System> = () =>
+        bindInventoryViewColumns().filter(
+          (col) => col.key === 'display_name' || col.key === 'operating_system',
+        );
+
+      renderSystemsView(
+        () => Promise.resolve(successData),
+        createTestQueryClient(),
+        {
+          columns: selectTwoColumns,
+          events: { onColumnsModalOpened, onColumnsSaved },
+        },
+      );
+
+      expect(await screen.findByText('Test Host')).toBeInTheDocument();
+
+      await user.click(
+        screen.getByRole('button', { name: /actions overflow menu/i }),
+      );
+      await user.click(
+        await screen.findByRole('menuitem', { name: 'Manage columns' }),
+      );
+
+      expect(onColumnsModalOpened).toHaveBeenCalledTimes(1);
+
+      const osCheckbox = await screen.findByRole('checkbox', {
+        name: /operating system|os/i,
+      });
+      await user.click(osCheckbox);
+      await user.click(screen.getByRole('button', { name: 'Save' }));
+
+      expect(onColumnsSaved).toHaveBeenCalledTimes(1);
+      expect(onColumnsSaved).toHaveBeenCalledWith(['display_name']);
+    });
   });
 });

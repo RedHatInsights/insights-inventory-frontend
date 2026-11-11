@@ -18,6 +18,7 @@ export type {
   FilterSelector,
   FilterSpec,
   RowAction,
+  SystemsViewEvents,
   SystemsViewFetchData,
   SystemsViewFetchParams,
   SystemsViewFilterState,
@@ -36,6 +37,7 @@ function SystemsView<TItem extends SystemsViewItem, TFilterParams = unknown>({
   filters,
   bulkActions,
   rowActions,
+  events,
 }: SystemsViewProps<TItem, TFilterParams>) {
   const [internalQueryClient] = useState(
     () => queryClient ?? new QueryClient(),
@@ -50,6 +52,7 @@ function SystemsView<TItem extends SystemsViewItem, TFilterParams = unknown>({
       filters={filters}
       bulkActions={bulkActions}
       rowActions={rowActions}
+      events={events}
       showColumnManagement={false}
     />
   );

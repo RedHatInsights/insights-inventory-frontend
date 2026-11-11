@@ -3,6 +3,7 @@ export type {
   ActionHelpers,
   ActionSpec,
   BulkAction,
+  SystemsViewEvents,
   SystemsViewProps,
   RowAction,
 } from './SystemsView';
