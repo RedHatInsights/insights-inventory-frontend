@@ -102,14 +102,14 @@ describe('selectInventoryViewsFilters', () => {
     const ui = {
       ...defaultValuesFrom(full),
       cve_severity: ['critical'],
-      incident_status: ['incident'],
+      incident_status: ['present'],
     };
     const ctx = { lastSeenCustomRange: null };
 
     expect(buildFilterParams(full, ui, ctx)).toEqual(
       expect.objectContaining({
         cveSeverity: ['critical'],
-        incidentStatus: 'incident',
+        incidentStatus: ['present'],
       }),
     );
 

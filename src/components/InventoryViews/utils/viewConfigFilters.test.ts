@@ -321,21 +321,21 @@ describe('parseViewConfigFilters', () => {
     const input = {
       ...EMPTY_FILTERS,
       recommendation_severity: ['critical', 'low'],
-      incident_status: ['no_incident'],
+      incident_status: ['not_present'],
     };
 
     const built = buildViewConfigFilters(input);
     expect(built).toEqual({
       host: {
         recommendation_severity: ['critical', 'low'],
-        incident_status: 'no_incident',
+        incident_status: ['not_present'],
       },
     });
 
     const parsed = parseViewConfigFilters(built as never);
     expect(parsed).toEqual({
       recommendation_severity: ['critical', 'low'],
-      incident_status: ['no_incident'],
+      incident_status: ['not_present'],
     });
   });
 
@@ -343,7 +343,7 @@ describe('parseViewConfigFilters', () => {
     const input = {
       ...EMPTY_FILTERS,
       cve_severity: ['critical', 'low'],
-      known_exploit: ['no_known_exploit'],
+      known_exploit: ['not_present'],
       security_rule: ['present'],
     };
 
@@ -351,15 +351,15 @@ describe('parseViewConfigFilters', () => {
     expect(built).toEqual({
       host: {
         cve_severity: ['critical', 'low'],
-        known_exploit: 'no_known_exploit',
-        security_rule: 'present',
+        known_exploit: ['not_present'],
+        security_rule: ['present'],
       },
     });
 
     const parsed = parseViewConfigFilters(built as never);
     expect(parsed).toEqual({
       cve_severity: ['critical', 'low'],
-      known_exploit: ['no_known_exploit'],
+      known_exploit: ['not_present'],
       security_rule: ['present'],
     });
   });
