@@ -141,20 +141,20 @@ export const parseViewConfigFilters = (
       result.recommendation_severity = hostFilters.recommendation_severity;
     }
 
-    if (hostFilters.incident_status) {
-      result.incident_status = [hostFilters.incident_status];
+    if (hostFilters.incident_status?.length) {
+      result.incident_status = hostFilters.incident_status;
     }
 
     if (hostFilters.cve_severity?.length) {
       result.cve_severity = hostFilters.cve_severity;
     }
 
-    if (hostFilters.known_exploit) {
-      result.known_exploit = [hostFilters.known_exploit];
+    if (hostFilters.known_exploit?.length) {
+      result.known_exploit = hostFilters.known_exploit;
     }
 
-    if (hostFilters.security_rule) {
-      result.security_rule = [hostFilters.security_rule];
+    if (hostFilters.security_rule?.length) {
+      result.security_rule = hostFilters.security_rule;
     }
 
     const lastSeenKey = resolveLastSeenKeyFromBounds(

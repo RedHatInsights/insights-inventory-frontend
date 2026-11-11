@@ -69,10 +69,13 @@ describe('buildHostFilters', () => {
     ).toEqual({ recommendation_severity: ['critical', 'low'] });
   });
 
-  it('unwraps the single-select incident value to a single string', () => {
+  it('keeps multiple incident statuses as a list', () => {
     expect(
-      buildHostFilters({ ...EMPTY_FILTERS, incident_status: ['no_incident'] }),
-    ).toEqual({ incident_status: 'no_incident' });
+      buildHostFilters({
+        ...EMPTY_FILTERS,
+        incident_status: ['not_present', 'not_analyzed'],
+      }),
+    ).toEqual({ incident_status: ['not_present', 'not_analyzed'] });
   });
 
   it('combines the Advisor filters with the other host filters', () => {
@@ -81,12 +84,12 @@ describe('buildHostFilters', () => {
         ...EMPTY_FILTERS,
         status: ['fresh'],
         recommendation_severity: ['critical', 'important'],
-        incident_status: ['incident'],
+        incident_status: ['present'],
       }),
     ).toEqual({
       staleness: ['fresh'],
       recommendation_severity: ['critical', 'important'],
-      incident_status: 'incident',
+      incident_status: ['present'],
     });
   });
 
@@ -99,22 +102,22 @@ describe('buildHostFilters', () => {
     ).toEqual({ cve_severity: ['critical', 'low'] });
   });
 
-  it('unwraps the single-select known exploit value to a single string', () => {
+  it('keeps multiple known exploit values as a list', () => {
     expect(
       buildHostFilters({
         ...EMPTY_FILTERS,
-        known_exploit: ['no_known_exploit'],
+        known_exploit: ['not_present', 'not_evaluated'],
       }),
-    ).toEqual({ known_exploit: 'no_known_exploit' });
+    ).toEqual({ known_exploit: ['not_present', 'not_evaluated'] });
   });
 
-  it('unwraps the single-select security rule value to a single string', () => {
+  it('keeps multiple security rule values as a list', () => {
     expect(
       buildHostFilters({
         ...EMPTY_FILTERS,
-        security_rule: ['not_present'],
+        security_rule: ['not_present', 'not_evaluated'],
       }),
-    ).toEqual({ security_rule: 'not_present' });
+    ).toEqual({ security_rule: ['not_present', 'not_evaluated'] });
   });
 
   it('combines the Vulnerability filters with the other host filters', () => {
@@ -123,14 +126,14 @@ describe('buildHostFilters', () => {
         ...EMPTY_FILTERS,
         status: ['fresh'],
         cve_severity: ['critical', 'important'],
-        known_exploit: ['has_known_exploit'],
+        known_exploit: ['present'],
         security_rule: ['present'],
       }),
     ).toEqual({
       staleness: ['fresh'],
       cve_severity: ['critical', 'important'],
-      known_exploit: 'has_known_exploit',
-      security_rule: 'present',
+      known_exploit: ['present'],
+      security_rule: ['present'],
     });
   });
 
