@@ -101,7 +101,7 @@ jobs:
       - name: Run front-end Playwright tests
         id: pw_run
         continue-on-error: true
-        run: USE_CTRF=1 npx playwright test --grep-invert "@integration|@inventory-views"
+        run: USE_CTRF=1 npx playwright test --grep-invert "@integration"
 
       - name: Rerun failed tests and report to Currents
         id: pw_rerun
