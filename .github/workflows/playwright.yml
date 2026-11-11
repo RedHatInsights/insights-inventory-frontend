@@ -107,7 +107,7 @@ jobs:
         id: pw_rerun
         if: steps.pw_run.outcome == 'failure'
         continue-on-error: true
-        run: CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-e2e-full-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test --grep-invert "@integration|@inventory-views" --last-failed
+        run: CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-e2e-full-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test --grep-invert "@integration" --last-failed
 
       - name: Warn about flaky tests
         if: steps.pw_run.outcome == 'failure' && steps.pw_rerun.outcome == 'success'
