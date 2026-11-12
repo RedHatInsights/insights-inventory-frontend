@@ -122,6 +122,7 @@ function getCalledActionHelpers(onAction: jest.Mock): ActionHelpers {
   expect(helpers).toEqual(
     expect.objectContaining({
       invalidateQuery: expect.any(Function),
+      onRowsRemoved: expect.any(Function),
       clearSelection: expect.any(Function),
     }),
   );
@@ -302,28 +303,6 @@ describe('SystemsView', () => {
     ).toBeInTheDocument();
   });
 
-  it('returns to the last page that still has systems after the current page is emptied', async () => {
-    const fetchData = jest.fn<SystemsViewFetchData<System>>(({ page }) =>
-      Promise.resolve(
-        page > 1
-          ? { results: [], total: 1 }
-          : { results: [mockSystem], total: 1 },
-      ),
-    );
-
-    renderSystemsView(fetchData, createTestQueryClient(), {
-      initialRoute: '/?page=2',
-    });
-
-    expect(await screen.findByText('Test Host')).toBeInTheDocument();
-    expect(fetchData).toHaveBeenCalledWith(
-      expect.objectContaining({ page: 2 }),
-    );
-    expect(fetchData).toHaveBeenCalledWith(
-      expect.objectContaining({ page: 1 }),
-    );
-  });
-
   it('hides Reset filters when current filters match spec defaults', async () => {
     renderSystemsView(
       () => Promise.resolve(successData),
@@ -456,6 +435,7 @@ describe('SystemsView', () => {
       ],
       expect.objectContaining({
         invalidateQuery: expect.any(Function),
+        onRowsRemoved: expect.any(Function),
         clearSelection: expect.any(Function),
       }),
     );
@@ -486,6 +466,7 @@ describe('SystemsView', () => {
       ],
       expect.objectContaining({
         invalidateQuery: expect.any(Function),
+        onRowsRemoved: expect.any(Function),
         clearSelection: expect.any(Function),
       }),
     );

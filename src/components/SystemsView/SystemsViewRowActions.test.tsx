@@ -11,6 +11,7 @@ const system: SystemsViewItem = { id: 'host-1' };
 
 const actionHelpers: ActionHelpers = {
   invalidateQuery: jest.fn(async () => {}),
+  onRowsRemoved: jest.fn(async () => {}),
   clearSelection: jest.fn(),
 };
 

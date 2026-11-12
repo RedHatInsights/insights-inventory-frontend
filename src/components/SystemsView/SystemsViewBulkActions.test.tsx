@@ -32,6 +32,7 @@ const selectedSystems: SystemsViewItem[] = [{ id: 'host-1' }, { id: 'host-2' }];
 
 const actionHelpers: ActionHelpers = {
   invalidateQuery: jest.fn(async () => {}),
+  onRowsRemoved: jest.fn(async () => {}),
   clearSelection: jest.fn(),
 };
 

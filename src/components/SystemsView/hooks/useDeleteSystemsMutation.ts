@@ -8,6 +8,7 @@ import { useMemo } from 'react';
 interface UseDeleteSystemsMutationParams {
   systems: System[];
   onInvalidate: () => void | Promise<void>;
+  onRowsRemoved: (removedCount: number) => void | Promise<void>;
   onSuccess?: () => void;
   onError?: () => void;
   onMutate?: () => void;
@@ -22,6 +23,7 @@ const getDisplayName = (systems: System[]): string => {
 export const useDeleteSystemsMutation = ({
   systems,
   onInvalidate,
+  onRowsRemoved,
   onSuccess,
   onError,
   onMutate,
@@ -43,7 +45,7 @@ export const useDeleteSystemsMutation = ({
         dismissable: true,
       });
     },
-    onSuccess: async () => {
+    onSuccess: async (_data, ids) => {
       onSuccess?.();
       addNotification({
         variant: 'success',
@@ -52,7 +54,7 @@ export const useDeleteSystemsMutation = ({
         dismissable: true,
       });
 
-      await onInvalidate();
+      await onRowsRemoved(ids.length);
     },
     onError: async (error) => {
       onError?.();

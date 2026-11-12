@@ -142,6 +142,7 @@ const testSystemInWorkspace: ActionItem = {
 
 const actionHelpers: ActionHelpers = {
   invalidateQuery: jest.fn(async () => {}),
+  onRowsRemoved: jest.fn(async () => {}),
   clearSelection: jest.fn(),
 };
 
@@ -292,15 +293,15 @@ describe('Actions', () => {
     runAction(findAction(bulkActions, ACTION_IDS.delete), [testSystem]);
 
     const params = useDeleteSystemsMutation.mock.calls.at(-1)?.[0] as {
-      onInvalidate: () => void | Promise<void>;
+      onRowsRemoved: (removedCount: number) => void | Promise<void>;
       onSuccess?: () => void;
     };
 
     params.onSuccess?.();
-    void params.onInvalidate();
+    void params.onRowsRemoved(1);
 
     expect(actionHelpers.clearSelection).toHaveBeenCalled();
-    expect(actionHelpers.invalidateQuery).toHaveBeenCalled();
+    expect(actionHelpers.onRowsRemoved).toHaveBeenCalledWith(1);
   });
 
   it('uses stashed actionHelpers when the edit mutation succeeds', () => {

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import {
   keepPreviousData,
   useQuery,
@@ -43,7 +43,6 @@ import {
   DataViewFiltersProvider,
   useDataViewFiltersContext,
 } from './DataViewFiltersContext';
-import { useClampPage } from './hooks/useClampPage';
 import { useResetPage } from './hooks/useResetPage';
 import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
 import { PER_PAGE } from '../../constants';
@@ -83,6 +82,17 @@ import type {
   RowAction,
 } from './actions/types';
 import useInventoryViewsColumnsRbacFeatureFlag from '../../Utilities/useInventoryViewsColumnsRbacFeatureFlag';
+
+const isNotFoundError = (error: unknown): boolean => {
+  if (typeof error !== 'object' || error === null) return false;
+
+  const withStatus = error as {
+    status?: unknown;
+    response?: { status?: unknown };
+  };
+
+  return withStatus.status === 404 || withStatus.response?.status === 404;
+};
 
 export type {
   ActionHelpers,
@@ -218,6 +228,8 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
     setSearchParams,
   });
 
+  useResetPage(filters, setSearchParams, lastSeenCustomRange);
+
   const debouncedFilters = useDebouncedFilters(filters, resolvedFilters);
 
   const filterParams = useMemo(
@@ -271,26 +283,60 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
     queryFn: () => fetchData(fetchParams),
     placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
+    retry: (failureCount, error) => {
+      if (isNotFoundError(error)) return false;
+
+      const defaultRetry = queryClient.getDefaultOptions().queries?.retry;
+      if (typeof defaultRetry === 'function') {
+        return defaultRetry(failureCount, error);
+      }
+      if (typeof defaultRetry === 'number') return failureCount < defaultRetry;
+      if (defaultRetry === false) return false;
+
+      return failureCount < 3;
+    },
   });
   const rowsData = data?.results;
   const total = data?.total;
 
-  useClampPage({
-    page: pagination.page,
-    perPage: pagination.perPage,
-    total,
-    onSetPage: pagination.onSetPage,
-  });
-  // After the clamp so a same-commit filter change still lands on page 1.
-  useResetPage(filters, setSearchParams, lastSeenCustomRange);
   const isInventoryViewsRbacEnabled = useInventoryViewsColumnsRbacFeatureFlag();
   const deniedServices = isInventoryViewsRbacEnabled
     ? (data?.deniedServices ?? EMPTY_SERVICES)
     : EMPTY_SERVICES;
 
+  const onSetPageRef = useRef(pagination.onSetPage);
+  onSetPageRef.current = pagination.onSetPage;
+
   const onInvalidate = useCallback(() => {
     return queryClient.invalidateQueries({ queryKey: [queryKeyPrefix] });
   }, [queryClient, queryKeyPrefix]);
+
+  const onRowsRemoved = useCallback(
+    (removedCount: number) => {
+      if (total != null && removedCount > 0) {
+        const nextTotal = Math.max(0, total - removedCount);
+        const lastPage = Math.max(1, Math.ceil(nextTotal / pagination.perPage));
+
+        if (pagination.page > lastPage) {
+          onSetPageRef.current(undefined, lastPage);
+          return queryClient.invalidateQueries({
+            queryKey: [queryKeyPrefix],
+            refetchType: 'none',
+          });
+        }
+      }
+
+      return onInvalidate();
+    },
+    [
+      onInvalidate,
+      queryClient,
+      queryKeyPrefix,
+      total,
+      pagination.page,
+      pagination.perPage,
+    ],
+  );
 
   const clearSelection = useCallback(() => {
     setSelected([]);
@@ -299,9 +345,10 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
   const actionHelpers = useMemo(
     () => ({
       invalidateQuery: onInvalidate,
+      onRowsRemoved,
       clearSelection,
     }),
-    [onInvalidate, clearSelection],
+    [onInvalidate, onRowsRemoved, clearSelection],
   );
 
   const activeState = deriveActiveState({

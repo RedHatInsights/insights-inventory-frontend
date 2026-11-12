@@ -76,6 +76,10 @@ export function Actions<TItem extends ActionItem>({
     await actionHelpersRef.current?.invalidateQuery();
   }, []);
 
+  const onRowsRemoved = useCallback(async (removedCount: number) => {
+    await actionHelpersRef.current?.onRowsRemoved(removedCount);
+  }, []);
+
   const onSelectionClear = useCallback(() => {
     actionHelpersRef.current?.clearSelection();
   }, []);
@@ -90,6 +94,7 @@ export function Actions<TItem extends ActionItem>({
   const { onDeleteConfirm } = useDeleteSystemsMutation({
     systems,
     onInvalidate,
+    onRowsRemoved,
     onSuccess: onSelectionClear,
     onMutate: () => {
       setIsDeleteModalOpen(false);

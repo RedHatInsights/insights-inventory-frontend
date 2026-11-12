@@ -14,6 +14,7 @@ import { ACTION_IDS, type ActionItem } from './types';
 
 const actionHelpers: ActionHelpers = {
   invalidateQuery: jest.fn(async () => {}),
+  onRowsRemoved: jest.fn(async () => {}),
   clearSelection: jest.fn(),
 };
 
