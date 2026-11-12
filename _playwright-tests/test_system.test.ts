@@ -160,8 +160,10 @@ test.describe('System Export', { tag: ['@systems-table'] }, () => {
 
       await page.getByRole('button', { name: 'Export' }).click();
 
+      // The menu label differs by table generation: the legacy InventoryTable
+      // shows "Export all systems to JSON" while SystemsView shows "Export to JSON".
       await page
-        .getByRole('menuitem', { name: 'Export all systems to JSON' })
+        .getByRole('menuitem', { name: /Export (all systems )?to JSON/ })
         .click();
 
       // Verify the export request was made successfully
@@ -207,8 +209,10 @@ test.describe('System Export', { tag: ['@systems-table'] }, () => {
 
       await page.getByRole('button', { name: 'Export' }).click();
 
+      // The menu label differs by table generation: the legacy InventoryTable
+      // shows "Export all systems to CSV" while SystemsView shows "Export to CSV".
       await page
-        .getByRole('menuitem', { name: 'Export all systems to CSV' })
+        .getByRole('menuitem', { name: /Export (all systems )?to CSV/ })
         .click();
 
       // Verify the export request was made successfully
