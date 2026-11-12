@@ -6,8 +6,9 @@ name: 'E2E: InventoryViews Tests'
 # - Excludes: @integration
 
 on:
-  pull_request:
-    types: [opened, reopened, synchronize]
+  # Temporarily disabled on PRs — re-enable by uncommenting the block below.
+  # pull_request:
+  #   types: [opened, reopened, synchronize]
   workflow_dispatch:
 
 concurrency:

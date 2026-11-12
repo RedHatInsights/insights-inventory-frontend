@@ -23,6 +23,8 @@ test.describe(
   'Inventory Views default columns',
   { tag: ['@inventory-views'] },
   () => {
+    test.describe.configure({ mode: 'serial' });
+
     test('User should see only default columns when navigating to Systems page', async ({
       page,
     }) => {
@@ -46,6 +48,8 @@ test.describe(
 );
 
 test.describe('Inventory Views application columns', () => {
+  test.describe.configure({ mode: 'serial' });
+
   test.beforeEach(async ({ page }) => {
     await navigateToInventorySystemsFunc(page);
     // Ensure we're starting with default columns only
@@ -229,6 +233,7 @@ test.describe('Inventory Views application columns', () => {
     'Sticky columns remain visible during horizontal scroll',
     { tag: ['@inventory-views'] },
     async ({ page }) => {
+      test.describe.configure({ mode: 'serial' });
       const modal = columnManagementModal(page);
 
       // Locators for sticky columns - declared once and reused throughout the test
