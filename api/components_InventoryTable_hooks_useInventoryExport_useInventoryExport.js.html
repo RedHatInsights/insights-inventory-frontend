@@ -155,10 +155,16 @@
         <article>
             <pre class="prettyprint source linenums"><code>import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications/hooks';
 import { useCallback, useState } from 'react';
-import { EXPORT_SERVICE_PATH, EXPORT_FILE_FORMAT } from './constants';
-import { buildExportRequestJson, downloadFile } from './helpers';
-import useExportApi from './useExportApi';
-import useExportDownloadCheck from './useExportDownloadCheck';
+import {
+  EXPORT_SERVICE_PATH,
+  EXPORT_FILE_FORMAT,
+} from '../../../../services/exportService/constants';
+import {
+  buildExportRequestJson,
+  downloadFile,
+} from '../../../../services/exportService/helpers';
+import useExportApi from '../../../../services/exportService/useExportApi';
+import useExportDownloadCheck from '../../../../services/exportService/useExportDownloadCheck';
 
 const CSV_ITEM_TEXT = 'Export all systems to CSV';
 const JSON_ITEM_TEXT = 'Export all systems to JSON';
