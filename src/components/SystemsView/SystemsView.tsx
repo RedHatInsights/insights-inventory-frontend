@@ -43,6 +43,7 @@ import {
   DataViewFiltersProvider,
   useDataViewFiltersContext,
 } from './DataViewFiltersContext';
+import { useClampPage } from './hooks/useClampPage';
 import { useResetPage } from './hooks/useResetPage';
 import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
 import { PER_PAGE } from '../../constants';
@@ -217,8 +218,6 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
     setSearchParams,
   });
 
-  useResetPage(filters, setSearchParams, lastSeenCustomRange);
-
   const debouncedFilters = useDebouncedFilters(filters, resolvedFilters);
 
   const filterParams = useMemo(
@@ -275,6 +274,15 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
   });
   const rowsData = data?.results;
   const total = data?.total;
+
+  useClampPage({
+    page: pagination.page,
+    perPage: pagination.perPage,
+    total,
+    onSetPage: pagination.onSetPage,
+  });
+  // After the clamp so a same-commit filter change still lands on page 1.
+  useResetPage(filters, setSearchParams, lastSeenCustomRange);
   const isInventoryViewsRbacEnabled = useInventoryViewsColumnsRbacFeatureFlag();
   const deniedServices = isInventoryViewsRbacEnabled
     ? (data?.deniedServices ?? EMPTY_SERVICES)
