@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import {
   keepPreviousData,
   useQuery,
@@ -43,6 +43,7 @@ import {
   DataViewFiltersProvider,
   useDataViewFiltersContext,
 } from './DataViewFiltersContext';
+import { useCorrectOutOfRangePage } from './hooks/useCorrectOutOfRangePage';
 import { useResetPage } from './hooks/useResetPage';
 import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
 import { PER_PAGE } from '../../constants';
@@ -278,7 +279,7 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
     [pagination.page, pagination.perPage, sortBy, direction, filterParams],
   );
 
-  const { data, isLoading, isFetching, isError } = useQuery({
+  const { data, error, isLoading, isFetching, isError, isSuccess } = useQuery({
     queryKey: [queryKeyPrefix, fetchParams],
     queryFn: () => fetchData(fetchParams),
     placeholderData: keepPreviousData,
@@ -304,39 +305,18 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
     ? (data?.deniedServices ?? EMPTY_SERVICES)
     : EMPTY_SERVICES;
 
-  const onSetPageRef = useRef(pagination.onSetPage);
-  onSetPageRef.current = pagination.onSetPage;
+  const isRecoveringOutOfRangePage = useCorrectOutOfRangePage({
+    page: pagination.page,
+    perPage: pagination.perPage,
+    total,
+    isPageNotFound: isError && isNotFoundError(error),
+    isSuccess,
+    onSetPage: pagination.onSetPage,
+  });
 
   const onInvalidate = useCallback(() => {
     return queryClient.invalidateQueries({ queryKey: [queryKeyPrefix] });
   }, [queryClient, queryKeyPrefix]);
-
-  const onRowsRemoved = useCallback(
-    (removedCount: number) => {
-      if (total != null && removedCount > 0) {
-        const nextTotal = Math.max(0, total - removedCount);
-        const lastPage = Math.max(1, Math.ceil(nextTotal / pagination.perPage));
-
-        if (pagination.page > lastPage) {
-          onSetPageRef.current(undefined, lastPage);
-          return queryClient.invalidateQueries({
-            queryKey: [queryKeyPrefix],
-            refetchType: 'none',
-          });
-        }
-      }
-
-      return onInvalidate();
-    },
-    [
-      onInvalidate,
-      queryClient,
-      queryKeyPrefix,
-      total,
-      pagination.page,
-      pagination.perPage,
-    ],
-  );
 
   const clearSelection = useCallback(() => {
     setSelected([]);
@@ -345,17 +325,16 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
   const actionHelpers = useMemo(
     () => ({
       invalidateQuery: onInvalidate,
-      onRowsRemoved,
       clearSelection,
     }),
-    [onInvalidate, onRowsRemoved, clearSelection],
+    [onInvalidate, clearSelection],
   );
 
   const activeState = deriveActiveState({
     data: rowsData,
-    isLoading,
+    isLoading: isLoading || isRecoveringOutOfRangePage,
     isFetching,
-    isError,
+    isError: isError && !isRecoveringOutOfRangePage,
   });
 
   const isInventoryViewsEnabled = useInventoryViewsFeatureFlag();

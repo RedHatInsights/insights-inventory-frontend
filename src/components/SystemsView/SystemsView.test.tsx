@@ -122,7 +122,6 @@ function getCalledActionHelpers(onAction: jest.Mock): ActionHelpers {
   expect(helpers).toEqual(
     expect.objectContaining({
       invalidateQuery: expect.any(Function),
-      onRowsRemoved: expect.any(Function),
       clearSelection: expect.any(Function),
     }),
   );
@@ -295,6 +294,63 @@ describe('SystemsView', () => {
     expect(screen.queryByText('Test Host')).not.toBeInTheDocument();
   });
 
+  it('loads the previous page when the requested page is not found', async () => {
+    const notFound = Object.assign(new Error('missing page'), { status: 404 });
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(({ page }) =>
+      page > 1 ? Promise.reject(notFound) : Promise.resolve(successData),
+    );
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      initialRoute: '/?page=2',
+    });
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    expect(screen.queryByText(/Unable to load data/i)).not.toBeInTheDocument();
+    expect(fetchData).toHaveBeenCalledWith(
+      expect.objectContaining({ page: 2 }),
+    );
+    expect(fetchData).toHaveBeenCalledWith(
+      expect.objectContaining({ page: 1 }),
+    );
+  });
+
+  it('jumps to the first page when the stepped-back page is also not found', async () => {
+    const notFound = Object.assign(new Error('missing page'), { status: 404 });
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(({ page }) =>
+      page === 1 ? Promise.resolve(successData) : Promise.reject(notFound),
+    );
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      initialRoute: '/?page=4',
+    });
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    const requestedPages = fetchData.mock.calls.map(([params]) => params.page);
+    expect(requestedPages).toContain(4);
+    expect(requestedPages).toContain(3);
+    expect(requestedPages).toContain(1);
+    expect(requestedPages).not.toContain(2);
+  });
+
+  it('moves to the last page a successful total can fill', async () => {
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(({ page }) =>
+      Promise.resolve(
+        page === 1
+          ? { results: [mockSystem], total: 1 }
+          : { results: [], total: 1 },
+      ),
+    );
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      initialRoute: '/?page=3',
+    });
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    expect(fetchData).toHaveBeenCalledWith(
+      expect.objectContaining({ page: 1 }),
+    );
+  });
+
   it('shows an empty state when the query succeeds with no systems', async () => {
     renderSystemsView(() => Promise.resolve({ results: [], total: 0 }));
 
@@ -435,7 +491,6 @@ describe('SystemsView', () => {
       ],
       expect.objectContaining({
         invalidateQuery: expect.any(Function),
-        onRowsRemoved: expect.any(Function),
         clearSelection: expect.any(Function),
       }),
     );
@@ -466,7 +521,6 @@ describe('SystemsView', () => {
       ],
       expect.objectContaining({
         invalidateQuery: expect.any(Function),
-        onRowsRemoved: expect.any(Function),
         clearSelection: expect.any(Function),
       }),
     );

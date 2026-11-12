@@ -23,7 +23,6 @@ const mockSystem = {
 
 const noopActionHelpers: ActionHelpers = {
   invalidateQuery: jest.fn(async () => {}),
-  onRowsRemoved: jest.fn(async () => {}),
   clearSelection: jest.fn(),
 };
 

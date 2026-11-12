@@ -8,11 +8,6 @@ import type { ReactNode } from 'react';
 export type ActionHelpers = {
   /** Refetches the table. */
   invalidateQuery: () => Promise<void>;
-  /**
-   * Corrects pagination after rows were removed, then refreshes the table.
-   * Moves off a page that the smaller total can no longer fill.
-   */
-  onRowsRemoved: (removedCount: number) => Promise<void>;
   clearSelection: () => void;
 };
 
