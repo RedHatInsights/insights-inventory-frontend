@@ -15,6 +15,7 @@ type ViewColumnSource = Omit<ViewConfiguration, 'columns'> & {
 
 export const createViewColumnSelector = (
   configuration?: ViewColumnSource,
+  includeTagColumns = true,
 ): ColumnSelector<InventoryBindableItem> | undefined => {
   if (!configuration) {
     return undefined;
@@ -30,6 +31,7 @@ export const createViewColumnSelector = (
 
     for (const configCol of configColumns) {
       if (isTagColumnKey(configCol.key)) {
+        if (!includeTagColumns) continue;
         const identity = parseTagColumnKey(configCol.key);
         if (!identity) continue;
         const shown = configCol.shown !== false;

@@ -22,6 +22,7 @@ import { useViewQuery } from './hooks/useViewQuery';
 import { shouldWaitForFetchedView } from './shouldWaitForFetchedView';
 import useInventoryViewsPrivateFeatureFlag from '../../Utilities/useInventoryViewsPrivateFeatureFlag';
 import useInventoryViewsFiltersFeatureFlag from '../../Utilities/useInventoryViewsFiltersFeatureFlag';
+import useTagKeyColumnsFeatureFlag from '../../Utilities/useTagKeyColumnsFeatureFlag';
 import ViewsToolbar from './ViewsToolbar/ViewsToolbar';
 import ViewSaveAsModal from './Modals/ViewSaveAsModal';
 import ViewRenameModal from './Modals/ViewRenameModal';
@@ -32,7 +33,10 @@ import {
   type ViewConfiguration,
 } from '../../api/inventoryViewsApi';
 import { createViewColumnSelector } from './createViewColumnSelector';
-import { normalizeViewColumns } from './normalizeViewColumns';
+import {
+  normalizeViewColumns,
+  preserveTagColumns,
+} from './normalizeViewColumns';
 import { createViewFilterSelector } from './createViewFilterSelector';
 import { resolveDefaultViewId } from './resolveDefaultViewId';
 import { resolveSystemViewId } from './resolveSystemViewId';
@@ -129,6 +133,7 @@ const InventoryViews = () => {
   const setDefaultView = useSetDefaultViewMutation();
   const isInventoryViewsPrivateEnabled = useInventoryViewsPrivateFeatureFlag();
   const isAppDataFiltersEnabled = useInventoryViewsFiltersFeatureFlag();
+  const isTagKeyColumnsEnabled = useTagKeyColumnsFeatureFlag();
   const [currentLastSeenCustomRange, setCurrentLastSeenCustomRange] = useState<
     LastSeenCustomRange | undefined
   >(undefined);
@@ -241,8 +246,12 @@ const InventoryViews = () => {
   ]);
 
   const savedColumnSelector = useMemo(
-    () => createViewColumnSelector(activeView?.configuration),
-    [activeView?.configuration],
+    () =>
+      createViewColumnSelector(
+        activeView?.configuration,
+        isTagKeyColumnsEnabled,
+      ),
+    [activeView?.configuration, isTagKeyColumnsEnabled],
   );
 
   const columnSelector = useMemo(
@@ -424,9 +433,15 @@ const InventoryViews = () => {
         : currentLastSeenCustomRange,
     );
 
-    const columns = currentColumns
+    const normalizedColumns = currentColumns
       ? normalizeViewColumns(currentColumns)
       : normalizeViewColumns(baselineColumns);
+    const columns = isTagKeyColumnsEnabled
+      ? normalizedColumns
+      : preserveTagColumns(
+          normalizedColumns,
+          activeView?.configuration?.columns,
+        );
 
     return {
       columns,
@@ -499,7 +514,7 @@ const InventoryViews = () => {
         <Actions<InventoryBindableItem>>
           {({ bulkActions, rowActions }) => (
             <SystemsView<InventoryBindableItem, ApiHostViewsGetHostViewsParams>
-              key={`${activeViewId}-${viewsLoaded}`}
+              key={`${activeViewId}-${viewsLoaded}-${isTagKeyColumnsEnabled}`}
               columns={columnSelector ?? selectLegacyInventoryColumns}
               filters={filterSelector}
               initialSort={initialSort}

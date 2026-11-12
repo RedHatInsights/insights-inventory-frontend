@@ -112,6 +112,28 @@ describe('createViewColumnSelector', () => {
     expect(result).toHaveLength(inventoryViewColumns.length + 2);
   });
 
+  it('omits tag columns when the feature is disabled', () => {
+    const selector = createViewColumnSelector(
+      {
+        columns: [
+          { key: 'display_name' },
+          { key: 'tag:owner', shown: false },
+          { key: 'tag:insights-client/env' },
+        ],
+      },
+      false,
+    );
+    const result = selector!(columnCatalog);
+
+    expect(result.some((column) => String(column.key).startsWith('tag:'))).toBe(
+      false,
+    );
+    expect(
+      result.filter((column) => column.isShown).map((column) => column.key),
+    ).toEqual(['display_name']);
+    expect(result).toHaveLength(inventoryViewColumns.length);
+  });
+
   it('ignores config keys that do not exist in the catalog', () => {
     const selector = createViewColumnSelector({
       columns: [
