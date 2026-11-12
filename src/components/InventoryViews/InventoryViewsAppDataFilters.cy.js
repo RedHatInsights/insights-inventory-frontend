@@ -4,16 +4,15 @@ import { bindAdvisorFilters } from '../SystemsView/filters/advisor/bindAdvisorFi
 import { bindVulnerabilityFilters } from '../SystemsView/filters/vulnerability/bindVulnerabilityFilter';
 
 /*
- * Component tests for the Advisor + Vulnerability ("app services") toolbar
- * filters on the /hosts/views table.
+ * Component tests for the app services toolbar filters on the /hosts/views table.
  *
  * Mocking at the `fetchData` boundary lets us hand the table systems carrying
- * exact advisor/vulnerability counts, instead of uploading hosts or standing up
- * a VM. `applyAppDataFilters` below mirrors the semantics asserted by the
- * backend suite in insights-host-inventory:
- *   tests/api/host_views/test_advisor_filters.py
- *   tests/api/host_views/test_vulnerability_filters.py
- * When that contract changes, that is the function to update.
+ * exact app-data counts, instead of uploading hosts or standing up a VM.
+ * `applyAppDataFilters` below mirrors the semantics documented per query
+ * param on `ApiHostViewsGetHostViewsParams` in the generated client: values
+ * within one filter OR, filters AND, and `not_analyzed` / `not_evaluated` match
+ * hosts the app never reported on, unlike `not_present`, which needs a reported
+ * count of zero. Bumping the client is what moves that contract.
  *
  * Each test asserts both halves of the chain:
  *   1. the UI selection produces the right `filterParams` (the binding contract)
@@ -124,9 +123,26 @@ const MOCK_SYSTEMS = [
       cves_with_security_rules: 1,
     }),
   ),
-  // No app_data at all: the backend treats these as NULL and excludes them from
-  // *both* sides of every filter, including the negative options.
+  // No app_data at all: the backend treats these as NULL, so they only come back
+  // through the "the app never reported on this system" option of each filter.
   makeHost('no-app-data', null),
+];
+
+// A system only carries one app's data, so from the other app's point of view it
+// is unreported — the same bucket as `no-app-data`.
+const NO_ADVISOR_DATA_SYSTEMS = [
+  'vuln-critical',
+  'vuln-low',
+  'vuln-important',
+  'vuln-exploit-and-rule',
+  'no-app-data',
+];
+
+const NO_VULNERABILITY_DATA_SYSTEMS = [
+  'adv-critical-incident',
+  'adv-critical-clean',
+  'adv-low-incident',
+  'no-app-data',
 ];
 
 // -------------------------------------------------- backend filter semantics
@@ -145,10 +161,31 @@ const CVE_SEVERITY_KEY = {
   low: 'low_cves',
 };
 
-const matchesCount = (actual, mode, positiveMode) =>
-  mode === positiveMode ? actual > 0 : actual === 0;
+// Every app-data filter takes a list of values that are OR'd together, and each
+// one offers a value for "this app never reported on the system": `not_analyzed`
+// on the advisor side, `not_evaluated` on the vulnerability side.
+const NO_ADVISOR_DATA = 'not_analyzed';
+const NO_VULNERABILITY_DATA = 'not_evaluated';
 
-// Filters mocked systems the way the backend filters real ones.
+// critical | important | moderate | low: that severity's count is above zero.
+const matchesSeverity = (appData, selected, severityKeys, noDataValue) =>
+  selected.some((value) =>
+    value === noDataValue
+      ? !appData
+      : (appData?.[severityKeys[value]] ?? 0) > 0,
+  );
+
+// present: the count is above zero. not_present: the app reported, counting zero.
+const matchesPresence = (appData, selected, countField, noDataValue) =>
+  selected.some((value) => {
+    if (value === noDataValue) return !appData;
+    if (!appData) return false;
+    const count = appData[countField] ?? 0;
+    return value === 'present' ? count > 0 : count === 0;
+  });
+
+// Filters mocked systems the way the backend filters real ones. Filters AND with
+// each other; the values within one filter OR.
 const applyAppDataFilters = (hosts, filterParams = {}) => {
   const {
     recommendationSeverity,
@@ -162,39 +199,59 @@ const applyAppDataFilters = (hosts, filterParams = {}) => {
     const adv = host.app_data?.advisor;
     const vuln = host.app_data?.vulnerability;
 
-    if (recommendationSeverity?.length) {
-      if (!adv) return false;
-      const hit = recommendationSeverity.some(
-        (severity) => (adv[ADVISOR_SEVERITY_KEY[severity]] ?? 0) > 0,
-      );
-      if (!hit) return false;
+    if (
+      recommendationSeverity?.length &&
+      !matchesSeverity(
+        adv,
+        recommendationSeverity,
+        ADVISOR_SEVERITY_KEY,
+        NO_ADVISOR_DATA,
+      )
+    ) {
+      return false;
     }
 
-    if (incidentStatus) {
-      if (!adv) return false;
-      if (!matchesCount(adv.incidents ?? 0, incidentStatus, 'incident')) {
-        return false;
-      }
+    if (
+      incidentStatus?.length &&
+      !matchesPresence(adv, incidentStatus, 'incidents', NO_ADVISOR_DATA)
+    ) {
+      return false;
     }
 
-    if (cveSeverity?.length) {
-      if (!vuln) return false;
-      const hit = cveSeverity.some(
-        (severity) => (vuln[CVE_SEVERITY_KEY[severity]] ?? 0) > 0,
-      );
-      if (!hit) return false;
+    if (
+      cveSeverity?.length &&
+      !matchesSeverity(
+        vuln,
+        cveSeverity,
+        CVE_SEVERITY_KEY,
+        NO_VULNERABILITY_DATA,
+      )
+    ) {
+      return false;
     }
 
-    if (knownExploit) {
-      if (!vuln) return false;
-      const count = vuln.cves_with_known_exploits ?? 0;
-      if (!matchesCount(count, knownExploit, 'has_known_exploit')) return false;
+    if (
+      knownExploit?.length &&
+      !matchesPresence(
+        vuln,
+        knownExploit,
+        'cves_with_known_exploits',
+        NO_VULNERABILITY_DATA,
+      )
+    ) {
+      return false;
     }
 
-    if (securityRule) {
-      if (!vuln) return false;
-      const count = vuln.cves_with_security_rules ?? 0;
-      if (!matchesCount(count, securityRule, 'present')) return false;
+    if (
+      securityRule?.length &&
+      !matchesPresence(
+        vuln,
+        securityRule,
+        'cves_with_security_rules',
+        NO_VULNERABILITY_DATA,
+      )
+    ) {
+      return false;
     }
 
     return true;
@@ -286,8 +343,8 @@ const FILTERS = {
     placeholder: 'Filter by incidents',
   },
   cveSeverity: {
-    title: 'Vulnerability severity',
-    placeholder: 'Filter by vulnerability severity',
+    title: 'CVE severity',
+    placeholder: 'Filter by CVE severity',
   },
   knownExploit: {
     title: 'Known exploit',
@@ -308,13 +365,17 @@ const selectFilterAttribute = (title) => {
   cy.get('[role="menu"]:visible').contains('button', title).click();
 };
 
-// Activates a filter's attribute, then picks one of its options.
+// Activates a filter's attribute, then picks one of its options. Matching the
+// label exactly matters now that "Present" and "Not present" share a menu.
 const chooseFilterOption = (filterKey, optionLabel) => {
   const { title, placeholder } = FILTERS[filterKey];
   selectFilterAttribute(title);
   cy.contains('button', placeholder).click();
-  cy.get('[role="menu"]:visible').contains(optionLabel).click();
-  // Multi-select menus stay open; close so the next toggle is clickable.
+  cy.get('[role="menu"]:visible')
+    .contains(new RegExp(`^${optionLabel}$`))
+    .click();
+  // Every app-data filter is multi-select, so the menu stays open after a pick;
+  // close it so the next toggle is clickable.
   cy.get('body').click(0, 0);
 };
 
@@ -367,7 +428,7 @@ describe('InventoryViews app-services filters', () => {
     });
   });
 
-  describe('Vulnerability severity (cve_severity)', () => {
+  describe('CVE severity (cve_severity)', () => {
     it('returns only systems with critical CVEs', () => {
       mountTable();
       chooseFilterOption('cveSeverity', 'Critical');
@@ -392,32 +453,86 @@ describe('InventoryViews app-services filters', () => {
       ]);
       expectSystemsAbsent(['vuln-important']);
     });
+
+    it('not_evaluated returns the systems Vulnerability never reported on', () => {
+      mountTable();
+      chooseFilterOption('cveSeverity', 'Not evaluated');
+
+      expectRequestedFilters({ cveSeverity: ['not_evaluated'] });
+      expectVisibleSystems(NO_VULNERABILITY_DATA_SYSTEMS);
+      expectSystemsAbsent(['vuln-critical', 'vuln-exploit-and-rule']);
+      // `--` rather than 0: no vulnerability data at all, not a zero count.
+      expectColumnCells('CVEs with known exploits', '--');
+    });
+
+    it('ORs a severity with not_evaluated', () => {
+      mountTable();
+      chooseFilterOption('cveSeverity', 'Critical');
+      chooseFilterOption('cveSeverity', 'Not evaluated');
+
+      expectRequestedFilters((params) => {
+        expect(params.cveSeverity).to.have.members([
+          'critical',
+          'not_evaluated',
+        ]);
+      });
+      expectVisibleSystems([
+        'vuln-critical',
+        'vuln-exploit-and-rule',
+        ...NO_VULNERABILITY_DATA_SYSTEMS,
+      ]);
+      expectSystemsAbsent(['vuln-low', 'vuln-important']);
+    });
   });
 
   describe('Known exploit (known_exploit)', () => {
-    it('has_known_exploit returns only systems with exploited CVEs', () => {
+    it('present returns only systems with exploited CVEs', () => {
       mountTable();
-      chooseFilterOption('knownExploit', 'Has a known exploit');
+      chooseFilterOption('knownExploit', 'Present');
 
-      expectRequestedFilters({
-        knownExploit: 'has_known_exploit',
-      });
+      expectRequestedFilters({ knownExploit: ['present'] });
       expectVisibleSystems(['vuln-exploit-and-rule']);
     });
 
-    it('no_known_exploit excludes systems with no vulnerability data', () => {
+    it('not_present excludes systems with no vulnerability data', () => {
       mountTable();
-      chooseFilterOption('knownExploit', 'No known exploit');
+      chooseFilterOption('knownExploit', 'Not present');
 
-      expectRequestedFilters({
-        knownExploit: 'no_known_exploit',
-      });
+      expectRequestedFilters({ knownExploit: ['not_present'] });
       expectVisibleSystems(['vuln-critical', 'vuln-low', 'vuln-important']);
-      // NULL app data is excluded from the negative option too.
+      // NULL app data is excluded from the negative option; it has its own.
       expectSystemsAbsent(['no-app-data', 'vuln-exploit-and-rule']);
       // Every row left reads 0, not `--`: having vulnerability data with zero
       // exploits is what the filter selects, not having no data at all.
       expectColumnCells('CVEs with known exploits', '0');
+    });
+
+    it('not_evaluated returns the systems Vulnerability never reported on', () => {
+      mountTable();
+      chooseFilterOption('knownExploit', 'Not evaluated');
+
+      expectRequestedFilters({ knownExploit: ['not_evaluated'] });
+      expectVisibleSystems(NO_VULNERABILITY_DATA_SYSTEMS);
+      expectColumnCells('CVEs with known exploits', '--');
+    });
+
+    it('ORs present with not_evaluated', () => {
+      mountTable();
+      chooseFilterOption('knownExploit', 'Present');
+      chooseFilterOption('knownExploit', 'Not evaluated');
+
+      expectRequestedFilters((params) => {
+        expect(params.knownExploit).to.have.members([
+          'present',
+          'not_evaluated',
+        ]);
+      });
+      expectVisibleSystems([
+        'vuln-exploit-and-rule',
+        ...NO_VULNERABILITY_DATA_SYSTEMS,
+      ]);
+      // Reported zero exploits, so neither side of the OR picks them up.
+      expectSystemsAbsent(['vuln-critical', 'vuln-low', 'vuln-important']);
     });
   });
 
@@ -426,7 +541,7 @@ describe('InventoryViews app-services filters', () => {
       mountTable();
       chooseFilterOption('securityRule', 'Present');
 
-      expectRequestedFilters({ securityRule: 'present' });
+      expectRequestedFilters({ securityRule: ['present'] });
       expectVisibleSystems(['vuln-exploit-and-rule']);
     });
 
@@ -434,11 +549,20 @@ describe('InventoryViews app-services filters', () => {
       mountTable();
       chooseFilterOption('securityRule', 'Not present');
 
-      expectRequestedFilters({ securityRule: 'not_present' });
+      expectRequestedFilters({ securityRule: ['not_present'] });
       expectVisibleSystems(['vuln-critical', 'vuln-low', 'vuln-important']);
       expectSystemsAbsent(['no-app-data', 'vuln-exploit-and-rule']);
       // 0 rather than `--`: zero security rules, not absent vulnerability data.
       expectColumnCells('CVEs with security rules', '0');
+    });
+
+    it('not_evaluated returns the systems Vulnerability never reported on', () => {
+      mountTable();
+      chooseFilterOption('securityRule', 'Not evaluated');
+
+      expectRequestedFilters({ securityRule: ['not_evaluated'] });
+      expectVisibleSystems(NO_VULNERABILITY_DATA_SYSTEMS);
+      expectColumnCells('CVEs with security rules', '--');
     });
   });
 
@@ -453,28 +577,64 @@ describe('InventoryViews app-services filters', () => {
       expectVisibleSystems(['adv-critical-incident', 'adv-critical-clean']);
       expectSystemsAbsent(['adv-low-incident', 'no-app-data']);
     });
+
+    it('not_analyzed returns the systems Advisor never reported on', () => {
+      mountTable();
+      chooseFilterOption('recommendationSeverity', 'Not analyzed');
+
+      expectRequestedFilters({
+        recommendationSeverity: ['not_analyzed'],
+      });
+      expectVisibleSystems(NO_ADVISOR_DATA_SYSTEMS);
+      expectSystemsAbsent(['adv-critical-incident', 'adv-low-incident']);
+      expectColumnCells('Incidents', '--');
+    });
   });
 
   describe('Incidents (incident_status)', () => {
-    it('incident returns only systems with incidents', () => {
+    it('present returns only systems with incidents', () => {
       mountTable();
-      chooseFilterOption('incidentStatus', 'Has incidents');
+      chooseFilterOption('incidentStatus', 'Present');
 
-      expectRequestedFilters({ incidentStatus: 'incident' });
+      expectRequestedFilters({ incidentStatus: ['present'] });
       expectVisibleSystems(['adv-critical-incident', 'adv-low-incident']);
     });
 
-    it('no_incident excludes systems with no advisor data', () => {
+    it('not_present excludes systems with no advisor data', () => {
       mountTable();
-      chooseFilterOption('incidentStatus', 'No incidents');
+      chooseFilterOption('incidentStatus', 'Not present');
 
       expectRequestedFilters({
-        incidentStatus: 'no_incident',
+        incidentStatus: ['not_present'],
       });
       expectVisibleSystems(['adv-critical-clean']);
       expectSystemsAbsent(['no-app-data', 'adv-critical-incident']);
       // Same distinction on the advisor side: 0 incidents, not absent data.
       expectColumnCells('Incidents', '0');
+    });
+
+    it('not_analyzed returns the systems Advisor never reported on', () => {
+      mountTable();
+      chooseFilterOption('incidentStatus', 'Not analyzed');
+
+      expectRequestedFilters({ incidentStatus: ['not_analyzed'] });
+      expectVisibleSystems(NO_ADVISOR_DATA_SYSTEMS);
+      expectColumnCells('Incidents', '--');
+    });
+
+    it('ORs not_present with not_analyzed', () => {
+      mountTable();
+      chooseFilterOption('incidentStatus', 'Not present');
+      chooseFilterOption('incidentStatus', 'Not analyzed');
+
+      expectRequestedFilters((params) => {
+        expect(params.incidentStatus).to.have.members([
+          'not_present',
+          'not_analyzed',
+        ]);
+      });
+      expectVisibleSystems(['adv-critical-clean', ...NO_ADVISOR_DATA_SYSTEMS]);
+      expectSystemsAbsent(['adv-critical-incident', 'adv-low-incident']);
     });
   });
 
@@ -482,11 +642,11 @@ describe('InventoryViews app-services filters', () => {
     it('ANDs advisor severity with incident status', () => {
       mountTable();
       chooseFilterOption('recommendationSeverity', 'Critical');
-      chooseFilterOption('incidentStatus', 'Has incidents');
+      chooseFilterOption('incidentStatus', 'Present');
 
       expectRequestedFilters({
         recommendationSeverity: ['critical'],
-        incidentStatus: 'incident',
+        incidentStatus: ['present'],
       });
       expectVisibleSystems(['adv-critical-incident']);
       expectSystemsAbsent(['adv-critical-clean', 'adv-low-incident']);

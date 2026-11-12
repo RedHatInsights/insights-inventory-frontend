@@ -469,9 +469,9 @@ test.describe(
 
     const appServicesFilters = [
       { filter: 'Recommendation severity', value: 'Critical' },
-      { filter: 'Incidents', value: 'Has incidents' },
-      { filter: 'Vulnerability severity', value: 'Critical' },
-      { filter: 'Known exploit', value: 'Has a known exploit' },
+      { filter: 'Incidents', value: 'Present' },
+      { filter: 'CVE severity', value: 'Critical' },
+      { filter: 'Known exploit', value: 'Present' },
       { filter: 'CVEs with security rules', value: 'Present' },
     ];
 

@@ -121,7 +121,7 @@ const FILTER_OPTION_SELECTORS: Record<string, SelectFilterOption> = {
   Workload: chooseFromSelectMenu,
   'Recommendation severity': chooseFromSelectMenu,
   Incidents: chooseFromSelectMenu,
-  'Vulnerability severity': chooseFromSelectMenu,
+  'CVE severity': chooseFromSelectMenu,
   'Known exploit': chooseFromSelectMenu,
   'CVEs with security rules': chooseFromSelectMenu,
 };
