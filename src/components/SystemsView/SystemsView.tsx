@@ -44,6 +44,10 @@ import {
   useDataViewFiltersContext,
 } from './DataViewFiltersContext';
 import { useResetPage } from './hooks/useResetPage';
+import {
+  shouldRetrySystemsViewQuery,
+  useRecoverOutOfRangePage,
+} from './hooks/useRecoverOutOfRangePage';
 import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
 import { PER_PAGE } from '../../constants';
 import { useDebouncedFilters } from './filters/useDebouncedFilters';
@@ -267,12 +271,29 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
     [pagination.page, pagination.perPage, sortBy, direction, filterParams],
   );
 
-  const { data, isLoading, isFetching, isError } = useQuery({
+  const queryRetry = useMemo(
+    () =>
+      shouldRetrySystemsViewQuery(
+        queryClient.getDefaultOptions().queries?.retry,
+      ),
+    [queryClient],
+  );
+
+  const { data, isLoading, isFetching, isError, error } = useQuery({
     queryKey: [queryKeyPrefix, fetchParams],
     queryFn: () => fetchData(fetchParams),
     placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
+    retry: queryRetry,
   });
+
+  // Last page emptied: that page 404s. Step back before the next fetch.
+  const isRecoveringOutOfRangePage = useRecoverOutOfRangePage(
+    pagination.page,
+    error,
+    setSearchParams,
+  );
+
   const rowsData = data?.results;
   const total = data?.total;
   const isInventoryViewsRbacEnabled = useInventoryViewsColumnsRbacFeatureFlag();
@@ -298,9 +319,9 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
 
   const activeState = deriveActiveState({
     data: rowsData,
-    isLoading,
+    isLoading: isLoading || isRecoveringOutOfRangePage,
     isFetching,
-    isError,
+    isError: isError && !isRecoveringOutOfRangePage,
   });
 
   const isInventoryViewsEnabled = useInventoryViewsFeatureFlag();
