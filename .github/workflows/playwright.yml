@@ -48,6 +48,7 @@ jobs:
             echo "CI=true"
             echo "PROXY=$PROXY"
             echo "SYSTEMS_VIEW=true"
+            echo "INVENTORY_VIEWS=true"
             echo "STAGE_OFFLINE_TOKEN=$STAGE_OFFLINE_TOKEN"
             echo "TEST_RUN_ID=full-suite-${{ github.run_id }}-${{ github.run_attempt }}"
           } >> .env

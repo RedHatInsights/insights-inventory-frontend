@@ -62,6 +62,7 @@ jobs:
             echo "PLAYWRIGHT_PASSWORD=$PLAYWRIGHT_PASSWORD"
             echo "CI=true"
             echo "INTEGRATION=true"
+            echo "INVENTORY_VIEWS=true"
             echo "BASE_URL=$STAGE_BASE_URL" 
             echo "PROXY=$RH_PROXY_URL"
             echo "STAGE_OFFLINE_TOKEN=$STAGE_OFFLINE_TOKEN"
