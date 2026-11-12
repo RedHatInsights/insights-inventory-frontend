@@ -3,6 +3,7 @@ import {
   defaultValuesFrom,
   filterValuesEqual,
   filtersDifferFromDefaults,
+  getActiveFilterIds,
   hasActiveFilterChips,
   isEmptyFilterValue,
 } from './defaultValuesFrom';
@@ -124,6 +125,40 @@ describe('hasActiveFilterChips', () => {
         hostnameSpec,
       ]),
     ).toBe(false);
+  });
+});
+
+describe('getActiveFilterIds', () => {
+  it('returns empty array when every spec value is empty', () => {
+    expect(
+      getActiveFilterIds({ hostname_or_id: '', status: [], tags: [] }, [
+        hostnameSpec,
+        statusSpec,
+        tagsSpec,
+      ]),
+    ).toEqual([]);
+  });
+
+  it('returns active filterIds in resolved spec order', () => {
+    expect(
+      getActiveFilterIds(
+        {
+          tags: ['env/prod'],
+          hostname_or_id: 'web-01',
+          status: [],
+        },
+        [hostnameSpec, statusSpec, tagsSpec],
+      ),
+    ).toEqual(['hostname_or_id', 'tags']);
+  });
+
+  it('ignores live keys that are not in the spec list', () => {
+    expect(
+      getActiveFilterIds(
+        { hostname_or_id: '', status: ['fresh'], extra: 'ignored' },
+        [hostnameSpec, statusSpec],
+      ),
+    ).toEqual(['status']);
   });
 });
 

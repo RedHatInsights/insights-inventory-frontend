@@ -5,6 +5,7 @@
  */
 import type { QueryClient } from '@tanstack/react-query';
 import type {
+  SystemsViewEvents,
   SystemsViewFetchData,
   SystemsViewItem,
 } from '../components/SystemsView/types';
@@ -16,6 +17,7 @@ import type {
 } from '../components/SystemsView/actions/types';
 
 export type {
+  SystemsViewEvents,
   SystemsViewFetchData,
   SystemsViewFetchParams,
   SystemsViewFilterState,
@@ -96,4 +98,8 @@ export type SystemsViewProps<
    * Per-row kebab actions. Use a stable reference, not an inline array.
    */
   rowActions?: readonly RowAction<TItem>[];
+  /**
+   * Optional callbacks notified on user-driven filter and column interactions.
+   */
+  events?: SystemsViewEvents;
 };

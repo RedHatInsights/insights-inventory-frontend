@@ -4,6 +4,7 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import { useDataViewFilters } from '@patternfly/react-data-view';
@@ -65,6 +66,8 @@ interface DataViewFiltersProviderProps {
   searchParams: SearchParamsTuple[0];
   setSearchParams: SearchParamsTuple[1];
   initialLastSeenCustomRange?: LastSeenCustomRange;
+  onUserFilterChange?: () => void;
+  onFiltersCleared?: () => void;
 }
 
 export const DataViewFiltersProvider = ({
@@ -73,9 +76,17 @@ export const DataViewFiltersProvider = ({
   searchParams,
   setSearchParams,
   initialLastSeenCustomRange,
+  onUserFilterChange,
+  onFiltersCleared,
 }: DataViewFiltersProviderProps) => {
-  const [lastSeenCustomRange, setLastSeenCustomRange] =
+  const [lastSeenCustomRange, rawSetLastSeenCustomRange] =
     useState<LastSeenCustomRange>(initialLastSeenCustomRange ?? null);
+
+  const onUserFilterChangeRef = useRef(onUserFilterChange);
+  onUserFilterChangeRef.current = onUserFilterChange;
+
+  const onFiltersClearedRef = useRef(onFiltersCleared);
+  onFiltersClearedRef.current = onFiltersCleared;
 
   const { hasAccess } = useConditionalRBAC(
     [GENERAL_GROUPS_READ_PERMISSION],
@@ -99,12 +110,27 @@ export const DataViewFiltersProvider = ({
     hasAccess && hasWorkspaceFilter,
   );
 
-  const { filters: rawFilters, onSetFilters } =
+  const { filters: rawFilters, onSetFilters: rawOnSetFilters } =
     useDataViewFilters<SystemsViewFilterState>({
       initialFilters: specDefaultValues,
       searchParams,
       setSearchParams,
     });
+
+  const onSetFilters = useCallback(
+    (newFilters: Partial<SystemsViewFilterState>) => {
+      onUserFilterChangeRef.current?.();
+      rawOnSetFilters(newFilters);
+    },
+    [rawOnSetFilters],
+  );
+
+  const setLastSeenCustomRange = useCallback<
+    React.Dispatch<React.SetStateAction<LastSeenCustomRange>>
+  >((value) => {
+    onUserFilterChangeRef.current?.();
+    rawSetLastSeenCustomRange(value);
+  }, []);
 
   const [hasHydratedDefaults, setHasHydratedDefaults] = useState(false);
 
@@ -123,7 +149,7 @@ export const DataViewFiltersProvider = ({
 
   useEffect(() => {
     if (normalizeLastSeenFilterValue(rawFilters.last_seen) !== 'custom') {
-      setLastSeenCustomRange(null);
+      rawSetLastSeenCustomRange(null);
     }
   }, [rawFilters.last_seen]);
 
@@ -137,7 +163,7 @@ export const DataViewFiltersProvider = ({
     ) {
       return;
     }
-    onSetFilters({
+    rawOnSetFilters({
       [SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM]: workspaceFilterIds.map((id) =>
         id === '' ? ungroupedWorkspaceId : id,
       ),
@@ -146,7 +172,7 @@ export const DataViewFiltersProvider = ({
     hasWorkspaceFilter,
     ungroupedWorkspaceId,
     workspaceFilterIds,
-    onSetFilters,
+    rawOnSetFilters,
   ]);
 
   useEffect(() => {
@@ -166,15 +192,16 @@ export const DataViewFiltersProvider = ({
       }
     }
     if (Object.keys(updates).length > 0) {
-      onSetFilters(updates);
+      rawOnSetFilters(updates);
     }
     setHasHydratedDefaults(true);
-  }, [hasHydratedDefaults, searchParams, resolvedFilters, onSetFilters]);
+  }, [hasHydratedDefaults, searchParams, resolvedFilters, rawOnSetFilters]);
 
   const clearAllFilters = useCallback(() => {
-    setLastSeenCustomRange(null);
-    onSetFilters({ ...specDefaultValues });
-  }, [specDefaultValues, onSetFilters]);
+    rawSetLastSeenCustomRange(null);
+    rawOnSetFilters({ ...specDefaultValues });
+    onFiltersClearedRef.current?.();
+  }, [specDefaultValues, rawOnSetFilters]);
 
   const filtersDifferFromDefaults = useMemo(
     () => hasHydratedDefaults && specFiltersDiffer(filters, resolvedFilters),
