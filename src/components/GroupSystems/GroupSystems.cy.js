@@ -1,5 +1,4 @@
 import {
-  PAGINATION_VALUES,
   SORTING_ORDERS,
   checkEmptyState,
   checkPaginationTotal,
@@ -19,11 +18,7 @@ import {
   TABLE_ROW,
   TABLE_ROW_CHECKBOX,
   TEXT_INPUT,
-  changePagination,
-  checkPaginationValues,
   hasChip,
-  PAGINATION_TOP,
-  PAGINATION_NEXT,
 } from '../../../cypress/tempCypressFixtures';
 import _, { cloneDeep } from 'lodash';
 import fixtures from '../../../cypress/fixtures/hosts.json';
@@ -126,50 +121,14 @@ describe('defaults', () => {
     waitForTable(true);
   });
 
-  it(`pagination is set to ${DEFAULT_ROW_COUNT}`, () => {
-    cy.get(PAGINATION_TOP).should('contain.text', `1 - ${DEFAULT_ROW_COUNT}`);
-  });
-
   it('name filter is a default filter', () => {
     cy.get(PRIMARY_TOOLBAR).find(TEXT_INPUT).should('exist');
   });
 });
 
-describe('pagination', () => {
-  beforeEach(() => {
-    cy.intercept('*', { statusCode: 200, body: { results: [] } });
-    hostsInterceptors.successful();
-    featureFlagsInterceptors.successful();
-    systemProfileInterceptors['operating system, successful empty']();
-    groupsInterceptors['successful with some items']();
-    mountTable();
-
-    waitForTable(true);
-  });
-
-  it('shows correct total number of hosts', () => {
-    checkPaginationTotal(fixtures.total);
-  });
-
-  it('values are expected ones', () => {
-    checkPaginationValues(PAGINATION_VALUES);
-  });
-
-  it('can change page limit', () => {
-    PAGINATION_VALUES.forEach((el) => {
-      changePagination(el).then(() => {
-        cy.wait('@getHosts')
-          .its('request.url')
-          .should('include', `per_page=${el}`);
-      });
-    });
-  });
-
-  it('can change page', () => {
-    cy.get(PAGINATION_NEXT).first().click(); // click "next page" button
-    cy.wait('@getHosts').its('request.url').should('include', `page=2`);
-  });
-});
+// Pagination of the hosts table itself (totals, per-page options, page
+// changes) is covered once, in InventoryTable.cy.js. This spec keeps only what
+// is specific to the group-scoped table, such as reading pagination off the URL.
 
 describe('sorting', () => {
   beforeEach(() => {
