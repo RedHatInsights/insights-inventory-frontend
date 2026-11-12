@@ -6,6 +6,8 @@ import { SystemsView as SystemsViewImpl } from '../components/SystemsView/System
 import type { SystemsViewItem, SystemsViewProps } from './SystemsView.types';
 import { useKesselMigrationFeatureFlag } from '../Utilities/hooks/useKesselMigrationFeatureFlag';
 import { KESSEL_API_PATH } from '../constants';
+import { useAllSystemsExportConfig } from '../services/exportService/useAllSystemsExportConfig';
+import { resolveExportConfig } from '../services/exportService/resolveExportConfig';
 
 export type {
   ActionHelpers,
@@ -36,11 +38,16 @@ function SystemsView<TItem extends SystemsViewItem, TFilterParams = unknown>({
   filters,
   bulkActions,
   rowActions,
+  exportConfig,
 }: SystemsViewProps<TItem, TFilterParams>) {
   const [internalQueryClient] = useState(
     () => queryClient ?? new QueryClient(),
   );
   const isKesselMigrationEnabled = useKesselMigrationFeatureFlag();
+  // Legacy parity: a federated consumer may omit onExport from its export
+  // config to export all systems through the inventory backend — the same
+  // deal the Gen 1 InventoryTable offered via enableExport.
+  const inventoryExport = useAllSystemsExportConfig<TItem>();
 
   const systemsView = (
     <SystemsViewImpl
@@ -51,6 +58,9 @@ function SystemsView<TItem extends SystemsViewItem, TFilterParams = unknown>({
       bulkActions={bulkActions}
       rowActions={rowActions}
       showColumnManagement={false}
+      exportConfig={
+        exportConfig && resolveExportConfig(exportConfig, inventoryExport)
+      }
     />
   );
 
