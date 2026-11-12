@@ -7,6 +7,8 @@ import awesomeDebouncePromise from 'awesome-debounce-promise';
 import { updateGroupById, validateGroupName } from '../utils/api';
 import { nameValidator } from '../helpers/validate';
 import useApiWithToast from '../utils/apiWithToast';
+import { ignoreStaleValidationResults } from './utils/ignoreStaleValidationResults';
+import { WorkspaceNameTextField } from './ModalSchemas/schemes';
 
 const renameGroupSchema = (namePresenceValidator) => ({
   fields: [
@@ -63,8 +65,8 @@ const RenameGroupModal = ({
       return undefined;
     };
 
-    const d = awesomeDebouncePromise(check, 500, { onlyResolvesLast: false });
-    return renameGroupSchema(d);
+    const d = awesomeDebouncePromise(check, 250, { onlyResolvesLast: false });
+    return renameGroupSchema(ignoreStaleValidationResults(d));
   }, []);
 
   return (
@@ -74,9 +76,13 @@ const RenameGroupModal = ({
       title="Rename workspace"
       submitLabel="Save"
       schema={schema}
+      validateOnBlur={false}
       initialValues={modalState}
       onSubmit={handleRenameModal}
       reloadData={reloadData}
+      additionalMappers={{
+        [componentTypes.TEXT_FIELD]: WorkspaceNameTextField,
+      }}
     />
   );
 };

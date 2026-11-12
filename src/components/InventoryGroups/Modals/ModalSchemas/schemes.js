@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import validatorTypes from '@data-driven-forms/react-form-renderer/validator-types';
 import componentTypes from '@data-driven-forms/react-form-renderer/component-types';
 import { nameValidator } from '../../helpers/validate';
@@ -53,18 +53,30 @@ export const confirmSystemsAddSchema = (hostsNumber) => ({
   ],
 });
 
-export const CreateWorkspaceTextField = (props) => {
+export const WorkspaceNameTextField = (props) => {
   const fieldData = useFieldApi(props);
+  const [hasChanged, setHasChanged] = useState(false);
+  const input = {
+    ...fieldData.input,
+    onChange: (...args) => {
+      setHasChanged(true);
+      fieldData.input.onChange(...args);
+    },
+  };
+  const meta = {
+    ...fieldData.meta,
+    // Async name validation can finish before the field is blurred. Show its
+    // result as soon as the user has changed the value.
+    touched: fieldData.meta.touched || hasChanged,
+  };
 
   const { validated } = fieldData.meta.validating
     ? { validated: 'indeterminate' }
-    : showError(fieldData?.meta, fieldData.validateOnMount);
+    : showError(meta, fieldData.validateOnMount);
 
   const validationInternal =
-    (fieldData.meta.touched || fieldData.validateOnMount) &&
-    (fieldData.meta.error ||
-      fieldData.meta.submitError ||
-      fieldData.meta.warning);
+    (meta.touched || fieldData.validateOnMount) &&
+    (meta.error || meta.submitError || meta.warning);
   return (
     <FormGroup
       label={fieldData?.label}
@@ -72,7 +84,7 @@ export const CreateWorkspaceTextField = (props) => {
       fieldId={fieldData.id || fieldData.input.name}
     >
       <TextInput
-        {...fieldData?.input}
+        {...input}
         isRequired={fieldData?.isRequired}
         validated={validated}
         id={fieldData.id || fieldData.input.name}
