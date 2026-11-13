@@ -7,6 +7,7 @@ import awesomeDebouncePromise from 'awesome-debounce-promise';
 import { updateGroupById, validateGroupName } from '../utils/api';
 import { nameValidator } from '../helpers/validate';
 import useApiWithToast from '../utils/apiWithToast';
+import { ignoreStaleValidationResults } from './utils/ignoreStaleValidationResults';
 
 const renameGroupSchema = (namePresenceValidator) => ({
   fields: [
@@ -64,7 +65,7 @@ const RenameGroupModal = ({
     };
 
     const d = awesomeDebouncePromise(check, 500, { onlyResolvesLast: false });
-    return renameGroupSchema(d);
+    return renameGroupSchema(ignoreStaleValidationResults(d));
   }, []);
 
   return (
