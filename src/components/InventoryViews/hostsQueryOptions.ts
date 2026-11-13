@@ -5,6 +5,7 @@ import {
   type ApiHostGetHostListParams,
 } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
 import type { SystemsViewFetchParams } from '../SystemsView/types';
+import { markPaginatedRequestNotFound } from '../SystemsView/utils/paginatedRequestError';
 import { buildHostListParams } from './utils/buildHostListParams';
 
 export const HOSTS_QUERY_KEY = 'hosts' as const;
@@ -33,20 +34,29 @@ export const fetchHosts = async (
     direction: params.direction,
   });
 
-  const { results: hosts, total } = await getHostList(fetchParams);
+  // Mark only list-request 404s so SystemsView can recover from an out-of-range page.
+  const { results: hosts, total } = await getHostList(fetchParams).catch(
+    (error) => {
+      throw markPaginatedRequestNotFound(error);
+    },
+  );
 
   if (total === 0) return { results: [], total };
 
   const hostsWithId = hosts.filter(hasHostId);
 
-  const { results: hostsTags = {} } = await getHostTags({
-    hostIdList: hostsWithId.map(({ id }) => id),
-  });
+  const hostTagsResponse =
+    hostsWithId.length > 0
+      ? await getHostTags({
+          hostIdList: hostsWithId.map(({ id }) => id),
+        })
+      : undefined;
+  const hostsTags = hostTagsResponse?.results ?? {};
 
   const results = hostsWithId.map((host) => ({
     ...host,
     ...(hostsTags[host.id] ? { tags: hostsTags[host.id] } : {}),
   }));
 
-  return { results, total: total ?? 0 };
+  return { results, total };
 };

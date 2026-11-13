@@ -86,6 +86,7 @@ import type {
   RowAction,
 } from './actions/types';
 import useInventoryViewsColumnsRbacFeatureFlag from '../../Utilities/useInventoryViewsColumnsRbacFeatureFlag';
+import { isPaginatedRequestNotFound } from './utils/paginatedRequestError';
 
 export type {
   ActionHelpers,
@@ -275,14 +276,50 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
     [pagination.page, pagination.perPage, sortBy, direction, filterParams],
   );
 
-  const { data, isLoading, isFetching, isError } = useQuery({
+  const { data, error, isLoading, isFetching, isError } = useQuery({
     queryKey: [queryKeyPrefix, fetchParams],
     queryFn: () => fetchData(fetchParams),
     placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
   });
   const rowsData = data?.results;
-  const total = data?.total;
+  const total = data?.total ?? undefined;
+  const { page, perPage } = pagination;
+
+  const setPage = useCallback(
+    (newPage: number) => {
+      setSearchParams(
+        (currentSearchParams) => {
+          const nextSearchParams = new URLSearchParams(currentSearchParams);
+          nextSearchParams.set('page', `${newPage}`);
+          nextSearchParams.set('per_page', `${perPage}`);
+          return nextSearchParams;
+        },
+        { replace: true },
+      );
+    },
+    [perPage, setSearchParams],
+  );
+
+  useEffect(() => {
+    if (isFetching || page <= 1 || perPage <= 0) {
+      return;
+    }
+
+    const lastPage =
+      total === undefined ? undefined : Math.max(1, Math.ceil(total / perPage));
+    if (isError) {
+      if (isPaginatedRequestNotFound(error)) {
+        setPage(page - 1);
+      }
+      return;
+    }
+
+    if (lastPage !== undefined && page > lastPage) {
+      setPage(lastPage);
+    }
+  }, [error, isError, isFetching, page, perPage, setPage, total]);
+
   const isInventoryViewsRbacEnabled = useInventoryViewsColumnsRbacFeatureFlag();
   const deniedServices = isInventoryViewsRbacEnabled
     ? (data?.deniedServices ?? EMPTY_SERVICES)
