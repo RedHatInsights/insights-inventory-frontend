@@ -35,6 +35,8 @@ spec:
     value:
       - ENABLE_SENTRY=true
       - SENTRY_RELEASE={{revision}}
+      - SENTRY_ORG=red-hat-it
+      - SENTRY_PROJECT=inventory-rhel
   pipelineRef:
     name: docker-build-oci-ta
   taskRunTemplate:
