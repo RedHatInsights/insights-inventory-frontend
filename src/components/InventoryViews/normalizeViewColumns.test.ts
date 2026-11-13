@@ -1,6 +1,9 @@
 import type { Column } from '../SystemsView/columns/types';
 import type { InventoryBindableItem } from '../SystemsView/columns/inventory/columnDefinitions';
-import { normalizeViewColumns } from './utils/normalizeViewColumns';
+import {
+  normalizeViewColumns,
+  preserveTagColumns,
+} from './normalizeViewColumns';
 
 describe('normalizeViewColumns', () => {
   it('saves columns with sortBy field', () => {
@@ -46,6 +49,21 @@ describe('normalizeViewColumns', () => {
       { key: 'vendor' },
       { key: 'workload' },
       { key: 'created' },
+    ]);
+  });
+
+  it('keeps a hidden tag column and drops a hidden service column', () => {
+    const columns = [
+      { key: 'display_name', isShown: true },
+      { key: 'tag:owner', isShown: false },
+      { key: 'operating_system', isShown: false },
+      { key: 'tag:insights-client/env', isShown: true },
+    ] as Column<InventoryBindableItem>[];
+
+    expect(normalizeViewColumns(columns)).toEqual([
+      { key: 'display_name' },
+      { key: 'tag:owner', shown: false },
+      { key: 'tag:insights-client/env' },
     ]);
   });
 
@@ -170,5 +188,41 @@ describe('normalizeViewColumns', () => {
       { key: 'vendor' },
     ]);
     expect(result.length).toBe(6);
+  });
+});
+
+describe('preserveTagColumns', () => {
+  it('puts a stored tag column back beside the column it followed', () => {
+    expect(
+      preserveTagColumns(
+        [{ key: 'display_name' }, { key: 'operating_system' }],
+        [
+          { key: 'display_name' },
+          { key: 'tag:owner', shown: false },
+          { key: 'operating_system' },
+        ],
+      ),
+    ).toEqual([
+      { key: 'display_name' },
+      { key: 'tag:owner', shown: false },
+      { key: 'operating_system' },
+    ]);
+  });
+
+  it('keeps a leading tag column at the start and does not duplicate one already saved', () => {
+    expect(
+      preserveTagColumns(
+        [{ key: 'tag:owner' }, { key: 'display_name' }],
+        [
+          { key: 'tag:insights-client/env' },
+          { key: 'tag:owner' },
+          { key: 'display_name' },
+        ],
+      ),
+    ).toEqual([
+      { key: 'tag:insights-client/env' },
+      { key: 'tag:owner' },
+      { key: 'display_name' },
+    ]);
   });
 });

@@ -91,7 +91,7 @@ export const useColumns = <TItem,>({
       .filter((col) => col.isShown)
       .map((col, index) => {
         return {
-          cell: col.title,
+          cell: col.tableHeader ?? col.title,
           props: {
             ...(col.key === 'display_name'
               ? isInventoryViewsEnabled
