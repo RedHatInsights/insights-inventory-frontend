@@ -136,6 +136,26 @@ describe('normalizeViewColumns', () => {
     ]);
   });
 
+  it('keeps shown permission-locked columns — permissions are enforced per-viewer, not at save time', () => {
+    const columns = [
+      { key: 'display_name', isShown: true },
+      {
+        key: 'advisor:recommendations',
+        isShown: true,
+        isPermissionLocked: true,
+      },
+      { key: 'operating_system', isShown: true },
+    ] as Column<InventoryBindableItem>[];
+
+    const result = normalizeViewColumns(columns);
+
+    expect(result).toEqual([
+      { key: 'display_name' },
+      { key: 'advisor:recommendations' },
+      { key: 'operating_system' },
+    ]);
+  });
+
   it('returns empty array when no visible columns', () => {
     const columns = [
       { key: 'display_name', isShown: false },
