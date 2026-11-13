@@ -64,7 +64,6 @@ import {
   parseViewConfigFilters,
   parseViewConfigLastSeenCustomRange,
 } from './utils/viewConfigFilters';
-import { normalizeViewColumns } from './utils/normalizeViewColumns';
 import { useWysiwygExportConfig } from './hooks/useWysiwygExportConfig';
 import { useViewDirtyState } from './hooks/useViewDirtyState';
 import { useUpdateViewMutation } from './hooks/useUpdateViewMutation';
