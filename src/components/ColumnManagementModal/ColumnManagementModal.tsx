@@ -38,6 +38,8 @@ export interface ColumnManagementModalColumn {
   appName?: string;
   /** When true, the column is gated by a per-service RBAC permission the user lacks. */
   isPermissionLocked?: boolean;
+  /** When true, the row can be removed from the configured list. */
+  isRemovable?: boolean;
 }
 
 /** extends ModalProps */
@@ -62,6 +64,11 @@ export interface ColumnManagementModalProps<
   ouiaId?: string | number;
   /** Enable drag and drop functionality for reordering columns */
   enableDragDrop?: boolean;
+  /** Rendered below the checkbox list and above the modal actions. */
+  listFooter?: (draft: {
+    columns: readonly T[];
+    addColumn: (column: T) => void;
+  }) => React.ReactNode;
 }
 
 const getColumnSnapshot = <
@@ -86,6 +93,7 @@ export function ColumnManagementModal<
   applyColumns,
   ouiaId = 'ColumnManagementModal',
   enableDragDrop = false,
+  listFooter,
   ...props
 }: ColumnManagementModalProps<T>) {
   const { analytics } = useChrome();
@@ -140,6 +148,7 @@ export function ColumnManagementModal<
     isUntoggleable: column.isUntoggleable,
     appName: column.appName,
     isPermissionLocked: column.isPermissionLocked,
+    isRemovable: column.isRemovable,
   }));
 
   const resetToDefault = () => {
@@ -209,6 +218,21 @@ export function ColumnManagementModal<
     onClose({} as KeyboardEvent);
   };
 
+  const addColumn = (column: T) => {
+    setCurrentColumns((current) => {
+      if (current.some((existing) => existing.key === column.key)) {
+        return current;
+      }
+      return [...current, { ...column, isShown: true }];
+    });
+  };
+
+  const removeColumn = (key: string) => {
+    setCurrentColumns((current) =>
+      current.filter((column) => column.key !== key),
+    );
+  };
+
   const handleSaveClick = () => {
     handleSave(listManagerItems);
   };
@@ -246,9 +270,15 @@ export function ColumnManagementModal<
           onOrderChange={handleOrderChange}
           onSave={handleSave}
           onCancel={handleCancel}
+          onRemove={removeColumn}
           enableDragDrop={enableDragDrop}
           showActions={false}
         />
+        {listFooter && (
+          <div style={{ paddingBlockStart: 'var(--pf-t--global--spacer--md)' }}>
+            {listFooter({ columns: currentColumns, addColumn })}
+          </div>
+        )}
       </ModalBody>
       <ModalFooter>
         <Flex>

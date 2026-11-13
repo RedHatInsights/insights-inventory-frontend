@@ -311,6 +311,33 @@ describe('areColumnsDirty', () => {
   it('returns false when both are empty', () => {
     expect(areColumnsDirty([], [])).toBe(false);
   });
+
+  it('returns true when a hidden tag column is added', () => {
+    const baseline = [makeColumn('display_name', true)];
+    const current = [
+      makeColumn('display_name', true),
+      makeColumn('tag:owner', false),
+    ];
+    expect(areColumnsDirty(baseline, current)).toBe(true);
+  });
+
+  it('returns true when a hidden tag column is removed', () => {
+    const baseline = [
+      makeColumn('display_name', true),
+      makeColumn('tag:owner', false),
+    ];
+    const current = [makeColumn('display_name', true)];
+    expect(areColumnsDirty(baseline, current)).toBe(true);
+  });
+
+  it('returns false when the same hidden tag column is still present', () => {
+    const columns = [
+      makeColumn('display_name', true),
+      makeColumn('tag:owner', false),
+      makeColumn('operating_system', false),
+    ];
+    expect(areColumnsDirty(columns, columns)).toBe(false);
+  });
 });
 
 describe('isLastSeenCustomRangeDirty', () => {

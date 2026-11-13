@@ -7,6 +7,7 @@ import {
 } from '../../SystemsView/constants';
 import { INITIAL_SORT } from '../../SystemsView/hooks/useColumns';
 import { inventoryViewsFilterSpecs } from '../inventoryViewsFilterSpecs';
+import { isTagColumnKey } from '../tagKeys';
 import { parseViewConfigLastSeenCustomRange } from '../utils/viewConfigFilters';
 import type { LastSeenCustomRange } from '../../SystemsView/types';
 
@@ -112,21 +113,29 @@ export const isLastSeenCustomRangeDirty = (
   );
 };
 
+/** Shown columns, plus every tag column even when it is unchecked. */
+const persistedColumnSignature = (
+  columns: readonly ColumnVisibility[],
+): string[] =>
+  columns.flatMap((column) => {
+    const key = column.key == null ? '' : String(column.key);
+    if (!key) return [];
+    if (column.isShown || isTagColumnKey(key)) {
+      return [`${key}:${column.isShown === true}`];
+    }
+    return [];
+  });
+
 export const areColumnsDirty = (
   baselineColumns?: readonly ColumnVisibility[],
   currentColumns?: readonly ColumnVisibility[],
 ): boolean => {
   if (!baselineColumns || !currentColumns) return false;
 
-  const baselineShownKeys = baselineColumns
-    .filter((c) => c.isShown)
-    .map((c) => c.key);
-  const currentShownKeys = currentColumns
-    .filter((c) => c.isShown)
-    .map((c) => c.key);
-
-  if (baselineShownKeys.length !== currentShownKeys.length) return true;
-  return baselineShownKeys.some((k, i) => k !== currentShownKeys[i]);
+  const baseline = persistedColumnSignature(baselineColumns);
+  const current = persistedColumnSignature(currentColumns);
+  if (baseline.length !== current.length) return true;
+  return baseline.some((key, index) => key !== current[index]);
 };
 
 export const useViewDirtyState = ({

@@ -5,6 +5,10 @@ import React from 'react';
 import { expect, jest } from '@jest/globals';
 import type { ActionHelpers, ActionSpec } from './actions/types';
 import type { SystemsViewItem } from './types';
+import type {
+  SystemsViewExportConfig,
+  SystemsViewExportState,
+} from './export/types';
 
 const mockOpenColumnManagementModal = jest.fn();
 const mockUseInventoryViewsFeatureFlag = jest.fn(() => false);
@@ -30,6 +34,19 @@ const { SystemsViewBulkActions } =
 
 const selectedSystems: SystemsViewItem[] = [{ id: 'host-1' }, { id: 'host-2' }];
 
+const exportConfig: SystemsViewExportConfig<SystemsViewItem> = {
+  onExport: jest.fn(async () => {}),
+};
+
+const exportState: SystemsViewExportState<SystemsViewItem> = {
+  filters: {},
+  columns: [],
+  sortBy: undefined,
+  direction: undefined,
+  selectedItems: [],
+  total: 0,
+};
+
 const actionHelpers: ActionHelpers = {
   invalidateQuery: jest.fn(async () => {}),
   clearSelection: jest.fn(),
@@ -50,11 +67,13 @@ function renderBulkActions({
   selected = selectedSystems,
   activeState = 'active' as const,
   showColumnManagement = true,
+  withExportConfig = false,
 }: {
   bulkActions?: readonly ActionSpec<SystemsViewItem>[];
   selected?: SystemsViewItem[];
   activeState?: 'loading' | 'error' | 'empty' | 'active';
   showColumnManagement?: boolean;
+  withExportConfig?: boolean;
 } = {}) {
   return render(
     <SystemsViewBulkActions
@@ -63,6 +82,7 @@ function renderBulkActions({
       bulkActions={bulkActions}
       actionHelpers={actionHelpers}
       showColumnManagement={showColumnManagement}
+      {...(withExportConfig && { exportConfig, exportState })}
     />,
   );
 }
@@ -79,10 +99,16 @@ describe('SystemsViewBulkActions', () => {
     (actionHelpers.clearSelection as jest.Mock).mockClear();
   });
 
-  it('always renders Export chrome', () => {
-    renderBulkActions();
+  it('renders the export menu when an export config is provided', () => {
+    renderBulkActions({ withExportConfig: true });
 
     expect(screen.getByTestId('systems-view-export')).toBeInTheDocument();
+  });
+
+  it('does not render the export menu without an export config', () => {
+    renderBulkActions();
+
+    expect(screen.queryByTestId('systems-view-export')).not.toBeInTheDocument();
   });
 
   it('does not render consumer actions when bulkActions is empty', () => {

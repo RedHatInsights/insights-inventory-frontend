@@ -8,11 +8,15 @@ import { useAnsibleWorkloadsSearchParam } from './hooks/useAnsibleWorkloadsSearc
 import { selectLegacyInventoryColumns } from './selectLegacyInventoryColumns';
 import { selectLegacyInventoryFilters } from './selectLegacyInventoryFilters';
 import { selectAnsibleWorkload } from './stampAnsibleWorkloadDefault';
+import { useAllSystemsExportConfig } from '../../services/exportService/useAllSystemsExportConfig';
 import { VIEW_ID_URL_PARAM } from '../../api/inventoryViewsApi';
 
 const InventoryHosts = () => {
   const { isReady, isAnsibleBundle } = useAnsibleWorkloadsSearchParam();
   const [searchParams, setSearchParams] = useSearchParams();
+  // The stable table keeps the original export interaction: all systems
+  // regardless of filters or sorting. WYSIWYG export lives in InventoryViews.
+  const exportConfig = useAllSystemsExportConfig<InventoryBindableItem>();
   const filtersSelector = useMemo(
     () =>
       isAnsibleBundle
@@ -46,6 +50,7 @@ const InventoryHosts = () => {
           fetchData={fetchHosts}
           bulkActions={bulkActions}
           rowActions={rowActions}
+          exportConfig={exportConfig}
         />
       )}
     </Actions>
