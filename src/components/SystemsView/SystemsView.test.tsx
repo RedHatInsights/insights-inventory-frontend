@@ -301,6 +301,50 @@ describe('SystemsView', () => {
     expect(screen.queryByText('Test Host')).not.toBeInTheDocument();
   });
 
+  it('loads the previous page when the current page is out of range', async () => {
+    const notFound = Object.assign(new Error('not found'), {
+      response: { status: 404 },
+    });
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(({ page }) =>
+      page > 2 ? Promise.reject(notFound) : Promise.resolve(successData),
+    );
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      initialRoute: '/?page=3',
+    });
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    expect(screen.queryByText(/Unable to load data/i)).not.toBeInTheDocument();
+
+    const pages = fetchData.mock.calls.map(([params]) => params.page);
+    expect(pages[0]).toBe(3);
+    expect(pages).toContain(2);
+    expect(pages).not.toContain(1);
+  });
+
+  it('shows an error when a later page fails for another reason', async () => {
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(() =>
+      Promise.reject(new Error('failed to load')),
+    );
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      initialRoute: '/?page=2',
+    });
+
+    expect(await screen.findByText(/Unable to load data/i)).toBeInTheDocument();
+    expect(fetchData.mock.calls.every(([params]) => params.page === 2)).toBe(
+      true,
+    );
+  });
+
+  it('shows an error when the first page is not found', async () => {
+    const notFound = Object.assign(new Error('not found'), { status: 404 });
+
+    renderSystemsView(() => Promise.reject(notFound));
+
+    expect(await screen.findByText(/Unable to load data/i)).toBeInTheDocument();
+  });
+
   it('shows an empty state when the query succeeds with no systems', async () => {
     renderSystemsView(() => Promise.resolve({ results: [], total: 0 }));
 
