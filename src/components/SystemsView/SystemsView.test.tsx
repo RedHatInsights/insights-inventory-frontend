@@ -3,7 +3,8 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, jest } from '@jest/globals';
 import type { ApiHostGetHostListParams } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   SystemsView,
   type SystemsViewFetchData,
@@ -85,6 +86,16 @@ const stampHostnameDefault: FilterSelector<ApiHostGetHostListParams> = (
       : filter,
   );
 
+let routePage: string | null = null;
+
+const RoutePage = () => {
+  const [params] = useSearchParams();
+  useEffect(() => {
+    routePage = params.get('page');
+  }, [params]);
+  return null;
+};
+
 const renderSystemsView = <TFilterParams = unknown,>(
   fetchData: SystemsViewFetchData<System, TFilterParams>,
   client = createTestQueryClient(),
@@ -101,6 +112,7 @@ const renderSystemsView = <TFilterParams = unknown,>(
       client={client}
       routerProps={{ initialEntries: [extra?.initialRoute ?? '/'] }}
     >
+      <RoutePage />
       <SystemsView
         queryKeyPrefix={TEST_QUERY_KEY}
         fetchData={fetchData}
@@ -139,6 +151,7 @@ describe('SystemsView', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
+    routePage = null;
   });
 
   it('renders a column when the columns selector includes it', async () => {
@@ -326,6 +339,7 @@ describe('SystemsView', () => {
     const pages = fetchData.mock.calls.map(([params]) => params.page);
     expect(pages).toContain(5);
     expect(pages.at(-1)).toBe(1);
+    expect(routePage).toBe('1');
   });
 
   it('probes page 1 when a later page fails past the end', async () => {
@@ -344,6 +358,7 @@ describe('SystemsView', () => {
     expect(pages).toContain(5);
     expect(pages).toContain(1);
     expect(pages.at(-1)).toBe(1);
+    expect(routePage).toBe('1');
   });
 
   it('keeps the page when a failed request is still in range', async () => {
@@ -384,6 +399,7 @@ describe('SystemsView', () => {
     expect(pages).toContain(5);
     expect(pages).toContain(2);
     expect(pages.at(-1)).toBe(1);
+    expect(routePage).toBe('1');
   });
 
   it('hides Reset filters when current filters match spec defaults', async () => {
