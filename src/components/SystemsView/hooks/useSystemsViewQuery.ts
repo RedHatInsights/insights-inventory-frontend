@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import {
   keepPreviousData,
   useQuery,
@@ -11,6 +11,7 @@ import type {
   SystemsViewFetchParams,
   SystemsViewItem,
 } from '../types';
+import { useRecoveryPage } from './useRecoveryPage';
 
 /** Thrown when the URL page is past the last page that still has rows. Not retried. */
 class OutOfRangeError extends Error {
@@ -43,10 +44,7 @@ export const useSystemsViewQuery = <
   setSearchParams,
 }: UseSystemsViewQueryParams<TItem, TFilterParams>) => {
   const queryClient = useQueryClient();
-  const setSearchParamsRef = useRef(setSearchParams);
-  setSearchParamsRef.current = setSearchParams;
-  // Signature of the result set whose page was already replaced.
-  const correctedRef = useRef<string | null>(null);
+  const correctedSignatureRef = useRef<string | null>(null);
   const signature = JSON.stringify({
     perPage: fetchParams.perPage,
     sortBy: fetchParams.sortBy,
@@ -69,7 +67,7 @@ export const useSystemsViewQuery = <
     },
     queryFn: async () => {
       const { page, perPage } = fetchParams;
-      const corrected = correctedRef.current === signature;
+      const corrected = correctedSignatureRef.current === signature;
       try {
         const data = await fetchData(fetchParams);
         if (!corrected && page > lastPage(data.total, perPage)) {
@@ -93,24 +91,20 @@ export const useSystemsViewQuery = <
     },
   });
 
-  const redirectTo =
+  const discoveredPage =
     query.error instanceof OutOfRangeError ? query.error.page : null;
-
-  useEffect(() => {
-    if (redirectTo == null) return;
-    correctedRef.current = signature;
-    // Same source as useResetPage: a filter update may already have called
-    // history.pushState, so the router params can be one tick behind.
-    const nextParams = new URLSearchParams(window.location.search);
-    nextParams.set('page', String(redirectTo));
-    setSearchParamsRef.current(nextParams, { replace: true });
-  }, [redirectTo, signature]);
+  useRecoveryPage(
+    discoveredPage,
+    setSearchParams,
+    signature,
+    correctedSignatureRef,
+  );
 
   return {
     data: query.data,
     isLoading: query.isLoading,
     isFetching: query.isFetching,
     isError: query.isError,
-    isRecovering: redirectTo != null,
+    isRecovering: discoveredPage != null,
   };
 };
