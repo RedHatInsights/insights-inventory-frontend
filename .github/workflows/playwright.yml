@@ -48,6 +48,7 @@ jobs:
             echo "CI=true"
             echo "PROXY=$PROXY"
             echo "SYSTEMS_VIEW=true"
+            echo "INVENTORY_VIEWS=true"
             echo "STAGE_OFFLINE_TOKEN=$STAGE_OFFLINE_TOKEN"
             echo "TEST_RUN_ID=full-suite-${{ github.run_id }}-${{ github.run_attempt }}"
           } >> .env
@@ -101,13 +102,13 @@ jobs:
       - name: Run front-end Playwright tests
         id: pw_run
         continue-on-error: true
-        run: USE_CTRF=1 npx playwright test --grep-invert "@integration|@inventory-views"
+        run: USE_CTRF=1 npx playwright test --grep-invert "@integration"
 
       - name: Rerun failed tests and report to Currents
         id: pw_rerun
         if: steps.pw_run.outcome == 'failure'
         continue-on-error: true
-        run: CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-e2e-full-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test --grep-invert "@integration|@inventory-views" --last-failed
+        run: CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-e2e-full-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test --grep-invert "@integration" --last-failed
 
       - name: Warn about flaky tests
         if: steps.pw_run.outcome == 'failure' && steps.pw_rerun.outcome == 'success'
