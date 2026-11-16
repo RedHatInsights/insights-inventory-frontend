@@ -3,6 +3,7 @@ import { bindInventoryHostViewsFilters } from '../SystemsView/filters/inventory/
 import { bindAdvisorFilters } from '../SystemsView/filters/advisor/bindAdvisorFilters';
 import type { FilterSelector } from '../SystemsView/filters/resolveFilterSelector';
 import { bindVulnerabilityFilters } from '../SystemsView/filters/vulnerability/bindVulnerabilityFilter';
+import { bindContentFilters } from '../SystemsView/filters/content/bindContentFilters';
 
 /**
  * Base `/hosts/views` toolbar: inventory filters only, no app-data groups.
@@ -26,12 +27,13 @@ export const selectInventoryViewsFilters: FilterSelector<
   ...selectInventoryViewsBaseFilters(catalog),
   ...bindAdvisorFilters(catalog),
   ...bindVulnerabilityFilters(catalog),
+  ...bindContentFilters(catalog),
 ];
 
 /**
  * Picks the toolbar selector matching the `ui.inventory-views-filters` flag.
  *
- *  @param isAppDataFiltersEnabled - Whether Advisor/Vulnerability filters show
+ *  @param isAppDataFiltersEnabled - Whether Advisor/Vulnerability/Content filters show
  *  @returns                       Selector for the `/hosts/views` toolbar
  */
 export const getInventoryViewsFilterSelector = (
