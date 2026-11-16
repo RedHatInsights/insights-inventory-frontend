@@ -1,9 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import {
-  keepPreviousData,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   DataView,
   useDataViewPagination,
@@ -44,6 +40,7 @@ import {
   useDataViewFiltersContext,
 } from './DataViewFiltersContext';
 import { useResetPage } from './hooks/useResetPage';
+import { useSystemsViewQuery } from './hooks/useSystemsViewQuery';
 import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
 import { PER_PAGE } from '../../constants';
 import { useDebouncedFilters } from './filters/useDebouncedFilters';
@@ -275,12 +272,13 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
     [pagination.page, pagination.perPage, sortBy, direction, filterParams],
   );
 
-  const { data, isLoading, isFetching, isError } = useQuery({
-    queryKey: [queryKeyPrefix, fetchParams],
-    queryFn: () => fetchData(fetchParams),
-    placeholderData: keepPreviousData,
-    refetchOnWindowFocus: false,
-  });
+  const { data, isLoading, isFetching, isError, isRecovering } =
+    useSystemsViewQuery({
+      queryKeyPrefix,
+      fetchData,
+      fetchParams,
+      setSearchParams,
+    });
   const rowsData = data?.results;
   const total = data?.total;
   const isInventoryViewsRbacEnabled = useInventoryViewsColumnsRbacFeatureFlag();
@@ -304,12 +302,14 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
     [onInvalidate, clearSelection],
   );
 
-  const activeState = deriveActiveState({
-    data: rowsData,
-    isLoading,
-    isFetching,
-    isError,
-  });
+  const activeState = isRecovering
+    ? 'loading'
+    : deriveActiveState({
+        data: rowsData,
+        isLoading,
+        isFetching,
+        isError,
+      });
 
   const isInventoryViewsEnabled = useInventoryViewsFeatureFlag();
 
