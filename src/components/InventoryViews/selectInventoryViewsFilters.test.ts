@@ -51,6 +51,8 @@ describe('selectInventoryViewsFilters', () => {
       'cve_severity',
       'known_exploit',
       'security_rule',
+      'installable_advisory_type',
+      'template',
     ]);
   });
 
@@ -103,6 +105,8 @@ describe('selectInventoryViewsFilters', () => {
       ...defaultValuesFrom(full),
       cve_severity: ['critical'],
       incident_status: ['present'],
+      installable_advisory_type: ['security'],
+      template: ['present'],
     };
     const ctx = { lastSeenCustomRange: null };
 
@@ -110,12 +114,16 @@ describe('selectInventoryViewsFilters', () => {
       expect.objectContaining({
         cveSeverity: ['critical'],
         incidentStatus: ['present'],
+        installableAdvisoryType: ['security'],
+        template: 'present',
       }),
     );
 
     const baseParams = buildFilterParams(base, ui, ctx);
     expect(baseParams).not.toHaveProperty('cveSeverity');
     expect(baseParams).not.toHaveProperty('incidentStatus');
+    expect(baseParams).not.toHaveProperty('installableAdvisoryType');
+    expect(baseParams).not.toHaveProperty('template');
   });
 
   it('dropping one factory removes the control, its URL key, and its query field', () => {

@@ -9,10 +9,8 @@ import type {
   LastSeenCustomRange,
   SystemsViewFilterState,
 } from '../../SystemsView/types';
-import {
-  buildHostFilters,
-  type HostFiltersWithWorkspaceId,
-} from './buildHostFilters';
+import type { HostFilters } from '@redhat-cloud-services/host-inventory-client';
+import { buildHostFilters } from './buildHostFilters';
 
 type ViewFilters = NonNullable<ViewConfiguration['filters']>;
 
@@ -39,7 +37,8 @@ const parseHostTypeFilter = (hostType: unknown): string[] | undefined => {
  * (operating_system, workloads), host-level filters
  * (hostname_or_id, staleness, tags, registered_with, workspace_id, system_type,
  * last_check_in dates), and app-specific filters (recommendationSeverity,
- * incidentStatus, cveSeverity, knownExploit, securityRule).
+ * incidentStatus, cveSeverity, knownExploit, securityRule,
+ * installableAdvisoryType, template).
  *
  *  @param filters             - Toolbar filter state
  *  @param lastSeenCustomRange - Custom date range when last_seen is 'custom'.
@@ -80,7 +79,7 @@ export const parseViewConfigFilters = (
   const raw = viewFilters as unknown as Record<string, unknown>;
   const systemProfile = raw.system_profile as
     (SystemProfileFilter & { host_type?: unknown }) | undefined;
-  const hostFilters = raw.host as HostFiltersWithWorkspaceId | undefined;
+  const hostFilters = raw.host as HostFilters | undefined;
 
   const result: SystemsViewFilterState = {};
 
@@ -161,6 +160,14 @@ export const parseViewConfigFilters = (
 
     if (hostFilters.security_rule?.length) {
       result.security_rule = hostFilters.security_rule;
+    }
+
+    if (hostFilters.installable_advisory_type?.length) {
+      result.installable_advisory_type = hostFilters.installable_advisory_type;
+    }
+
+    if (hostFilters.template) {
+      result.template = [hostFilters.template];
     }
 
     const lastSeenKey = resolveLastSeenKeyFromBounds(

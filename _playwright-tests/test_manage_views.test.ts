@@ -473,6 +473,8 @@ test.describe(
       { filter: 'CVE severity', value: 'Critical' },
       { filter: 'Known exploit', value: 'Present' },
       { filter: 'CVEs with security rules', value: 'Present' },
+      { filter: 'Installable advisory type', value: 'Security advisories' },
+      { filter: 'Template', value: 'Present' },
     ];
 
     const allFilters = [...inventoryFilters, ...appServicesFilters];

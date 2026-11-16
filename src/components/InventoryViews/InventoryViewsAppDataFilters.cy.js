@@ -2,6 +2,7 @@ import SystemsView from '../SystemsView/SystemsView';
 import { bindInventoryViewColumns } from '../SystemsView/columns/inventoryViewColumns';
 import { bindAdvisorFilters } from '../SystemsView/filters/advisor/bindAdvisorFilters';
 import { bindVulnerabilityFilters } from '../SystemsView/filters/vulnerability/bindVulnerabilityFilter';
+import { bindContentFilters } from '../SystemsView/filters/content/bindContentFilters';
 
 /*
  * Component tests for the app services toolbar filters on the /hosts/views table.
@@ -26,6 +27,7 @@ import { bindVulnerabilityFilters } from '../SystemsView/filters/vulnerability/b
 const selectAppDataFilters = (catalog) => [
   ...bindAdvisorFilters(catalog),
   ...bindVulnerabilityFilters(catalog),
+  ...bindContentFilters(catalog),
 ];
 
 // One visible column per filter under test, so each assertion about which
@@ -35,6 +37,8 @@ const selectAppDataFilters = (catalog) => [
 //   cve_severity            -> Vulnerabilities (per-severity breakdown)
 //   known_exploit           -> CVEs with known exploits
 //   security_rule           -> CVEs with security rules
+//   installable_advisory_type -> Installable advisories (per-type breakdown)
+//   template                  -> Template
 const TEST_COLUMN_KEYS = [
   'display_name',
   'advisor:recommendations',
@@ -42,6 +46,8 @@ const TEST_COLUMN_KEYS = [
   'vulnerability:total_cves',
   'vulnerability:cves_with_known_exploits',
   'vulnerability:cves_with_security_rules',
+  'patch:advisories_rhsa_installable',
+  'patch:template_name',
 ];
 
 const selectTestColumns = () => {
@@ -107,6 +113,25 @@ const vulnerability = ({
   },
 });
 
+// Content rides on `app_data.patch`: one installable count per advisory type,
+// plus the template the system is assigned to (null when it has none).
+const content = ({
+  security = 0,
+  bugfix = 0,
+  enhancement = 0,
+  other = 0,
+  templateUuid = null,
+}) => ({
+  patch: {
+    advisories_rhsa_installable: security,
+    advisories_rhba_installable: bugfix,
+    advisories_rhea_installable: enhancement,
+    advisories_other_installable: other,
+    template_name: templateUuid ? `${templateUuid}-name` : null,
+    template_uuid: templateUuid,
+  },
+});
+
 // Named so each assertion reads as "which systems should come back".
 const MOCK_SYSTEMS = [
   makeHost('adv-critical-incident', advisor({ critical: 2, incidents: 3 })),
@@ -123,27 +148,29 @@ const MOCK_SYSTEMS = [
       cves_with_security_rules: 1,
     }),
   ),
+  makeHost('content-security', content({ security: 3 })),
+  makeHost(
+    'content-bugfix',
+    content({ bugfix: 2, templateUuid: 'tpl-bugfix' }),
+  ),
+  makeHost('content-enhancement', content({ enhancement: 1 })),
+  makeHost('content-other', content({ other: 4 })),
+  // Content reported, counting zero installable advisories of every type, and
+  // assigned to a template. The negative option of each Content filter.
+  makeHost('content-clean', content({ templateUuid: 'tpl-clean' })),
   // No app_data at all: the backend treats these as NULL, so they only come back
   // through the "the app never reported on this system" option of each filter.
   makeHost('no-app-data', null),
 ];
 
-// A system only carries one app's data, so from the other app's point of view it
-// is unreported — the same bucket as `no-app-data`.
-const NO_ADVISOR_DATA_SYSTEMS = [
-  'vuln-critical',
-  'vuln-low',
-  'vuln-important',
-  'vuln-exploit-and-rule',
-  'no-app-data',
-];
+const systemsWithoutDataFor = (appKey) =>
+  MOCK_SYSTEMS.filter((host) => !host.app_data?.[appKey]).map(
+    (host) => host.display_name,
+  );
 
-const NO_VULNERABILITY_DATA_SYSTEMS = [
-  'adv-critical-incident',
-  'adv-critical-clean',
-  'adv-low-incident',
-  'no-app-data',
-];
+const NO_ADVISOR_DATA_SYSTEMS = systemsWithoutDataFor('advisor');
+const NO_VULNERABILITY_DATA_SYSTEMS = systemsWithoutDataFor('vulnerability');
+const NO_CONTENT_DATA_SYSTEMS = systemsWithoutDataFor('patch');
 
 // -------------------------------------------------- backend filter semantics
 
@@ -161,19 +188,30 @@ const CVE_SEVERITY_KEY = {
   low: 'low_cves',
 };
 
-// Every app-data filter takes a list of values that are OR'd together, and each
-// one offers a value for "this app never reported on the system": `not_analyzed`
-// on the advisor side, `not_evaluated` on the vulnerability side.
+const INSTALLABLE_ADVISORY_TYPE_KEY = {
+  security: 'advisories_rhsa_installable',
+  bugfix: 'advisories_rhba_installable',
+  enhancement: 'advisories_rhea_installable',
+  other: 'advisories_other_installable',
+};
+
 const NO_ADVISOR_DATA = 'not_analyzed';
 const NO_VULNERABILITY_DATA = 'not_evaluated';
+const NO_CONTENT_DATA = 'not_evaluated';
 
-// critical | important | moderate | low: that severity's count is above zero.
-const matchesSeverity = (appData, selected, severityKeys, noDataValue) =>
+// A bucketed count filter: advisor/CVE severities and installable advisory
+// types all select the systems whose count for the chosen bucket is above zero.
+const matchesPositiveCount = (appData, selected, countKeys, noDataValue) =>
   selected.some((value) =>
-    value === noDataValue
-      ? !appData
-      : (appData?.[severityKeys[value]] ?? 0) > 0,
+    value === noDataValue ? !appData : (appData?.[countKeys[value]] ?? 0) > 0,
   );
+
+const matchesTemplate = (appData, selected) => {
+  if (!appData) return false;
+  return selected === 'present'
+    ? Boolean(appData.template_uuid)
+    : !appData.template_uuid;
+};
 
 // present: the count is above zero. not_present: the app reported, counting zero.
 const matchesPresence = (appData, selected, countField, noDataValue) =>
@@ -193,15 +231,18 @@ const applyAppDataFilters = (hosts, filterParams = {}) => {
     cveSeverity,
     knownExploit,
     securityRule,
+    installableAdvisoryType,
+    template,
   } = filterParams;
 
   return hosts.filter((host) => {
     const adv = host.app_data?.advisor;
     const vuln = host.app_data?.vulnerability;
+    const patch = host.app_data?.patch;
 
     if (
       recommendationSeverity?.length &&
-      !matchesSeverity(
+      !matchesPositiveCount(
         adv,
         recommendationSeverity,
         ADVISOR_SEVERITY_KEY,
@@ -220,7 +261,7 @@ const applyAppDataFilters = (hosts, filterParams = {}) => {
 
     if (
       cveSeverity?.length &&
-      !matchesSeverity(
+      !matchesPositiveCount(
         vuln,
         cveSeverity,
         CVE_SEVERITY_KEY,
@@ -251,6 +292,23 @@ const applyAppDataFilters = (hosts, filterParams = {}) => {
         NO_VULNERABILITY_DATA,
       )
     ) {
+      return false;
+    }
+
+    if (
+      installableAdvisoryType?.length &&
+      !matchesPositiveCount(
+        patch,
+        installableAdvisoryType,
+        INSTALLABLE_ADVISORY_TYPE_KEY,
+        NO_CONTENT_DATA,
+      )
+    ) {
+      return false;
+    }
+
+    // Scalar, not a list: single-select on the toolbar, single value on the wire.
+    if (template && !matchesTemplate(patch, template)) {
       return false;
     }
 
@@ -354,6 +412,14 @@ const FILTERS = {
     title: 'CVEs with security rules',
     placeholder: 'Filter by CVEs with security rules',
   },
+  installableAdvisoryType: {
+    title: 'Installable advisory type',
+    placeholder: 'Filter by installable advisory type',
+  },
+  template: {
+    title: 'Template',
+    placeholder: 'Filter by template',
+  },
 };
 
 // Makes a filter the active attribute, revealing its value control.
@@ -374,8 +440,9 @@ const chooseFilterOption = (filterKey, optionLabel) => {
   cy.get('[role="menu"]:visible')
     .contains(new RegExp(`^${optionLabel}$`))
     .click();
-  // Every app-data filter is multi-select, so the menu stays open after a pick;
-  // close it so the next toggle is clickable.
+  // Multi-select menus stay open after a pick, so close them to leave the next
+  // toggle clickable. Single-select (Template) closes itself; the click is a
+  // harmless no-op there, which keeps one helper for both.
   cy.get('body').click(0, 0);
 };
 
@@ -411,7 +478,9 @@ describe('InventoryViews app-services filters', () => {
   beforeEach(() => {
     localStorage.clear();
     fetchStub = createFetchStub();
-    cy.viewport(1280, 800);
+    // Wide enough for every column backing a filter under test to stay on
+    // screen, so `be.visible` assertions mean what they say.
+    cy.viewport(1800, 800);
   });
 
   describe('Columns', () => {
@@ -424,6 +493,8 @@ describe('InventoryViews app-services filters', () => {
         'Vulnerabilities',
         'CVEs with known exploits',
         'CVEs with security rules',
+        'Installable advisories',
+        'Template',
       ].forEach((title) => cy.contains('th', title).should('be.visible'));
     });
   });
@@ -638,6 +709,130 @@ describe('InventoryViews app-services filters', () => {
     });
   });
 
+  describe('Installable advisory type (installable_advisory_type)', () => {
+    it('returns only systems with installable security advisories', () => {
+      mountTable();
+      chooseFilterOption('installableAdvisoryType', 'Security advisories');
+
+      expectRequestedFilters({ installableAdvisoryType: ['security'] });
+      expectVisibleSystems(['content-security']);
+      expectSystemsAbsent([
+        'content-bugfix',
+        'content-enhancement',
+        'content-other',
+        'content-clean',
+        'no-app-data',
+      ]);
+    });
+
+    it('ORs multiple advisory types together', () => {
+      mountTable();
+      chooseFilterOption('installableAdvisoryType', 'Security advisories');
+      chooseFilterOption('installableAdvisoryType', 'Enhancements');
+
+      expectRequestedFilters((params) => {
+        expect(params.installableAdvisoryType).to.have.members([
+          'security',
+          'enhancement',
+        ]);
+      });
+      expectVisibleSystems(['content-security', 'content-enhancement']);
+      expectSystemsAbsent(['content-bugfix', 'content-other']);
+    });
+
+    it('excludes a system that reported zero of every advisory type', () => {
+      mountTable();
+      chooseFilterOption('installableAdvisoryType', 'Bug fixes');
+
+      expectRequestedFilters({ installableAdvisoryType: ['bugfix'] });
+      expectVisibleSystems(['content-bugfix']);
+      expectSystemsAbsent(['content-clean']);
+    });
+
+    it('not_evaluated returns the systems Content never reported on', () => {
+      mountTable();
+      chooseFilterOption('installableAdvisoryType', 'Not evaluated');
+
+      expectRequestedFilters({ installableAdvisoryType: ['not_evaluated'] });
+      expectVisibleSystems(NO_CONTENT_DATA_SYSTEMS);
+      expectSystemsAbsent(['content-security', 'content-clean']);
+      expectColumnCells('Installable advisories', '--');
+    });
+
+    it('ORs an advisory type with not_evaluated', () => {
+      mountTable();
+      chooseFilterOption('installableAdvisoryType', 'Other');
+      chooseFilterOption('installableAdvisoryType', 'Not evaluated');
+
+      expectRequestedFilters((params) => {
+        expect(params.installableAdvisoryType).to.have.members([
+          'other',
+          'not_evaluated',
+        ]);
+      });
+      expectVisibleSystems(['content-other', ...NO_CONTENT_DATA_SYSTEMS]);
+      expectSystemsAbsent(['content-security', 'content-clean']);
+    });
+  });
+
+  describe('Template (template)', () => {
+    it('sends a scalar, not a list, because it is single-select', () => {
+      mountTable();
+      chooseFilterOption('template', 'Present');
+
+      expectRequestedFilters((params) => {
+        expect(params.template).to.equal('present');
+      });
+    });
+
+    it('present returns only systems assigned to a template', () => {
+      mountTable();
+      chooseFilterOption('template', 'Present');
+
+      expectVisibleSystems(['content-bugfix', 'content-clean']);
+      expectSystemsAbsent([
+        'content-security',
+        'content-enhancement',
+        'content-other',
+      ]);
+    });
+
+    it('not_present returns Content systems with no template assigned', () => {
+      mountTable();
+      chooseFilterOption('template', 'Not present');
+
+      expectRequestedFilters((params) => {
+        expect(params.template).to.equal('not_present');
+      });
+      expectVisibleSystems([
+        'content-security',
+        'content-enhancement',
+        'content-other',
+      ]);
+      // Neither value covers a system Content never reported on: unlike the
+      // other filters, `template` has no "not evaluated" option.
+      expectSystemsAbsent([...NO_CONTENT_DATA_SYSTEMS, 'content-clean']);
+      expectColumnCells('Template', 'No template');
+    });
+
+    it('replaces the selection instead of ORing, unlike the other filters', () => {
+      mountTable();
+      chooseFilterOption('template', 'Present');
+      expectVisibleSystems(['content-bugfix', 'content-clean']);
+
+      chooseFilterOption('template', 'Not present');
+
+      expectRequestedFilters((params) => {
+        expect(params.template).to.equal('not_present');
+      });
+      expectVisibleSystems([
+        'content-security',
+        'content-enhancement',
+        'content-other',
+      ]);
+    });
+  });
+
   describe('Combining filters', () => {
     it('ANDs advisor severity with incident status', () => {
       mountTable();
@@ -650,6 +845,20 @@ describe('InventoryViews app-services filters', () => {
       });
       expectVisibleSystems(['adv-critical-incident']);
       expectSystemsAbsent(['adv-critical-clean', 'adv-low-incident']);
+    });
+
+    it('ANDs the two Content filters', () => {
+      mountTable();
+      chooseFilterOption('installableAdvisoryType', 'Bug fixes');
+      chooseFilterOption('template', 'Present');
+
+      expectRequestedFilters((params) => {
+        expect(params.installableAdvisoryType).to.deep.equal(['bugfix']);
+        expect(params.template).to.equal('present');
+      });
+      expectVisibleSystems(['content-bugfix']);
+      // Has a template but no installable bug fixes.
+      expectSystemsAbsent(['content-clean']);
     });
 
     it('ANDs across advisor and vulnerability, yielding an empty table', () => {
@@ -672,6 +881,19 @@ describe('InventoryViews app-services filters', () => {
 
       expectRequestedFilters((params) => {
         expect(params).to.not.have.property('cveSeverity');
+      });
+      cy.get('tbody tr').should('have.length', MOCK_SYSTEMS.length);
+    });
+
+    it('removing the single-select Template label clears the scalar param', () => {
+      mountTable();
+      chooseFilterOption('template', 'Present');
+      expectVisibleSystems(['content-bugfix', 'content-clean']);
+
+      removeFilterLabel('Present');
+
+      expectRequestedFilters((params) => {
+        expect(params).to.not.have.property('template');
       });
       cy.get('tbody tr').should('have.length', MOCK_SYSTEMS.length);
     });
