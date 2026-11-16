@@ -2,6 +2,21 @@ import type { ISortBy } from '@patternfly/react-table';
 
 export type SortDirection = ISortBy['direction'];
 
+/**
+ * Service a column or filter belongs to. Shared vocabulary: columns use it to
+ * attribute a cell to its backend, filters to head their group in the
+ * attribute dropdown.
+ */
+export type ConsumerAppName =
+  | 'advisor'
+  | 'compliance'
+  | 'inventory'
+  | 'malware'
+  | 'content'
+  | 'remediations'
+  | 'vulnerability'
+  | 'tag';
+
 export type LastSeenCustomRange = {
   start?: string;
   end?: string;
