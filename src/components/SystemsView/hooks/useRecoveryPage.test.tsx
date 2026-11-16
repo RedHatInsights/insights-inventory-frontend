@@ -2,15 +2,23 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { expect, jest } from '@jest/globals';
 import { useRef } from 'react';
 import type { SetURLSearchParams } from 'react-router-dom';
-import { useRecoveryPage } from './useRecoveryPage';
+import { useRecoveryPage, type PageCorrection } from './useRecoveryPage';
 
 const renderRecoveryPage = (page: number | null) => {
   const setSearchParams = jest.fn<SetURLSearchParams>();
-  const view = renderHook(() => {
-    const correctedSignatureRef = useRef<string | null>(null);
-    useRecoveryPage(page, setSearchParams, 'filters', correctedSignatureRef);
-    return correctedSignatureRef;
-  });
+  const view = renderHook(
+    ({ nextPage }: { nextPage: number | null }) => {
+      const correctedSignatureRef = useRef<PageCorrection | null>(null);
+      useRecoveryPage(
+        nextPage,
+        setSearchParams,
+        'filters',
+        correctedSignatureRef,
+      );
+      return correctedSignatureRef;
+    },
+    { initialProps: { nextPage: page } },
+  );
 
   return { ...view, setSearchParams };
 };
@@ -45,6 +53,21 @@ describe('useRecoveryPage', () => {
     expect(params.get('hostname_or_id')).toBe('web-01');
     expect(params.get('per_page')).toBe('10');
     expect(options).toEqual({ replace: true });
-    expect(result.current.current).toBe('filters');
+    expect(result.current.current).toEqual({ signature: 'filters', page: 3 });
+  });
+
+  it('clears the marker when the correction ends', async () => {
+    window.history.pushState({}, '', '/?hostname_or_id=web-01&per_page=10');
+    const { setSearchParams, result, rerender } = renderRecoveryPage(3);
+
+    await waitFor(() => {
+      expect(setSearchParams).toHaveBeenCalledTimes(1);
+    });
+
+    rerender({ nextPage: null });
+
+    await waitFor(() => {
+      expect(result.current.current).toBeNull();
+    });
   });
 });

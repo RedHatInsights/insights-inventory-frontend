@@ -1,28 +1,38 @@
 import { useEffect, useRef, type MutableRefObject } from 'react';
 import type { SetURLSearchParams } from 'react-router-dom';
 
+export type PageCorrection = {
+  signature: string;
+  page: number;
+};
+
 /**
  * Writes `page` into the URL when the requested page is past the last page of
- * results. Each `signature` is corrected once.
+ * results. The marker covers only that correction and is cleared once it ends.
  *
- *  @param page                  - Page to store, or null when no correction is needed.
+ *  @param page                  - Page to store, or null when no correction is in progress.
  *  @param setSearchParams       - React-router setSearchParams for setting `page` in the URL.
- *  @param signature             - Result set (filters, sort, page size). A new value may be corrected again.
- *  @param correctedSignatureRef - Set to `signature` after a correction so the query skips another redirect.
+ *  @param signature             - Result set (filters, sort, page size).
+ *  @param correctedSignatureRef - In-progress correction. Cleared when `page` is null.
  */
 export const useRecoveryPage = (
   page: number | null,
   setSearchParams: SetURLSearchParams,
   signature: string,
-  correctedSignatureRef: MutableRefObject<string | null>,
+  correctedSignatureRef: MutableRefObject<PageCorrection | null>,
 ) => {
   const setSearchParamsRef = useRef(setSearchParams);
   setSearchParamsRef.current = setSearchParams;
 
   useEffect(() => {
-    if (page == null) return;
+    if (page == null) {
+      if (correctedSignatureRef.current?.signature === signature) {
+        correctedSignatureRef.current = null;
+      }
+      return;
+    }
 
-    correctedSignatureRef.current = signature;
+    correctedSignatureRef.current = { signature, page };
     const correctParams = new URLSearchParams(window.location.search);
     correctParams.set('page', String(page));
     setSearchParamsRef.current(correctParams, { replace: true });

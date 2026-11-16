@@ -364,10 +364,14 @@ describe('SystemsView', () => {
     expect(pages.every((page) => page === 2 || page === 1)).toBe(true);
   });
 
-  it('corrects an out-of-range page only once for the same result set', async () => {
+  it('corrects again when the replacement page is still past the end', async () => {
     const fetchData = jest.fn<SystemsViewFetchData<System>>(({ page }) =>
       Promise.resolve(
-        page === 5 ? { results: [], total: 60 } : { results: [], total: 10 },
+        page === 1
+          ? { results: [mockSystem], total: 1 }
+          : page === 5
+            ? { results: [], total: 60 }
+            : { results: [], total: 10 },
       ),
     );
 
@@ -375,13 +379,11 @@ describe('SystemsView', () => {
       initialRoute: '/?page=5',
     });
 
-    expect(
-      await screen.findByText(/No matching systems found/i),
-    ).toBeInTheDocument();
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
     const pages = fetchData.mock.calls.map(([params]) => params.page);
     expect(pages).toContain(5);
     expect(pages).toContain(2);
-    expect(pages).not.toContain(1);
+    expect(pages.at(-1)).toBe(1);
   });
 
   it('hides Reset filters when current filters match spec defaults', async () => {

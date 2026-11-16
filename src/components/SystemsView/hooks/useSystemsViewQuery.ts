@@ -11,7 +11,7 @@ import type {
   SystemsViewFetchParams,
   SystemsViewItem,
 } from '../types';
-import { useRecoveryPage } from './useRecoveryPage';
+import { useRecoveryPage, type PageCorrection } from './useRecoveryPage';
 
 /** Thrown when the URL page is past the last page that still has rows. Not retried. */
 class OutOfRangeError extends Error {
@@ -44,7 +44,7 @@ export const useSystemsViewQuery = <
   setSearchParams,
 }: UseSystemsViewQueryParams<TItem, TFilterParams>) => {
   const queryClient = useQueryClient();
-  const correctedSignatureRef = useRef<string | null>(null);
+  const correctedSignatureRef = useRef<PageCorrection | null>(null);
   const signature = JSON.stringify({
     perPage: fetchParams.perPage,
     sortBy: fetchParams.sortBy,
@@ -67,19 +67,18 @@ export const useSystemsViewQuery = <
     },
     queryFn: async () => {
       const { page, perPage } = fetchParams;
-      const corrected = correctedSignatureRef.current === signature;
+      const pending = correctedSignatureRef.current;
+      if (pending?.signature === signature && pending.page === page) {
+        correctedSignatureRef.current = null;
+      }
       try {
         const data = await fetchData(fetchParams);
-        if (!corrected && page > lastPage(data.total, perPage)) {
+        if (page > lastPage(data.total, perPage)) {
           throw new OutOfRangeError(lastPage(data.total, perPage));
         }
         return data;
       } catch (error) {
-        if (
-          error instanceof OutOfRangeError ||
-          corrected ||
-          page <= INITIAL_PAGE
-        ) {
+        if (error instanceof OutOfRangeError || page <= INITIAL_PAGE) {
           throw error;
         }
         // The page may be stale. Page 1 reports the current total.
