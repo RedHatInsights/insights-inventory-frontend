@@ -309,6 +309,81 @@ describe('SystemsView', () => {
     ).toBeInTheDocument();
   });
 
+  it('replaces a out of range page param with the actual last page', async () => {
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(({ page }) =>
+      Promise.resolve(
+        page === 1
+          ? { results: [mockSystem], total: 1 }
+          : { results: [], total: 1 },
+      ),
+    );
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      initialRoute: '/?page=5',
+    });
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    const pages = fetchData.mock.calls.map(([params]) => params.page);
+    expect(pages).toContain(5);
+    expect(pages.at(-1)).toBe(1);
+  });
+
+  it('probes page 1 when a later page fails past the end', async () => {
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(({ page }) =>
+      page === 1
+        ? Promise.resolve({ results: [mockSystem], total: 1 })
+        : Promise.reject(new Error('page missing')),
+    );
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      initialRoute: '/?page=5',
+    });
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    const pages = fetchData.mock.calls.map(([params]) => params.page);
+    expect(pages).toContain(5);
+    expect(pages).toContain(1);
+    expect(pages.at(-1)).toBe(1);
+  });
+
+  it('keeps the page when a failed request is still in range', async () => {
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(({ page }) =>
+      page === 1
+        ? Promise.resolve({ results: [], total: 100 })
+        : Promise.reject(new Error('failed to load')),
+    );
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      initialRoute: '/?page=2',
+    });
+
+    expect(await screen.findByText(/Unable to load data/i)).toBeInTheDocument();
+    const pages = fetchData.mock.calls.map(([params]) => params.page);
+    expect(pages).toContain(2);
+    expect(pages).toContain(1);
+    expect(pages.every((page) => page === 2 || page === 1)).toBe(true);
+  });
+
+  it('corrects an out-of-range page only once for the same result set', async () => {
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(({ page }) =>
+      Promise.resolve(
+        page === 5 ? { results: [], total: 60 } : { results: [], total: 10 },
+      ),
+    );
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      initialRoute: '/?page=5',
+    });
+
+    expect(
+      await screen.findByText(/No matching systems found/i),
+    ).toBeInTheDocument();
+    const pages = fetchData.mock.calls.map(([params]) => params.page);
+    expect(pages).toContain(5);
+    expect(pages).toContain(2);
+    expect(pages).not.toContain(1);
+  });
+
   it('hides Reset filters when current filters match spec defaults', async () => {
     renderSystemsView(
       () => Promise.resolve(successData),
