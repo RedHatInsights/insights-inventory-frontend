@@ -1,4 +1,11 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, {
+  type MutableRefObject,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   keepPreviousData,
   useQuery,
@@ -44,6 +51,7 @@ import {
   useDataViewFiltersContext,
 } from './DataViewFiltersContext';
 import { useResetPage } from './hooks/useResetPage';
+import { useFilterChangeEvent } from './hooks/useFilterChangeEvent';
 import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
 import { PER_PAGE } from '../../constants';
 import { useDebouncedFilters } from './filters/useDebouncedFilters';
@@ -59,6 +67,7 @@ import type { System } from '../InventoryViews/hostsQueryOptions';
 import type {
   LastSeenCustomRange,
   SortDirection,
+  SystemsViewEvents,
   SystemsViewFetchData,
   SystemsViewFetchParams,
   SystemsViewItem,
@@ -96,6 +105,7 @@ export type {
 
 export type { SortDirection } from './types';
 export type {
+  SystemsViewEvents,
   SystemsViewFetchData,
   SystemsViewItem,
   SystemsViewQueryData,
@@ -144,6 +154,10 @@ export type SystemsViewProps<
    */
   rowActions?: readonly RowAction<TItem>[];
   /**
+   * Optional callbacks notified on user-driven filter and column interactions.
+   */
+  events?: SystemsViewEvents;
+  /**
    * Shows the Manage columns toolbar action when inventory views are enabled.
    * Defaults to true for in-app consumers. The federated module forces this off.
    */
@@ -165,6 +179,9 @@ interface SystemsViewInnerProps<TItem extends SystemsViewItem, TFilterParams> {
   resolvedFilters: readonly BoundFilter<TFilterParams>[];
   bulkActions: readonly BulkAction<TItem>[];
   rowActions: readonly RowAction<TItem>[];
+  events?: SystemsViewEvents;
+  pendingUserFilterChangeRef: MutableRefObject<boolean>;
+  userFilterChangeVersion: number;
   showColumnManagement: boolean;
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
@@ -181,6 +198,9 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
   resolvedFilters,
   bulkActions,
   rowActions,
+  events,
+  pendingUserFilterChangeRef,
+  userFilterChangeVersion,
   showColumnManagement,
   initialSort,
   onColumnsChange,
@@ -228,6 +248,16 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
   useResetPage(filters, setSearchParams, lastSeenCustomRange);
 
   const debouncedFilters = useDebouncedFilters(filters, resolvedFilters);
+
+  useFilterChangeEvent({
+    filters,
+    debouncedFilters,
+    resolvedFilters,
+    lastSeenCustomRange,
+    pendingUserFilterChangeRef,
+    userFilterChangeVersion,
+    onFiltersChanged: events?.onFiltersChanged,
+  });
 
   const filterParams = useMemo(
     () =>
@@ -347,6 +377,8 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
       total,
     ],
   );
+  const onColumnsSavedRef = useRef(events?.onColumnsSaved);
+  onColumnsSavedRef.current = events?.onColumnsSaved;
 
   // Wrapper to call both setColumns and onColumnsChange when user applies columns in modal.
   // Note: ColumnManagementModal always calls this with direct column array, never with updater function.
@@ -356,6 +388,9 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
       // Only notify parent when columns are directly provided (modal always does this)
       if (typeof newColumns !== 'function') {
         onColumnsChange?.(newColumns);
+        onColumnsSavedRef.current?.(
+          newColumns.filter((col) => col.isShown).map((col) => col.key),
+        );
       }
     },
     [setColumns, onColumnsChange],
@@ -429,6 +464,7 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
         columns={columns}
         defaultColumns={annotatedDefaults}
         setColumns={handleApplyColumns}
+        onModalOpened={events?.onColumnsModalOpened}
       >
         <DataView selection={selection} activeState={activeState}>
           <PageSection hasBodyWrapper={false}>
@@ -517,6 +553,7 @@ export function SystemsView<
   filters,
   bulkActions = EMPTY_ACTIONS,
   rowActions = EMPTY_ACTIONS,
+  events,
   showColumnManagement = true,
   initialSort,
   initialLastSeenCustomRange,
@@ -534,12 +571,29 @@ export function SystemsView<
     [filters],
   );
 
+  const pendingUserFilterChangeRef = useRef(false);
+  const [userFilterChangeVersion, setUserFilterChangeVersion] = useState(0);
+  const onFiltersClearedRef = useRef(events?.onFiltersCleared);
+  onFiltersClearedRef.current = events?.onFiltersCleared;
+
+  const handleUserFilterChange = useCallback(() => {
+    pendingUserFilterChangeRef.current = true;
+    setUserFilterChangeVersion((v) => v + 1);
+  }, []);
+
+  const handleFiltersCleared = useCallback(() => {
+    pendingUserFilterChangeRef.current = false;
+    onFiltersClearedRef.current?.();
+  }, []);
+
   return (
     <DataViewFiltersProvider
       searchParams={searchParams}
       setSearchParams={setSearchParams}
       resolvedFilters={resolvedFilters}
       initialLastSeenCustomRange={initialLastSeenCustomRange}
+      onUserFilterChange={handleUserFilterChange}
+      onFiltersCleared={handleFiltersCleared}
     >
       <SystemsViewInner
         searchParams={searchParams}
@@ -550,6 +604,9 @@ export function SystemsView<
         resolvedFilters={resolvedFilters}
         bulkActions={bulkActions}
         rowActions={rowActions}
+        events={events}
+        pendingUserFilterChangeRef={pendingUserFilterChangeRef}
+        userFilterChangeVersion={userFilterChangeVersion}
         showColumnManagement={showColumnManagement}
         initialSort={initialSort}
         onColumnsChange={onColumnsChange}
