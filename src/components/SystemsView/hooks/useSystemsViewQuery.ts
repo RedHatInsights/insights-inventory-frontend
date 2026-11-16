@@ -45,6 +45,7 @@ export const useSystemsViewQuery = <
 }: UseSystemsViewQueryParams<TItem, TFilterParams>) => {
   const queryClient = useQueryClient();
   const correctedSignatureRef = useRef<PageCorrection | null>(null);
+  const queryKey = [queryKeyPrefix, fetchParams];
   const signature = JSON.stringify({
     perPage: fetchParams.perPage,
     sortBy: fetchParams.sortBy,
@@ -53,12 +54,12 @@ export const useSystemsViewQuery = <
   });
 
   const query = useQuery({
-    queryKey: [queryKeyPrefix, fetchParams],
+    queryKey,
     placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
     retry: (failureCount, error) => {
       if (error instanceof OutOfRangeError) return false;
-      const policy = queryClient.getDefaultOptions().queries?.retry;
+      const policy = queryClient.defaultQueryOptions({ queryKey }).retry;
       if (typeof policy === 'function') return policy(failureCount, error);
       if (typeof policy === 'number') return failureCount < policy;
       if (policy === true) return true;
