@@ -25,8 +25,6 @@ export const bindContentFilters = (
     }),
   }),
   catalog.custom(templateSpec, {
-    // Single-select, but the toolbar bag still holds an array, and the API
-    // takes a scalar — so unwrap rather than passing the list through.
     updateFilterParams: (params, value: string[]) => ({
       ...params,
       ...(value?.length && {
