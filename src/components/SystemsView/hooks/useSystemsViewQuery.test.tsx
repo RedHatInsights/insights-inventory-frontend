@@ -14,16 +14,19 @@ const fetchParams = {
   filterParams: {},
 };
 
+const laterPage = { ...fetchParams, page: 5 };
+
 const renderQuery = (
   client: QueryClient,
   fetchData: SystemsViewFetchData<{ id: string }>,
+  params = fetchParams,
 ) =>
   renderHook(
     () =>
       useSystemsViewQuery({
         queryKeyPrefix: 'systems',
         fetchData,
-        fetchParams,
+        fetchParams: params,
         setSearchParams: jest.fn<SetURLSearchParams>(),
       }),
     {
@@ -52,5 +55,42 @@ describe('useSystemsViewQuery retry policy', () => {
       expect(result.current.isError).toBe(true);
     });
     expect(fetchData).toHaveBeenCalledTimes(1);
+  });
+
+  it('retries a failed page-one probe without requesting the later page again', async () => {
+    const fetchData = jest.fn<SystemsViewFetchData<{ id: string }>>(() =>
+      Promise.reject(new Error('failed to load')),
+    );
+    const client = clientWithoutRetryDefault();
+    client.setQueryDefaults(['systems'], { retry: 2 });
+
+    const { result } = renderQuery(client, fetchData, laterPage);
+
+    await waitFor(() => {
+      expect(result.current.isError).toBe(true);
+    });
+    expect(fetchData.mock.calls.map(([params]) => params.page)).toEqual([
+      5, 1, 1, 1,
+    ]);
+  });
+
+  it('retries the original page after the probe shows it is in range', async () => {
+    const fetchData = jest.fn<SystemsViewFetchData<{ id: string }>>(
+      ({ page }) =>
+        page === 1
+          ? Promise.resolve({ results: [], total: 250 })
+          : Promise.reject(new Error('failed to load')),
+    );
+    const client = clientWithoutRetryDefault();
+    client.setQueryDefaults(['systems'], { retry: 1 });
+
+    const { result } = renderQuery(client, fetchData, laterPage);
+
+    await waitFor(() => {
+      expect(result.current.isError).toBe(true);
+    });
+    expect(fetchData.mock.calls.map(([params]) => params.page)).toEqual([
+      5, 1, 5, 1,
+    ]);
   });
 });

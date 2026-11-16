@@ -21,6 +21,14 @@ class OutOfRangeError extends Error {
   }
 }
 
+/** Thrown when page 1 cannot be loaded to check a later page. Not retried. */
+class ProbeFailedError extends Error {
+  constructor(cause: unknown) {
+    super('Page probe failed', { cause });
+    this.name = 'ProbeFailedError';
+  }
+}
+
 const lastPage = (total: number, perPage: number) =>
   Math.max(INITIAL_PAGE, Math.ceil(total / perPage) || INITIAL_PAGE);
 
@@ -53,18 +61,41 @@ export const useSystemsViewQuery = <
     filterParams: fetchParams.filterParams,
   });
 
+  const allowsRetry = (failureCount: number, error: unknown) => {
+    const policy = queryClient.defaultQueryOptions({ queryKey }).retry;
+    if (typeof policy === 'function')
+      return policy(failureCount, error as Error);
+    if (typeof policy === 'number') return failureCount < policy;
+    if (policy === true) return true;
+    if (policy === false) return false;
+    return failureCount < 3;
+  };
+
+  const fetchPageOne = async () => {
+    let failureCount = 0;
+    for (;;) {
+      try {
+        return await fetchData({ ...fetchParams, page: INITIAL_PAGE });
+      } catch (error) {
+        if (!allowsRetry(failureCount, error))
+          throw new ProbeFailedError(error);
+        failureCount += 1;
+      }
+    }
+  };
+
   const query = useQuery({
     queryKey,
     placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,
     retry: (failureCount, error) => {
-      if (error instanceof OutOfRangeError) return false;
-      const policy = queryClient.defaultQueryOptions({ queryKey }).retry;
-      if (typeof policy === 'function') return policy(failureCount, error);
-      if (typeof policy === 'number') return failureCount < policy;
-      if (policy === true) return true;
-      if (policy === false) return false;
-      return failureCount < 3;
+      if (
+        error instanceof OutOfRangeError ||
+        error instanceof ProbeFailedError
+      ) {
+        return false;
+      }
+      return allowsRetry(failureCount, error);
     },
     queryFn: async () => {
       const { page, perPage } = fetchParams;
@@ -82,8 +113,8 @@ export const useSystemsViewQuery = <
         if (error instanceof OutOfRangeError || page <= INITIAL_PAGE) {
           throw error;
         }
-        // The page may be stale. Page 1 reports the current total.
-        const probe = await fetchData({ ...fetchParams, page: INITIAL_PAGE });
+
+        const probe = await fetchPageOne();
         const max = lastPage(probe.total, perPage);
         if (page > max) throw new OutOfRangeError(max);
         throw error;
