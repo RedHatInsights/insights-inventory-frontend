@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import validatorTypes from '@data-driven-forms/react-form-renderer/validator-types';
 import componentTypes from '@data-driven-forms/react-form-renderer/component-types';
 import { nameValidator } from '../../helpers/validate';
@@ -55,19 +55,11 @@ export const confirmSystemsAddSchema = (hostsNumber) => ({
 
 export const WorkspaceNameTextField = (props) => {
   const fieldData = useFieldApi(props);
-  const [hasChanged, setHasChanged] = useState(false);
-  const input = {
-    ...fieldData.input,
-    onChange: (...args) => {
-      setHasChanged(true);
-      fieldData.input.onChange(...args);
-    },
-  };
   const meta = {
     ...fieldData.meta,
-    // Async name validation can finish before the field is blurred. Show its
-    // result as soon as the user has changed the value.
-    touched: fieldData.meta.touched || hasChanged,
+    // Use Final Form's edit state so async validation shows before blur and
+    // remains in sync with the form lifecycle.
+    touched: fieldData.meta.touched || fieldData.meta.modified,
   };
 
   const { validated } = fieldData.meta.validating
@@ -84,7 +76,7 @@ export const WorkspaceNameTextField = (props) => {
       fieldId={fieldData.id || fieldData.input.name}
     >
       <TextInput
-        {...input}
+        {...fieldData.input}
         isRequired={fieldData?.isRequired}
         validated={validated}
         id={fieldData.id || fieldData.input.name}
