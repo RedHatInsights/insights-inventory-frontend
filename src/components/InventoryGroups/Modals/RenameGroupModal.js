@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import validatorTypes from '@data-driven-forms/react-form-renderer/validator-types';
 import componentTypes from '@data-driven-forms/react-form-renderer/component-types';
 import Modal from './Modal';
-import awesomeDebouncePromise from 'awesome-debounce-promise';
-import { updateGroupById, validateGroupName } from '../utils/api';
+import { updateGroupById } from '../utils/api';
 import { nameValidator } from '../helpers/validate';
 import useApiWithToast from '../utils/apiWithToast';
-import { ignoreStaleValidationResults } from './utils/ignoreStaleValidationResults';
 import { WorkspaceNameTextField } from './ModalSchemas/schemes';
+import { createWorkspaceNameValidator } from './utils/workspaceNameValidator';
 
 const renameGroupSchema = (namePresenceValidator) => ({
   fields: [
@@ -56,17 +55,7 @@ const RenameGroupModal = ({
   };
 
   const schema = useMemo(() => {
-    const check = async (value) => {
-      const results = await validateGroupName(value);
-      if (results === true) {
-        throw 'Workspace name already exists';
-      }
-
-      return undefined;
-    };
-
-    const d = awesomeDebouncePromise(check, 250, { onlyResolvesLast: false });
-    return renameGroupSchema(ignoreStaleValidationResults(d));
+    return renameGroupSchema(createWorkspaceNameValidator());
   }, []);
 
   return (
