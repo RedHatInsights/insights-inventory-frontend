@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
@@ -95,6 +95,21 @@ const appList = {
   ],
 };
 
+const EMPTY_ENTITY = {};
+
+const getEntityErrorStatus = (error) => {
+  const status =
+    error?.response?.status ??
+    error?.response?.data?.status ??
+    error?.response?.body?.status ??
+    error?.status ??
+    error?.statusCode ??
+    error?.data?.status ??
+    error?.body?.status;
+
+  return status == null ? undefined : Number(status);
+};
+
 const Inventory = () => {
   const platformName = useLightspeedFeatureFlag();
   const chrome = useChrome();
@@ -104,23 +119,63 @@ const Inventory = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [availableApps, setAvailableApps] = useState([]);
-  const [entity, setEntity] = useState({});
-  const [entityError, setEntityError] = useState(null);
-  const entityErrorStatus =
-    entityError?.response?.status ?? entityError?.status;
+  const [entityLookup, setEntityLookup] = useState({
+    inventoryId,
+    entity: {},
+    error: null,
+    loading: true,
+  });
+  const currentInventoryId = useRef(inventoryId);
+  currentInventoryId.current = inventoryId;
+  const entityRequestId = useRef(0);
+  const hasCurrentEntityLookup = entityLookup.inventoryId === inventoryId;
+  const entity = hasCurrentEntityLookup ? entityLookup.entity : EMPTY_ENTITY;
+  const entityError = hasCurrentEntityLookup ? entityLookup.error : null;
+  const entityLoading = !hasCurrentEntityLookup || entityLookup.loading;
+  const entityErrorStatus = getEntityErrorStatus(entityError);
 
   const fetchEntity = useCallback(async () => {
+    const requestedInventoryId = inventoryId;
+    const requestId = ++entityRequestId.current;
+    const isCurrentRequest = () =>
+      currentInventoryId.current === requestedInventoryId &&
+      entityRequestId.current === requestId;
+
+    setEntityLookup((previousLookup) => ({
+      inventoryId: requestedInventoryId,
+      entity:
+        previousLookup.inventoryId === requestedInventoryId
+          ? previousLookup.entity
+          : {},
+      error: null,
+      loading: true,
+    }));
+
     try {
       const result = await defaultGetEntities(
-        inventoryId,
+        requestedInventoryId,
         { hasItems: true },
         { showTags: true },
       );
-      setEntity(result?.results?.[0] || undefined);
-      setEntityError(null);
+      if (isCurrentRequest()) {
+        setEntityLookup({
+          inventoryId: requestedInventoryId,
+          entity: result?.results?.[0] || undefined,
+          error: null,
+          loading: false,
+        });
+      }
     } catch (error) {
-      console.error(error);
-      setEntityError(error);
+      if (isCurrentRequest()) {
+        console.error(error);
+        const isNotFound = getEntityErrorStatus(error) === 404;
+        setEntityLookup({
+          inventoryId: requestedInventoryId,
+          entity: undefined,
+          error: isNotFound ? null : error,
+          loading: false,
+        });
+      }
     }
   }, [inventoryId]);
 
@@ -186,9 +241,13 @@ const Inventory = () => {
   useEffect(() => {
     chrome?.hideGlobalFilter?.(true);
     chrome.appAction('system-detail');
+  }, [chrome]);
 
-    if (inventoryId) dispatch(actions.systemProfile(inventoryId));
-  }, []);
+  useEffect(() => {
+    if (inventoryId) {
+      dispatch(actions.systemProfile(inventoryId));
+    }
+  }, [dispatch, inventoryId]);
 
   const additionalClasses = {
     'ins-c-inventory__detail--general-info':
@@ -216,19 +275,13 @@ const Inventory = () => {
     [searchParams],
   );
 
-  if (entityErrorStatus === 400) {
-    return (
-      <div className="ins-entity-detail">
-        <ErrorState />
-      </div>
-    );
-  }
-
   // Kessel can deny access when a host no longer exists. The inventory lookup
   // distinguishes a missing host from an existing host the user cannot view.
   if (
-    entityErrorStatus === 404 ||
-    (entity === undefined && entityError === null)
+    hasCurrentEntityLookup &&
+    !entityLoading &&
+    entity === undefined &&
+    !entityError
   ) {
     return (
       <div className="ins-entity-detail">
@@ -237,7 +290,56 @@ const Inventory = () => {
     );
   }
 
+  if (
+    hasCurrentEntityLookup &&
+    entityError &&
+    !(isKesselEnabled && entityErrorStatus === 403)
+  ) {
+    return (
+      <div className="ins-entity-detail">
+        <ErrorState />
+      </div>
+    );
+  }
+
+  if (!hasCurrentEntityLookup || entityLoading) {
+    return (
+      <Bullseye className="pf-v6-u-p-xl">
+        <Spinner aria-label="Loading system" />
+      </Bullseye>
+    );
+  }
+
   if (isKesselEnabled && inventoryId) {
+    if (entityErrorStatus === 403) {
+      if (kesselPermissionsLoading) {
+        return (
+          <Bullseye className="pf-v6-u-p-xl">
+            <Spinner aria-label="Loading permissions" />
+          </Bullseye>
+        );
+      }
+
+      if (kesselCanView === true) {
+        return (
+          <div className="ins-entity-detail">
+            <ErrorState />
+          </div>
+        );
+      }
+
+      return (
+        <AccessDenied
+          title="You do not have access to this system"
+          description={
+            <div>
+              You do not have permission to view this system in inventory.
+            </div>
+          }
+        />
+      );
+    }
+
     if (kesselPermissionsLoading) {
       return (
         <Bullseye className="pf-v6-u-p-xl">
