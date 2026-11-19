@@ -17,7 +17,6 @@ import {
   SplitItem,
   Title,
 } from '@patternfly/react-core';
-import { redirectToInventoryList } from './helpers';
 import { useDispatch } from 'react-redux';
 import { toggleDrawer } from '../../store/actions';
 import { NO_MODIFY_HOST_TOOLTIP_MESSAGE } from '../../constants';
@@ -51,7 +50,7 @@ const TopBar = ({
   deleteEntity = () => undefined,
   addNotification = () => undefined,
   hideInvLink,
-  onBackToListClick = () => undefined,
+  onBackToListClick,
   showDelete = false,
   showInventoryDrawer = false,
   TitleWrapper = Fragment,
@@ -194,7 +193,7 @@ const TopBar = ({
               dismissable: true,
             });
             deleteEntity([entity.id], entity.display_name, () =>
-              redirectToInventoryList(entity.id, onBackToListClick, navigate),
+              onBackToListClick ? onBackToListClick() : navigate('/'),
             );
             setIsModalOpen(false);
           }}

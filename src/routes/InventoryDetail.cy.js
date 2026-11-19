@@ -39,6 +39,32 @@ hostInGroup.results[0].groups = [
 ];
 hostInGroup.results[0].system_profile.operating_system.name = 'RHEL';
 
+const kesselEnabled = () =>
+  cy.intercept('GET', '/feature_flags*', {
+    statusCode: 200,
+    body: {
+      toggles: [{ name: 'hbi.rbac-v2', enabled: true }],
+    },
+  });
+
+const kesselDenied = () =>
+  cy.intercept('POST', '/api/kessel/v1beta2/checkselfbulk', {
+    statusCode: 200,
+    body: {
+      pairs: [
+        { item: { allowed: 'ALLOWED_FALSE' } },
+        { item: { allowed: 'ALLOWED_FALSE' } },
+        { item: { allowed: 'ALLOWED_FALSE' } },
+      ],
+    },
+  });
+
+const mountKesselDetail = () =>
+  mountWithProps({
+    path: '/inventory/:inventoryId',
+    routerProps: { initialEntries: ['/inventory/test-host-id'] },
+  });
+
 describe('renders correctly', () => {
   before(() => cy.mockWindowInsights());
   beforeEach(() => prepareTest(hostInGroup));
@@ -57,6 +83,68 @@ describe('renders correctly', () => {
       .should('have.length', 1);
 
     // TODO: add more checks other for handling edge hosts
+  });
+});
+
+describe('Kessel access for missing systems', () => {
+  beforeEach(() => {
+    cy.mockWindowInsights();
+    kesselEnabled();
+    kesselDenied();
+  });
+
+  it('shows System not found when the host lookup returns no system', () => {
+    cy.intercept('GET', '/api/inventory/v1/hosts/test-host-id*', {
+      statusCode: 200,
+      body: { total: 0, count: 0, page: 1, per_page: 50, results: [] },
+    }).as('getMissingHost');
+    cy.intercept(
+      'GET',
+      '/api/inventory/v1/hosts/test-host-id/system_profile*',
+      {
+        statusCode: 200,
+        body: { results: [] },
+      },
+    );
+
+    mountKesselDetail();
+
+    cy.wait('@getMissingHost');
+    cy.contains('System not found').should('be.visible');
+    cy.contains('You do not have access to this system').should('not.exist');
+  });
+
+  it('shows System not found when the host lookup returns 404', () => {
+    cy.intercept('GET', '/api/inventory/v1/hosts/test-host-id*', {
+      statusCode: 404,
+    }).as('getMissingHost');
+    cy.intercept(
+      'GET',
+      '/api/inventory/v1/hosts/test-host-id/system_profile*',
+      {
+        statusCode: 200,
+        body: { results: [] },
+      },
+    );
+
+    mountKesselDetail();
+
+    cy.wait('@getMissingHost');
+    cy.contains('System not found').should('be.visible');
+    cy.contains('You do not have access to this system').should('not.exist');
+  });
+
+  it('keeps access denied for an existing system the user cannot view', () => {
+    hostsDetailInterceptors.successful(hostDetail);
+    systemProfileInterceptors[
+      'full system profile, successful with response'
+    ]();
+    hostsDetailTagsInterceptors.successful();
+
+    mountKesselDetail();
+
+    cy.contains('You do not have access to this system').should('be.visible');
+    cy.contains('System not found').should('not.exist');
   });
 });
 

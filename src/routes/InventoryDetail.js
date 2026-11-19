@@ -7,6 +7,7 @@ import { Bullseye, Spinner } from '@patternfly/react-core';
 import './inventory.scss';
 import * as actions from '../store/actions';
 import InventoryDetail from '../components/InventoryDetail/InventoryDetail';
+import SystemNotFound from '../components/InventoryDetail/SystemNotFound';
 import { OverviewTab, DetailsTab } from '../components/SystemDetails';
 import { useConditionalRBAC } from '../Utilities/hooks/useConditionalRBAC';
 import { useHostDetailsKesselPermissions } from '../Utilities/hooks/useHostDetailsKesselPermissions';
@@ -105,6 +106,8 @@ const Inventory = () => {
   const [availableApps, setAvailableApps] = useState([]);
   const [entity, setEntity] = useState({});
   const [entityError, setEntityError] = useState(null);
+  const entityErrorStatus =
+    entityError?.response?.status ?? entityError?.status;
 
   const fetchEntity = useCallback(async () => {
     try {
@@ -213,10 +216,23 @@ const Inventory = () => {
     [searchParams],
   );
 
-  if (entityError?.status === 400) {
+  if (entityErrorStatus === 400) {
     return (
       <div className="ins-entity-detail">
         <ErrorState />
+      </div>
+    );
+  }
+
+  // Kessel can deny access when a host no longer exists. The inventory lookup
+  // distinguishes a missing host from an existing host the user cannot view.
+  if (
+    entityErrorStatus === 404 ||
+    (entity === undefined && entityError === null)
+  ) {
+    return (
+      <div className="ins-entity-detail">
+        <SystemNotFound inventoryId={inventoryId} />
       </div>
     );
   }

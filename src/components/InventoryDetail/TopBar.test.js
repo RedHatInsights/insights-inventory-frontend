@@ -107,6 +107,27 @@ describe('TopBar', () => {
     ).not.toHaveAttribute('aria-disabled');
   });
 
+  it('navigates to the inventory list after successful delete without a callback', async () => {
+    const navigateMocked = jest.fn();
+    useInsightsNavigate.mockImplementation(() => navigateMocked);
+
+    render(
+      <TestWrapper>
+        <TopBar
+          entity={{ id: 'system-1', display_name: 'system-1' }}
+          loaded
+          showDelete
+          deleteEntity={(_systems, _name, onSuccess) => onSuccess()}
+        />
+      </TestWrapper>,
+    );
+
+    await userEvent.click(screen.getByRole('button', { name: /delete/i }));
+    await userEvent.click(screen.getByTestId('confirm-inventory-delete'));
+
+    expect(navigateMocked).toHaveBeenCalledWith('/');
+  });
+
   it('disables delete button', () => {
     render(
       <TestWrapper>
