@@ -33,8 +33,13 @@ export const useRecoveryPage = (
     }
 
     correctedSignatureRef.current = { signature, page };
-    const correctParams = new URLSearchParams(window.location.search);
-    correctParams.set('page', String(page));
-    setSearchParamsRef.current(correctParams, { replace: true });
+    setSearchParamsRef.current(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+        next.set('page', String(page));
+        return next;
+      },
+      { replace: true },
+    );
   }, [page, signature, correctedSignatureRef]);
 };

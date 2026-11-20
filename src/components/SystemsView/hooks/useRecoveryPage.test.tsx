@@ -1,7 +1,11 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { expect, jest } from '@jest/globals';
-import { useRef } from 'react';
-import type { SetURLSearchParams } from 'react-router-dom';
+import React, { useRef } from 'react';
+import {
+  MemoryRouter,
+  useSearchParams,
+  type SetURLSearchParams,
+} from 'react-router-dom';
 import { useRecoveryPage, type PageCorrection } from './useRecoveryPage';
 
 const renderRecoveryPage = (page: number | null) => {
@@ -40,15 +44,19 @@ describe('useRecoveryPage', () => {
   });
 
   it('writes the page and keeps the other query params', async () => {
-    window.history.pushState({}, '', '/?hostname_or_id=web-01&per_page=10');
     const { setSearchParams, result } = renderRecoveryPage(3);
 
     await waitFor(() => {
       expect(setSearchParams).toHaveBeenCalledTimes(1);
     });
 
-    const params = setSearchParams.mock.calls[0][0] as URLSearchParams;
+    const updater = setSearchParams.mock.calls[0][0] as (
+      prev: URLSearchParams,
+    ) => URLSearchParams;
     const options = setSearchParams.mock.calls[0][1];
+    const params = updater(
+      new URLSearchParams('hostname_or_id=web-01&per_page=10'),
+    );
     expect(params.get('page')).toBe('3');
     expect(params.get('hostname_or_id')).toBe('web-01');
     expect(params.get('per_page')).toBe('10');
@@ -56,8 +64,37 @@ describe('useRecoveryPage', () => {
     expect(result.current.current).toEqual({ signature: 'filters', page: 3 });
   });
 
+  it('sets page on the MemoryRouter location and keeps its other params', async () => {
+    window.history.replaceState({}, '', '/?from_window=yes');
+
+    const { result } = renderHook(
+      () => {
+        const [searchParams, setSearchParams] = useSearchParams();
+        const correctedSignatureRef = useRef<PageCorrection | null>(null);
+        useRecoveryPage(3, setSearchParams, 'filters', correctedSignatureRef);
+        return searchParams;
+      },
+      {
+        wrapper: ({ children }) => (
+          <MemoryRouter
+            initialEntries={['/?hostname_or_id=web-01&per_page=10']}
+          >
+            {children}
+          </MemoryRouter>
+        ),
+      },
+    );
+
+    await waitFor(() => {
+      expect(result.current.get('page')).toBe('3');
+    });
+    expect(result.current.get('hostname_or_id')).toBe('web-01');
+    expect(result.current.get('per_page')).toBe('10');
+    expect(result.current.has('from_window')).toBe(false);
+    expect(window.location.search).toBe('?from_window=yes');
+  });
+
   it('clears the marker when the correction ends', async () => {
-    window.history.pushState({}, '', '/?hostname_or_id=web-01&per_page=10');
     const { setSearchParams, result, rerender } = renderRecoveryPage(3);
 
     await waitFor(() => {
