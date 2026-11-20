@@ -37,11 +37,12 @@ export const APP_GROUP_ORDER: readonly ConsumerAppName[] = [
  *  @param items - Filters to group, each carrying its `appName`
  *  @returns     One entry per non-empty service group
  */
-export const groupFiltersByApp = <T extends { appName: ConsumerAppName }>(
+export const groupFiltersByApp = <T extends { appName?: ConsumerAppName }>(
   items: readonly T[],
 ): { appName: ConsumerAppName; label: string; items: T[] }[] => {
   const byApp = new Map<ConsumerAppName, T[]>();
   for (const item of items) {
+    if (!item.appName) continue;
     const group = byApp.get(item.appName);
     if (group) {
       group.push(item);
@@ -67,7 +68,7 @@ export const groupFiltersByApp = <T extends { appName: ConsumerAppName }>(
  * `GroupedDataViewFilters` (and the future upstream `DataViewFilters`) accepts.
  */
 export const toDataViewFilterGroups = <
-  T extends { appName: ConsumerAppName; filterId: string },
+  T extends { appName?: ConsumerAppName; filterId: string },
 >(
   items: readonly T[],
 ): { id: string; label: string; filterIds: string[] }[] =>

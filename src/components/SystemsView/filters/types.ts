@@ -37,9 +37,11 @@ type FilterIdentity = {
   title: string;
   /**
    * Service this filter comes from. Heads the filter's group in the attribute
-   * dropdown; carries no weight in the query or in the applied-filter chips.
+   * dropdown when `showFilterGroups` is enabled; carries no weight in the
+   * query or in the applied-filter chips. Optional — omitting it places the
+   * filter in the ungrouped section.
    */
-  appName: ConsumerAppName;
+  appName?: ConsumerAppName;
   /** When set, SystemsView debounces this key in the fetch */
   debounceMs?: number;
   /**
