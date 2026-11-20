@@ -98,16 +98,7 @@ const appList = {
 const EMPTY_ENTITY = {};
 
 const getEntityErrorStatus = (error) => {
-  const status =
-    error?.response?.status ??
-    error?.response?.data?.status ??
-    error?.response?.body?.status ??
-    error?.status ??
-    error?.statusCode ??
-    error?.data?.status ??
-    error?.body?.status;
-
-  return status == null ? undefined : Number(status);
+  return error?.response?.status ?? error?.status;
 };
 
 const Inventory = () => {
@@ -136,6 +127,8 @@ const Inventory = () => {
 
   const fetchEntity = useCallback(async () => {
     const requestedInventoryId = inventoryId;
+    // SystemCard also refreshes the same ID after edits; keep the newest result
+    // if two refreshes overlap.
     const requestId = ++entityRequestId.current;
     const isCurrentRequest = () =>
       currentInventoryId.current === requestedInventoryId &&

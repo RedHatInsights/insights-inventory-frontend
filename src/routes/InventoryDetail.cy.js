@@ -274,9 +274,11 @@ describe('delete navigation from system details', () => {
     ]();
     hostsDetailInterceptors.successful();
     hostsDetailTagsInterceptors.successful();
-    cy.intercept('DELETE', '/api/inventory/v1/hosts/test-host-id', {
-      statusCode: 204,
-    }).as('deleteHost');
+    cy.intercept(
+      'DELETE',
+      `/api/inventory/v1/hosts/${hostDetail.results[0].id}`,
+      { statusCode: 204 },
+    ).as('deleteHost');
   });
 
   it('returns to the inventory list after a successful delete', () => {
@@ -296,7 +298,7 @@ describe('delete navigation from system details', () => {
 
     cy.contains('Delete').click();
     cy.get('[data-testid="confirm-inventory-delete"]').click();
-    cy.wait('@deleteHost');
+    cy.wait('@deleteHost').its('response.statusCode').should('eq', 204);
 
     cy.contains('Inventory list').should('be.visible');
     cy.get('[data-cy="current-route"]').should('have.text', '/');
