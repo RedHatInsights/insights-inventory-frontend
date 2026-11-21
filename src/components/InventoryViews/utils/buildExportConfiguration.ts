@@ -1,6 +1,6 @@
 import type { ViewConfiguration } from '../../../api/inventoryViewsApi';
 import { buildViewConfigFilters } from './viewConfigFilters';
-import { normalizeViewColumns } from './normalizeViewColumns';
+import { normalizeViewColumns } from '../normalizeViewColumns';
 
 import type { Column } from '../../SystemsView/columns/types';
 import type {

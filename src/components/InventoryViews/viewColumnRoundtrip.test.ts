@@ -1,8 +1,9 @@
 import { createViewColumnSelector } from './createViewColumnSelector';
 import { bindInventoryViewColumns } from '../SystemsView/columns/inventoryViewColumns';
+import { bindTagKeyColumns } from '../SystemsView/columns/inventory/tagKeyColumns';
 import { columnCatalog } from '../SystemsView/columns/catalog';
-import { normalizeViewColumns } from './utils/normalizeViewColumns';
 import type { ViewConfiguration } from '../../api/inventoryViewsApi';
+import { normalizeViewColumns } from './normalizeViewColumns';
 
 describe('View column round-trip (save → restore)', () => {
   it('round-trips sortable columns correctly', () => {
@@ -219,5 +220,36 @@ describe('View column round-trip (save → restore)', () => {
       .map((c) => c.key);
 
     expect(restoredShownKeys).toEqual(customOrder);
+  });
+
+  it('round-trips a shown tag column in its saved position and a hidden one as unchecked', () => {
+    const [ownerColumn, envColumn] = bindTagKeyColumns([
+      { namespace: null, key: 'owner' },
+      { namespace: 'insights-client', key: 'env' },
+    ]);
+    const displayName = bindInventoryViewColumns().find(
+      (column) => column.key === 'display_name',
+    )!;
+    const originalColumns = [
+      { ...displayName, isShown: true },
+      { ...ownerColumn, isShown: true },
+      { ...envColumn, isShown: false },
+    ];
+
+    const savedConfig: ViewConfiguration = {
+      columns: normalizeViewColumns(originalColumns),
+    };
+    const restored = createViewColumnSelector(savedConfig)!(columnCatalog);
+
+    expect(
+      restored.slice(0, 3).map((column) => [column.key, column.isShown]),
+    ).toEqual([
+      ['display_name', true],
+      ['tag:owner', true],
+      ['tag:insights-client/env', false],
+    ]);
+    expect(
+      restored.find((column) => column.key === 'tag:missing'),
+    ).toBeUndefined();
   });
 });

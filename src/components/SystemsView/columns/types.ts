@@ -9,7 +9,8 @@ export type ConsumerAppName =
   | 'malware'
   | 'content'
   | 'remediations'
-  | 'vulnerability';
+  | 'vulnerability'
+  | 'tag';
 
 /**
  * Shared column identity independent of any backend.
@@ -47,5 +48,12 @@ export type Column<TItem = unknown> = Resolve<
     minWidth?: string;
     appName: ConsumerAppName;
     isPermissionLocked?: boolean;
+    /** Tag columns can be removed from the configured list. Service columns cannot. */
+    isRemovable?: boolean;
+    /**
+     * Table header when it should differ from `title`.
+     * Tag columns keep `namespace/key` in Manage columns and show the key here.
+     */
+    tableHeader?: ReactNode;
   }
 >;

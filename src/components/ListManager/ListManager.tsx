@@ -54,6 +54,8 @@ export interface ListManagerItem {
   appName?: string;
   /** When true, the column is gated by a per-service RBAC permission the user lacks. */
   isPermissionLocked?: boolean;
+  /** When true, the row shows a Remove control. */
+  isRemovable?: boolean;
 }
 
 export interface ListManagerProps {
@@ -77,6 +79,8 @@ export interface ListManagerProps {
   dataListAriaLabel?: string;
   /** When false, Save/Cancel actions are omitted (e.g. when rendered in a ModalFooter). */
   showActions?: boolean;
+  /** Removes a row from the configured list. Used by tag columns. */
+  onRemove?: (key: string) => void;
 }
 
 const ListManager: FunctionComponent<ListManagerProps> = ({
@@ -90,6 +94,7 @@ const ListManager: FunctionComponent<ListManagerProps> = ({
   enableDragDrop = true,
   dataListAriaLabel = 'Selected columns',
   showActions = true,
+  onRemove,
 }: ListManagerProps) => {
   const [currentColumns, setCurrentColumns] = useState(() =>
     columns.map((column) => ({
@@ -204,9 +209,31 @@ const ListManager: FunctionComponent<ListManagerProps> = ({
             </Tooltip>
           )}
         </FlexItem>
-        {column.appName && (
-          <FlexItem className="pf-v6-u-text-color-subtle">
-            {capitalizedApp}
+        {(column.appName || column.isRemovable) && (
+          <FlexItem>
+            <Flex
+              alignItems={{ default: 'alignItemsCenter' }}
+              spaceItems={{ default: 'spaceItemsSm' }}
+            >
+              {column.appName && (
+                <span className="pf-v6-u-text-color-subtle">
+                  {capitalizedApp}
+                </span>
+              )}
+              {column.isRemovable && onRemove && (
+                <Button
+                  variant={ButtonVariant.link}
+                  isInline
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    onRemove(column.key);
+                  }}
+                  aria-label={`Remove ${typeof column.title === 'string' ? column.title : column.key}`}
+                >
+                  Remove
+                </Button>
+              )}
+            </Flex>
           </FlexItem>
         )}
       </Flex>

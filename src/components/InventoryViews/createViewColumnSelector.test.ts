@@ -88,6 +88,52 @@ describe('createViewColumnSelector', () => {
     ]);
   });
 
+  it('restores a tag column that is no longer in the catalog', () => {
+    const selector = createViewColumnSelector({
+      columns: [
+        { key: 'display_name' },
+        { key: 'tag:owner', shown: false },
+        { key: 'tag:insights-client/env' },
+        { key: 'nonexistent_column' },
+      ],
+    });
+    const result = selector!(columnCatalog);
+
+    expect(
+      result.slice(0, 3).map((column) => [column.key, column.isShown]),
+    ).toEqual([
+      ['display_name', true],
+      ['tag:owner', false],
+      ['tag:insights-client/env', true],
+    ]);
+    expect(result.some((column) => column.key === 'nonexistent_column')).toBe(
+      false,
+    );
+    expect(result).toHaveLength(inventoryViewColumns.length + 2);
+  });
+
+  it('omits tag columns when the feature is disabled', () => {
+    const selector = createViewColumnSelector(
+      {
+        columns: [
+          { key: 'display_name' },
+          { key: 'tag:owner', shown: false },
+          { key: 'tag:insights-client/env' },
+        ],
+      },
+      false,
+    );
+    const result = selector!(columnCatalog);
+
+    expect(result.some((column) => String(column.key).startsWith('tag:'))).toBe(
+      false,
+    );
+    expect(
+      result.filter((column) => column.isShown).map((column) => column.key),
+    ).toEqual(['display_name']);
+    expect(result).toHaveLength(inventoryViewColumns.length);
+  });
+
   it('ignores config keys that do not exist in the catalog', () => {
     const selector = createViewColumnSelector({
       columns: [

@@ -1,10 +1,13 @@
 import React, { Ref } from 'react';
 import {
+  Button,
   MenuToggle,
   MenuToggleElement,
   TextInputGroup,
   TextInputGroupMain,
+  TextInputGroupUtilities,
 } from '@patternfly/react-core';
+import { TimesIcon } from '@patternfly/react-icons';
 
 export interface TypeaheadMenuToggleProps {
   toggleRef: Ref<MenuToggleElement>;
@@ -14,7 +17,10 @@ export interface TypeaheadMenuToggleProps {
   onSearchChange: (value: string) => void;
   placeholder?: string;
   inputId?: string;
+  inputAriaLabel?: string;
   inputRef?: React.RefObject<HTMLInputElement>;
+  /** Clears the text and selection. Shown only while the input has a value. */
+  onClear?: () => void;
   'data-testid'?: string;
 }
 
@@ -26,7 +32,9 @@ export const TypeaheadMenuToggle = ({
   onSearchChange,
   placeholder,
   inputId,
+  inputAriaLabel,
   inputRef,
+  onClear,
   'data-testid': dataTestId,
 }: TypeaheadMenuToggleProps) => (
   <MenuToggle
@@ -53,9 +61,23 @@ export const TypeaheadMenuToggle = ({
           }
         }}
         id={inputId}
+        aria-label={inputAriaLabel}
         autoComplete="off"
         placeholder={placeholder}
       />
+      {onClear && searchValue && (
+        <TextInputGroupUtilities>
+          <Button
+            variant="plain"
+            icon={<TimesIcon />}
+            aria-label="Clear input value"
+            onClick={(event) => {
+              event.stopPropagation();
+              onClear();
+            }}
+          />
+        </TextInputGroupUtilities>
+      )}
     </TextInputGroup>
   </MenuToggle>
 );

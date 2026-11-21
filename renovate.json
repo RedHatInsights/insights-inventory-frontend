@@ -20,6 +20,11 @@
   ],
   "packageRules": [
     {
+      "description": "Automerge non-major updates",
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    },
+    {
       "matchPackageNames": ["RedHatInsights/konflux-pipelines", "github.com/RedHatInsights/konflux-pipelines"],
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": true,
