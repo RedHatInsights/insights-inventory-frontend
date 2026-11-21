@@ -36,6 +36,9 @@ import useInsightsNavigate from '@redhat-cloud-services/frontend-components-util
  *  @param   {Function}          props.addNotification     add notification function
  *  @param   {Function}          props.onBackToListClick   on back to list click function
  *  @param   {boolean}           props.showDelete          if show delete is true
+ *  @param   {boolean}           props.isInventoryApp      if true, the Delete button is rendered.
+ *                                                         Systems may only be deleted in the inventory app,
+ *                                                         so federated consumers never render it.
  *  @param   {boolean}           props.showInventoryDrawer if show inventory drawer is true
  *  @param   {React.elementType} props.TitleWrapper        title wrapper element
  *  @param   {React.elementType} props.TagsWrapper         tags wrapper element
@@ -53,6 +56,7 @@ const TopBar = ({
   hideInvLink,
   onBackToListClick = () => undefined,
   showDelete = false,
+  isInventoryApp = false,
   showInventoryDrawer = false,
   TitleWrapper = Fragment,
   TagsWrapper = Fragment,
@@ -112,24 +116,26 @@ const TopBar = ({
         <SplitItem>
           {loaded ? (
             <Flex>
-              <FlexItem>
-                <DeleteWrapper>
-                  <NoAccessTooltipWrap
-                    isEnabled={showDelete}
-                    tooltipContent={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
-                  >
-                    <Button
-                      onClick={
-                        showDelete ? () => setIsModalOpen(true) : undefined
-                      }
-                      variant="secondary"
-                      {...(!showDelete ? { isAriaDisabled: true } : {})}
+              {isInventoryApp && (
+                <FlexItem>
+                  <DeleteWrapper>
+                    <NoAccessTooltipWrap
+                      isEnabled={showDelete}
+                      tooltipContent={NO_MODIFY_HOST_TOOLTIP_MESSAGE}
                     >
-                      Delete
-                    </Button>
-                  </NoAccessTooltipWrap>
-                </DeleteWrapper>
-              </FlexItem>
+                      <Button
+                        onClick={
+                          showDelete ? () => setIsModalOpen(true) : undefined
+                        }
+                        variant="secondary"
+                        {...(!showDelete ? { isAriaDisabled: true } : {})}
+                      >
+                        Delete
+                      </Button>
+                    </NoAccessTooltipWrap>
+                  </DeleteWrapper>
+                </FlexItem>
+              )}
               {inventoryActions?.length > 0 && (
                 <FlexItem>
                   <ActionsWrapper>
@@ -208,6 +214,7 @@ TopBar.propTypes = {
   entity: PropTypes.object,
   loaded: PropTypes.bool,
   showDelete: PropTypes.bool,
+  isInventoryApp: PropTypes.bool,
   hideInvLink: PropTypes.bool,
   showInventoryDrawer: PropTypes.bool,
   showTags: PropTypes.bool,

@@ -53,6 +53,7 @@ HeaderInfo.propTypes = {
   hideInvLink: PropTypes.bool,
   showTags: PropTypes.bool,
   showDelete: PropTypes.bool,
+  isInventoryApp: PropTypes.bool,
   showInventoryDrawer: PropTypes.bool,
   actions: PropTypes.arrayOf(
     PropTypes.shape({
