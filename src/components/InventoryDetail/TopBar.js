@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { DeleteModal, TagWithDialog, TagsModal } from '../../Utilities/index';
 import {
@@ -17,7 +18,6 @@ import {
   SplitItem,
   Title,
 } from '@patternfly/react-core';
-import { redirectToInventoryList } from './helpers';
 import { useDispatch } from 'react-redux';
 import { toggleDrawer } from '../../store/actions';
 import { NO_MODIFY_HOST_TOOLTIP_MESSAGE } from '../../constants';
@@ -51,7 +51,7 @@ const TopBar = ({
   deleteEntity = () => undefined,
   addNotification = () => undefined,
   hideInvLink,
-  onBackToListClick = () => undefined,
+  onBackToListClick,
   showDelete = false,
   showInventoryDrawer = false,
   TitleWrapper = Fragment,
@@ -62,6 +62,7 @@ const TopBar = ({
 }) => {
   const dispatch = useDispatch();
   const navigate = useInsightsNavigate('inventory');
+  const navigateWithinInventory = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const inventoryActions = [
@@ -186,6 +187,20 @@ const TopBar = ({
           isModalOpen={isModalOpen}
           currentSystems={entity}
           onConfirm={() => {
+            const deletePath = window.location.pathname;
+            const handleDeleteSuccess = () => {
+              if (window.location.pathname !== deletePath) {
+                return;
+              }
+
+              if (onBackToListClick) {
+                onBackToListClick();
+              } else if (window.history.state?.idx > 0) {
+                navigateWithinInventory(-1);
+              } else {
+                navigate('/');
+              }
+            };
             addNotification({
               id: 'remove-initiated',
               variant: 'info',
@@ -193,9 +208,7 @@ const TopBar = ({
               description: `Removal of ${entity.display_name} started.`,
               dismissable: true,
             });
-            deleteEntity([entity.id], entity.display_name, () =>
-              redirectToInventoryList(entity.id, onBackToListClick, navigate),
-            );
+            deleteEntity([entity.id], entity.display_name, handleDeleteSuccess);
             setIsModalOpen(false);
           }}
         />
