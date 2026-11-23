@@ -6,14 +6,14 @@ Keep this function stable in its own file and prevent unnecessary re-renders.
 
 ## Bind a shared column to your row
 
-The columns on `catalog` are predefined and meant to be shared. Inventory already chose the header, the cell, and a default sort name. Every app that picks `catalog.name` gets that same Name cell. 
+The columns on `catalog` are predefined and meant to be shared. Inventory already chose the header and the cell. Some columns also have a default sort name. Name, Workspace, OS, Status, and Last seen do. Tags, Infrastructure, Vendor, Workload, and Created do not. Every app that picks `catalog.name` gets that same Name cell. 
 
 Because your rows are not inventory's rows. The shared cell cannot guess that your display name lives at `attributes.display_name`, or that your API sorts workspaces by `groups`. Binding is the object param you pass so the shared column can understand your row and sort with your API's field name.
 
 Each shared column takes that object as its only argument: `catalog.name(binding)`. The fields are:
 
 - `getValue(item)` is required. `item` is one row returned from `fetchData`. Return the value the shared cell accepts. The shapes are listed after the example. 
-- `sortBy` is optional. It is the sort field your API expects when the user sorts this column. The table sends that string to `fetchData` as `sortBy`. See [Fetching]{@tutorial systems_view_1_fetching}. If you omit it, the column keeps inventory's sort name, such as `last_check_in` for Last seen. Pass `sortBy` when your API uses a different name.
+- `sortBy` is optional. It is the sort field your API expects when the user sorts this column. The table sends that string to `fetchData` as `sortBy`. See [Fetching]{@tutorial systems_view_1_fetching}. If you omit it and the shared column has a default sort name, the column keeps that name, such as `last_check_in` for Last seen. Pass `sortBy` when your API uses a different name. If the shared column has no default, such as Tags, the column stays unsorted unless you pass `sortBy` on the binding.
 
 Patch's advisory row keeps system fields under `attributes`, and its API sorts by names like `groups` and `last_upload`. The function below passes a binding for each shared column. `AdvisorySystem` is that row type.
 
@@ -81,13 +81,13 @@ What each of those columns expects:
 
 - `name` accepts `{ id, displayName }`. `displayName` is the text of the link.
 - `workspace` accepts a list of `{ id, name }`. Patch sorts it by `groups`, not by `workspace`.
-- `tags` accepts `{ id, display_name, tags }`. Point it at the tags already on your row.
+- `tags` accepts `{ id, display_name, tags }`. Point it at the tags already on your row. Tags has no default sort name. The example leaves `sortBy` off, so that column cannot be sorted.
 - `os` accepts `{ name, major, minor, rhsm }`. Patch's API returns one string, `RHEL 8.2`, so `toOperatingSystemValue` splits it. If your row already has `name`, `major`, and `minor`, return that object and skip the split.
 - `lastSeen` accepts `{ lastSeen, culled, staleWarning, stale }`. Those are date strings. Patch sorts this column by `last_upload`.
 
 ## Custom columns
 
-Use `catalog.custom` when the list has no column you need. A shared column call like `catalog.name(binding)` has only one param, because Inventory already provides column's spec: the header, the cell, and the default sort name. A new custom column has no spec yet, so you pass two arguments: your spec, then the same binding object a shared column takes.
+Use `catalog.custom` when the list has no column you need. A shared column call like `catalog.name(binding)` has only one param, because Inventory already provides the column spec: the header, the cell, and, when the column is sortable, the default sort name. A new custom column has no spec yet, so you pass two arguments: your spec, then the same binding object a shared column takes.
 
 ```tsx
 catalog.custom(spec, binding);
@@ -101,7 +101,7 @@ The spec describes the column:
 - `appName` is required. It is the Insights app that owns the column: `advisor`, `compliance`, `inventory`, `malware`, `content`, `remediations`, `vulnerability`, or `tag`.
 - `sortBy` is optional. It is the default sort field for this column. The binding's `sortBy` replaces it when your API uses a different name.
 
-The binding is the same object as for a shared column. `getValue(item)` is required and reads your row. `sortBy`.
+The binding is the same object as for a shared column. `getValue(item)` is required and reads your row. `sortBy` on the binding replaces the spec's `sortBy`. Omit both and the custom column cannot be sorted.
 
 Patch adds a Template column this way. The first object is the spec, including `renderCell`. The second object is the binding. The cell is a link when the row has a template, and plain text when it does not.
 
