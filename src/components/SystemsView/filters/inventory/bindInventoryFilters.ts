@@ -33,12 +33,18 @@ export const bindInventoryHostListFilters = (
       ...(value && { hostnameOrId: value }),
     }),
   }),
-  catalog.status({
+  catalog.source({
     updateFilterParams: (params, value) => ({
       ...params,
       ...(value.length > 0 && {
-        staleness: value as ApiHostGetHostListStalenessEnum[],
+        registeredWith: value as ApiHostGetHostListRegisteredWithEnum[],
       }),
+    }),
+  }),
+  catalog.lastSeen({
+    updateFilterParams: (params, value) => ({
+      ...params,
+      ...(lastSeenKeysToApiParams(value.key, value.range) ?? {}),
     }),
   }),
   catalog.operatingSystem({
@@ -51,11 +57,11 @@ export const bindInventoryHostListFilters = (
         : params;
     },
   }),
-  catalog.source({
+  catalog.status({
     updateFilterParams: (params, value) => ({
       ...params,
       ...(value.length > 0 && {
-        registeredWith: value as ApiHostGetHostListRegisteredWithEnum[],
+        staleness: value as ApiHostGetHostListStalenessEnum[],
       }),
     }),
   }),
@@ -68,18 +74,6 @@ export const bindInventoryHostListFilters = (
           Object.values(ApiHostGetHostListSystemTypeEnum),
         ),
       }),
-    }),
-  }),
-  catalog.workspace({
-    updateFilterParams: (params, value) => ({
-      ...params,
-      ...buildGroupIdParam(value),
-    }),
-  }),
-  catalog.lastSeen({
-    updateFilterParams: (params, value) => ({
-      ...params,
-      ...(lastSeenKeysToApiParams(value.key, value.range) ?? {}),
     }),
   }),
   catalog.tags({
@@ -95,6 +89,12 @@ export const bindInventoryHostListFilters = (
         ? buildSystemProfileParam(params, { workloads })
         : params;
     },
+  }),
+  catalog.workspace({
+    updateFilterParams: (params, value) => ({
+      ...params,
+      ...buildGroupIdParam(value),
+    }),
   }),
 ];
 
@@ -112,12 +112,18 @@ export const bindInventoryHostViewsFilters = (
       ...(value && { hostnameOrId: value }),
     }),
   }),
-  catalog.status({
+  catalog.source({
     updateFilterParams: (params, value) => ({
       ...params,
       ...(value?.length && {
-        staleness: value as ApiHostViewsGetHostViewsStalenessEnum[],
+        registeredWith: value as ApiHostViewsGetHostViewsRegisteredWithEnum[],
       }),
+    }),
+  }),
+  catalog.lastSeen({
+    updateFilterParams: (params, value) => ({
+      ...params,
+      ...(lastSeenKeysToApiParams(value.key, value.range) ?? {}),
     }),
   }),
   catalog.operatingSystem({
@@ -130,11 +136,11 @@ export const bindInventoryHostViewsFilters = (
         : params;
     },
   }),
-  catalog.source({
+  catalog.status({
     updateFilterParams: (params, value) => ({
       ...params,
       ...(value?.length && {
-        registeredWith: value as ApiHostViewsGetHostViewsRegisteredWithEnum[],
+        staleness: value as ApiHostViewsGetHostViewsStalenessEnum[],
       }),
     }),
   }),
@@ -149,21 +155,6 @@ export const bindInventoryHostViewsFilters = (
       }),
     }),
   }),
-  catalog.workspace({
-    updateFilterParams: (params, value) => {
-      const { groupId } = buildGroupIdParam(value);
-      return {
-        ...params,
-        ...(groupId && { workspaceId: groupId }),
-      };
-    },
-  }),
-  catalog.lastSeen({
-    updateFilterParams: (params, value) => ({
-      ...params,
-      ...(lastSeenKeysToApiParams(value.key, value.range) ?? {}),
-    }),
-  }),
   catalog.tags({
     updateFilterParams: (params, value) => ({
       ...params,
@@ -176,6 +167,15 @@ export const bindInventoryHostViewsFilters = (
       return workloads
         ? buildSystemProfileParam(params, { workloads })
         : params;
+    },
+  }),
+  catalog.workspace({
+    updateFilterParams: (params, value) => {
+      const { groupId } = buildGroupIdParam(value);
+      return {
+        ...params,
+        ...(groupId && { workspaceId: groupId }),
+      };
     },
   }),
 ];
