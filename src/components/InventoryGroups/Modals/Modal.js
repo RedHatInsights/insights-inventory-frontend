@@ -20,6 +20,7 @@ const RepoModal = ({
   customFormTemplate,
   additionalMappers,
   modalClassName,
+  validateOnBlur,
 }) => {
   return (
     <Modal
@@ -45,6 +46,7 @@ const RepoModal = ({
                 )
           }
           initialValues={initialValues}
+          validateOnBlur={validateOnBlur}
           componentMapper={
             additionalMappers
               ? { ...componentMapper, ...additionalMappers }
@@ -88,6 +90,7 @@ RepoModal.propTypes = {
   customFormTemplate: PropTypes.node,
   reloadTimeout: PropTypes.number,
   modalClassName: PropTypes.string,
+  validateOnBlur: PropTypes.bool,
 };
 
 RepoModal.defaultProps = {

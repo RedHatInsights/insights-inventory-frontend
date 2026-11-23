@@ -53,18 +53,22 @@ export const confirmSystemsAddSchema = (hostsNumber) => ({
   ],
 });
 
-export const CreateWorkspaceTextField = (props) => {
+export const WorkspaceNameTextField = (props) => {
   const fieldData = useFieldApi(props);
+  const meta = {
+    ...fieldData.meta,
+    // Use Final Form's edit state so async validation shows before blur and
+    // remains in sync with the form lifecycle.
+    touched: fieldData.meta.touched || fieldData.meta.modified,
+  };
 
   const { validated } = fieldData.meta.validating
     ? { validated: 'indeterminate' }
-    : showError(fieldData?.meta, fieldData.validateOnMount);
+    : showError(meta, fieldData.validateOnMount);
 
   const validationInternal =
-    (fieldData.meta.touched || fieldData.validateOnMount) &&
-    (fieldData.meta.error ||
-      fieldData.meta.submitError ||
-      fieldData.meta.warning);
+    (meta.touched || fieldData.validateOnMount) &&
+    (meta.error || meta.submitError || meta.warning);
   return (
     <FormGroup
       label={fieldData?.label}
@@ -72,7 +76,7 @@ export const CreateWorkspaceTextField = (props) => {
       fieldId={fieldData.id || fieldData.input.name}
     >
       <TextInput
-        {...fieldData?.input}
+        {...fieldData.input}
         isRequired={fieldData?.isRequired}
         validated={validated}
         id={fieldData.id || fieldData.input.name}
