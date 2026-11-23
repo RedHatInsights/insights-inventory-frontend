@@ -6,6 +6,7 @@
 import type { QueryClient } from '@tanstack/react-query';
 import type { SystemsViewExportConfig } from '../components/SystemsView/export/types';
 import type {
+  SystemsViewEvents,
   SystemsViewFetchData,
   SystemsViewItem,
 } from '../components/SystemsView/types';
@@ -17,11 +18,13 @@ import type {
 } from '../components/SystemsView/actions/types';
 
 export type {
+  SystemsViewEvents,
   SystemsViewFetchData,
   SystemsViewFetchParams,
   SystemsViewFilterState,
   SystemsViewItem,
   SystemsViewQueryData,
+  SystemsViewStateSnapshot as SystemsViewState,
 } from '../components/SystemsView/types';
 
 export type { ColumnSelector } from '../components/SystemsView/columns/resolveColumnSelector';
@@ -103,6 +106,10 @@ export type SystemsViewProps<
    * Per-row kebab actions. Use a stable reference, not an inline array.
    */
   rowActions?: readonly RowAction<TItem>[];
+  /**
+   * Observers for settled columns and filters. Omit to subscribe to neither.
+   */
+  events?: SystemsViewEvents<TItem>;
   /**
    * Export menu configuration. Omit to hide the export menu entirely.
    * The table renders the menu, owns the toast lifecycle around `onExport`

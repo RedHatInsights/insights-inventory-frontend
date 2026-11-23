@@ -39,6 +39,8 @@ import {
   DataViewFiltersProvider,
   useDataViewFiltersContext,
 } from './DataViewFiltersContext';
+import { useOnColumnsSettled } from './hooks/useOnColumnsSettled';
+import { useOnFiltersSettled } from './hooks/useOnFiltersSettled';
 import { useResetPage } from './hooks/useResetPage';
 import { useSystemsViewQuery } from './hooks/useSystemsViewQuery';
 import { INITIAL_PAGE, NO_HEADER } from '../InventoryViews/constants';
@@ -58,7 +60,9 @@ import type {
   SortDirection,
   SystemsViewFetchData,
   SystemsViewFetchParams,
+  SystemsViewEvents,
   SystemsViewItem,
+  SystemsViewStateSnapshot,
 } from './types';
 import type {
   SystemsViewExportConfig,
@@ -156,6 +160,10 @@ export type SystemsViewProps<
   initialLastSeenCustomRange?: LastSeenCustomRange;
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
   onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
+  /**
+   * Observers for settled columns and filters. Omit to subscribe to neither.
+   */
+  events?: SystemsViewEvents<TItem>;
   /** Export menu config. The export menu renders only when this is provided. */
   exportConfig?: SystemsViewExportConfig<TItem>;
 };
@@ -174,6 +182,7 @@ interface SystemsViewInnerProps<TItem extends SystemsViewItem, TFilterParams> {
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
   onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
+  events?: SystemsViewEvents<TItem>;
   exportConfig?: SystemsViewExportConfig<TItem>;
 }
 
@@ -191,6 +200,7 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
   initialSort,
   onColumnsChange,
   onLastSeenCustomRangeChange,
+  events,
   exportConfig,
 }: SystemsViewInnerProps<TItem, TFilterParams>) {
   const queryClient = useQueryClient();
@@ -198,6 +208,7 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
     filters,
     clearAllFilters,
     filtersDifferFromDefaults,
+    filtersHydrated,
     lastSeenCustomRange,
   } = useDataViewFiltersContext();
 
@@ -333,6 +344,43 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
       hasRowActions: rowActions.length > 0,
     });
 
+  const selectedItems = useMemo(
+    () => selected.map((row) => row.meta),
+    [selected],
+  );
+
+  const stateSnapshot = useMemo<SystemsViewStateSnapshot<TItem>>(
+    () => ({
+      filters: debouncedFilters,
+      lastSeenCustomRange,
+      columns,
+      page: pagination.page,
+      perPage: pagination.perPage,
+      sortBy,
+      direction,
+    }),
+    [
+      debouncedFilters,
+      lastSeenCustomRange,
+      columns,
+      pagination.page,
+      pagination.perPage,
+      sortBy,
+      direction,
+    ],
+  );
+
+  useOnColumnsSettled({
+    onColumnsSettled: events?.onColumnsSettled,
+    viewState: stateSnapshot,
+  });
+
+  useOnFiltersSettled({
+    onFiltersSettled: events?.onFiltersSettled,
+    viewState: stateSnapshot,
+    filtersHydrated,
+  });
+
   // Snapshot of the live table state handed to the consumer's onExport so
   // the consumer — not the table — decides the export scope. Uses the same
   // debounced filters the table query runs on.
@@ -343,7 +391,7 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
       columns,
       sortBy,
       direction,
-      selectedItems: selected.map((row) => row.meta),
+      selectedItems,
       total: total ?? 0,
     }),
     [
@@ -352,7 +400,7 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
       columns,
       sortBy,
       direction,
-      selected,
+      selectedItems,
       total,
     ],
   );
@@ -384,7 +432,7 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
     actionHelpers,
   });
 
-  const selectedSystems = selected.map((row) => row.meta);
+  const selectedSystems = selectedItems;
 
   const { isPageSelected, isPartiallySelected, onBulkSelect } = useBulkSelect({
     selection,
@@ -534,6 +582,7 @@ export function SystemsView<
   initialLastSeenCustomRange,
   onColumnsChange,
   onLastSeenCustomRangeChange,
+  events,
   exportConfig,
 }: SystemsViewProps<TItem, TFilterParams>) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -567,6 +616,7 @@ export function SystemsView<
         initialSort={initialSort}
         onColumnsChange={onColumnsChange}
         onLastSeenCustomRangeChange={onLastSeenCustomRangeChange}
+        events={events}
         exportConfig={exportConfig}
       />
     </DataViewFiltersProvider>

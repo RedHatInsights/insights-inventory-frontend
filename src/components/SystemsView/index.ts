@@ -7,10 +7,12 @@ export type {
   RowAction,
 } from './SystemsView';
 export type {
+  SystemsViewEvents,
   SystemsViewFetchData,
   SystemsViewFetchParams,
   SystemsViewFilterState,
   SystemsViewItem,
+  SystemsViewStateSnapshot as SystemsViewState,
   SystemsViewQueryData,
   SortDirection,
   LastSeenCustomRange,

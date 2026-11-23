@@ -1,4 +1,5 @@
 import type { ISortBy } from '@patternfly/react-table';
+import type { Column } from './columns/types';
 
 export type SortDirection = ISortBy['direction'];
 
@@ -49,3 +50,32 @@ export type SystemsViewFetchData<
 > = (
   params: SystemsViewFetchParams<TFilterParams>,
 ) => Promise<SystemsViewQueryData<TItem>>;
+
+export type SystemsViewStateSnapshot<TItem extends SystemsViewItem> = {
+  filters: SystemsViewFilterState;
+  lastSeenCustomRange: LastSeenCustomRange;
+  columns: readonly Column<TItem>[];
+  page: number;
+  perPage: number;
+  sortBy: string | undefined;
+  direction: SortDirection | undefined;
+};
+
+/**
+ * Optional observers. Each callback receives the table snapshot current when
+ * that slice settles. Callback identity changes do not notify.
+ */
+export type SystemsViewEvents<TItem extends SystemsViewItem> = {
+  /**
+   * Called once on mount, and again when the column configuration changes
+   * (order, membership, or visibility). Filter, sort, and pagination
+   * changes alone do not call this.
+   */
+  onColumnsSettled?: (state: SystemsViewStateSnapshot<TItem>) => void;
+  /**
+   * Called once filters have hydrated on this mount, and again when the
+   * debounced toolbar filters change. Sort, pagination, and column changes
+   * alone do not call this.
+   */
+  onFiltersSettled?: (state: SystemsViewStateSnapshot<TItem>) => void;
+};

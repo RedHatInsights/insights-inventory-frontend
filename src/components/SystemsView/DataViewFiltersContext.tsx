@@ -31,6 +31,8 @@ export interface DataViewFiltersContextValue {
   clearAllFilters: () => void;
   /** True once live toolbar values differ from resolved spec `defaultValue`s. */
   filtersDifferFromDefaults: boolean;
+  /** True after this mount has written missing spec defaults. */
+  filtersHydrated: boolean;
   lastSeenCustomRange: LastSeenCustomRange;
   setLastSeenCustomRange: React.Dispatch<
     React.SetStateAction<LastSeenCustomRange>
@@ -188,6 +190,7 @@ export const DataViewFiltersProvider = ({
       onSetFilters,
       clearAllFilters,
       filtersDifferFromDefaults,
+      filtersHydrated: hasHydratedDefaults,
       lastSeenCustomRange,
       setLastSeenCustomRange,
       ungroupedWorkspaceId,
@@ -198,6 +201,7 @@ export const DataViewFiltersProvider = ({
       onSetFilters,
       clearAllFilters,
       filtersDifferFromDefaults,
+      hasHydratedDefaults,
       lastSeenCustomRange,
       setLastSeenCustomRange,
       ungroupedWorkspaceId,
