@@ -1,6 +1,10 @@
 import type { ToolbarLabel } from '@patternfly/react-core';
 import type { LastSeenKey } from '../constants';
-import type { LastSeenCustomRange, SystemsViewFilterState } from '../types';
+import type {
+  ConsumerAppName,
+  LastSeenCustomRange,
+  SystemsViewFilterState,
+} from '../types';
 import type { Resolve } from '../../../types/utility-types';
 import type { DataViewCustomFilterProps } from './DataViewCustomFilter';
 
@@ -31,6 +35,13 @@ export type LastSeenSelectValue = {
 type FilterIdentity = {
   filterId: string;
   title: string;
+  /**
+   * Service this filter comes from. Heads the filter's group in the attribute
+   * dropdown when `showFilterGroups` is enabled; carries no weight in the
+   * query or in the applied-filter chips. Optional — omitting it places the
+   * filter in the ungrouped section.
+   */
+  appName?: ConsumerAppName;
   /** When set, SystemsView debounces this key in the fetch */
   debounceMs?: number;
   /**

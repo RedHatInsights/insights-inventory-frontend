@@ -16,6 +16,7 @@ type PatchQuery = { hostname?: string };
 
 const nameSpec: FilterSpec = {
   type: 'text',
+  appName: 'inventory',
   filterId: 'hostname_or_id',
   title: 'Name',
   defaultValue: '',
@@ -85,6 +86,7 @@ describe('bindFilter', () => {
     };
     const spec: FilterSpec = {
       type: 'custom',
+      appName: 'inventory',
       filterId: 'operating_system',
       title: 'Operating system',
       defaultValue: [],
