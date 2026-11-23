@@ -31,6 +31,28 @@ const AdvisorySystems = ({ advisoryName }: { advisoryName: string }) => (
 
 The TypeScript types come from the generated `SystemsView` file. `SystemsViewProps<Row, FilterParams>` is the prop type. `Row` is one system from your API. `FilterParams` is the query object your API expects. `fetchAdvisorySystems`, `columns`, and `filters` are written on the next pages.
 
+## Copy the TypeScript contract
+
+The public types are not published as a package yet. Until they are, you generate the declaration file in this repo and copy it into your app by hand.
+
+1. Check out [insights-inventory-frontend](https://github.com/RedHatInsights/insights-inventory-frontend) at the commit your environment loads.
+2. Use the Node version in `.nvmrc`, then install dependencies with `npm ci`.
+3. Generate the contract:
+
+```sh
+npm run type-gen
+```
+
+That writes one file, `dist/SystemsView.d.ts`. It holds `SystemsViewProps` and the column, filter, and fetch types the table exposes.
+
+4. Copy `dist/SystemsView.d.ts` into your app, next to the component that loads the table, and keep the name `SystemsView.d.ts`. The import in the example above resolves to that file:
+
+```tsx
+import type { SystemsViewProps } from './SystemsView';
+```
+
+5. Generate and copy again when you move to a newer inventory build. The file in your app is a snapshot. It does not update on its own.
+
 ## The table does not know your API
 
 The table always speaks the same way. Your API can use different page numbers, field names, and query shapes. You translate these in three places:
