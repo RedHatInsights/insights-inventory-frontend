@@ -26,6 +26,8 @@ import {
   type TextFilterSpec,
 } from '../types';
 
+const APP_NAME = 'inventory' as const;
+
 const WorkspaceChip = ({ id }: { id: string }) => {
   const { filters } = useDataViewFiltersContext();
   const groupId = filters[SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM];
@@ -47,6 +49,7 @@ const WorkspaceChip = ({ id }: { id: string }) => {
 
 export const hostnameSpec: TextFilterSpec = {
   type: 'text',
+  appName: APP_NAME,
   filterId: 'hostname_or_id',
   title: 'Name',
   defaultValue: '',
@@ -57,6 +60,7 @@ export const hostnameSpec: TextFilterSpec = {
 
 export const statusSpec: CheckboxFilterSpec = {
   type: 'checkbox',
+  appName: APP_NAME,
   filterId: 'status',
   title: 'Status',
   defaultValue: [],
@@ -70,6 +74,7 @@ export const statusSpec: CheckboxFilterSpec = {
 
 export const operatingSystemSpec: CustomFilterSpec<string[]> = {
   type: 'custom',
+  appName: APP_NAME,
   filterId: 'operating_system',
   title: 'Operating system',
   defaultValue: [],
@@ -94,6 +99,7 @@ export const operatingSystemSpec: CustomFilterSpec<string[]> = {
 
 export const sourceSpec: CheckboxFilterSpec = {
   type: 'checkbox',
+  appName: APP_NAME,
   filterId: 'source',
   title: 'Data collector',
   defaultValue: [],
@@ -115,6 +121,7 @@ export const sourceSpec: CheckboxFilterSpec = {
 
 export const systemTypeSpec: SingleSelectFilterSpec = {
   type: 'single-select',
+  appName: APP_NAME,
   filterId: 'system_type',
   title: 'System type',
   defaultValue: [],
@@ -127,6 +134,7 @@ export const systemTypeSpec: SingleSelectFilterSpec = {
 
 export const workspaceSpec: CustomFilterSpec<string[]> = {
   type: 'custom',
+  appName: APP_NAME,
   filterId: SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM,
   title: 'Workspace',
   defaultValue: [],
@@ -152,6 +160,7 @@ export const workspaceSpec: CustomFilterSpec<string[]> = {
 
 export const lastSeenSpec: CustomFilterSpec<LastSeenKey | ''> = {
   type: 'custom',
+  appName: APP_NAME,
   filterId: 'last_seen',
   title: 'Last seen',
   defaultValue: '',
@@ -185,6 +194,7 @@ export const lastSeenSpec: CustomFilterSpec<LastSeenKey | ''> = {
 
 export const tagsSpec: CustomFilterSpec<string[]> = {
   type: 'custom',
+  appName: APP_NAME,
   filterId: 'tags',
   title: 'Tags',
   defaultValue: [],
@@ -222,6 +232,7 @@ export const tagsSpec: CustomFilterSpec<string[]> = {
 
 export const workloadsSpec: CheckboxFilterSpec = {
   type: 'checkbox',
+  appName: APP_NAME,
   filterId: 'workloads',
   title: 'Workload',
   defaultValue: [],

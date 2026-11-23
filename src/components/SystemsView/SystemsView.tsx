@@ -145,6 +145,13 @@ export type SystemsViewProps<
    * Defaults to true for in-app consumers. The federated module forces this off.
    */
   showColumnManagement?: boolean;
+  /**
+   * Heads each service's filters with its app name in the attribute dropdown
+   * (Inventory, Advisor, Vulnerability, ...). For a view that binds filters
+   * from several services and has to say which is which; a consumer binding
+   * one service's filters wants the plain list. Defaults to off.
+   */
+  showFilterGroups?: boolean;
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   initialLastSeenCustomRange?: LastSeenCustomRange;
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
@@ -163,6 +170,7 @@ interface SystemsViewInnerProps<TItem extends SystemsViewItem, TFilterParams> {
   bulkActions: readonly BulkAction<TItem>[];
   rowActions: readonly RowAction<TItem>[];
   showColumnManagement: boolean;
+  showFilterGroups: boolean;
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
   onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
@@ -179,6 +187,7 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
   bulkActions,
   rowActions,
   showColumnManagement,
+  showFilterGroups,
   initialSort,
   onColumnsChange,
   onLastSeenCustomRangeChange,
@@ -457,7 +466,9 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
                 />
               }
               filters={
-                resolvedFilters.length > 0 ? <SystemsViewFilters /> : undefined
+                resolvedFilters.length > 0 ? (
+                  <SystemsViewFilters showFilterGroups={showFilterGroups} />
+                ) : undefined
               }
               actions={
                 <SystemsViewBulkActions
@@ -518,6 +529,7 @@ export function SystemsView<
   bulkActions = EMPTY_ACTIONS,
   rowActions = EMPTY_ACTIONS,
   showColumnManagement = true,
+  showFilterGroups = false,
   initialSort,
   initialLastSeenCustomRange,
   onColumnsChange,
@@ -551,6 +563,7 @@ export function SystemsView<
         bulkActions={bulkActions}
         rowActions={rowActions}
         showColumnManagement={showColumnManagement}
+        showFilterGroups={showFilterGroups}
         initialSort={initialSort}
         onColumnsChange={onColumnsChange}
         onLastSeenCustomRangeChange={onLastSeenCustomRangeChange}

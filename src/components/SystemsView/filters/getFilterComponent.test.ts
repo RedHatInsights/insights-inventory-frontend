@@ -13,6 +13,7 @@ import type {
 
 const textSpec: TextFilterSpec = {
   type: 'text',
+  appName: 'inventory',
   filterId: 'name',
   title: 'Name',
   defaultValue: '',
@@ -20,6 +21,7 @@ const textSpec: TextFilterSpec = {
 
 const checkboxSpec: CheckboxFilterSpec = {
   type: 'checkbox',
+  appName: 'inventory',
   filterId: 'severity',
   title: 'Severity',
   defaultValue: [],
@@ -28,6 +30,7 @@ const checkboxSpec: CheckboxFilterSpec = {
 
 const singleSelectSpec: SingleSelectFilterSpec = {
   type: 'single-select',
+  appName: 'inventory',
   filterId: 'status',
   title: 'Status',
   defaultValue: [],
@@ -36,6 +39,7 @@ const singleSelectSpec: SingleSelectFilterSpec = {
 
 const customSpec: CustomFilterSpec<string[]> = {
   type: 'custom',
+  appName: 'inventory',
   filterId: 'group',
   title: 'Group',
   defaultValue: [],

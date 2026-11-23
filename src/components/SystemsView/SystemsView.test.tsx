@@ -224,6 +224,7 @@ describe('SystemsView', () => {
       catalog.custom(
         {
           type: 'text',
+          appName: 'inventory',
           filterId: 'extra',
           title: 'Extra',
           defaultValue: '',

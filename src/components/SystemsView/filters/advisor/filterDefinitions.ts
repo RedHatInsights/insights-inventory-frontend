@@ -1,7 +1,10 @@
 import type { CheckboxFilterSpec, FilterSpec } from '../types';
 
+const APP_NAME = 'advisor' as const;
+
 export const recommendationSeveritySpec: CheckboxFilterSpec = {
   type: 'checkbox',
+  appName: APP_NAME,
   filterId: 'recommendation_severity',
   title: 'Recommendation severity',
   defaultValue: [],
@@ -17,6 +20,7 @@ export const recommendationSeveritySpec: CheckboxFilterSpec = {
 
 export const incidentStatusSpec: CheckboxFilterSpec = {
   type: 'checkbox',
+  appName: APP_NAME,
   filterId: 'incident_status',
   title: 'Incidents',
   defaultValue: [],

@@ -523,6 +523,7 @@ const InventoryViews = () => {
               key={`${activeViewId}-${viewsLoaded}-${isTagKeyColumnsEnabled}`}
               columns={columnSelector ?? selectLegacyInventoryColumns}
               filters={filterSelector}
+              showFilterGroups
               initialSort={initialSort}
               initialLastSeenCustomRange={initialLastSeenCustomRange}
               onColumnsChange={handleColumnsChange}

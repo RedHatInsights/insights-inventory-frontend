@@ -1,16 +1,13 @@
 import type { ReactNode } from 'react';
 import type { ColumnManagementModalColumn } from '@patternfly/react-component-groups';
 import type { Resolve } from '../../../types/utility-types';
+import type { ConsumerAppName } from '../types';
 
-export type ConsumerAppName =
-  | 'advisor'
-  | 'compliance'
-  | 'inventory'
-  | 'malware'
-  | 'content'
-  | 'remediations'
-  | 'vulnerability'
-  | 'tag';
+/**
+ * Defined in `../types` now that filters group by it too; re-exported here so
+ * the public `ColumnSpec` import path keeps working.
+ */
+export type { ConsumerAppName };
 
 /**
  * Shared column identity independent of any backend.

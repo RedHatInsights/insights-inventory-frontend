@@ -12,6 +12,7 @@ type PatchQuery = { hostname?: string };
 
 const nameSpec: FilterSpec = {
   type: 'text',
+  appName: 'inventory',
   filterId: 'hostname_or_id',
   title: 'Name',
   defaultValue: '',
