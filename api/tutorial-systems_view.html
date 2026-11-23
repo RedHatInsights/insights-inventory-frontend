@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> systems_view</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Inventory Frontend Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-systems_view.html">
+                                systems_view
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-systems_view_1_fetching.html">
+                                systems_view_1_fetching
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-systems_view_2_columns.html">
+                                systems_view_2_columns
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-systems_view_3_filters.html">
+                                systems_view_3_filters
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-custom_fetch.html">
+                                custom_fetch
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-general_info.html">
+                                general_info
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-hide_filters.html">
+                                hide_filters
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory.html">
+                                inventory
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_detail.html">
+                                inventory_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_header.html">
+                                inventory_header
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_detail.html">
+                                props_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_table.html">
+                                props_table
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/RedHatInsights/insights-inventory-frontend"
+                        >
+                            Inventory Frontend GitHub repository
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://console.redhat.com/docs/api/inventory"
+                        >
+                            Inventory REST API Documentation
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar tutorials"
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-systems_view.html">systems_view</a></li><li><a href="tutorial-systems_view_1_fetching.html">systems_view_1_fetching</a></li><li><a href="tutorial-systems_view_2_columns.html">systems_view_2_columns</a></li><li><a href="tutorial-systems_view_3_filters.html">systems_view_3_filters</a></li><li><a href="tutorial-custom_fetch.html">custom_fetch</a></li><li><a href="tutorial-general_info.html">general_info</a></li><li><a href="tutorial-hide_filters.html">hide_filters</a></li><li><a href="tutorial-inventory.html">inventory</a></li><li><a href="tutorial-inventory_detail.html">inventory_detail</a></li><li><a href="tutorial-inventory_header.html">inventory_header</a></li><li><a href="tutorial-props_detail.html">props_detail</a></li><li><a href="tutorial-props_table.html">props_table</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Tutorial</p>
+                    <h1>systems_view</h1>
+                </header>
+                <section>
+
+<article>
+    <h1>Getting started</h1>
+<p>SystemsView is a successor to legacy InventoryTable. It draws the table, the toolbar, the pager, and the column headers while consumers can load the data for rows from their own API.</p>
+<h2>Load the table</h2>
+<p>Currently we ship it as federated module. Consumers can load it the same way Patch loads it for an advisory. Loading is done via <code>AsyncComponent</code>. The spinner shows until that module is ready.</p>
+<pre class="prettyprint source lang-tsx"><code>import React from 'react';
+import { Spinner } from '@patternfly/react-core';
+import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
+import type { SystemsViewProps } from './SystemsView';
+import columns from './columns';
+import filters from './filters';
+
+type AdvisorySystemsViewProps = SystemsViewProps&lt;AdvisorySystem, AdvisoryFilterParams>;
+
+const AdvisorySystems = ({ advisoryName }: { advisoryName: string }) => (
+  &lt;AsyncComponent&lt;AdvisorySystemsViewProps>
+    scope=&quot;inventory&quot;
+    module=&quot;./SystemsView&quot;
+    fallback={&lt;Spinner size=&quot;lg&quot; />}
+    queryKeyPrefix={advisoryName}
+    fetchData={fetchAdvisorySystems}
+    columns={columns}
+    filters={filters}
+  />
+);
+</code></pre>
+<p>The TypeScript types come from the generated <code>SystemsView</code> file. <code>SystemsViewProps&lt;Row, FilterParams&gt;</code> is the prop type. <code>Row</code> is one system from your API. <code>FilterParams</code> is the query object your API expects. <code>fetchAdvisorySystems</code>, <code>columns</code>, and <code>filters</code> are written on the next pages.</p>
+<h2>Copy the TypeScript contract</h2>
+<p>The public types are not published as a package yet. Until they are, you generate the declaration file in this repo and copy it into your app by hand.</p>
+<ol>
+<li>Check out <a href="https://github.com/RedHatInsights/insights-inventory-frontend">insights-inventory-frontend</a> at the commit your environment loads.</li>
+<li>Use the Node version in <code>.nvmrc</code>, then install dependencies with <code>npm ci</code>.</li>
+<li>Generate the contract:</li>
+</ol>
+<pre class="prettyprint source lang-sh"><code>npm run type-gen
+</code></pre>
+<p>That writes one file, <code>dist/SystemsView.d.ts</code>. It holds <code>SystemsViewProps</code> and the column, filter, and fetch types the table exposes.</p>
+<ol start="4">
+<li>Copy <code>dist/SystemsView.d.ts</code> into your app, next to the component that loads the table, and keep the name <code>SystemsView.d.ts</code>. The import in the example above resolves to that file:</li>
+</ol>
+<pre class="prettyprint source lang-tsx"><code>import type { SystemsViewProps } from './SystemsView';
+</code></pre>
+<ol start="5">
+<li>Generate and copy again when you move to a newer inventory build. The file in your app is a snapshot. It does not update on its own.</li>
+</ol>
+<h2>The table does not know your API</h2>
+<p>The table always speaks the same way. Your API can use different page numbers, field names, and query shapes. You translate these in three places:</p>
+<ul>
+<li>Paging and sort, inside <code>fetchData</code>. See <a href="tutorial-systems_view_1_fetching.html">Fetching</a>.</li>
+<li>Each column, with <code>getValue</code> and <code>sortBy</code>. See <a href="tutorial-systems_view_2_columns.html">Columns</a>.</li>
+<li>Each filter, with <code>updateFilterParams</code>. See <a href="tutorial-systems_view_3_filters.html">Filters</a>.</li>
+</ul>
+<h2>Mandatory Props you pass</h2>
+<p>You must pass four props:</p>
+<ul>
+<li><code>queryKeyPrefix</code> is a name for this table's data. Patch uses the advisory name, so each advisory loads its own systems.</li>
+<li><code>fetchData</code> loads one page of rows.</li>
+<li><code>columns</code> chooses what each row shows.</li>
+<li><code>filters</code> turns toolbar choices into your API query.</li>
+</ul>
+<p>Leave <code>queryClient</code> out unless your app needs to share queried data from this table with components outside. This is a substitute for Redux store.</p>
+<h2>Keep columns and filters in their own files and stable</h2>
+<p>Define select functions for both <code>columns</code> and <code>filters</code> in their own files, then import them inside the component A new function on every render makes the table reload more often than it should.</p>
+</article>
+
+</section>
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

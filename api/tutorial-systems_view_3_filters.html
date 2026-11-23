@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> systems_view_3_filters</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Inventory Frontend Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-systems_view.html">
+                                systems_view
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-systems_view_1_fetching.html">
+                                systems_view_1_fetching
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-systems_view_2_columns.html">
+                                systems_view_2_columns
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-systems_view_3_filters.html">
+                                systems_view_3_filters
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-custom_fetch.html">
+                                custom_fetch
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-general_info.html">
+                                general_info
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-hide_filters.html">
+                                hide_filters
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory.html">
+                                inventory
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_detail.html">
+                                inventory_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_header.html">
+                                inventory_header
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_detail.html">
+                                props_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_table.html">
+                                props_table
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/RedHatInsights/insights-inventory-frontend"
+                        >
+                            Inventory Frontend GitHub repository
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://console.redhat.com/docs/api/inventory"
+                        >
+                            Inventory REST API Documentation
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar tutorials"
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-systems_view.html">systems_view</a></li><li><a href="tutorial-systems_view_1_fetching.html">systems_view_1_fetching</a></li><li><a href="tutorial-systems_view_2_columns.html">systems_view_2_columns</a></li><li><a href="tutorial-systems_view_3_filters.html">systems_view_3_filters</a></li><li><a href="tutorial-custom_fetch.html">custom_fetch</a></li><li><a href="tutorial-general_info.html">general_info</a></li><li><a href="tutorial-hide_filters.html">hide_filters</a></li><li><a href="tutorial-inventory.html">inventory</a></li><li><a href="tutorial-inventory_detail.html">inventory_detail</a></li><li><a href="tutorial-inventory_header.html">inventory_header</a></li><li><a href="tutorial-props_detail.html">props_detail</a></li><li><a href="tutorial-props_table.html">props_table</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Tutorial</p>
+                    <h1>systems_view_3_filters</h1>
+                </header>
+                <section>
+
+<article>
+    <h1>Filters</h1>
+<p><code>filters</code> is a selector function. SystemsView calls it with the filters it already knows how to render. The list of filters is called <code>catalog</code>. You pick the filters you want, bind them and SystemsView renders the control and syncs URL params. You only specify how that filter value will look in API query.</p>
+<p>Keep this function stable in its own file and prevent unnecessary re-renders.</p>
+<h2>Bind a shared filter to your query</h2>
+<p>This works the similar way as a <a href="tutorial-systems_view_2_columns.html">column binding</a>. A shared column takes one binding so it can read your row. A shared filter takes one binding so it can write your API query. Inventory already owns the control: the label, the input, and the choices. <code>catalog.hostname(binding)</code> does not ask you to render that input.</p>
+<p>Your query is not inventory's query. The hostname control cannot guess that your API calls that field <code>search</code>, or that it wants <code>RHEL 8.2</code> instead of <code>RHEL8.2</code>. The binding is the object you pass so the toolbar value becomes a field on your query.</p>
+<p>Each shared filter takes that object as its only argument. The fields are:</p>
+<ul>
+<li><code>updateFilterParams(params, value)</code> is required. It plays similar role as <code>getValue</code> does on a column. <code>params</code> is the query so far. It starts as <code>{}</code>. <code>value</code> is option, which user picked. Return the next query. Leave a field off when nothing is selected, so you do not send an empty filter. <code>fetchData</code> later receives this query as <code>filterParams</code>, not the raw toolbar state. See <a href="tutorial-systems_view_1_fetching.html">Fetching</a>.</li>
+<li><code>filterProps</code> is optional. It passes extra settings to that shared control. For instance Patch hides CentOS in the operating system list with <code>showCentosOptions: false</code>.</li>
+</ul>
+<p>Patch's API does not use the SystemsView's names. Hostname is sent as <code>search</code>. Operating system values arrive as <code>RHEL8.2</code> and must be sent as <code>RHEL 8.2</code>. Tags are sent only when some are selected. If your API wants those tag strings in a different form, change <code>value</code> before you assign it. <code>AdvisoryFilterParams</code> is that query type.</p>
+<pre class="prettyprint source lang-tsx"><code>import type { SystemsViewProps } from './SystemsView';
+import type { AdvisoryFilterParams, AdvisorySystem } from './types';
+
+type AdvisorySystemsFilters = SystemsViewProps&lt;AdvisorySystem, AdvisoryFilterParams>['filters'];
+
+/** The toolbar stores `RHEL8.2`. Patch expects `RHEL 8.2`. */
+const toPatchOsValue = (token: string) => {
+  const match = token.match(/^(.+?)(\d+\.\d+)$/);
+  return match ? `${match[1]} ${match[2]}` : token;
+};
+
+const filters: AdvisorySystemsFilters = (catalog) => [
+  catalog.hostname({
+    updateFilterParams(params, value) {
+      if (!value) {
+        return params;
+      }
+
+      return { ...params, search: value };
+    },
+  }),
+  catalog.operatingSystem({
+    filterProps: {
+      showCentosOptions: false,
+    },
+    updateFilterParams(params, value) {
+      const restFilter = { ...params.filter };
+      delete restFilter.os;
+
+      return {
+        ...params,
+        filter:
+          value.length > 0
+            ? { ...restFilter, os: value.map(toPatchOsValue).join(',') }
+            : restFilter,
+      };
+    },
+  }),
+  catalog.tags({
+    updateFilterParams(params, value) {
+      const rest = { ...params };
+      delete rest.selectedTags;
+
+      return value.length > 0 ? { ...rest, selectedTags: value } : rest;
+    },
+  }),
+];
+
+export default filters;
+</code></pre>
+<p>If your API already uses the names above, write those names and skip the renaming. The operating system example is the pattern: read <code>value</code>, change it if you must, and omit the field when the list is empty.</p>
+<h2>A filter of your own</h2>
+<p>Use <code>catalog.custom</code> when the list has no filter you need. It takes the same two arguments as a custom column: <code>catalog.custom(spec, binding)</code>. SystemsView has no spec for it, so you pass the spec first and the binding second. The spec describes the control. The binding maps its value onto your query.</p>
+<p>Patch adds a status checkbox. The options are <code>{ label, value }</code> pairs from the app. The function removes the previous status before it writes the next one, so an empty selection does not keep the old value.</p>
+<pre class="prettyprint source lang-tsx"><code>catalog.custom(
+  {
+    type: 'checkbox',
+    filterId: 'status',
+    title: 'Status',
+    defaultValue: [],
+    placeholder: 'Filter by status',
+    options: advisoryStatuses,
+  },
+  {
+    updateFilterParams(params, value) {
+      const restFilter = { ...params.filter };
+      delete restFilter.status;
+
+      return {
+        ...params,
+        filter: value.length > 0 ? { ...restFilter, status: value } : restFilter,
+      };
+    },
+  },
+);
+</code></pre>
+<p><code>type</code> can be <code>text</code>, <code>checkbox</code>, or <code>single-select</code>. A text filter uses a string <code>defaultValue</code>. Checkbox and single-select use an array, and they need <code>options</code>. On a text filter, set <code>debounceMs</code> to wait until the user stops typing before the table reloads.</p>
+<h2>Other built-in filters</h2>
+<p>You map these the same way. Each line is the <code>value</code> you receive.</p>
+<ul>
+<li><code>status</code> is a list of strings: <code>fresh</code>, <code>stale</code>, or <code>stale_warning</code>.</li>
+<li><code>source</code> is a list of strings, such as <code>puptoo</code> or <code>satellite</code>.</li>
+<li><code>systemType</code> is a list of strings: <code>conventional</code> or <code>image</code>.</li>
+<li><code>workspace</code> is a list of workspace ids.</li>
+<li><code>workloads</code> is a list of strings, such as <code>sap</code> or <code>ansible</code>.</li>
+<li><code>lastSeen</code> is <code>{ key, range }</code>. <code>key</code> is the choice from the list, such as <code>last24</code> or <code>7more</code>, or <code>''</code> when nothing is selected. For a custom range, <code>key</code> is <code>custom</code> and <code>range</code> is <code>{ start, end }</code>. Otherwise <code>range</code> is <code>null</code>.</li>
+</ul>
+</article>
+
+</section>
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

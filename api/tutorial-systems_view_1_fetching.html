@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> systems_view_1_fetching</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Inventory Frontend Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-systems_view.html">
+                                systems_view
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-systems_view_1_fetching.html">
+                                systems_view_1_fetching
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-systems_view_2_columns.html">
+                                systems_view_2_columns
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-systems_view_3_filters.html">
+                                systems_view_3_filters
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-custom_fetch.html">
+                                custom_fetch
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-general_info.html">
+                                general_info
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-hide_filters.html">
+                                hide_filters
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory.html">
+                                inventory
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_detail.html">
+                                inventory_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_header.html">
+                                inventory_header
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_detail.html">
+                                props_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_table.html">
+                                props_table
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/RedHatInsights/insights-inventory-frontend"
+                        >
+                            Inventory Frontend GitHub repository
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://console.redhat.com/docs/api/inventory"
+                        >
+                            Inventory REST API Documentation
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar tutorials"
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-systems_view.html">systems_view</a></li><li><a href="tutorial-systems_view_1_fetching.html">systems_view_1_fetching</a></li><li><a href="tutorial-systems_view_2_columns.html">systems_view_2_columns</a></li><li><a href="tutorial-systems_view_3_filters.html">systems_view_3_filters</a></li><li><a href="tutorial-custom_fetch.html">custom_fetch</a></li><li><a href="tutorial-general_info.html">general_info</a></li><li><a href="tutorial-hide_filters.html">hide_filters</a></li><li><a href="tutorial-inventory.html">inventory</a></li><li><a href="tutorial-inventory_detail.html">inventory_detail</a></li><li><a href="tutorial-inventory_header.html">inventory_header</a></li><li><a href="tutorial-props_detail.html">props_detail</a></li><li><a href="tutorial-props_table.html">props_table</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Tutorial</p>
+                    <h1>systems_view_1_fetching</h1>
+                </header>
+                <section>
+
+<article>
+    <h1>Fetching</h1>
+<p>The table cannot show rows until you give it <code>fetchData</code> to obtain data. SystemsView calls that function when the page, the page size, the sort, or the filters state change. Rest of this document describes what <code>fetchData</code> function should look like.</p>
+<h2>What you receive</h2>
+<p><code>fetchData</code> receives object with SystemsView's internal state:</p>
+<ul>
+<li><code>page</code> starts at 1. <code>perPage</code> is the page size the user has selected in the pager, and it starts at SystemsView's configured size of 50. Both are the same numbers the user sees in the pager.</li>
+<li><code>sortBy</code> is the sort name from the column the user clicked. It is missing when the table is not sorted. The table starts sorted by <code>last_check_in</code> descending, so the first call usually sends that name. Map it to your own default sort if your API uses a different field.</li>
+<li><code>direction</code> is <code>asc</code> or <code>desc</code>.</li>
+<li><code>filterParams</code> is the query object your filters built. It is an empty object when nothing is selected. The <a href="tutorial-systems_view_3_filters.html">Filters</a> page is where you shape that object.</li>
+</ul>
+<h2>What you return</h2>
+<p>Return <code>{ results, total }</code>.</p>
+<p><code>results</code> is the rows for this page. Every row needs an <code>id</code>. Leave out rows that do not have one. <code>total</code> is the full count, not the length of this page. The pager uses it to know how many pages there are.</p>
+<h2>Match your API</h2>
+<p>The table always gives you <code>page</code>, <code>perPage</code>, <code>sortBy</code>, and <code>direction</code>. Your API pagination may work slightly differently or want different names, its up to you to transform these into params your API expects truly.</p>
+<p>For instance Patch's advisory API wants <code>offset</code>, <code>limit</code>, and a sort string with <code>-</code> in front when the direction is descending. Page 1 with 20 rows is offset <code>0</code> and limit <code>20</code>. In the example, <code>getAdvisorySystems</code> stands in for that API call.</p>
+<pre class="prettyprint source lang-tsx"><code>const toApiParams = ({ sortBy, direction, page, perPage, filterParams }) => {
+  const sort = `${direction === 'desc' ? '-' : ''}${sortBy ?? ''}`;
+  const limit = perPage;
+  const offset = page * limit - limit;
+
+  return { sort, offset, limit, ...filterParams };
+};
+
+const fetchAdvisorySystems = async (params) => {
+  const response = await getAdvisorySystems(advisoryName, toApiParams(params));
+
+  return {
+    results: (response.data ?? []).filter(
+      (item) => typeof item.id === 'string' && item.id.length > 0,
+    ),
+    total: response.meta?.total_items ?? 0,
+  };
+};
+</code></pre>
+<p>Change the translation when your API is different. If it already uses <code>page</code> and <code>perPage</code>, pass those through and skip <code>offset</code>. If it wants <code>sort</code> and <code>order</code> as two fields, send <code>sortBy</code> and <code>direction</code> separately instead of joining them with <code>-</code>. Spread <code>filterParams</code> either way. The filters page already named those fields for your API.</p>
+</article>
+
+</section>
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>

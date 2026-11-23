@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> systems_view_2_columns</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Inventory Frontend Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-systems_view.html">
+                                systems_view
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-systems_view_1_fetching.html">
+                                systems_view_1_fetching
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-systems_view_2_columns.html">
+                                systems_view_2_columns
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-systems_view_3_filters.html">
+                                systems_view_3_filters
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-custom_fetch.html">
+                                custom_fetch
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-general_info.html">
+                                general_info
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-hide_filters.html">
+                                hide_filters
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory.html">
+                                inventory
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_detail.html">
+                                inventory_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-inventory_header.html">
+                                inventory_header
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_detail.html">
+                                props_detail
+                            </a>
+                        
+                            <a class="dropdown-item" href="tutorial-props_table.html">
+                                props_table
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/RedHatInsights/insights-inventory-frontend"
+                        >
+                            Inventory Frontend GitHub repository
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://console.redhat.com/docs/api/inventory"
+                        >
+                            Inventory REST API Documentation
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar tutorials"
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <div class="category"><h3>Tutorials</h3><ul><li><a href="tutorial-systems_view.html">systems_view</a></li><li><a href="tutorial-systems_view_1_fetching.html">systems_view_1_fetching</a></li><li><a href="tutorial-systems_view_2_columns.html">systems_view_2_columns</a></li><li><a href="tutorial-systems_view_3_filters.html">systems_view_3_filters</a></li><li><a href="tutorial-custom_fetch.html">custom_fetch</a></li><li><a href="tutorial-general_info.html">general_info</a></li><li><a href="tutorial-hide_filters.html">hide_filters</a></li><li><a href="tutorial-inventory.html">inventory</a></li><li><a href="tutorial-inventory_detail.html">inventory_detail</a></li><li><a href="tutorial-inventory_header.html">inventory_header</a></li><li><a href="tutorial-props_detail.html">props_detail</a></li><li><a href="tutorial-props_table.html">props_table</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Tutorial</p>
+                    <h1>systems_view_2_columns</h1>
+                </header>
+                <section>
+
+<article>
+    <h1>Columns</h1>
+<p><code>columns</code> expects a selector function. SystemsView calls it with a predefined list of columns called <code>catalog</code>. You can pick the columns you want and tell each one how to read your row data.</p>
+<p>Keep this function stable in its own file and prevent unnecessary re-renders.</p>
+<h2>Bind a shared column to your row</h2>
+<p>The columns on <code>catalog</code> are predefined and meant to be shared. Inventory already chose the header and the cell. Some columns also have a default sort name. Name, Workspace, OS, Status, and Last seen do. Tags, Infrastructure, Vendor, Workload, and Created do not. Every app that picks <code>catalog.name</code> gets that same Name cell.</p>
+<p>Because your rows are not inventory's rows. The shared cell cannot guess that your display name lives at <code>attributes.display_name</code>, or that your API sorts workspaces by <code>groups</code>. Binding is the object param you pass so the shared column can understand your row and sort with your API's field name.</p>
+<p>Each shared column takes that object as its only argument: <code>catalog.name(binding)</code>. The fields are:</p>
+<ul>
+<li><code>getValue(item)</code> is required. <code>item</code> is one row returned from <code>fetchData</code>. Return the value the shared cell accepts. The shapes are listed after the example.</li>
+<li><code>sortBy</code> is optional. It is the sort field your API expects when the user sorts this column. The table sends that string to <code>fetchData</code> as <code>sortBy</code>. See <a href="tutorial-systems_view_1_fetching.html">Fetching</a>. If you omit it and the shared column has a default sort name, the column keeps that name, such as <code>last_check_in</code> for Last seen. Pass <code>sortBy</code> when your API uses a different name. If the shared column has no default, such as Tags, the column stays unsorted unless you pass <code>sortBy</code> on the binding.</li>
+</ul>
+<p>Patch's advisory row keeps system fields under <code>attributes</code>, and its API sorts by names like <code>groups</code> and <code>last_upload</code>. The function below passes a binding for each shared column. <code>AdvisorySystem</code> is that row type.</p>
+<pre class="prettyprint source lang-tsx"><code>import type { OperatingSystemValue, SystemsViewProps } from './SystemsView';
+import type { AdvisorySystem } from './types';
+
+type AdvisorySystemsColumns = SystemsViewProps&lt;AdvisorySystem>['columns'];
+
+const toOperatingSystemValue = (os?: string, rhsm?: string): OperatingSystemValue => {
+  const match = os?.match(/^(RHEL|CentOS Linux|CentOS) (\d+)\.(\d+)$/);
+  if (!match) {
+    return { name: os, rhsm };
+  }
+
+  return {
+    name: match[1],
+    major: Number(match[2]),
+    minor: Number(match[3]),
+    rhsm,
+  };
+};
+
+const columns: AdvisorySystemsColumns = (catalog) => [
+  catalog.name({
+    getValue(item) {
+      return {
+        id: item.id,
+        displayName: item.attributes?.display_name,
+      };
+    },
+  }),
+  catalog.workspace({
+    sortBy: 'groups',
+    getValue(item) {
+      return item.attributes?.groups;
+    },
+  }),
+  catalog.tags({
+    getValue: (item) => ({
+      id: item.id,
+      display_name: item.attributes?.display_name,
+      tags: item.attributes?.tags,
+    }),
+  }),
+  catalog.os({
+    sortBy: 'os',
+    getValue: (item) => toOperatingSystemValue(item.attributes?.os, item.attributes?.rhsm),
+  }),
+  catalog.lastSeen({
+    sortBy: 'last_upload',
+    getValue: (item) => ({
+      lastSeen: item.attributes?.last_upload,
+      culled: item.attributes?.culled_timestamp,
+      staleWarning: item.attributes?.stale_warning_timestamp,
+      stale: item.attributes?.stale_timestamp,
+    }),
+  }),
+];
+
+export default columns;
+</code></pre>
+<p>What each of those columns expects:</p>
+<ul>
+<li><code>name</code> accepts <code>{ id, displayName }</code>. <code>displayName</code> is the text of the link. It also accepts optional <code>isImageBased</code> and <code>isCentosLinux</code>. <code>isImageBased</code> selects the image-mode icon. <code>isCentosLinux</code> shows the CentOS conversion indicator.</li>
+<li><code>workspace</code> accepts a list of <code>{ id, name }</code>. Patch sorts it by <code>groups</code>, not by <code>workspace</code>.</li>
+<li><code>tags</code> accepts <code>{ id, display_name, tags }</code>. Point it at the tags already on your row. Tags has no default sort name. The example leaves <code>sortBy</code> off, so that column cannot be sorted.</li>
+<li><code>os</code> accepts <code>{ name, major, minor, rhsm }</code>. Patch's API returns one string, <code>RHEL 8.2</code>, so <code>toOperatingSystemValue</code> splits it. If your row already has <code>name</code>, <code>major</code>, and <code>minor</code>, return that object and skip the split.</li>
+<li><code>lastSeen</code> accepts <code>{ lastSeen, culled, staleWarning, stale }</code>. Those are date strings. It also accepts optional <code>perReporterStaleness</code>, which shows the disconnected indicator. Patch sorts this column by <code>last_upload</code>.</li>
+</ul>
+<h2>Custom columns</h2>
+<p>Use <code>catalog.custom</code> when the list has no column you need. A shared column call like <code>catalog.name(binding)</code> has only one param, because Inventory already provides the column spec: the header, the cell, and, when the column is sortable, the default sort name. A new custom column has no spec yet, so you pass two arguments: your spec, then the same binding object a shared column takes.</p>
+<pre class="prettyprint source lang-tsx"><code>catalog.custom(spec, binding);
+</code></pre>
+<p>The spec describes the column:</p>
+<ul>
+<li><code>key</code> is required. It identifies the column.</li>
+<li><code>title</code> is required. It is the header text.</li>
+<li><code>renderCell(value)</code> is required. Inventory calls it with whatever <code>getValue</code> returned. You draw the cell here.</li>
+<li><code>appName</code> is required. It is the Insights app that owns the column: <code>advisor</code>, <code>compliance</code>, <code>inventory</code>, <code>malware</code>, <code>content</code>, <code>remediations</code>, <code>vulnerability</code>, or <code>tag</code>.</li>
+<li><code>sortBy</code> is optional. It is the default sort field for this column. The binding's <code>sortBy</code> replaces it when your API uses a different name.</li>
+</ul>
+<p>The binding is the same object as for a shared column. <code>getValue(item)</code> is required and reads your row. <code>sortBy</code> on the binding replaces the spec's <code>sortBy</code>. Omit both and the custom column cannot be sorted.</p>
+<p>Patch adds a Template column this way. The first object is the spec, including <code>renderCell</code>. The second object is the binding. The cell is a link when the row has a template, and plain text when it does not.</p>
+<pre class="prettyprint source lang-tsx"><code>catalog.custom(
+  {
+    key: 'template_name',
+    title: 'Template',
+    appName: 'content',
+    sortBy: 'template_name',
+    renderCell: (value) =>
+      value.name ? &lt;a href={`/templates/${value.uuid}`}>{value.name}&lt;/a> : 'No template',
+  },
+  {
+    getValue: (item) => ({
+      name: item.attributes?.template_name,
+      uuid: item.attributes?.template_uuid,
+    }),
+  },
+);
+</code></pre>
+<p>A text column is the same idea. <code>renderCell</code> returns the string <code>getValue</code> read from the row.</p>
+<pre class="prettyprint source lang-tsx"><code>catalog.custom(
+  {
+    key: 'status',
+    title: 'Status',
+    appName: 'content',
+    sortBy: 'status',
+    renderCell: (value) => value,
+  },
+  {
+    getValue: (item) => item.attributes?.status,
+  },
+);
+</code></pre>
+</article>
+
+</section>
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>
