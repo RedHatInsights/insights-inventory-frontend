@@ -6,7 +6,7 @@ The table cannot show rows until you give it `fetchData` to obtain data. Systems
 
 `fetchData` receives object with SystemsView's internal state:
 
-- `page` and `perPage` start at 1. They are the same numbers the user sees in the pager.
+- `page` starts at 1. `perPage` is the page size the user has selected in the pager, and it starts at SystemsView's configured size of 50. Both are the same numbers the user sees in the pager.
 - `sortBy` is the sort name from the column the user clicked. It is missing when the table is not sorted. The table starts sorted by `last_check_in` descending, so the first call usually sends that name. Map it to your own default sort if your API uses a different field.
 - `direction` is `asc` or `desc`.
 - `filterParams` is the query object your filters built. It is an empty object when nothing is selected. The [Filters]{@tutorial systems_view_3_filters} page is where you shape that object.
