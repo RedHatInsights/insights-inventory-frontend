@@ -283,6 +283,29 @@ describe('buildHostViewsParams', () => {
     });
   });
 
+  describe('Content filters', () => {
+    it('carries the installable advisory types through as a repeated param', () => {
+      const params = buildParams({
+        filters: { installable_advisory_type: ['security', 'bugfix'] },
+      });
+
+      expect(params.installableAdvisoryType).toEqual(['security', 'bugfix']);
+    });
+
+    it('carries the single-select template through as a scalar', () => {
+      const params = buildParams({ filters: { template: ['not_present'] } });
+
+      expect(params.template).toBe('not_present');
+    });
+
+    it('omits the Content params when nothing is selected', () => {
+      const params = buildParams();
+
+      expect(params.installableAdvisoryType).toBeUndefined();
+      expect(params.template).toBeUndefined();
+    });
+  });
+
   describe('options.paramsSerializer', () => {
     it('uses bracket notation for nested params', () => {
       const params = buildParams();

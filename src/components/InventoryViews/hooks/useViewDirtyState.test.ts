@@ -219,6 +219,37 @@ describe('areFiltersDirty', () => {
     ).toBe(false);
   });
 
+  it('detects a changed installable_advisory_type URL value with the default keys', () => {
+    expect(
+      areFiltersDirty(makeParams({ installable_advisory_type: ['security'] })),
+    ).toBe(true);
+    expect(
+      areFiltersDirty(
+        makeParams({ installable_advisory_type: ['security', 'bugfix'] }),
+        { installable_advisory_type: ['security'] },
+      ),
+    ).toBe(true);
+    expect(
+      areFiltersDirty(makeParams({ installable_advisory_type: ['security'] }), {
+        installable_advisory_type: ['security'],
+      }),
+    ).toBe(false);
+  });
+
+  it('detects a changed template URL value with the default keys', () => {
+    expect(areFiltersDirty(makeParams({ template: 'present' }))).toBe(true);
+    expect(
+      areFiltersDirty(makeParams({ template: 'present' }), {
+        template: ['not_present'],
+      }),
+    ).toBe(true);
+    expect(
+      areFiltersDirty(makeParams({ template: 'not_present' }), {
+        template: ['not_present'],
+      }),
+    ).toBe(false);
+  });
+
   it('ignores a URL key when that spec is not in the list', () => {
     const params = makeParams({
       hostname_or_id: 'foo',
