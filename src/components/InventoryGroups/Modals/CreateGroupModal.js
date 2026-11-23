@@ -2,27 +2,19 @@ import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   createGroupSchema,
-  CreateWorkspaceTextField,
+  WorkspaceNameTextField,
 } from './ModalSchemas/schemes';
 import Modal from './Modal';
 import useApiWithToast from '../utils/apiWithToast';
-import { validateGroupName } from '../utils/api';
-import awesomeDebouncePromise from 'awesome-debounce-promise';
 import { createGroup } from '../../../api/hostInventoryApi';
 import { componentTypes } from '@data-driven-forms/react-form-renderer';
+import {
+  createWorkspaceNameValidator,
+  validateWorkspaceName,
+} from './utils/workspaceNameValidator';
 
-export const validate = async (value = '') => {
-  if (value.length === 0) {
-    return undefined; // the input is empty
-  }
-
-  const results = await validateGroupName(value.trim());
-  if (results === true) {
-    throw 'Workspace name already exists';
-  }
-
-  return undefined;
-};
+export const validate = (value = '') =>
+  validateWorkspaceName(value, { trim: true, skipEmpty: true });
 
 const CreateGroupModal = ({
   isModalOpen,
@@ -54,10 +46,9 @@ const CreateGroupModal = ({
   );
 
   const schema = useMemo(() => {
-    const d = awesomeDebouncePromise((value) => validate(value), 500, {
-      onlyResolvesLast: false,
-    });
-    return createGroupSchema(d);
+    return createGroupSchema(
+      createWorkspaceNameValidator({ trim: true, skipEmpty: true }),
+    );
   }, []);
 
   const onClose = () => {
@@ -76,10 +67,11 @@ const CreateGroupModal = ({
       title="Create workspace"
       submitLabel="Create"
       schema={schema}
+      validateOnBlur={false}
       reloadData={reloadData}
       onSubmit={handleCreateGroup}
       additionalMappers={{
-        [componentTypes.TEXT_FIELD]: CreateWorkspaceTextField,
+        [componentTypes.TEXT_FIELD]: WorkspaceNameTextField,
       }}
     />
   );

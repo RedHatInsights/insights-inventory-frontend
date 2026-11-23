@@ -3,7 +3,8 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, jest } from '@jest/globals';
 import type { ApiHostGetHostListParams } from '@redhat-cloud-services/host-inventory-client/ApiHostGetHostList';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   SystemsView,
   type SystemsViewFetchData,
@@ -85,6 +86,16 @@ const stampHostnameDefault: FilterSelector<ApiHostGetHostListParams> = (
       : filter,
   );
 
+let routePage: string | null = null;
+
+const RoutePage = () => {
+  const [params] = useSearchParams();
+  useEffect(() => {
+    routePage = params.get('page');
+  }, [params]);
+  return null;
+};
+
 const renderSystemsView = <TFilterParams = unknown,>(
   fetchData: SystemsViewFetchData<System, TFilterParams>,
   client = createTestQueryClient(),
@@ -101,6 +112,7 @@ const renderSystemsView = <TFilterParams = unknown,>(
       client={client}
       routerProps={{ initialEntries: [extra?.initialRoute ?? '/'] }}
     >
+      <RoutePage />
       <SystemsView
         queryKeyPrefix={TEST_QUERY_KEY}
         fetchData={fetchData}
@@ -139,6 +151,7 @@ describe('SystemsView', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
+    routePage = null;
   });
 
   it('renders a column when the columns selector includes it', async () => {
@@ -308,6 +321,86 @@ describe('SystemsView', () => {
     expect(
       await screen.findByText(/No matching systems found/i),
     ).toBeInTheDocument();
+  });
+
+  it('replaces a out of range page param with the actual last page', async () => {
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(({ page }) =>
+      Promise.resolve(
+        page === 1
+          ? { results: [mockSystem], total: 1 }
+          : { results: [], total: 1 },
+      ),
+    );
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      initialRoute: '/?page=5',
+    });
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    const pages = fetchData.mock.calls.map(([params]) => params.page);
+    expect(pages).toContain(5);
+    expect(pages.at(-1)).toBe(1);
+    expect(routePage).toBe('1');
+  });
+
+  it('probes page 1 when a later page fails past the end', async () => {
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(({ page }) =>
+      page === 1
+        ? Promise.resolve({ results: [mockSystem], total: 1 })
+        : Promise.reject(new Error('page missing')),
+    );
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      initialRoute: '/?page=5',
+    });
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    const pages = fetchData.mock.calls.map(([params]) => params.page);
+    expect(pages).toContain(5);
+    expect(pages).toContain(1);
+    expect(pages.at(-1)).toBe(1);
+    expect(routePage).toBe('1');
+  });
+
+  it('keeps the page when a failed request is still in range', async () => {
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(({ page }) =>
+      page === 1
+        ? Promise.resolve({ results: [], total: 100 })
+        : Promise.reject(new Error('failed to load')),
+    );
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      initialRoute: '/?page=2',
+    });
+
+    expect(await screen.findByText(/Unable to load data/i)).toBeInTheDocument();
+    const pages = fetchData.mock.calls.map(([params]) => params.page);
+    expect(pages).toContain(2);
+    expect(pages).toContain(1);
+    expect(pages.every((page) => page === 2 || page === 1)).toBe(true);
+  });
+
+  it('corrects again when the replacement page is still past the end', async () => {
+    const fetchData = jest.fn<SystemsViewFetchData<System>>(({ page }) =>
+      Promise.resolve(
+        page === 1
+          ? { results: [mockSystem], total: 1 }
+          : page === 5
+            ? { results: [], total: 60 }
+            : { results: [], total: 10 },
+      ),
+    );
+
+    renderSystemsView(fetchData, createTestQueryClient(), {
+      initialRoute: '/?page=5',
+    });
+
+    expect(await screen.findByText('Test Host')).toBeInTheDocument();
+    const pages = fetchData.mock.calls.map(([params]) => params.page);
+    expect(pages).toContain(5);
+    expect(pages).toContain(2);
+    expect(pages.at(-1)).toBe(1);
+    expect(routePage).toBe('1');
   });
 
   it('hides Reset filters when current filters match spec defaults', async () => {
