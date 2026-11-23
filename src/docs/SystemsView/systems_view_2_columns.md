@@ -79,11 +79,11 @@ export default columns;
 
 What each of those columns expects:
 
-- `name` accepts `{ id, displayName }`. `displayName` is the text of the link.
+- `name` accepts `{ id, displayName }`. `displayName` is the text of the link. It also accepts optional `isImageBased` and `isCentosLinux`. `isImageBased` selects the image-mode icon. `isCentosLinux` shows the CentOS conversion indicator.
 - `workspace` accepts a list of `{ id, name }`. Patch sorts it by `groups`, not by `workspace`.
 - `tags` accepts `{ id, display_name, tags }`. Point it at the tags already on your row. Tags has no default sort name. The example leaves `sortBy` off, so that column cannot be sorted.
 - `os` accepts `{ name, major, minor, rhsm }`. Patch's API returns one string, `RHEL 8.2`, so `toOperatingSystemValue` splits it. If your row already has `name`, `major`, and `minor`, return that object and skip the split.
-- `lastSeen` accepts `{ lastSeen, culled, staleWarning, stale }`. Those are date strings. Patch sorts this column by `last_upload`.
+- `lastSeen` accepts `{ lastSeen, culled, staleWarning, stale }`. Those are date strings. It also accepts optional `perReporterStaleness`, which shows the disconnected indicator. Patch sorts this column by `last_upload`.
 
 ## Custom columns
 
