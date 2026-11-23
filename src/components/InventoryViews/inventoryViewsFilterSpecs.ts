@@ -1,15 +1,17 @@
 import { inventoryFilterSpecs } from '../SystemsView/filters/inventory/filterDefinitions';
 import { advisorFilterSpecs } from '../SystemsView/filters/advisor/filterDefinitions';
 import { vulnerabilityFilterSpecs } from '../SystemsView/filters/vulnerability/filterDefinitions';
+import { contentFilterSpecs } from '../SystemsView/filters/content/filterDefinitions';
 import type { FilterSpec } from '../SystemsView/filters/types';
 
 /**
- * App-data (Advisor + Vulnerability) toolbar specs, gated behind the
+ * App-data (Advisor + Vulnerability + Content) toolbar specs, gated behind the
  * `ui.inventory-views-filters` feature flag.
  */
 export const inventoryViewsAppDataFilterSpecs: readonly FilterSpec[] = [
   ...advisorFilterSpecs,
   ...vulnerabilityFilterSpecs,
+  ...contentFilterSpecs,
 ];
 
 /**
@@ -37,7 +39,7 @@ export const inventoryViewsFilterSpecs: readonly FilterSpec[] = [
 /**
  * Picks the toolbar specs matching the `ui.inventory-views-filters` flag.
  *
- *  @param isAppDataFiltersEnabled - Whether Advisor/Vulnerability filters show
+ *  @param isAppDataFiltersEnabled - Whether Advisor/Vulnerability/Content filters show
  *  @returns                       Specs in toolbar order
  */
 export const getInventoryViewsFilterSpecs = (

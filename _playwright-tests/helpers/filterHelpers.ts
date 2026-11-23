@@ -124,6 +124,8 @@ const FILTER_OPTION_SELECTORS: Record<string, SelectFilterOption> = {
   'CVE severity': chooseFromSelectMenu,
   'Known exploit': chooseFromSelectMenu,
   'CVEs with security rules': chooseFromSelectMenu,
+  'Installable advisory type': chooseFromSelectMenu,
+  Template: chooseFromSelectMenu,
 };
 
 /** Names accepted by `filterSystemsWithConditionalFilter`. */

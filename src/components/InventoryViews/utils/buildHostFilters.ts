@@ -3,9 +3,11 @@ import {
   type HostFilters,
   type HostFiltersCveSeverityEnum,
   type HostFiltersIncidentStatusEnum,
+  type HostFiltersInstallableAdvisoryTypeEnum,
   type HostFiltersKnownExploitEnum,
   type HostFiltersRecommendationSeverityEnum,
   type HostFiltersSecurityRuleEnum,
+  type HostFiltersTemplateEnum,
 } from '@redhat-cloud-services/host-inventory-client';
 import { normalizeLastSeenFilterValue } from '../../SystemsView/constants';
 import type {
@@ -18,13 +20,6 @@ import { buildSystemType } from './buildSystemType';
 const asStringList = (value: unknown): string[] =>
   Array.isArray(value) ? value.map(String) : [];
 
-// The generated client's HostFilters predates the backend's workspace_id
-// filter (matched by workspace UUID, like the table's own workspaceId query
-// param). Extend it locally until the regenerated client lands.
-export type HostFiltersWithWorkspaceId = HostFilters & {
-  workspace_id?: Array<string>;
-};
-
 /**
  * Maps flat toolbar host-level filters to the nested `host` HostFilters block of a
  * view configuration.
@@ -32,7 +27,7 @@ export type HostFiltersWithWorkspaceId = HostFilters & {
  * Covers hostname_or_id, staleness, registered_with, tags, workspace_id,
  * system_type, the last_check_in date range derived from the Last seen selection,
  * alongside app-specific filters (recommendationSeverity, incidentStatus, cveSeverity,
- * knownExploit, securityRule).
+ * knownExploit, securityRule, installableAdvisoryType, template).
  *
  *  @param filters             - Toolbar filter state for host-level filters
  *  @param lastSeenCustomRange - Custom date range when `last_seen` is 'custom'.
@@ -42,8 +37,8 @@ export type HostFiltersWithWorkspaceId = HostFilters & {
 export const buildHostFilters = (
   filters: SystemsViewFilterState,
   lastSeenCustomRange?: LastSeenCustomRange,
-): HostFiltersWithWorkspaceId | undefined => {
-  const hostFilters: HostFiltersWithWorkspaceId = {};
+): HostFilters | undefined => {
+  const hostFilters: HostFilters = {};
   const hostnameOrId =
     typeof filters.hostname_or_id === 'string' ? filters.hostname_or_id : '';
   const status = asStringList(filters.status);
@@ -56,6 +51,10 @@ export const buildHostFilters = (
   const cveSeverity = asStringList(filters.cve_severity);
   const knownExploit = asStringList(filters.known_exploit);
   const securityRule = asStringList(filters.security_rule);
+  const installableAdvisoryType = asStringList(
+    filters.installable_advisory_type,
+  );
+  const template = asStringList(filters.template);
 
   if (hostnameOrId) {
     hostFilters.hostname_or_id = hostnameOrId;
@@ -110,6 +109,16 @@ export const buildHostFilters = (
 
   if (securityRule.length) {
     hostFilters.security_rule = securityRule as HostFiltersSecurityRuleEnum[];
+  }
+
+  if (installableAdvisoryType.length) {
+    hostFilters.installable_advisory_type =
+      installableAdvisoryType as HostFiltersInstallableAdvisoryTypeEnum[];
+  }
+
+  // Single-select in the toolbar, scalar on the wire.
+  if (template.length) {
+    hostFilters.template = template[0] as HostFiltersTemplateEnum;
   }
 
   const lastSeenParams = lastSeenKeysToApiParams(

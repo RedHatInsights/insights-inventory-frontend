@@ -363,6 +363,42 @@ describe('parseViewConfigFilters', () => {
       security_rule: ['present'],
     });
   });
+
+  it('round-trips the Content filters through build and parse', () => {
+    const input = {
+      ...EMPTY_FILTERS,
+      installable_advisory_type: ['security', 'bugfix'],
+      template: ['present'],
+    };
+
+    const built = buildViewConfigFilters(input);
+    // `template` is single-select in the toolbar but scalar on the wire.
+    expect(built).toEqual({
+      host: {
+        installable_advisory_type: ['security', 'bugfix'],
+        template: 'present',
+      },
+    });
+
+    // ...and comes back wrapped, because the toolbar bag holds an array.
+    const parsed = parseViewConfigFilters(built as never);
+    expect(parsed).toEqual({
+      installable_advisory_type: ['security', 'bugfix'],
+      template: ['present'],
+    });
+  });
+
+  it('round-trips a Content filter saved on its own', () => {
+    const built = buildViewConfigFilters({
+      ...EMPTY_FILTERS,
+      template: ['not_present'],
+    });
+
+    expect(built).toEqual({ host: { template: 'not_present' } });
+    expect(parseViewConfigFilters(built as never)).toEqual({
+      template: ['not_present'],
+    });
+  });
 });
 
 describe('parseViewConfigLastSeenCustomRange', () => {

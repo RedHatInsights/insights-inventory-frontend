@@ -137,6 +137,36 @@ describe('buildHostFilters', () => {
     });
   });
 
+  it('maps multiple installable advisory types to the host filter list', () => {
+    expect(
+      buildHostFilters({
+        ...EMPTY_FILTERS,
+        installable_advisory_type: ['security', 'bugfix'],
+      }),
+    ).toEqual({ installable_advisory_type: ['security', 'bugfix'] });
+  });
+
+  it('unwraps the single-select template into a scalar host filter', () => {
+    expect(
+      buildHostFilters({ ...EMPTY_FILTERS, template: ['present'] }),
+    ).toEqual({ template: 'present' });
+  });
+
+  it('combines the Content filters with the other host filters', () => {
+    expect(
+      buildHostFilters({
+        ...EMPTY_FILTERS,
+        status: ['fresh'],
+        installable_advisory_type: ['security', 'not_evaluated'],
+        template: ['not_present'],
+      }),
+    ).toEqual({
+      staleness: ['fresh'],
+      installable_advisory_type: ['security', 'not_evaluated'],
+      template: 'not_present',
+    });
+  });
+
   it('maps a custom last_seen range to both last_check_in bounds', () => {
     const result = buildHostFilters(
       { ...EMPTY_FILTERS, last_seen: 'custom' },
