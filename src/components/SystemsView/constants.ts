@@ -3,6 +3,9 @@ import moment from 'moment';
 /** URL query key / DataView `filterId` for workspace filter (`GET /hosts?group_id=`). */
 export const SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM = 'group_id';
 
+/** URL query key / DataView `filterId` for the name-valued workspace filter (`group_name`). */
+export const SYSTEMS_VIEW_WORKSPACE_NAME_FILTER_PARAM = 'group_name';
+
 /** Display text for the ungrouped hosts workspace in filters and chips. */
 export const UNGROUPED_HOSTS_LABEL = 'Ungrouped hosts';
 

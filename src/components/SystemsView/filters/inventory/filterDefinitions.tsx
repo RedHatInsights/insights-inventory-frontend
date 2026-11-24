@@ -1,5 +1,8 @@
 import React from 'react';
-import WorkspaceFilter from './components/WorkspaceFilter';
+import WorkspaceFilter, {
+  WorkspaceNameFilter,
+  type WorkspaceFilterValueKey,
+} from './components/WorkspaceFilter';
 import LastSeenFilter from './components/LastSeenFilter';
 import TagsFilter from './components/TagsFilter';
 import OperatingSystemsFilter from './components/OperatingSystemsFilter';
@@ -7,6 +10,8 @@ import { useDataViewFiltersContext } from '../../DataViewFiltersContext';
 import {
   LAST_SEEN_OPTIONS,
   SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM,
+  SYSTEMS_VIEW_WORKSPACE_NAME_FILTER_PARAM,
+  UNGROUPED_HOSTS_LABEL,
   type LastSeenKey,
 } from '../../constants';
 import { WORKLOAD_FILTER_OPTIONS } from '../../utils/workloadsFilter';
@@ -132,6 +137,22 @@ export const systemTypeSpec: SingleSelectFilterSpec = {
   ],
 };
 
+const deleteWorkspaceLabel: CustomFilterSpec<string[]>['deleteLabel'] = (
+  _category,
+  label,
+  value,
+  onChange,
+) =>
+  onChange?.(
+    undefined,
+    value?.filter((item) => {
+      if (isToolbarLabel(label)) {
+        return item !== label.key;
+      }
+      return item !== label;
+    }),
+  );
+
 export const workspaceSpec: CustomFilterSpec<string[]> = {
   type: 'custom',
   appName: APP_NAME,
@@ -146,17 +167,31 @@ export const workspaceSpec: CustomFilterSpec<string[]> = {
       key: item,
       node: <WorkspaceChip id={item} />,
     })) ?? [],
-  deleteLabel: (_category, label, value, onChange) =>
-    onChange?.(
-      undefined,
-      value?.filter((item) => {
-        if (isToolbarLabel(label)) {
-          return item !== label.key;
-        }
-        return item !== label;
-      }),
-    ),
+  deleteLabel: deleteWorkspaceLabel,
 };
+
+const workspaceNameSpec: CustomFilterSpec<string[]> = {
+  type: 'custom',
+  appName: APP_NAME,
+  filterId: SYSTEMS_VIEW_WORKSPACE_NAME_FILTER_PARAM,
+  title: 'Workspace',
+  defaultValue: [],
+  placeholder: 'Filter by workspace',
+  ouiaId: 'SystemsViewWorkspaceNameFilter',
+  filterComponent: WorkspaceNameFilter,
+  createLabel: (value) =>
+    value?.map((item) => ({
+      key: item,
+      node: item === '' ? UNGROUPED_HOSTS_LABEL : item,
+    })) ?? [],
+  deleteLabel: deleteWorkspaceLabel,
+};
+
+/** `catalog.workspace` spec. `name` stores group names; the default stores workspace ids. */
+export const workspaceSpecFor = (
+  valueKey?: WorkspaceFilterValueKey,
+): CustomFilterSpec<string[]> =>
+  valueKey === 'name' ? workspaceNameSpec : workspaceSpec;
 
 export const lastSeenSpec: CustomFilterSpec<LastSeenKey | ''> = {
   type: 'custom',

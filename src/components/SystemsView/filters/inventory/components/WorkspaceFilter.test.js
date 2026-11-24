@@ -161,6 +161,72 @@ describe('WorkspaceFilter', () => {
     expect(last[1]).toEqual([]);
   });
 
+  it('calls onChange with the workspace name when valueKey is name', async () => {
+    mockGroupsInfiniteQuery({
+      pages: [makePage([{ id: 'w1', name: 'Workspace 1', host_count: 1 }])],
+    });
+    const user = userEvent.setup();
+    const onChange = jest.fn();
+    renderWorkspaceFilter({ onChange, value: [], valueKey: 'name' });
+    await openWorkspaceMenu(user);
+    const row = screen.getByRole('menuitem', { name: /Workspace 1/i });
+    await user.click(within(row).getByRole('checkbox'));
+    expect(onChange).toHaveBeenCalled();
+    const last = onChange.mock.calls.at(-1);
+    expect(last[1]).toEqual(['Workspace 1']);
+  });
+
+  it('calls onChange with an empty string when Ungrouped hosts is chosen by name', async () => {
+    mockGroupsInfiniteQuery({
+      pages: [makePage([{ id: 'w1', name: 'Workspace 1', host_count: 1 }])],
+    });
+    const user = userEvent.setup();
+    const onChange = jest.fn();
+    renderWorkspaceFilter({ onChange, value: [], valueKey: 'name' });
+    await openWorkspaceMenu(user);
+    const row = screen.getByRole('menuitem', { name: UNGROUPED_HOSTS_LABEL });
+    await user.click(within(row).getByRole('checkbox'));
+    expect(onChange).toHaveBeenCalled();
+    const last = onChange.mock.calls.at(-1);
+    expect(last[1]).toEqual(['']);
+  });
+
+  it('shows a name-mode workspace selected and clears it when clicked again', async () => {
+    mockGroupsInfiniteQuery({
+      pages: [makePage([{ id: 'w1', name: 'Workspace 1', host_count: 1 }])],
+    });
+    const user = userEvent.setup();
+    const onChange = jest.fn();
+    renderWorkspaceFilter({
+      onChange,
+      value: ['Workspace 1'],
+      valueKey: 'name',
+    });
+    await openWorkspaceMenu(user);
+    const row = screen.getByRole('menuitem', { name: /Workspace 1/i });
+    expect(within(row).getByRole('checkbox')).toBeChecked();
+    await user.click(within(row).getByRole('checkbox'));
+    expect(onChange).toHaveBeenCalled();
+    const last = onChange.mock.calls.at(-1);
+    expect(last[1]).toEqual([]);
+  });
+
+  it('shows Ungrouped hosts selected for an empty name value and clears it when clicked again', async () => {
+    mockGroupsInfiniteQuery({
+      pages: [makePage([{ id: 'w1', name: 'Workspace 1', host_count: 1 }])],
+    });
+    const user = userEvent.setup();
+    const onChange = jest.fn();
+    renderWorkspaceFilter({ onChange, value: [''], valueKey: 'name' });
+    await openWorkspaceMenu(user);
+    const row = screen.getByRole('menuitem', { name: UNGROUPED_HOSTS_LABEL });
+    expect(within(row).getByRole('checkbox')).toBeChecked();
+    await user.click(within(row).getByRole('checkbox'));
+    expect(onChange).toHaveBeenCalled();
+    const last = onChange.mock.calls.at(-1);
+    expect(last[1]).toEqual([]);
+  });
+
   it('calls fetchNextPage when Show more is clicked', async () => {
     const { fetchNextPage } = mockGroupsInfiniteQuery({
       pages: [
