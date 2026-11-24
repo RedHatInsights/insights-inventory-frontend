@@ -11,7 +11,10 @@ import {
   resolveColumnMinWidth,
 } from '../utils/columnMinWidths';
 import { NOT_AVAILABLE } from './CellValue';
-import inventoryColumns from './inventory/columnDefinitions';
+import inventoryColumns, {
+  bindInventoryColumns,
+  type InventoryBindableItem,
+} from './inventory/columnDefinitions';
 
 const inventoryKeys = inventoryColumns.map((col) => col.key);
 const nonInventoryColumns = inventoryViewColumns.filter(
@@ -73,4 +76,22 @@ describe('allColumnDefinitions', () => {
       expect(screen.getByText(NOT_AVAILABLE)).toBeInTheDocument();
     },
   );
+});
+
+describe('inventory timestamp bindings', () => {
+  it('passes deletion_timestamp to the last-seen and status columns', () => {
+    const deletionTimestamp = '2026-11-24T12:00:00.000Z';
+    const item = {
+      id: 'host-1',
+      deletion_timestamp: deletionTimestamp,
+    } as InventoryBindableItem;
+    const columns = bindInventoryColumns<InventoryBindableItem>();
+
+    expect(
+      columns.find((column) => column.key === 'last_check_in')?.getValue(item),
+    ).toMatchObject({ culled: deletionTimestamp });
+    expect(
+      columns.find((column) => column.key === 'status')?.getValue(item),
+    ).toMatchObject({ culled: deletionTimestamp });
+  });
 });

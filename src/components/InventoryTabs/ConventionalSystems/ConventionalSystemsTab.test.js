@@ -41,7 +41,7 @@ describe('ConventionalSystemsTab', () => {
     ansible_host: null,
     bios_uuid: 'fe4f7cc3-799c-48e9-abc3-8a050040b876',
     created: '2020-10-27T10:07:14.453067+00:00',
-    culled_timestamp: '2020-11-11T12:07:14.263615+00:00',
+    deletion_timestamp: '2020-11-11T12:07:14.263615+00:00',
     display_name: 'RHIQE.31ea86a9-a439-4422-9516-27c879057535.test',
     external_id: null,
     facts: {},

@@ -65,7 +65,7 @@ export const INVENTORY_COLUMNS = [
       value,
       _id,
       {
-        culled_timestamp: culled,
+        deletion_timestamp: culled,
         stale_warning_timestamp: staleWarn,
         stale_timestamp: stale,
         per_reporter_staleness: perReporterStaleness,

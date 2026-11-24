@@ -70,7 +70,7 @@ const makeHost = (name, appData) => ({
   updated: '2026-08-01T00:00:00.000Z',
   stale_timestamp: '2099-09-01T00:00:00.000Z',
   stale_warning_timestamp: '2099-09-08T00:00:00.000Z',
-  culled_timestamp: '2099-09-15T00:00:00.000Z',
+  deletion_timestamp: '2099-09-15T00:00:00.000Z',
   os_release: 'RHEL 9.4',
   system_profile: {},
   groups: [],

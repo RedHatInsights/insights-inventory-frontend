@@ -67,7 +67,7 @@ const FactsInfo = ({
               <LastSeenWrapper>
                 {CullingInformation ? (
                   <CullingInformation
-                    culled={getFact('culled_timestamp', entity)}
+                    culled={getFact('deletion_timestamp', entity)}
                     staleWarning={getFact('stale_warning_timestamp', entity)}
                     stale={getFact('stale_timestamp', entity)}
                     currDate={new Date()}

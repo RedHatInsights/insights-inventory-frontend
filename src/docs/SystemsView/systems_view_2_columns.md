@@ -67,6 +67,7 @@ const columns: AdvisorySystemsColumns = (catalog) => [
     sortBy: 'last_upload',
     getValue: (item) => ({
       lastSeen: item.attributes?.last_upload,
+      // Patch's advisory API keeps its own timestamp field name.
       culled: item.attributes?.culled_timestamp,
       staleWarning: item.attributes?.stale_warning_timestamp,
       stale: item.attributes?.stale_timestamp,

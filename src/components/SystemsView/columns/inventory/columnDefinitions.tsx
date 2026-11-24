@@ -31,13 +31,17 @@ import DataCollector from './cells/DataCollector';
  * `tags` comes from the hosts-view row, or from `getHostTags` when that field is absent.
  * `tagsByKey` is that array grouped by namespace and key for tag columns.
  */
+type InventoryHostViewHost = HostViewHost & {
+  deletion_timestamp?: string | null;
+};
+
 export type InventoryBindableItem = SystemsViewItem &
   Pick<
-    HostViewHost,
+    InventoryHostViewHost,
     | 'display_name'
     | 'groups'
     | 'last_check_in'
-    | 'culled_timestamp'
+    | 'deletion_timestamp'
     | 'stale_timestamp'
     | 'stale_warning_timestamp'
     | 'per_reporter_staleness'
@@ -187,7 +191,7 @@ export const bindInventoryColumns = <
   bindColumn(lastSeenSpec, {
     getValue: (item) => ({
       lastSeen: item.last_check_in,
-      culled: item.culled_timestamp ?? undefined,
+      culled: item.deletion_timestamp ?? undefined,
       staleWarning: item.stale_warning_timestamp ?? undefined,
       stale: item.stale_timestamp ?? undefined,
       perReporterStaleness: item.per_reporter_staleness,
@@ -197,7 +201,7 @@ export const bindInventoryColumns = <
     getValue: (item) => ({
       stale: item.stale_timestamp,
       staleWarning: item.stale_warning_timestamp,
-      culled: item.culled_timestamp,
+      culled: item.deletion_timestamp ?? undefined,
     }),
   }),
   bindColumn(infrastructureSpec, {
