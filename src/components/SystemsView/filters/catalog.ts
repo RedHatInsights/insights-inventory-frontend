@@ -1,4 +1,5 @@
 import type { OperatingSystemsFilterExtraProps } from './inventory/components/OperatingSystemsFilter';
+import type { WorkspaceFilterExtraProps } from './inventory/components/WorkspaceFilter';
 import { bindFilter } from './bindFilter';
 import type {
   BoundFilter,
@@ -15,7 +16,7 @@ import {
   systemTypeSpec,
   tagsSpec,
   workloadsSpec,
-  workspaceSpec,
+  workspaceSpecFor,
 } from './inventory/filterDefinitions';
 
 /**
@@ -45,7 +46,7 @@ export type FilterCatalog = {
     binding: FilterBinding<TFilterParams, string[]>,
   ) => BoundFilter<TFilterParams>;
   workspace: <TFilterParams>(
-    binding: FilterBinding<TFilterParams, string[]>,
+    binding: FilterBinding<TFilterParams, string[], WorkspaceFilterExtraProps>,
   ) => BoundFilter<TFilterParams>;
   lastSeen: <TFilterParams>(
     binding: FilterBinding<TFilterParams, LastSeenSelectValue>,
@@ -76,7 +77,8 @@ export const filterCatalog: FilterCatalog = {
   operatingSystem: (binding) => bindFilter(operatingSystemSpec, binding),
   source: (binding) => bindFilter(sourceSpec, binding),
   systemType: (binding) => bindFilter(systemTypeSpec, binding),
-  workspace: (binding) => bindFilter(workspaceSpec, binding),
+  workspace: (binding) =>
+    bindFilter(workspaceSpecFor(binding.filterProps?.valueKey), binding),
   lastSeen: (binding) => bindFilter(lastSeenSpec, binding),
   tags: (binding) => bindFilter(tagsSpec, binding),
   workloads: (binding) => bindFilter(workloadsSpec, binding),
