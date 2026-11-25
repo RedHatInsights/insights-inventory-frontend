@@ -1,6 +1,13 @@
 import { operatingSystemSpec } from './inventory/filterDefinitions';
+import WorkspaceFilter, {
+  WorkspaceNameFilter,
+} from './inventory/components/WorkspaceFilter';
 import { bindFilter } from './bindFilter';
 import { filterCatalog } from './catalog';
+import {
+  SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM,
+  SYSTEMS_VIEW_WORKSPACE_NAME_FILTER_PARAM,
+} from '../constants';
 import { buildFilterParams } from './buildFilterParams';
 import type { BoundFilter, FilterSpec } from './types';
 
@@ -40,6 +47,31 @@ describe('filterCatalog.operatingSystem', () => {
       operatingSystemSpec.filterComponent,
     );
     expect(hiddenByDefault.filterProps).toBeUndefined();
+  });
+});
+
+describe('filterCatalog.workspace', () => {
+  it('keeps group_id unless valueKey is name', () => {
+    const byId = filterCatalog.workspace({
+      updateFilterParams: (params) => params,
+    });
+    const byName = filterCatalog.workspace({
+      updateFilterParams: (params) => params,
+      filterProps: { valueKey: 'name' },
+    });
+
+    expect(byId.filterId).toBe(SYSTEMS_VIEW_WORKSPACE_FILTER_PARAM);
+    expect(byName.filterId).toBe(SYSTEMS_VIEW_WORKSPACE_NAME_FILTER_PARAM);
+    expect(byId.type).toBe('custom');
+    expect(byName.type).toBe('custom');
+    if (byId.type !== 'custom' || byName.type !== 'custom') {
+      return;
+    }
+
+    expect(byId.filterComponent).toBe(WorkspaceFilter);
+    expect(byId.filterProps).toBeUndefined();
+    expect(byName.filterComponent).toBe(WorkspaceNameFilter);
+    expect(byName.filterProps).toEqual({ valueKey: 'name' });
   });
 });
 
