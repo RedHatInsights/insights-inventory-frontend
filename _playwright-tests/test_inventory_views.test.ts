@@ -73,7 +73,10 @@ test.describe('Inventory Views application columns', () => {
     },
     {
       name: 'Patch',
-      appColumns: [{ name: 'Installable advisories' }],
+      appColumns: [
+        { name: 'Installable advisories' },
+        { name: 'Installed packages' },
+      ],
     },
     {
       name: 'Malware',

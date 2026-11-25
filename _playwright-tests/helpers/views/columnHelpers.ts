@@ -87,7 +87,11 @@ export const advisorColumns = ['Recommendations', 'Incidents'];
 
 export const complianceColumns = ['Last compliance scan', 'Policies'];
 
-export const patchColumns = ['Installable advisories', 'Template'];
+export const patchColumns = [
+  'Installable advisories',
+  'Installed packages',
+  'Template',
+];
 
 export const malwareColumns = [
   'Last malware status',
@@ -323,6 +327,10 @@ const COLUMN_VALIDATIONS: Record<string, ColumnValidationConfig> = {
     ignoreValues: [NOT_AVAILABLE],
   },
   'Installable advisories': {
+    type: 'numeric',
+    ignoreValues: [NOT_AVAILABLE],
+  },
+  'Installed packages': {
     type: 'numeric',
     ignoreValues: [NOT_AVAILABLE],
   },
