@@ -18,20 +18,20 @@ import {
 export const bindAdvisorFilters = (
   catalog: FilterCatalog,
 ): BoundFilter<ApiHostViewsGetHostViewsParams>[] => [
+  catalog.custom(incidentStatusSpec, {
+    updateFilterParams: (params, value: string[]) => ({
+      ...params,
+      ...(value?.length && {
+        incidentStatus: value as ApiHostViewsGetHostViewsIncidentStatusEnum[],
+      }),
+    }),
+  }),
   catalog.custom(recommendationSeveritySpec, {
     updateFilterParams: (params, value: string[]) => ({
       ...params,
       ...(value?.length && {
         recommendationSeverity:
           value as ApiHostViewsGetHostViewsRecommendationSeverityEnum[],
-      }),
-    }),
-  }),
-  catalog.custom(incidentStatusSpec, {
-    updateFilterParams: (params, value: string[]) => ({
-      ...params,
-      ...(value?.length && {
-        incidentStatus: value as ApiHostViewsGetHostViewsIncidentStatusEnum[],
       }),
     }),
   }),

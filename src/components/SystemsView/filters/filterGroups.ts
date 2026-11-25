@@ -23,10 +23,10 @@ export const APP_GROUP_LABEL: Record<ConsumerAppName, string> = {
 export const APP_GROUP_ORDER: readonly ConsumerAppName[] = [
   'inventory',
   'advisor',
-  'vulnerability',
   'compliance',
   'content',
   'malware',
+  'vulnerability',
 ];
 
 /**

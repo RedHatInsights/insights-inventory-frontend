@@ -26,7 +26,7 @@ describe('Advisor filters', () => {
   it('binds exactly the two Advisor filters, in toolbar order', () => {
     const filterIds = filters.map((filter) => filter.filterId);
 
-    expect(filterIds).toEqual(['recommendation_severity', 'incident_status']);
+    expect(filterIds).toEqual(['incident_status', 'recommendation_severity']);
   });
 
   it('maps multiple severities to an OR-semantics param list', () => {

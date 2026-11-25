@@ -33,6 +33,6 @@ export const incidentStatusSpec: CheckboxFilterSpec = {
 };
 
 export const advisorFilterSpecs: readonly FilterSpec[] = [
-  recommendationSeveritySpec,
   incidentStatusSpec,
+  recommendationSeveritySpec,
 ];

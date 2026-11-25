@@ -4,8 +4,11 @@ import type {
   SingleSelectFilterSpec,
 } from '../types';
 
+const APP_NAME = 'content' as const;
+
 export const installableAdvisoryTypeSpec: CheckboxFilterSpec = {
   type: 'checkbox',
+  appName: APP_NAME,
   filterId: 'installable_advisory_type',
   title: 'Installable advisory type',
   defaultValue: [],
@@ -21,6 +24,7 @@ export const installableAdvisoryTypeSpec: CheckboxFilterSpec = {
 
 export const templateSpec: SingleSelectFilterSpec = {
   type: 'single-select',
+  appName: APP_NAME,
   filterId: 'template',
   title: 'Template',
   defaultValue: [],
