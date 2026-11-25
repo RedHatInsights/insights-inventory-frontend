@@ -278,12 +278,12 @@ export const workloadsSpec: CheckboxFilterSpec = {
 /** Current inventory toolbar, in display order. */
 export const inventoryFilterSpecs: readonly FilterSpec[] = [
   hostnameSpec,
-  statusSpec,
-  operatingSystemSpec,
   sourceSpec,
-  systemTypeSpec,
-  workspaceSpec,
   lastSeenSpec,
+  operatingSystemSpec,
+  statusSpec,
+  systemTypeSpec,
   tagsSpec,
   workloadsSpec,
+  workspaceSpec,
 ];

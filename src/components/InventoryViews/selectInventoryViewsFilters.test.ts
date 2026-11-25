@@ -46,11 +46,11 @@ describe('selectInventoryViewsFilters', () => {
     );
     expect(viewsFilterIds).toEqual([
       ...legacyFilterIds,
-      'recommendation_severity',
       'incident_status',
+      'recommendation_severity',
       'cve_severity',
-      'known_exploit',
       'security_rule',
+      'known_exploit',
       'installable_advisory_type',
       'template',
     ]);
