@@ -7,7 +7,6 @@
  * ListManager is also vendored locally in this folder.
  */
 import React, { useEffect, useMemo, useState } from 'react';
-import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 import type { ModalProps } from '@patternfly/react-core';
 import {
   Button,
@@ -96,7 +95,6 @@ export function ColumnManagementModal<
   listFooter,
   ...props
 }: ColumnManagementModalProps<T>) {
-  const { analytics } = useChrome();
   const [currentColumns, setCurrentColumns] = useState<T[]>(() =>
     appliedColumns.map((column) => ({
       ...column,
@@ -132,12 +130,6 @@ export function ColumnManagementModal<
       })),
     );
   }, [appliedColumns, hasChanges]);
-
-  useEffect(() => {
-    if (isOpen) {
-      analytics.track('inventory_views.columns.opened');
-    }
-  }, [analytics, isOpen]);
 
   // Convert ColumnManagementModalColumn to ListManagerItem
   const listManagerItems: ListManagerItem[] = currentColumns.map((column) => ({
@@ -208,9 +200,6 @@ export function ColumnManagementModal<
       };
     });
     applyColumns(updatedColumns);
-    analytics.track('systems_view.columns.saved', {
-      columns: updatedColumns.filter((c) => c.isShown).map((c) => c.key),
-    });
     onClose({} as KeyboardEvent);
   };
 
