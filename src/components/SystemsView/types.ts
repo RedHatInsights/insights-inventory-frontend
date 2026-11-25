@@ -69,6 +69,8 @@ export type SystemsViewStateSnapshot<TItem extends SystemsViewItem> = {
 export type SystemsViewEvents<TItem extends SystemsViewItem> = {
   /** Called when the user applies a column configuration. */
   onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
+  /** Called when the custom last-seen range changes. */
+  onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
   /**
    * Called once on mount, and again when the column configuration changes
    * (order, membership, or visibility). Filter, sort, and pagination

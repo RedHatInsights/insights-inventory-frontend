@@ -107,7 +107,7 @@ export type SystemsViewProps<
    */
   rowActions?: readonly RowAction<TItem>[];
   /**
-   * Observers for column and filter changes.
+   * Observers for column, filter, and last-seen range changes.
    */
   events?: SystemsViewEvents<TItem>;
   /**

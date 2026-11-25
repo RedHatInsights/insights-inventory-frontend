@@ -158,7 +158,6 @@ export type SystemsViewProps<
   showFilterGroups?: boolean;
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   initialLastSeenCustomRange?: LastSeenCustomRange;
-  onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
   /**
    * Observers for various events
    */
@@ -179,7 +178,6 @@ interface SystemsViewInnerProps<TItem extends SystemsViewItem, TFilterParams> {
   showColumnManagement: boolean;
   showFilterGroups: boolean;
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
-  onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
   events?: SystemsViewEvents<TItem>;
   exportConfig?: SystemsViewExportConfig<TItem>;
 }
@@ -196,7 +194,6 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
   showColumnManagement,
   showFilterGroups,
   initialSort,
-  onLastSeenCustomRangeChange,
   events,
   exportConfig,
 }: SystemsViewInnerProps<TItem, TFilterParams>) {
@@ -227,6 +224,7 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
     </ToolbarItem>
   ) : null;
 
+  const onLastSeenCustomRangeChange = events?.onLastSeenCustomRangeChange;
   useEffect(() => {
     onLastSeenCustomRangeChange?.(lastSeenCustomRange);
   }, [lastSeenCustomRange, onLastSeenCustomRangeChange]);
@@ -578,7 +576,6 @@ export function SystemsView<
   showFilterGroups = false,
   initialSort,
   initialLastSeenCustomRange,
-  onLastSeenCustomRangeChange,
   events,
   exportConfig,
 }: SystemsViewProps<TItem, TFilterParams>) {
@@ -611,7 +608,6 @@ export function SystemsView<
         showColumnManagement={showColumnManagement}
         showFilterGroups={showFilterGroups}
         initialSort={initialSort}
-        onLastSeenCustomRangeChange={onLastSeenCustomRangeChange}
         events={events}
         exportConfig={exportConfig}
       />
