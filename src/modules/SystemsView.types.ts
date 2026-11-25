@@ -107,7 +107,7 @@ export type SystemsViewProps<
    */
   rowActions?: readonly RowAction<TItem>[];
   /**
-   * Observers for settled columns and filters. Omit to subscribe to neither.
+   * Observers for column and filter changes.
    */
   events?: SystemsViewEvents<TItem>;
   /**

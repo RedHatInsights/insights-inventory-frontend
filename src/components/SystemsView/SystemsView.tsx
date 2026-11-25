@@ -158,10 +158,9 @@ export type SystemsViewProps<
   showFilterGroups?: boolean;
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
   initialLastSeenCustomRange?: LastSeenCustomRange;
-  onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
   onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
   /**
-   * Observers for settled columns and filters. Omit to subscribe to neither.
+   * Observers for various events
    */
   events?: SystemsViewEvents<TItem>;
   /** Export menu config. The export menu renders only when this is provided. */
@@ -180,7 +179,6 @@ interface SystemsViewInnerProps<TItem extends SystemsViewItem, TFilterParams> {
   showColumnManagement: boolean;
   showFilterGroups: boolean;
   initialSort?: { sortBy: Column['sortBy']; direction: SortDirection };
-  onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
   onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
   events?: SystemsViewEvents<TItem>;
   exportConfig?: SystemsViewExportConfig<TItem>;
@@ -198,7 +196,6 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
   showColumnManagement,
   showFilterGroups,
   initialSort,
-  onColumnsChange,
   onLastSeenCustomRangeChange,
   events,
   exportConfig,
@@ -405,6 +402,7 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
     ],
   );
 
+  const onColumnsChange = events?.onColumnsChange;
   // Wrapper to call both setColumns and onColumnsChange when user applies columns in modal.
   // Note: ColumnManagementModal always calls this with direct column array, never with updater function.
   const handleApplyColumns = useCallback(
@@ -580,7 +578,6 @@ export function SystemsView<
   showFilterGroups = false,
   initialSort,
   initialLastSeenCustomRange,
-  onColumnsChange,
   onLastSeenCustomRangeChange,
   events,
   exportConfig,
@@ -614,7 +611,6 @@ export function SystemsView<
         showColumnManagement={showColumnManagement}
         showFilterGroups={showFilterGroups}
         initialSort={initialSort}
-        onColumnsChange={onColumnsChange}
         onLastSeenCustomRangeChange={onLastSeenCustomRangeChange}
         events={events}
         exportConfig={exportConfig}

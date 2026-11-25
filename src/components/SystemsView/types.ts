@@ -62,10 +62,13 @@ export type SystemsViewStateSnapshot<TItem extends SystemsViewItem> = {
 };
 
 /**
- * Optional observers. Each callback receives the table snapshot current when
- * that slice settles. Callback identity changes do not notify.
+ * Optional observers. `onColumnsSettled` and `onFiltersSettled` receive the
+ * table snapshot current when that slice settles. Callback identity changes
+ * do not notify.
  */
 export type SystemsViewEvents<TItem extends SystemsViewItem> = {
+  /** Called when the user applies a column configuration. */
+  onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
   /**
    * Called once on mount, and again when the column configuration changes
    * (order, membership, or visibility). Filter, sort, and pagination
