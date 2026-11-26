@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef } from 'react';
-import type { SystemsViewFilterState } from '../types';
+import type { SystemsViewFiltersSlice, SystemsViewFilterState } from '../types';
 
 interface UseOnFiltersSettledParams {
-  onFiltersSettled?: (filters: Readonly<SystemsViewFilterState>) => void;
+  onFiltersSettled?: (filters: SystemsViewFiltersSlice) => void;
   filters: SystemsViewFilterState;
   filtersHydrated: boolean;
 }

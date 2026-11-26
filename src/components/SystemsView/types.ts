@@ -25,6 +25,9 @@ export type LastSeenCustomRange = {
 
 export type SystemsViewFilterState = Record<string, unknown>;
 
+/** Debounced toolbar filters passed to `onFiltersSettled`. */
+export type SystemsViewFiltersSlice = Readonly<SystemsViewFilterState>;
+
 export type SystemsViewFetchParams<TFilterParams = unknown> = {
   page: number;
   perPage: number;
@@ -70,5 +73,5 @@ export type SystemsViewEvents<TItem extends SystemsViewItem> = {
    * Called once filters have hydrated on this mount, and again when the
    * debounced toolbar filters change. The argument is a read-only copy.
    */
-  onFiltersSettled?: (filters: Readonly<SystemsViewFilterState>) => void;
+  onFiltersSettled?: (filters: SystemsViewFiltersSlice) => void;
 };

@@ -23,6 +23,7 @@ export type {
   SystemsViewFetchData,
   SystemsViewFetchParams,
   SystemsViewFilterState,
+  SystemsViewFiltersSlice,
   SystemsViewItem,
   SystemsViewQueryData,
 } from '../components/SystemsView/types';

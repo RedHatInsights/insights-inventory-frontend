@@ -25,6 +25,7 @@ export type {
   SystemsViewFetchData,
   SystemsViewFetchParams,
   SystemsViewFilterState,
+  SystemsViewFiltersSlice,
   SystemsViewItem,
   SystemsViewProps,
   SystemsViewQueryData,
