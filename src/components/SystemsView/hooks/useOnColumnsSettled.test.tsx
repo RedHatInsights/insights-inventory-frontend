@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react';
 import { expect, jest } from '@jest/globals';
 import type { Column } from '../columns/types';
-import type { SystemsViewItem, SystemsViewStateSnapshot } from '../types';
+import type { SystemsViewItem } from '../types';
 import { useOnColumnsSettled } from './useOnColumnsSettled';
 
 const column = (key: string, isShown: boolean): Column<SystemsViewItem> =>
@@ -14,79 +14,63 @@ const column = (key: string, isShown: boolean): Column<SystemsViewItem> =>
     renderCell: () => null,
   }) as unknown as Column<SystemsViewItem>;
 
-const snapshot = (
-  overrides: Partial<SystemsViewStateSnapshot<SystemsViewItem>> = {},
-): SystemsViewStateSnapshot<SystemsViewItem> => ({
-  filters: { name: 'web' },
-  lastSeenCustomRange: null,
-  columns: [column('display_name', true), column('operating_system', false)],
-  page: 2,
-  perPage: 50,
-  sortBy: 'display_name',
-  direction: 'asc',
-  ...overrides,
-});
+const columns = () => [
+  column('display_name', true),
+  column('operating_system', false),
+];
 
 describe('useOnColumnsSettled', () => {
   it('emits the columns on mount', () => {
     const onColumnsSettled = jest.fn();
-    const viewState = snapshot();
+    const initial = columns();
 
     renderHook(() =>
       useOnColumnsSettled({
         onColumnsSettled,
-        viewState,
+        columns: initial,
       }),
     );
 
     expect(onColumnsSettled).toHaveBeenCalledTimes(1);
-    expect(onColumnsSettled).toHaveBeenCalledWith(viewState.columns);
+    expect(onColumnsSettled).toHaveBeenCalledWith(initial);
   });
 
-  it('does not emit when only filters, sort, or page change', () => {
+  it('does not emit when a new array keeps the same order and visibility', () => {
     const onColumnsSettled = jest.fn();
 
     const { rerender } = renderHook(
-      ({ viewState }) =>
+      ({ columns: nextColumns }) =>
         useOnColumnsSettled({
           onColumnsSettled,
-          viewState,
+          columns: nextColumns,
         }),
-      { initialProps: { viewState: snapshot() } },
+      { initialProps: { columns: columns() } },
     );
 
-    rerender({
-      viewState: snapshot({
-        filters: { name: 'db' },
-        page: 4,
-        sortBy: 'status',
-      }),
-    });
+    rerender({ columns: columns() });
 
     expect(onColumnsSettled).toHaveBeenCalledTimes(1);
   });
 
   it('does not emit when columns are re-annotated without a configuration change', () => {
     const onColumnsSettled = jest.fn();
-    const initial = snapshot();
+    const initial = columns();
 
     const { rerender } = renderHook(
-      ({ viewState }) =>
+      ({ columns: nextColumns }) =>
         useOnColumnsSettled({
           onColumnsSettled,
-          viewState,
+          columns: nextColumns,
         }),
-      { initialProps: { viewState: initial } },
+      { initialProps: { columns: initial } },
     );
 
     rerender({
-      viewState: snapshot({
-        columns: initial.columns.map((col) => ({
-          ...col,
-          isPermissionLocked: true,
-          renderCell: () => null,
-        })),
-      }),
+      columns: initial.map((col) => ({
+        ...col,
+        isPermissionLocked: true,
+        renderCell: () => null,
+      })),
     });
 
     expect(onColumnsSettled).toHaveBeenCalledTimes(1);
@@ -96,34 +80,34 @@ describe('useOnColumnsSettled', () => {
     const onColumnsSettled = jest.fn();
 
     const { rerender } = renderHook(
-      ({ viewState }) =>
+      ({ columns: nextColumns }) =>
         useOnColumnsSettled({
           onColumnsSettled,
-          viewState,
+          columns: nextColumns,
         }),
-      { initialProps: { viewState: snapshot() } },
+      { initialProps: { columns: columns() } },
     );
 
-    const next = snapshot({
-      columns: [column('operating_system', true), column('display_name', true)],
-      page: 1,
-    });
-    rerender({ viewState: next });
+    const next = [
+      column('operating_system', true),
+      column('display_name', true),
+    ];
+    rerender({ columns: next });
 
     expect(onColumnsSettled).toHaveBeenCalledTimes(2);
-    expect(onColumnsSettled).toHaveBeenLastCalledWith(next.columns);
+    expect(onColumnsSettled).toHaveBeenLastCalledWith(next);
   });
 
   it('does not emit again when only the callback identity changes', () => {
     const first = jest.fn();
     const second = jest.fn();
-    const viewState = snapshot();
+    const initial = columns();
 
     const { rerender } = renderHook(
       ({ onColumnsSettled }) =>
         useOnColumnsSettled({
           onColumnsSettled,
-          viewState,
+          columns: initial,
         }),
       { initialProps: { onColumnsSettled: first } },
     );

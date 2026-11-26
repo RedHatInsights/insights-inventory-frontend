@@ -62,7 +62,6 @@ import type {
   SystemsViewFetchParams,
   SystemsViewEvents,
   SystemsViewItem,
-  SystemsViewStateSnapshot,
 } from './types';
 import type {
   SystemsViewExportConfig,
@@ -80,12 +79,7 @@ import {
 import { buildFilterParams } from './filters/buildFilterParams';
 import { hasActiveFilterChips } from './filters/defaultValuesFrom';
 import type { BoundFilter } from './filters/types';
-import type {
-  ActionSeparator,
-  ActionSpec,
-  BulkAction,
-  RowAction,
-} from './actions/types';
+import type { BulkAction, RowAction } from './actions/types';
 import useInventoryViewsColumnsRbacFeatureFlag from '../../Utilities/useInventoryViewsColumnsRbacFeatureFlag';
 
 export type {
@@ -344,35 +338,14 @@ function SystemsViewInner<TItem extends SystemsViewItem, TFilterParams>({
     [selected],
   );
 
-  const stateSnapshot = useMemo<SystemsViewStateSnapshot<TItem>>(
-    () => ({
-      filters: debouncedFilters,
-      lastSeenCustomRange,
-      columns,
-      page: pagination.page,
-      perPage: pagination.perPage,
-      sortBy,
-      direction,
-    }),
-    [
-      debouncedFilters,
-      lastSeenCustomRange,
-      columns,
-      pagination.page,
-      pagination.perPage,
-      sortBy,
-      direction,
-    ],
-  );
-
   useOnColumnsSettled({
     onColumnsSettled: events?.onColumnsSettled,
-    viewState: stateSnapshot,
+    columns,
   });
 
   useOnFiltersSettled({
     onFiltersSettled: events?.onFiltersSettled,
-    viewState: stateSnapshot,
+    filters: debouncedFilters,
     filtersHydrated,
   });
 

@@ -1,43 +1,40 @@
 import { useEffect, useMemo, useRef } from 'react';
-import type { SystemsViewItem, SystemsViewStateSnapshot } from '../types';
+import type { SystemsViewFilterState } from '../types';
 
-interface UseOnFiltersSettledParams<TItem extends SystemsViewItem> {
-  onFiltersSettled?: (state: SystemsViewStateSnapshot<TItem>) => void;
-  viewState: SystemsViewStateSnapshot<TItem>;
+interface UseOnFiltersSettledParams {
+  onFiltersSettled?: (filters: Readonly<SystemsViewFilterState>) => void;
+  filters: SystemsViewFilterState;
   filtersHydrated: boolean;
 }
 
 /**
  * Calls `onFiltersSettled` once filters have hydrated on this mount, and again
- * when the debounced toolbar filters change. The callback receives the full
- * table snapshot current at that moment.
+ * when the debounced toolbar filters change. The callback receives a read-only
+ * structured clone of those filters. Writes to the clone do not change the
+ * filters the table queries with.
  *
  *  @param params.onFiltersSettled - Consumer callback. Identity changes do not notify.
- *  @param params.viewState        - Live table snapshot. Only its filters gate the call.
+ *  @param params.filters          - Debounced toolbar filters. They gate the call.
  *  @param params.filtersHydrated  - Gates the first call until defaults are written.
  */
-export const useOnFiltersSettled = <TItem extends SystemsViewItem>({
+export const useOnFiltersSettled = ({
   onFiltersSettled,
-  viewState,
+  filters,
   filtersHydrated,
-}: UseOnFiltersSettledParams<TItem>) => {
+}: UseOnFiltersSettledParams) => {
   const settledFiltersSignature = useMemo(
-    () =>
-      JSON.stringify({
-        filters: viewState.filters,
-        lastSeenCustomRange: viewState.lastSeenCustomRange,
-      }),
-    [viewState.filters, viewState.lastSeenCustomRange],
+    () => JSON.stringify(filters),
+    [filters],
   );
   const onFiltersSettledRef = useRef(onFiltersSettled);
   onFiltersSettledRef.current = onFiltersSettled;
-  const viewStateRef = useRef(viewState);
-  viewStateRef.current = viewState;
+  const filtersRef = useRef(filters);
+  filtersRef.current = filters;
 
   useEffect(() => {
     if (!filtersHydrated) {
       return;
     }
-    onFiltersSettledRef.current?.(viewStateRef.current);
+    onFiltersSettledRef.current?.(structuredClone(filtersRef.current));
   }, [filtersHydrated, settledFiltersSignature]);
 };

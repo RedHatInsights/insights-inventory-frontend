@@ -27,7 +27,6 @@ export type {
   SystemsViewItem,
   SystemsViewProps,
   SystemsViewQueryData,
-  SystemsViewState,
 } from './SystemsView.types';
 export { filterCatalog } from '../components/SystemsView/filters/catalog';
 export { bindFilter as custom } from '../components/SystemsView/filters/bindFilter';

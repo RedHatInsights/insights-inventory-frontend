@@ -24,7 +24,6 @@ export type {
   SystemsViewFilterState,
   SystemsViewItem,
   SystemsViewQueryData,
-  SystemsViewStateSnapshot as SystemsViewState,
 } from '../components/SystemsView/types';
 
 export type { ColumnSelector } from '../components/SystemsView/columns/resolveColumnSelector';

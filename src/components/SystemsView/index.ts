@@ -12,7 +12,6 @@ export type {
   SystemsViewFetchParams,
   SystemsViewFilterState,
   SystemsViewItem,
-  SystemsViewStateSnapshot as SystemsViewState,
   SystemsViewQueryData,
   SortDirection,
   LastSeenCustomRange,

@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef } from 'react';
 import type { Column } from '../columns/types';
-import type { SystemsViewItem, SystemsViewStateSnapshot } from '../types';
+import type { SystemsViewItem } from '../types';
 
 interface UseOnColumnsSettledParams<TItem extends SystemsViewItem> {
   onColumnsSettled?: (columns: readonly Column<TItem>[]) => void;
-  viewState: SystemsViewStateSnapshot<TItem>;
+  columns: readonly Column<TItem>[];
 }
 
 /**
@@ -16,26 +16,26 @@ interface UseOnColumnsSettledParams<TItem extends SystemsViewItem> {
  * cell renderers without changing which columns are shown.
  *
  *  @param params.onColumnsSettled - Consumer callback. Identity changes do not notify.
- *  @param params.viewState        - Live table snapshot. Only its columns gate the call.
+ *  @param params.columns          - Live columns. Only their order, membership, and visibility gate the call.
  */
 export const useOnColumnsSettled = <TItem extends SystemsViewItem>({
   onColumnsSettled,
-  viewState,
+  columns,
 }: UseOnColumnsSettledParams<TItem>) => {
   const settledColumnsSignature = useMemo(
     () =>
       JSON.stringify(
-        viewState.columns.map((column) => ({
+        columns.map((column) => ({
           key: column.key,
           isShown: column.isShown,
         })),
       ),
-    [viewState.columns],
+    [columns],
   );
   const onColumnsSettledRef = useRef(onColumnsSettled);
   onColumnsSettledRef.current = onColumnsSettled;
-  const columnsRef = useRef(viewState.columns);
-  columnsRef.current = viewState.columns;
+  const columnsRef = useRef(columns);
+  columnsRef.current = columns;
 
   useEffect(() => {
     onColumnsSettledRef.current?.(columnsRef.current);

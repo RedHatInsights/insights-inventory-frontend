@@ -23,7 +23,6 @@ export type LastSeenCustomRange = {
   end?: string;
 } | null;
 
-/** Toolbar filters keys match FilterSpec `filterId`. */
 export type SystemsViewFilterState = Record<string, unknown>;
 
 export type SystemsViewFetchParams<TFilterParams = unknown> = {
@@ -51,20 +50,8 @@ export type SystemsViewFetchData<
   params: SystemsViewFetchParams<TFilterParams>,
 ) => Promise<SystemsViewQueryData<TItem>>;
 
-export type SystemsViewStateSnapshot<TItem extends SystemsViewItem> = {
-  filters: SystemsViewFilterState;
-  lastSeenCustomRange: LastSeenCustomRange;
-  columns: readonly Column<TItem>[];
-  page: number;
-  perPage: number;
-  sortBy: string | undefined;
-  direction: SortDirection | undefined;
-};
-
 /**
- * Optional observers. `onColumnsSettled` receives the settled columns.
- * `onFiltersSettled` receives the table snapshot current when filters
- * settle. Callback identity changes do not notify.
+ * Optional callbacks in order to get notified about events
  */
 export type SystemsViewEvents<TItem extends SystemsViewItem> = {
   /** Called when the user applies a column configuration. */
@@ -73,14 +60,12 @@ export type SystemsViewEvents<TItem extends SystemsViewItem> = {
   onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
   /**
    * Called once on mount, and again when the column configuration changes
-   * (order, membership, or visibility). Filter, sort, and pagination
-   * changes alone do not call this.
+   * (order, membership, or visibility).
    */
   onColumnsSettled?: (columns: readonly Column<TItem>[]) => void;
   /**
    * Called once filters have hydrated on this mount, and again when the
-   * debounced toolbar filters change. Sort, pagination, and column changes
-   * alone do not call this.
+   * debounced toolbar filters change. The argument is a read-only copy.
    */
-  onFiltersSettled?: (state: SystemsViewStateSnapshot<TItem>) => void;
+  onFiltersSettled?: (filters: Readonly<SystemsViewFilterState>) => void;
 };

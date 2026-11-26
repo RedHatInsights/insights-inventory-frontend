@@ -1,47 +1,34 @@
 import { renderHook } from '@testing-library/react';
 import { expect, jest } from '@jest/globals';
-import type { SystemsViewItem, SystemsViewStateSnapshot } from '../types';
+import type { SystemsViewFilterState } from '../types';
 import { useOnFiltersSettled } from './useOnFiltersSettled';
 
-const snapshot = (
-  overrides: Partial<SystemsViewStateSnapshot<SystemsViewItem>> = {},
-): SystemsViewStateSnapshot<SystemsViewItem> => ({
-  filters: { name: 'web' },
-  lastSeenCustomRange: null,
-  columns: [],
-  page: 2,
-  perPage: 50,
-  sortBy: 'display_name',
-  direction: 'asc',
-  ...overrides,
-});
-
 describe('useOnFiltersSettled', () => {
-  it('emits the full snapshot once filters are hydrated', () => {
+  it('emits the filters once filters are hydrated', () => {
     const onFiltersSettled = jest.fn();
-    const viewState = snapshot();
+    const filters = { name: 'web' };
 
     renderHook(() =>
       useOnFiltersSettled({
         onFiltersSettled,
-        viewState,
+        filters,
         filtersHydrated: true,
       }),
     );
 
     expect(onFiltersSettled).toHaveBeenCalledTimes(1);
-    expect(onFiltersSettled).toHaveBeenCalledWith(viewState);
+    expect(onFiltersSettled).toHaveBeenCalledWith(filters);
   });
 
   it('waits to emit until filters have hydrated', () => {
     const onFiltersSettled = jest.fn();
-    const viewState = snapshot({ page: 1 });
+    const filters = { name: 'web' };
 
     const { rerender } = renderHook(
       ({ filtersHydrated }) =>
         useOnFiltersSettled({
           onFiltersSettled,
-          viewState,
+          filters,
           filtersHydrated,
         }),
       { initialProps: { filtersHydrated: false } },
@@ -52,49 +39,80 @@ describe('useOnFiltersSettled', () => {
     rerender({ filtersHydrated: true });
 
     expect(onFiltersSettled).toHaveBeenCalledTimes(1);
-    expect(onFiltersSettled).toHaveBeenCalledWith(viewState);
+    expect(onFiltersSettled).toHaveBeenCalledWith(filters);
   });
 
-  it('does not emit when only sort or page change', () => {
+  it('gives the callback a copy, so writes do not change the table filters', () => {
+    const hostnames = ['web-1'];
+    const filters = { hostname_or_id: hostnames };
+    let received: Readonly<SystemsViewFilterState> | undefined;
+
+    renderHook(() =>
+      useOnFiltersSettled({
+        onFiltersSettled: (nextFilters) => {
+          received = nextFilters;
+        },
+        filters,
+        filtersHydrated: true,
+      }),
+    );
+
+    const copy = received as SystemsViewFilterState;
+    (copy.hostname_or_id as string[]).push('db-1');
+    copy.name = 'mutated';
+
+    expect(hostnames).toEqual(['web-1']);
+    expect(filters).toEqual({ hostname_or_id: ['web-1'] });
+    expect(copy).not.toBe(filters);
+  });
+
+  it('does not emit when a new filters object keeps the same values', () => {
     const onFiltersSettled = jest.fn();
 
     const { rerender } = renderHook(
-      ({ viewState }) =>
+      ({ filters }) =>
         useOnFiltersSettled({
           onFiltersSettled,
-          viewState,
+          filters,
           filtersHydrated: true,
         }),
-      { initialProps: { viewState: snapshot() } },
+      {
+        initialProps: {
+          filters: { name: 'web' },
+        },
+      },
     );
 
     rerender({
-      viewState: snapshot({ page: 4, sortBy: 'status' }),
+      filters: { name: 'web' },
     });
 
     expect(onFiltersSettled).toHaveBeenCalledTimes(1);
   });
 
-  it('emits the current snapshot when debounced filters change', () => {
+  it('emits the current filters when debounced filters change', () => {
     const onFiltersSettled = jest.fn();
 
     const { rerender } = renderHook(
-      ({ viewState }) =>
+      ({ filters }) =>
         useOnFiltersSettled({
           onFiltersSettled,
-          viewState,
+          filters,
           filtersHydrated: true,
         }),
-      { initialProps: { viewState: snapshot() } },
+      {
+        initialProps: {
+          filters: { name: 'web' },
+        },
+      },
     );
 
-    const next = snapshot({
-      filters: { name: 'db' },
-      page: 1,
+    const nextFilters = { name: 'db' };
+    rerender({
+      filters: nextFilters,
     });
-    rerender({ viewState: next });
 
     expect(onFiltersSettled).toHaveBeenCalledTimes(2);
-    expect(onFiltersSettled).toHaveBeenLastCalledWith(next);
+    expect(onFiltersSettled).toHaveBeenLastCalledWith(nextFilters);
   });
 });
