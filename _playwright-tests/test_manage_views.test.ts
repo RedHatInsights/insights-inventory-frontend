@@ -38,6 +38,8 @@ test.describe(
     },
   },
   () => {
+    test.describe.configure({ mode: 'serial' });
+
     const viewName = `${DEFAULT_PREFIX}-${randomUUID()}`;
     const renamedView = `${viewName}-renamed`;
     const defaultViewName = `${DEFAULT_PREFIX}-${randomUUID()}`;
@@ -127,6 +129,8 @@ test.describe(
     },
   },
   () => {
+    test.describe.configure({ mode: 'serial' });
+
     test.beforeEach(async ({ page }) => {
       await navigateToInventorySystemsFunc(page);
     });
