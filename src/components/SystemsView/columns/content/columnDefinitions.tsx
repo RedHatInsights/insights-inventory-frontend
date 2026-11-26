@@ -35,6 +35,7 @@ const packagesInstalledSpec: ColumnSpec<PackagesInstalledValue> = {
   title: 'Installed packages',
   key: ApiHostViewsGetHostViewsOrderByEnum.PatchpackagesInstalled,
   sortBy: ApiHostViewsGetHostViewsOrderByEnum.PatchpackagesInstalled,
+  minWidth: '12rem',
   renderCell: (value) => (
     <PackagesInstalled appData={value.appData} systemId={value.systemId} />
   ),
