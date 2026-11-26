@@ -1,15 +1,16 @@
 import { useEffect, useMemo, useRef } from 'react';
+import type { Column } from '../columns/types';
 import type { SystemsViewItem, SystemsViewStateSnapshot } from '../types';
 
 interface UseOnColumnsSettledParams<TItem extends SystemsViewItem> {
-  onColumnsSettled?: (state: SystemsViewStateSnapshot<TItem>) => void;
+  onColumnsSettled?: (columns: readonly Column<TItem>[]) => void;
   viewState: SystemsViewStateSnapshot<TItem>;
 }
 
 /**
  * Calls `onColumnsSettled` once on mount, and again when the column
  * configuration changes (order, membership, or visibility). The callback
- * receives the full table snapshot current at that moment.
+ * receives the columns current at that moment.
  *
  * Permission annotation does not count as a new configuration: it rewrites
  * cell renderers without changing which columns are shown.
@@ -33,10 +34,10 @@ export const useOnColumnsSettled = <TItem extends SystemsViewItem>({
   );
   const onColumnsSettledRef = useRef(onColumnsSettled);
   onColumnsSettledRef.current = onColumnsSettled;
-  const viewStateRef = useRef(viewState);
-  viewStateRef.current = viewState;
+  const columnsRef = useRef(viewState.columns);
+  columnsRef.current = viewState.columns;
 
   useEffect(() => {
-    onColumnsSettledRef.current?.(viewStateRef.current);
+    onColumnsSettledRef.current?.(columnsRef.current);
   }, [settledColumnsSignature]);
 };

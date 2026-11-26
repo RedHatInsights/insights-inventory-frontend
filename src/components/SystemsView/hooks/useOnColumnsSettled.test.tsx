@@ -28,7 +28,7 @@ const snapshot = (
 });
 
 describe('useOnColumnsSettled', () => {
-  it('emits the full snapshot on mount', () => {
+  it('emits the columns on mount', () => {
     const onColumnsSettled = jest.fn();
     const viewState = snapshot();
 
@@ -40,7 +40,7 @@ describe('useOnColumnsSettled', () => {
     );
 
     expect(onColumnsSettled).toHaveBeenCalledTimes(1);
-    expect(onColumnsSettled).toHaveBeenCalledWith(viewState);
+    expect(onColumnsSettled).toHaveBeenCalledWith(viewState.columns);
   });
 
   it('does not emit when only filters, sort, or page change', () => {
@@ -92,7 +92,7 @@ describe('useOnColumnsSettled', () => {
     expect(onColumnsSettled).toHaveBeenCalledTimes(1);
   });
 
-  it('emits the current snapshot when column visibility or order changes', () => {
+  it('emits the current columns when column visibility or order changes', () => {
     const onColumnsSettled = jest.fn();
 
     const { rerender } = renderHook(
@@ -111,7 +111,7 @@ describe('useOnColumnsSettled', () => {
     rerender({ viewState: next });
 
     expect(onColumnsSettled).toHaveBeenCalledTimes(2);
-    expect(onColumnsSettled).toHaveBeenLastCalledWith(next);
+    expect(onColumnsSettled).toHaveBeenLastCalledWith(next.columns);
   });
 
   it('does not emit again when only the callback identity changes', () => {

@@ -62,9 +62,9 @@ export type SystemsViewStateSnapshot<TItem extends SystemsViewItem> = {
 };
 
 /**
- * Optional observers. `onColumnsSettled` and `onFiltersSettled` receive the
- * table snapshot current when that slice settles. Callback identity changes
- * do not notify.
+ * Optional observers. `onColumnsSettled` receives the settled columns.
+ * `onFiltersSettled` receives the table snapshot current when filters
+ * settle. Callback identity changes do not notify.
  */
 export type SystemsViewEvents<TItem extends SystemsViewItem> = {
   /** Called when the user applies a column configuration. */
@@ -76,7 +76,7 @@ export type SystemsViewEvents<TItem extends SystemsViewItem> = {
    * (order, membership, or visibility). Filter, sort, and pagination
    * changes alone do not call this.
    */
-  onColumnsSettled?: (state: SystemsViewStateSnapshot<TItem>) => void;
+  onColumnsSettled?: (columns: readonly Column<TItem>[]) => void;
   /**
    * Called once filters have hydrated on this mount, and again when the
    * debounced toolbar filters change. Sort, pagination, and column changes
