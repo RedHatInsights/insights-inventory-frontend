@@ -96,6 +96,15 @@ describe('useOnColumnsSettled', () => {
 
     expect(onColumnsSettled).toHaveBeenCalledTimes(2);
     expect(onColumnsSettled).toHaveBeenLastCalledWith(next);
+
+    const visibilityOnly = [
+      column('operating_system', true),
+      column('display_name', false),
+    ];
+    rerender({ columns: visibilityOnly });
+
+    expect(onColumnsSettled).toHaveBeenCalledTimes(3);
+    expect(onColumnsSettled).toHaveBeenLastCalledWith(visibilityOnly);
   });
 
   it('does not emit again when only the callback identity changes', () => {
