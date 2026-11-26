@@ -1,8 +1,11 @@
 import { renderHook } from '@testing-library/react';
 import { expect, jest } from '@jest/globals';
 import type { Column } from '../columns/types';
-import type { SystemsViewItem } from '../types';
+import type { SettledColumn, SystemsViewItem } from '../types';
 import { useOnColumnsSettled } from './useOnColumnsSettled';
+
+const settled = (cols: readonly Column<SystemsViewItem>[]): SettledColumn[] =>
+  cols.map(({ getValue, renderCell, ...column }) => column);
 
 const column = (key: string, isShown: boolean): Column<SystemsViewItem> =>
   ({
@@ -32,7 +35,33 @@ describe('useOnColumnsSettled', () => {
     );
 
     expect(onColumnsSettled).toHaveBeenCalledTimes(1);
-    expect(onColumnsSettled).toHaveBeenCalledWith(initial);
+    expect(onColumnsSettled).toHaveBeenCalledWith(settled(initial));
+    const emitted = onColumnsSettled.mock.calls[0][0] as SettledColumn[];
+    expect(emitted[0]).not.toHaveProperty('getValue');
+    expect(emitted[0]).not.toHaveProperty('renderCell');
+  });
+
+  it('gives the callback a copy, so writes do not change the live columns', () => {
+    const initial = columns();
+    let received: readonly SettledColumn[] | undefined;
+
+    renderHook(() =>
+      useOnColumnsSettled({
+        onColumnsSettled: (nextColumns) => {
+          received = nextColumns;
+        },
+        columns: initial,
+      }),
+    );
+
+    const copy = received as SettledColumn[];
+    copy[0].isShown = false;
+    copy.push(settled([column('groups', true)])[0]);
+
+    expect(initial[0].isShown).toBe(true);
+    expect(initial).toHaveLength(2);
+    expect(copy[0]).not.toBe(initial[0]);
+    expect(copy).not.toBe(initial);
   });
 
   it('does not emit when a new array keeps the same order and visibility', () => {
@@ -95,7 +124,7 @@ describe('useOnColumnsSettled', () => {
     rerender({ columns: next });
 
     expect(onColumnsSettled).toHaveBeenCalledTimes(2);
-    expect(onColumnsSettled).toHaveBeenLastCalledWith(next);
+    expect(onColumnsSettled).toHaveBeenLastCalledWith(settled(next));
 
     const visibilityOnly = [
       column('operating_system', true),
@@ -104,7 +133,7 @@ describe('useOnColumnsSettled', () => {
     rerender({ columns: visibilityOnly });
 
     expect(onColumnsSettled).toHaveBeenCalledTimes(3);
-    expect(onColumnsSettled).toHaveBeenLastCalledWith(visibilityOnly);
+    expect(onColumnsSettled).toHaveBeenLastCalledWith(settled(visibilityOnly));
   });
 
   it('does not emit again when only the callback identity changes', () => {

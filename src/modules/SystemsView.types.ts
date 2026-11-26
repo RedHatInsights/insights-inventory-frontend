@@ -18,6 +18,7 @@ import type {
 } from '../components/SystemsView/actions/types';
 
 export type {
+  SettledColumn,
   SystemsViewEvents,
   SystemsViewFetchData,
   SystemsViewFetchParams,

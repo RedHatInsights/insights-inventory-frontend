@@ -20,6 +20,7 @@ export type {
   FilterSelector,
   FilterSpec,
   RowAction,
+  SettledColumn,
   SystemsViewEvents,
   SystemsViewFetchData,
   SystemsViewFetchParams,

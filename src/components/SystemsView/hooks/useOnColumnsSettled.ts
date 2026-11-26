@@ -1,16 +1,22 @@
 import { useEffect, useMemo, useRef } from 'react';
 import type { Column } from '../columns/types';
-import type { SystemsViewItem } from '../types';
+import type { SettledColumn, SystemsViewItem } from '../types';
+
+const toSettledColumns = <TItem>(
+  columns: readonly Column<TItem>[],
+): SettledColumn[] =>
+  columns.map(({ getValue, renderCell, ...column }) => column);
 
 interface UseOnColumnsSettledParams<TItem extends SystemsViewItem> {
-  onColumnsSettled?: (columns: readonly Column<TItem>[]) => void;
+  onColumnsSettled?: (columns: readonly SettledColumn[]) => void;
   columns: readonly Column<TItem>[];
 }
 
 /**
  * Calls `onColumnsSettled` once on mount, and again when the column
  * configuration changes (order, membership, or visibility). The callback
- * receives the columns current at that moment.
+ * receives a copy of the column data with render functions removed.
+ * Writes to that copy do not change the columns the table renders.
  *
  * Permission annotation does not count as a new configuration: it rewrites
  * cell renderers without changing which columns are shown.
@@ -23,13 +29,7 @@ export const useOnColumnsSettled = <TItem extends SystemsViewItem>({
   columns,
 }: UseOnColumnsSettledParams<TItem>) => {
   const settledColumnsSignature = useMemo(
-    () =>
-      JSON.stringify(
-        columns.map((column) => ({
-          key: column.key,
-          isShown: column.isShown,
-        })),
-      ),
+    () => JSON.stringify(columns.map(({ key, isShown }) => ({ key, isShown }))),
     [columns],
   );
   const onColumnsSettledRef = useRef(onColumnsSettled);
@@ -38,6 +38,6 @@ export const useOnColumnsSettled = <TItem extends SystemsViewItem>({
   columnsRef.current = columns;
 
   useEffect(() => {
-    onColumnsSettledRef.current?.(columnsRef.current);
+    onColumnsSettledRef.current?.(toSettledColumns(columnsRef.current));
   }, [settledColumnsSignature]);
 };

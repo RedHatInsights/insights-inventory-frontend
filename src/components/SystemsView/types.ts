@@ -50,6 +50,8 @@ export type SystemsViewFetchData<
   params: SystemsViewFetchParams<TFilterParams>,
 ) => Promise<SystemsViewQueryData<TItem>>;
 
+export type SettledColumn = Omit<Column, 'getValue' | 'renderCell'>;
+
 /**
  * Optional callbacks in order to get notified about events
  */
@@ -60,9 +62,10 @@ export type SystemsViewEvents<TItem extends SystemsViewItem> = {
   onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
   /**
    * Called once on mount, and again when the column configuration changes
-   * (order, membership, or visibility).
+   * (order, membership, or visibility). The argument is a copy of the
+   * column data, without render functions.
    */
-  onColumnsSettled?: (columns: readonly Column<TItem>[]) => void;
+  onColumnsSettled?: (columns: readonly SettledColumn[]) => void;
   /**
    * Called once filters have hydrated on this mount, and again when the
    * debounced toolbar filters change. The argument is a read-only copy.
