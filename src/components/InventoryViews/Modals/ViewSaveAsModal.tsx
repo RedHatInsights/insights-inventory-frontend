@@ -43,7 +43,7 @@ const ViewSaveAsModal = ({
       return;
     }
 
-    analytics.track('systems_view.views.saved', {
+    analytics?.track('Inventory Views - Saved', {
       viewName: viewName.trim(),
       columns: currentConfiguration.columns.map((c) => c.key),
       filters: currentConfiguration.filters?.keys,
