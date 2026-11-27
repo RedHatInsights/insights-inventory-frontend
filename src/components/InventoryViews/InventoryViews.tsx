@@ -526,8 +526,10 @@ const InventoryViews = () => {
               showFilterGroups
               initialSort={initialSort}
               initialLastSeenCustomRange={initialLastSeenCustomRange}
-              onColumnsChange={handleColumnsChange}
-              onLastSeenCustomRangeChange={setCurrentLastSeenCustomRange}
+              events={{
+                onColumnsChange: handleColumnsChange,
+                onLastSeenCustomRangeChange: setCurrentLastSeenCustomRange,
+              }}
               queryKeyPrefix={INVENTORY_VIEWS_QUERY_KEY}
               fetchData={fetchInventoryViews}
               bulkActions={bulkActions}

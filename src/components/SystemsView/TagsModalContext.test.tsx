@@ -70,6 +70,7 @@ function renderWithProvider(
         onSetFilters,
         clearAllFilters: jest.fn(),
         filtersDifferFromDefaults: false,
+        filtersHydrated: true,
         lastSeenCustomRange: null,
         setLastSeenCustomRange: jest.fn(),
         ungroupedWorkspaceId: undefined,
