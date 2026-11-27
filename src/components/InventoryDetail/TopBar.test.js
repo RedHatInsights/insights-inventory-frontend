@@ -99,10 +99,10 @@ describe('TopBar', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('shows delete button by default', () => {
+  it('shows delete button in the inventory app', () => {
     render(
       <TestWrapper>
-        <TopBar entity={entity} loaded showDelete />
+        <TopBar entity={entity} loaded showDelete isInventoryApp />
       </TestWrapper>,
     );
 
@@ -126,6 +126,7 @@ describe('TopBar', () => {
             entity={{ id: 'system-1', display_name: 'system-1' }}
             loaded
             showDelete
+            isInventoryApp
             deleteEntity={(_systems, _name, onSuccess) => onSuccess()}
           />
           <CurrentPath />
@@ -153,6 +154,7 @@ describe('TopBar', () => {
           entity={{ id: 'system-1', display_name: 'system-1' }}
           loaded
           showDelete
+          isInventoryApp
           deleteEntity={(_systems, _name, onSuccess) => onSuccess()}
         />
       </TestWrapper>,
@@ -177,6 +179,7 @@ describe('TopBar', () => {
             entity={{ id: 'system-1', display_name: 'system-1' }}
             loaded
             showDelete
+            isInventoryApp
             deleteEntity={(_systems, _name, onSuccess) => {
               completeDelete = onSuccess;
             }}
@@ -209,6 +212,7 @@ describe('TopBar', () => {
             entity={{ id: 'system-1', display_name: 'system-1' }}
             loaded
             showDelete
+            isInventoryApp
             deleteEntity={(_systems, _name, onSuccess) => {
               completeDelete = onSuccess;
             }}
@@ -229,7 +233,7 @@ describe('TopBar', () => {
   it('disables delete button', () => {
     render(
       <TestWrapper>
-        <TopBar entity={entity} loaded showDelete={false} />
+        <TopBar entity={entity} loaded showDelete={false} isInventoryApp />
       </TestWrapper>,
     );
 
@@ -238,5 +242,19 @@ describe('TopBar', () => {
         name: /delete/i,
       }),
     ).toHaveAttribute('aria-disabled', 'true');
+  });
+
+  it('does not render delete button outside the inventory app', () => {
+    render(
+      <TestWrapper>
+        <TopBar entity={entity} loaded showDelete />
+      </TestWrapper>,
+    );
+
+    expect(
+      screen.queryByRole('button', {
+        name: /delete/i,
+      }),
+    ).not.toBeInTheDocument();
   });
 });
