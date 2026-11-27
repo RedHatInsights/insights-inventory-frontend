@@ -4,6 +4,7 @@ import { bindColumn } from '../bindColumn';
 import type { InventoryBindableItem } from '../inventory/columnDefinitions';
 import type { PatchAppData } from '@redhat-cloud-services/host-inventory-client';
 import InstallableAdvisories from './cells/InstallableAdvisories';
+import PackagesInstalled from './cells/PackagesInstalled';
 import Template from './cells/Template';
 import { ApiHostViewsGetHostViewsOrderByEnum } from '@redhat-cloud-services/host-inventory-client/ApiHostViewsGetHostViews';
 
@@ -24,6 +25,22 @@ const installableAdvisoriesSpec: ColumnSpec<InstallableAdvisoriesValue> = {
   ),
 };
 
+type PackagesInstalledValue = {
+  appData: PatchAppData | undefined;
+  systemId: string;
+};
+
+const packagesInstalledSpec: ColumnSpec<PackagesInstalledValue> = {
+  appName: APP_NAME,
+  title: 'Installed packages',
+  key: ApiHostViewsGetHostViewsOrderByEnum.PatchpackagesInstalled,
+  sortBy: ApiHostViewsGetHostViewsOrderByEnum.PatchpackagesInstalled,
+  minWidth: '12rem',
+  renderCell: (value) => (
+    <PackagesInstalled appData={value.appData} systemId={value.systemId} />
+  ),
+};
+
 const templateSpec: ColumnSpec<PatchAppData | undefined> = {
   appName: APP_NAME,
   title: 'Template',
@@ -37,6 +54,12 @@ export const bindContentColumns = <
   TItem extends InventoryBindableItem,
 >(): Column<TItem>[] => [
   bindColumn(installableAdvisoriesSpec, {
+    getValue: (item) => ({
+      appData: item.app_data?.patch as PatchAppData | undefined,
+      systemId: item.id || '',
+    }),
+  }),
+  bindColumn(packagesInstalledSpec, {
     getValue: (item) => ({
       appData: item.app_data?.patch as PatchAppData | undefined,
       systemId: item.id || '',
