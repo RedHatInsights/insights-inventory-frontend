@@ -108,10 +108,10 @@ jobs:
         id: pw_rerun
         if: steps.pw_run.outcome == 'failure'
         continue-on-error: true
-        run: CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-e2e-inventory-views-${{ github.run_id }}-${{ github.run_attempt }}" npx playwright test --grep "@inventory-views|@systems-table" --last-failed
+        run: CURRENTS_PROJECT_ID=ER8tBy CURRENTS_RECORD_KEY=$CURRENTS_RECORD_KEY CURRENTS_CI_BUILD_ID="${{ github.repository }}-e2e-inventory-views-${{ github.run_id }}-${{ github.run_attempt }}" node .github/scripts/rerun-failed-playwright.js --grep "@inventory-views|@systems-table"
 
       - name: Warn about flaky tests
-        if: steps.pw_run.outcome == 'failure' && steps.pw_rerun.outcome == 'success'
+        if: steps.pw_run.outcome == 'failure' && steps.pw_rerun.outcome == 'success' && steps.pw_rerun.outputs.reran == 'true'
         run: echo "::warning::Some tests were flaky (failed initially but passed on retry). Check Currents for details."
 
       - name: Fail job if rerun did not pass
