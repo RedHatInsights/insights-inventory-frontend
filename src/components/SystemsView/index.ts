@@ -7,9 +7,12 @@ export type {
   RowAction,
 } from './SystemsView';
 export type {
+  SettledColumn,
+  SystemsViewEvents,
   SystemsViewFetchData,
   SystemsViewFetchParams,
   SystemsViewFilterState,
+  SystemsViewFiltersSlice,
   SystemsViewItem,
   SystemsViewQueryData,
   SortDirection,
