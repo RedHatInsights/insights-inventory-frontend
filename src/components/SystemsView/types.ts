@@ -1,4 +1,5 @@
 import type { ISortBy } from '@patternfly/react-table';
+import type { Column } from './columns/types';
 
 export type SortDirection = ISortBy['direction'];
 
@@ -22,8 +23,10 @@ export type LastSeenCustomRange = {
   end?: string;
 } | null;
 
-/** Toolbar filters keys match FilterSpec `filterId`. */
 export type SystemsViewFilterState = Record<string, unknown>;
+
+/** Debounced toolbar filters passed to `onFiltersSettled`. */
+export type SystemsViewFiltersSlice = Readonly<SystemsViewFilterState>;
 
 export type SystemsViewFetchParams<TFilterParams = unknown> = {
   page: number;
@@ -49,3 +52,26 @@ export type SystemsViewFetchData<
 > = (
   params: SystemsViewFetchParams<TFilterParams>,
 ) => Promise<SystemsViewQueryData<TItem>>;
+
+export type SettledColumn = Omit<Column, 'getValue' | 'renderCell'>;
+
+/**
+ * Optional callbacks in order to get notified about events
+ */
+export type SystemsViewEvents<TItem extends SystemsViewItem> = {
+  /** Called when the user applies a column configuration. */
+  onColumnsChange?: (columns: readonly Column<TItem>[]) => void;
+  /** Called when the custom last-seen range changes. */
+  onLastSeenCustomRangeChange?: (range: LastSeenCustomRange) => void;
+  /**
+   * Called once on mount, and again when the column configuration changes
+   * (order, membership, or visibility). The argument is a copy of the
+   * column data, without render functions.
+   */
+  onColumnsSettled?: (columns: readonly SettledColumn[]) => void;
+  /**
+   * Called once filters have hydrated on this mount, and again when the
+   * debounced toolbar filters change. The argument is a read-only copy.
+   */
+  onFiltersSettled?: (filters: SystemsViewFiltersSlice) => void;
+};

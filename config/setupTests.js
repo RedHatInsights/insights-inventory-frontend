@@ -1,3 +1,10 @@
+// jsdom's Jest global does not provide structuredClone. The browser and Node do.
+const { runInThisContext } = require('vm');
+
+if (typeof global.structuredClone !== 'function') {
+  global.structuredClone = runInThisContext('structuredClone');
+}
+
 const useChrome = () => ({
   updateDocumentTitle: jest.fn(),
   auth: {
