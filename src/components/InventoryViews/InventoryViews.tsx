@@ -9,6 +9,8 @@ import React, {
 } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Bullseye, Spinner } from '@patternfly/react-core';
+import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
+
 import SystemsView from '../SystemsView/SystemsView';
 import type { SortDirection } from '../SystemsView/SystemsView';
 import { Actions } from './actions';
@@ -55,7 +57,6 @@ import { resolveFilterSelector } from '../SystemsView/filters/resolveFilterSelec
 import { defaultValuesFrom } from '../SystemsView/filters/defaultValuesFrom';
 import { getInventoryViewsFilterSpecs } from './inventoryViewsFilterSpecs';
 import { SORT_URL_PARAM, SORT_DIR_URL_PARAM } from '../SystemsView/constants';
-import { INITIAL_SORT } from '../SystemsView/hooks/useColumns';
 import type { Column } from '../SystemsView/columns/types';
 import type { InventoryBindableItem } from '../SystemsView/columns/inventory/columnDefinitions';
 import type { FilterSpec } from '../SystemsView/filters/types';
@@ -70,6 +71,8 @@ import { useUpdateViewMutation } from './hooks/useUpdateViewMutation';
 import { useSetDefaultViewMutation } from './hooks/useSetDefaultViewMutation';
 import type {
   LastSeenCustomRange,
+  SettledColumn,
+  SystemsViewFiltersSlice,
   SystemsViewFilterState,
 } from '../SystemsView/types';
 
@@ -124,6 +127,7 @@ const getFiltersFromSearchParams = (
 };
 
 const InventoryViews = () => {
+  const { analytics } = useChrome();
   const { isReady, isAnsibleBundle } = useAnsibleWorkloadsSearchParam();
   const [isViewSaveAsModalOpen, setIsViewSaveAsModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
@@ -321,6 +325,28 @@ const InventoryViews = () => {
       setCurrentColumns(columns);
     },
     [],
+  );
+
+  const trackColumnsUsage = useCallback(
+    (columns: readonly SettledColumn[]) => {
+      analytics?.track('Inventory Views - Columns Changed', {
+        category: 'Inventory Views',
+        view_id: activeViewId,
+        columns: columns.filter((col) => col.isShown).map((col) => col.key),
+      });
+    },
+    [analytics, activeViewId],
+  );
+
+  const trackFiltersUsage = useCallback(
+    (filters: SystemsViewFiltersSlice) => {
+      analytics?.track('Inventory Views - Filters Changed', {
+        category: 'Inventory Views',
+        view_id: activeViewId,
+        filters,
+      });
+    },
+    [analytics, activeViewId],
   );
 
   const initialSort = useMemo(() => {
@@ -528,6 +554,8 @@ const InventoryViews = () => {
               initialLastSeenCustomRange={initialLastSeenCustomRange}
               events={{
                 onColumnsChange: handleColumnsChange,
+                onColumnsSettled: trackColumnsUsage,
+                onFiltersSettled: trackFiltersUsage,
                 onLastSeenCustomRangeChange: setCurrentLastSeenCustomRange,
               }}
               queryKeyPrefix={INVENTORY_VIEWS_QUERY_KEY}
